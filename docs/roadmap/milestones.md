@@ -4,7 +4,7 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 ## Current Authorized Milestone
 
-`M2: Native Compiler Boundary` is authorized because `M1: IntentGraph Language and GraphIR Boundary` passed its milestone review on 2026-07-09.
+`M3: Retrofit Reconstructor Boundary` is authorized because `M2: Native Compiler Boundary` passed its milestone review on 2026-07-09.
 
 ## M0: Research and Thesis Foundation
 
@@ -66,6 +66,8 @@ Quality target: Level 2.
 ## M2: Native Compiler Boundary
 
 Goal: define and then implement the smallest deterministic graph-to-code path for a tiny benchmark.
+
+Review: [M2 Milestone Review](../reviews/m2-review.md)
 
 Entry criteria:
 

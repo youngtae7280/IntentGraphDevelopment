@@ -1,0 +1,1058 @@
+{
+  "benchmarkId": "B0-python-cli-calculator",
+  "compilerContract": "native-python-b0-v0",
+  "diagnostics": {
+    "status": "pass",
+    "warnings": [
+      "M2 metadata carries a full graph snapshot; M3 must treat it as preservation metadata, not code-derived reconstruction."
+    ]
+  },
+  "edgeMap": [
+    {
+      "edgeKind": "authorizes",
+      "from": "authority.record.initial-human",
+      "graphEdgeId": "edge.authority.initial-delta",
+      "preservation": "metadata",
+      "to": "history.delta.initial-graph"
+    },
+    {
+      "edgeKind": "handled_by",
+      "from": "code.cli.command",
+      "graphEdgeId": "edge.cli.handled-by-main",
+      "preservation": "source",
+      "to": "code.function.main"
+    },
+    {
+      "edgeKind": "calls",
+      "from": "code.function.main",
+      "graphEdgeId": "edge.code.main-calls-add",
+      "preservation": "source",
+      "to": "code.function.add"
+    },
+    {
+      "edgeKind": "calls",
+      "from": "code.function.main",
+      "graphEdgeId": "edge.code.main-calls-sub",
+      "preservation": "source",
+      "to": "code.function.sub"
+    },
+    {
+      "edgeKind": "contains",
+      "from": "code.module.calc",
+      "graphEdgeId": "edge.code.module-contains-add",
+      "preservation": "source",
+      "to": "code.function.add"
+    },
+    {
+      "edgeKind": "contains",
+      "from": "code.module.calc",
+      "graphEdgeId": "edge.code.module-contains-cli",
+      "preservation": "source",
+      "to": "code.cli.command"
+    },
+    {
+      "edgeKind": "contains",
+      "from": "code.module.calc",
+      "graphEdgeId": "edge.code.module-contains-main",
+      "preservation": "source",
+      "to": "code.function.main"
+    },
+    {
+      "edgeKind": "contains",
+      "from": "code.module.calc",
+      "graphEdgeId": "edge.code.module-contains-sub",
+      "preservation": "source",
+      "to": "code.function.sub"
+    },
+    {
+      "edgeKind": "evidenced_by",
+      "from": "intent.behavior.add",
+      "graphEdgeId": "edge.evidence.add-test-plan",
+      "preservation": "metadata",
+      "to": "evidence.record.test-plan"
+    },
+    {
+      "edgeKind": "evidenced_by",
+      "from": "intent.product.calculator",
+      "graphEdgeId": "edge.evidence.product-requirement-note",
+      "preservation": "metadata",
+      "to": "evidence.record.requirement-note"
+    },
+    {
+      "edgeKind": "evidenced_by",
+      "from": "intent.behavior.sub",
+      "graphEdgeId": "edge.evidence.sub-test-plan",
+      "preservation": "metadata",
+      "to": "evidence.record.test-plan"
+    },
+    {
+      "edgeKind": "changes",
+      "from": "history.delta.initial-graph",
+      "graphEdgeId": "edge.history.changed-add",
+      "preservation": "metadata",
+      "to": "intent.behavior.add"
+    },
+    {
+      "edgeKind": "changes",
+      "from": "history.delta.initial-graph",
+      "graphEdgeId": "edge.history.changed-product",
+      "preservation": "metadata",
+      "to": "intent.product.calculator"
+    },
+    {
+      "edgeKind": "changes",
+      "from": "history.delta.initial-graph",
+      "graphEdgeId": "edge.history.changed-sub",
+      "preservation": "metadata",
+      "to": "intent.behavior.sub"
+    },
+    {
+      "edgeKind": "uses_concept",
+      "from": "intent.behavior.add",
+      "graphEdgeId": "edge.intent.add-uses-integer",
+      "preservation": "metadata",
+      "to": "domain.concept.integer-operand"
+    },
+    {
+      "edgeKind": "uses_concept",
+      "from": "intent.behavior.add",
+      "graphEdgeId": "edge.intent.add-uses-operation",
+      "preservation": "metadata",
+      "to": "domain.concept.operation"
+    },
+    {
+      "edgeKind": "decomposes_to",
+      "from": "intent.product.calculator",
+      "graphEdgeId": "edge.intent.product-decomposes-add",
+      "preservation": "metadata",
+      "to": "intent.behavior.add"
+    },
+    {
+      "edgeKind": "decomposes_to",
+      "from": "intent.product.calculator",
+      "graphEdgeId": "edge.intent.product-decomposes-sub",
+      "preservation": "metadata",
+      "to": "intent.behavior.sub"
+    },
+    {
+      "edgeKind": "uses_concept",
+      "from": "intent.behavior.sub",
+      "graphEdgeId": "edge.intent.sub-uses-integer",
+      "preservation": "metadata",
+      "to": "domain.concept.integer-operand"
+    },
+    {
+      "edgeKind": "uses_concept",
+      "from": "intent.behavior.sub",
+      "graphEdgeId": "edge.intent.sub-uses-operation",
+      "preservation": "metadata",
+      "to": "domain.concept.operation"
+    },
+    {
+      "edgeKind": "maps_from",
+      "from": "metadata.source-map.add",
+      "graphEdgeId": "edge.metadata.add-maps-from-intent",
+      "preservation": "metadata",
+      "to": "intent.behavior.add"
+    },
+    {
+      "edgeKind": "maps_to",
+      "from": "metadata.source-map.add",
+      "graphEdgeId": "edge.metadata.add-maps-to-code",
+      "preservation": "metadata",
+      "to": "code.function.add"
+    },
+    {
+      "edgeKind": "maps_from",
+      "from": "metadata.source-map.cli",
+      "graphEdgeId": "edge.metadata.cli-maps-from-product",
+      "preservation": "metadata",
+      "to": "intent.product.calculator"
+    },
+    {
+      "edgeKind": "maps_to",
+      "from": "metadata.source-map.cli",
+      "graphEdgeId": "edge.metadata.cli-maps-to-code",
+      "preservation": "metadata",
+      "to": "code.cli.command"
+    },
+    {
+      "edgeKind": "maps_from",
+      "from": "metadata.source-map.main",
+      "graphEdgeId": "edge.metadata.main-maps-from-cli",
+      "preservation": "metadata",
+      "to": "code.cli.command"
+    },
+    {
+      "edgeKind": "maps_to",
+      "from": "metadata.source-map.main",
+      "graphEdgeId": "edge.metadata.main-maps-to-code",
+      "preservation": "metadata",
+      "to": "code.function.main"
+    },
+    {
+      "edgeKind": "maps_from",
+      "from": "metadata.source-map.module",
+      "graphEdgeId": "edge.metadata.module-maps-from-product",
+      "preservation": "metadata",
+      "to": "intent.product.calculator"
+    },
+    {
+      "edgeKind": "maps_to",
+      "from": "metadata.source-map.module",
+      "graphEdgeId": "edge.metadata.module-maps-to-code",
+      "preservation": "metadata",
+      "to": "code.module.calc"
+    },
+    {
+      "edgeKind": "maps_from",
+      "from": "metadata.source-map.sub",
+      "graphEdgeId": "edge.metadata.sub-maps-from-intent",
+      "preservation": "metadata",
+      "to": "intent.behavior.sub"
+    },
+    {
+      "edgeKind": "maps_to",
+      "from": "metadata.source-map.sub",
+      "graphEdgeId": "edge.metadata.sub-maps-to-code",
+      "preservation": "metadata",
+      "to": "code.function.sub"
+    },
+    {
+      "edgeKind": "projects_to",
+      "from": "intent.behavior.add",
+      "graphEdgeId": "edge.projection.add-to-code",
+      "preservation": "projection",
+      "to": "code.function.add"
+    },
+    {
+      "edgeKind": "projects_to",
+      "from": "code.module.calc",
+      "graphEdgeId": "edge.projection.module-to-target",
+      "preservation": "projection",
+      "to": "projection.target.python-source"
+    },
+    {
+      "edgeKind": "projects_to",
+      "from": "intent.product.calculator",
+      "graphEdgeId": "edge.projection.product-to-cli",
+      "preservation": "projection",
+      "to": "code.cli.command"
+    },
+    {
+      "edgeKind": "projects_to",
+      "from": "intent.behavior.sub",
+      "graphEdgeId": "edge.projection.sub-to-code",
+      "preservation": "projection",
+      "to": "code.function.sub"
+    },
+    {
+      "edgeKind": "tested_by",
+      "from": "intent.behavior.add",
+      "graphEdgeId": "edge.test.add",
+      "preservation": "metadata",
+      "to": "test.case.add"
+    },
+    {
+      "edgeKind": "tested_by",
+      "from": "intent.behavior.sub",
+      "graphEdgeId": "edge.test.sub",
+      "preservation": "metadata",
+      "to": "test.case.sub"
+    }
+  ],
+  "generatedArtifacts": [
+    {
+      "kind": "python-source",
+      "path": "calc.py",
+      "sha256": "1e4ab232f86eff9eaf96043cefeaedc25b9b78568aa9de239bf9b59c75704cca"
+    }
+  ],
+  "generatedAt": "deterministic:m2-native-python-b0-v0",
+  "graphDigest": "sha256:cab80515c032da327edcc1d2203be515e0060d487a91b4a5f25d355bacd91f85",
+  "graphId": "ig.bench.b0.python-cli-calculator",
+  "hiddenState": {
+    "reason": "B0 exact round-trip needs non-code graph data for intent, evidence, authority, history, and stable graph identity.",
+    "sourceGraphSnapshot": {
+      "benchmarkId": "B0-python-cli-calculator",
+      "edges": [
+        {
+          "attributes": {},
+          "from": "authority.record.initial-human",
+          "id": "edge.authority.initial-delta",
+          "kind": "authorizes",
+          "to": "history.delta.initial-graph"
+        },
+        {
+          "attributes": {},
+          "from": "code.cli.command",
+          "id": "edge.cli.handled-by-main",
+          "kind": "handled_by",
+          "to": "code.function.main"
+        },
+        {
+          "attributes": {
+            "whenOperation": "add"
+          },
+          "from": "code.function.main",
+          "id": "edge.code.main-calls-add",
+          "kind": "calls",
+          "to": "code.function.add"
+        },
+        {
+          "attributes": {
+            "whenOperation": "sub"
+          },
+          "from": "code.function.main",
+          "id": "edge.code.main-calls-sub",
+          "kind": "calls",
+          "to": "code.function.sub"
+        },
+        {
+          "attributes": {},
+          "from": "code.module.calc",
+          "id": "edge.code.module-contains-add",
+          "kind": "contains",
+          "to": "code.function.add"
+        },
+        {
+          "attributes": {},
+          "from": "code.module.calc",
+          "id": "edge.code.module-contains-cli",
+          "kind": "contains",
+          "to": "code.cli.command"
+        },
+        {
+          "attributes": {},
+          "from": "code.module.calc",
+          "id": "edge.code.module-contains-main",
+          "kind": "contains",
+          "to": "code.function.main"
+        },
+        {
+          "attributes": {},
+          "from": "code.module.calc",
+          "id": "edge.code.module-contains-sub",
+          "kind": "contains",
+          "to": "code.function.sub"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.add",
+          "id": "edge.evidence.add-test-plan",
+          "kind": "evidenced_by",
+          "to": "evidence.record.test-plan"
+        },
+        {
+          "attributes": {},
+          "from": "intent.product.calculator",
+          "id": "edge.evidence.product-requirement-note",
+          "kind": "evidenced_by",
+          "to": "evidence.record.requirement-note"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.sub",
+          "id": "edge.evidence.sub-test-plan",
+          "kind": "evidenced_by",
+          "to": "evidence.record.test-plan"
+        },
+        {
+          "attributes": {},
+          "from": "history.delta.initial-graph",
+          "id": "edge.history.changed-add",
+          "kind": "changes",
+          "to": "intent.behavior.add"
+        },
+        {
+          "attributes": {},
+          "from": "history.delta.initial-graph",
+          "id": "edge.history.changed-product",
+          "kind": "changes",
+          "to": "intent.product.calculator"
+        },
+        {
+          "attributes": {},
+          "from": "history.delta.initial-graph",
+          "id": "edge.history.changed-sub",
+          "kind": "changes",
+          "to": "intent.behavior.sub"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.add",
+          "id": "edge.intent.add-uses-integer",
+          "kind": "uses_concept",
+          "to": "domain.concept.integer-operand"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.add",
+          "id": "edge.intent.add-uses-operation",
+          "kind": "uses_concept",
+          "to": "domain.concept.operation"
+        },
+        {
+          "attributes": {},
+          "from": "intent.product.calculator",
+          "id": "edge.intent.product-decomposes-add",
+          "kind": "decomposes_to",
+          "to": "intent.behavior.add"
+        },
+        {
+          "attributes": {},
+          "from": "intent.product.calculator",
+          "id": "edge.intent.product-decomposes-sub",
+          "kind": "decomposes_to",
+          "to": "intent.behavior.sub"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.sub",
+          "id": "edge.intent.sub-uses-integer",
+          "kind": "uses_concept",
+          "to": "domain.concept.integer-operand"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.sub",
+          "id": "edge.intent.sub-uses-operation",
+          "kind": "uses_concept",
+          "to": "domain.concept.operation"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.add",
+          "id": "edge.metadata.add-maps-from-intent",
+          "kind": "maps_from",
+          "to": "intent.behavior.add"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.add",
+          "id": "edge.metadata.add-maps-to-code",
+          "kind": "maps_to",
+          "to": "code.function.add"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.main",
+          "id": "edge.metadata.main-maps-from-cli",
+          "kind": "maps_from",
+          "to": "code.cli.command"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.main",
+          "id": "edge.metadata.main-maps-to-code",
+          "kind": "maps_to",
+          "to": "code.function.main"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.module",
+          "id": "edge.metadata.module-maps-from-product",
+          "kind": "maps_from",
+          "to": "intent.product.calculator"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.module",
+          "id": "edge.metadata.module-maps-to-code",
+          "kind": "maps_to",
+          "to": "code.module.calc"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.cli",
+          "id": "edge.metadata.cli-maps-from-product",
+          "kind": "maps_from",
+          "to": "intent.product.calculator"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.cli",
+          "id": "edge.metadata.cli-maps-to-code",
+          "kind": "maps_to",
+          "to": "code.cli.command"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.sub",
+          "id": "edge.metadata.sub-maps-from-intent",
+          "kind": "maps_from",
+          "to": "intent.behavior.sub"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.sub",
+          "id": "edge.metadata.sub-maps-to-code",
+          "kind": "maps_to",
+          "to": "code.function.sub"
+        },
+        {
+          "attributes": {},
+          "from": "code.module.calc",
+          "id": "edge.projection.module-to-target",
+          "kind": "projects_to",
+          "to": "projection.target.python-source"
+        },
+        {
+          "attributes": {},
+          "from": "intent.product.calculator",
+          "id": "edge.projection.product-to-cli",
+          "kind": "projects_to",
+          "to": "code.cli.command"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.add",
+          "id": "edge.projection.add-to-code",
+          "kind": "projects_to",
+          "to": "code.function.add"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.sub",
+          "id": "edge.projection.sub-to-code",
+          "kind": "projects_to",
+          "to": "code.function.sub"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.add",
+          "id": "edge.test.add",
+          "kind": "tested_by",
+          "to": "test.case.add"
+        },
+        {
+          "attributes": {},
+          "from": "intent.behavior.sub",
+          "id": "edge.test.sub",
+          "kind": "tested_by",
+          "to": "test.case.sub"
+        }
+      ],
+      "graphId": "ig.bench.b0.python-cli-calculator",
+      "graphirVersion": "0.1.0",
+      "nodes": [
+        {
+          "attributes": {
+            "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+            "decidedByType": "human",
+            "decision": "accepted-for-m1-fixture",
+            "decisionStatus": "accepted",
+            "proposer": "IntentGraphDevelopment Roadmap Orchestrator",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "m1-manual-review"
+          },
+          "id": "authority.record.initial-human",
+          "kind": "authority.record",
+          "label": "Initial human authority record"
+        },
+        {
+          "attributes": {
+            "argumentSchema": [
+              {
+                "allowedValues": [
+                  "add",
+                  "sub"
+                ],
+                "name": "operation",
+                "type": "enum"
+              },
+              {
+                "name": "left",
+                "type": "integer"
+              },
+              {
+                "name": "right",
+                "type": "integer"
+              }
+            ],
+            "commandName": "calc",
+            "exitCodes": {
+              "invalidInteger": 2,
+              "invalidOperation": 2,
+              "success": 0
+            },
+            "stdout": {
+              "format": "plain-integer",
+              "trailingNewline": true
+            }
+          },
+          "id": "code.cli.command",
+          "kind": "code.cli",
+          "label": "calc CLI command"
+        },
+        {
+          "attributes": {
+            "functionName": "add",
+            "operationKind": "integer-add",
+            "parameters": [
+              "left",
+              "right"
+            ],
+            "returns": "integer"
+          },
+          "id": "code.function.add",
+          "kind": "code.function",
+          "label": "add function"
+        },
+        {
+          "attributes": {
+            "argumentSource": "argv",
+            "dispatches": [
+              "add",
+              "sub"
+            ],
+            "functionName": "main",
+            "invalidInputExitCode": 2,
+            "outputTarget": "stdout",
+            "parameters": [
+              "argv"
+            ],
+            "returns": "process_exit_code",
+            "successExitCode": 0
+          },
+          "id": "code.function.main",
+          "kind": "code.function",
+          "label": "main function"
+        },
+        {
+          "attributes": {
+            "functionName": "sub",
+            "operationKind": "integer-subtract",
+            "parameters": [
+              "left",
+              "right"
+            ],
+            "returns": "integer"
+          },
+          "id": "code.function.sub",
+          "kind": "code.function",
+          "label": "subtract function"
+        },
+        {
+          "attributes": {
+            "entrypoint": true,
+            "language": "python",
+            "targetFile": "calc.py"
+          },
+          "id": "code.module.calc",
+          "kind": "code.module",
+          "label": "calc.py module"
+        },
+        {
+          "attributes": {
+            "description": "A whole-number CLI argument parsed as an integer."
+          },
+          "id": "domain.concept.integer-operand",
+          "kind": "domain.concept",
+          "label": "integer operand"
+        },
+        {
+          "attributes": {
+            "allowedValues": [
+              "add",
+              "sub"
+            ]
+          },
+          "id": "domain.concept.operation",
+          "kind": "domain.concept",
+          "label": "calculator operation"
+        },
+        {
+          "attributes": {
+            "evidenceType": "requirement-note",
+            "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+            "status": "planned",
+            "summary": "The calculator benchmark is selected in docs/research/benchmark-plan.md."
+          },
+          "id": "evidence.record.requirement-note",
+          "kind": "evidence.record",
+          "label": "M1 requirement note"
+        },
+        {
+          "attributes": {
+            "evidenceType": "test-plan",
+            "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+            "status": "planned",
+            "summary": "Generated implementation must satisfy add and subtract CLI examples."
+          },
+          "id": "evidence.record.test-plan",
+          "kind": "evidence.record",
+          "label": "Calculator test plan"
+        },
+        {
+          "attributes": {
+            "changeType": "create-graph",
+            "gitCommit": null,
+            "sequence": 1,
+            "status": "accepted",
+            "summary": "Create the B0 calculator graph fixture for M1."
+          },
+          "id": "history.delta.initial-graph",
+          "kind": "history.delta",
+          "label": "Initial benchmark graph"
+        },
+        {
+          "attributes": {
+            "example": "calc add 2 3 -> 5",
+            "priority": "must",
+            "statement": "When the user runs calc add LEFT RIGHT, the program prints LEFT plus RIGHT."
+          },
+          "id": "intent.behavior.add",
+          "kind": "intent.requirement",
+          "label": "Add two integers"
+        },
+        {
+          "attributes": {
+            "example": "calc sub 5 2 -> 3",
+            "priority": "must",
+            "statement": "When the user runs calc sub LEFT RIGHT, the program prints LEFT minus RIGHT."
+          },
+          "id": "intent.behavior.sub",
+          "kind": "intent.requirement",
+          "label": "Subtract two integers"
+        },
+        {
+          "attributes": {
+            "priority": "must",
+            "statement": "Provide a deterministic Python CLI calculator for the first IntentGraph round-trip benchmark."
+          },
+          "id": "intent.product.calculator",
+          "kind": "intent.requirement",
+          "label": "Tiny CLI calculator"
+        },
+        {
+          "attributes": {
+            "compilerContract": "future-native-python-compiler-contract-v0",
+            "graphNodeIds": [
+              "intent.behavior.add",
+              "code.function.add"
+            ],
+            "requiredForRoundTrip": true,
+            "targetFile": "calc.py",
+            "targetKind": "function",
+            "targetName": "add"
+          },
+          "id": "metadata.source-map.add",
+          "kind": "metadata.sourceMap",
+          "label": "Source map for add"
+        },
+        {
+          "attributes": {
+            "compilerContract": "future-native-python-compiler-contract-v0",
+            "graphNodeIds": [
+              "code.cli.command",
+              "code.function.main"
+            ],
+            "requiredForRoundTrip": true,
+            "targetFile": "calc.py",
+            "targetKind": "function",
+            "targetName": "main"
+          },
+          "id": "metadata.source-map.main",
+          "kind": "metadata.sourceMap",
+          "label": "Source map for CLI main"
+        },
+        {
+          "attributes": {
+            "compilerContract": "future-native-python-compiler-contract-v0",
+            "graphNodeIds": [
+              "intent.product.calculator",
+              "code.module.calc"
+            ],
+            "requiredForRoundTrip": true,
+            "targetFile": "calc.py",
+            "targetKind": "module",
+            "targetName": "calc.py"
+          },
+          "id": "metadata.source-map.module",
+          "kind": "metadata.sourceMap",
+          "label": "Source map for calc.py module"
+        },
+        {
+          "attributes": {
+            "compilerContract": "future-native-python-compiler-contract-v0",
+            "graphNodeIds": [
+              "intent.product.calculator",
+              "code.cli.command"
+            ],
+            "requiredForRoundTrip": true,
+            "targetFile": "calc.py",
+            "targetKind": "cli",
+            "targetName": "calc"
+          },
+          "id": "metadata.source-map.cli",
+          "kind": "metadata.sourceMap",
+          "label": "Source map for calc CLI"
+        },
+        {
+          "attributes": {
+            "compilerContract": "future-native-python-compiler-contract-v0",
+            "graphNodeIds": [
+              "intent.behavior.sub",
+              "code.function.sub"
+            ],
+            "requiredForRoundTrip": true,
+            "targetFile": "calc.py",
+            "targetKind": "function",
+            "targetName": "sub"
+          },
+          "id": "metadata.source-map.sub",
+          "kind": "metadata.sourceMap",
+          "label": "Source map for subtract"
+        },
+        {
+          "attributes": {
+            "language": "python",
+            "metadataFile": "calc.intentgraph.json",
+            "targetFiles": [
+              "calc.py"
+            ]
+          },
+          "id": "projection.target.python-source",
+          "kind": "projection.target",
+          "label": "Python generated source target"
+        },
+        {
+          "attributes": {
+            "command": "python calc.py add 2 3",
+            "expectedExitCode": 0,
+            "expectedStdout": "5\n",
+            "status": "planned"
+          },
+          "id": "test.case.add",
+          "kind": "test.case",
+          "label": "Add CLI example"
+        },
+        {
+          "attributes": {
+            "command": "python calc.py sub 5 2",
+            "expectedExitCode": 0,
+            "expectedStdout": "3\n",
+            "status": "planned"
+          },
+          "id": "test.case.sub",
+          "kind": "test.case",
+          "label": "Subtract CLI example"
+        }
+      ],
+      "projections": {
+        "codeOnlyLossModel": [
+          {
+            "kind": "intent.requirement",
+            "loss": "Requirement wording and priority cannot be fully recovered from generated Python alone."
+          },
+          {
+            "kind": "evidence.record",
+            "loss": "Evidence records are not recoverable from ordinary source code alone."
+          },
+          {
+            "kind": "authority.record",
+            "loss": "Authority and acceptance decisions are not recoverable from ordinary source code alone."
+          },
+          {
+            "kind": "history.delta",
+            "loss": "Semantic graph history is not recoverable from ordinary source code alone."
+          },
+          {
+            "kind": "metadata.sourceMap",
+            "loss": "Stable source graph identity requires preservation metadata."
+          }
+        ],
+        "native": {
+          "language": "python",
+          "metadataFile": "calc.intentgraph.json",
+          "targetFiles": [
+            "calc.py"
+          ]
+        }
+      },
+      "status": "m1-fixture",
+      "title": "B0 Python CLI Calculator",
+      "verificationExpectations": {
+        "canonicalization": "graphir-v0.1",
+        "codeOnlyRoundTrip": "RetrofitCodeOnly(C) may recover only ProjectionCode(G)",
+        "exactRoundTrip": "Retrofit(Native(G)) = G for the M1 fixture once M2-M4 implementations exist",
+        "expectedMode": "exact-with-metadata",
+        "requiresMetadata": true
+      }
+    }
+  },
+  "metadataVersion": "0.1.0",
+  "nodeMap": [
+    {
+      "graphNodeId": "intent.behavior.add",
+      "lineEnd": 12,
+      "lineStart": 11,
+      "metadataNodeId": "metadata.source-map.add",
+      "nodeKind": "intent.requirement",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "function",
+      "targetName": "add"
+    },
+    {
+      "graphNodeId": "code.function.add",
+      "lineEnd": 12,
+      "lineStart": 11,
+      "metadataNodeId": "metadata.source-map.add",
+      "nodeKind": "code.function",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "function",
+      "targetName": "add"
+    },
+    {
+      "graphNodeId": "intent.product.calculator",
+      "lineEnd": 40,
+      "lineStart": 19,
+      "metadataNodeId": "metadata.source-map.cli",
+      "nodeKind": "intent.requirement",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "cli",
+      "targetName": "calc"
+    },
+    {
+      "graphNodeId": "code.cli.command",
+      "lineEnd": 40,
+      "lineStart": 19,
+      "metadataNodeId": "metadata.source-map.cli",
+      "nodeKind": "code.cli",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "cli",
+      "targetName": "calc"
+    },
+    {
+      "graphNodeId": "code.cli.command",
+      "lineEnd": 40,
+      "lineStart": 19,
+      "metadataNodeId": "metadata.source-map.main",
+      "nodeKind": "code.cli",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "function",
+      "targetName": "main"
+    },
+    {
+      "graphNodeId": "code.function.main",
+      "lineEnd": 40,
+      "lineStart": 19,
+      "metadataNodeId": "metadata.source-map.main",
+      "nodeKind": "code.function",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "function",
+      "targetName": "main"
+    },
+    {
+      "graphNodeId": "intent.product.calculator",
+      "lineEnd": 44,
+      "lineStart": 1,
+      "metadataNodeId": "metadata.source-map.module",
+      "nodeKind": "intent.requirement",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "module",
+      "targetName": "calc.py"
+    },
+    {
+      "graphNodeId": "code.module.calc",
+      "lineEnd": 44,
+      "lineStart": 1,
+      "metadataNodeId": "metadata.source-map.module",
+      "nodeKind": "code.module",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "module",
+      "targetName": "calc.py"
+    },
+    {
+      "graphNodeId": "intent.behavior.sub",
+      "lineEnd": 16,
+      "lineStart": 15,
+      "metadataNodeId": "metadata.source-map.sub",
+      "nodeKind": "intent.requirement",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "function",
+      "targetName": "sub"
+    },
+    {
+      "graphNodeId": "code.function.sub",
+      "lineEnd": 16,
+      "lineStart": 15,
+      "metadataNodeId": "metadata.source-map.sub",
+      "nodeKind": "code.function",
+      "requiredForRoundTrip": true,
+      "targetFile": "calc.py",
+      "targetKind": "function",
+      "targetName": "sub"
+    }
+  ],
+  "projectionRules": {
+    "codeOnlyLossModel": [
+      {
+        "kind": "intent.requirement",
+        "loss": "Requirement wording and priority cannot be fully recovered from generated Python alone."
+      },
+      {
+        "kind": "evidence.record",
+        "loss": "Evidence records are not recoverable from ordinary source code alone."
+      },
+      {
+        "kind": "authority.record",
+        "loss": "Authority and acceptance decisions are not recoverable from ordinary source code alone."
+      },
+      {
+        "kind": "history.delta",
+        "loss": "Semantic graph history is not recoverable from ordinary source code alone."
+      },
+      {
+        "kind": "metadata.sourceMap",
+        "loss": "Stable source graph identity requires preservation metadata."
+      }
+    ],
+    "emittedToSource": [
+      "code.cli.command",
+      "code.function.add",
+      "code.function.main",
+      "code.function.sub",
+      "code.module.calc",
+      "projection.target.python-source"
+    ],
+    "metadataOnly": [
+      "authority.record.initial-human",
+      "evidence.record.requirement-note",
+      "evidence.record.test-plan",
+      "history.delta.initial-graph",
+      "metadata.source-map.add",
+      "metadata.source-map.main",
+      "metadata.source-map.module",
+      "metadata.source-map.cli",
+      "metadata.source-map.sub"
+    ],
+    "projectionOnly": [
+      "domain.concept.integer-operand",
+      "domain.concept.operation",
+      "intent.behavior.add",
+      "intent.behavior.sub",
+      "intent.product.calculator",
+      "test.case.add",
+      "test.case.sub"
+    ],
+    "unclassified": []
+  },
+  "sourceGraph": {
+    "canonicalPath": "docs/examples/b0-python-cli-calculator.graph.json",
+    "digest": "sha256:cab80515c032da327edcc1d2203be515e0060d487a91b4a5f25d355bacd91f85",
+    "graphirVersion": "0.1.0",
+    "inputPath": "docs/examples/b0-python-cli-calculator.graph.json"
+  }
+}

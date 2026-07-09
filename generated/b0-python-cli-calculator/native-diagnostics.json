@@ -1,0 +1,22 @@
+{
+  "benchmarkId": "B0-python-cli-calculator",
+  "compilerContract": "native-python-b0-v0",
+  "diagnosticsVersion": "0.1.0",
+  "errors": [],
+  "generatedArtifacts": [
+    {
+      "path": "calc.py",
+      "sha256": "1e4ab232f86eff9eaf96043cefeaedc25b9b78568aa9de239bf9b59c75704cca"
+    },
+    {
+      "path": "calc.intentgraph.json",
+      "sha256": "5643f8a7765f1820403cbc429fffca8eaf64eb01024a4977c71ebe81c44380c2"
+    }
+  ],
+  "generatedAt": "deterministic:m2-native-python-b0-v0",
+  "graphDigest": "sha256:cab80515c032da327edcc1d2203be515e0060d487a91b4a5f25d355bacd91f85",
+  "status": "pass",
+  "warnings": [
+    "M2 metadata carries a full graph snapshot; M3 must treat it as preservation metadata, not code-derived reconstruction."
+  ]
+}

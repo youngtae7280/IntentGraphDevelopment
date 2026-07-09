@@ -55,7 +55,7 @@ Implementation may start only when these are written:
 - acceptance criteria
 - late prior-art response plan
 
-The current authorized milestone is `M2: Native Compiler Boundary`. `M0: Research and Thesis Foundation` and `M1: IntentGraph Language and GraphIR Boundary` passed their milestone reviews on 2026-07-09.
+The current authorized milestone is `M3: Retrofit Reconstructor Boundary`. `M0`, `M1`, and `M2` passed their milestone reviews on 2026-07-09.
 
 Do not open compiler, reconstructor, verifier, package setup, UI, or AI runtime implementation until the relevant later milestone is current and its entry criteria are met.
 
