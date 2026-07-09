@@ -12,6 +12,12 @@ A graph-native software development method where intent graphs are treated as so
 
 The future formal language or schema used to write and validate intent graphs.
 
+## Intent Unit
+
+A stable, compilable, reconstructable development meaning unit. It is not merely a requirement node. An Intent Unit groups a contract, internal graph facts, realization, verification, evidence, authority, history, and projection/reconstruction expectations so it can participate in `G -> C -> G' -> Verify`.
+
+Raw utterances, notes, hypotheses, and unconfirmed ideas may exist in the graph, but they are not accepted Intent Units until they become development commitments with verification and authority boundaries.
+
 ## GraphIR
 
 The canonical internal representation used by compilers, reconstructors, validators, and analysis passes.

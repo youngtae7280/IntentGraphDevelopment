@@ -1,10 +1,12 @@
 # IntentGraph Formal Blueprint
 
-Status: draft center of gravity for M1
+Status: draft center of gravity for M1 plus Phase 1 Intent Unit revision note
 
 This blueprint is not the final architecture. It is the M1 formal center of gravity: a compact design map that keeps the source graph language, GraphIR boundary, preservation metadata, compiler/reconstructor contracts, and verifier target aligned while Phase 0 remains intentionally tiny.
 
 This document must be revised when prior-art review, milestone review, benchmark evidence, or round-trip results show that a definition is too weak, too broad, or wrong.
+
+Phase 0 proved the tiny flat-GraphIR loop. Phase 1 must revise the source structure around Intent Units before larger benchmarks are added. See `docs/design/intent-unit-model.md`.
 
 ## Layer 1: Formal Definitions
 
@@ -46,6 +48,43 @@ Definitions:
 - `meta`: graph-level metadata, including version, benchmark identity, projection declarations, preservation expectations, and verification expectations.
 
 M1 does not define every possible node or edge kind. It defines layers and the tiny `B0-python-cli-calculator` subset in `docs/language/graphir-boundary.md` and `docs/examples/b0-python-cli-calculator.graph.json`.
+
+### Phase 1 Intent Unit Shape
+
+Phase 0 used a flat GraphIR document. That is not the intended long-term source shape.
+
+The next revision treats Intent Units as the primary source-level development units:
+
+```text
+G_unit = (U, EU, IU, meta)
+```
+
+Where:
+
+- `U`: finite set of Intent Units.
+- `EU`: typed relationships between Intent Units.
+- `IU`: mapping from each unit to its internal graph.
+- `meta`: graph-level metadata, projection declarations, verification expectations, and versioning.
+
+Each unit is a stable, compilable, reconstructable development meaning unit:
+
+```text
+u = (
+  id,
+  kind,
+  contract,
+  internalGraph,
+  projection,
+  reconstruction,
+  verification,
+  evidence,
+  authority,
+  history,
+  status
+)
+```
+
+Phase 1 must reinterpret the B0 flat graph as unit-structured source before broadening the benchmark. Phase 0 node and edge kinds may remain valid, but they should live inside or between Intent Units rather than forming an unbounded flat bag of facts.
 
 ### Preservation Metadata
 

@@ -32,6 +32,8 @@ IntentGraph Development treats the graph as the primary source artifact, compile
 
 The current formal center of gravity is [IntentGraph Formal Blueprint](design/intentgraph-formal-blueprint.md). It is a draft for M1, not final architecture, and must be revised when prior-art review, milestone review, or benchmark evidence contradicts it.
 
+After Phase 0, the next source-structure center of gravity is the [Intent Unit Model](design/intent-unit-model.md). Do not expand to a larger benchmark until the B0 graph has been reconsidered as unit-structured source rather than only a flat GraphIR document.
+
 ## Default Bias
 
 Do not build what a stronger existing system already does well.
@@ -57,7 +59,7 @@ Implementation may start only when these are written:
 
 Phase 0 is complete as of 2026-07-09. Read the [Phase 0 Final Review](reviews/phase-0-final-review.md) before proposing any new work.
 
-No `M8` or Phase 1 milestone is authorized automatically. Phase 1 requires explicit user approval.
+The next authorized work is the Phase 1 entry revision described in [Phase 1 Entry Plan](roadmap/phase-1-entry-plan.md). This is not blanket authorization for broad Phase 1 expansion.
 
 Do not open compiler, reconstructor, verifier, package setup, UI, or AI runtime implementation until the relevant later milestone is current and its entry criteria are met.
 

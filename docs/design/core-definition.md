@@ -26,6 +26,8 @@ source code + metadata -> intent graph reconstructor -> intent graph
 
 The graph is the primary source artifact. Source code is an executable projection.
 
+The graph should not remain a flat bag of unrelated nodes. The long-term source unit is the Intent Unit: a stable development meaning unit with an internal graph for contract, behavior, code realization, verification, evidence, authority, history, and projection/reconstruction metadata.
+
 ## Round-Trip Target
 
 Full round-trip with metadata:
@@ -60,6 +62,8 @@ An IntentGraph may include:
 - authority and permission boundaries
 - decisions and change history
 - generated source mapping metadata
+
+These domains are organized around Intent Units in Phase 1 and later. Phase 0 used a flat GraphIR fixture to prove feasibility.
 
 ## Compiler Rule
 

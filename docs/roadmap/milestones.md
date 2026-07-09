@@ -6,7 +6,15 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](../reviews/phase-0-final-review.md).
 
-No `M8` or Phase 1 milestone is authorized automatically. Phase 1 requires explicit user approval.
+No `M8` was opened automatically.
+
+Current authorized work:
+
+```text
+P1.0 Intent Unit Grammar Revision
+```
+
+This is a Phase 1 entry revision only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -183,4 +191,34 @@ Quality target: Level 2 or higher.
 
 Do not open the next milestone until the current milestone has a written milestone review.
 
-After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete; wait for explicit user approval before opening Phase 1.
+After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.0 only.
+
+## P1.0: Intent Unit Grammar Revision
+
+Goal: revise the Phase 0 flat GraphIR source shape into an Intent Unit centered source graph without losing the proven B0 round-trip, evidence, authority, history, AI proposal, and workbench boundaries.
+
+Entry criteria:
+
+- Phase 0 Final Review passed
+- user approved the Phase 1 entry revision
+- [Intent Unit Model](../design/intent-unit-model.md) exists
+- [Phase 1 Entry Plan](phase-1-entry-plan.md) exists
+
+Expected output:
+
+- unit-structured B0 source graph or migration fixture
+- updated GraphIR boundary and validation rules
+- updated compiler/reconstructor/verifier contract notes
+- explicit measurement or justification of `hiddenState.sourceGraphSnapshot`
+- milestone review for P1.0
+
+Quality target: Level 4, Unit-Structured Round-Trip Slice.
+
+Non-goals:
+
+- no larger benchmark yet
+- no full language workbench
+- no interactive IDE
+- no broad code extractor
+- no code-only exact reconstruction claim
+- no automatic AI authority

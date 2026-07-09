@@ -12,7 +12,7 @@ IntentGraph Development treats the graph as the primary source artifact, compile
 
 Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](docs/reviews/phase-0-final-review.md).
 
-No `M8` or Phase 1 milestone is authorized automatically. Phase 1 requires explicit user approval.
+No `M8` was opened automatically. The next authorized work is the Phase 1 entry revision: define Intent Units as the source-level development unit before expanding benchmarks or tooling. See the [Phase 1 Entry Plan](docs/roadmap/phase-1-entry-plan.md).
 
 ## Working Definition
 
@@ -24,6 +24,8 @@ IntentGraph is not just a code graph. It is a source graph that can contain:
 - semantic graph deltas
 - evidence, validation results, and change history
 - authority, review, and provenance boundaries
+
+The long-term source structure is not a flat bag of nodes. Phase 1 introduces [Intent Units](docs/design/intent-unit-model.md): stable, compilable, reconstructable development meaning units with internal graphs for contract, behavior, code realization, verification, evidence, authority, history, and projection.
 
 ## Initial Scope
 
@@ -45,6 +47,7 @@ Start here:
 - [Start Here](docs/START-HERE.md)
 - [Core Thesis](docs/concept/core-thesis.md)
 - [IntentGraph Formal Blueprint](docs/design/intentgraph-formal-blueprint.md)
+- [Intent Unit Model](docs/design/intent-unit-model.md)
 - [Evidence Model](docs/evidence/evidence-model.md)
 - [Authority Model](docs/authority/authority-model.md)
 - [Change History Model](docs/history/change-history-model.md)
@@ -54,6 +57,7 @@ Start here:
 - [Glossary](docs/concept/glossary.md)
 - [Non-Goals](docs/concept/non-goals.md)
 - [Milestones](docs/roadmap/milestones.md)
+- [Phase 1 Entry Plan](docs/roadmap/phase-1-entry-plan.md)
 
 Every major implementation slice must pass:
 
