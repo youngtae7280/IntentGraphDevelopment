@@ -8,6 +8,12 @@ The central idea:
 
 IntentGraph Development treats the graph as the primary source artifact, compiles it into executable source code, reconstructs the graph from generated code, and makes round-trip consistency, evidence, authority, and change history first-class parts of the software development process.
 
+## Current Status
+
+Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](docs/reviews/phase-0-final-review.md).
+
+No `M8` or Phase 1 milestone is authorized automatically. Phase 1 requires explicit user approval.
+
 ## Working Definition
 
 IntentGraph is not just a code graph. It is a source graph that can contain:
@@ -44,6 +50,7 @@ Start here:
 - [Change History Model](docs/history/change-history-model.md)
 - [AI Proposal Format](docs/ai/proposal-format.md)
 - [Workbench Boundary](docs/workbench/workbench-boundary.md)
+- [Phase 0 Final Review](docs/reviews/phase-0-final-review.md)
 - [Glossary](docs/concept/glossary.md)
 - [Non-Goals](docs/concept/non-goals.md)
 - [Milestones](docs/roadmap/milestones.md)

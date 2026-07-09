@@ -29,7 +29,8 @@ Negative checks:
 - tampered reconstructed graph content fails verification
 - invalid original lifecycle status fails verification
 - code-only projection is reported as lossy and is not used for exact equality
-- deterministic regeneration to a temp report produced no diffs
+- deterministic regeneration at the declared report path produced no diffs
+- temp-report generation remains semantically stable, but byte-for-byte comparison can differ because the report records input/output paths and current-run evidence resolution
 
 Report summary:
 
@@ -113,6 +114,8 @@ Issues raised:
 - the verifier needed to assert and report the raw status pair
 
 Both issues were fixed before review closure.
+
+Saturation review corrected the determinism wording: M4 proves stable verifier semantics and declared-output byte stability, not path-independent byte identity for arbitrary temp report paths.
 
 ## Issue Review
 

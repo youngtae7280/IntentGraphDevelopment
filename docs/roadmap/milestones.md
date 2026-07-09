@@ -4,7 +4,9 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 ## Current Authorized Milestone
 
-`Phase 0 Quality Saturation Review` is authorized because `M7: Workbench and Visualization Boundary` passed its milestone review on 2026-07-09.
+Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](../reviews/phase-0-final-review.md).
+
+No `M8` or Phase 1 milestone is authorized automatically. Phase 1 requires explicit user approval.
 
 ## M0: Research and Thesis Foundation
 
@@ -181,4 +183,4 @@ Quality target: Level 2 or higher.
 
 Do not open the next milestone until the current milestone has a written milestone review.
 
-After M7, do not create M8 automatically. Perform Phase 0 Quality Saturation Review instead.
+After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete; wait for explicit user approval before opening Phase 1.

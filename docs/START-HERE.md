@@ -55,7 +55,9 @@ Implementation may start only when these are written:
 - acceptance criteria
 - late prior-art response plan
 
-The current authorized work is `Phase 0 Quality Saturation Review`. `M0`, `M1`, `M2`, `M3`, `M4`, `M5`, `M6`, and `M7` passed their milestone reviews on 2026-07-09.
+Phase 0 is complete as of 2026-07-09. Read the [Phase 0 Final Review](reviews/phase-0-final-review.md) before proposing any new work.
+
+No `M8` or Phase 1 milestone is authorized automatically. Phase 1 requires explicit user approval.
 
 Do not open compiler, reconstructor, verifier, package setup, UI, or AI runtime implementation until the relevant later milestone is current and its entry criteria are met.
 

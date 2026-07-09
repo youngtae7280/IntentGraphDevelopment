@@ -35,7 +35,8 @@ Negative checks:
 - invalid metadata JSON fails through a controlled error path
 - empty `nodeMap` fails
 - empty `edgeMap` fails
-- deterministic regeneration to a temp directory produced no diffs
+- deterministic regeneration at the declared output path produced no diffs
+- temp-directory regeneration remains semantically stable, but byte-for-byte comparison can differ in declared path-bearing report fields
 
 ## Prior-Art Comparison
 
@@ -91,6 +92,7 @@ Authority records are present in the reconstructed graph through preservation me
 - `nodeMap` and `edgeMap` validation must be substantive even when a full hidden graph snapshot exists.
 - Keeping reconstruction diagnostics outside `G'` simplifies M4 equality design.
 - Code-only projection can recover useful code facts, but not source graph authority, evidence, or history.
+- Saturation review corrected the determinism claim: M3 output is byte-stable at the declared output path, while temp-output reports can intentionally record different paths.
 
 ## Issue Review
 

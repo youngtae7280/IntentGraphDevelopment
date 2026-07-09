@@ -50,6 +50,16 @@ An in-flight milestone delta cannot embed the commit hash that will be created b
 
 The milestone review records the final commit hash after commit. Later graph updates should link to already-known commits where practical.
 
+## Self-Referential Finalization Defer Decision
+
+Phase 0 keeps one accepted B0 history delta with `gitCommit: null` and `gitCommitBoundary: "pending-current-milestone"`. This is an explicit defer decision, not a silent pass: writing the final commit hash into the source graph changes the graph digest and requires either another semantic delta or an external finalization ledger.
+
+Phase 1 must decide one of these strategies before broadening semantic history:
+
+- keep the explicit pending boundary for self-referential in-repo graph edits
+- move final commit linkage to an external append-only review ledger
+- add a two-step finalization delta model that can close prior deltas without pretending the closing commit was known earlier
+
 ## M5 B0 History
 
 B0 carries:
