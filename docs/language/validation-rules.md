@@ -436,6 +436,14 @@ An overlay-only contract delta must declare `sourceChanged: false`, `overlayChan
 
 If extractor coverage is expanded to support the new contract, the new code facts must remain deterministic and the delta report must distinguish source behavior changes from extractor/overlay coverage changes.
 
+### V414 - Overlay-Only Contract Negative Probes Are Repeatable
+
+Severity: P0 in P1.10
+
+Overlay-only contract deltas must have a committed negative-probe harness that reruns the unmutated positive baseline before bad cases. The harness must prove deterministic failure for incorrect source/overlay change flags, missing contract coverage increase, missing added unit, missing required code fact, missing verification, missing or wrong stderr expectations, missing evidence/authority/history records, source-text equality claims, and hidden generated-code snapshot claims.
+
+The harness must exit successfully only when every bad case fails for the expected reason and must not pass because the positive baseline is broken.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

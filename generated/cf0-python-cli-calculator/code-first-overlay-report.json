@@ -9,6 +9,7 @@
           "2",
           "3"
         ],
+        "errors": [],
         "exitCode": 0,
         "expectedExitCode": 0,
         "expectedStderr": null,
@@ -26,6 +27,7 @@
           "3",
           "4"
         ],
+        "errors": [],
         "exitCode": 0,
         "expectedExitCode": 0,
         "expectedStderr": null,
@@ -43,6 +45,7 @@
           "5",
           "2"
         ],
+        "errors": [],
         "exitCode": 0,
         "expectedExitCode": 0,
         "expectedStderr": null,
@@ -60,6 +63,7 @@
           "4",
           "2"
         ],
+        "errors": [],
         "exitCode": 2,
         "expectedExitCode": 2,
         "expectedStderr": "unsupported operation: div\n",

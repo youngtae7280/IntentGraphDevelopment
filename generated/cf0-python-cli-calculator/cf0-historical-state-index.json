@@ -140,7 +140,7 @@
         "digestMode": "canonical-json",
         "historical": true,
         "path": "generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json",
-        "sha256": "sha256:95cef0a844820aae2f88835f7b856277a428be57175e85c7e776b29beff3074c"
+        "sha256": "sha256:681cd0cd5060033599104b6c2c4edf27ee93b3abdf0568c283acb6f058beea12"
       }
     },
     {
@@ -156,7 +156,7 @@
         "digestMode": "canonical-json",
         "historical": false,
         "path": "generated/cf0-python-cli-calculator/p1.9-overlay-contract-delta-report.json",
-        "sha256": "sha256:5cdffd21bac57ea1746427c2ab65aac675fe01d718cabc489e9df490fd611ee8"
+        "sha256": "sha256:5bea363a7bf2c7cedfda4fd42b69aa1e49d7d6e47e57f940358280a80362b013"
       }
     }
   ]

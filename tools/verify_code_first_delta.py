@@ -168,6 +168,23 @@ def verify_delta(
         errors.append(f"missing added behavior units: {sorted(added_behaviors - units)}")
     if not preserved_behaviors.issubset(units):
         errors.append(f"missing preserved behavior units: {sorted(preserved_behaviors - units)}")
+    expected_behavior_checks = set(expected_after.get("behaviorChecks", []))
+    actual_behavior_checks = {
+        check.get("id")
+        for check in overlay_report.get("behaviorVerification", {}).get("checks", [])
+        if isinstance(check, dict)
+    }
+    if not expected_behavior_checks.issubset(actual_behavior_checks):
+        errors.append(f"missing expected behavior checks: {sorted(expected_behavior_checks - actual_behavior_checks)}")
+    if delta.get("mode") == "code-first-overlay-only-contract-delta":
+        verification_by_id = {
+            item.get("id"): item
+            for item in overlay.get("verification", [])
+            if isinstance(item, dict)
+        }
+        for check_id in expected_behavior_checks:
+            if "unsupported" in str(check_id) and "expectedStderr" not in verification_by_id.get(check_id, {}):
+                errors.append(f"stderr contract missing for behavior check {check_id}")
     for remap in remapped_units:
         unit_id = remap.get("unitId")
         from_facts = set(remap.get("fromCodeFactIds", []))
@@ -188,6 +205,11 @@ def verify_delta(
             errors.append(f"remapped unit {unit_id} still references old code facts: {sorted(from_facts.intersection(current_unit_facts))}")
     if overlay_report["result"] != "pass":
         errors.append("after overlay verification failed")
+        errors.extend(overlay_report.get("mappingVerification", {}).get("errors", []))
+        for check in overlay_report.get("behaviorVerification", {}).get("checks", []):
+            if isinstance(check, dict) and check.get("result") != "pass":
+                for error in check.get("errors", []):
+                    errors.append(f"behavior check {check.get('id')}: {error}")
     if not expected_evidence_ids.issubset(evidence_ids):
         errors.append(f"missing delta evidence records: {sorted(expected_evidence_ids - evidence_ids)}")
     if not expected_authority_ids.issubset(authority_ids):

@@ -145,18 +145,19 @@ def run_behavior_smokes(overlay: dict[str, Any], source_root: Path) -> dict[str,
             continue
         run_command = [sys.executable if part == "python" else part for part in command]
         completed = subprocess.run(run_command, cwd=source_root, text=True, capture_output=True, check=False)
-        passed = (
-            completed.returncode == int(check.get("expectedExitCode"))
-            and completed.stdout == check.get("expectedStdout")
-            and (
-                "expectedStderr" not in check
-                or completed.stderr == check.get("expectedStderr")
-            )
-        )
+        errors: list[str] = []
+        if completed.returncode != int(check.get("expectedExitCode")):
+            errors.append(f"exit code mismatch: expected {check.get('expectedExitCode')} got {completed.returncode}")
+        if completed.stdout != check.get("expectedStdout"):
+            errors.append("stdout mismatch")
+        if "expectedStderr" in check and completed.stderr != check.get("expectedStderr"):
+            errors.append("stderr mismatch")
+        passed = not errors
         results.append(
             {
                 "id": check.get("id"),
                 "result": "pass" if passed else "fail",
+                "errors": errors,
                 "command": command,
                 "stdout": completed.stdout,
                 "stderr": completed.stderr,

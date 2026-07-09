@@ -71,23 +71,21 @@ Goal: add a tiny hand-written Python calculator source fixture, extract determin
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
 
-## Current Slice: P1.9 Tiny Code-First Overlay-Only Contract Delta Probe
+## Current Slice: P1.10 Repeatable Overlay-Only Contract Delta Negative Probe Harness
 
-Goal: model existing unsupported-operation behavior as an explicit overlay contract without changing CF0 source behavior.
+Goal: harden the P1.9 overlay-only contract delta with repeatable negative probes.
 
-After P1.8, CF0 has an explicit state index. P1.9 adds a new state transition where source bytes stay unchanged, but overlay contract coverage increases for behavior already present in `main`.
+After P1.9, CF0 can model existing unsupported-operation behavior as an overlay-only contract delta. P1.10 proves the verifier rejects bad overlay-only deltas for source/overlay flag errors, missing contract coverage, missing stderr verification, missing facts, and missing evidence/authority/history records.
 
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
 
 Expected changes:
 
-- capture P1.9 before facts, overlay, and source artifacts
-- add deterministic unsupported-operation code facts if needed
-- add `unit.behavior.unsupported-operation`
-- add unsupported-operation verification, evidence, authority, and history records
-- add an overlay-only contract delta artifact and report
-- update the historical state index so P1.9 is current
-- keep the repaired P1.4 historical harness and P1.7 refactor report passing
+- add `tools/run_cf0_overlay_contract_negative_probes.py`
+- emit `generated/cf0-python-cli-calculator/p1.10-overlay-contract-negative-probes-report.json`
+- tighten verifier diagnostics only where needed for the negative cases
+- keep P1.9 positive baseline passing before negative probes
+- keep P1.4, P1.7, and state-index regressions passing
 
 Non-goals:
 
@@ -102,39 +100,35 @@ Non-goals:
 - no source text equality requirement
 - no new feature delta
 - no general history engine
-- no source behavior change unless required for testability
+- no source behavior change
+- no general negative-probe framework
 
-## Required Output For P1.9
+## Required Output For P1.10
 
-P1.9 should produce:
+P1.10 should produce:
 
-- `docs/examples/cf0-python-cli-calculator/deltas/p1.9-overlay-unsupported-operation.delta.json`
-- `generated/cf0-python-cli-calculator/p1.9-before-code-facts.json`
-- `generated/cf0-python-cli-calculator/p1.9-before-overlay.json`
-- `generated/cf0-python-cli-calculator/p1.9-before-source/calc.py`
-- `generated/cf0-python-cli-calculator/p1.9-overlay-contract-delta-report.json`
-- updated `generated/cf0-python-cli-calculator/cf0-historical-state-index.json`
-- P1.9 review notes
-- updated validation rule for overlay-only contract deltas
+- `tools/run_cf0_overlay_contract_negative_probes.py`
+- `generated/cf0-python-cli-calculator/p1.10-overlay-contract-negative-probes-report.json`
+- P1.10 review notes
+- updated validation rule for repeatable overlay-only contract negative probes
 
 ## Acceptance Criteria
 
-P1.9 passes only if:
+P1.10 passes only if:
 
-1. CF0 source bytes are unchanged or any source change is explicitly justified.
-2. Unsupported-operation behavior is represented by overlay unit, facts, mappings, verification, evidence, authority, and history.
-3. Existing add/sub/mul behavior units remain preserved.
-4. The P1.9 report declares no source text equality and no hidden generated-code snapshot.
-5. The state index includes a P1.9 current state and transition.
-6. P1.4 historical harness and P1.7 refactor report still pass.
+1. The P1.9 positive baseline reruns and passes before probes.
+2. Every declared negative probe fails for its intended reason.
+3. The harness report records baseline scope, probe ids, expected errors, actual errors, and boundary flags.
+4. P1.4 historical harness, P1.7 refactor report, and state index still pass.
+5. CF0 source bytes remain unchanged.
 
 ## Stop Conditions
 
 Stop and report before broadening scope if:
 
-- source bytes change without a documented reason.
-- unsupported-operation behavior cannot be deterministically mapped to code facts.
-- P1.9 evidence, authority, or history records do not resolve.
+- the P1.9 positive baseline fails.
+- a required bad case passes unexpectedly.
+- a required bad case fails only because of an unrelated baseline problem.
 - P1.4 positive historical baseline does not pass.
 - P1.7 current refactor report stops passing.
 - IntentGraph is described again as a universal source-code replacement.
@@ -145,7 +139,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.9 Tiny Code-First Overlay-Only Contract Delta Probe
+P1.10 Repeatable Overlay-Only Contract Delta Negative Probe Harness
 ```
 
 Worker should start from:
@@ -155,7 +149,8 @@ Worker should start from:
 - `tools/verify_code_first_delta.py`
 - `tools/run_cf0_delta_negative_probes.py`
 - `tools/emit_cf0_historical_state_index.py`
+- `docs/examples/cf0-python-cli-calculator/deltas/p1.9-overlay-unsupported-operation.delta.json`
 - `generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json`
 - `generated/cf0-python-cli-calculator/cf0-historical-state-index.json`
 
-Worker should not start the next phase or a larger benchmark until P1.9 review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start the next phase or a larger benchmark until P1.10 review passes and the Coordinator explicitly authorizes the next phase.

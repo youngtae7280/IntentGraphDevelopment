@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.9 Tiny Code-First Overlay-Only Contract Delta Probe
+P1.10 Repeatable Overlay-Only Contract Delta Negative Probe Harness
 ```
 
-This is a focused CF0 semantic-overlay slice that models already-existing unsupported-operation source behavior as an explicit overlay contract. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused CF0 hardening slice that proves bad P1.9 overlay-only contract deltas fail deterministically. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -296,7 +296,7 @@ Non-goals:
 
 Goal: model CF0's existing unsupported-operation fallback as an explicit IntentGraph contract, verification obligation, evidence record, authority record, and history transition without changing source behavior.
 
-Status: current authorized slice. See [P1.9 Overlay-Only Contract Delta Review](../reviews/p1.9-overlay-only-contract-delta-review.md).
+Status: completed on 2026-07-10. See [P1.9 Overlay-Only Contract Delta Review](../reviews/p1.9-overlay-only-contract-delta-review.md).
 
 Non-goals:
 
@@ -305,3 +305,17 @@ Non-goals:
 - no B0 generated-code pipeline changes
 - no full semantic equivalence claim
 - no source text equality requirement
+
+## P1.10: Repeatable Overlay-Only Contract Delta Negative Probe Harness
+
+Goal: add a deterministic CF0-specific harness proving P1.9 overlay-only contract delta failures are rejected for the intended reasons.
+
+Status: current authorized slice. See [P1.10 Overlay Contract Negative Probes Review](../reviews/p1.10-overlay-contract-negative-probes-review.md).
+
+Non-goals:
+
+- no new behavior or contract unit
+- no CF0 source behavior changes
+- no general negative-probe framework
+- no B0 generated-code pipeline changes
+- no dependency addition
