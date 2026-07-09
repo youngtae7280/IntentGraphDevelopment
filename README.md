@@ -43,6 +43,7 @@ Start here:
 - [Authority Model](docs/authority/authority-model.md)
 - [Change History Model](docs/history/change-history-model.md)
 - [AI Proposal Format](docs/ai/proposal-format.md)
+- [Workbench Boundary](docs/workbench/workbench-boundary.md)
 - [Glossary](docs/concept/glossary.md)
 - [Non-Goals](docs/concept/non-goals.md)
 - [Milestones](docs/roadmap/milestones.md)

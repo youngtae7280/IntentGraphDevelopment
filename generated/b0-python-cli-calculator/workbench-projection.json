@@ -1,0 +1,483 @@
+{
+  "authorityDisclaimer": "This projection is a report. It is not accepted graph authority.",
+  "diagram": {
+    "authority": "orientation-only",
+    "format": "mermaid",
+    "source": "graph TD\n  G[\"B0 IntentGraph\"] --> C[\"generated calc.py\"]\n  C --> M[\"calc.intentgraph.json\"]\n  M --> R[\"reconstructed graph\"]\n  R --> V[\"round-trip verifier: pass\"]\n  V --> E[\"evidence / authority / history: pass\"]\n  E --> P[\"AI proposal validation: pass\"]\n  P --> I[\"input consistency: pass\"]"
+  },
+  "evidenceAuthorityHistory": {
+    "aiFinalAuthorityCount": 0,
+    "authorityAccepted": 2,
+    "evidenceAccepted": 3,
+    "gitVerifiedCount": 1,
+    "historyAccepted": 2,
+    "pendingCurrentMilestoneCount": 1
+  },
+  "graph": {
+    "benchmarkId": "B0-python-cli-calculator",
+    "edgeCount": 46,
+    "edgeCountsByKind": {
+      "authorizes": 5,
+      "calls": 2,
+      "changes": 8,
+      "contains": 4,
+      "decomposes_to": 2,
+      "evidenced_by": 4,
+      "handled_by": 1,
+      "maps_from": 5,
+      "maps_to": 5,
+      "projects_to": 4,
+      "tested_by": 2,
+      "uses_concept": 4
+    },
+    "edgesByKind": {
+      "authorizes": [
+        "edge.authority.initial-delta",
+        "edge.authority.initial-requirement-note",
+        "edge.authority.initial-test-plan",
+        "edge.authority.m5-delta",
+        "edge.authority.m5-roundtrip-report"
+      ],
+      "calls": [
+        "edge.code.main-calls-add",
+        "edge.code.main-calls-sub"
+      ],
+      "changes": [
+        "edge.history.changed-add",
+        "edge.history.changed-product",
+        "edge.history.changed-sub",
+        "edge.history.m5-changed-authority",
+        "edge.history.m5-changed-initial-history",
+        "edge.history.m5-changed-requirement-evidence",
+        "edge.history.m5-changed-roundtrip-evidence",
+        "edge.history.m5-changed-test-plan-evidence"
+      ],
+      "contains": [
+        "edge.code.module-contains-add",
+        "edge.code.module-contains-cli",
+        "edge.code.module-contains-main",
+        "edge.code.module-contains-sub"
+      ],
+      "decomposes_to": [
+        "edge.intent.product-decomposes-add",
+        "edge.intent.product-decomposes-sub"
+      ],
+      "evidenced_by": [
+        "edge.evidence.add-test-plan",
+        "edge.evidence.product-requirement-note",
+        "edge.evidence.product-roundtrip-report",
+        "edge.evidence.sub-test-plan"
+      ],
+      "handled_by": [
+        "edge.cli.handled-by-main"
+      ],
+      "maps_from": [
+        "edge.metadata.add-maps-from-intent",
+        "edge.metadata.cli-maps-from-product",
+        "edge.metadata.main-maps-from-cli",
+        "edge.metadata.module-maps-from-product",
+        "edge.metadata.sub-maps-from-intent"
+      ],
+      "maps_to": [
+        "edge.metadata.add-maps-to-code",
+        "edge.metadata.cli-maps-to-code",
+        "edge.metadata.main-maps-to-code",
+        "edge.metadata.module-maps-to-code",
+        "edge.metadata.sub-maps-to-code"
+      ],
+      "projects_to": [
+        "edge.projection.add-to-code",
+        "edge.projection.module-to-target",
+        "edge.projection.product-to-cli",
+        "edge.projection.sub-to-code"
+      ],
+      "tested_by": [
+        "edge.test.add",
+        "edge.test.sub"
+      ],
+      "uses_concept": [
+        "edge.intent.add-uses-integer",
+        "edge.intent.add-uses-operation",
+        "edge.intent.sub-uses-integer",
+        "edge.intent.sub-uses-operation"
+      ]
+    },
+    "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "graphId": "ig.bench.b0.python-cli-calculator",
+    "nodeCount": 25,
+    "nodeCountsByKind": {
+      "authority.record": 2,
+      "code.cli": 1,
+      "code.function": 3,
+      "code.module": 1,
+      "domain.concept": 2,
+      "evidence.record": 3,
+      "history.delta": 2,
+      "intent.requirement": 3,
+      "metadata.sourceMap": 5,
+      "projection.target": 1,
+      "test.case": 2
+    },
+    "nodesByKind": {
+      "authority.record": [
+        "authority.record.initial-human",
+        "authority.record.m5-human-review"
+      ],
+      "code.cli": [
+        "code.cli.command"
+      ],
+      "code.function": [
+        "code.function.add",
+        "code.function.main",
+        "code.function.sub"
+      ],
+      "code.module": [
+        "code.module.calc"
+      ],
+      "domain.concept": [
+        "domain.concept.integer-operand",
+        "domain.concept.operation"
+      ],
+      "evidence.record": [
+        "evidence.record.requirement-note",
+        "evidence.record.roundtrip-report",
+        "evidence.record.test-plan"
+      ],
+      "history.delta": [
+        "history.delta.initial-graph",
+        "history.delta.m5-evidence-authority-history"
+      ],
+      "intent.requirement": [
+        "intent.behavior.add",
+        "intent.behavior.sub",
+        "intent.product.calculator"
+      ],
+      "metadata.sourceMap": [
+        "metadata.source-map.add",
+        "metadata.source-map.cli",
+        "metadata.source-map.main",
+        "metadata.source-map.module",
+        "metadata.source-map.sub"
+      ],
+      "projection.target": [
+        "projection.target.python-source"
+      ],
+      "test.case": [
+        "test.case.add",
+        "test.case.sub"
+      ]
+    }
+  },
+  "inputConsistency": {
+    "graphBenchmarkId": "B0-python-cli-calculator",
+    "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "proposalBenchmarkId": "B0-python-cli-calculator",
+    "proposalBenchmarkMatchesGraph": true,
+    "proposalDigestMatchesGraph": true,
+    "proposalGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "result": "pass",
+    "roundtripDigestMatchesGraph": true,
+    "roundtripOriginalGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678"
+  },
+  "inputs": {
+    "graph": "docs/examples/b0-python-cli-calculator.graph.json",
+    "proposalReport": "generated/b0-python-cli-calculator/proposal-validation-report.json",
+    "roundtripReport": "generated/b0-python-cli-calculator/roundtrip-report.json"
+  },
+  "navigation": {
+    "authorityByTarget": {
+      "evidence.record.requirement-note": [
+        "edge.authority.initial-requirement-note"
+      ],
+      "evidence.record.roundtrip-report": [
+        "edge.authority.m5-roundtrip-report"
+      ],
+      "evidence.record.test-plan": [
+        "edge.authority.initial-test-plan"
+      ],
+      "history.delta.initial-graph": [
+        "edge.authority.initial-delta"
+      ],
+      "history.delta.m5-evidence-authority-history": [
+        "edge.authority.m5-delta"
+      ]
+    },
+    "evidenceByTarget": {
+      "intent.behavior.add": [
+        "edge.evidence.add-test-plan"
+      ],
+      "intent.behavior.sub": [
+        "edge.evidence.sub-test-plan"
+      ],
+      "intent.product.calculator": [
+        "edge.evidence.product-requirement-note",
+        "edge.evidence.product-roundtrip-report"
+      ]
+    },
+    "historyChangesByDelta": {
+      "history.delta.initial-graph": [
+        "edge.history.changed-add",
+        "edge.history.changed-product",
+        "edge.history.changed-sub"
+      ],
+      "history.delta.m5-evidence-authority-history": [
+        "edge.history.m5-changed-authority",
+        "edge.history.m5-changed-initial-history",
+        "edge.history.m5-changed-requirement-evidence",
+        "edge.history.m5-changed-roundtrip-evidence",
+        "edge.history.m5-changed-test-plan-evidence"
+      ]
+    },
+    "incomingEdgesByNode": {
+      "authority.record.m5-human-review": [
+        "edge.history.m5-changed-authority"
+      ],
+      "code.cli.command": [
+        "edge.code.module-contains-cli",
+        "edge.metadata.cli-maps-to-code",
+        "edge.metadata.main-maps-from-cli",
+        "edge.projection.product-to-cli"
+      ],
+      "code.function.add": [
+        "edge.code.main-calls-add",
+        "edge.code.module-contains-add",
+        "edge.metadata.add-maps-to-code",
+        "edge.projection.add-to-code"
+      ],
+      "code.function.main": [
+        "edge.cli.handled-by-main",
+        "edge.code.module-contains-main",
+        "edge.metadata.main-maps-to-code"
+      ],
+      "code.function.sub": [
+        "edge.code.main-calls-sub",
+        "edge.code.module-contains-sub",
+        "edge.metadata.sub-maps-to-code",
+        "edge.projection.sub-to-code"
+      ],
+      "code.module.calc": [
+        "edge.metadata.module-maps-to-code"
+      ],
+      "domain.concept.integer-operand": [
+        "edge.intent.add-uses-integer",
+        "edge.intent.sub-uses-integer"
+      ],
+      "domain.concept.operation": [
+        "edge.intent.add-uses-operation",
+        "edge.intent.sub-uses-operation"
+      ],
+      "evidence.record.requirement-note": [
+        "edge.authority.initial-requirement-note",
+        "edge.evidence.product-requirement-note",
+        "edge.history.m5-changed-requirement-evidence"
+      ],
+      "evidence.record.roundtrip-report": [
+        "edge.authority.m5-roundtrip-report",
+        "edge.evidence.product-roundtrip-report",
+        "edge.history.m5-changed-roundtrip-evidence"
+      ],
+      "evidence.record.test-plan": [
+        "edge.authority.initial-test-plan",
+        "edge.evidence.add-test-plan",
+        "edge.evidence.sub-test-plan",
+        "edge.history.m5-changed-test-plan-evidence"
+      ],
+      "history.delta.initial-graph": [
+        "edge.authority.initial-delta",
+        "edge.history.m5-changed-initial-history"
+      ],
+      "history.delta.m5-evidence-authority-history": [
+        "edge.authority.m5-delta"
+      ],
+      "intent.behavior.add": [
+        "edge.history.changed-add",
+        "edge.intent.product-decomposes-add",
+        "edge.metadata.add-maps-from-intent"
+      ],
+      "intent.behavior.sub": [
+        "edge.history.changed-sub",
+        "edge.intent.product-decomposes-sub",
+        "edge.metadata.sub-maps-from-intent"
+      ],
+      "intent.product.calculator": [
+        "edge.history.changed-product",
+        "edge.metadata.cli-maps-from-product",
+        "edge.metadata.module-maps-from-product"
+      ],
+      "projection.target.python-source": [
+        "edge.projection.module-to-target"
+      ],
+      "test.case.add": [
+        "edge.test.add"
+      ],
+      "test.case.sub": [
+        "edge.test.sub"
+      ]
+    },
+    "outgoingEdgesByNode": {
+      "authority.record.initial-human": [
+        "edge.authority.initial-delta",
+        "edge.authority.initial-requirement-note",
+        "edge.authority.initial-test-plan"
+      ],
+      "authority.record.m5-human-review": [
+        "edge.authority.m5-delta",
+        "edge.authority.m5-roundtrip-report"
+      ],
+      "code.cli.command": [
+        "edge.cli.handled-by-main"
+      ],
+      "code.function.main": [
+        "edge.code.main-calls-add",
+        "edge.code.main-calls-sub"
+      ],
+      "code.module.calc": [
+        "edge.code.module-contains-add",
+        "edge.code.module-contains-cli",
+        "edge.code.module-contains-main",
+        "edge.code.module-contains-sub",
+        "edge.projection.module-to-target"
+      ],
+      "history.delta.initial-graph": [
+        "edge.history.changed-add",
+        "edge.history.changed-product",
+        "edge.history.changed-sub"
+      ],
+      "history.delta.m5-evidence-authority-history": [
+        "edge.history.m5-changed-authority",
+        "edge.history.m5-changed-initial-history",
+        "edge.history.m5-changed-requirement-evidence",
+        "edge.history.m5-changed-roundtrip-evidence",
+        "edge.history.m5-changed-test-plan-evidence"
+      ],
+      "intent.behavior.add": [
+        "edge.evidence.add-test-plan",
+        "edge.intent.add-uses-integer",
+        "edge.intent.add-uses-operation",
+        "edge.projection.add-to-code",
+        "edge.test.add"
+      ],
+      "intent.behavior.sub": [
+        "edge.evidence.sub-test-plan",
+        "edge.intent.sub-uses-integer",
+        "edge.intent.sub-uses-operation",
+        "edge.projection.sub-to-code",
+        "edge.test.sub"
+      ],
+      "intent.product.calculator": [
+        "edge.evidence.product-requirement-note",
+        "edge.evidence.product-roundtrip-report",
+        "edge.intent.product-decomposes-add",
+        "edge.intent.product-decomposes-sub",
+        "edge.projection.product-to-cli"
+      ],
+      "metadata.source-map.add": [
+        "edge.metadata.add-maps-from-intent",
+        "edge.metadata.add-maps-to-code"
+      ],
+      "metadata.source-map.cli": [
+        "edge.metadata.cli-maps-from-product",
+        "edge.metadata.cli-maps-to-code"
+      ],
+      "metadata.source-map.main": [
+        "edge.metadata.main-maps-from-cli",
+        "edge.metadata.main-maps-to-code"
+      ],
+      "metadata.source-map.module": [
+        "edge.metadata.module-maps-from-product",
+        "edge.metadata.module-maps-to-code"
+      ],
+      "metadata.source-map.sub": [
+        "edge.metadata.sub-maps-from-intent",
+        "edge.metadata.sub-maps-to-code"
+      ]
+    },
+    "proposalResultsById": {
+      "ai.proposal.b0.add-invalid-operation-test": {
+        "acceptedForApplication": true,
+        "authorityRecordId": "authority.record.m5-human-review",
+        "deltaSummary": {
+          "addedEdges": [
+            "edge.test.invalid-operation"
+          ],
+          "addedNodes": [
+            "test.case.invalid-operation"
+          ],
+          "updatedNodes": []
+        },
+        "errors": [],
+        "postDelta": {
+          "graphDigest": "sha256:8fada2ac5fafeb264a4f8e36d86b2e8f13c386aae6c88f3ee32e9d4d05008081",
+          "graphirValid": true,
+          "semanticValidation": "pass"
+        },
+        "proposalDigest": "sha256:2a4a995b262b128cb6c75dfd1fb7d5340995fa31a21427b0fee02a0daf1aadd9",
+        "validation": "accepted"
+      },
+      "ai.proposal.b0.invalid-self-authorized": {
+        "acceptedForApplication": false,
+        "authorityRecordId": "authority.record.missing-ai-authority",
+        "deltaSummary": {
+          "addedEdges": [],
+          "addedNodes": [],
+          "updatedNodes": []
+        },
+        "errors": [
+          "AI cannot be final authority for an accepted proposal",
+          "decision authorityRecordId is missing: authority.record.missing-ai-authority",
+          "accepted proposal missing deterministic checks: ['AuthorityGranted', 'BaseGraphDigestMatches', 'CanApplyDelta']",
+          "accepted proposal requires at least one accepted evidence reference",
+          "delta[0] addNode id already exists: intent.product.calculator"
+        ],
+        "postDelta": {
+          "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+          "graphirValid": true,
+          "semanticValidation": "pass"
+        },
+        "proposalDigest": "sha256:69cc8825c945cc9c39b4627f7273bdfc7317bd485465c5dec69c093a90d630e8",
+        "validation": "rejected"
+      }
+    }
+  },
+  "projectionKind": "workbench-report",
+  "projectionVersion": "0.1.0",
+  "proposalValidation": {
+    "acceptedForApplication": 1,
+    "aiOutputTreatedAsAuthority": false,
+    "automaticApplication": false,
+    "proposalCount": 2,
+    "rejected": 1,
+    "result": "pass"
+  },
+  "roundTrip": {
+    "codeOnlyLossModel": [
+      "full product intent wording",
+      "requirement priorities",
+      "domain concept descriptions",
+      "evidence records",
+      "authority records",
+      "semantic graph history",
+      "stable source graph IDs",
+      "metadata source-map node IDs",
+      "accepted change state",
+      "verifier equality mode"
+    ],
+    "codeOnlyUsedForEvidenceAuthorityHistory": false,
+    "codeOnlyUsedForExactEquality": false,
+    "domainSubgraphMatches": {
+      "authority": true,
+      "evidence": true,
+      "history": true
+    },
+    "equalityMode": "GraphEqualAfterNormalization",
+    "graphEqual": true,
+    "m5ClaimScope": {
+      "codeDerivedRecovery": false,
+      "hiddenStateSnapshotUsed": true,
+      "level4Claim": "metadata-backed preservation with semantic validation"
+    },
+    "metadataGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "result": "pass",
+    "semanticValidation": "pass"
+  }
+}

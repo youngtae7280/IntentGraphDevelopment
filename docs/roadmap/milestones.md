@@ -4,7 +4,7 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 ## Current Authorized Milestone
 
-`M7: Workbench and Visualization Boundary` is authorized because `M6: AI Proposal Boundary` passed its milestone review on 2026-07-09.
+`Phase 0 Quality Saturation Review` is authorized because `M7: Workbench and Visualization Boundary` passed its milestone review on 2026-07-09.
 
 ## M0: Research and Thesis Foundation
 
@@ -162,6 +162,8 @@ Quality target: Level 4.
 
 Goal: visualize graph, code projection, evidence, authority, and round-trip state.
 
+Review: [M7 Milestone Review](../reviews/m7-review.md)
+
 Entry criteria:
 
 - M4 passed at minimum
@@ -178,3 +180,5 @@ Quality target: Level 2 or higher.
 ## Promotion Rule
 
 Do not open the next milestone until the current milestone has a written milestone review.
+
+After M7, do not create M8 automatically. Perform Phase 0 Quality Saturation Review instead.
