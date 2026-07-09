@@ -201,6 +201,7 @@ def verify(overlay_path: Path, code_facts_path: Path, source_root: Path) -> dict
             "sourceRole": code_facts.get("source", {}).get("role"),
             "sourceDigest": code_facts.get("source", {}).get("sha256"),
             "factCount": len(facts),
+            "deterministic": code_facts.get("extractor", {}).get("deterministic"),
             "externalExtractor": code_facts.get("extractor", {}).get("externalExtractor"),
         },
         "mappingVerification": mapping,
