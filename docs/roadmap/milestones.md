@@ -4,7 +4,7 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 ## Current Authorized Milestone
 
-`M3: Retrofit Reconstructor Boundary` is authorized because `M2: Native Compiler Boundary` passed its milestone review on 2026-07-09.
+`M4: Round-Trip Verifier` is authorized because `M3: Retrofit Reconstructor Boundary` passed its milestone review on 2026-07-09.
 
 ## M0: Research and Thesis Foundation
 
@@ -86,6 +86,8 @@ Quality target: Level 3, Round-Trip Slice after M3.
 ## M3: Retrofit Reconstructor Boundary
 
 Goal: reconstruct the graph from generated source code and preservation metadata.
+
+Review: [M3 Milestone Review](../reviews/m3-review.md)
 
 Entry criteria:
 

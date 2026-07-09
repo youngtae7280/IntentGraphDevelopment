@@ -1,0 +1,90 @@
+{
+  "claim": "lossy-code-only-projection",
+  "lossModel": [
+    "full product intent wording",
+    "requirement priorities",
+    "domain concept descriptions",
+    "evidence records",
+    "authority records",
+    "semantic graph history",
+    "stable source graph IDs",
+    "metadata source-map node IDs",
+    "accepted change state",
+    "verifier equality mode"
+  ],
+  "projectionVersion": "0.1.0",
+  "reconstructorContract": "retrofit-python-b0-v0",
+  "recoverableFacts": {
+    "cliOperationHints": [
+      "add",
+      "sub"
+    ],
+    "functions": [
+      {
+        "arguments": [
+          "left",
+          "right"
+        ],
+        "calls": [],
+        "lineEnd": 12,
+        "lineStart": 11,
+        "name": "add",
+        "returnExpressions": [
+          "left + right"
+        ]
+      },
+      {
+        "arguments": [
+          "left",
+          "right"
+        ],
+        "calls": [],
+        "lineEnd": 16,
+        "lineStart": 15,
+        "name": "sub",
+        "returnExpressions": [
+          "left - right"
+        ]
+      },
+      {
+        "arguments": [
+          "argv"
+        ],
+        "calls": [
+          "add",
+          "int",
+          "len",
+          "print",
+          "sub"
+        ],
+        "lineEnd": 40,
+        "lineStart": 19,
+        "name": "main",
+        "returnExpressions": [
+          "0",
+          "2",
+          "2",
+          "2"
+        ]
+      }
+    ],
+    "integerConstants": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "modulePath": "calc.py",
+    "stringConstants": [
+      "Generated CLI calculator for the IntentGraph B0 benchmark.",
+      "LEFT and RIGHT must be integers",
+      "__main__",
+      "add",
+      "sub",
+      "unsupported operation: ",
+      "usage: calc {add|sub} LEFT RIGHT"
+    ]
+  },
+  "sourcePath": "generated/b0-python-cli-calculator/calc.py",
+  "sourceSha256": "1e4ab232f86eff9eaf96043cefeaedc25b9b78568aa9de239bf9b59c75704cca"
+}

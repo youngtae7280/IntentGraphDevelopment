@@ -1,0 +1,15 @@
+{
+  "benchmarkId": "B0-python-cli-calculator",
+  "diagnosticsVersion": "0.1.0",
+  "errors": [],
+  "graphDigest": "sha256:cab80515c032da327edcc1d2203be515e0060d487a91b4a5f25d355bacd91f85",
+  "reconstructedAt": "deterministic:m3-retrofit-python-b0-v0",
+  "reconstructedGraphDigest": "sha256:ee590921e7686e2727e6b34882b00dac775201fa88b8077c0f5c04950ed592ce",
+  "reconstructorContract": "retrofit-python-b0-v0",
+  "roundTripVerification": "not-run-in-m3",
+  "status": "pass",
+  "warnings": [
+    "M3 reconstructed from preservation metadata; M4 must perform equality verification.",
+    "Code-only projection is lossy and must not be treated as the full intent graph."
+  ]
+}
