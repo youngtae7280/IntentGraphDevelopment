@@ -1,0 +1,125 @@
+{
+  "artifactRole": "intentgraph-cf0-historical-state-index",
+  "checks": [
+    "all referenced paths exist",
+    "artifact digests emitted with sha256 prefix",
+    "state ids and transition ids are unique",
+    "currentStateId resolves to the single current state",
+    "historical states avoid mutable current source/facts/overlay artifacts",
+    "P1.3 after-state contains old mul implementation facts",
+    "P1.7 current state contains multiply facts and not old mul implementation facts",
+    "P1.7 transition preserves unit.behavior.mul while remapping facts"
+  ],
+  "currentStateId": "cf0.state.p1.7.current-refactor-multiply",
+  "errors": [],
+  "invariants": {
+    "cf0SpecificIndexOnly": true,
+    "currentArtifactsMayChangeInFuture": true,
+    "generalHistoryEngineClaimed": false,
+    "hiddenGeneratedCodeSnapshotUsed": false,
+    "historicalArtifactsMustBeStable": true,
+    "sourceTextEqualityRequired": false
+  },
+  "reportVersion": "0.1.0",
+  "scope": "cf0-code-first-overlay-history-index",
+  "states": [
+    {
+      "codeFacts": {
+        "digestMode": "canonical-json",
+        "path": "generated/cf0-python-cli-calculator/p1.3-before-code-facts.json",
+        "sha256": "sha256:f311d35cb0d8c16f281eacf74a60b1167d4786ff54707b51b3f0f29e0c8ac7a4"
+      },
+      "description": "CF0 before the add-mul maintenance delta.",
+      "id": "cf0.state.p1.3.before-add-mul",
+      "kind": "historical",
+      "overlay": {
+        "digestMode": "canonical-json",
+        "path": "generated/cf0-python-cli-calculator/p1.3-before-overlay.json",
+        "sha256": "sha256:161a51d78808f3f9e51b5ec5c05c571aa1517ac0b9a2e0142efe788efc09d798"
+      },
+      "source": {
+        "digestMode": "file-bytes",
+        "path": "generated/cf0-python-cli-calculator/p1.3-before-source/calc.py",
+        "role": "hand-written-historical-copy",
+        "sha256": "sha256:92d7c6a9e4ad67ebe2eb5d0f7a43bd4ddd27c3b4d334533d59fb24443205ea3e"
+      }
+    },
+    {
+      "codeFacts": {
+        "digestMode": "canonical-json",
+        "path": "generated/cf0-python-cli-calculator/p1.3-after-code-facts.json",
+        "sha256": "sha256:5bb3a0890060a1e42952fda5823d86d732b99ddb41ff4f0ff6b5405add158653"
+      },
+      "description": "CF0 after add-mul and before the implementation refactor.",
+      "id": "cf0.state.p1.3.after-add-mul",
+      "kind": "historical",
+      "overlay": {
+        "digestMode": "canonical-json",
+        "path": "generated/cf0-python-cli-calculator/p1.3-after-overlay.json",
+        "sha256": "sha256:fc6a219f25af3115d733075b2c98991d7274463c096bfb1e7f2a81997797c040"
+      },
+      "source": {
+        "digestMode": "file-bytes",
+        "path": "generated/cf0-python-cli-calculator/p1.3-after-source/calc.py",
+        "role": "hand-written-historical-copy",
+        "sha256": "sha256:769d8afe7a386e499435c719f30441264c7f922eacaaa54b9f057c6bd4e46f7b"
+      }
+    },
+    {
+      "codeFacts": {
+        "digestMode": "canonical-json",
+        "path": "generated/cf0-python-cli-calculator/code-facts.json",
+        "sha256": "sha256:ff80d8f654e3752bfb446a6100d493df452386ab98724ae36e0c4f46f742131c"
+      },
+      "description": "CF0 current state after preserving unit.behavior.mul while refactoring its implementation to multiply.",
+      "id": "cf0.state.p1.7.current-refactor-multiply",
+      "kind": "current",
+      "overlay": {
+        "digestMode": "canonical-json",
+        "path": "docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json",
+        "sha256": "sha256:dbb203a083e39cb085f9f0f746b0db308b5382c2de3de0ea79d19804334ac37b"
+      },
+      "source": {
+        "digestMode": "file-bytes",
+        "path": "docs/examples/cf0-python-cli-calculator/source/calc.py",
+        "role": "hand-written-current",
+        "sha256": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+      }
+    }
+  ],
+  "status": "pass",
+  "transitions": [
+    {
+      "delta": {
+        "digestMode": "canonical-json",
+        "path": "docs/examples/cf0-python-cli-calculator/deltas/p1.3-add-mul.delta.json",
+        "sha256": "sha256:5576bdbc532a0cfca5d59cb3c6c0ef2872fe96dd411287013f94fb786b27bc7e"
+      },
+      "fromStateId": "cf0.state.p1.3.before-add-mul",
+      "id": "cf0.transition.p1.3.add-mul",
+      "toStateId": "cf0.state.p1.3.after-add-mul",
+      "verificationReport": {
+        "digestMode": "canonical-json",
+        "historical": true,
+        "path": "generated/cf0-python-cli-calculator/p1.3-maintenance-delta-report.json",
+        "sha256": "sha256:90ac2f3859dadd8101190c4aff043a8ec499f2cde59a976f9c2ffebf4a4a2409"
+      }
+    },
+    {
+      "delta": {
+        "digestMode": "canonical-json",
+        "path": "docs/examples/cf0-python-cli-calculator/deltas/p1.7-refactor-mul-to-multiply.delta.json",
+        "sha256": "sha256:b5f739cc2db0853adde4274e51bbcb1dc16f4c85eea1a2ac8868e1f52ca9cbbc"
+      },
+      "fromStateId": "cf0.state.p1.3.after-add-mul",
+      "id": "cf0.transition.p1.7.refactor-mul-to-multiply",
+      "toStateId": "cf0.state.p1.7.current-refactor-multiply",
+      "verificationReport": {
+        "digestMode": "canonical-json",
+        "historical": false,
+        "path": "generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json",
+        "sha256": "sha256:db382690ce042cd751f87e3b79b928ad4b12c844af269c773cf78cbd26051fd8"
+      }
+    }
+  ]
+}

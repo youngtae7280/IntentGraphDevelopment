@@ -420,6 +420,14 @@ Severity: P0 in P1.7.R
 
 Historical delta harnesses must use named historical after-state facts, overlays, and source roots. They must not silently mix historical delta expectations with the current source or current overlay.
 
+### V412 - Historical State Index Boundaries
+
+Severity: P0 in P1.8
+
+CF0 historical/current state indexes must use unique state ids, unique transition ids, deterministic `sha256:` artifact digests, exactly one current state, and explicit historical/current markers. Historical states must not point to mutable current source, current code-facts, or current overlay artifacts. Transitions must reference existing states and must identify their delta and verification report artifacts.
+
+The P1.3 after-state must remain distinguishable from the P1.7 current state: P1.3 historical facts contain the old `mul` implementation facts, while P1.7 current facts contain `multiply` implementation facts and do not use the old `mul` implementation facts as current mappings.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

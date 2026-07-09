@@ -71,21 +71,21 @@ Goal: add a tiny hand-written Python calculator source fixture, extract determin
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
 
-## Current Slice: P1.7.R Historical Delta Baseline Boundary Correction
+## Current Slice: P1.8 CF0 Historical State Index and Report Boundary
 
-Goal: separate historical P1.3 additive delta evidence from the current P1.7 refactor state.
+Goal: add a small deterministic CF0 state index that makes historical/current report boundaries explicit.
 
-After P1.7, CF0 has two relevant states: the P1.3 after-state where implementation function `mul` exists, and the current P1.7 after-state where the implementation function is `multiply`. Historical P1.3 harnesses must use named P1.3 historical artifacts, not current P1.7 code facts or overlays.
+After P1.7.R, CF0 has named P1.3 historical after-state artifacts and a repaired P1.4 harness. P1.8 records those boundaries as a generated index with state ids, transition ids, artifact paths, deterministic digests, and current/historical markers.
 
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
 
 Expected changes:
 
-- add clearly named P1.3 historical after-overlay and after-source artifacts
-- update the P1.4 negative harness to use P1.3 historical after facts, overlay, and source root
-- make the harness rerun the unmutated P1.3 positive baseline first
-- make the harness report historical/current boundary fields
-- keep the current P1.7 refactor report passing
+- add a generated CF0 historical state index
+- add a small emitter/validator if useful
+- include P1.3 before-add-mul, P1.3 after-add-mul, and current P1.7 refactor states
+- connect P1.3 and P1.7 transitions to their delta and report artifacts
+- keep the repaired P1.4 historical harness and current P1.7 refactor report passing
 
 Non-goals:
 
@@ -99,31 +99,36 @@ Non-goals:
 - no new behavior unit for the implementation rename
 - no source text equality requirement
 - no new feature delta
+- no general history engine
 
-## Required Output For P1.7.R
+## Required Output For P1.8
 
-P1.7.R should produce:
+P1.8 should produce:
 
-- historical P1.3 after-state overlay and source artifacts
-- repaired P1.4 negative harness report
-- updated P1.4 and P1.7 review notes
-- updated validation rule for historical/current delta boundaries
+- `generated/cf0-python-cli-calculator/cf0-historical-state-index.json`
+- a deterministic index emitter/validator if added
+- an explicit P1.3 before-source historical copy if recovered cleanly
+- P1.8 review notes
+- updated validation rule for historical/current state index boundaries
 
 ## Acceptance Criteria
 
-P1.7.R passes only if:
+P1.8 passes only if:
 
-1. P1.4 reruns a clean P1.3 historical positive baseline.
-2. P1.4 report states current code facts and current overlay are not used.
-3. P1.4 negative probes fail for their intended mutation reasons, not because P1.7 current facts lack P1.3 facts.
-4. P1.7 current refactor report still passes.
-5. Current source still supports add/sub/mul.
+1. The state index validates unique states/transitions and exactly one current state.
+2. Every referenced artifact exists and has a deterministic `sha256:` digest.
+3. P1.3 historical states do not point to mutable current source, current facts, or current overlay artifacts.
+4. P1.3 after-state contains old `mul` implementation facts.
+5. P1.7 current state contains `multiply` implementation facts and not old `mul` implementation facts.
+6. P1.4 historical harness and P1.7 current refactor report still pass.
 
 ## Stop Conditions
 
 Stop and report before broadening scope if:
 
-- P1.4 historical harness uses current P1.7 facts or overlay.
+- the index uses current P1.7 artifacts for a historical state.
+- state or transition ids are ambiguous.
+- referenced artifact digests cannot be computed deterministically.
 - P1.4 positive historical baseline does not pass.
 - P1.7 current refactor report stops passing.
 - IntentGraph is described again as a universal source-code replacement.
@@ -134,19 +139,18 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.7.R Historical Delta Baseline Boundary Correction
+P1.8 CF0 Historical State Index and Report Boundary
 ```
 
 Worker should start from:
 
-- `docs/design/intent-unit-model.md`
-- `docs/design/intentgraph-formal-blueprint.md`
-- `docs/language/graphir-boundary.md`
 - `docs/examples/cf0-python-cli-calculator/source/calc.py`
 - `docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json`
 - `tools/verify_code_first_delta.py`
 - `tools/run_cf0_delta_negative_probes.py`
 - `generated/cf0-python-cli-calculator/p1.3-after-code-facts.json`
-- `generated/cf0-python-cli-calculator/p1.7-before-overlay.json`
+- `generated/cf0-python-cli-calculator/p1.3-after-overlay.json`
+- `generated/cf0-python-cli-calculator/p1.3-after-source/calc.py`
+- `generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json`
 
-Worker should not start the next phase or a larger benchmark until P1.7.R review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start the next phase or a larger benchmark until P1.8 review passes and the Coordinator explicitly authorizes the next phase.

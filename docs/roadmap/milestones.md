@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.7.R Historical Delta Baseline Boundary Correction
+P1.8 CF0 Historical State Index and Report Boundary
 ```
 
-This is a focused correction to separate historical P1.3 additive delta evidence from the current P1.7 refactor state, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused CF0 indexing slice that records historical states, current state, artifact digests, and delta transitions so future probes cannot silently mix current artifacts with historical deltas. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -277,3 +277,17 @@ Status: completed on 2026-07-09, with P1.7.R historical baseline correction. See
 Goal: ensure the P1.4 negative harness reruns the P1.3 additive delta against named historical P1.3 after-state facts, overlay, and source rather than current P1.7 refactor artifacts.
 
 Status: completed on 2026-07-09. Review notes are recorded in the P1.4 and P1.7 reviews.
+
+## P1.8: CF0 Historical State Index and Report Boundary
+
+Goal: add a small deterministic CF0 historical state index that records P1.3 before/after states, the current P1.7 refactor state, artifact digests, and the delta transitions connecting them.
+
+Status: current authorized slice. See [P1.8 CF0 Historical State Index Review](../reviews/p1.8-cf0-historical-state-index-review.md).
+
+Non-goals:
+
+- no new behavior delta
+- no general history database
+- no UI/workbench visualization
+- no B0 generated-code pipeline changes
+- no dependency addition
