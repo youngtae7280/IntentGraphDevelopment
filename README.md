@@ -15,7 +15,7 @@ IntentGraph is not just a code graph. It is a source graph that can contain:
 - product intent and requirements
 - code structure and symbols
 - relationships between files, functions, classes, tests, and runtime behavior
-- work contracts and graph deltas
+- semantic graph deltas
 - evidence, validation results, and change history
 - authority, review, and provenance boundaries
 
@@ -38,6 +38,7 @@ Start here:
 
 - [Start Here](docs/START-HERE.md)
 - [Core Thesis](docs/concept/core-thesis.md)
+- [IntentGraph Formal Blueprint](docs/design/intentgraph-formal-blueprint.md)
 - [Glossary](docs/concept/glossary.md)
 - [Non-Goals](docs/concept/non-goals.md)
 - [Milestones](docs/roadmap/milestones.md)
@@ -69,6 +70,7 @@ Worker handoffs must follow:
 - [Start Here](docs/START-HERE.md)
 - [Core Thesis](docs/concept/core-thesis.md)
 - [Core Definition](docs/design/core-definition.md)
+- [IntentGraph Formal Blueprint](docs/design/intentgraph-formal-blueprint.md)
 - [Milestones](docs/roadmap/milestones.md)
 - [Prior-Art Gate](docs/process/prior-art-gate.md)
 - [Late Prior-Art Discovery Protocol](docs/process/late-prior-art-discovery.md)

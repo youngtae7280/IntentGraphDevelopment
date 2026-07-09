@@ -4,7 +4,7 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 ## Current Authorized Milestone
 
-`M1: IntentGraph Language and GraphIR Boundary` is authorized because `M0: Research and Thesis Foundation` passed its milestone review on 2026-07-09.
+`M2: Native Compiler Boundary` is authorized because `M1: IntentGraph Language and GraphIR Boundary` passed its milestone review on 2026-07-09.
 
 ## M0: Research and Thesis Foundation
 
@@ -45,6 +45,8 @@ Quality target: Level 2, Benchmarked Slice Preparation.
 
 Goal: define the smallest source graph language and canonical GraphIR that can describe a tiny program, generated source mapping metadata, evidence, authority, and change history.
 
+Review: [M1 Milestone Review](../reviews/m1-review.md)
+
 Entry criteria:
 
 - M0 passed
@@ -52,6 +54,7 @@ Entry criteria:
 
 Expected output:
 
+- formal blueprint for the source graph, preservation metadata, pass pipeline, and contracts
 - language principles
 - minimal GraphIR shape
 - validation rules
