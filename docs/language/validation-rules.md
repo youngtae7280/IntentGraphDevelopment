@@ -402,6 +402,12 @@ Severity: P0 in P1.5
 
 P1.5 reports may claim selected typed-domain preservation, but must still state that `hiddenState.sourceGraphSnapshot` remains present and that code-only reconstruction does not recover evidence, authority, history, or full Intent Units.
 
+### V409 - B0 Typed Preservation Negative Probes Are Repeatable
+
+Severity: P0 in P1.6
+
+B0 typed preservation must have a committed harness that proves retrofit rejects missing typed metadata, false snapshot boundary claims, missing domains, stale digests, missing records, wrong counts, and unsorted records.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

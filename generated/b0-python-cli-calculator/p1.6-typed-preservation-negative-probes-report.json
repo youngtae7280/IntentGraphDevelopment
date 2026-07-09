@@ -1,0 +1,114 @@
+{
+  "boundaries": {
+    "codeOnlyReconstructionClaimed": false,
+    "dependencyAdded": false,
+    "hiddenStateSourceGraphSnapshotRemoved": false,
+    "typedDomainsExpanded": false
+  },
+  "mode": "b0-typed-preservation-negative-probes",
+  "positiveBaseline": {
+    "domains": [
+      "authority",
+      "evidence",
+      "history",
+      "intentUnits",
+      "unitEdges"
+    ],
+    "metadata": "generated/b0-python-cli-calculator/calc.intentgraph.json",
+    "snapshotStillPresent": true,
+    "typedPreservationVersion": "p1.5-typed-preservation-v0"
+  },
+  "probeCount": 11,
+  "probes": [
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: Metadata missing required field: typedPreservation",
+      "expectedErrorSubstring": "Metadata missing required field: typedPreservation",
+      "expectedFailureObserved": true,
+      "id": "missing-typed-preservation",
+      "mutation": "Remove top-level typedPreservation."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: P1.5 typedPreservation must acknowledge snapshotStillPresent true.",
+      "expectedErrorSubstring": "P1.5 typedPreservation must acknowledge snapshotStillPresent true",
+      "expectedFailureObserved": true,
+      "id": "snapshot-still-present-false",
+      "mutation": "Set typedPreservation.snapshotStillPresent to false."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: typedPreservation missing domain: evidence",
+      "expectedErrorSubstring": "typedPreservation missing domain: evidence",
+      "expectedFailureObserved": true,
+      "id": "missing-domain-evidence",
+      "mutation": "Remove typedPreservation.domains.evidence."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: typedPreservation evidence digest does not match records.",
+      "expectedErrorSubstring": "typedPreservation evidence digest does not match records",
+      "expectedFailureObserved": true,
+      "id": "stale-evidence-digest",
+      "mutation": "Set typedPreservation.domains.evidence.digest to sha256:0000."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: typedPreservation evidence digest does not match records.",
+      "expectedErrorSubstring": "typedPreservation evidence digest does not match records",
+      "expectedFailureObserved": true,
+      "id": "missing-evidence-record",
+      "mutation": "Remove one typed evidence record without updating digest or count."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: typedPreservation evidence count mismatch.",
+      "expectedErrorSubstring": "typedPreservation evidence count mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-evidence-count",
+      "mutation": "Set typedPreservation.domains.evidence.count to 999."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: typedPreservation evidence records must be sorted by id.",
+      "expectedErrorSubstring": "typedPreservation evidence records must be sorted by id",
+      "expectedFailureObserved": true,
+      "id": "unsorted-evidence-records",
+      "mutation": "Reverse typed evidence record order."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: typedPreservation authority digest does not match records.",
+      "expectedErrorSubstring": "typedPreservation authority digest does not match records",
+      "expectedFailureObserved": true,
+      "id": "missing-authority-record",
+      "mutation": "Remove one typed authority record without updating digest or count."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: typedPreservation history digest does not match records.",
+      "expectedErrorSubstring": "typedPreservation history digest does not match records",
+      "expectedFailureObserved": true,
+      "id": "missing-history-record",
+      "mutation": "Remove one typed history record without updating digest or count."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: typedPreservation intentUnits digest does not match records.",
+      "expectedErrorSubstring": "typedPreservation intentUnits digest does not match records",
+      "expectedFailureObserved": true,
+      "id": "missing-intent-unit-record",
+      "mutation": "Remove one typed Intent Unit record without updating digest or count."
+    },
+    {
+      "actualExitCode": 1,
+      "actualMessage": "retrofit failed: typedPreservation unitEdges digest does not match records.",
+      "expectedErrorSubstring": "typedPreservation unitEdges digest does not match records",
+      "expectedFailureObserved": true,
+      "id": "missing-unit-edge-record",
+      "mutation": "Remove one typed unit edge record without updating digest or count."
+    }
+  ],
+  "reportVersion": "0.1.0",
+  "result": "pass"
+}
