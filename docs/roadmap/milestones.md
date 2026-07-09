@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.1 Intent Unit Overlay Mapping Revision
+P1.2 Tiny Code-First Maintenance Overlay Probe
 ```
 
-This is a Phase 1 overlay mapping slice only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a Phase 1 code-first overlay probe only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -191,7 +191,7 @@ Quality target: Level 2 or higher.
 
 Do not open the next milestone until the current milestone has a written milestone review.
 
-After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.1 only.
+After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.2 only.
 
 ## P1.R: Reframe IntentGraph as Semantic Overlay
 
@@ -234,4 +234,10 @@ Status: completed on 2026-07-09. See [P1.0 Intent Unit Grammar Review](../review
 
 Goal: revise the Phase 0 flat GraphIR shape into Intent Unit centered overlay mappings without losing the B0 generated-code experiment, evidence, authority, history, AI proposal, and workbench boundaries.
 
-Status: active after P1.R coordinator approval.
+Status: completed on 2026-07-09. See [P1.1 Intent Unit Overlay Mapping Review](../reviews/p1.1-intent-unit-overlay-mapping-review.md).
+
+## P1.2: Tiny Code-First Maintenance Overlay Probe
+
+Goal: prove the corrected semantic-overlay architecture on a tiny hand-written Python source fixture by extracting code facts, mapping Intent Units to those facts, and verifying behavior/mapping/evidence/authority/history without source text equality or hidden generated-code snapshots.
+
+Status: active after P1.1 coordinator approval.

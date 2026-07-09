@@ -1,0 +1,410 @@
+{
+  "overlayVersion": "0.1.0",
+  "overlayId": "ig.cf0.python-cli-calculator",
+  "benchmarkId": "CF0-python-cli-calculator",
+  "title": "CF0 Python CLI Calculator Code-First Overlay",
+  "status": "p1.2-code-first-overlay-fixture",
+  "developmentStateModel": {
+    "model": "D = (I, C, X, M, E, A, H)",
+    "I": "intent / behavior / verification graph",
+    "C": "hand-written source code artifacts",
+    "X": "deterministically extracted code fact graph",
+    "M": "mapping between I and X/C",
+    "E": "evidence",
+    "A": "authority",
+    "H": "semantic history",
+    "mode": "code-first-maintenance-overlay",
+    "sourceTextEqualityRequired": false,
+    "hiddenGeneratedCodeSnapshotUsed": false
+  },
+  "sourceArtifacts": [
+    {
+      "id": "source.calc.py",
+      "path": "calc.py",
+      "language": "python",
+      "sourceRole": "hand-written",
+      "expectedDigestFromExtractor": true
+    }
+  ],
+  "intentUnits": [
+    {
+      "id": "unit.behavior.add",
+      "kind": "behavior",
+      "status": "accepted",
+      "contract": {
+        "summary": "python calc.py add LEFT RIGHT prints LEFT plus RIGHT.",
+        "acceptedDevelopmentCommitment": "The add behavior is accepted as a code-first overlay behavior unit."
+      },
+      "codeRefs": [
+        {
+          "id": "codeRef.add.function",
+          "artifactId": "source.calc.py",
+          "factId": "fact.function.add",
+          "refKind": "symbol",
+          "symbol": "add",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.add.function",
+          "factId": "fact.function.add",
+          "expectedFactKind": "function"
+        },
+        {
+          "id": "codeFactRef.add.return",
+          "factId": "fact.function.add.return.left_plus_right",
+          "expectedFactKind": "return-expression"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.add.behavior-to-code",
+          "obligationKind": "behavior-to-code-fact",
+          "mode": "code-first-maintenance-overlay",
+          "intentIds": [
+            "intent.behavior.add"
+          ],
+          "codeRefIds": [
+            "codeRef.add.function"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.add.function",
+            "codeFactRef.add.return"
+          ],
+          "verificationIds": [
+            "test.case.add"
+          ],
+          "evidenceIds": [
+            "evidence.extractor-output",
+            "evidence.behavior-smoke",
+            "evidence.overlay-verifier"
+          ],
+          "authorityIds": [
+            "authority.record.p1.2-human"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ],
+      "verification": {
+        "behaviorSmoke": {
+          "command": "python calc.py add 2 3",
+          "expectedStdout": "5\n",
+          "expectedExitCode": 0
+        }
+      },
+      "evidence": [
+        "evidence.extractor-output",
+        "evidence.behavior-smoke",
+        "evidence.overlay-verifier"
+      ],
+      "authority": [
+        "authority.record.p1.2-human"
+      ],
+      "history": [
+        "history.delta.p1.2-code-first-overlay"
+      ],
+      "admission": {
+        "stableId": true,
+        "acceptedCommitment": true,
+        "mappingBoundary": true,
+        "codeRefBoundary": true,
+        "codeFactBoundary": true,
+        "verificationObligation": true,
+        "evidenceBoundary": true,
+        "authorityBoundary": true,
+        "codeTextContained": false,
+        "rawUtterance": false,
+        "hypothesisOnly": false
+      }
+    },
+    {
+      "id": "unit.behavior.sub",
+      "kind": "behavior",
+      "status": "accepted",
+      "contract": {
+        "summary": "python calc.py sub LEFT RIGHT prints LEFT minus RIGHT.",
+        "acceptedDevelopmentCommitment": "The subtract behavior is accepted as a code-first overlay behavior unit."
+      },
+      "codeRefs": [
+        {
+          "id": "codeRef.sub.function",
+          "artifactId": "source.calc.py",
+          "factId": "fact.function.sub",
+          "refKind": "symbol",
+          "symbol": "sub",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.sub.function",
+          "factId": "fact.function.sub",
+          "expectedFactKind": "function"
+        },
+        {
+          "id": "codeFactRef.sub.return",
+          "factId": "fact.function.sub.return.left_minus_right",
+          "expectedFactKind": "return-expression"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.sub.behavior-to-code",
+          "obligationKind": "behavior-to-code-fact",
+          "mode": "code-first-maintenance-overlay",
+          "intentIds": [
+            "intent.behavior.sub"
+          ],
+          "codeRefIds": [
+            "codeRef.sub.function"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.sub.function",
+            "codeFactRef.sub.return"
+          ],
+          "verificationIds": [
+            "test.case.sub"
+          ],
+          "evidenceIds": [
+            "evidence.extractor-output",
+            "evidence.behavior-smoke",
+            "evidence.overlay-verifier"
+          ],
+          "authorityIds": [
+            "authority.record.p1.2-human"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ],
+      "verification": {
+        "behaviorSmoke": {
+          "command": "python calc.py sub 5 2",
+          "expectedStdout": "3\n",
+          "expectedExitCode": 0
+        }
+      },
+      "evidence": [
+        "evidence.extractor-output",
+        "evidence.behavior-smoke",
+        "evidence.overlay-verifier"
+      ],
+      "authority": [
+        "authority.record.p1.2-human"
+      ],
+      "history": [
+        "history.delta.p1.2-code-first-overlay"
+      ],
+      "admission": {
+        "stableId": true,
+        "acceptedCommitment": true,
+        "mappingBoundary": true,
+        "codeRefBoundary": true,
+        "codeFactBoundary": true,
+        "verificationObligation": true,
+        "evidenceBoundary": true,
+        "authorityBoundary": true,
+        "codeTextContained": false,
+        "rawUtterance": false,
+        "hypothesisOnly": false
+      }
+    },
+    {
+      "id": "unit.product.calculator",
+      "kind": "product",
+      "status": "accepted",
+      "contract": {
+        "summary": "Maintain a hand-written Python CLI calculator with add and subtract behavior.",
+        "acceptedDevelopmentCommitment": "The calculator product unit is accepted as the parent code-first overlay unit."
+      },
+      "codeRefs": [
+        {
+          "id": "codeRef.product.file",
+          "artifactId": "source.calc.py",
+          "factId": "fact.file.calc.py",
+          "refKind": "file",
+          "ownership": "reference-only"
+        },
+        {
+          "id": "codeRef.product.main",
+          "artifactId": "source.calc.py",
+          "factId": "fact.function.main",
+          "refKind": "symbol",
+          "symbol": "main",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.product.file",
+          "factId": "fact.file.calc.py",
+          "expectedFactKind": "file"
+        },
+        {
+          "id": "codeFactRef.product.main",
+          "factId": "fact.function.main",
+          "expectedFactKind": "function"
+        },
+        {
+          "id": "codeFactRef.product.main.calls-add",
+          "factId": "fact.function.main.calls.add",
+          "expectedFactKind": "call"
+        },
+        {
+          "id": "codeFactRef.product.main.calls-sub",
+          "factId": "fact.function.main.calls.sub",
+          "expectedFactKind": "call"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.product.cli-to-main",
+          "obligationKind": "product-contract-to-code-facts",
+          "mode": "code-first-maintenance-overlay",
+          "intentIds": [
+            "intent.product.calculator"
+          ],
+          "codeRefIds": [
+            "codeRef.product.file",
+            "codeRef.product.main"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.product.file",
+            "codeFactRef.product.main",
+            "codeFactRef.product.main.calls-add",
+            "codeFactRef.product.main.calls-sub"
+          ],
+          "verificationIds": [
+            "test.case.add",
+            "test.case.sub"
+          ],
+          "evidenceIds": [
+            "evidence.extractor-output",
+            "evidence.behavior-smoke",
+            "evidence.overlay-verifier"
+          ],
+          "authorityIds": [
+            "authority.record.p1.2-human"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ],
+      "verification": {
+        "behaviorSmokeIds": [
+          "test.case.add",
+          "test.case.sub"
+        ]
+      },
+      "evidence": [
+        "evidence.extractor-output",
+        "evidence.behavior-smoke",
+        "evidence.overlay-verifier"
+      ],
+      "authority": [
+        "authority.record.p1.2-human"
+      ],
+      "history": [
+        "history.delta.p1.2-code-first-overlay"
+      ],
+      "admission": {
+        "stableId": true,
+        "acceptedCommitment": true,
+        "mappingBoundary": true,
+        "codeRefBoundary": true,
+        "codeFactBoundary": true,
+        "verificationObligation": true,
+        "evidenceBoundary": true,
+        "authorityBoundary": true,
+        "codeTextContained": false,
+        "rawUtterance": false,
+        "hypothesisOnly": false
+      }
+    }
+  ],
+  "unitEdges": [
+    {
+      "id": "unit-edge.product-refines-add",
+      "kind": "refines",
+      "from": "unit.product.calculator",
+      "to": "unit.behavior.add"
+    },
+    {
+      "id": "unit-edge.product-refines-sub",
+      "kind": "refines",
+      "from": "unit.product.calculator",
+      "to": "unit.behavior.sub"
+    }
+  ],
+  "verification": [
+    {
+      "id": "test.case.add",
+      "kind": "behavior-smoke",
+      "command": [
+        "python",
+        "calc.py",
+        "add",
+        "2",
+        "3"
+      ],
+      "expectedStdout": "5\n",
+      "expectedExitCode": 0
+    },
+    {
+      "id": "test.case.sub",
+      "kind": "behavior-smoke",
+      "command": [
+        "python",
+        "calc.py",
+        "sub",
+        "5",
+        "2"
+      ],
+      "expectedStdout": "3\n",
+      "expectedExitCode": 0
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence.extractor-output",
+      "kind": "code-facts-report",
+      "status": "planned",
+      "artifactRef": "generated/cf0-python-cli-calculator/code-facts.json"
+    },
+    {
+      "id": "evidence.behavior-smoke",
+      "kind": "behavior-smoke-report",
+      "status": "planned",
+      "artifactRef": "generated/cf0-python-cli-calculator/code-first-overlay-report.json"
+    },
+    {
+      "id": "evidence.overlay-verifier",
+      "kind": "overlay-verifier-report",
+      "status": "planned",
+      "artifactRef": "generated/cf0-python-cli-calculator/code-first-overlay-report.json"
+    }
+  ],
+  "authority": [
+    {
+      "id": "authority.record.p1.2-human",
+      "proposer": "IntentGraphDevelopment Roadmap Orchestrator",
+      "proposerType": "human",
+      "requiredAuthority": "roadmap-orchestrator",
+      "validator": "p1.2-code-first-overlay-verifier",
+      "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+      "decidedByType": "human",
+      "decision": "accepted-code-first-overlay-probe",
+      "decisionStatus": "accepted"
+    }
+  ],
+  "history": [
+    {
+      "id": "history.delta.p1.2-code-first-overlay",
+      "sequence": 1,
+      "changeType": "create-code-first-overlay-probe",
+      "status": "accepted",
+      "summary": "Create CF0 hand-written source, extracted code facts, and semantic overlay mappings.",
+      "gitCommit": null,
+      "gitCommitBoundary": "pending-current-milestone"
+    }
+  ]
+}

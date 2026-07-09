@@ -74,6 +74,16 @@ Behavior(C') ~= Behavior(C)
 
 Code-first maintenance verifies behavior, contract, evidence, authority, and mapping preservation. It does not require `C' == C`.
 
+P1.2 adds the first tiny code-first probe:
+
+```text
+C -> Extract(C) = X
+I + X -> M
+Verify(I, C, X, M, E, A, H) -> pass/fail
+```
+
+The CF0 probe uses hand-written Python source and extracted code facts. It does not use generated-code preservation metadata or a hidden generated-code snapshot.
+
 Definitions for graph-first mode:
 
 - `G`: intent graph used as input to a generated-code mode.

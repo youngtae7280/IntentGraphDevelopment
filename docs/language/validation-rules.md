@@ -314,6 +314,38 @@ Severity: P0 in P1.1
 
 Every accepted Intent Unit must declare non-empty `mappingObligations`. Each obligation must link intent nodes, code refs, code fact refs, verification IDs, evidence IDs, and authority IDs. `sourceTextEqualityRequired` must be `false`.
 
+## P1.2 Code-First Overlay Rules
+
+### V300 - Hand-Written Source
+
+Severity: P0 in P1.2
+
+CF0 source artifacts must be marked as hand-written. The code-first verifier must not invoke graph-to-code generation.
+
+### V301 - Extracted Code Facts
+
+Severity: P0 in P1.2
+
+Extractor output must include stable fact IDs, source artifact path, source digest, source mode, confidence, and source location where applicable.
+
+### V302 - Code Fact Resolution
+
+Severity: P0 in P1.2
+
+Every CF0 `codeFactRef.factId` must resolve to an extracted code fact in `X`.
+
+### V303 - No Source Text Equality Requirement
+
+Severity: P0 in P1.2
+
+CF0 verification must report behavior and mapping preservation. It must not require `C' == C` or source text equality.
+
+### V304 - No Hidden Generated-Code Snapshot
+
+Severity: P0 in P1.2
+
+CF0 verification must not depend on `hiddenState.sourceGraphSnapshot` or generated-code preservation metadata.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

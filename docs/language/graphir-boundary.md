@@ -12,6 +12,8 @@ GraphIR v0.1 was intentionally small. It described the `B0-python-cli-calculator
 
 GraphIR v0.2 adds first-class Intent Units while keeping the Phase 0 node and edge graph as the internal fact graph. Under P1.1, those units are overlay mapping units: they link to implementation through code references, code facts, and mapping obligations rather than owning code text. The v0.2 grammar is defined in [GraphIR v0.2 Intent Units](graphir-v0.2-intent-units.md).
 
+P1.2 adds a separate CF0 overlay fixture at `docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json`. CF0 is not a generated-code GraphIR round-trip fixture; it is a code-first overlay probe over hand-written source and deterministic code facts.
+
 GraphIR v0.1 includes:
 
 - graph identity
