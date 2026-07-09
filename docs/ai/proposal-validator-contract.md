@@ -48,6 +48,10 @@ For M6:
 
 The aggregate report passes only when each proposal result matches its `expectedValidation`, the fixture set includes at least one accepted proposal and one rejected proposal, and no accepted proposal treats AI as authority.
 
+P1.0 note: accepted-for-application proposals do not automatically mutate Intent Unit membership. Unit membership changes require a later graph delta with deterministic validation and accepted authority.
+
+The aggregate report records this boundary as `summary.automaticUnitMembershipMutation = false`.
+
 ## Non-Goals
 
 M6 does not implement:

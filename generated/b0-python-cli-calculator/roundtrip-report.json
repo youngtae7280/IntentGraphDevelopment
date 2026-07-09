@@ -9,6 +9,7 @@
       "evidence records",
       "authority records",
       "semantic graph history",
+      "intent unit contracts and unit refinement structure",
       "stable source graph IDs",
       "metadata source-map node IDs",
       "accepted change state",
@@ -19,12 +20,12 @@
   },
   "counts": {
     "originalEdgesByKind": {
-      "authorizes": 5,
+      "authorizes": 7,
       "calls": 2,
-      "changes": 8,
+      "changes": 13,
       "contains": 4,
       "decomposes_to": 2,
-      "evidenced_by": 4,
+      "evidenced_by": 5,
       "handled_by": 1,
       "maps_from": 5,
       "maps_to": 5,
@@ -32,26 +33,28 @@
       "tested_by": 2,
       "uses_concept": 4
     },
+    "originalIntentUnits": 3,
     "originalNodesByKind": {
-      "authority.record": 2,
+      "authority.record": 3,
       "code.cli": 1,
       "code.function": 3,
       "code.module": 1,
       "domain.concept": 2,
-      "evidence.record": 3,
-      "history.delta": 2,
+      "evidence.record": 4,
+      "history.delta": 3,
       "intent.requirement": 3,
       "metadata.sourceMap": 5,
       "projection.target": 1,
       "test.case": 2
     },
+    "originalUnitEdges": 3,
     "reconstructedEdgesByKind": {
-      "authorizes": 5,
+      "authorizes": 7,
       "calls": 2,
-      "changes": 8,
+      "changes": 13,
       "contains": 4,
       "decomposes_to": 2,
-      "evidenced_by": 4,
+      "evidenced_by": 5,
       "handled_by": 1,
       "maps_from": 5,
       "maps_to": 5,
@@ -59,30 +62,32 @@
       "tested_by": 2,
       "uses_concept": 4
     },
+    "reconstructedIntentUnits": 3,
     "reconstructedNodesByKind": {
-      "authority.record": 2,
+      "authority.record": 3,
       "code.cli": 1,
       "code.function": 3,
       "code.module": 1,
       "domain.concept": 2,
-      "evidence.record": 3,
-      "history.delta": 2,
+      "evidence.record": 4,
+      "history.delta": 3,
       "intent.requirement": 3,
       "metadata.sourceMap": 5,
       "projection.target": 1,
       "test.case": 2
-    }
+    },
+    "reconstructedUnitEdges": 3
   },
   "diagnostics": [
     "preconditions passed",
     "normalized metadata-backed graph equality passed"
   ],
   "digests": {
-    "metadataGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
-    "normalizedOriginalGraph": "sha256:a7c40eb79fbebe9209ec1dc96f88b9229032ebabc70d210fd21f02aa25376e24",
-    "normalizedReconstructedGraph": "sha256:a7c40eb79fbebe9209ec1dc96f88b9229032ebabc70d210fd21f02aa25376e24",
-    "originalGraph": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
-    "reconstructedGraph": "sha256:142034c5648c9dd45e9a3de1acd04190509e80042c7123b8b96ecbaef70e39bb"
+    "metadataGraphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+    "normalizedOriginalGraph": "sha256:ee2fc7251d9fe20644412daa41253f98a3ac52b1193d6eecd01609942317fec5",
+    "normalizedReconstructedGraph": "sha256:ee2fc7251d9fe20644412daa41253f98a3ac52b1193d6eecd01609942317fec5",
+    "originalGraph": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+    "reconstructedGraph": "sha256:196199907405e2edede1e3d22efdbd2be74d462ca3174970c8824ce80494fb31"
   },
   "equalityMode": "GraphEqualAfterNormalization",
   "graphEqual": true,
@@ -109,26 +114,30 @@
       "authority": {
         "domainNodeIds": [
           "authority.record.initial-human",
-          "authority.record.m5-human-review"
+          "authority.record.m5-human-review",
+          "authority.record.p1-unit-grammar"
         ],
         "matched": true,
-        "originalDigest": "sha256:1b8002d248aa004dd35de8e6eb918df0c61ad64419c1a53d378ca69150189d7a",
-        "reconstructedDigest": "sha256:1b8002d248aa004dd35de8e6eb918df0c61ad64419c1a53d378ca69150189d7a",
+        "originalDigest": "sha256:ccd614090dd0470a0bd853a3b2545b56f225e2ea49b8d774498932b1f99b3be5",
+        "reconstructedDigest": "sha256:ccd614090dd0470a0bd853a3b2545b56f225e2ea49b8d774498932b1f99b3be5",
         "reconstructedDomainNodeIds": [
           "authority.record.initial-human",
-          "authority.record.m5-human-review"
+          "authority.record.m5-human-review",
+          "authority.record.p1-unit-grammar"
         ]
       },
       "evidence": {
         "domainNodeIds": [
+          "evidence.record.p1-unit-grammar-review",
           "evidence.record.requirement-note",
           "evidence.record.roundtrip-report",
           "evidence.record.test-plan"
         ],
         "matched": true,
-        "originalDigest": "sha256:7eac8bd6ad1921b5b0c8ec886525bee6ff5621e01a5c950cf36a14ae440ca829",
-        "reconstructedDigest": "sha256:7eac8bd6ad1921b5b0c8ec886525bee6ff5621e01a5c950cf36a14ae440ca829",
+        "originalDigest": "sha256:04630925475a359893c8c9f60fc3db97f560025418f29d1c6a6f871c11c70e54",
+        "reconstructedDigest": "sha256:04630925475a359893c8c9f60fc3db97f560025418f29d1c6a6f871c11c70e54",
         "reconstructedDomainNodeIds": [
+          "evidence.record.p1-unit-grammar-review",
           "evidence.record.requirement-note",
           "evidence.record.roundtrip-report",
           "evidence.record.test-plan"
@@ -137,40 +146,83 @@
       "history": {
         "domainNodeIds": [
           "history.delta.initial-graph",
-          "history.delta.m5-evidence-authority-history"
+          "history.delta.m5-evidence-authority-history",
+          "history.delta.p1-intent-unit-grammar"
         ],
         "matched": true,
-        "originalDigest": "sha256:8d453f4d999c2e44cb714403c22941cce792f98d854a61f0fb4102259e09a3b0",
-        "reconstructedDigest": "sha256:8d453f4d999c2e44cb714403c22941cce792f98d854a61f0fb4102259e09a3b0",
+        "originalDigest": "sha256:55ae0a26554b91200645e31c3496b701dd4324969e6c19fb6f31c6609bb13f30",
+        "reconstructedDigest": "sha256:55ae0a26554b91200645e31c3496b701dd4324969e6c19fb6f31c6609bb13f30",
         "reconstructedDomainNodeIds": [
           "history.delta.initial-graph",
-          "history.delta.m5-evidence-authority-history"
+          "history.delta.m5-evidence-authority-history",
+          "history.delta.p1-intent-unit-grammar"
         ]
       }
     },
+    "intentUnits": {
+      "matched": true,
+      "original": {
+        "errors": [],
+        "refinementEdges": [
+          "unit-edge.product-refines-add",
+          "unit-edge.product-refines-sub"
+        ],
+        "result": "pass",
+        "unitCount": 3,
+        "unitEdgeCount": 3,
+        "unitIds": [
+          "unit.behavior.add",
+          "unit.behavior.sub",
+          "unit.product.calculator"
+        ]
+      },
+      "originalDigest": "sha256:25dd4217d270f318ae4f01b2ed2630c6538b7eaf22e54418c4bfa66f53a1f2ca",
+      "reconstructed": {
+        "errors": [],
+        "refinementEdges": [
+          "unit-edge.product-refines-add",
+          "unit-edge.product-refines-sub"
+        ],
+        "result": "pass",
+        "unitCount": 3,
+        "unitEdgeCount": 3,
+        "unitIds": [
+          "unit.behavior.add",
+          "unit.behavior.sub",
+          "unit.product.calculator"
+        ]
+      },
+      "reconstructedDigest": "sha256:25dd4217d270f318ae4f01b2ed2630c6538b7eaf22e54418c4bfa66f53a1f2ca"
+    },
     "original": {
       "authorityPreserved": true,
-      "authorityRecords": 2,
+      "authorityRecords": 3,
       "evidencePreserved": true,
-      "evidenceRecords": 3,
-      "historyDeltas": 2,
+      "evidenceRecords": 4,
+      "historyDeltas": 3,
       "historyPreserved": true
     },
     "reconstructed": {
       "authorityPreserved": true,
-      "authorityRecords": 2,
+      "authorityRecords": 3,
       "evidencePreserved": true,
-      "evidenceRecords": 3,
-      "historyDeltas": 2,
+      "evidenceRecords": 4,
+      "historyDeltas": 3,
       "historyPreserved": true
     }
   },
   "rawStatuses": {
     "allowedPair": [
-      "m1-fixture",
-      "m3-reconstructed"
+      [
+        "m1-fixture",
+        "m3-reconstructed"
+      ],
+      [
+        "p1-unit-fixture",
+        "m3-reconstructed"
+      ]
     ],
-    "original": "m1-fixture",
+    "original": "p1-unit-fixture",
     "reconstructed": "m3-reconstructed"
   },
   "reportVersion": "0.2.0",
@@ -178,10 +230,10 @@
   "semanticValidation": {
     "original": {
       "authority": {
-        "acceptedCount": 2,
+        "acceptedCount": 3,
         "aiFinalAuthorityCount": 0,
         "errors": [],
-        "recordCount": 2,
+        "recordCount": 3,
         "records": [
           {
             "allowedAuthorizedTargets": [
@@ -227,18 +279,67 @@
             "proposerType": "human",
             "requiredAuthority": "roadmap-orchestrator",
             "validator": "m5-semantic-verifier"
+          },
+          {
+            "allowedAuthorizedTargets": [
+              "evidence.record.p1-unit-grammar-review",
+              "history.delta.p1-intent-unit-grammar"
+            ],
+            "authorizedTargetKinds": {
+              "evidence.record.p1-unit-grammar-review": "evidence.record",
+              "history.delta.p1-intent-unit-grammar": "history.delta"
+            },
+            "authorizedTargets": [
+              "evidence.record.p1-unit-grammar-review",
+              "history.delta.p1-intent-unit-grammar"
+            ],
+            "decidedByType": "human",
+            "decision": "accepted-intent-unit-grammar-revision",
+            "decisionStatus": "accepted",
+            "id": "authority.record.p1-unit-grammar",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "p1.0-unit-grammar-review"
           }
         ],
         "result": "pass"
       },
       "errors": [],
       "evidence": {
-        "acceptedCount": 3,
+        "acceptedCount": 4,
         "errors": [],
-        "observedCount": 3,
+        "observedCount": 4,
         "observedDoesNotImplyAccepted": true,
-        "recordCount": 3,
+        "recordCount": 4,
         "records": [
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.p1-unit-grammar",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/reviews/p1.0-intent-unit-grammar-review.md",
+                "resolution": "local-path"
+              }
+            ],
+            "artifactRefs": [
+              "docs/reviews/p1.0-intent-unit-grammar-review.md"
+            ],
+            "authorizedBy": [
+              "authority.record.p1-unit-grammar"
+            ],
+            "claimScope": null,
+            "evidenceType": "milestone-review",
+            "id": "evidence.record.p1-unit-grammar-review",
+            "linkedFrom": [
+              "intent.product.calculator"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": null,
+            "status": "pass"
+          },
           {
             "acceptanceStatus": "accepted",
             "acceptedByAuthority": "authority.record.initial-human",
@@ -336,13 +437,13 @@
         "result": "pass"
       },
       "history": {
-        "acceptedCount": 2,
+        "acceptedCount": 3,
         "acceptedSequenceContiguous": true,
         "errors": [],
         "gitLinkedCount": 1,
         "gitVerifiedCount": 1,
-        "pendingCurrentMilestoneCount": 1,
-        "recordCount": 2,
+        "pendingCurrentMilestoneCount": 2,
+        "recordCount": 3,
         "records": [
           {
             "acceptedAuthorizers": [
@@ -384,6 +485,28 @@
             "gitCommitVerified": false,
             "id": "history.delta.m5-evidence-authority-history",
             "sequence": 2,
+            "status": "accepted"
+          },
+          {
+            "acceptedAuthorizers": [
+              "authority.record.p1-unit-grammar"
+            ],
+            "authorizedBy": [
+              "authority.record.p1-unit-grammar"
+            ],
+            "changeType": "refine-graph-grammar",
+            "changedTargets": [
+              "authority.record.p1-unit-grammar",
+              "evidence.record.p1-unit-grammar-review",
+              "intent.behavior.add",
+              "intent.behavior.sub",
+              "intent.product.calculator"
+            ],
+            "gitCommit": null,
+            "gitCommitBoundary": "pending-current-milestone",
+            "gitCommitVerified": false,
+            "id": "history.delta.p1-intent-unit-grammar",
+            "sequence": 3,
             "status": "accepted"
           }
         ],
@@ -393,10 +516,10 @@
     },
     "reconstructed": {
       "authority": {
-        "acceptedCount": 2,
+        "acceptedCount": 3,
         "aiFinalAuthorityCount": 0,
         "errors": [],
-        "recordCount": 2,
+        "recordCount": 3,
         "records": [
           {
             "allowedAuthorizedTargets": [
@@ -442,18 +565,67 @@
             "proposerType": "human",
             "requiredAuthority": "roadmap-orchestrator",
             "validator": "m5-semantic-verifier"
+          },
+          {
+            "allowedAuthorizedTargets": [
+              "evidence.record.p1-unit-grammar-review",
+              "history.delta.p1-intent-unit-grammar"
+            ],
+            "authorizedTargetKinds": {
+              "evidence.record.p1-unit-grammar-review": "evidence.record",
+              "history.delta.p1-intent-unit-grammar": "history.delta"
+            },
+            "authorizedTargets": [
+              "evidence.record.p1-unit-grammar-review",
+              "history.delta.p1-intent-unit-grammar"
+            ],
+            "decidedByType": "human",
+            "decision": "accepted-intent-unit-grammar-revision",
+            "decisionStatus": "accepted",
+            "id": "authority.record.p1-unit-grammar",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "p1.0-unit-grammar-review"
           }
         ],
         "result": "pass"
       },
       "errors": [],
       "evidence": {
-        "acceptedCount": 3,
+        "acceptedCount": 4,
         "errors": [],
-        "observedCount": 3,
+        "observedCount": 4,
         "observedDoesNotImplyAccepted": true,
-        "recordCount": 3,
+        "recordCount": 4,
         "records": [
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.p1-unit-grammar",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/reviews/p1.0-intent-unit-grammar-review.md",
+                "resolution": "local-path"
+              }
+            ],
+            "artifactRefs": [
+              "docs/reviews/p1.0-intent-unit-grammar-review.md"
+            ],
+            "authorizedBy": [
+              "authority.record.p1-unit-grammar"
+            ],
+            "claimScope": null,
+            "evidenceType": "milestone-review",
+            "id": "evidence.record.p1-unit-grammar-review",
+            "linkedFrom": [
+              "intent.product.calculator"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": null,
+            "status": "pass"
+          },
           {
             "acceptanceStatus": "accepted",
             "acceptedByAuthority": "authority.record.initial-human",
@@ -551,13 +723,13 @@
         "result": "pass"
       },
       "history": {
-        "acceptedCount": 2,
+        "acceptedCount": 3,
         "acceptedSequenceContiguous": true,
         "errors": [],
         "gitLinkedCount": 1,
         "gitVerifiedCount": 1,
-        "pendingCurrentMilestoneCount": 1,
-        "recordCount": 2,
+        "pendingCurrentMilestoneCount": 2,
+        "recordCount": 3,
         "records": [
           {
             "acceptedAuthorizers": [
@@ -599,6 +771,28 @@
             "gitCommitVerified": false,
             "id": "history.delta.m5-evidence-authority-history",
             "sequence": 2,
+            "status": "accepted"
+          },
+          {
+            "acceptedAuthorizers": [
+              "authority.record.p1-unit-grammar"
+            ],
+            "authorizedBy": [
+              "authority.record.p1-unit-grammar"
+            ],
+            "changeType": "refine-graph-grammar",
+            "changedTargets": [
+              "authority.record.p1-unit-grammar",
+              "evidence.record.p1-unit-grammar-review",
+              "intent.behavior.add",
+              "intent.behavior.sub",
+              "intent.product.calculator"
+            ],
+            "gitCommit": null,
+            "gitCommitBoundary": "pending-current-milestone",
+            "gitCommitVerified": false,
+            "id": "history.delta.p1-intent-unit-grammar",
+            "sequence": 3,
             "status": "accepted"
           }
         ],

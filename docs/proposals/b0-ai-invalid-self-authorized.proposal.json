@@ -8,7 +8,7 @@
   },
   "target": {
     "graphId": "ig.bench.b0.python-cli-calculator",
-    "baseGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678"
+    "baseGraphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd"
   },
   "intent": {
     "summary": "Attempt to add a duplicate product node while using AI as final authority."
@@ -28,7 +28,9 @@
     }
   ],
   "requiredAcceptedEvidence": [],
-  "deterministicChecks": ["ProposalWellFormed"],
+  "deterministicChecks": [
+    "ProposalWellFormed"
+  ],
   "decision": {
     "decisionStatus": "accepted",
     "authorityRecordId": "authority.record.missing-ai-authority",

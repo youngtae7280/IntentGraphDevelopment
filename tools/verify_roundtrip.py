@@ -57,6 +57,10 @@ def normalize_graph(graph: dict[str, Any]) -> dict[str, Any]:
         normalized["nodes"] = sorted(normalized["nodes"], key=lambda node: node["id"])
     if isinstance(normalized.get("edges"), list):
         normalized["edges"] = sorted(normalized["edges"], key=lambda edge: edge["id"])
+    if isinstance(normalized.get("intentUnits"), list):
+        normalized["intentUnits"] = sorted(normalized["intentUnits"], key=lambda unit: unit["id"])
+    if isinstance(normalized.get("unitEdges"), list):
+        normalized["unitEdges"] = sorted(normalized["unitEdges"], key=lambda edge: edge["id"])
     return normalized
 
 
@@ -205,8 +209,8 @@ def require_preconditions(
     original_digest = digest_graph(original)
     if metadata.get("graphDigest") != original_digest:
         raise VerifyError("Metadata graphDigest does not match original graph digest.")
-    if original.get("status") != "m1-fixture":
-        raise VerifyError("Original graph must have status m1-fixture.")
+    if original.get("status") not in {"m1-fixture", "p1-unit-fixture"}:
+        raise VerifyError("Original graph must have status m1-fixture or p1-unit-fixture.")
     if reconstructed.get("status") != "m3-reconstructed":
         raise VerifyError("Reconstructed graph must have status m3-reconstructed.")
     if code_only.get("claim") != "lossy-code-only-projection":
@@ -226,6 +230,144 @@ def domain_status(graph: dict[str, Any]) -> dict[str, Any]:
         "evidencePreserved": node_counts.get("evidence.record", 0) > 0,
         "authorityPreserved": node_counts.get("authority.record", 0) > 0,
         "historyPreserved": node_counts.get("history.delta", 0) > 0,
+    }
+
+
+def unit_indexes(graph: dict[str, Any]) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
+    units = {
+        unit["id"]: unit
+        for unit in graph.get("intentUnits", [])
+        if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+    }
+    unit_edges = {
+        edge["id"]: edge
+        for edge in graph.get("unitEdges", [])
+        if isinstance(edge, dict) and isinstance(edge.get("id"), str)
+    }
+    return units, unit_edges
+
+
+def validate_unit_structure(graph: dict[str, Any]) -> dict[str, Any]:
+    if graph.get("graphirVersion") != "0.2.0":
+        return {
+            "result": "not-applicable",
+            "unitCount": 0,
+            "unitEdgeCount": 0,
+            "unitIds": [],
+            "refinementEdges": [],
+            "errors": [],
+        }
+    nodes, edges = graph_indexes(graph)
+    units, unit_edges = unit_indexes(graph)
+    errors: list[str] = []
+    required_units = {"unit.product.calculator", "unit.behavior.add", "unit.behavior.sub"}
+    required_fields = {
+        "id",
+        "kind",
+        "status",
+        "contract",
+        "internalGraph",
+        "projection",
+        "reconstruction",
+        "verification",
+        "evidence",
+        "authority",
+        "history",
+        "admission",
+    }
+    for unit_id, unit in units.items():
+        missing = sorted(required_fields - set(unit))
+        if missing:
+            errors.append(f"{unit_id} missing unit fields: {missing}")
+        if unit.get("status") != "accepted":
+            errors.append(f"{unit_id} must be accepted in the B0 unit slice")
+        contract = unit.get("contract")
+        if not isinstance(contract, dict) or not contract.get("summary"):
+            errors.append(f"{unit_id} missing contract summary")
+        internal_graph = unit.get("internalGraph")
+        if not isinstance(internal_graph, dict):
+            errors.append(f"{unit_id} internalGraph must be an object")
+            internal_graph = {}
+        for node_id in internal_graph.get("nodeIds", []):
+            if node_id not in nodes:
+                errors.append(f"{unit_id} references missing internal node: {node_id}")
+        for edge_id in internal_graph.get("edgeIds", []):
+            if edge_id not in edges:
+                errors.append(f"{unit_id} references missing internal edge: {edge_id}")
+        for evidence_id in unit.get("evidence", []):
+            if evidence_id not in nodes or nodes[evidence_id].get("kind") != "evidence.record":
+                errors.append(f"{unit_id} evidence reference is not evidence.record: {evidence_id}")
+        for authority_id in unit.get("authority", []):
+            if authority_id not in nodes or nodes[authority_id].get("kind") != "authority.record":
+                errors.append(f"{unit_id} authority reference is not authority.record: {authority_id}")
+        for history_id in unit.get("history", []):
+            if history_id not in nodes or nodes[history_id].get("kind") != "history.delta":
+                errors.append(f"{unit_id} history reference is not history.delta: {history_id}")
+        admission = unit.get("admission")
+        if not isinstance(admission, dict) or not all(admission.get(key) is True for key in [
+            "stableId",
+            "acceptedCommitment",
+            "realizationPath",
+            "verificationObligation",
+            "evidenceBoundary",
+            "authorityBoundary",
+            "projectionBoundary",
+            "reconstructionBoundary",
+        ]):
+            errors.append(f"{unit_id} does not satisfy Intent Unit admission rules")
+
+    missing_units = sorted(required_units - set(units))
+    if missing_units:
+        errors.append(f"missing required B0 intent units: {missing_units}")
+
+    refinement_edges: list[str] = []
+    refinement_pairs: set[tuple[str, str]] = set()
+    for edge_id, unit_edge in unit_edges.items():
+        kind = unit_edge.get("kind")
+        from_id = unit_edge.get("from")
+        to_id = unit_edge.get("to")
+        if from_id not in units or to_id not in units:
+            errors.append(f"{edge_id} references missing unit endpoint")
+            continue
+        if kind == "refines":
+            refinement_edges.append(edge_id)
+            refinement_pairs.add((from_id, to_id))
+        elif kind not in {"shares_concept", "projects_with"}:
+            errors.append(f"{edge_id} has unsupported unit edge kind: {kind}")
+    for expected in [
+        ("unit.product.calculator", "unit.behavior.add"),
+        ("unit.product.calculator", "unit.behavior.sub"),
+    ]:
+        if expected not in refinement_pairs:
+            errors.append(f"missing required unit refinement: {expected[0]} -> {expected[1]}")
+
+    return {
+        "result": "pass" if not errors else "fail",
+        "unitCount": len(units),
+        "unitEdgeCount": len(unit_edges),
+        "unitIds": sorted(units),
+        "refinementEdges": sorted(refinement_edges),
+        "errors": errors,
+    }
+
+
+def unit_preservation(original: dict[str, Any], reconstructed: dict[str, Any]) -> dict[str, Any]:
+    original_projection = {
+        "intentUnits": sorted(original.get("intentUnits", []), key=lambda unit: unit["id"]),
+        "unitEdges": sorted(original.get("unitEdges", []), key=lambda edge: edge["id"]),
+    }
+    reconstructed_projection = {
+        "intentUnits": sorted(reconstructed.get("intentUnits", []), key=lambda unit: unit["id"]),
+        "unitEdges": sorted(reconstructed.get("unitEdges", []), key=lambda edge: edge["id"]),
+    }
+    original_digest = digest_graph(original_projection)
+    reconstructed_digest = digest_graph(reconstructed_projection)
+    return {
+        "matched": original_digest == reconstructed_digest,
+        "originalDigest": original_digest,
+        "reconstructedDigest": reconstructed_digest,
+        "original": validate_unit_structure(original),
+        "reconstructed": validate_unit_structure(reconstructed),
     }
 
 
@@ -621,6 +763,7 @@ def build_report(
 
     reconstructed_domain = domain_status(reconstructed)
     domain_preservation_report = domain_preservation(original, reconstructed)
+    unit_preservation_report = unit_preservation(original, reconstructed)
     original_semantics = validate_semantics(original, report_path)
     reconstructed_semantics = validate_semantics(reconstructed, report_path)
     for key in ["evidencePreserved", "authorityPreserved", "historyPreserved"]:
@@ -629,6 +772,12 @@ def build_report(
     for domain, domain_report in domain_preservation_report.items():
         if not domain_report["matched"]:
             mismatches.append(f"{domain} domain subgraph digest differs")
+    if unit_preservation_report["original"]["result"] == "fail":
+        mismatches.append("original intent unit validation failed")
+    if unit_preservation_report["reconstructed"]["result"] == "fail":
+        mismatches.append("reconstructed intent unit validation failed")
+    if not unit_preservation_report["matched"]:
+        mismatches.append("intent unit projection digest differs")
     if original_semantics["result"] != "pass":
         mismatches.append("original evidence/authority/history semantics failed")
     if reconstructed_semantics["result"] != "pass":
@@ -667,7 +816,7 @@ def build_report(
         "rawStatuses": {
             "original": original.get("status"),
             "reconstructed": reconstructed.get("status"),
-            "allowedPair": ["m1-fixture", "m3-reconstructed"],
+            "allowedPair": [["m1-fixture", "m3-reconstructed"], ["p1-unit-fixture", "m3-reconstructed"]],
         },
         "digests": {
             "originalGraph": digest_graph(original),
@@ -681,11 +830,16 @@ def build_report(
             "reconstructedNodesByKind": reconstructed_node_counts,
             "originalEdgesByKind": original_edge_counts,
             "reconstructedEdgesByKind": reconstructed_edge_counts,
+            "originalIntentUnits": len(original.get("intentUnits", [])),
+            "reconstructedIntentUnits": len(reconstructed.get("intentUnits", [])),
+            "originalUnitEdges": len(original.get("unitEdges", [])),
+            "reconstructedUnitEdges": len(reconstructed.get("unitEdges", [])),
         },
         "preservation": {
             "original": domain_status(original),
             "reconstructed": reconstructed_domain,
             "domainSubgraphs": domain_preservation_report,
+            "intentUnits": unit_preservation_report,
         },
         "semanticValidation": {
             "result": "pass"

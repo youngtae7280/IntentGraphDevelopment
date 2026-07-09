@@ -19,11 +19,15 @@ Severity: P0
 
 GraphIR documents must include `graphirVersion`, `graphId`, `benchmarkId`, `title`, `status`, `nodes`, `edges`, and `projections`.
 
+GraphIR v0.2 documents must also include `intentUnits` and `unitEdges`.
+
 ### V002 - Supported Version
 
 Severity: P0
 
-M1 supports only `graphirVersion: "0.1.0"`.
+M1 supports `graphirVersion: "0.1.0"`.
+
+P1.0 supports `graphirVersion: "0.2.0"` for the unit-structured B0 fixture.
 
 ### V010 - Unique IDs
 
@@ -204,6 +208,92 @@ For `B0-python-cli-calculator`, this includes operation semantics, argument pars
 Severity: P0 in M1
 
 M1 artifacts must not claim generated code, reconstruction, verifier output, or test execution exists.
+
+## P1.0 Intent Unit Rules
+
+### V200 - Intent Units Required
+
+Severity: P0 in P1.0
+
+GraphIR v0.2 documents must include a non-empty `intentUnits` array and a `unitEdges` array.
+
+### V201 - B0 Required Units
+
+Severity: P0 in P1.0
+
+The B0 unit-structured fixture must include:
+
+- `unit.product.calculator`
+- `unit.behavior.add`
+- `unit.behavior.sub`
+
+### V202 - Unit Admission Fields
+
+Severity: P0 in P1.0
+
+Every accepted Intent Unit must include:
+
+- stable ID
+- kind
+- accepted status
+- contract
+- internal graph membership
+- projection expectations
+- reconstruction expectations
+- verification expectations
+- evidence references
+- authority references
+- history references
+- admission fields
+
+Admission fields must distinguish accepted Intent Units from raw utterances, notes, hypotheses, imported facts, and AI proposals.
+
+### V203 - Unit Internal Graph Integrity
+
+Severity: P0 in P1.0
+
+Every `internalGraph.nodeIds` entry must reference an existing graph node. Every `internalGraph.edgeIds` entry must reference an existing graph edge.
+
+### V204 - Unit Evidence Authority History Integrity
+
+Severity: P0 in P1.0
+
+Every unit evidence reference must target an `evidence.record`. Every authority reference must target an `authority.record`. Every history reference must target a `history.delta`.
+
+### V205 - Unit Refinement Backbone
+
+Severity: P0 in P1.0
+
+B0 must include refinement unit edges:
+
+```text
+unit.product.calculator -> unit.behavior.add
+unit.product.calculator -> unit.behavior.sub
+```
+
+### V206 - Unit Edge Class Separation
+
+Severity: P1 in P1.0
+
+Unit refinement relations must use `unitEdges.kind = "refines"`. Cross-unit relations must use a distinct kind such as `shares_concept` or `projects_with`.
+
+### V207 - No Unit God Object
+
+Severity: P1 in P1.0
+
+Behavior units must remain focused on their behavior contract. Shared product, evidence, authority, and history records may be referenced, but a behavior unit must not own unrelated behavior internals.
+
+### V208 - Unit Round-Trip Expectation
+
+Severity: P0 in P1.0
+
+The graph must declare that exact unit round-trip requires metadata and that code-only reconstruction remains lossy for Intent Unit contracts, refinement structure, admission state, evidence, authority, and history.
+
+### V209 - Proposal Non-Authority For Unit Membership
+
+Severity: P0 in P1.0
+
+AI proposals may describe unit effects or propose new internal graph facts, but they must not silently mutate accepted unit membership. Unit membership changes require deterministic validation and accepted authority.
 
 ## M1 Fixture Review Checklist
 

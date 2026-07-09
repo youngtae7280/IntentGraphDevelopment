@@ -10,9 +10,10 @@ from pathlib import Path
 from typing import Any
 
 
-COMPILER_CONTRACT = "native-python-b0-v0"
-METADATA_VERSION = "0.1.0"
-DETERMINISTIC_GENERATED_AT = "deterministic:m2-native-python-b0-v0"
+COMPILER_CONTRACT = "native-python-b0-unit-v0"
+METADATA_VERSION = "0.2.0"
+DETERMINISTIC_GENERATED_AT = "deterministic:p1-native-python-b0-unit-v0"
+SUPPORTED_GRAPHIR_VERSIONS = {"0.1.0", "0.2.0"}
 
 
 class CompileError(Exception):
@@ -102,14 +103,124 @@ def require_attrs(node: dict[str, Any], required_keys: list[str]) -> dict[str, A
     return attributes
 
 
+def validate_intent_units(
+    graph: dict[str, Any],
+    nodes: dict[str, dict[str, Any]],
+    edges: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    if graph.get("graphirVersion") != "0.2.0":
+        return []
+
+    units = graph.get("intentUnits")
+    unit_edges = graph.get("unitEdges")
+    if not isinstance(units, list) or not units:
+        raise CompileError("GraphIR 0.2.0 requires a non-empty intentUnits array.")
+    if not isinstance(unit_edges, list):
+        raise CompileError("GraphIR 0.2.0 requires a unitEdges array.")
+
+    unit_index: dict[str, dict[str, Any]] = {}
+    required_units = {"unit.product.calculator", "unit.behavior.add", "unit.behavior.sub"}
+    required_fields = {
+        "id",
+        "kind",
+        "status",
+        "contract",
+        "internalGraph",
+        "projection",
+        "reconstruction",
+        "verification",
+        "evidence",
+        "authority",
+        "history",
+        "admission",
+    }
+    for unit in units:
+        if not isinstance(unit, dict):
+            raise CompileError("Every intent unit must be an object.")
+        missing = sorted(required_fields - set(unit))
+        if missing:
+            raise CompileError(f"Intent unit is missing fields: {missing}")
+        unit_id = unit.get("id")
+        if not isinstance(unit_id, str):
+            raise CompileError("Every intent unit must have a string id.")
+        if unit_id in unit_index:
+            raise CompileError(f"Duplicate intent unit id: {unit_id}")
+        unit_index[unit_id] = unit
+        if unit.get("status") != "accepted":
+            raise CompileError(f"{unit_id} must be accepted for the B0 compiler slice.")
+        contract = unit.get("contract")
+        if not isinstance(contract, dict) or not contract.get("summary"):
+            raise CompileError(f"{unit_id} must declare a contract summary.")
+        internal_graph = unit.get("internalGraph")
+        if not isinstance(internal_graph, dict):
+            raise CompileError(f"{unit_id} internalGraph must be an object.")
+        for node_id in internal_graph.get("nodeIds", []):
+            if node_id not in nodes:
+                raise CompileError(f"{unit_id} references missing internal node: {node_id}")
+        for edge_id in internal_graph.get("edgeIds", []):
+            if edge_id not in edges:
+                raise CompileError(f"{unit_id} references missing internal edge: {edge_id}")
+        for evidence_id in unit.get("evidence", []):
+            if evidence_id not in nodes or nodes[evidence_id].get("kind") != "evidence.record":
+                raise CompileError(f"{unit_id} evidence reference is not evidence.record: {evidence_id}")
+        for authority_id in unit.get("authority", []):
+            if authority_id not in nodes or nodes[authority_id].get("kind") != "authority.record":
+                raise CompileError(f"{unit_id} authority reference is not authority.record: {authority_id}")
+        for history_id in unit.get("history", []):
+            if history_id not in nodes or nodes[history_id].get("kind") != "history.delta":
+                raise CompileError(f"{unit_id} history reference is not history.delta: {history_id}")
+        admission = unit.get("admission")
+        if not isinstance(admission, dict) or not all(admission.get(key) is True for key in [
+            "stableId",
+            "acceptedCommitment",
+            "realizationPath",
+            "verificationObligation",
+            "evidenceBoundary",
+            "authorityBoundary",
+            "projectionBoundary",
+            "reconstructionBoundary",
+        ]):
+            raise CompileError(f"{unit_id} does not satisfy Intent Unit admission rules.")
+
+    missing_units = sorted(required_units - set(unit_index))
+    if missing_units:
+        raise CompileError(f"B0 unit graph is missing required units: {missing_units}")
+
+    refinement_pairs = set()
+    for unit_edge in unit_edges:
+        if not isinstance(unit_edge, dict):
+            raise CompileError("Every unit edge must be an object.")
+        unit_edge_id = unit_edge.get("id")
+        kind = unit_edge.get("kind")
+        from_id = unit_edge.get("from")
+        to_id = unit_edge.get("to")
+        if not all(isinstance(value, str) for value in [unit_edge_id, kind, from_id, to_id]):
+            raise CompileError("Every unit edge must have string id, kind, from, and to.")
+        if from_id not in unit_index or to_id not in unit_index:
+            raise CompileError(f"Unit edge {unit_edge_id} references missing unit endpoint.")
+        if kind == "refines":
+            refinement_pairs.add((from_id, to_id))
+        if kind not in {"refines", "shares_concept", "projects_with"}:
+            raise CompileError(f"Unsupported B0 unit edge kind: {kind}")
+
+    for expected in [
+        ("unit.product.calculator", "unit.behavior.add"),
+        ("unit.product.calculator", "unit.behavior.sub"),
+    ]:
+        if expected not in refinement_pairs:
+            raise CompileError(f"Missing required unit refinement: {expected[0]} -> {expected[1]}")
+    return units
+
+
 def validate_b0_graph(graph: dict[str, Any]) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
-    if graph.get("graphirVersion") != "0.1.0":
-        raise CompileError("M2 compiler supports only graphirVersion 0.1.0.")
+    if graph.get("graphirVersion") not in SUPPORTED_GRAPHIR_VERSIONS:
+        raise CompileError("B0 compiler supports graphirVersion 0.1.0 and 0.2.0.")
     if graph.get("benchmarkId") != "B0-python-cli-calculator":
         raise CompileError("M2 compiler supports only B0-python-cli-calculator.")
 
     nodes = node_index(graph)
     edges = edge_index(graph, nodes)
+    validate_intent_units(graph, nodes, edges)
 
     require_nodes(
         nodes,
@@ -402,9 +513,41 @@ def build_projection_rules(graph: dict[str, Any]) -> dict[str, Any]:
         "emittedToSource": emitted_to_source,
         "metadataOnly": metadata_only,
         "projectionOnly": projection_only,
+        "intentUnitsMetadataOnly": [
+            unit["id"]
+            for unit in graph.get("intentUnits", [])
+            if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+        ],
+        "unitEdgesMetadataOnly": [
+            unit_edge["id"]
+            for unit_edge in graph.get("unitEdges", [])
+            if isinstance(unit_edge, dict) and isinstance(unit_edge.get("id"), str)
+        ],
         "unclassified": unclassified,
         "codeOnlyLossModel": graph["projections"]["codeOnlyLossModel"],
     }
+
+
+def build_unit_map(graph: dict[str, Any]) -> list[dict[str, Any]]:
+    entries: list[dict[str, Any]] = []
+    for unit in sorted(graph.get("intentUnits", []), key=lambda item: item["id"]):
+        internal_graph = unit.get("internalGraph", {})
+        projection = unit.get("projection", {})
+        reconstruction = unit.get("reconstruction", {})
+        entries.append(
+            {
+                "unitId": unit["id"],
+                "unitKind": unit.get("kind"),
+                "status": unit.get("status"),
+                "contractDigest": f"sha256:{sha256_text(canonical_json(unit.get('contract', {})))}",
+                "internalNodeIds": sorted(internal_graph.get("nodeIds", [])),
+                "internalEdgeIds": sorted(internal_graph.get("edgeIds", [])),
+                "sourceMapIds": sorted(projection.get("sourceMapIds", [])),
+                "requiresMetadata": bool(reconstruction.get("requiresMetadata", True)),
+                "codeOnlyClaim": reconstruction.get("codeOnlyClaim"),
+            }
+        )
+    return entries
 
 
 def build_metadata(
@@ -438,15 +581,30 @@ def build_metadata(
         ],
         "nodeMap": build_node_map(nodes, source),
         "edgeMap": build_edge_map(edges),
+        "unitMap": build_unit_map(graph),
         "projectionRules": build_projection_rules(graph),
         "hiddenState": {
             "reason": "B0 exact round-trip needs non-code graph data for intent, evidence, authority, history, and stable graph identity.",
+            "snapshotDependence": {
+                "sourceGraphSnapshotUsed": True,
+                "graphirVersion": graph["graphirVersion"],
+                "nodeCount": len(graph.get("nodes", [])),
+                "edgeCount": len(graph.get("edges", [])),
+                "intentUnitCount": len(graph.get("intentUnits", [])),
+                "unitEdgeCount": len(graph.get("unitEdges", [])),
+                "unitMapCount": len(graph.get("intentUnits", [])),
+                "reductionStrategy": [
+                    "preserve unitMap as explicit unit-level metadata",
+                    "move evidence, authority, and history reconstruction from full snapshot to typed metadata records",
+                    "keep code-only reconstruction lossy unless independent evidence proves otherwise",
+                ],
+            },
             "sourceGraphSnapshot": graph,
         },
         "diagnostics": {
             "status": "pass",
             "warnings": [
-                "M2 metadata carries a full graph snapshot; M3 must treat it as preservation metadata, not code-derived reconstruction."
+                "P1.0 metadata still carries a full graph snapshot; unitMap measures but does not eliminate that dependency."
             ],
         },
     }
@@ -465,6 +623,15 @@ def build_diagnostics(
         "benchmarkId": graph["benchmarkId"],
         "graphDigest": metadata["graphDigest"],
         "generatedAt": DETERMINISTIC_GENERATED_AT,
+        "graphirVersion": graph["graphirVersion"],
+        "intentUnits": {
+            "count": len(graph.get("intentUnits", [])),
+            "unitIds": sorted(
+                unit["id"]
+                for unit in graph.get("intentUnits", [])
+                if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+            ),
+        },
         "generatedArtifacts": [
             {
                 "path": "calc.py",

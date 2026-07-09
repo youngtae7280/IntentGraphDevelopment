@@ -76,6 +76,35 @@ def edges_by_kind(edges: dict[str, dict[str, Any]]) -> dict[str, list[str]]:
     return {kind: sorted(edge_ids) for kind, edge_ids in sorted(grouped.items())}
 
 
+def intent_units_by_kind(graph: dict[str, Any]) -> dict[str, list[str]]:
+    grouped: dict[str, list[str]] = {}
+    for unit in graph.get("intentUnits", []):
+        if isinstance(unit, dict) and isinstance(unit.get("id"), str):
+            grouped.setdefault(unit.get("kind", "<missing>"), []).append(unit["id"])
+    return {kind: sorted(unit_ids) for kind, unit_ids in sorted(grouped.items())}
+
+
+def unit_edges_by_kind(graph: dict[str, Any]) -> dict[str, list[str]]:
+    grouped: dict[str, list[str]] = {}
+    for edge in graph.get("unitEdges", []):
+        if isinstance(edge, dict) and isinstance(edge.get("id"), str):
+            grouped.setdefault(edge.get("kind", "<missing>"), []).append(edge["id"])
+    return {kind: sorted(edge_ids) for kind, edge_ids in sorted(grouped.items())}
+
+
+def unit_membership(graph: dict[str, Any]) -> dict[str, dict[str, list[str]]]:
+    membership: dict[str, dict[str, list[str]]] = {}
+    for unit in graph.get("intentUnits", []):
+        if not isinstance(unit, dict) or not isinstance(unit.get("id"), str):
+            continue
+        internal_graph = unit.get("internalGraph", {})
+        membership[unit["id"]] = {
+            "nodeIds": sorted(internal_graph.get("nodeIds", [])),
+            "edgeIds": sorted(internal_graph.get("edgeIds", [])),
+        }
+    return dict(sorted(membership.items()))
+
+
 def proposal_results_by_id(proposal_report: dict[str, Any]) -> dict[str, dict[str, Any]]:
     results: dict[str, dict[str, Any]] = {}
     for result in proposal_report.get("proposalResults", []):
@@ -168,8 +197,12 @@ def build_projection(
             "graphDigest": digest_json(graph),
             "nodeCount": len(nodes),
             "edgeCount": len(edges),
+            "intentUnitCount": len(graph.get("intentUnits", [])),
+            "unitEdgeCount": len(graph.get("unitEdges", [])),
             "nodesByKind": nodes_by_kind(nodes),
             "edgesByKind": edges_by_kind(edges),
+            "intentUnitsByKind": intent_units_by_kind(graph),
+            "unitEdgesByKind": unit_edges_by_kind(graph),
             "nodeCountsByKind": count_by_kind(list(nodes.values())),
             "edgeCountsByKind": count_by_kind(list(edges.values())),
         },
@@ -187,6 +220,7 @@ def build_projection(
                 domain: value.get("matched")
                 for domain, value in domain_subgraphs.items()
             },
+            "intentUnitPreservation": roundtrip.get("preservation", {}).get("intentUnits"),
         },
         "evidenceAuthorityHistory": {
             "evidenceAccepted": semantic.get("evidence", {}).get("acceptedCount"),
@@ -210,6 +244,7 @@ def build_projection(
             "evidenceByTarget": group_edges_by_kind(edges, "evidenced_by", "from"),
             "authorityByTarget": group_edges_by_kind(edges, "authorizes", "to"),
             "historyChangesByDelta": group_edges_by_kind(edges, "changes", "from"),
+            "unitMembership": unit_membership(graph),
             "proposalResultsById": proposal_results_by_id(proposal_report),
         },
         "diagram": {

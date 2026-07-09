@@ -555,6 +555,7 @@ def build_report(graph_path: Path, proposal_paths: list[Path]) -> dict[str, Any]
             "expectedMismatches": expected_mismatches,
             "aiOutputTreatedAsAuthority": ai_authority_leak,
             "automaticApplication": automatic_application,
+            "automaticUnitMembershipMutation": False,
         },
         "proposalResults": results,
     }

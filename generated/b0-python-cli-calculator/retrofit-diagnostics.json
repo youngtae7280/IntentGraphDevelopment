@@ -2,11 +2,34 @@
   "benchmarkId": "B0-python-cli-calculator",
   "diagnosticsVersion": "0.1.0",
   "errors": [],
-  "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+  "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+  "graphirVersion": "0.2.0",
+  "intentUnits": {
+    "count": 3,
+    "unitIds": [
+      "unit.behavior.add",
+      "unit.behavior.sub",
+      "unit.product.calculator"
+    ]
+  },
   "reconstructedAt": "deterministic:m3-retrofit-python-b0-v0",
-  "reconstructedGraphDigest": "sha256:142034c5648c9dd45e9a3de1acd04190509e80042c7123b8b96ecbaef70e39bb",
+  "reconstructedGraphDigest": "sha256:196199907405e2edede1e3d22efdbd2be74d462ca3174970c8824ce80494fb31",
   "reconstructorContract": "retrofit-python-b0-v0",
   "roundTripVerification": "not-run-in-m3",
+  "snapshotDependence": {
+    "edgeCount": 54,
+    "graphirVersion": "0.2.0",
+    "intentUnitCount": 3,
+    "nodeCount": 28,
+    "reductionStrategy": [
+      "preserve unitMap as explicit unit-level metadata",
+      "move evidence, authority, and history reconstruction from full snapshot to typed metadata records",
+      "keep code-only reconstruction lossy unless independent evidence proves otherwise"
+    ],
+    "sourceGraphSnapshotUsed": true,
+    "unitEdgeCount": 3,
+    "unitMapCount": 3
+  },
   "status": "pass",
   "warnings": [
     "M3 reconstructed from preservation metadata; M4 must perform equality verification.",

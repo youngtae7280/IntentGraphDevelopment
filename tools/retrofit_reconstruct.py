@@ -200,6 +200,38 @@ def validate_edge_map(metadata: dict[str, Any], graph: dict[str, Any]) -> None:
         raise RetrofitError(f"edgeMap missing graph edges: {missing_edges}")
 
 
+def validate_unit_map(metadata: dict[str, Any], graph: dict[str, Any]) -> None:
+    units = graph.get("intentUnits", [])
+    if not units:
+        return
+    unit_map = metadata.get("unitMap")
+    if not isinstance(unit_map, list) or not unit_map:
+        raise RetrofitError("Metadata missing unitMap for unit-structured graph.")
+    nodes, edges = graph_indexes(graph)
+    unit_ids = {
+        unit["id"]
+        for unit in units
+        if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+    }
+    mapped_unit_ids: set[str] = set()
+    for entry in unit_map:
+        if not isinstance(entry, dict):
+            raise RetrofitError("Every unitMap entry must be an object.")
+        unit_id = entry.get("unitId")
+        if unit_id not in unit_ids:
+            raise RetrofitError(f"unitMap references missing unit: {unit_id}")
+        mapped_unit_ids.add(unit_id)
+        for node_id in entry.get("internalNodeIds", []):
+            if node_id not in nodes:
+                raise RetrofitError(f"unitMap {unit_id} references missing node: {node_id}")
+        for edge_id in entry.get("internalEdgeIds", []):
+            if edge_id not in edges:
+                raise RetrofitError(f"unitMap {unit_id} references missing edge: {edge_id}")
+    missing_units = sorted(unit_ids - mapped_unit_ids)
+    if missing_units:
+        raise RetrofitError(f"unitMap missing intent units: {missing_units}")
+
+
 def reconstruct_graph(metadata: dict[str, Any]) -> dict[str, Any]:
     graph = json.loads(json.dumps(metadata["hiddenState"]["sourceGraphSnapshot"]))
     graph["status"] = "m3-reconstructed"
@@ -277,6 +309,7 @@ def code_only_projection(source_path: Path, source: str) -> dict[str, Any]:
             "evidence records",
             "authority records",
             "semantic graph history",
+            "intent unit contracts and unit refinement structure",
             "stable source graph IDs",
             "metadata source-map node IDs",
             "accepted change state",
@@ -287,15 +320,26 @@ def code_only_projection(source_path: Path, source: str) -> dict[str, Any]:
 
 
 def build_diagnostics(metadata: dict[str, Any], reconstructed: dict[str, Any]) -> dict[str, Any]:
+    snapshot_dependence = metadata.get("hiddenState", {}).get("snapshotDependence", {})
     return {
         "diagnosticsVersion": "0.1.0",
         "reconstructorContract": RECONSTRUCTOR_CONTRACT,
         "status": "pass",
         "benchmarkId": metadata["benchmarkId"],
         "graphDigest": metadata["graphDigest"],
+        "graphirVersion": reconstructed.get("graphirVersion"),
         "reconstructedGraphDigest": prefixed_sha256(canonical_json(reconstructed)),
         "reconstructedAt": DETERMINISTIC_RECONSTRUCTED_AT,
         "roundTripVerification": "not-run-in-m3",
+        "intentUnits": {
+            "count": len(reconstructed.get("intentUnits", [])),
+            "unitIds": sorted(
+                unit["id"]
+                for unit in reconstructed.get("intentUnits", [])
+                if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+            ),
+        },
+        "snapshotDependence": snapshot_dependence,
         "warnings": [
             "M3 reconstructed from preservation metadata; M4 must perform equality verification.",
             "Code-only projection is lossy and must not be treated as the full intent graph.",
@@ -312,6 +356,7 @@ def reconstruct(source_path: Path, metadata_path: Path, out_dir: Path) -> None:
     graph = validate_graph_digest(metadata)
     validate_node_map(metadata, graph, source)
     validate_edge_map(metadata, graph)
+    validate_unit_map(metadata, graph)
 
     reconstructed = reconstruct_graph(metadata)
     projection = code_only_projection(source_path, source)

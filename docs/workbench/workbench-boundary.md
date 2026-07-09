@@ -15,11 +15,13 @@ Workbench(G, Reports, Config) -> Projection
 The workbench may display:
 
 - source graph nodes and edges
+- Intent Units and unit refinement/cross-unit relations
 - generated code projection summaries
 - preservation metadata status
 - round-trip verifier status
 - evidence, authority, and history status
 - AI proposal validation status
+- Intent Unit preservation status
 
 The workbench must not silently mutate accepted graph state.
 
@@ -78,6 +80,7 @@ The B0 workbench projection must include:
 - authority status
 - history status
 - proposal validation status
+- Intent Unit counts and unit membership indexes
 - code-only loss boundary
 - a navigation model
 - an authority disclaimer
@@ -89,6 +92,8 @@ Every M7 workbench projection must include:
 ```text
 This projection is a report. It is not accepted graph authority.
 ```
+
+P1.0 extends the projection with Intent Unit fields. These fields remain report state and must not be treated as accepted graph mutation.
 
 ## Future Integration Decision
 

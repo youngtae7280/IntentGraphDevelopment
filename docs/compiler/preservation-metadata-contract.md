@@ -1,13 +1,15 @@
 # Preservation Metadata Contract
 
-Milestone: M2
+Milestone: M2, revised by P1.0 for Intent Units
 
-This contract defines the M2 shape of `mu` for the B0 generated calculator.
+This contract defines the shape of `mu` for the B0 generated calculator.
+
+In P1.0, `G` is `G_unit`: the B0 graph includes first-class Intent Units. Preservation metadata therefore includes unit-level metadata in addition to node and edge maps.
 
 ## Formal Shape
 
 ```text
-mu = (nodeMap, edgeMap, graphDigest, projectionRules, hiddenState)
+mu = (nodeMap, edgeMap, unitMap, graphDigest, projectionRules, hiddenState)
 ```
 
 M2 serializes `mu` as `generated/b0-python-cli-calculator/calc.intentgraph.json`.
@@ -24,6 +26,7 @@ M2 serializes `mu` as `generated/b0-python-cli-calculator/calc.intentgraph.json`
 - `generatedArtifacts`
 - `nodeMap`
 - `edgeMap`
+- `unitMap` for GraphIR v0.2 unit graphs
 - `projectionRules`
 - `hiddenState`
 - `diagnostics`
@@ -89,6 +92,8 @@ Projection rules must distinguish:
 
 Evidence, authority, and semantic history are metadata-only in M2.
 
+Intent Units and unit edges are metadata-only in P1.0.
+
 `unclassified` must be empty for M2 review to pass.
 
 ## Hidden State
@@ -96,6 +101,28 @@ Evidence, authority, and semantic history are metadata-only in M2.
 M2 includes a full source graph snapshot in `hiddenState.sourceGraphSnapshot`.
 
 This is deliberate for the first round-trip slice: evidence, authority, history, and exact graph identity are not recoverable from generated Python alone. M3 must treat this as preservation metadata, not as code-derived reconstruction.
+
+P1.0 still uses `hiddenState.sourceGraphSnapshot` for exact reconstruction. This is a measured weakness, not a solved problem. P1.0 adds `hiddenState.snapshotDependence` with source snapshot usage, graph counts, unit counts, and a reduction strategy.
+
+## Unit Map
+
+`unitMap` preserves unit-level anchors:
+
+```json
+{
+  "unitId": "unit.behavior.add",
+  "unitKind": "behavior",
+  "status": "accepted",
+  "contractDigest": "sha256:...",
+  "internalNodeIds": [],
+  "internalEdgeIds": [],
+  "sourceMapIds": [],
+  "requiresMetadata": true,
+  "codeOnlyClaim": "lossy-code-only-projection"
+}
+```
+
+`unitMap` does not by itself recover the full graph. It exposes the intended strategy for reducing whole-snapshot dependence in later Phase 1 work.
 
 If later milestones remove or reduce this hidden state, they must still prove exact round-trip or explicitly narrow the thesis.
 

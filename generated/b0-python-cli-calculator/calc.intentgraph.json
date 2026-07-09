@@ -1,10 +1,10 @@
 {
   "benchmarkId": "B0-python-cli-calculator",
-  "compilerContract": "native-python-b0-v0",
+  "compilerContract": "native-python-b0-unit-v0",
   "diagnostics": {
     "status": "pass",
     "warnings": [
-      "M2 metadata carries a full graph snapshot; M3 must treat it as preservation metadata, not code-derived reconstruction."
+      "P1.0 metadata still carries a full graph snapshot; unitMap measures but does not eliminate that dependency."
     ]
   },
   "edgeMap": [
@@ -42,6 +42,20 @@
       "graphEdgeId": "edge.authority.m5-roundtrip-report",
       "preservation": "metadata",
       "to": "evidence.record.roundtrip-report"
+    },
+    {
+      "edgeKind": "authorizes",
+      "from": "authority.record.p1-unit-grammar",
+      "graphEdgeId": "edge.authority.p1-delta",
+      "preservation": "metadata",
+      "to": "history.delta.p1-intent-unit-grammar"
+    },
+    {
+      "edgeKind": "authorizes",
+      "from": "authority.record.p1-unit-grammar",
+      "graphEdgeId": "edge.authority.p1-review-evidence",
+      "preservation": "metadata",
+      "to": "evidence.record.p1-unit-grammar-review"
     },
     {
       "edgeKind": "handled_by",
@@ -98,6 +112,13 @@
       "graphEdgeId": "edge.evidence.add-test-plan",
       "preservation": "metadata",
       "to": "evidence.record.test-plan"
+    },
+    {
+      "edgeKind": "evidenced_by",
+      "from": "intent.product.calculator",
+      "graphEdgeId": "edge.evidence.product-p1-unit-review",
+      "preservation": "metadata",
+      "to": "evidence.record.p1-unit-grammar-review"
     },
     {
       "edgeKind": "evidenced_by",
@@ -175,6 +196,41 @@
       "graphEdgeId": "edge.history.m5-changed-test-plan-evidence",
       "preservation": "metadata",
       "to": "evidence.record.test-plan"
+    },
+    {
+      "edgeKind": "changes",
+      "from": "history.delta.p1-intent-unit-grammar",
+      "graphEdgeId": "edge.history.p1-changed-add",
+      "preservation": "metadata",
+      "to": "intent.behavior.add"
+    },
+    {
+      "edgeKind": "changes",
+      "from": "history.delta.p1-intent-unit-grammar",
+      "graphEdgeId": "edge.history.p1-changed-authority",
+      "preservation": "metadata",
+      "to": "authority.record.p1-unit-grammar"
+    },
+    {
+      "edgeKind": "changes",
+      "from": "history.delta.p1-intent-unit-grammar",
+      "graphEdgeId": "edge.history.p1-changed-evidence",
+      "preservation": "metadata",
+      "to": "evidence.record.p1-unit-grammar-review"
+    },
+    {
+      "edgeKind": "changes",
+      "from": "history.delta.p1-intent-unit-grammar",
+      "graphEdgeId": "edge.history.p1-changed-product",
+      "preservation": "metadata",
+      "to": "intent.product.calculator"
+    },
+    {
+      "edgeKind": "changes",
+      "from": "history.delta.p1-intent-unit-grammar",
+      "graphEdgeId": "edge.history.p1-changed-sub",
+      "preservation": "metadata",
+      "to": "intent.behavior.sub"
     },
     {
       "edgeKind": "uses_concept",
@@ -335,14 +391,28 @@
     {
       "kind": "python-source",
       "path": "calc.py",
-      "sha256": "f1dabfa1f1de8398707f61f2e7f55ee7ca5b71756bf522791ab7a441b7326921"
+      "sha256": "4f89acd3c0b3ed758c275f154ba9d8f58ef19c1f32c8d390f4d10ebdf68b2fe9"
     }
   ],
-  "generatedAt": "deterministic:m2-native-python-b0-v0",
-  "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+  "generatedAt": "deterministic:p1-native-python-b0-unit-v0",
+  "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
   "graphId": "ig.bench.b0.python-cli-calculator",
   "hiddenState": {
     "reason": "B0 exact round-trip needs non-code graph data for intent, evidence, authority, history, and stable graph identity.",
+    "snapshotDependence": {
+      "edgeCount": 54,
+      "graphirVersion": "0.2.0",
+      "intentUnitCount": 3,
+      "nodeCount": 28,
+      "reductionStrategy": [
+        "preserve unitMap as explicit unit-level metadata",
+        "move evidence, authority, and history reconstruction from full snapshot to typed metadata records",
+        "keep code-only reconstruction lossy unless independent evidence proves otherwise"
+      ],
+      "sourceGraphSnapshotUsed": true,
+      "unitEdgeCount": 3,
+      "unitMapCount": 3
+    },
     "sourceGraphSnapshot": {
       "benchmarkId": "B0-python-cli-calculator",
       "edges": [
@@ -380,6 +450,20 @@
           "id": "edge.authority.m5-roundtrip-report",
           "kind": "authorizes",
           "to": "evidence.record.roundtrip-report"
+        },
+        {
+          "attributes": {},
+          "from": "authority.record.p1-unit-grammar",
+          "id": "edge.authority.p1-delta",
+          "kind": "authorizes",
+          "to": "history.delta.p1-intent-unit-grammar"
+        },
+        {
+          "attributes": {},
+          "from": "authority.record.p1-unit-grammar",
+          "id": "edge.authority.p1-review-evidence",
+          "kind": "authorizes",
+          "to": "evidence.record.p1-unit-grammar-review"
         },
         {
           "attributes": {},
@@ -440,6 +524,13 @@
           "id": "edge.evidence.add-test-plan",
           "kind": "evidenced_by",
           "to": "evidence.record.test-plan"
+        },
+        {
+          "attributes": {},
+          "from": "intent.product.calculator",
+          "id": "edge.evidence.product-p1-unit-review",
+          "kind": "evidenced_by",
+          "to": "evidence.record.p1-unit-grammar-review"
         },
         {
           "attributes": {},
@@ -520,6 +611,41 @@
         },
         {
           "attributes": {},
+          "from": "history.delta.p1-intent-unit-grammar",
+          "id": "edge.history.p1-changed-add",
+          "kind": "changes",
+          "to": "intent.behavior.add"
+        },
+        {
+          "attributes": {},
+          "from": "history.delta.p1-intent-unit-grammar",
+          "id": "edge.history.p1-changed-authority",
+          "kind": "changes",
+          "to": "authority.record.p1-unit-grammar"
+        },
+        {
+          "attributes": {},
+          "from": "history.delta.p1-intent-unit-grammar",
+          "id": "edge.history.p1-changed-evidence",
+          "kind": "changes",
+          "to": "evidence.record.p1-unit-grammar-review"
+        },
+        {
+          "attributes": {},
+          "from": "history.delta.p1-intent-unit-grammar",
+          "id": "edge.history.p1-changed-product",
+          "kind": "changes",
+          "to": "intent.product.calculator"
+        },
+        {
+          "attributes": {},
+          "from": "history.delta.p1-intent-unit-grammar",
+          "id": "edge.history.p1-changed-sub",
+          "kind": "changes",
+          "to": "intent.behavior.sub"
+        },
+        {
+          "attributes": {},
           "from": "intent.behavior.add",
           "id": "edge.intent.add-uses-integer",
           "kind": "uses_concept",
@@ -576,6 +702,20 @@
         },
         {
           "attributes": {},
+          "from": "metadata.source-map.cli",
+          "id": "edge.metadata.cli-maps-from-product",
+          "kind": "maps_from",
+          "to": "intent.product.calculator"
+        },
+        {
+          "attributes": {},
+          "from": "metadata.source-map.cli",
+          "id": "edge.metadata.cli-maps-to-code",
+          "kind": "maps_to",
+          "to": "code.cli.command"
+        },
+        {
+          "attributes": {},
           "from": "metadata.source-map.main",
           "id": "edge.metadata.main-maps-from-cli",
           "kind": "maps_from",
@@ -604,20 +744,6 @@
         },
         {
           "attributes": {},
-          "from": "metadata.source-map.cli",
-          "id": "edge.metadata.cli-maps-from-product",
-          "kind": "maps_from",
-          "to": "intent.product.calculator"
-        },
-        {
-          "attributes": {},
-          "from": "metadata.source-map.cli",
-          "id": "edge.metadata.cli-maps-to-code",
-          "kind": "maps_to",
-          "to": "code.cli.command"
-        },
-        {
-          "attributes": {},
           "from": "metadata.source-map.sub",
           "id": "edge.metadata.sub-maps-from-intent",
           "kind": "maps_from",
@@ -632,6 +758,13 @@
         },
         {
           "attributes": {},
+          "from": "intent.behavior.add",
+          "id": "edge.projection.add-to-code",
+          "kind": "projects_to",
+          "to": "code.function.add"
+        },
+        {
+          "attributes": {},
           "from": "code.module.calc",
           "id": "edge.projection.module-to-target",
           "kind": "projects_to",
@@ -643,13 +776,6 @@
           "id": "edge.projection.product-to-cli",
           "kind": "projects_to",
           "to": "code.cli.command"
-        },
-        {
-          "attributes": {},
-          "from": "intent.behavior.add",
-          "id": "edge.projection.add-to-code",
-          "kind": "projects_to",
-          "to": "code.function.add"
         },
         {
           "attributes": {},
@@ -674,7 +800,334 @@
         }
       ],
       "graphId": "ig.bench.b0.python-cli-calculator",
-      "graphirVersion": "0.1.0",
+      "graphirVersion": "0.2.0",
+      "intentUnits": [
+        {
+          "admission": {
+            "acceptedCommitment": true,
+            "authorityBoundary": true,
+            "evidenceBoundary": true,
+            "hypothesisOnly": false,
+            "projectionBoundary": true,
+            "rawUtterance": false,
+            "realizationPath": true,
+            "reconstructionBoundary": true,
+            "stableId": true,
+            "verificationObligation": true
+          },
+          "authority": [
+            "authority.record.initial-human",
+            "authority.record.m5-human-review",
+            "authority.record.p1-unit-grammar"
+          ],
+          "contract": {
+            "acceptedDevelopmentCommitment": "The add behavior is accepted as a compilable and verifiable behavior unit.",
+            "summary": "calc add LEFT RIGHT prints LEFT plus RIGHT."
+          },
+          "evidence": [
+            "evidence.record.roundtrip-report",
+            "evidence.record.test-plan"
+          ],
+          "history": [
+            "history.delta.initial-graph",
+            "history.delta.m5-evidence-authority-history",
+            "history.delta.p1-intent-unit-grammar"
+          ],
+          "id": "unit.behavior.add",
+          "internalGraph": {
+            "edgeIds": [
+              "edge.authority.initial-test-plan",
+              "edge.authority.m5-roundtrip-report",
+              "edge.authority.p1-delta",
+              "edge.code.main-calls-add",
+              "edge.code.module-contains-add",
+              "edge.evidence.add-test-plan",
+              "edge.history.changed-add",
+              "edge.history.p1-changed-add",
+              "edge.intent.add-uses-integer",
+              "edge.intent.add-uses-operation",
+              "edge.metadata.add-maps-from-intent",
+              "edge.metadata.add-maps-to-code",
+              "edge.projection.add-to-code",
+              "edge.test.add"
+            ],
+            "nodeIds": [
+              "authority.record.initial-human",
+              "authority.record.m5-human-review",
+              "authority.record.p1-unit-grammar",
+              "code.function.add",
+              "domain.concept.integer-operand",
+              "domain.concept.operation",
+              "evidence.record.roundtrip-report",
+              "evidence.record.test-plan",
+              "history.delta.initial-graph",
+              "history.delta.m5-evidence-authority-history",
+              "history.delta.p1-intent-unit-grammar",
+              "intent.behavior.add",
+              "metadata.source-map.add",
+              "test.case.add"
+            ]
+          },
+          "kind": "behavior",
+          "projection": {
+            "codeNodeIds": [
+              "code.function.add"
+            ],
+            "nativeTarget": "python",
+            "sourceMapIds": [
+              "metadata.source-map.add"
+            ],
+            "targetFiles": [
+              "calc.py"
+            ]
+          },
+          "reconstruction": {
+            "codeOnlyClaim": "lossy-code-only-projection",
+            "expectedMode": "metadata-backed-unit-roundtrip",
+            "requiresMetadata": true,
+            "sourceMapIds": [
+              "metadata.source-map.add"
+            ]
+          },
+          "status": "accepted",
+          "verification": {
+            "evidenceIds": [
+              "evidence.record.roundtrip-report",
+              "evidence.record.test-plan"
+            ],
+            "expectedRoundTrip": "Verify(G_unit, G_unit_prime) = pass under GraphEqualAfterNormalization",
+            "testCaseIds": [
+              "test.case.add"
+            ]
+          }
+        },
+        {
+          "admission": {
+            "acceptedCommitment": true,
+            "authorityBoundary": true,
+            "evidenceBoundary": true,
+            "hypothesisOnly": false,
+            "projectionBoundary": true,
+            "rawUtterance": false,
+            "realizationPath": true,
+            "reconstructionBoundary": true,
+            "stableId": true,
+            "verificationObligation": true
+          },
+          "authority": [
+            "authority.record.initial-human",
+            "authority.record.m5-human-review",
+            "authority.record.p1-unit-grammar"
+          ],
+          "contract": {
+            "acceptedDevelopmentCommitment": "The subtract behavior is accepted as a compilable and verifiable behavior unit.",
+            "summary": "calc sub LEFT RIGHT prints LEFT minus RIGHT."
+          },
+          "evidence": [
+            "evidence.record.roundtrip-report",
+            "evidence.record.test-plan"
+          ],
+          "history": [
+            "history.delta.initial-graph",
+            "history.delta.m5-evidence-authority-history",
+            "history.delta.p1-intent-unit-grammar"
+          ],
+          "id": "unit.behavior.sub",
+          "internalGraph": {
+            "edgeIds": [
+              "edge.authority.initial-test-plan",
+              "edge.authority.m5-roundtrip-report",
+              "edge.authority.p1-delta",
+              "edge.code.main-calls-sub",
+              "edge.code.module-contains-sub",
+              "edge.evidence.sub-test-plan",
+              "edge.history.changed-sub",
+              "edge.history.p1-changed-sub",
+              "edge.intent.sub-uses-integer",
+              "edge.intent.sub-uses-operation",
+              "edge.metadata.sub-maps-from-intent",
+              "edge.metadata.sub-maps-to-code",
+              "edge.projection.sub-to-code",
+              "edge.test.sub"
+            ],
+            "nodeIds": [
+              "authority.record.initial-human",
+              "authority.record.m5-human-review",
+              "authority.record.p1-unit-grammar",
+              "code.function.sub",
+              "domain.concept.integer-operand",
+              "domain.concept.operation",
+              "evidence.record.roundtrip-report",
+              "evidence.record.test-plan",
+              "history.delta.initial-graph",
+              "history.delta.m5-evidence-authority-history",
+              "history.delta.p1-intent-unit-grammar",
+              "intent.behavior.sub",
+              "metadata.source-map.sub",
+              "test.case.sub"
+            ]
+          },
+          "kind": "behavior",
+          "projection": {
+            "codeNodeIds": [
+              "code.function.sub"
+            ],
+            "nativeTarget": "python",
+            "sourceMapIds": [
+              "metadata.source-map.sub"
+            ],
+            "targetFiles": [
+              "calc.py"
+            ]
+          },
+          "reconstruction": {
+            "codeOnlyClaim": "lossy-code-only-projection",
+            "expectedMode": "metadata-backed-unit-roundtrip",
+            "requiresMetadata": true,
+            "sourceMapIds": [
+              "metadata.source-map.sub"
+            ]
+          },
+          "status": "accepted",
+          "verification": {
+            "evidenceIds": [
+              "evidence.record.roundtrip-report",
+              "evidence.record.test-plan"
+            ],
+            "expectedRoundTrip": "Verify(G_unit, G_unit_prime) = pass under GraphEqualAfterNormalization",
+            "testCaseIds": [
+              "test.case.sub"
+            ]
+          }
+        },
+        {
+          "admission": {
+            "acceptedCommitment": true,
+            "authorityBoundary": true,
+            "evidenceBoundary": true,
+            "hypothesisOnly": false,
+            "projectionBoundary": true,
+            "rawUtterance": false,
+            "realizationPath": true,
+            "reconstructionBoundary": true,
+            "stableId": true,
+            "verificationObligation": true
+          },
+          "authority": [
+            "authority.record.initial-human",
+            "authority.record.m5-human-review",
+            "authority.record.p1-unit-grammar"
+          ],
+          "contract": {
+            "acceptedDevelopmentCommitment": "The calculator product unit is accepted as the parent unit for add and subtract behavior units.",
+            "summary": "Provide a deterministic Python CLI calculator for the B0 round-trip benchmark."
+          },
+          "evidence": [
+            "evidence.record.p1-unit-grammar-review",
+            "evidence.record.requirement-note",
+            "evidence.record.roundtrip-report"
+          ],
+          "history": [
+            "history.delta.initial-graph",
+            "history.delta.m5-evidence-authority-history",
+            "history.delta.p1-intent-unit-grammar"
+          ],
+          "id": "unit.product.calculator",
+          "internalGraph": {
+            "edgeIds": [
+              "edge.authority.initial-delta",
+              "edge.authority.initial-requirement-note",
+              "edge.authority.initial-test-plan",
+              "edge.authority.m5-delta",
+              "edge.authority.m5-roundtrip-report",
+              "edge.authority.p1-delta",
+              "edge.authority.p1-review-evidence",
+              "edge.cli.handled-by-main",
+              "edge.code.module-contains-cli",
+              "edge.code.module-contains-main",
+              "edge.evidence.product-p1-unit-review",
+              "edge.evidence.product-requirement-note",
+              "edge.evidence.product-roundtrip-report",
+              "edge.history.changed-product",
+              "edge.history.m5-changed-authority",
+              "edge.history.m5-changed-initial-history",
+              "edge.history.m5-changed-requirement-evidence",
+              "edge.history.m5-changed-roundtrip-evidence",
+              "edge.history.m5-changed-test-plan-evidence",
+              "edge.history.p1-changed-add",
+              "edge.history.p1-changed-authority",
+              "edge.history.p1-changed-evidence",
+              "edge.history.p1-changed-product",
+              "edge.history.p1-changed-sub",
+              "edge.intent.product-decomposes-add",
+              "edge.intent.product-decomposes-sub",
+              "edge.metadata.cli-maps-from-product",
+              "edge.metadata.cli-maps-to-code",
+              "edge.metadata.module-maps-from-product",
+              "edge.metadata.module-maps-to-code",
+              "edge.projection.module-to-target",
+              "edge.projection.product-to-cli"
+            ],
+            "nodeIds": [
+              "authority.record.initial-human",
+              "authority.record.m5-human-review",
+              "authority.record.p1-unit-grammar",
+              "code.cli.command",
+              "code.function.main",
+              "code.module.calc",
+              "domain.concept.operation",
+              "evidence.record.p1-unit-grammar-review",
+              "evidence.record.requirement-note",
+              "evidence.record.roundtrip-report",
+              "history.delta.initial-graph",
+              "history.delta.m5-evidence-authority-history",
+              "history.delta.p1-intent-unit-grammar",
+              "intent.product.calculator",
+              "metadata.source-map.cli",
+              "metadata.source-map.module",
+              "projection.target.python-source"
+            ]
+          },
+          "kind": "product",
+          "projection": {
+            "codeNodeIds": [
+              "code.cli.command",
+              "code.function.main",
+              "code.module.calc"
+            ],
+            "nativeTarget": "python",
+            "sourceMapIds": [
+              "metadata.source-map.cli",
+              "metadata.source-map.module"
+            ],
+            "targetFiles": [
+              "calc.py"
+            ]
+          },
+          "reconstruction": {
+            "codeOnlyClaim": "lossy-code-only-projection",
+            "expectedMode": "metadata-backed-unit-roundtrip",
+            "requiresMetadata": true,
+            "sourceMapIds": [
+              "metadata.source-map.cli",
+              "metadata.source-map.module"
+            ]
+          },
+          "status": "accepted",
+          "verification": {
+            "evidenceIds": [
+              "evidence.record.p1-unit-grammar-review",
+              "evidence.record.requirement-note",
+              "evidence.record.roundtrip-report"
+            ],
+            "expectedRoundTrip": "Verify(G_unit, G_unit_prime) = pass under GraphEqualAfterNormalization",
+            "testCaseIds": [
+              "test.case.add",
+              "test.case.sub"
+            ]
+          }
+        }
+      ],
       "nodes": [
         {
           "attributes": {
@@ -705,6 +1158,21 @@
           "id": "authority.record.m5-human-review",
           "kind": "authority.record",
           "label": "M5 evidence authority history review"
+        },
+        {
+          "attributes": {
+            "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+            "decidedByType": "human",
+            "decision": "accepted-intent-unit-grammar-revision",
+            "decisionStatus": "accepted",
+            "proposer": "IntentGraphDevelopment Roadmap Orchestrator",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "p1.0-unit-grammar-review"
+          },
+          "id": "authority.record.p1-unit-grammar",
+          "kind": "authority.record",
+          "label": "P1.0 intent unit grammar review authority"
         },
         {
           "attributes": {
@@ -821,6 +1289,23 @@
         {
           "attributes": {
             "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.p1-unit-grammar",
+            "artifactRefs": [
+              "docs/reviews/p1.0-intent-unit-grammar-review.md"
+            ],
+            "evidenceType": "milestone-review",
+            "observationStatus": "observed",
+            "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+            "status": "pass",
+            "summary": "P1.0 review records that B0 is unit-structured and still passes the metadata-backed round-trip pipeline."
+          },
+          "id": "evidence.record.p1-unit-grammar-review",
+          "kind": "evidence.record",
+          "label": "P1.0 intent unit grammar review"
+        },
+        {
+          "attributes": {
+            "acceptanceStatus": "accepted",
             "acceptedByAuthority": "authority.record.initial-human",
             "artifactRefs": [
               "docs/research/benchmark-plan.md"
@@ -834,6 +1319,23 @@
           "id": "evidence.record.requirement-note",
           "kind": "evidence.record",
           "label": "M1 requirement note"
+        },
+        {
+          "attributes": {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.m5-human-review",
+            "artifactRefs": [
+              "generated/b0-python-cli-calculator/roundtrip-report.json"
+            ],
+            "evidenceType": "verifier-report",
+            "observationStatus": "observed",
+            "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+            "status": "pass",
+            "summary": "The B0 metadata-backed verifier report records GraphEqualAfterNormalization pass and M5 evidence, authority, and history semantic validation."
+          },
+          "id": "evidence.record.roundtrip-report",
+          "kind": "evidence.record",
+          "label": "Round-trip verifier report"
         },
         {
           "attributes": {
@@ -854,23 +1356,6 @@
           "id": "evidence.record.test-plan",
           "kind": "evidence.record",
           "label": "Calculator test plan"
-        },
-        {
-          "attributes": {
-            "acceptanceStatus": "accepted",
-            "acceptedByAuthority": "authority.record.m5-human-review",
-            "artifactRefs": [
-              "generated/b0-python-cli-calculator/roundtrip-report.json"
-            ],
-            "evidenceType": "verifier-report",
-            "observationStatus": "observed",
-            "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator",
-            "status": "pass",
-            "summary": "The B0 metadata-backed verifier report records GraphEqualAfterNormalization pass and M5 evidence, authority, and history semantic validation."
-          },
-          "id": "evidence.record.roundtrip-report",
-          "kind": "evidence.record",
-          "label": "Round-trip verifier report"
         },
         {
           "attributes": {
@@ -897,6 +1382,20 @@
           "id": "history.delta.m5-evidence-authority-history",
           "kind": "history.delta",
           "label": "M5 evidence authority history refinement"
+        },
+        {
+          "attributes": {
+            "changeType": "refine-graph-grammar",
+            "gitCommit": null,
+            "gitCommitBoundary": "pending-current-milestone",
+            "gitCommitReason": "The P1.0 commit hash is not knowable before committing the graph content that defines this delta.",
+            "sequence": 3,
+            "status": "accepted",
+            "summary": "Revise B0 from flat GraphIR into explicit Intent Units while preserving the metadata-backed round-trip loop."
+          },
+          "id": "history.delta.p1-intent-unit-grammar",
+          "kind": "history.delta",
+          "label": "P1.0 intent unit grammar revision"
         },
         {
           "attributes": {
@@ -929,7 +1428,7 @@
         },
         {
           "attributes": {
-            "compilerContract": "future-native-python-compiler-contract-v0",
+            "compilerContract": "native-python-b0-unit-v0",
             "graphNodeIds": [
               "intent.behavior.add",
               "code.function.add"
@@ -945,39 +1444,7 @@
         },
         {
           "attributes": {
-            "compilerContract": "future-native-python-compiler-contract-v0",
-            "graphNodeIds": [
-              "code.cli.command",
-              "code.function.main"
-            ],
-            "requiredForRoundTrip": true,
-            "targetFile": "calc.py",
-            "targetKind": "function",
-            "targetName": "main"
-          },
-          "id": "metadata.source-map.main",
-          "kind": "metadata.sourceMap",
-          "label": "Source map for CLI main"
-        },
-        {
-          "attributes": {
-            "compilerContract": "future-native-python-compiler-contract-v0",
-            "graphNodeIds": [
-              "intent.product.calculator",
-              "code.module.calc"
-            ],
-            "requiredForRoundTrip": true,
-            "targetFile": "calc.py",
-            "targetKind": "module",
-            "targetName": "calc.py"
-          },
-          "id": "metadata.source-map.module",
-          "kind": "metadata.sourceMap",
-          "label": "Source map for calc.py module"
-        },
-        {
-          "attributes": {
-            "compilerContract": "future-native-python-compiler-contract-v0",
+            "compilerContract": "native-python-b0-unit-v0",
             "graphNodeIds": [
               "intent.product.calculator",
               "code.cli.command"
@@ -993,7 +1460,39 @@
         },
         {
           "attributes": {
-            "compilerContract": "future-native-python-compiler-contract-v0",
+            "compilerContract": "native-python-b0-unit-v0",
+            "graphNodeIds": [
+              "code.cli.command",
+              "code.function.main"
+            ],
+            "requiredForRoundTrip": true,
+            "targetFile": "calc.py",
+            "targetKind": "function",
+            "targetName": "main"
+          },
+          "id": "metadata.source-map.main",
+          "kind": "metadata.sourceMap",
+          "label": "Source map for CLI main"
+        },
+        {
+          "attributes": {
+            "compilerContract": "native-python-b0-unit-v0",
+            "graphNodeIds": [
+              "intent.product.calculator",
+              "code.module.calc"
+            ],
+            "requiredForRoundTrip": true,
+            "targetFile": "calc.py",
+            "targetKind": "module",
+            "targetName": "calc.py"
+          },
+          "id": "metadata.source-map.module",
+          "kind": "metadata.sourceMap",
+          "label": "Source map for calc.py module"
+        },
+        {
+          "attributes": {
+            "compilerContract": "native-python-b0-unit-v0",
             "graphNodeIds": [
               "intent.behavior.sub",
               "code.function.sub"
@@ -1063,6 +1562,10 @@
           {
             "kind": "metadata.sourceMap",
             "loss": "Stable source graph identity requires preservation metadata."
+          },
+          {
+            "kind": "IntentUnit",
+            "loss": "Intent Unit contracts, refinement structure, admission status, and reconstruction expectations are not recoverable from ordinary source code alone."
           }
         ],
         "native": {
@@ -1073,18 +1576,51 @@
           ]
         }
       },
-      "status": "m1-fixture",
+      "status": "p1-unit-fixture",
       "title": "B0 Python CLI Calculator",
+      "unitEdges": [
+        {
+          "attributes": {
+            "relationClass": "cross-unit",
+            "sharedNodeIds": [
+              "domain.concept.integer-operand",
+              "domain.concept.operation"
+            ]
+          },
+          "from": "unit.behavior.add",
+          "id": "unit-edge.add-shares-concept-sub",
+          "kind": "shares_concept",
+          "to": "unit.behavior.sub"
+        },
+        {
+          "attributes": {
+            "relationClass": "unit-refinement"
+          },
+          "from": "unit.product.calculator",
+          "id": "unit-edge.product-refines-add",
+          "kind": "refines",
+          "to": "unit.behavior.add"
+        },
+        {
+          "attributes": {
+            "relationClass": "unit-refinement"
+          },
+          "from": "unit.product.calculator",
+          "id": "unit-edge.product-refines-sub",
+          "kind": "refines",
+          "to": "unit.behavior.sub"
+        }
+      ],
       "verificationExpectations": {
-        "canonicalization": "graphir-v0.1",
-        "codeOnlyRoundTrip": "RetrofitCodeOnly(C) may recover only ProjectionCode(G)",
-        "exactRoundTrip": "Retrofit(Native(G)) = G for the B0 fixture under the implemented M4/M5 metadata-backed verifier",
+        "canonicalization": "graphir-v0.2-unit",
+        "codeOnlyRoundTrip": "RetrofitCodeOnly(C) may recover only ProjectionCode(G_unit), not Intent Units",
+        "exactRoundTrip": "Retrofit(Native(G_unit)) = G_unit for the B0 fixture under the implemented metadata-backed verifier",
         "expectedMode": "exact-with-metadata",
         "requiresMetadata": true
       }
     }
   },
-  "metadataVersion": "0.1.0",
+  "metadataVersion": "0.2.0",
   "nodeMap": [
     {
       "graphNodeId": "intent.behavior.add",
@@ -1218,6 +1754,10 @@
       {
         "kind": "metadata.sourceMap",
         "loss": "Stable source graph identity requires preservation metadata."
+      },
+      {
+        "kind": "IntentUnit",
+        "loss": "Intent Unit contracts, refinement structure, admission status, and reconstruction expectations are not recoverable from ordinary source code alone."
       }
     ],
     "emittedToSource": [
@@ -1228,18 +1768,26 @@
       "code.module.calc",
       "projection.target.python-source"
     ],
+    "intentUnitsMetadataOnly": [
+      "unit.behavior.add",
+      "unit.behavior.sub",
+      "unit.product.calculator"
+    ],
     "metadataOnly": [
       "authority.record.initial-human",
       "authority.record.m5-human-review",
+      "authority.record.p1-unit-grammar",
+      "evidence.record.p1-unit-grammar-review",
       "evidence.record.requirement-note",
-      "evidence.record.test-plan",
       "evidence.record.roundtrip-report",
+      "evidence.record.test-plan",
       "history.delta.initial-graph",
       "history.delta.m5-evidence-authority-history",
+      "history.delta.p1-intent-unit-grammar",
       "metadata.source-map.add",
+      "metadata.source-map.cli",
       "metadata.source-map.main",
       "metadata.source-map.module",
-      "metadata.source-map.cli",
       "metadata.source-map.sub"
     ],
     "projectionOnly": [
@@ -1251,12 +1799,170 @@
       "test.case.add",
       "test.case.sub"
     ],
-    "unclassified": []
+    "unclassified": [],
+    "unitEdgesMetadataOnly": [
+      "unit-edge.add-shares-concept-sub",
+      "unit-edge.product-refines-add",
+      "unit-edge.product-refines-sub"
+    ]
   },
   "sourceGraph": {
     "canonicalPath": "docs/examples/b0-python-cli-calculator.graph.json",
-    "digest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
-    "graphirVersion": "0.1.0",
+    "digest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+    "graphirVersion": "0.2.0",
     "inputPath": "docs/examples/b0-python-cli-calculator.graph.json"
-  }
+  },
+  "unitMap": [
+    {
+      "codeOnlyClaim": "lossy-code-only-projection",
+      "contractDigest": "sha256:428a930752c8e9eb2e39c1134894e292b440b67287c141456ead48472a60f0a7",
+      "internalEdgeIds": [
+        "edge.authority.initial-test-plan",
+        "edge.authority.m5-roundtrip-report",
+        "edge.authority.p1-delta",
+        "edge.code.main-calls-add",
+        "edge.code.module-contains-add",
+        "edge.evidence.add-test-plan",
+        "edge.history.changed-add",
+        "edge.history.p1-changed-add",
+        "edge.intent.add-uses-integer",
+        "edge.intent.add-uses-operation",
+        "edge.metadata.add-maps-from-intent",
+        "edge.metadata.add-maps-to-code",
+        "edge.projection.add-to-code",
+        "edge.test.add"
+      ],
+      "internalNodeIds": [
+        "authority.record.initial-human",
+        "authority.record.m5-human-review",
+        "authority.record.p1-unit-grammar",
+        "code.function.add",
+        "domain.concept.integer-operand",
+        "domain.concept.operation",
+        "evidence.record.roundtrip-report",
+        "evidence.record.test-plan",
+        "history.delta.initial-graph",
+        "history.delta.m5-evidence-authority-history",
+        "history.delta.p1-intent-unit-grammar",
+        "intent.behavior.add",
+        "metadata.source-map.add",
+        "test.case.add"
+      ],
+      "requiresMetadata": true,
+      "sourceMapIds": [
+        "metadata.source-map.add"
+      ],
+      "status": "accepted",
+      "unitId": "unit.behavior.add",
+      "unitKind": "behavior"
+    },
+    {
+      "codeOnlyClaim": "lossy-code-only-projection",
+      "contractDigest": "sha256:2bedd36d855a1ddb04deea52f3c449e262815d85bdeacbcc1fabd1240cc1c4e1",
+      "internalEdgeIds": [
+        "edge.authority.initial-test-plan",
+        "edge.authority.m5-roundtrip-report",
+        "edge.authority.p1-delta",
+        "edge.code.main-calls-sub",
+        "edge.code.module-contains-sub",
+        "edge.evidence.sub-test-plan",
+        "edge.history.changed-sub",
+        "edge.history.p1-changed-sub",
+        "edge.intent.sub-uses-integer",
+        "edge.intent.sub-uses-operation",
+        "edge.metadata.sub-maps-from-intent",
+        "edge.metadata.sub-maps-to-code",
+        "edge.projection.sub-to-code",
+        "edge.test.sub"
+      ],
+      "internalNodeIds": [
+        "authority.record.initial-human",
+        "authority.record.m5-human-review",
+        "authority.record.p1-unit-grammar",
+        "code.function.sub",
+        "domain.concept.integer-operand",
+        "domain.concept.operation",
+        "evidence.record.roundtrip-report",
+        "evidence.record.test-plan",
+        "history.delta.initial-graph",
+        "history.delta.m5-evidence-authority-history",
+        "history.delta.p1-intent-unit-grammar",
+        "intent.behavior.sub",
+        "metadata.source-map.sub",
+        "test.case.sub"
+      ],
+      "requiresMetadata": true,
+      "sourceMapIds": [
+        "metadata.source-map.sub"
+      ],
+      "status": "accepted",
+      "unitId": "unit.behavior.sub",
+      "unitKind": "behavior"
+    },
+    {
+      "codeOnlyClaim": "lossy-code-only-projection",
+      "contractDigest": "sha256:29c0101d2e504911154cfba69b6316ad590ff5cc66dfefed2605082456bcb06d",
+      "internalEdgeIds": [
+        "edge.authority.initial-delta",
+        "edge.authority.initial-requirement-note",
+        "edge.authority.initial-test-plan",
+        "edge.authority.m5-delta",
+        "edge.authority.m5-roundtrip-report",
+        "edge.authority.p1-delta",
+        "edge.authority.p1-review-evidence",
+        "edge.cli.handled-by-main",
+        "edge.code.module-contains-cli",
+        "edge.code.module-contains-main",
+        "edge.evidence.product-p1-unit-review",
+        "edge.evidence.product-requirement-note",
+        "edge.evidence.product-roundtrip-report",
+        "edge.history.changed-product",
+        "edge.history.m5-changed-authority",
+        "edge.history.m5-changed-initial-history",
+        "edge.history.m5-changed-requirement-evidence",
+        "edge.history.m5-changed-roundtrip-evidence",
+        "edge.history.m5-changed-test-plan-evidence",
+        "edge.history.p1-changed-add",
+        "edge.history.p1-changed-authority",
+        "edge.history.p1-changed-evidence",
+        "edge.history.p1-changed-product",
+        "edge.history.p1-changed-sub",
+        "edge.intent.product-decomposes-add",
+        "edge.intent.product-decomposes-sub",
+        "edge.metadata.cli-maps-from-product",
+        "edge.metadata.cli-maps-to-code",
+        "edge.metadata.module-maps-from-product",
+        "edge.metadata.module-maps-to-code",
+        "edge.projection.module-to-target",
+        "edge.projection.product-to-cli"
+      ],
+      "internalNodeIds": [
+        "authority.record.initial-human",
+        "authority.record.m5-human-review",
+        "authority.record.p1-unit-grammar",
+        "code.cli.command",
+        "code.function.main",
+        "code.module.calc",
+        "domain.concept.operation",
+        "evidence.record.p1-unit-grammar-review",
+        "evidence.record.requirement-note",
+        "evidence.record.roundtrip-report",
+        "history.delta.initial-graph",
+        "history.delta.m5-evidence-authority-history",
+        "history.delta.p1-intent-unit-grammar",
+        "intent.product.calculator",
+        "metadata.source-map.cli",
+        "metadata.source-map.module",
+        "projection.target.python-source"
+      ],
+      "requiresMetadata": true,
+      "sourceMapIds": [
+        "metadata.source-map.cli",
+        "metadata.source-map.module"
+      ],
+      "status": "accepted",
+      "unitId": "unit.product.calculator",
+      "unitKind": "product"
+    }
+  ]
 }

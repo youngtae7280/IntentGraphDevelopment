@@ -1,7 +1,7 @@
 {
   "graph": {
     "benchmarkId": "B0-python-cli-calculator",
-    "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
     "graphId": "ig.bench.b0.python-cli-calculator",
     "path": "docs/examples/b0-python-cli-calculator.graph.json"
   },
@@ -28,11 +28,11 @@
       "expectedMatched": true,
       "expectedValidation": "accepted",
       "postDelta": {
-        "graphDigest": "sha256:8fada2ac5fafeb264a4f8e36d86b2e8f13c386aae6c88f3ee32e9d4d05008081",
+        "graphDigest": "sha256:fbf259e85c3a99ff1de52c284cb8d3519c0ea98625ea6c55bbd46d83c75ed81b",
         "graphirValid": true,
         "semanticValidation": "pass"
       },
-      "proposalDigest": "sha256:2a4a995b262b128cb6c75dfd1fb7d5340995fa31a21427b0fee02a0daf1aadd9",
+      "proposalDigest": "sha256:b8cf7f879d0ee022c1d23ddb1f3898420eaf3ddf583c930fc7dbd54a2c388c83",
       "proposalId": "ai.proposal.b0.add-invalid-operation-test",
       "proposalPath": "docs/proposals/b0-ai-add-invalid-operation-test.proposal.json",
       "requiredAcceptedEvidenceRole": "base-graph-prerequisite",
@@ -63,11 +63,11 @@
       "expectedMatched": true,
       "expectedValidation": "rejected",
       "postDelta": {
-        "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+        "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
         "graphirValid": true,
         "semanticValidation": "pass"
       },
-      "proposalDigest": "sha256:69cc8825c945cc9c39b4627f7273bdfc7317bd485465c5dec69c093a90d630e8",
+      "proposalDigest": "sha256:e4de9c7c967f913d6c0a2ba24ffa948116e872ac1205a6e23b105795d26c4046",
       "proposalId": "ai.proposal.b0.invalid-self-authorized",
       "proposalPath": "docs/proposals/b0-ai-invalid-self-authorized.proposal.json",
       "requiredAcceptedEvidenceRole": "base-graph-prerequisite",
@@ -81,6 +81,7 @@
     "acceptedForApplication": 1,
     "aiOutputTreatedAsAuthority": false,
     "automaticApplication": false,
+    "automaticUnitMembershipMutation": false,
     "expectedMismatches": [],
     "proposalCount": 2,
     "rejected": 1

@@ -8,6 +8,8 @@ This model defines how a future workbench may navigate the B0 IntentGraph projec
 
 The projection must expose:
 
+- `intentUnitsByKind`
+- `unitEdgesByKind`
 - `nodesByKind`
 - `edgesByKind`
 - `incomingEdgesByNode`
@@ -15,6 +17,7 @@ The projection must expose:
 - `evidenceByTarget`
 - `authorityByTarget`
 - `historyChangesByDelta`
+- `unitMembership`
 - `proposalResultsById`
 
 ## Node Drill-Down
@@ -44,6 +47,21 @@ For a selected proposal, a workbench may show:
 - errors
 - authority record ID
 - proposal digest
+
+## Unit Drill-Down
+
+For a selected Intent Unit, a workbench may show:
+
+- unit ID
+- unit kind
+- contract summary
+- refinement and cross-unit relationships
+- internal graph node IDs
+- internal graph edge IDs
+- projection and reconstruction expectations
+- evidence, authority, and history references
+
+This drill-down is still a projection. It is not accepted source authority.
 
 ## Diagram Projection
 

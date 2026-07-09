@@ -7,22 +7,22 @@
   },
   "evidenceAuthorityHistory": {
     "aiFinalAuthorityCount": 0,
-    "authorityAccepted": 2,
-    "evidenceAccepted": 3,
+    "authorityAccepted": 3,
+    "evidenceAccepted": 4,
     "gitVerifiedCount": 1,
-    "historyAccepted": 2,
-    "pendingCurrentMilestoneCount": 1
+    "historyAccepted": 3,
+    "pendingCurrentMilestoneCount": 2
   },
   "graph": {
     "benchmarkId": "B0-python-cli-calculator",
-    "edgeCount": 46,
+    "edgeCount": 54,
     "edgeCountsByKind": {
-      "authorizes": 5,
+      "authorizes": 7,
       "calls": 2,
-      "changes": 8,
+      "changes": 13,
       "contains": 4,
       "decomposes_to": 2,
-      "evidenced_by": 4,
+      "evidenced_by": 5,
       "handled_by": 1,
       "maps_from": 5,
       "maps_to": 5,
@@ -36,7 +36,9 @@
         "edge.authority.initial-requirement-note",
         "edge.authority.initial-test-plan",
         "edge.authority.m5-delta",
-        "edge.authority.m5-roundtrip-report"
+        "edge.authority.m5-roundtrip-report",
+        "edge.authority.p1-delta",
+        "edge.authority.p1-review-evidence"
       ],
       "calls": [
         "edge.code.main-calls-add",
@@ -50,7 +52,12 @@
         "edge.history.m5-changed-initial-history",
         "edge.history.m5-changed-requirement-evidence",
         "edge.history.m5-changed-roundtrip-evidence",
-        "edge.history.m5-changed-test-plan-evidence"
+        "edge.history.m5-changed-test-plan-evidence",
+        "edge.history.p1-changed-add",
+        "edge.history.p1-changed-authority",
+        "edge.history.p1-changed-evidence",
+        "edge.history.p1-changed-product",
+        "edge.history.p1-changed-sub"
       ],
       "contains": [
         "edge.code.module-contains-add",
@@ -64,6 +71,7 @@
       ],
       "evidenced_by": [
         "edge.evidence.add-test-plan",
+        "edge.evidence.product-p1-unit-review",
         "edge.evidence.product-requirement-note",
         "edge.evidence.product-roundtrip-report",
         "edge.evidence.sub-test-plan"
@@ -102,17 +110,27 @@
         "edge.intent.sub-uses-operation"
       ]
     },
-    "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
     "graphId": "ig.bench.b0.python-cli-calculator",
-    "nodeCount": 25,
+    "intentUnitCount": 3,
+    "intentUnitsByKind": {
+      "behavior": [
+        "unit.behavior.add",
+        "unit.behavior.sub"
+      ],
+      "product": [
+        "unit.product.calculator"
+      ]
+    },
+    "nodeCount": 28,
     "nodeCountsByKind": {
-      "authority.record": 2,
+      "authority.record": 3,
       "code.cli": 1,
       "code.function": 3,
       "code.module": 1,
       "domain.concept": 2,
-      "evidence.record": 3,
-      "history.delta": 2,
+      "evidence.record": 4,
+      "history.delta": 3,
       "intent.requirement": 3,
       "metadata.sourceMap": 5,
       "projection.target": 1,
@@ -121,7 +139,8 @@
     "nodesByKind": {
       "authority.record": [
         "authority.record.initial-human",
-        "authority.record.m5-human-review"
+        "authority.record.m5-human-review",
+        "authority.record.p1-unit-grammar"
       ],
       "code.cli": [
         "code.cli.command"
@@ -139,13 +158,15 @@
         "domain.concept.operation"
       ],
       "evidence.record": [
+        "evidence.record.p1-unit-grammar-review",
         "evidence.record.requirement-note",
         "evidence.record.roundtrip-report",
         "evidence.record.test-plan"
       ],
       "history.delta": [
         "history.delta.initial-graph",
-        "history.delta.m5-evidence-authority-history"
+        "history.delta.m5-evidence-authority-history",
+        "history.delta.p1-intent-unit-grammar"
       ],
       "intent.requirement": [
         "intent.behavior.add",
@@ -166,18 +187,28 @@
         "test.case.add",
         "test.case.sub"
       ]
+    },
+    "unitEdgeCount": 3,
+    "unitEdgesByKind": {
+      "refines": [
+        "unit-edge.product-refines-add",
+        "unit-edge.product-refines-sub"
+      ],
+      "shares_concept": [
+        "unit-edge.add-shares-concept-sub"
+      ]
     }
   },
   "inputConsistency": {
     "graphBenchmarkId": "B0-python-cli-calculator",
-    "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
     "proposalBenchmarkId": "B0-python-cli-calculator",
     "proposalBenchmarkMatchesGraph": true,
     "proposalDigestMatchesGraph": true,
-    "proposalGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "proposalGraphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
     "result": "pass",
     "roundtripDigestMatchesGraph": true,
-    "roundtripOriginalGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678"
+    "roundtripOriginalGraphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd"
   },
   "inputs": {
     "graph": "docs/examples/b0-python-cli-calculator.graph.json",
@@ -186,6 +217,9 @@
   },
   "navigation": {
     "authorityByTarget": {
+      "evidence.record.p1-unit-grammar-review": [
+        "edge.authority.p1-review-evidence"
+      ],
       "evidence.record.requirement-note": [
         "edge.authority.initial-requirement-note"
       ],
@@ -200,6 +234,9 @@
       ],
       "history.delta.m5-evidence-authority-history": [
         "edge.authority.m5-delta"
+      ],
+      "history.delta.p1-intent-unit-grammar": [
+        "edge.authority.p1-delta"
       ]
     },
     "evidenceByTarget": {
@@ -210,6 +247,7 @@
         "edge.evidence.sub-test-plan"
       ],
       "intent.product.calculator": [
+        "edge.evidence.product-p1-unit-review",
         "edge.evidence.product-requirement-note",
         "edge.evidence.product-roundtrip-report"
       ]
@@ -226,11 +264,21 @@
         "edge.history.m5-changed-requirement-evidence",
         "edge.history.m5-changed-roundtrip-evidence",
         "edge.history.m5-changed-test-plan-evidence"
+      ],
+      "history.delta.p1-intent-unit-grammar": [
+        "edge.history.p1-changed-add",
+        "edge.history.p1-changed-authority",
+        "edge.history.p1-changed-evidence",
+        "edge.history.p1-changed-product",
+        "edge.history.p1-changed-sub"
       ]
     },
     "incomingEdgesByNode": {
       "authority.record.m5-human-review": [
         "edge.history.m5-changed-authority"
+      ],
+      "authority.record.p1-unit-grammar": [
+        "edge.history.p1-changed-authority"
       ],
       "code.cli.command": [
         "edge.code.module-contains-cli",
@@ -266,6 +314,11 @@
         "edge.intent.add-uses-operation",
         "edge.intent.sub-uses-operation"
       ],
+      "evidence.record.p1-unit-grammar-review": [
+        "edge.authority.p1-review-evidence",
+        "edge.evidence.product-p1-unit-review",
+        "edge.history.p1-changed-evidence"
+      ],
       "evidence.record.requirement-note": [
         "edge.authority.initial-requirement-note",
         "edge.evidence.product-requirement-note",
@@ -289,18 +342,24 @@
       "history.delta.m5-evidence-authority-history": [
         "edge.authority.m5-delta"
       ],
+      "history.delta.p1-intent-unit-grammar": [
+        "edge.authority.p1-delta"
+      ],
       "intent.behavior.add": [
         "edge.history.changed-add",
+        "edge.history.p1-changed-add",
         "edge.intent.product-decomposes-add",
         "edge.metadata.add-maps-from-intent"
       ],
       "intent.behavior.sub": [
         "edge.history.changed-sub",
+        "edge.history.p1-changed-sub",
         "edge.intent.product-decomposes-sub",
         "edge.metadata.sub-maps-from-intent"
       ],
       "intent.product.calculator": [
         "edge.history.changed-product",
+        "edge.history.p1-changed-product",
         "edge.metadata.cli-maps-from-product",
         "edge.metadata.module-maps-from-product"
       ],
@@ -323,6 +382,10 @@
       "authority.record.m5-human-review": [
         "edge.authority.m5-delta",
         "edge.authority.m5-roundtrip-report"
+      ],
+      "authority.record.p1-unit-grammar": [
+        "edge.authority.p1-delta",
+        "edge.authority.p1-review-evidence"
       ],
       "code.cli.command": [
         "edge.cli.handled-by-main"
@@ -350,6 +413,13 @@
         "edge.history.m5-changed-roundtrip-evidence",
         "edge.history.m5-changed-test-plan-evidence"
       ],
+      "history.delta.p1-intent-unit-grammar": [
+        "edge.history.p1-changed-add",
+        "edge.history.p1-changed-authority",
+        "edge.history.p1-changed-evidence",
+        "edge.history.p1-changed-product",
+        "edge.history.p1-changed-sub"
+      ],
       "intent.behavior.add": [
         "edge.evidence.add-test-plan",
         "edge.intent.add-uses-integer",
@@ -365,6 +435,7 @@
         "edge.test.sub"
       ],
       "intent.product.calculator": [
+        "edge.evidence.product-p1-unit-review",
         "edge.evidence.product-requirement-note",
         "edge.evidence.product-roundtrip-report",
         "edge.intent.product-decomposes-add",
@@ -407,11 +478,11 @@
         },
         "errors": [],
         "postDelta": {
-          "graphDigest": "sha256:8fada2ac5fafeb264a4f8e36d86b2e8f13c386aae6c88f3ee32e9d4d05008081",
+          "graphDigest": "sha256:fbf259e85c3a99ff1de52c284cb8d3519c0ea98625ea6c55bbd46d83c75ed81b",
           "graphirValid": true,
           "semanticValidation": "pass"
         },
-        "proposalDigest": "sha256:2a4a995b262b128cb6c75dfd1fb7d5340995fa31a21427b0fee02a0daf1aadd9",
+        "proposalDigest": "sha256:b8cf7f879d0ee022c1d23ddb1f3898420eaf3ddf583c930fc7dbd54a2c388c83",
         "validation": "accepted"
       },
       "ai.proposal.b0.invalid-self-authorized": {
@@ -430,12 +501,137 @@
           "delta[0] addNode id already exists: intent.product.calculator"
         ],
         "postDelta": {
-          "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+          "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
           "graphirValid": true,
           "semanticValidation": "pass"
         },
-        "proposalDigest": "sha256:69cc8825c945cc9c39b4627f7273bdfc7317bd485465c5dec69c093a90d630e8",
+        "proposalDigest": "sha256:e4de9c7c967f913d6c0a2ba24ffa948116e872ac1205a6e23b105795d26c4046",
         "validation": "rejected"
+      }
+    },
+    "unitMembership": {
+      "unit.behavior.add": {
+        "edgeIds": [
+          "edge.authority.initial-test-plan",
+          "edge.authority.m5-roundtrip-report",
+          "edge.authority.p1-delta",
+          "edge.code.main-calls-add",
+          "edge.code.module-contains-add",
+          "edge.evidence.add-test-plan",
+          "edge.history.changed-add",
+          "edge.history.p1-changed-add",
+          "edge.intent.add-uses-integer",
+          "edge.intent.add-uses-operation",
+          "edge.metadata.add-maps-from-intent",
+          "edge.metadata.add-maps-to-code",
+          "edge.projection.add-to-code",
+          "edge.test.add"
+        ],
+        "nodeIds": [
+          "authority.record.initial-human",
+          "authority.record.m5-human-review",
+          "authority.record.p1-unit-grammar",
+          "code.function.add",
+          "domain.concept.integer-operand",
+          "domain.concept.operation",
+          "evidence.record.roundtrip-report",
+          "evidence.record.test-plan",
+          "history.delta.initial-graph",
+          "history.delta.m5-evidence-authority-history",
+          "history.delta.p1-intent-unit-grammar",
+          "intent.behavior.add",
+          "metadata.source-map.add",
+          "test.case.add"
+        ]
+      },
+      "unit.behavior.sub": {
+        "edgeIds": [
+          "edge.authority.initial-test-plan",
+          "edge.authority.m5-roundtrip-report",
+          "edge.authority.p1-delta",
+          "edge.code.main-calls-sub",
+          "edge.code.module-contains-sub",
+          "edge.evidence.sub-test-plan",
+          "edge.history.changed-sub",
+          "edge.history.p1-changed-sub",
+          "edge.intent.sub-uses-integer",
+          "edge.intent.sub-uses-operation",
+          "edge.metadata.sub-maps-from-intent",
+          "edge.metadata.sub-maps-to-code",
+          "edge.projection.sub-to-code",
+          "edge.test.sub"
+        ],
+        "nodeIds": [
+          "authority.record.initial-human",
+          "authority.record.m5-human-review",
+          "authority.record.p1-unit-grammar",
+          "code.function.sub",
+          "domain.concept.integer-operand",
+          "domain.concept.operation",
+          "evidence.record.roundtrip-report",
+          "evidence.record.test-plan",
+          "history.delta.initial-graph",
+          "history.delta.m5-evidence-authority-history",
+          "history.delta.p1-intent-unit-grammar",
+          "intent.behavior.sub",
+          "metadata.source-map.sub",
+          "test.case.sub"
+        ]
+      },
+      "unit.product.calculator": {
+        "edgeIds": [
+          "edge.authority.initial-delta",
+          "edge.authority.initial-requirement-note",
+          "edge.authority.initial-test-plan",
+          "edge.authority.m5-delta",
+          "edge.authority.m5-roundtrip-report",
+          "edge.authority.p1-delta",
+          "edge.authority.p1-review-evidence",
+          "edge.cli.handled-by-main",
+          "edge.code.module-contains-cli",
+          "edge.code.module-contains-main",
+          "edge.evidence.product-p1-unit-review",
+          "edge.evidence.product-requirement-note",
+          "edge.evidence.product-roundtrip-report",
+          "edge.history.changed-product",
+          "edge.history.m5-changed-authority",
+          "edge.history.m5-changed-initial-history",
+          "edge.history.m5-changed-requirement-evidence",
+          "edge.history.m5-changed-roundtrip-evidence",
+          "edge.history.m5-changed-test-plan-evidence",
+          "edge.history.p1-changed-add",
+          "edge.history.p1-changed-authority",
+          "edge.history.p1-changed-evidence",
+          "edge.history.p1-changed-product",
+          "edge.history.p1-changed-sub",
+          "edge.intent.product-decomposes-add",
+          "edge.intent.product-decomposes-sub",
+          "edge.metadata.cli-maps-from-product",
+          "edge.metadata.cli-maps-to-code",
+          "edge.metadata.module-maps-from-product",
+          "edge.metadata.module-maps-to-code",
+          "edge.projection.module-to-target",
+          "edge.projection.product-to-cli"
+        ],
+        "nodeIds": [
+          "authority.record.initial-human",
+          "authority.record.m5-human-review",
+          "authority.record.p1-unit-grammar",
+          "code.cli.command",
+          "code.function.main",
+          "code.module.calc",
+          "domain.concept.operation",
+          "evidence.record.p1-unit-grammar-review",
+          "evidence.record.requirement-note",
+          "evidence.record.roundtrip-report",
+          "history.delta.initial-graph",
+          "history.delta.m5-evidence-authority-history",
+          "history.delta.p1-intent-unit-grammar",
+          "intent.product.calculator",
+          "metadata.source-map.cli",
+          "metadata.source-map.module",
+          "projection.target.python-source"
+        ]
       }
     }
   },
@@ -457,6 +653,7 @@
       "evidence records",
       "authority records",
       "semantic graph history",
+      "intent unit contracts and unit refinement structure",
       "stable source graph IDs",
       "metadata source-map node IDs",
       "accepted change state",
@@ -471,12 +668,47 @@
     },
     "equalityMode": "GraphEqualAfterNormalization",
     "graphEqual": true,
+    "intentUnitPreservation": {
+      "matched": true,
+      "original": {
+        "errors": [],
+        "refinementEdges": [
+          "unit-edge.product-refines-add",
+          "unit-edge.product-refines-sub"
+        ],
+        "result": "pass",
+        "unitCount": 3,
+        "unitEdgeCount": 3,
+        "unitIds": [
+          "unit.behavior.add",
+          "unit.behavior.sub",
+          "unit.product.calculator"
+        ]
+      },
+      "originalDigest": "sha256:25dd4217d270f318ae4f01b2ed2630c6538b7eaf22e54418c4bfa66f53a1f2ca",
+      "reconstructed": {
+        "errors": [],
+        "refinementEdges": [
+          "unit-edge.product-refines-add",
+          "unit-edge.product-refines-sub"
+        ],
+        "result": "pass",
+        "unitCount": 3,
+        "unitEdgeCount": 3,
+        "unitIds": [
+          "unit.behavior.add",
+          "unit.behavior.sub",
+          "unit.product.calculator"
+        ]
+      },
+      "reconstructedDigest": "sha256:25dd4217d270f318ae4f01b2ed2630c6538b7eaf22e54418c4bfa66f53a1f2ca"
+    },
     "m5ClaimScope": {
       "codeDerivedRecovery": false,
       "hiddenStateSnapshotUsed": true,
       "level4Claim": "metadata-backed preservation with semantic validation"
     },
-    "metadataGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "metadataGraphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
     "result": "pass",
     "semanticValidation": "pass"
   }

@@ -38,6 +38,8 @@ Accept(Proposal, G) <=>
 
 AI confidence, fluency, or apparent correctness is never authority.
 
+In GraphIR v0.2, AI proposal output is also not an Intent Unit. A proposal may suggest new internal graph facts or future unit membership, but accepted unit membership requires a deterministic graph delta and explicit authority.
+
 ## Proposal Shape
 
 ```json

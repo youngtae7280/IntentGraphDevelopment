@@ -7,6 +7,7 @@
     "evidence records",
     "authority records",
     "semantic graph history",
+    "intent unit contracts and unit refinement structure",
     "stable source graph IDs",
     "metadata source-map node IDs",
     "accepted change state",
@@ -86,5 +87,5 @@
     ]
   },
   "sourcePath": "generated/b0-python-cli-calculator/calc.py",
-  "sourceSha256": "f1dabfa1f1de8398707f61f2e7f55ee7ca5b71756bf522791ab7a441b7326921"
+  "sourceSha256": "4f89acd3c0b3ed758c275f154ba9d8f58ef19c1f32c8d390f4d10ebdf68b2fe9"
 }

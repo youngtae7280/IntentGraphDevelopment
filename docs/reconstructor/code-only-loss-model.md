@@ -34,6 +34,7 @@ Code-only reconstruction cannot recover:
 - evidence records
 - authority records
 - semantic graph history
+- Intent Unit contracts, admission status, refinement structure, or reconstruction expectations
 - stable source graph IDs
 - metadata source-map node IDs
 - accepted change state

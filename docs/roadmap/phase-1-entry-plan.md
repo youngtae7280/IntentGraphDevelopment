@@ -22,6 +22,10 @@ G_unit -> Native(G_unit) -> (C, mu_unit) -> Retrofit(C, mu_unit) -> G_unit' -> V
 
 Goal: revise the Phase 0 B0 source graph from a flat GraphIR into a unit-structured GraphIR without weakening the round-trip, evidence, authority, history, AI proposal, or workbench boundaries.
 
+Status: passed on 2026-07-09. See [P1.0 Intent Unit Grammar Review](../reviews/p1.0-intent-unit-grammar-review.md).
+
+Do not open a larger benchmark, UI, AI runtime, or broader compiler slice automatically. The recommended next slice is to reduce `hiddenState.sourceGraphSnapshot` dependence and add an executable GraphIR v0.2 validation harness.
+
 Expected changes:
 
 - introduce `IntentUnit` as a first-class source construct

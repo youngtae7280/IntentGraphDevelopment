@@ -4,11 +4,13 @@ GraphIR is the canonical internal representation used by future compilers, recon
 
 The formal model for this boundary is defined in `docs/design/intentgraph-formal-blueprint.md`.
 
-Version: `0.1.0`
+Version: `0.2.0` draft for P1.0, with `0.1.0` retained as the Phase 0 flat baseline.
 
 ## Boundary Claim
 
-GraphIR v0.1 is intentionally small. It must be able to describe the `B0-python-cli-calculator` benchmark and no more.
+GraphIR v0.1 was intentionally small. It described the `B0-python-cli-calculator` benchmark as a flat node/edge graph.
+
+GraphIR v0.2 adds first-class Intent Units while keeping the Phase 0 node and edge graph as the internal fact graph. The v0.2 grammar is defined in [GraphIR v0.2 Intent Units](graphir-v0.2-intent-units.md).
 
 GraphIR v0.1 includes:
 
@@ -24,6 +26,16 @@ GraphIR v0.1 includes:
 - semantic history records
 - preservation metadata nodes
 
+GraphIR v0.2 additionally includes:
+
+- `intentUnits`
+- `unitEdges`
+- unit contracts
+- unit internal graph membership
+- unit projection and reconstruction expectations
+- unit evidence, authority, and history linkage
+- unit admission rules that distinguish accepted units from raw utterances, notes, hypotheses, imported facts, or AI proposals
+
 GraphIR v0.1 excludes:
 
 - executable compiler behavior
@@ -37,13 +49,15 @@ GraphIR v0.1 excludes:
 
 ```json
 {
-  "graphirVersion": "0.1.0",
+  "graphirVersion": "0.2.0",
   "graphId": "ig.bench.b0.python-cli-calculator",
   "benchmarkId": "B0-python-cli-calculator",
   "title": "B0 Python CLI Calculator",
   "status": "m1-fixture",
   "nodes": [],
   "edges": [],
+  "intentUnits": [],
+  "unitEdges": [],
   "projections": {
     "native": {
       "language": "python",
@@ -59,6 +73,84 @@ GraphIR v0.1 excludes:
   }
 }
 ```
+
+For the original Phase 0 flat shape, see the M1/M4 reviews. P1.0 uses the v0.2 shape above.
+
+## Intent Unit Shape
+
+GraphIR v0.2 Intent Units follow this shape:
+
+```json
+{
+  "id": "unit.behavior.add",
+  "kind": "behavior",
+  "status": "accepted",
+  "contract": {
+    "summary": "calc add LEFT RIGHT prints LEFT plus RIGHT.",
+    "acceptedDevelopmentCommitment": "The add behavior is accepted as a compilable and verifiable behavior unit."
+  },
+  "internalGraph": {
+    "nodeIds": [],
+    "edgeIds": []
+  },
+  "projection": {
+    "nativeTarget": "python",
+    "targetFiles": ["calc.py"],
+    "codeNodeIds": [],
+    "sourceMapIds": []
+  },
+  "reconstruction": {
+    "expectedMode": "metadata-backed-unit-roundtrip",
+    "requiresMetadata": true,
+    "sourceMapIds": [],
+    "codeOnlyClaim": "lossy-code-only-projection"
+  },
+  "verification": {
+    "expectedRoundTrip": "Verify(G_unit, G_unit_prime) = pass under GraphEqualAfterNormalization",
+    "testCaseIds": [],
+    "evidenceIds": []
+  },
+  "evidence": [],
+  "authority": [],
+  "history": [],
+  "admission": {
+    "stableId": true,
+    "acceptedCommitment": true,
+    "realizationPath": true,
+    "verificationObligation": true,
+    "evidenceBoundary": true,
+    "authorityBoundary": true,
+    "projectionBoundary": true,
+    "reconstructionBoundary": true,
+    "rawUtterance": false,
+    "hypothesisOnly": false
+  }
+}
+```
+
+P1.0 supports `product` and `behavior` unit kinds for B0.
+
+## Unit Edge Shape
+
+```json
+{
+  "id": "unit-edge.product-refines-add",
+  "kind": "refines",
+  "from": "unit.product.calculator",
+  "to": "unit.behavior.add",
+  "attributes": {
+    "relationClass": "unit-refinement"
+  }
+}
+```
+
+P1.0 unit edge kinds:
+
+| Kind | Relation class | Meaning |
+|---|---|---|
+| `refines` | refinement | parent unit decomposes into child unit |
+| `shares_concept` | cross-unit | units share a concept or vocabulary |
+| `projects_with` | cross-unit | units share a projection or generated artifact |
 
 ## Node Shape
 
