@@ -13,7 +13,7 @@ def sub(left: int, right: int) -> int:
     return left - right
 
 
-def mul(left: int, right: int) -> int:
+def multiply(left: int, right: int) -> int:
     return left * right
 
 
@@ -37,7 +37,7 @@ def main(argv: list[str] | None = None) -> int:
         print(sub(left, right))
         return 0
     if operation == "mul":
-        print(mul(left, right))
+        print(multiply(left, right))
         return 0
     print(f"unsupported operation: {operation}", file=sys.stderr)
     return 2

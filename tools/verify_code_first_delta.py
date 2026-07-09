@@ -12,6 +12,7 @@ from verify_code_first_overlay import verify as verify_overlay
 
 
 REPORT_VERSION = "0.1.0"
+ALLOWED_MODES = {"code-first-maintenance-delta", "code-first-refactor-delta"}
 
 
 class DeltaVerifyError(Exception):
@@ -68,6 +69,17 @@ def overlay_unit_ids(overlay: dict[str, Any]) -> set[str]:
     }
 
 
+def unit_code_fact_ids(overlay: dict[str, Any], unit_id: str) -> set[str]:
+    for unit in overlay.get("intentUnits", []):
+        if isinstance(unit, dict) and unit.get("id") == unit_id:
+            return {
+                ref["factId"]
+                for ref in unit.get("codeFactRefs", [])
+                if isinstance(ref, dict) and isinstance(ref.get("factId"), str)
+            }
+    return set()
+
+
 def record_ids(overlay: dict[str, Any], field: str) -> set[str]:
     return {
         record["id"]
@@ -96,8 +108,14 @@ def verify_delta(
     added_fact_ids = sorted(after_ids - before_ids)
     removed_fact_ids = sorted(before_ids - after_ids)
     expected_added = set(delta.get("expectedAfter", {}).get("addedCodeFactIds", []))
+    expected_removed = set(delta.get("expectedAfter", {}).get("removedCodeFactIds", []))
     added_behaviors = set(delta.get("expectedAfter", {}).get("addedBehaviorUnits", []))
     preserved_behaviors = set(delta.get("expectedAfter", {}).get("preservedBehaviorUnits", []))
+    remapped_units = [
+        remap
+        for remap in delta.get("expectedAfter", {}).get("remappedUnits", [])
+        if isinstance(remap, dict)
+    ]
     expected_authority_ids = set(delta.get("authorityIds", []))
     expected_evidence_ids = set(delta.get("evidenceIds", []))
     expected_history_ids = set(delta.get("historyIds", []))
@@ -108,8 +126,8 @@ def verify_delta(
 
     checks: list[str] = []
     errors: list[str] = []
-    if delta.get("mode") != "code-first-maintenance-delta":
-        errors.append("delta mode must be code-first-maintenance-delta")
+    if delta.get("mode") not in ALLOWED_MODES:
+        errors.append(f"delta mode must be one of {sorted(ALLOWED_MODES)}")
     if delta.get("sourceTextEqualityRequired") is not False:
         errors.append("delta must not require source text equality")
     if delta.get("hiddenGeneratedCodeSnapshotUsed") is not False:
@@ -126,10 +144,30 @@ def verify_delta(
         errors.append("before mapping obligation count does not match before overlay artifact")
     if not expected_added.issubset(set(added_fact_ids)):
         errors.append(f"missing expected added facts: {sorted(expected_added - set(added_fact_ids))}")
+    if not expected_removed.issubset(set(removed_fact_ids)):
+        errors.append(f"missing expected removed facts: {sorted(expected_removed - set(removed_fact_ids))}")
     if not added_behaviors.issubset(units):
         errors.append(f"missing added behavior units: {sorted(added_behaviors - units)}")
     if not preserved_behaviors.issubset(units):
         errors.append(f"missing preserved behavior units: {sorted(preserved_behaviors - units)}")
+    for remap in remapped_units:
+        unit_id = remap.get("unitId")
+        from_facts = set(remap.get("fromCodeFactIds", []))
+        to_facts = set(remap.get("toCodeFactIds", []))
+        current_unit_facts = unit_code_fact_ids(overlay, unit_id) if isinstance(unit_id, str) else set()
+        if unit_id not in units:
+            errors.append(f"missing remapped unit: {unit_id}")
+            continue
+        if not from_facts.issubset(before_ids):
+            errors.append(f"remapped unit {unit_id} missing before facts: {sorted(from_facts - before_ids)}")
+        if from_facts.intersection(after_ids):
+            errors.append(f"remapped unit {unit_id} old facts still present after refactor: {sorted(from_facts.intersection(after_ids))}")
+        if not to_facts.issubset(after_ids):
+            errors.append(f"remapped unit {unit_id} missing after facts: {sorted(to_facts - after_ids)}")
+        if not to_facts.intersection(current_unit_facts):
+            errors.append(f"remapped unit {unit_id} does not reference any new code facts")
+        if from_facts.intersection(current_unit_facts):
+            errors.append(f"remapped unit {unit_id} still references old code facts: {sorted(from_facts.intersection(current_unit_facts))}")
     if overlay_report["result"] != "pass":
         errors.append("after overlay verification failed")
     if not expected_evidence_ids.issubset(evidence_ids):
@@ -144,13 +182,15 @@ def verify_delta(
     checks.append("before overlay digest verified against before overlay artifact")
     checks.append("before mapping obligation count verified against before overlay artifact")
     checks.append("after overlay verification executed")
+    checks.append("expected added and removed code facts verified")
+    checks.append("remapped units verified when declared")
     checks.append("delta evidence, authority, and history ids verified")
     checks.append("source text equality not required")
     checks.append("hidden generated-code snapshot not used")
 
     return {
         "reportVersion": REPORT_VERSION,
-        "mode": "code-first-maintenance-delta",
+        "mode": delta.get("mode", "code-first-maintenance-delta"),
         "result": "pass" if not errors else "fail",
         "sourceRole": after_facts.get("source", {}).get("role"),
         "sourceTextEqualityRequired": False,
@@ -185,6 +225,16 @@ def verify_delta(
             "addedCodeFactIds": added_fact_ids,
             "removedCodeFactIds": removed_fact_ids,
             "expectedAddedCodeFactIds": sorted(expected_added),
+            "expectedRemovedCodeFactIds": sorted(expected_removed),
+            "remappedUnits": [
+                {
+                    "unitId": remap.get("unitId"),
+                    "fromCodeFactIds": sorted(remap.get("fromCodeFactIds", [])),
+                    "toCodeFactIds": sorted(remap.get("toCodeFactIds", [])),
+                    "currentUnitCodeFactIds": sorted(unit_code_fact_ids(overlay, remap.get("unitId", ""))),
+                }
+                for remap in remapped_units
+            ],
         },
         "deltaRecordsVerification": {
             "authorityIds": sorted(expected_authority_ids),

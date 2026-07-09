@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.6 Repeatable B0 Typed Preservation Negative Probe Harness
+P1.7 Tiny Code-First Behavior-Preserving Refactor Delta Probe
 ```
 
-This is a focused B0 typed-preservation negative-probe harness only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused CF0 code-first refactor delta probe only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -265,3 +265,9 @@ Status: completed on 2026-07-09. See [P1.5 B0 Typed Preservation Review](../revi
 Goal: commit a deterministic harness that proves B0 retrofit rejects missing, stale, unsorted, or boundary-violating typed preservation metadata.
 
 Status: completed on 2026-07-09. See [P1.6 B0 Typed Preservation Negative Probes Review](../reviews/p1.6-b0-typed-preservation-negative-probes-review.md).
+
+## P1.7: Tiny Code-First Behavior-Preserving Refactor Delta Probe
+
+Goal: prove a tiny code-first refactor where `unit.behavior.mul` remains stable while implementation code facts migrate from `mul` to `multiply` and behavior remains unchanged.
+
+Status: completed on 2026-07-09. See [P1.7 Code-First Refactor Delta Review](../reviews/p1.7-code-first-refactor-delta-review.md).

@@ -15,7 +15,7 @@
       "kind": "file",
       "language": "python",
       "lineCount": 47,
-      "sha256": "60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524",
+      "sha256": "ed6cf9c2748ac22fb3459b46179b4747a63edd0d5dbcea27566b32de3ff3683f",
       "sourceMode": "filesystem-source"
     },
     {
@@ -117,7 +117,7 @@
       "artifactPath": "calc.py",
       "confidence": "deterministic",
       "fromSymbol": "main",
-      "id": "fact.function.main.calls.multiply",
+      "id": "fact.function.main.calls.mul",
       "kind": "call",
       "location": {
         "columnEnd": 12,
@@ -126,7 +126,7 @@
         "lineStart": 20
       },
       "sourceMode": "ast-extracted",
-      "toSymbol": "multiply"
+      "toSymbol": "mul"
     },
     {
       "artifactPath": "calc.py",
@@ -195,7 +195,7 @@
       ],
       "artifactPath": "calc.py",
       "confidence": "deterministic",
-      "id": "fact.function.multiply",
+      "id": "fact.function.mul",
       "kind": "function",
       "location": {
         "columnEnd": 23,
@@ -204,13 +204,13 @@
         "lineStart": 16
       },
       "sourceMode": "ast-extracted",
-      "symbol": "multiply"
+      "symbol": "mul"
     },
     {
       "artifactPath": "calc.py",
       "confidence": "deterministic",
       "expression": "left * right",
-      "id": "fact.function.multiply.return.left_times_right",
+      "id": "fact.function.mul.return.left_times_right",
       "kind": "return-expression",
       "location": {
         "columnEnd": 23,
@@ -219,7 +219,7 @@
         "lineStart": 16
       },
       "sourceMode": "ast-extracted",
-      "symbol": "multiply"
+      "symbol": "mul"
     },
     {
       "arguments": [
@@ -258,6 +258,6 @@
   "source": {
     "path": "docs/examples/cf0-python-cli-calculator/source/calc.py",
     "role": "hand-written",
-    "sha256": "60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+    "sha256": "ed6cf9c2748ac22fb3459b46179b4747a63edd0d5dbcea27566b32de3ff3683f"
   }
 }

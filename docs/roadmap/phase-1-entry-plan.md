@@ -71,20 +71,22 @@ Goal: add a tiny hand-written Python calculator source fixture, extract determin
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
 
-## Current Slice: P1.6 Repeatable B0 Typed Preservation Negative Probe Harness
+## Current Slice: P1.7 Tiny Code-First Behavior-Preserving Refactor Delta Probe
 
-Goal: turn the P1.5 temporary typed-preservation negative probes into a committed deterministic harness so generated-code metadata validation cannot weaken silently.
+Goal: prove a behavior-preserving CF0 refactor where the stable Intent Unit remains the same while the implementation code facts and mappings change.
 
-P1.6 must start from the committed good B0 metadata, create mutated copies in isolation, run retrofit reconstruction, and pass only when every typed-preservation mutation fails with the expected error.
+P1.7 refactors the implementation function for CLI operation `mul` from `mul` to `multiply`. The accepted behavior `python calc.py mul 3 4 -> 12` remains unchanged, and `unit.behavior.mul` remains the stable semantic unit.
 
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
 
 Expected changes:
 
-- add `tools/run_b0_typed_preservation_negative_probes.py`
-- emit `generated/b0-python-cli-calculator/p1.6-typed-preservation-negative-probes-report.json`
-- cover missing typed metadata, false snapshot boundary, missing domains, stale digests, missing records, wrong counts, and unsorted records
-- keep the B0 positive generated-code pipeline passing
+- capture P1.7 before-state CF0 code facts and overlay
+- refactor hand-written CF0 source from `def mul` to `def multiply`
+- keep CLI operation `mul` unchanged
+- update `unit.behavior.mul` code refs/facts from `fact.function.mul` to `fact.function.multiply`
+- verify old `mul` implementation facts are removed and new `multiply` facts are added
+- record refactor evidence, authority, and history
 
 Non-goals:
 
@@ -95,34 +97,38 @@ Non-goals:
 - no Graphify/CodeQL/Joern replacement
 - no claim that source code alone recovers full intent, evidence, authority, or history
 - no automatic AI authority
-- no full removal of `hiddenState.sourceGraphSnapshot` in this slice
-- no typed preservation domain expansion
+- no new behavior unit for the implementation rename
+- no source text equality requirement
 
-## Required Output For P1.6
+## Required Output For P1.7
 
-P1.6 should produce:
+P1.7 should produce:
 
-- committed B0 typed-preservation negative-probe harness
-- deterministic negative-probes JSON report
-- updated validation rules and review notes
+- updated CF0 hand-written source
+- updated CF0 overlay mappings
+- P1.7 before-state artifacts
+- P1.7 refactor delta artifact and report
+- updated verifier support for refactor deltas
+- updated review and validation rule
 
 ## Acceptance Criteria
 
-P1.6 passes only if:
+P1.7 passes only if:
 
-1. B0 generated-code pipeline still passes.
-2. Every defined typed-preservation mutation causes retrofit failure.
-3. The harness exits zero only when every probe fails with its expected error.
-4. The harness report is deterministic and committed.
-5. Docs and reports explicitly state that full snapshot remains present and no code-only reconstruction is claimed.
+1. `add`, `sub`, and `mul` behavior checks pass.
+2. `unit.behavior.mul` remains stable and no new behavior unit is created.
+3. Current facts include `fact.function.multiply` and no longer include `fact.function.mul`.
+4. Overlay mappings resolve to current `multiply` facts.
+5. Refactor evidence, authority, and history records resolve.
+6. Source text equality remains unnecessary and no hidden generated-code snapshot is used.
 
 ## Stop Conditions
 
 Stop and report before broadening scope if:
 
-- The harness passes when a negative probe unexpectedly succeeds.
-- Negative probe failures are not tied to expected error messages.
-- `hiddenState.sourceGraphSnapshot` disappears without a separate proof and review.
+- The refactor creates a new behavior unit instead of preserving `unit.behavior.mul`.
+- Overlay mappings still reference removed `mul` implementation facts.
+- Behavior preservation fails.
 - IntentGraph is described again as a universal source-code replacement.
 - The project starts duplicating mature language workbench, code graph, or provenance systems without a build/borrow/integrate decision.
 
@@ -131,7 +137,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.6 Repeatable B0 Typed Preservation Negative Probe Harness
+P1.7 Tiny Code-First Behavior-Preserving Refactor Delta Probe
 ```
 
 Worker should start from:
@@ -139,10 +145,10 @@ Worker should start from:
 - `docs/design/intent-unit-model.md`
 - `docs/design/intentgraph-formal-blueprint.md`
 - `docs/language/graphir-boundary.md`
-- `tools/native_compile.py`
-- `tools/retrofit_reconstruct.py`
-- `tools/verify_roundtrip.py`
-- `generated/b0-python-cli-calculator/calc.intentgraph.json`
-- `tools/run_b0_typed_preservation_negative_probes.py`
+- `docs/examples/cf0-python-cli-calculator/source/calc.py`
+- `docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json`
+- `tools/extract_code_facts.py`
+- `tools/verify_code_first_overlay.py`
+- `tools/verify_code_first_delta.py`
 
-Worker should not start the next phase or a larger benchmark until P1.6 review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start the next phase or a larger benchmark until P1.7 review passes and the Coordinator explicitly authorizes the next phase.

@@ -1,0 +1,63 @@
+{
+  "authorityIds": [
+    "authority.record.p1.7-human"
+  ],
+  "before": {
+    "codeFactCount": 16,
+    "codeFactsDigest": "sha256:5bb3a0890060a1e42952fda5823d86d732b99ddb41ff4f0ff6b5405add158653",
+    "mappingObligationCount": 4,
+    "overlayDigest": "sha256:fc6a219f25af3115d733075b2c98991d7274463c096bfb1e7f2a81997797c040",
+    "sourceDigest": "sha256:ed6cf9c2748ac22fb3459b46179b4747a63edd0d5dbcea27566b32de3ff3683f"
+  },
+  "benchmarkId": "CF0-python-cli-calculator",
+  "deltaId": "p1.7-refactor-mul-to-multiply",
+  "deltaVersion": "0.1.0",
+  "evidenceIds": [
+    "evidence.p1.7-refactor-delta"
+  ],
+  "expectedAfter": {
+    "addedBehaviorUnits": [],
+    "addedCodeFactIds": [
+      "fact.function.main.calls.multiply",
+      "fact.function.multiply",
+      "fact.function.multiply.return.left_times_right"
+    ],
+    "behaviorChecks": [
+      "test.case.add",
+      "test.case.mul",
+      "test.case.sub"
+    ],
+    "preservedBehaviorUnits": [
+      "unit.behavior.add",
+      "unit.behavior.mul",
+      "unit.behavior.sub"
+    ],
+    "remappedUnits": [
+      {
+        "fromCodeFactIds": [
+          "fact.function.mul",
+          "fact.function.mul.return.left_times_right",
+          "fact.function.main.calls.mul"
+        ],
+        "toCodeFactIds": [
+          "fact.function.multiply",
+          "fact.function.multiply.return.left_times_right",
+          "fact.function.main.calls.multiply"
+        ],
+        "unitId": "unit.behavior.mul"
+      }
+    ],
+    "removedCodeFactIds": [
+      "fact.function.main.calls.mul",
+      "fact.function.mul",
+      "fact.function.mul.return.left_times_right"
+    ]
+  },
+  "hiddenGeneratedCodeSnapshotUsed": false,
+  "historyIds": [
+    "history.delta.p1.7-refactor-mul-to-multiply"
+  ],
+  "mode": "code-first-refactor-delta",
+  "sourceTextEqualityRequired": false,
+  "summary": "Refactor the implementation function for the stable mul behavior from mul to multiply while preserving the CLI contract."
+}

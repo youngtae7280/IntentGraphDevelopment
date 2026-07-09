@@ -97,18 +97,15 @@
         "evidence.behavior-smoke",
         "evidence.extractor-output",
         "evidence.overlay-verifier",
-        "evidence.p1.3-maintenance-delta",
-        "evidence.p1.7-refactor-delta"
+        "evidence.p1.3-maintenance-delta"
       ],
       "authority": [
         "authority.record.p1.2-human",
-        "authority.record.p1.3-human",
-        "authority.record.p1.7-human"
+        "authority.record.p1.3-human"
       ],
       "history": [
         "history.delta.p1.2-code-first-overlay",
-        "history.delta.p1.3-add-mul",
-        "history.delta.p1.7-refactor-mul-to-multiply"
+        "history.delta.p1.3-add-mul"
       ],
       "admission": {
         "stableId": true,
@@ -130,27 +127,27 @@
       "status": "accepted",
       "contract": {
         "summary": "python calc.py mul LEFT RIGHT prints LEFT multiplied by RIGHT.",
-        "acceptedDevelopmentCommitment": "The multiply behavior remains accepted while the implementation function is refactored from mul to multiply."
+        "acceptedDevelopmentCommitment": "The multiply behavior is accepted as a code-first maintenance delta unit."
       },
       "codeRefs": [
         {
           "id": "codeRef.mul.function",
           "artifactId": "source.calc.py",
-          "factId": "fact.function.multiply",
+          "factId": "fact.function.mul",
           "refKind": "symbol",
-          "symbol": "multiply",
+          "symbol": "mul",
           "ownership": "reference-only"
         }
       ],
       "codeFactRefs": [
         {
           "id": "codeFactRef.mul.function",
-          "factId": "fact.function.multiply",
+          "factId": "fact.function.mul",
           "expectedFactKind": "function"
         },
         {
           "id": "codeFactRef.mul.return",
-          "factId": "fact.function.multiply.return.left_times_right",
+          "factId": "fact.function.mul.return.left_times_right",
           "expectedFactKind": "return-expression"
         }
       ],
@@ -176,13 +173,11 @@
             "evidence.extractor-output",
             "evidence.behavior-smoke",
             "evidence.overlay-verifier",
-            "evidence.p1.3-maintenance-delta",
-            "evidence.p1.7-refactor-delta"
+            "evidence.p1.3-maintenance-delta"
           ],
           "authorityIds": [
             "authority.record.p1.2-human",
-            "authority.record.p1.3-human",
-            "authority.record.p1.7-human"
+            "authority.record.p1.3-human"
           ],
           "sourceTextEqualityRequired": false
         }
@@ -198,18 +193,15 @@
         "evidence.extractor-output",
         "evidence.behavior-smoke",
         "evidence.overlay-verifier",
-        "evidence.p1.3-maintenance-delta",
-        "evidence.p1.7-refactor-delta"
+        "evidence.p1.3-maintenance-delta"
       ],
       "authority": [
         "authority.record.p1.2-human",
-        "authority.record.p1.3-human",
-        "authority.record.p1.7-human"
+        "authority.record.p1.3-human"
       ],
       "history": [
         "history.delta.p1.2-code-first-overlay",
-        "history.delta.p1.3-add-mul",
-        "history.delta.p1.7-refactor-mul-to-multiply"
+        "history.delta.p1.3-add-mul"
       ],
       "admission": {
         "stableId": true,
@@ -295,18 +287,15 @@
         "evidence.behavior-smoke",
         "evidence.extractor-output",
         "evidence.overlay-verifier",
-        "evidence.p1.3-maintenance-delta",
-        "evidence.p1.7-refactor-delta"
+        "evidence.p1.3-maintenance-delta"
       ],
       "authority": [
         "authority.record.p1.2-human",
-        "authority.record.p1.3-human",
-        "authority.record.p1.7-human"
+        "authority.record.p1.3-human"
       ],
       "history": [
         "history.delta.p1.2-code-first-overlay",
-        "history.delta.p1.3-add-mul",
-        "history.delta.p1.7-refactor-mul-to-multiply"
+        "history.delta.p1.3-add-mul"
       ],
       "admission": {
         "stableId": true,
@@ -365,7 +354,7 @@
         },
         {
           "id": "codeFactRef.product.main.calls-mul",
-          "factId": "fact.function.main.calls.multiply",
+          "factId": "fact.function.main.calls.mul",
           "expectedFactKind": "call"
         },
         {
@@ -402,13 +391,11 @@
             "evidence.behavior-smoke",
             "evidence.extractor-output",
             "evidence.overlay-verifier",
-            "evidence.p1.3-maintenance-delta",
-            "evidence.p1.7-refactor-delta"
+            "evidence.p1.3-maintenance-delta"
           ],
           "authorityIds": [
             "authority.record.p1.2-human",
-            "authority.record.p1.3-human",
-            "authority.record.p1.7-human"
+            "authority.record.p1.3-human"
           ],
           "sourceTextEqualityRequired": false
         }
@@ -424,18 +411,15 @@
         "evidence.behavior-smoke",
         "evidence.extractor-output",
         "evidence.overlay-verifier",
-        "evidence.p1.3-maintenance-delta",
-        "evidence.p1.7-refactor-delta"
+        "evidence.p1.3-maintenance-delta"
       ],
       "authority": [
         "authority.record.p1.2-human",
-        "authority.record.p1.3-human",
-        "authority.record.p1.7-human"
+        "authority.record.p1.3-human"
       ],
       "history": [
         "history.delta.p1.2-code-first-overlay",
-        "history.delta.p1.3-add-mul",
-        "history.delta.p1.7-refactor-mul-to-multiply"
+        "history.delta.p1.3-add-mul"
       ],
       "admission": {
         "stableId": true,
@@ -537,12 +521,6 @@
       "kind": "maintenance-delta-report",
       "status": "planned",
       "artifactRef": "generated/cf0-python-cli-calculator/p1.3-maintenance-delta-report.json"
-    },
-    {
-      "id": "evidence.p1.7-refactor-delta",
-      "kind": "code-first-refactor-report",
-      "status": "planned",
-      "artifactRef": "generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json"
     }
   ],
   "authority": [
@@ -567,17 +545,6 @@
       "decidedByType": "human",
       "decision": "accepted-add-mul-maintenance-delta",
       "decisionStatus": "accepted"
-    },
-    {
-      "id": "authority.record.p1.7-human",
-      "proposer": "IntentGraphDevelopment Roadmap Orchestrator",
-      "proposerType": "human",
-      "requiredAuthority": "roadmap-orchestrator",
-      "validator": "p1.7-code-first-refactor-delta-verifier",
-      "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
-      "decidedByType": "human",
-      "decision": "accepted-code-first-refactor-delta-probe",
-      "decisionStatus": "accepted"
     }
   ],
   "history": [
@@ -596,15 +563,6 @@
       "changeType": "add-behavior",
       "status": "accepted",
       "summary": "Add multiply behavior to the hand-written CF0 calculator and overlay mappings.",
-      "gitCommit": null,
-      "gitCommitBoundary": "pending-current-milestone"
-    },
-    {
-      "id": "history.delta.p1.7-refactor-mul-to-multiply",
-      "sequence": 3,
-      "changeType": "code-first-refactor-mul-to-multiply",
-      "status": "accepted",
-      "summary": "Refactor multiply behavior implementation function from mul to multiply while preserving the stable unit.behavior.mul contract and CLI operation.",
       "gitCommit": null,
       "gitCommitBoundary": "pending-current-milestone"
     }

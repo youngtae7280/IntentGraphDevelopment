@@ -408,6 +408,12 @@ Severity: P0 in P1.6
 
 B0 typed preservation must have a committed harness that proves retrofit rejects missing typed metadata, false snapshot boundary claims, missing domains, stale digests, missing records, wrong counts, and unsorted records.
 
+### V410 - Code-First Refactor Preserves Stable Intent
+
+Severity: P0 in P1.7
+
+A code-first refactor delta must preserve the accepted Intent Unit id while updating code refs, code fact refs, and mapping obligations to current extracted facts. Old implementation facts must be reported as removed or historical, not used as current mappings.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

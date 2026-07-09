@@ -1,0 +1,203 @@
+{
+  "after": {
+    "codeFactCount": 16,
+    "codeFactsDigest": "sha256:ff80d8f654e3752bfb446a6100d493df452386ab98724ae36e0c4f46f742131c",
+    "mappingObligationCount": 4,
+    "overlayDigest": "sha256:dbb203a083e39cb085f9f0f746b0db308b5382c2de3de0ea79d19804334ac37b",
+    "sourceDigest": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+  },
+  "before": {
+    "codeFactCount": 16,
+    "codeFactsDigest": "sha256:5bb3a0890060a1e42952fda5823d86d732b99ddb41ff4f0ff6b5405add158653",
+    "mappingObligationCount": 4,
+    "overlayDigest": "sha256:fc6a219f25af3115d733075b2c98991d7274463c096bfb1e7f2a81997797c040",
+    "sourceDigest": "sha256:ed6cf9c2748ac22fb3459b46179b4747a63edd0d5dbcea27566b32de3ff3683f"
+  },
+  "behaviorVerification": {
+    "checks": [
+      {
+        "command": [
+          "python",
+          "calc.py",
+          "add",
+          "2",
+          "3"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0,
+        "expectedStdout": "5\n",
+        "id": "test.case.add",
+        "result": "pass",
+        "stderr": "",
+        "stdout": "5\n"
+      },
+      {
+        "command": [
+          "python",
+          "calc.py",
+          "mul",
+          "3",
+          "4"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0,
+        "expectedStdout": "12\n",
+        "id": "test.case.mul",
+        "result": "pass",
+        "stderr": "",
+        "stdout": "12\n"
+      },
+      {
+        "command": [
+          "python",
+          "calc.py",
+          "sub",
+          "5",
+          "2"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0,
+        "expectedStdout": "3\n",
+        "id": "test.case.sub",
+        "result": "pass",
+        "stderr": "",
+        "stdout": "3\n"
+      }
+    ],
+    "result": "pass"
+  },
+  "checks": [
+    "before code facts captured independently",
+    "before source digest verified against before code facts",
+    "before overlay digest verified against before overlay artifact",
+    "before mapping obligation count verified against before overlay artifact",
+    "after overlay verification executed",
+    "expected added and removed code facts verified",
+    "remapped units verified when declared",
+    "delta evidence, authority, and history ids verified",
+    "source text equality not required",
+    "hidden generated-code snapshot not used"
+  ],
+  "delta": {
+    "addedBehaviorCount": 0,
+    "addedBehaviorUnits": [],
+    "addedCodeFactIds": [
+      "fact.function.main.calls.multiply",
+      "fact.function.multiply",
+      "fact.function.multiply.return.left_times_right"
+    ],
+    "deltaId": "p1.7-refactor-mul-to-multiply",
+    "expectedAddedCodeFactIds": [
+      "fact.function.main.calls.multiply",
+      "fact.function.multiply",
+      "fact.function.multiply.return.left_times_right"
+    ],
+    "expectedRemovedCodeFactIds": [
+      "fact.function.main.calls.mul",
+      "fact.function.mul",
+      "fact.function.mul.return.left_times_right"
+    ],
+    "preservedBehaviorUnits": [
+      "unit.behavior.add",
+      "unit.behavior.mul",
+      "unit.behavior.sub"
+    ],
+    "remappedUnits": [
+      {
+        "currentUnitCodeFactIds": [
+          "fact.function.multiply",
+          "fact.function.multiply.return.left_times_right"
+        ],
+        "fromCodeFactIds": [
+          "fact.function.main.calls.mul",
+          "fact.function.mul",
+          "fact.function.mul.return.left_times_right"
+        ],
+        "toCodeFactIds": [
+          "fact.function.main.calls.multiply",
+          "fact.function.multiply",
+          "fact.function.multiply.return.left_times_right"
+        ],
+        "unitId": "unit.behavior.mul"
+      }
+    ],
+    "removedCodeFactIds": [
+      "fact.function.main.calls.mul",
+      "fact.function.mul",
+      "fact.function.mul.return.left_times_right"
+    ]
+  },
+  "deltaRecordsVerification": {
+    "authorityIds": [
+      "authority.record.p1.7-human"
+    ],
+    "evidenceIds": [
+      "evidence.p1.7-refactor-delta"
+    ],
+    "historyIds": [
+      "history.delta.p1.7-refactor-mul-to-multiply"
+    ],
+    "result": "pass"
+  },
+  "errors": [],
+  "hiddenGeneratedCodeSnapshotUsed": false,
+  "inputs": {
+    "afterCodeFacts": "generated/cf0-python-cli-calculator/code-facts.json",
+    "beforeCodeFacts": "generated/cf0-python-cli-calculator/p1.7-before-code-facts.json",
+    "beforeOverlay": "generated/cf0-python-cli-calculator/p1.7-before-overlay.json",
+    "delta": "docs/examples/cf0-python-cli-calculator/deltas/p1.7-refactor-mul-to-multiply.delta.json",
+    "overlay": "docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json",
+    "sourceRoot": "docs/examples/cf0-python-cli-calculator/source"
+  },
+  "mappingVerification": {
+    "errors": [],
+    "mappingObligationCount": 4,
+    "result": "pass",
+    "unitCount": 4,
+    "units": [
+      {
+        "codeFactRefCount": 2,
+        "codeRefCount": 1,
+        "errors": [],
+        "mappingObligationCount": 1,
+        "result": "pass",
+        "unitId": "unit.behavior.add"
+      },
+      {
+        "codeFactRefCount": 2,
+        "codeRefCount": 1,
+        "errors": [],
+        "mappingObligationCount": 1,
+        "result": "pass",
+        "unitId": "unit.behavior.mul"
+      },
+      {
+        "codeFactRefCount": 2,
+        "codeRefCount": 1,
+        "errors": [],
+        "mappingObligationCount": 1,
+        "result": "pass",
+        "unitId": "unit.behavior.sub"
+      },
+      {
+        "codeFactRefCount": 5,
+        "codeRefCount": 2,
+        "errors": [],
+        "mappingObligationCount": 1,
+        "result": "pass",
+        "unitId": "unit.product.calculator"
+      }
+    ]
+  },
+  "mode": "code-first-refactor-delta",
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "semanticBoundaries": {
+    "aiAuthority": false,
+    "authorityPresent": true,
+    "evidencePresent": true,
+    "historyPresent": true
+  },
+  "sourceRole": "hand-written",
+  "sourceTextEqualityRequired": false
+}

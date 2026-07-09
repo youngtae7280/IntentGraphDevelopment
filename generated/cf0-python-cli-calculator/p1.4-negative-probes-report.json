@@ -18,7 +18,8 @@
   "probes": [
     {
       "actualErrors": [
-        "before source digest does not match before code facts"
+        "before source digest does not match before code facts",
+        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
       ],
       "actualExitCode": 1,
       "actualVerifierResult": "fail",
@@ -29,7 +30,8 @@
     },
     {
       "actualErrors": [
-        "before overlay digest does not match before overlay artifact"
+        "before overlay digest does not match before overlay artifact",
+        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
       ],
       "actualExitCode": 1,
       "actualVerifierResult": "fail",
@@ -40,7 +42,8 @@
     },
     {
       "actualErrors": [
-        "before mapping obligation count does not match before overlay artifact"
+        "before mapping obligation count does not match before overlay artifact",
+        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
       ],
       "actualExitCode": 1,
       "actualVerifierResult": "fail",
@@ -51,7 +54,7 @@
     },
     {
       "actualErrors": [
-        "missing expected added facts: ['fact.function.missing']"
+        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.missing', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
       ],
       "actualExitCode": 1,
       "actualVerifierResult": "fail",
@@ -62,6 +65,7 @@
     },
     {
       "actualErrors": [
+        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']",
         "missing delta evidence records: ['evidence.missing']"
       ],
       "actualExitCode": 1,
@@ -73,6 +77,7 @@
     },
     {
       "actualErrors": [
+        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']",
         "missing delta authority records: ['authority.missing']"
       ],
       "actualExitCode": 1,
@@ -84,6 +89,7 @@
     },
     {
       "actualErrors": [
+        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']",
         "missing delta history records: ['history.missing']"
       ],
       "actualExitCode": 1,
@@ -95,7 +101,8 @@
     },
     {
       "actualErrors": [
-        "delta must not require source text equality"
+        "delta must not require source text equality",
+        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
       ],
       "actualExitCode": 1,
       "actualVerifierResult": "fail",
@@ -106,7 +113,8 @@
     },
     {
       "actualErrors": [
-        "delta must not use hidden generated-code snapshots"
+        "delta must not use hidden generated-code snapshots",
+        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
       ],
       "actualExitCode": 1,
       "actualVerifierResult": "fail",
