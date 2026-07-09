@@ -9,12 +9,15 @@ IntentGraph Development is a proposed software development method, source layer,
 Follow this order:
 
 1. Read the core thesis.
-2. Run the prior-art gate for the capability being considered.
-3. Update the capability matrix.
-4. Write a build/borrow/integrate decision.
-5. Define a benchmark before implementation.
-6. Start only the smallest vertical slice that can prove or disprove the thesis.
-7. Review the slice against the milestone gate before continuing.
+2. Read the current milestone in [Milestones](roadmap/milestones.md).
+3. Run the prior-art gate for the capability being considered.
+4. Update the capability matrix.
+5. Write a build/borrow/integrate decision.
+6. Define a benchmark before implementation.
+7. Start only the smallest vertical slice that can prove or disprove the thesis.
+8. Review the slice against the milestone gate before continuing.
+
+For a worker or new chat, follow the [Autonomous Work Loop](process/autonomous-work-loop.md).
 
 ## First Principle
 
@@ -46,6 +49,8 @@ Implementation may start only when these are written:
 - benchmark target
 - acceptance criteria
 - late prior-art response plan
+
+The current authorized milestone is `M0: Research and Thesis Foundation`. Do not open implementation work until M0 passes its milestone review.
 
 ## Stop Criteria
 

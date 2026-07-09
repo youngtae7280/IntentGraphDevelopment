@@ -40,6 +40,7 @@ Start here:
 - [Core Thesis](docs/concept/core-thesis.md)
 - [Glossary](docs/concept/glossary.md)
 - [Non-Goals](docs/concept/non-goals.md)
+- [Milestones](docs/roadmap/milestones.md)
 
 Every major implementation slice must pass:
 
@@ -52,6 +53,8 @@ Every major implementation slice must pass:
 Worker handoffs must follow:
 
 - [Worker Handoff Protocol](docs/process/worker-handoff-protocol.md)
+- [Autonomous Work Loop](docs/process/autonomous-work-loop.md)
+- [Worker Completion Report Template](docs/templates/worker-completion-report-template.md)
 
 ## Non-Goals for the First Slice
 
@@ -66,8 +69,10 @@ Worker handoffs must follow:
 - [Start Here](docs/START-HERE.md)
 - [Core Thesis](docs/concept/core-thesis.md)
 - [Core Definition](docs/design/core-definition.md)
+- [Milestones](docs/roadmap/milestones.md)
 - [Prior-Art Gate](docs/process/prior-art-gate.md)
 - [Late Prior-Art Discovery Protocol](docs/process/late-prior-art-discovery.md)
+- [Autonomous Work Loop](docs/process/autonomous-work-loop.md)
 - [Prior-Art Map](docs/research/prior-art-map.md)
 - [Capability Matrix](docs/research/capability-matrix.md)
 - [Benchmark Plan](docs/research/benchmark-plan.md)
