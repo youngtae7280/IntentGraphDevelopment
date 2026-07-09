@@ -32,6 +32,27 @@ Initial tracks:
 5. Round-trip verifier
 6. AI-assisted change proposal boundary
 
+## Before Implementation
+
+Start here:
+
+- [Start Here](docs/START-HERE.md)
+- [Core Thesis](docs/concept/core-thesis.md)
+- [Glossary](docs/concept/glossary.md)
+- [Non-Goals](docs/concept/non-goals.md)
+
+Every major implementation slice must pass:
+
+- [Prior-Art Gate](docs/process/prior-art-gate.md)
+- [Capability Matrix](docs/research/capability-matrix.md)
+- [Build / Borrow / Integrate Decisions](docs/decisions/build-borrow-integrate-decisions.md)
+- [Benchmark Plan](docs/research/benchmark-plan.md)
+- [Milestone Review Gate](docs/process/milestone-review-gate.md)
+
+Worker handoffs must follow:
+
+- [Worker Handoff Protocol](docs/process/worker-handoff-protocol.md)
+
 ## Non-Goals for the First Slice
 
 - Do not clone DevView's report-only readiness surface.
@@ -42,8 +63,11 @@ Initial tracks:
 
 ## Starting Documents
 
+- [Start Here](docs/START-HERE.md)
+- [Core Thesis](docs/concept/core-thesis.md)
 - [Core Definition](docs/design/core-definition.md)
 - [Prior-Art Gate](docs/process/prior-art-gate.md)
 - [Late Prior-Art Discovery Protocol](docs/process/late-prior-art-discovery.md)
+- [Prior-Art Map](docs/research/prior-art-map.md)
 - [Capability Matrix](docs/research/capability-matrix.md)
 - [Benchmark Plan](docs/research/benchmark-plan.md)
