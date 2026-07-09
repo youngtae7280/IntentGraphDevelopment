@@ -1,15 +1,17 @@
 # Preservation Metadata Contract
 
-Milestone: M2, revised by P1.0 for Intent Units
+Milestone: M2, revised by P1.5 for typed preservation records
 
 This contract defines the shape of `mu` for the B0 generated calculator.
 
 In P1.0, `G` is `G_unit`: the B0 graph includes first-class Intent Units. Preservation metadata therefore includes unit-level metadata in addition to node and edge maps.
 
+P1.5 adds typed preservation records for selected metadata-only graph domains. This reduces reliance on the opaque full snapshot for those domains, but it does not remove `hiddenState.sourceGraphSnapshot`.
+
 ## Formal Shape
 
 ```text
-mu = (nodeMap, edgeMap, unitMap, graphDigest, projectionRules, hiddenState)
+mu = (nodeMap, edgeMap, unitMap, typedPreservation, graphDigest, projectionRules, hiddenState)
 ```
 
 M2 serializes `mu` as `generated/b0-python-cli-calculator/calc.intentgraph.json`.
@@ -27,6 +29,7 @@ M2 serializes `mu` as `generated/b0-python-cli-calculator/calc.intentgraph.json`
 - `nodeMap`
 - `edgeMap`
 - `unitMap` for GraphIR v0.2 unit graphs
+- `typedPreservation` for P1.5 selected domains
 - `projectionRules`
 - `hiddenState`
 - `diagnostics`
@@ -96,13 +99,51 @@ Intent Units and unit edges are metadata-only in P1.0.
 
 `unclassified` must be empty for M2 review to pass.
 
+## Typed Preservation
+
+P1.5 metadata includes:
+
+```json
+{
+  "typedPreservation": {
+    "version": "p1.5-typed-preservation-v0",
+    "source": "metadata-typed-records",
+    "snapshotStillPresent": true,
+    "domains": {
+      "intentUnits": { "records": [], "digest": "sha256:...", "count": 0 },
+      "unitEdges": { "records": [], "digest": "sha256:...", "count": 0 },
+      "evidence": { "records": [], "digest": "sha256:...", "count": 0 },
+      "authority": { "records": [], "digest": "sha256:...", "count": 0 },
+      "history": { "records": [], "digest": "sha256:...", "count": 0 }
+    }
+  }
+}
+```
+
+Each domain must be deterministic:
+
+- records are sorted by stable `id`
+- `count` is the number of records
+- `digest` is the SHA-256 digest of canonical JSON for the sorted records
+- `snapshotStillPresent` remains `true`
+
+P1.5 selected domains are:
+
+- `intentUnits`: top-level Intent Unit records
+- `unitEdges`: top-level unit relationship records
+- `evidence`: `evidence.record` nodes
+- `authority`: `authority.record` nodes
+- `history`: `history.delta` nodes
+
+Retrofit must fail if typed preservation records, counts, or digests are missing or stale.
+
 ## Hidden State
 
 M2 includes a full graph snapshot in `hiddenState.sourceGraphSnapshot`.
 
 This is deliberate for the first round-trip slice: evidence, authority, history, and exact graph identity are not recoverable from generated Python alone. M3 must treat this as preservation metadata, not as code-derived reconstruction.
 
-P1.0 still uses `hiddenState.sourceGraphSnapshot` for exact reconstruction. This is a measured weakness, not a solved problem. P1.0 adds `hiddenState.snapshotDependence` with source snapshot usage, graph counts, unit counts, and a reduction strategy.
+P1.5 still uses `hiddenState.sourceGraphSnapshot` for exact full-graph reconstruction. This is a measured weakness, not a solved problem. P1.5 adds `typedPreservation` so selected domains are explicit and validated before the snapshot-backed reconstruction is accepted.
 
 ## Unit Map
 
@@ -123,6 +164,8 @@ P1.0 still uses `hiddenState.sourceGraphSnapshot` for exact reconstruction. This
 ```
 
 `unitMap` does not by itself recover the full graph. It exposes the intended strategy for reducing whole-snapshot dependence in later Phase 1 work.
+
+`typedPreservation.intentUnits` now carries full typed unit records for the P1.5 selected-domain proof. `unitMap` remains useful as a compact unit anchor/digest summary.
 
 If later milestones remove or reduce this hidden state, they must still prove exact round-trip or explicitly narrow the thesis.
 

@@ -1,6 +1,6 @@
 # Round-Trip Verifier Contract
 
-Milestone: M4, revised by P1.1 for overlay-mapped B0
+Milestone: M4, revised by P1.5 for typed preservation reporting
 
 This contract defines the smallest verifier for the B0 round-trip slice.
 
@@ -47,6 +47,7 @@ For M4:
 - preservation metadata JSON parses
 - code-only projection JSON parses
 - metadata graph digest matches the original graph digest
+- P1.5 metadata includes typed preservation domains for intent units, unit edges, evidence, authority, and history
 - original graph status is `m1-fixture` for Phase 0, `p1-unit-fixture` for historical P1.0, or `p1-overlay-fixture` for P1.1
 - reconstructed graph status is `m3-reconstructed`
 - code-only projection claim is `lossy-code-only-projection`
@@ -58,7 +59,9 @@ For M4:
 - report lists node and edge counts by kind
 - report confirms evidence, authority, and history preservation with domain subgraph digests and matched node IDs
 - report confirms Intent Unit preservation with unit projection digests, unit counts, unit edge counts, unit admission validation, and mapping obligation preservation
+- report exposes typed preservation status, domain counts, domain digests, and `snapshotStillPresent`
 - report does not treat code-only projection as exact reconstruction
+- report does not claim the full snapshot has been removed in P1.5
 - diagnostics include any equality mismatches
 
 ## Exact Validation Commands

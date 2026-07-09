@@ -212,6 +212,7 @@ def build_projection(
     nodes, edges = graph_indexes(graph)
     semantic = roundtrip.get("semanticValidation", {}).get("reconstructed", {})
     domain_subgraphs = roundtrip.get("preservation", {}).get("domainSubgraphs", {})
+    typed_preservation = roundtrip.get("preservation", {}).get("typedPreservation", {})
     return {
         "projectionVersion": PROJECTION_VERSION,
         "projectionKind": "workbench-report",
@@ -254,6 +255,19 @@ def build_projection(
             },
             "intentUnitPreservation": roundtrip.get("preservation", {}).get("intentUnits"),
             "overlayMappingPreservation": roundtrip.get("preservation", {}).get("intentUnits", {}).get("mappingObligationsMatched"),
+            "typedPreservation": {
+                "result": typed_preservation.get("result"),
+                "version": typed_preservation.get("version"),
+                "snapshotStillPresent": typed_preservation.get("snapshotStillPresent"),
+                "domains": {
+                    domain: {
+                        "result": value.get("result"),
+                        "count": value.get("count"),
+                        "digest": value.get("digest"),
+                    }
+                    for domain, value in typed_preservation.get("domains", {}).items()
+                },
+            },
         },
         "evidenceAuthorityHistory": {
             "evidenceAccepted": semantic.get("evidence", {}).get("acceptedCount"),

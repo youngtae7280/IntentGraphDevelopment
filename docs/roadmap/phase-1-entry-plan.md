@@ -71,20 +71,21 @@ Goal: add a tiny hand-written Python calculator source fixture, extract determin
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
 
-## Current Slice: P1.4 Repeatable Code-First Delta Negative Probe Harness
+## Current Slice: P1.5 B0 Typed Preservation Metadata Snapshot Reduction
 
-Goal: turn the P1.3.R temporary negative probes into a committed deterministic harness so future changes cannot weaken the CF0 code-first delta verifier silently.
+Goal: reduce B0 generated-code full-snapshot dependence by moving selected non-code graph domains into explicit typed preservation metadata with deterministic counts and digests.
 
-P1.4 must start from the committed good CF0 delta inputs, create mutated copies in isolation, run the delta verifier, and pass only when every negative probe fails with the expected error.
+P1.5 must not remove `hiddenState.sourceGraphSnapshot`. It should make intent units, unit edges, evidence, authority, and history visible as typed metadata records and prove retrofit/round-trip validation checks those records independently.
 
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
 
 Expected changes:
 
-- add a small negative-probe harness such as `tools/run_cf0_delta_negative_probes.py`
-- emit `generated/cf0-python-cli-calculator/p1.4-negative-probes-report.json`
-- cover wrong before source digest, wrong before overlay digest/count, missing added fact, missing evidence/authority/history ids, source-text equality, and hidden snapshot claims
-- keep the P1.3 positive delta report passing
+- add `typedPreservation` metadata for B0 generated-code mode
+- include deterministic records, counts, and digests for `intentUnits`, `unitEdges`, `evidence`, `authority`, and `history`
+- validate typed domains in retrofit reconstruction
+- expose typed preservation status in round-trip and workbench reports
+- run negative probes for stale typed digests and missing typed records
 
 Non-goals:
 
@@ -95,32 +96,36 @@ Non-goals:
 - no Graphify/CodeQL/Joern replacement
 - no claim that source code alone recovers full intent, evidence, authority, or history
 - no automatic AI authority
+- no full removal of `hiddenState.sourceGraphSnapshot` in this slice
 
-## Required Output For P1.4
+## Required Output For P1.5
 
-P1.4 should produce:
+P1.5 should produce:
 
-- committed negative-probe harness script
-- deterministic negative-probes JSON report
-- updated validation rules and review notes
+- updated native compiler metadata output
+- updated retrofit typed preservation validation
+- updated round-trip/workbench reporting
+- regenerated B0 generated artifacts
+- written review with snapshot-reduction limits
 
 ## Acceptance Criteria
 
-P1.4 passes only if:
+P1.5 passes only if:
 
-1. The P1.3 positive delta verification still passes.
-2. Every defined negative probe returns verifier failure.
-3. The harness exits zero only when all probes fail with expected errors.
-4. The harness report is deterministic and inspectable.
-5. The report does not imply source text equality, hidden generated-code snapshot use, AI authority, broad extraction, or a general planner.
+1. B0 generated-code pipeline still passes.
+2. Generated metadata includes typed preservation records for the selected domains.
+3. Retrofit diagnostics report typed preservation validation `pass`.
+4. Round-trip report exposes typed preservation status and keeps `result: pass`.
+5. Negative probes for corrupt typed digest and removed typed record fail deterministically.
+6. Docs and reports explicitly state that full snapshot remains present.
 
 ## Stop Conditions
 
 Stop and report before broadening scope if:
 
-- The harness passes when a negative probe unexpectedly succeeds.
-- Negative probe failures are not tied to expected error messages.
-- The harness requires committed bad fixtures without a clear reason.
+- Typed records are emitted but not validated by retrofit.
+- Reports imply that code-only reconstruction can recover evidence, authority, or history.
+- `hiddenState.sourceGraphSnapshot` disappears without a separate proof and review.
 - IntentGraph is described again as a universal source-code replacement.
 - The project starts duplicating mature language workbench, code graph, or provenance systems without a build/borrow/integrate decision.
 
@@ -129,7 +134,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.4 Repeatable Code-First Delta Negative Probe Harness
+P1.5 B0 Typed Preservation Metadata Snapshot Reduction
 ```
 
 Worker should start from:
@@ -137,9 +142,11 @@ Worker should start from:
 - `docs/design/intent-unit-model.md`
 - `docs/design/intentgraph-formal-blueprint.md`
 - `docs/language/graphir-boundary.md`
-- `docs/examples/cf0-python-cli-calculator/deltas/p1.3-add-mul.delta.json`
-- `generated/cf0-python-cli-calculator/p1.3-before-code-facts.json`
-- `generated/cf0-python-cli-calculator/p1.3-before-overlay.json`
-- `tools/verify_code_first_delta.py`
+- `tools/native_compile.py`
+- `tools/retrofit_reconstruct.py`
+- `tools/verify_roundtrip.py`
+- `docs/compiler/preservation-metadata-contract.md`
+- `docs/reconstructor/retrofit-reconstructor-contract.md`
+- `docs/verifier/roundtrip-verifier-contract.md`
 
-Worker should not start the next phase or a larger benchmark until P1.4 review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start the next phase or a larger benchmark until P1.5 review passes and the Coordinator explicitly authorizes the next phase.

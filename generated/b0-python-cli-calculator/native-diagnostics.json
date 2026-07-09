@@ -10,7 +10,7 @@
     },
     {
       "path": "calc.intentgraph.json",
-      "sha256": "8958e1ee90ee18fe6daf85e82de155164c784faacff0664970e1fa21d714937f"
+      "sha256": "ce8e7dd9e09fd1e709c29ef8b86a555d3ff43418fbf38aa1048c3a0e929077fb"
     }
   ],
   "generatedAt": "deterministic:p1.1-native-python-b0-overlay-unit-v0",
@@ -25,7 +25,33 @@
     ]
   },
   "status": "pass",
+  "typedPreservation": {
+    "domains": {
+      "authority": {
+        "count": 4,
+        "digest": "sha256:4091b7237a5189c3eb11a51cf47ccc8fa15069494250e45bbb8b621b1625f5f0"
+      },
+      "evidence": {
+        "count": 5,
+        "digest": "sha256:1888a1799d84a9b499a6ac528ff37ac83b19fa8a409ce094cdd45ccb77bbbebc"
+      },
+      "history": {
+        "count": 4,
+        "digest": "sha256:66aee9051c1e760f41a912413a096fff8b3ab481c95a6a13b9d77571d241f487"
+      },
+      "intentUnits": {
+        "count": 3,
+        "digest": "sha256:1657f04acfb3d3d7450a4cbc4cd9325ea18be1552ba4aac16eb4454ec584d009"
+      },
+      "unitEdges": {
+        "count": 3,
+        "digest": "sha256:0bcf696c9c29e5fc2ff2dd76d7ba647b5cb1b99a1519c2a661d5f7436f09d028"
+      }
+    },
+    "snapshotStillPresent": true,
+    "version": "p1.5-typed-preservation-v0"
+  },
   "warnings": [
-    "P1.1 metadata still carries a full graph snapshot; unitMap and overlay mapping digests measure but do not eliminate that dependency."
+    "P1.5 metadata still carries a full graph snapshot; typedPreservation validates selected domains but does not remove full snapshot dependence."
   ]
 }

@@ -14,6 +14,7 @@ COMPILER_CONTRACT = "native-python-b0-overlay-unit-v0"
 METADATA_VERSION = "0.2.0"
 DETERMINISTIC_GENERATED_AT = "deterministic:p1.1-native-python-b0-overlay-unit-v0"
 SUPPORTED_GRAPHIR_VERSIONS = {"0.1.0", "0.2.0"}
+TYPED_PRESERVATION_VERSION = "p1.5-typed-preservation-v0"
 
 
 class CompileError(Exception):
@@ -638,6 +639,57 @@ def build_unit_map(graph: dict[str, Any]) -> list[dict[str, Any]]:
     return entries
 
 
+def domain_digest(records: list[dict[str, Any]]) -> str:
+    return f"sha256:{sha256_text(canonical_json(records))}"
+
+
+def typed_domain(records: list[dict[str, Any]]) -> dict[str, Any]:
+    sorted_records = sorted(records, key=lambda record: record["id"])
+    return {
+        "records": sorted_records,
+        "digest": domain_digest(sorted_records),
+        "count": len(sorted_records),
+    }
+
+
+def typed_node_domain(graph: dict[str, Any], kind: str) -> dict[str, Any]:
+    return typed_domain(
+        [
+            node
+            for node in graph.get("nodes", [])
+            if isinstance(node, dict) and node.get("kind") == kind
+        ]
+    )
+
+
+def build_typed_preservation(graph: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "version": TYPED_PRESERVATION_VERSION,
+        "source": "metadata-typed-records",
+        "snapshotStillPresent": True,
+        "claim": "selected domains are explicit typed metadata; exact full graph equality still uses hiddenState.sourceGraphSnapshot",
+        "domains": {
+            "intentUnits": typed_domain(
+                [
+                    unit
+                    for unit in graph.get("intentUnits", [])
+                    if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+                ]
+            ),
+            "unitEdges": typed_domain(
+                [
+                    unit_edge
+                    for unit_edge in graph.get("unitEdges", [])
+                    if isinstance(unit_edge, dict) and isinstance(unit_edge.get("id"), str)
+                ]
+            ),
+            "evidence": typed_node_domain(graph, "evidence.record"),
+            "authority": typed_node_domain(graph, "authority.record"),
+            "history": typed_node_domain(graph, "history.delta"),
+        },
+    }
+
+
 def build_metadata(
     graph: dict[str, Any],
     nodes: dict[str, dict[str, Any]],
@@ -647,6 +699,7 @@ def build_metadata(
 ) -> dict[str, Any]:
     source_hash = sha256_text(source)
     graph_digest = sha256_text(canonical_json(graph))
+    typed_preservation = build_typed_preservation(graph)
     return {
         "metadataVersion": METADATA_VERSION,
         "benchmarkId": graph["benchmarkId"],
@@ -670,6 +723,7 @@ def build_metadata(
         "nodeMap": build_node_map(nodes, source),
         "edgeMap": build_edge_map(edges),
         "unitMap": build_unit_map(graph),
+        "typedPreservation": typed_preservation,
         "projectionRules": build_projection_rules(graph),
         "hiddenState": {
             "reason": "B0 exact round-trip needs non-code graph data for intent, evidence, authority, history, and stable graph identity.",
@@ -691,16 +745,19 @@ def build_metadata(
                 "reductionStrategy": [
                     "preserve unitMap as explicit unit-level metadata",
                     "preserve codeRefs, codeFactRefs, and mapping obligations as unit-level metadata",
-                    "move evidence, authority, and history reconstruction from full snapshot to typed metadata records",
+                    "preserve intentUnits, unitEdges, evidence, authority, and history as typed metadata records",
+                    "validate typed metadata records against deterministic counts and digests before reconstruction",
                     "keep code-only reconstruction lossy unless independent evidence proves otherwise",
                 ],
+                "typedPreservationVersion": TYPED_PRESERVATION_VERSION,
+                "typedPreservationDomains": sorted(typed_preservation["domains"]),
             },
             "sourceGraphSnapshot": graph,
         },
         "diagnostics": {
             "status": "pass",
             "warnings": [
-                "P1.1 metadata still carries a full graph snapshot; unitMap and overlay mapping digests measure but do not eliminate that dependency."
+                "P1.5 metadata still carries a full graph snapshot; typedPreservation validates selected domains but does not remove full snapshot dependence."
             ],
         },
     }
@@ -727,6 +784,17 @@ def build_diagnostics(
                 for unit in graph.get("intentUnits", [])
                 if isinstance(unit, dict) and isinstance(unit.get("id"), str)
             ),
+        },
+        "typedPreservation": {
+            "version": metadata["typedPreservation"]["version"],
+            "snapshotStillPresent": metadata["typedPreservation"]["snapshotStillPresent"],
+            "domains": {
+                domain: {
+                    "count": payload["count"],
+                    "digest": payload["digest"],
+                }
+                for domain, payload in metadata["typedPreservation"]["domains"].items()
+            },
         },
         "generatedArtifacts": [
             {

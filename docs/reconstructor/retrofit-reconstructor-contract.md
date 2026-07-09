@@ -1,6 +1,6 @@
 # Retrofit Reconstructor Contract
 
-Milestone: M3, revised by P1.1 for overlay-mapped B0
+Milestone: M3, revised by P1.5 for typed B0 preservation metadata
 
 This contract defines the smallest `Retrofit` path for `B0-python-cli-calculator`. It is not a general source-code extractor.
 
@@ -49,6 +49,9 @@ For M3:
 - metadata has `metadataVersion`, `graphDigest`, `nodeMap`, `edgeMap`, `projectionRules`, and `hiddenState.sourceGraphSnapshot`
 - GraphIR v0.2 metadata has `unitMap`
 - `unitMap` includes code ref, code fact ref, and mapping obligation digests
+- P1.5 metadata has `typedPreservation`
+- `typedPreservation` includes `intentUnits`, `unitEdges`, `evidence`, `authority`, and `history` domains
+- each typed domain has sorted records, deterministic `count`, and deterministic `digest`
 - generated source hash matches metadata `generatedArtifacts`
 - `hiddenState.sourceGraphSnapshot` digest matches metadata `graphDigest`
 - `projectionRules.unclassified` is empty
@@ -56,6 +59,7 @@ For M3:
 - `nodeMap` covers every graph node required by `metadata.sourceMap` records
 - `edgeMap` is non-empty and covers every graph edge in the snapshot
 - `unitMap` covers every Intent Unit in the snapshot when `intentUnits` exist
+- typed preservation domains match the corresponding snapshot domains by records, count, and digest
 - `nodeMap` line ranges are valid for the generated source
 
 ## Postconditions
@@ -63,6 +67,8 @@ For M3:
 - `reconstructed.graph.json` is written from preservation metadata, not hidden process memory
 - reconstructed graph has `status: "m3-reconstructed"`
 - unit identity, unit edges, unit internal graph membership, code refs, code fact refs, and mapping obligations are preserved from metadata
+- typed preservation diagnostics report selected domains as validated
+- exact graph reconstruction still acknowledges `hiddenState.sourceGraphSnapshot`
 - reconstruction diagnostics state whether metadata-backed reconstruction passed
 - diagnostics do not claim M4 round-trip verification
 - code-only projection records only facts recoverable from generated Python source

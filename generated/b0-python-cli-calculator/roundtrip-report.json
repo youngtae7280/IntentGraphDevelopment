@@ -101,7 +101,15 @@
   "m5ClaimScope": {
     "codeDerivedRecovery": false,
     "hiddenStateSnapshotUsed": true,
-    "level4Claim": "metadata-backed preservation with semantic validation"
+    "level4Claim": "metadata-backed preservation with semantic validation",
+    "typedPreservationDomains": [
+      "authority",
+      "evidence",
+      "history",
+      "intentUnits",
+      "unitEdges"
+    ],
+    "typedPreservationUsed": true
   },
   "mismatches": [],
   "normalizationRules": [
@@ -219,6 +227,99 @@
       "evidenceRecords": 5,
       "historyDeltas": 4,
       "historyPreserved": true
+    },
+    "typedPreservation": {
+      "domains": {
+        "authority": {
+          "count": 4,
+          "countMatch": true,
+          "digest": "sha256:4091b7237a5189c3eb11a51cf47ccc8fa15069494250e45bbb8b621b1625f5f0",
+          "digestMatchesOriginal": true,
+          "digestMatchesRecords": true,
+          "expectedCount": 4,
+          "expectedDigest": "sha256:4091b7237a5189c3eb11a51cf47ccc8fa15069494250e45bbb8b621b1625f5f0",
+          "recordIds": [
+            "authority.record.initial-human",
+            "authority.record.m5-human-review",
+            "authority.record.p1-overlay-mapping",
+            "authority.record.p1-unit-grammar"
+          ],
+          "recordsMatchOriginal": true,
+          "result": "pass"
+        },
+        "evidence": {
+          "count": 5,
+          "countMatch": true,
+          "digest": "sha256:1888a1799d84a9b499a6ac528ff37ac83b19fa8a409ce094cdd45ccb77bbbebc",
+          "digestMatchesOriginal": true,
+          "digestMatchesRecords": true,
+          "expectedCount": 5,
+          "expectedDigest": "sha256:1888a1799d84a9b499a6ac528ff37ac83b19fa8a409ce094cdd45ccb77bbbebc",
+          "recordIds": [
+            "evidence.record.p1-overlay-mapping-review",
+            "evidence.record.p1-unit-grammar-review",
+            "evidence.record.requirement-note",
+            "evidence.record.roundtrip-report",
+            "evidence.record.test-plan"
+          ],
+          "recordsMatchOriginal": true,
+          "result": "pass"
+        },
+        "history": {
+          "count": 4,
+          "countMatch": true,
+          "digest": "sha256:66aee9051c1e760f41a912413a096fff8b3ab481c95a6a13b9d77571d241f487",
+          "digestMatchesOriginal": true,
+          "digestMatchesRecords": true,
+          "expectedCount": 4,
+          "expectedDigest": "sha256:66aee9051c1e760f41a912413a096fff8b3ab481c95a6a13b9d77571d241f487",
+          "recordIds": [
+            "history.delta.initial-graph",
+            "history.delta.m5-evidence-authority-history",
+            "history.delta.p1-intent-unit-grammar",
+            "history.delta.p1-overlay-mapping"
+          ],
+          "recordsMatchOriginal": true,
+          "result": "pass"
+        },
+        "intentUnits": {
+          "count": 3,
+          "countMatch": true,
+          "digest": "sha256:1657f04acfb3d3d7450a4cbc4cd9325ea18be1552ba4aac16eb4454ec584d009",
+          "digestMatchesOriginal": true,
+          "digestMatchesRecords": true,
+          "expectedCount": 3,
+          "expectedDigest": "sha256:1657f04acfb3d3d7450a4cbc4cd9325ea18be1552ba4aac16eb4454ec584d009",
+          "recordIds": [
+            "unit.behavior.add",
+            "unit.behavior.sub",
+            "unit.product.calculator"
+          ],
+          "recordsMatchOriginal": true,
+          "result": "pass"
+        },
+        "unitEdges": {
+          "count": 3,
+          "countMatch": true,
+          "digest": "sha256:0bcf696c9c29e5fc2ff2dd76d7ba647b5cb1b99a1519c2a661d5f7436f09d028",
+          "digestMatchesOriginal": true,
+          "digestMatchesRecords": true,
+          "expectedCount": 3,
+          "expectedDigest": "sha256:0bcf696c9c29e5fc2ff2dd76d7ba647b5cb1b99a1519c2a661d5f7436f09d028",
+          "recordIds": [
+            "unit-edge.add-shares-concept-sub",
+            "unit-edge.product-refines-add",
+            "unit-edge.product-refines-sub"
+          ],
+          "recordsMatchOriginal": true,
+          "result": "pass"
+        }
+      },
+      "errors": [],
+      "result": "pass",
+      "snapshotStillPresent": true,
+      "source": "metadata-typed-records",
+      "version": "p1.5-typed-preservation-v0"
     }
   },
   "rawStatuses": {

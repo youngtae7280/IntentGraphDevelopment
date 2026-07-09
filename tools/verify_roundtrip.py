@@ -12,6 +12,7 @@ from typing import Any
 
 
 VERIFIER_CONTRACT = "roundtrip-b0-m5-eah-v0"
+TYPED_PRESERVATION_VERSION = "p1.5-typed-preservation-v0"
 COMMIT_RE = re.compile(r"^[0-9a-f]{7,40}$")
 ALLOWED_EVIDENCE_STATUS = {"planned", "pass", "fail", "blocked", "superseded"}
 ALLOWED_OBSERVATION_STATUS = {"planned", "observed", "missing"}
@@ -66,6 +67,10 @@ def normalize_graph(graph: dict[str, Any]) -> dict[str, Any]:
 
 def digest_graph(graph: dict[str, Any]) -> str:
     return prefixed_sha256(canonical_json(graph))
+
+
+def digest_records(records: list[dict[str, Any]]) -> str:
+    return prefixed_sha256(canonical_json(records))
 
 
 def count_by_kind(items: list[dict[str, Any]]) -> dict[str, int]:
@@ -448,6 +453,116 @@ def unit_preservation(original: dict[str, Any], reconstructed: dict[str, Any]) -
         "mappingObligationsMatched": original_digest == reconstructed_digest,
         "original": validate_unit_structure(original),
         "reconstructed": validate_unit_structure(reconstructed),
+    }
+
+
+def typed_domain_records(graph: dict[str, Any], domain: str) -> list[dict[str, Any]]:
+    if domain == "intentUnits":
+        return sorted(
+            [
+                unit
+                for unit in graph.get("intentUnits", [])
+                if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+            ],
+            key=lambda record: record["id"],
+        )
+    if domain == "unitEdges":
+        return sorted(
+            [
+                unit_edge
+                for unit_edge in graph.get("unitEdges", [])
+                if isinstance(unit_edge, dict) and isinstance(unit_edge.get("id"), str)
+            ],
+            key=lambda record: record["id"],
+        )
+    kind_by_domain = {
+        "evidence": "evidence.record",
+        "authority": "authority.record",
+        "history": "history.delta",
+    }
+    kind = kind_by_domain[domain]
+    return sorted(
+        [
+            node
+            for node in graph.get("nodes", [])
+            if isinstance(node, dict) and node.get("kind") == kind
+        ],
+        key=lambda record: record["id"],
+    )
+
+
+def typed_preservation_status(metadata: dict[str, Any], original: dict[str, Any]) -> dict[str, Any]:
+    typed = metadata.get("typedPreservation")
+    required_domains = ["intentUnits", "unitEdges", "evidence", "authority", "history"]
+    errors: list[str] = []
+    domain_reports: dict[str, Any] = {}
+    if not isinstance(typed, dict):
+        return {
+            "result": "fail",
+            "errors": ["metadata missing typedPreservation"],
+            "domains": {},
+        }
+    if typed.get("version") != TYPED_PRESERVATION_VERSION:
+        errors.append("typedPreservation version mismatch")
+    if typed.get("source") != "metadata-typed-records":
+        errors.append("typedPreservation source mismatch")
+    if typed.get("snapshotStillPresent") is not True:
+        errors.append("typedPreservation must acknowledge snapshotStillPresent true")
+    domains = typed.get("domains")
+    if not isinstance(domains, dict):
+        errors.append("typedPreservation.domains must be an object")
+        domains = {}
+
+    for domain in required_domains:
+        payload = domains.get(domain)
+        if not isinstance(payload, dict):
+            errors.append(f"typedPreservation missing domain: {domain}")
+            continue
+        records = payload.get("records")
+        if not isinstance(records, list):
+            errors.append(f"typedPreservation {domain} records must be an array")
+            continue
+        sorted_records = sorted(
+            [record for record in records if isinstance(record, dict) and isinstance(record.get("id"), str)],
+            key=lambda record: record["id"],
+        )
+        expected_records = typed_domain_records(original, domain)
+        records_digest = digest_records(sorted_records)
+        expected_digest = digest_records(expected_records)
+        count_match = payload.get("count") == len(expected_records)
+        digest_matches_records = payload.get("digest") == records_digest
+        digest_matches_original = payload.get("digest") == expected_digest
+        records_match_original = sorted_records == expected_records
+        domain_result = (
+            "pass"
+            if count_match
+            and digest_matches_records
+            and digest_matches_original
+            and records_match_original
+            else "fail"
+        )
+        if domain_result == "fail":
+            errors.append(f"typedPreservation {domain} failed")
+        domain_reports[domain] = {
+            "result": domain_result,
+            "count": payload.get("count"),
+            "expectedCount": len(expected_records),
+            "digest": payload.get("digest"),
+            "expectedDigest": expected_digest,
+            "countMatch": count_match,
+            "digestMatchesRecords": digest_matches_records,
+            "digestMatchesOriginal": digest_matches_original,
+            "recordsMatchOriginal": records_match_original,
+            "recordIds": [record["id"] for record in sorted_records],
+        }
+
+    return {
+        "version": typed.get("version"),
+        "source": typed.get("source"),
+        "snapshotStillPresent": typed.get("snapshotStillPresent"),
+        "result": "pass" if not errors else "fail",
+        "domains": domain_reports,
+        "errors": errors,
     }
 
 
@@ -844,6 +959,7 @@ def build_report(
     reconstructed_domain = domain_status(reconstructed)
     domain_preservation_report = domain_preservation(original, reconstructed)
     unit_preservation_report = unit_preservation(original, reconstructed)
+    typed_preservation_report = typed_preservation_status(metadata, original)
     original_semantics = validate_semantics(original, report_path)
     reconstructed_semantics = validate_semantics(reconstructed, report_path)
     for key in ["evidencePreserved", "authorityPreserved", "historyPreserved"]:
@@ -858,6 +974,8 @@ def build_report(
         mismatches.append("reconstructed intent unit validation failed")
     if not unit_preservation_report["matched"]:
         mismatches.append("intent unit projection digest differs")
+    if typed_preservation_report["result"] != "pass":
+        mismatches.append("typed preservation validation failed")
     if original_semantics["result"] != "pass":
         mismatches.append("original evidence/authority/history semantics failed")
     if reconstructed_semantics["result"] != "pass":
@@ -880,6 +998,8 @@ def build_report(
             "level4Claim": "metadata-backed preservation with semantic validation",
             "codeDerivedRecovery": False,
             "hiddenStateSnapshotUsed": bool(metadata.get("hiddenState", {}).get("sourceGraphSnapshot")),
+            "typedPreservationUsed": typed_preservation_report["result"] == "pass",
+            "typedPreservationDomains": sorted(typed_preservation_report.get("domains", {})),
         },
         "normalizationRules": [
             "remove top-level lifecycle field: status",
@@ -920,6 +1040,7 @@ def build_report(
             "reconstructed": reconstructed_domain,
             "domainSubgraphs": domain_preservation_report,
             "intentUnits": unit_preservation_report,
+            "typedPreservation": typed_preservation_report,
         },
         "semanticValidation": {
             "result": "pass"

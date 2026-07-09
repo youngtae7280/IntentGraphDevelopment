@@ -13,6 +13,7 @@ from typing import Any
 
 RECONSTRUCTOR_CONTRACT = "retrofit-python-b0-v0"
 DETERMINISTIC_RECONSTRUCTED_AT = "deterministic:m3-retrofit-python-b0-v0"
+TYPED_PRESERVATION_VERSION = "p1.5-typed-preservation-v0"
 
 
 class RetrofitError(Exception):
@@ -57,6 +58,10 @@ def prefixed_sha256(text: str) -> str:
     return f"sha256:{sha256_text(text)}"
 
 
+def digest_records(records: list[dict[str, Any]]) -> str:
+    return prefixed_sha256(canonical_json(records))
+
+
 def require_metadata(metadata: dict[str, Any]) -> None:
     required = [
         "metadataVersion",
@@ -67,6 +72,7 @@ def require_metadata(metadata: dict[str, Any]) -> None:
         "generatedArtifacts",
         "nodeMap",
         "edgeMap",
+        "typedPreservation",
         "projectionRules",
         "hiddenState",
     ]
@@ -83,6 +89,17 @@ def require_metadata(metadata: dict[str, Any]) -> None:
         raise RetrofitError("Metadata nodeMap must be a non-empty array.")
     if not isinstance(metadata["edgeMap"], list) or not metadata["edgeMap"]:
         raise RetrofitError("Metadata edgeMap must be a non-empty array.")
+    typed = metadata["typedPreservation"]
+    if not isinstance(typed, dict):
+        raise RetrofitError("Metadata typedPreservation must be an object.")
+    if typed.get("version") != TYPED_PRESERVATION_VERSION:
+        raise RetrofitError("Metadata typedPreservation has unsupported version.")
+    if typed.get("source") != "metadata-typed-records":
+        raise RetrofitError("Metadata typedPreservation source must be metadata-typed-records.")
+    if typed.get("snapshotStillPresent") is not True:
+        raise RetrofitError("P1.5 typedPreservation must acknowledge snapshotStillPresent true.")
+    if not isinstance(typed.get("domains"), dict):
+        raise RetrofitError("Metadata typedPreservation.domains must be an object.")
 
 
 def validate_source_hash(source: str, metadata: dict[str, Any]) -> None:
@@ -247,6 +264,87 @@ def validate_unit_map(metadata: dict[str, Any], graph: dict[str, Any]) -> None:
         raise RetrofitError(f"unitMap missing intent units: {missing_units}")
 
 
+def typed_domain_records(graph: dict[str, Any], domain: str) -> list[dict[str, Any]]:
+    if domain == "intentUnits":
+        return sorted(
+            [
+                unit
+                for unit in graph.get("intentUnits", [])
+                if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+            ],
+            key=lambda record: record["id"],
+        )
+    if domain == "unitEdges":
+        return sorted(
+            [
+                unit_edge
+                for unit_edge in graph.get("unitEdges", [])
+                if isinstance(unit_edge, dict) and isinstance(unit_edge.get("id"), str)
+            ],
+            key=lambda record: record["id"],
+        )
+    kind_by_domain = {
+        "evidence": "evidence.record",
+        "authority": "authority.record",
+        "history": "history.delta",
+    }
+    if domain not in kind_by_domain:
+        raise RetrofitError(f"Unsupported typed preservation domain: {domain}")
+    return sorted(
+        [
+            node
+            for node in graph.get("nodes", [])
+            if isinstance(node, dict) and node.get("kind") == kind_by_domain[domain]
+        ],
+        key=lambda record: record["id"],
+    )
+
+
+def validate_typed_preservation(metadata: dict[str, Any], graph: dict[str, Any]) -> dict[str, Any]:
+    typed = metadata["typedPreservation"]
+    domains = typed["domains"]
+    required_domains = ["intentUnits", "unitEdges", "evidence", "authority", "history"]
+    domain_reports: dict[str, Any] = {}
+    for domain in required_domains:
+        payload = domains.get(domain)
+        if not isinstance(payload, dict):
+            raise RetrofitError(f"typedPreservation missing domain: {domain}")
+        records = payload.get("records")
+        if not isinstance(records, list):
+            raise RetrofitError(f"typedPreservation {domain} records must be an array.")
+        for record in records:
+            if not isinstance(record, dict) or not isinstance(record.get("id"), str):
+                raise RetrofitError(f"typedPreservation {domain} record missing string id.")
+        sorted_records = sorted(records, key=lambda record: record["id"])
+        if records != sorted_records:
+            raise RetrofitError(f"typedPreservation {domain} records must be sorted by id.")
+        expected_records = typed_domain_records(graph, domain)
+        expected_digest = digest_records(expected_records)
+        actual_digest = digest_records(sorted_records)
+        expected_count = len(expected_records)
+        if payload.get("count") != expected_count:
+            raise RetrofitError(f"typedPreservation {domain} count mismatch.")
+        if payload.get("digest") != actual_digest:
+            raise RetrofitError(f"typedPreservation {domain} digest does not match records.")
+        if payload.get("digest") != expected_digest:
+            raise RetrofitError(f"typedPreservation {domain} digest does not match snapshot domain.")
+        if sorted_records != expected_records:
+            raise RetrofitError(f"typedPreservation {domain} records do not match snapshot domain.")
+        domain_reports[domain] = {
+            "result": "pass",
+            "count": expected_count,
+            "digest": expected_digest,
+            "recordIds": [record["id"] for record in expected_records],
+        }
+    return {
+        "version": typed["version"],
+        "source": typed["source"],
+        "snapshotStillPresent": typed["snapshotStillPresent"],
+        "result": "pass",
+        "domains": domain_reports,
+    }
+
+
 def reconstruct_graph(metadata: dict[str, Any]) -> dict[str, Any]:
     graph = json.loads(json.dumps(metadata["hiddenState"]["sourceGraphSnapshot"]))
     graph["status"] = "m3-reconstructed"
@@ -335,7 +433,11 @@ def code_only_projection(source_path: Path, source: str) -> dict[str, Any]:
     }
 
 
-def build_diagnostics(metadata: dict[str, Any], reconstructed: dict[str, Any]) -> dict[str, Any]:
+def build_diagnostics(
+    metadata: dict[str, Any],
+    reconstructed: dict[str, Any],
+    typed_preservation_report: dict[str, Any],
+) -> dict[str, Any]:
     snapshot_dependence = metadata.get("hiddenState", {}).get("snapshotDependence", {})
     return {
         "diagnosticsVersion": "0.1.0",
@@ -356,9 +458,11 @@ def build_diagnostics(metadata: dict[str, Any], reconstructed: dict[str, Any]) -
             ),
         },
         "snapshotDependence": snapshot_dependence,
+        "typedPreservation": typed_preservation_report,
         "warnings": [
             "M3 reconstructed from preservation metadata; M4 must perform equality verification.",
             "Code-only projection is lossy and must not be treated as the full intent graph.",
+            "P1.5 validates selected typed domains but still keeps hiddenState.sourceGraphSnapshot for exact full graph equality.",
         ],
         "errors": [],
     }
@@ -373,10 +477,11 @@ def reconstruct(source_path: Path, metadata_path: Path, out_dir: Path) -> None:
     validate_node_map(metadata, graph, source)
     validate_edge_map(metadata, graph)
     validate_unit_map(metadata, graph)
+    typed_preservation_report = validate_typed_preservation(metadata, graph)
 
     reconstructed = reconstruct_graph(metadata)
     projection = code_only_projection(source_path, source)
-    diagnostics = build_diagnostics(metadata, reconstructed)
+    diagnostics = build_diagnostics(metadata, reconstructed, typed_preservation_report)
 
     write_text(out_dir / "reconstructed.graph.json", canonical_pretty(reconstructed))
     write_text(out_dir / "code-only-projection.json", canonical_pretty(projection))

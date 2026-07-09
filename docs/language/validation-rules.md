@@ -390,6 +390,18 @@ Severity: P0 in P1.4
 
 The CF0 delta verifier must have a committed harness that proves wrong before-state values, missing expected facts, missing delta records, source-text equality claims, and hidden generated-code snapshot claims fail deterministically.
 
+### V407 - B0 Typed Preservation Domains Validate
+
+Severity: P0 in P1.5
+
+B0 generated-code metadata must preserve `intentUnits`, `unitEdges`, `evidence`, `authority`, and `history` as typed records with deterministic counts and digests. Retrofit must fail when those counts, digests, or records are stale.
+
+### V408 - Snapshot Reduction Is Honest
+
+Severity: P0 in P1.5
+
+P1.5 reports may claim selected typed-domain preservation, but must still state that `hiddenState.sourceGraphSnapshot` remains present and that code-only reconstruction does not recover evidence, authority, history, or full Intent Units.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

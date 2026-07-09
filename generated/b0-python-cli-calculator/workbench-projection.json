@@ -872,11 +872,51 @@
     "m5ClaimScope": {
       "codeDerivedRecovery": false,
       "hiddenStateSnapshotUsed": true,
-      "level4Claim": "metadata-backed preservation with semantic validation"
+      "level4Claim": "metadata-backed preservation with semantic validation",
+      "typedPreservationDomains": [
+        "authority",
+        "evidence",
+        "history",
+        "intentUnits",
+        "unitEdges"
+      ],
+      "typedPreservationUsed": true
     },
     "metadataGraphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
     "overlayMappingPreservation": true,
     "result": "pass",
-    "semanticValidation": "pass"
+    "semanticValidation": "pass",
+    "typedPreservation": {
+      "domains": {
+        "authority": {
+          "count": 4,
+          "digest": "sha256:4091b7237a5189c3eb11a51cf47ccc8fa15069494250e45bbb8b621b1625f5f0",
+          "result": "pass"
+        },
+        "evidence": {
+          "count": 5,
+          "digest": "sha256:1888a1799d84a9b499a6ac528ff37ac83b19fa8a409ce094cdd45ccb77bbbebc",
+          "result": "pass"
+        },
+        "history": {
+          "count": 4,
+          "digest": "sha256:66aee9051c1e760f41a912413a096fff8b3ab481c95a6a13b9d77571d241f487",
+          "result": "pass"
+        },
+        "intentUnits": {
+          "count": 3,
+          "digest": "sha256:1657f04acfb3d3d7450a4cbc4cd9325ea18be1552ba4aac16eb4454ec584d009",
+          "result": "pass"
+        },
+        "unitEdges": {
+          "count": 3,
+          "digest": "sha256:0bcf696c9c29e5fc2ff2dd76d7ba647b5cb1b99a1519c2a661d5f7436f09d028",
+          "result": "pass"
+        }
+      },
+      "result": "pass",
+      "snapshotStillPresent": true,
+      "version": "p1.5-typed-preservation-v0"
+    }
   }
 }

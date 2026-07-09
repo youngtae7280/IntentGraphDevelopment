@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.4 Repeatable Code-First Delta Negative Probe Harness
+P1.5 B0 Typed Preservation Metadata Snapshot Reduction
 ```
 
-This is a focused negative-probe harness for the CF0 code-first maintenance delta verifier only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused B0 generated-code metadata reduction slice only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -253,3 +253,9 @@ Status: completed after P1.3.R hardening on 2026-07-09. See [P1.3 Code-First Mai
 Goal: commit a deterministic harness that proves the CF0 P1.3 delta verifier fails for wrong before-state digests/counts, missing expected facts, missing delta records, source-text equality, and hidden generated-code snapshot claims.
 
 Status: completed on 2026-07-09. See [P1.4 Code-First Delta Negative Probes Review](../reviews/p1.4-code-first-delta-negative-probes-review.md).
+
+## P1.5: B0 Typed Preservation Metadata Snapshot Reduction
+
+Goal: reduce B0 generated-code full-snapshot dependence by preserving intent units, unit edges, evidence, authority, and history as typed metadata records with deterministic counts and digests while still acknowledging that full graph equality uses `hiddenState.sourceGraphSnapshot`.
+
+Status: completed on 2026-07-09. See [P1.5 B0 Typed Preservation Review](../reviews/p1.5-b0-typed-preservation-review.md).
