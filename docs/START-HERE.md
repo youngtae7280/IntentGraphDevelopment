@@ -50,7 +50,9 @@ Implementation may start only when these are written:
 - acceptance criteria
 - late prior-art response plan
 
-The current authorized milestone is `M0: Research and Thesis Foundation`. Do not open implementation work until M0 passes its milestone review.
+The current authorized milestone is `M1: IntentGraph Language and GraphIR Boundary`. `M0: Research and Thesis Foundation` passed its milestone review on 2026-07-09.
+
+Do not open compiler, reconstructor, verifier, package setup, UI, or AI runtime implementation until the relevant later milestone is current and its entry criteria are met.
 
 ## Stop Criteria
 

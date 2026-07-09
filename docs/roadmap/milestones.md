@@ -4,11 +4,13 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 ## Current Authorized Milestone
 
-Only `M0: Research and Thesis Foundation` is authorized until it passes the milestone review gate.
+`M1: IntentGraph Language and GraphIR Boundary` is authorized because `M0: Research and Thesis Foundation` passed its milestone review on 2026-07-09.
 
 ## M0: Research and Thesis Foundation
 
 Goal: make the concept, prior-art landscape, and first benchmark criteria stable enough to justify a first implementation slice.
+
+Review: [M0 Milestone Review](../reviews/m0-review.md)
 
 Allowed work:
 

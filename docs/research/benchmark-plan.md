@@ -2,44 +2,128 @@
 
 Benchmarks must exist before implementation claims.
 
-## Benchmark Projects
+Primary source sweep date: 2026-07-09.
 
-Start with small, repeatable projects:
+## First Benchmark Selection
 
-1. CLI calculator
-2. Todo web app
-3. Small REST API
-4. Small desktop utility
+Benchmark ID: `B0-python-cli-calculator`
 
-## Required Measurements
+Project:
+A tiny Python standard-library CLI calculator with deterministic generated source.
 
-For each benchmark, measure:
+Why this benchmark:
 
-- can an intent graph describe the product intent?
-- can it describe code symbols and relationships?
-- can source code be generated deterministically from the graph?
-- can generated source code be reconstructed into the graph?
-- what information is lost without metadata?
-- are tests and evidence linked to graph nodes?
-- are authority and change history preserved?
-- can an AI proposal be represented as a graph delta?
+- small enough to inspect manually
+- does not require package setup or external services
+- can exercise functions, CLI argument parsing, tests, evidence, authority, and history fields
+- Python has a standard `ast` module for code-only projection checks
+- complex enough to distinguish graph-as-source round-trip from ordinary code generation
 
-## Reference Tools
-
-Compare against relevant existing systems by capability:
-
-- language workbench: MPS, Xtext
-- model/code generation: EMF, Acceleo
-- bidirectional transformation: eMoflon/TGG, QVT
-- code graph extraction: Joern/CPG, CodeQL, Graphify, SCIP
-- code intelligence: Sourcegraph
-
-## Pass Criteria for First Vertical Slice
-
-The first implementation should pass:
+Initial product behavior:
 
 ```text
-G -> Native(G) -> Retrofit(Native(G)) = G
+calc add 2 3 -> 5
+calc sub 5 2 -> 3
 ```
 
-for a small deterministic graph with generated source metadata.
+## Required Phase 0 Benchmark Artifacts
+
+The implementation milestones must eventually produce:
+
+- source intent graph `G`
+- canonical GraphIR serialization
+- generated Python source
+- generated preservation metadata
+- generated or declared tests
+- reconstructed graph `G'`
+- verifier report for `Retrofit(Native(G)) = G`
+- code-only reconstruction/projection report
+- evidence record linked to graph nodes and verifier output
+- authority record showing proposer, validator, reviewer/authority, decision, and accepted state
+- graph semantic delta history linked to Git commit identity when available
+
+## Prior-Art Comparator Questions
+
+| Comparator lane | What it can likely do for the benchmark | What IntentGraph must still prove |
+|---|---|---|
+| MPS / EMF / Acceleo / MetaEdit+ | model-to-code generation and model persistence | generated code plus metadata reconstructs the source graph with evidence/authority/history |
+| Xtext / Spoofax / MontiCore | textual DSL parsing, editor/compiler infrastructure | graph-as-source boundary without building a broad language workbench |
+| QVT / TGG | model/model consistency and synchronization theory | source graph to generated code to reconstructed graph equality under declared rules |
+| Joern / CodeQL | code-derived facts and static analysis | non-code intent, evidence, authority, and history survive reconstruction |
+| SCIP / Kythe / Glean / LSIF / SemanticDB | symbol/reference indexes and generated-code mapping concepts | preservation metadata reconstructs source graph nodes, not only navigation facts |
+| Graphify / RepoGraph | AI context and repository graph retrieval | AI proposals remain non-authoritative and verifier/authority decides acceptance |
+| PROV / OpenLineage / SLSA / in-toto | provenance/evidence vocabulary and production-chain metadata | evidence is bound to graph nodes, deltas, generated code, and verifier claims |
+| Git / CODEOWNERS / OPA | history, ownership, review, and policy mechanisms | graph semantic deltas and authority decisions are preserved through round-trip |
+| Cytoscape.js / Graphviz / Sirius | graph visualization and workbench patterns | no visualization claim until core round-trip behavior exists |
+
+## Pass Criteria For First Round-Trip Slice
+
+The first implementation slice passes only if:
+
+```text
+Retrofit(Native(G)) = G
+```
+
+for the declared tiny graph and preservation metadata.
+
+The verifier must check:
+
+- graph node IDs are stable
+- generated source maps back to graph nodes
+- generated metadata maps back to graph nodes
+- reconstructed graph matches the original under declared equality rules
+- code-only reconstruction is reported as a lossy projection
+- missing metadata produces a clear failure, not a silent partial pass
+- evidence records are preserved
+- authority records are preserved
+- semantic change history records are preserved
+
+## Fail Criteria
+
+The benchmark fails if any of these happen:
+
+- generated code works but cannot be reconstructed into the graph
+- reconstruction depends on AI judgment
+- equality rules are implicit
+- code-only reconstruction is claimed to recover full intent
+- evidence, authority, or history are stored as opaque blobs with no verifier coverage
+- a custom broad code extractor is built before comparing stronger tools
+- the result is only a code graph viewer, DSL compiler, or prompt-context graph
+
+## Measurements
+
+For each benchmark loop, record:
+
+- generated files and hashes
+- metadata files and hashes
+- verifier command and result
+- original graph node count by node type
+- reconstructed graph node count by node type
+- equality projection used
+- code-only projection loss list
+- evidence records preserved
+- authority records preserved
+- history records preserved
+- prior-art comparator notes
+
+## M1 Entry Criteria From This Plan
+
+M1 may start when M0 review passes and the following are stable:
+
+- first benchmark is `B0-python-cli-calculator`
+- first implementation language is Python unless M1 review changes it
+- no broad language workbench is planned
+- no broad code extractor is planned
+- metadata is required for full reconstruction
+- code-only reconstruction is lossy by design
+- AI is proposal-only
+
+## Later Benchmark Candidates
+
+These remain future candidates and are not authorized before the tiny benchmark proves the core loop:
+
+1. Todo web app
+2. Small REST API
+3. Small desktop utility
+
+Each later benchmark must rerun the prior-art gate before implementation.
