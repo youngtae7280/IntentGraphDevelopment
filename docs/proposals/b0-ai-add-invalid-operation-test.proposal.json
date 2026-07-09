@@ -1,0 +1,59 @@
+{
+  "proposalVersion": "0.1.0",
+  "proposalId": "ai.proposal.b0.add-invalid-operation-test",
+  "benchmarkId": "B0-python-cli-calculator",
+  "source": {
+    "kind": "ai",
+    "system": "synthetic-m6-boundary-fixture"
+  },
+  "target": {
+    "graphId": "ig.bench.b0.python-cli-calculator",
+    "baseGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678"
+  },
+  "intent": {
+    "summary": "Add a graph-level test expectation for unsupported CLI operations."
+  },
+  "delta": [
+    {
+      "op": "addNode",
+      "node": {
+        "id": "test.case.invalid-operation",
+        "kind": "test.case",
+        "label": "Invalid operation CLI example",
+        "attributes": {
+          "command": "python calc.py mul 2 3",
+          "expectedStdout": "",
+          "expectedStderrContains": "unsupported operation: mul",
+          "expectedExitCode": 2,
+          "status": "planned"
+        }
+      }
+    },
+    {
+      "op": "addEdge",
+      "edge": {
+        "id": "edge.test.invalid-operation",
+        "kind": "tested_by",
+        "from": "intent.product.calculator",
+        "to": "test.case.invalid-operation",
+        "attributes": {}
+      }
+    }
+  ],
+  "requiredAcceptedEvidence": ["evidence.record.roundtrip-report"],
+  "deterministicChecks": [
+    "ProposalWellFormed",
+    "BaseGraphDigestMatches",
+    "CanApplyDelta",
+    "AuthorityGranted"
+  ],
+  "decision": {
+    "decisionStatus": "accepted",
+    "authorityRecordId": "authority.record.m5-human-review",
+    "requiredAuthority": "roadmap-orchestrator",
+    "validator": "m6-proposal-validator",
+    "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+    "decidedByType": "human"
+  },
+  "expectedValidation": "accepted"
+}

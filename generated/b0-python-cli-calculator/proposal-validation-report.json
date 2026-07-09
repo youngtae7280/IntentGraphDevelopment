@@ -1,0 +1,89 @@
+{
+  "graph": {
+    "benchmarkId": "B0-python-cli-calculator",
+    "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "graphId": "ig.bench.b0.python-cli-calculator",
+    "path": "docs/examples/b0-python-cli-calculator.graph.json"
+  },
+  "proposalResults": [
+    {
+      "acceptedForApplication": true,
+      "authorityGranted": true,
+      "authorityRecordId": "authority.record.m5-human-review",
+      "decidedByType": "human",
+      "decisionStatus": "accepted",
+      "deltaSummary": {
+        "addedEdges": [
+          "edge.test.invalid-operation"
+        ],
+        "addedNodes": [
+          "test.case.invalid-operation"
+        ],
+        "updatedNodes": []
+      },
+      "diagnostics": [
+        "base graph digest matched"
+      ],
+      "errors": [],
+      "expectedMatched": true,
+      "expectedValidation": "accepted",
+      "postDelta": {
+        "graphDigest": "sha256:8fada2ac5fafeb264a4f8e36d86b2e8f13c386aae6c88f3ee32e9d4d05008081",
+        "graphirValid": true,
+        "semanticValidation": "pass"
+      },
+      "proposalDigest": "sha256:2a4a995b262b128cb6c75dfd1fb7d5340995fa31a21427b0fee02a0daf1aadd9",
+      "proposalId": "ai.proposal.b0.add-invalid-operation-test",
+      "proposalPath": "docs/proposals/b0-ai-add-invalid-operation-test.proposal.json",
+      "requiredAcceptedEvidenceRole": "base-graph-prerequisite",
+      "sourceKind": "ai",
+      "validation": "accepted"
+    },
+    {
+      "acceptedForApplication": false,
+      "authorityGranted": false,
+      "authorityRecordId": "authority.record.missing-ai-authority",
+      "decidedByType": "ai",
+      "decisionStatus": "accepted",
+      "deltaSummary": {
+        "addedEdges": [],
+        "addedNodes": [],
+        "updatedNodes": []
+      },
+      "diagnostics": [
+        "base graph digest matched"
+      ],
+      "errors": [
+        "AI cannot be final authority for an accepted proposal",
+        "decision authorityRecordId is missing: authority.record.missing-ai-authority",
+        "accepted proposal missing deterministic checks: ['AuthorityGranted', 'BaseGraphDigestMatches', 'CanApplyDelta']",
+        "accepted proposal requires at least one accepted evidence reference",
+        "delta[0] addNode id already exists: intent.product.calculator"
+      ],
+      "expectedMatched": true,
+      "expectedValidation": "rejected",
+      "postDelta": {
+        "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+        "graphirValid": true,
+        "semanticValidation": "pass"
+      },
+      "proposalDigest": "sha256:69cc8825c945cc9c39b4627f7273bdfc7317bd485465c5dec69c093a90d630e8",
+      "proposalId": "ai.proposal.b0.invalid-self-authorized",
+      "proposalPath": "docs/proposals/b0-ai-invalid-self-authorized.proposal.json",
+      "requiredAcceptedEvidenceRole": "base-graph-prerequisite",
+      "sourceKind": "ai",
+      "validation": "rejected"
+    }
+  ],
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "summary": {
+    "acceptedForApplication": 1,
+    "aiOutputTreatedAsAuthority": false,
+    "automaticApplication": false,
+    "expectedMismatches": [],
+    "proposalCount": 2,
+    "rejected": 1
+  },
+  "validatorContract": "m6-proposal-validator-v0"
+}

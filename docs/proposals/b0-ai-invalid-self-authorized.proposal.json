@@ -1,0 +1,41 @@
+{
+  "proposalVersion": "0.1.0",
+  "proposalId": "ai.proposal.b0.invalid-self-authorized",
+  "benchmarkId": "B0-python-cli-calculator",
+  "source": {
+    "kind": "ai",
+    "system": "synthetic-m6-boundary-fixture"
+  },
+  "target": {
+    "graphId": "ig.bench.b0.python-cli-calculator",
+    "baseGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678"
+  },
+  "intent": {
+    "summary": "Attempt to add a duplicate product node while using AI as final authority."
+  },
+  "delta": [
+    {
+      "op": "addNode",
+      "node": {
+        "id": "intent.product.calculator",
+        "kind": "intent.requirement",
+        "label": "Duplicate calculator requirement",
+        "attributes": {
+          "statement": "This duplicate should not be accepted.",
+          "priority": "must"
+        }
+      }
+    }
+  ],
+  "requiredAcceptedEvidence": [],
+  "deterministicChecks": ["ProposalWellFormed"],
+  "decision": {
+    "decisionStatus": "accepted",
+    "authorityRecordId": "authority.record.missing-ai-authority",
+    "requiredAuthority": "roadmap-orchestrator",
+    "validator": "m6-proposal-validator",
+    "decidedBy": "synthetic-ai-fixture",
+    "decidedByType": "ai"
+  },
+  "expectedValidation": "rejected"
+}

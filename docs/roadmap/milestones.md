@@ -4,7 +4,7 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 ## Current Authorized Milestone
 
-`M6: AI Proposal Boundary` is authorized because `M5: Evidence and Authority Slice` passed its milestone review on 2026-07-09.
+`M7: Workbench and Visualization Boundary` is authorized because `M6: AI Proposal Boundary` passed its milestone review on 2026-07-09.
 
 ## M0: Research and Thesis Foundation
 
@@ -142,6 +142,8 @@ Quality target: Level 4.
 ## M6: AI Proposal Boundary
 
 Goal: allow AI to propose graph/code deltas while keeping acceptance deterministic.
+
+Review: [M6 Milestone Review](../reviews/m6-review.md)
 
 Entry criteria:
 
