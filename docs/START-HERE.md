@@ -55,7 +55,7 @@ Implementation may start only when these are written:
 - acceptance criteria
 - late prior-art response plan
 
-The current authorized milestone is `M5: Evidence and Authority Slice`. `M0`, `M1`, `M2`, `M3`, and `M4` passed their milestone reviews on 2026-07-09.
+The current authorized milestone is `M6: AI Proposal Boundary`. `M0`, `M1`, `M2`, `M3`, `M4`, and `M5` passed their milestone reviews on 2026-07-09.
 
 Do not open compiler, reconstructor, verifier, package setup, UI, or AI runtime implementation until the relevant later milestone is current and its entry criteria are met.
 

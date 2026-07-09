@@ -14,16 +14,17 @@
       "accepted change state",
       "verifier equality mode"
     ],
+    "usedForEvidenceAuthorityHistory": false,
     "usedForExactEquality": false
   },
   "counts": {
     "originalEdgesByKind": {
-      "authorizes": 1,
+      "authorizes": 5,
       "calls": 2,
-      "changes": 3,
+      "changes": 8,
       "contains": 4,
       "decomposes_to": 2,
-      "evidenced_by": 3,
+      "evidenced_by": 4,
       "handled_by": 1,
       "maps_from": 5,
       "maps_to": 5,
@@ -32,25 +33,25 @@
       "uses_concept": 4
     },
     "originalNodesByKind": {
-      "authority.record": 1,
+      "authority.record": 2,
       "code.cli": 1,
       "code.function": 3,
       "code.module": 1,
       "domain.concept": 2,
-      "evidence.record": 2,
-      "history.delta": 1,
+      "evidence.record": 3,
+      "history.delta": 2,
       "intent.requirement": 3,
       "metadata.sourceMap": 5,
       "projection.target": 1,
       "test.case": 2
     },
     "reconstructedEdgesByKind": {
-      "authorizes": 1,
+      "authorizes": 5,
       "calls": 2,
-      "changes": 3,
+      "changes": 8,
       "contains": 4,
       "decomposes_to": 2,
-      "evidenced_by": 3,
+      "evidenced_by": 4,
       "handled_by": 1,
       "maps_from": 5,
       "maps_to": 5,
@@ -59,13 +60,13 @@
       "uses_concept": 4
     },
     "reconstructedNodesByKind": {
-      "authority.record": 1,
+      "authority.record": 2,
       "code.cli": 1,
       "code.function": 3,
       "code.module": 1,
       "domain.concept": 2,
-      "evidence.record": 2,
-      "history.delta": 1,
+      "evidence.record": 3,
+      "history.delta": 2,
       "intent.requirement": 3,
       "metadata.sourceMap": 5,
       "projection.target": 1,
@@ -77,11 +78,11 @@
     "normalized metadata-backed graph equality passed"
   ],
   "digests": {
-    "metadataGraphDigest": "sha256:cab80515c032da327edcc1d2203be515e0060d487a91b4a5f25d355bacd91f85",
-    "normalizedOriginalGraph": "sha256:f96c8442f298bfe13e1a24ebe12e6d1765e678ebebfb08058b005f713839ec58",
-    "normalizedReconstructedGraph": "sha256:f96c8442f298bfe13e1a24ebe12e6d1765e678ebebfb08058b005f713839ec58",
-    "originalGraph": "sha256:cab80515c032da327edcc1d2203be515e0060d487a91b4a5f25d355bacd91f85",
-    "reconstructedGraph": "sha256:ee590921e7686e2727e6b34882b00dac775201fa88b8077c0f5c04950ed592ce"
+    "metadataGraphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "normalizedOriginalGraph": "sha256:a7c40eb79fbebe9209ec1dc96f88b9229032ebabc70d210fd21f02aa25376e24",
+    "normalizedReconstructedGraph": "sha256:a7c40eb79fbebe9209ec1dc96f88b9229032ebabc70d210fd21f02aa25376e24",
+    "originalGraph": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
+    "reconstructedGraph": "sha256:142034c5648c9dd45e9a3de1acd04190509e80042c7123b8b96ecbaef70e39bb"
   },
   "equalityMode": "GraphEqualAfterNormalization",
   "graphEqual": true,
@@ -90,6 +91,11 @@
     "metadata": "generated/b0-python-cli-calculator/calc.intentgraph.json",
     "originalGraph": "docs/examples/b0-python-cli-calculator.graph.json",
     "reconstructedGraph": "generated/b0-python-cli-calculator/reconstructed.graph.json"
+  },
+  "m5ClaimScope": {
+    "codeDerivedRecovery": false,
+    "hiddenStateSnapshotUsed": true,
+    "level4Claim": "metadata-backed preservation with semantic validation"
   },
   "mismatches": [],
   "normalizationRules": [
@@ -102,54 +108,60 @@
     "domainSubgraphs": {
       "authority": {
         "domainNodeIds": [
-          "authority.record.initial-human"
+          "authority.record.initial-human",
+          "authority.record.m5-human-review"
         ],
         "matched": true,
-        "originalDigest": "sha256:5271528247ef2003c72d7686867c8a128a17e2a66c3b084948ae473cfea3c674",
-        "reconstructedDigest": "sha256:5271528247ef2003c72d7686867c8a128a17e2a66c3b084948ae473cfea3c674",
+        "originalDigest": "sha256:1b8002d248aa004dd35de8e6eb918df0c61ad64419c1a53d378ca69150189d7a",
+        "reconstructedDigest": "sha256:1b8002d248aa004dd35de8e6eb918df0c61ad64419c1a53d378ca69150189d7a",
         "reconstructedDomainNodeIds": [
-          "authority.record.initial-human"
+          "authority.record.initial-human",
+          "authority.record.m5-human-review"
         ]
       },
       "evidence": {
         "domainNodeIds": [
           "evidence.record.requirement-note",
+          "evidence.record.roundtrip-report",
           "evidence.record.test-plan"
         ],
         "matched": true,
-        "originalDigest": "sha256:e1554f257b1edb4998fd0d75ac3df5ff6ef99e8bbb9d0507b6cb8fed4475a0af",
-        "reconstructedDigest": "sha256:e1554f257b1edb4998fd0d75ac3df5ff6ef99e8bbb9d0507b6cb8fed4475a0af",
+        "originalDigest": "sha256:7eac8bd6ad1921b5b0c8ec886525bee6ff5621e01a5c950cf36a14ae440ca829",
+        "reconstructedDigest": "sha256:7eac8bd6ad1921b5b0c8ec886525bee6ff5621e01a5c950cf36a14ae440ca829",
         "reconstructedDomainNodeIds": [
           "evidence.record.requirement-note",
+          "evidence.record.roundtrip-report",
           "evidence.record.test-plan"
         ]
       },
       "history": {
         "domainNodeIds": [
-          "history.delta.initial-graph"
+          "history.delta.initial-graph",
+          "history.delta.m5-evidence-authority-history"
         ],
         "matched": true,
-        "originalDigest": "sha256:cbc8170ad5ab0501e9959f5039cb9cfe6af6c9f989e1e302433f6995a46df916",
-        "reconstructedDigest": "sha256:cbc8170ad5ab0501e9959f5039cb9cfe6af6c9f989e1e302433f6995a46df916",
+        "originalDigest": "sha256:8d453f4d999c2e44cb714403c22941cce792f98d854a61f0fb4102259e09a3b0",
+        "reconstructedDigest": "sha256:8d453f4d999c2e44cb714403c22941cce792f98d854a61f0fb4102259e09a3b0",
         "reconstructedDomainNodeIds": [
-          "history.delta.initial-graph"
+          "history.delta.initial-graph",
+          "history.delta.m5-evidence-authority-history"
         ]
       }
     },
     "original": {
       "authorityPreserved": true,
-      "authorityRecords": 1,
+      "authorityRecords": 2,
       "evidencePreserved": true,
-      "evidenceRecords": 2,
-      "historyDeltas": 1,
+      "evidenceRecords": 3,
+      "historyDeltas": 2,
       "historyPreserved": true
     },
     "reconstructed": {
       "authorityPreserved": true,
-      "authorityRecords": 1,
+      "authorityRecords": 2,
       "evidencePreserved": true,
-      "evidenceRecords": 2,
-      "historyDeltas": 1,
+      "evidenceRecords": 3,
+      "historyDeltas": 2,
       "historyPreserved": true
     }
   },
@@ -161,7 +173,450 @@
     "original": "m1-fixture",
     "reconstructed": "m3-reconstructed"
   },
-  "reportVersion": "0.1.0",
+  "reportVersion": "0.2.0",
   "result": "pass",
-  "verifierContract": "roundtrip-b0-v0"
+  "semanticValidation": {
+    "original": {
+      "authority": {
+        "acceptedCount": 2,
+        "aiFinalAuthorityCount": 0,
+        "errors": [],
+        "recordCount": 2,
+        "records": [
+          {
+            "allowedAuthorizedTargets": [
+              "evidence.record.requirement-note",
+              "evidence.record.test-plan",
+              "history.delta.initial-graph"
+            ],
+            "authorizedTargetKinds": {
+              "evidence.record.requirement-note": "evidence.record",
+              "evidence.record.test-plan": "evidence.record",
+              "history.delta.initial-graph": "history.delta"
+            },
+            "authorizedTargets": [
+              "evidence.record.requirement-note",
+              "evidence.record.test-plan",
+              "history.delta.initial-graph"
+            ],
+            "decidedByType": "human",
+            "decision": "accepted-for-m1-fixture",
+            "decisionStatus": "accepted",
+            "id": "authority.record.initial-human",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "m1-manual-review"
+          },
+          {
+            "allowedAuthorizedTargets": [
+              "evidence.record.roundtrip-report",
+              "history.delta.m5-evidence-authority-history"
+            ],
+            "authorizedTargetKinds": {
+              "evidence.record.roundtrip-report": "evidence.record",
+              "history.delta.m5-evidence-authority-history": "history.delta"
+            },
+            "authorizedTargets": [
+              "evidence.record.roundtrip-report",
+              "history.delta.m5-evidence-authority-history"
+            ],
+            "decidedByType": "human",
+            "decision": "accepted-evidence-authority-history-slice",
+            "decisionStatus": "accepted",
+            "id": "authority.record.m5-human-review",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "m5-semantic-verifier"
+          }
+        ],
+        "result": "pass"
+      },
+      "errors": [],
+      "evidence": {
+        "acceptedCount": 3,
+        "errors": [],
+        "observedCount": 3,
+        "observedDoesNotImplyAccepted": true,
+        "recordCount": 3,
+        "records": [
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.initial-human",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/research/benchmark-plan.md",
+                "resolution": "local-path"
+              }
+            ],
+            "artifactRefs": [
+              "docs/research/benchmark-plan.md"
+            ],
+            "authorizedBy": [
+              "authority.record.initial-human"
+            ],
+            "claimScope": null,
+            "evidenceType": "requirement-note",
+            "id": "evidence.record.requirement-note",
+            "linkedFrom": [
+              "intent.product.calculator"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": null,
+            "status": "pass"
+          },
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.m5-human-review",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": "current-run",
+                "jsonResultPass": null,
+                "ref": "generated/b0-python-cli-calculator/roundtrip-report.json",
+                "resolution": "current-report-output"
+              }
+            ],
+            "artifactRefs": [
+              "generated/b0-python-cli-calculator/roundtrip-report.json"
+            ],
+            "authorizedBy": [
+              "authority.record.m5-human-review"
+            ],
+            "claimScope": null,
+            "evidenceType": "verifier-report",
+            "id": "evidence.record.roundtrip-report",
+            "linkedFrom": [
+              "intent.product.calculator"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": null,
+            "status": "pass"
+          },
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.initial-human",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/examples/b0-python-cli-calculator.graph.json",
+                "resolution": "local-path"
+              },
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/compiler/native-compiler-contract.md",
+                "resolution": "local-path"
+              }
+            ],
+            "artifactRefs": [
+              "docs/examples/b0-python-cli-calculator.graph.json",
+              "docs/compiler/native-compiler-contract.md"
+            ],
+            "authorizedBy": [
+              "authority.record.initial-human"
+            ],
+            "claimScope": "plan-only",
+            "evidenceType": "test-plan",
+            "id": "evidence.record.test-plan",
+            "linkedFrom": [
+              "intent.behavior.add",
+              "intent.behavior.sub"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": false,
+            "status": "planned"
+          }
+        ],
+        "result": "pass"
+      },
+      "history": {
+        "acceptedCount": 2,
+        "acceptedSequenceContiguous": true,
+        "errors": [],
+        "gitLinkedCount": 1,
+        "gitVerifiedCount": 1,
+        "pendingCurrentMilestoneCount": 1,
+        "recordCount": 2,
+        "records": [
+          {
+            "acceptedAuthorizers": [
+              "authority.record.initial-human"
+            ],
+            "authorizedBy": [
+              "authority.record.initial-human"
+            ],
+            "changeType": "create-graph",
+            "changedTargets": [
+              "intent.behavior.add",
+              "intent.behavior.sub",
+              "intent.product.calculator"
+            ],
+            "gitCommit": "b49055cb445626723dcb51af60fb7332bfe799b1",
+            "gitCommitBoundary": null,
+            "gitCommitVerified": true,
+            "id": "history.delta.initial-graph",
+            "sequence": 1,
+            "status": "accepted"
+          },
+          {
+            "acceptedAuthorizers": [
+              "authority.record.m5-human-review"
+            ],
+            "authorizedBy": [
+              "authority.record.m5-human-review"
+            ],
+            "changeType": "refine-evidence-authority-history",
+            "changedTargets": [
+              "authority.record.m5-human-review",
+              "evidence.record.requirement-note",
+              "evidence.record.roundtrip-report",
+              "evidence.record.test-plan",
+              "history.delta.initial-graph"
+            ],
+            "gitCommit": null,
+            "gitCommitBoundary": "pending-current-milestone",
+            "gitCommitVerified": false,
+            "id": "history.delta.m5-evidence-authority-history",
+            "sequence": 2,
+            "status": "accepted"
+          }
+        ],
+        "result": "pass"
+      },
+      "result": "pass"
+    },
+    "reconstructed": {
+      "authority": {
+        "acceptedCount": 2,
+        "aiFinalAuthorityCount": 0,
+        "errors": [],
+        "recordCount": 2,
+        "records": [
+          {
+            "allowedAuthorizedTargets": [
+              "evidence.record.requirement-note",
+              "evidence.record.test-plan",
+              "history.delta.initial-graph"
+            ],
+            "authorizedTargetKinds": {
+              "evidence.record.requirement-note": "evidence.record",
+              "evidence.record.test-plan": "evidence.record",
+              "history.delta.initial-graph": "history.delta"
+            },
+            "authorizedTargets": [
+              "evidence.record.requirement-note",
+              "evidence.record.test-plan",
+              "history.delta.initial-graph"
+            ],
+            "decidedByType": "human",
+            "decision": "accepted-for-m1-fixture",
+            "decisionStatus": "accepted",
+            "id": "authority.record.initial-human",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "m1-manual-review"
+          },
+          {
+            "allowedAuthorizedTargets": [
+              "evidence.record.roundtrip-report",
+              "history.delta.m5-evidence-authority-history"
+            ],
+            "authorizedTargetKinds": {
+              "evidence.record.roundtrip-report": "evidence.record",
+              "history.delta.m5-evidence-authority-history": "history.delta"
+            },
+            "authorizedTargets": [
+              "evidence.record.roundtrip-report",
+              "history.delta.m5-evidence-authority-history"
+            ],
+            "decidedByType": "human",
+            "decision": "accepted-evidence-authority-history-slice",
+            "decisionStatus": "accepted",
+            "id": "authority.record.m5-human-review",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "m5-semantic-verifier"
+          }
+        ],
+        "result": "pass"
+      },
+      "errors": [],
+      "evidence": {
+        "acceptedCount": 3,
+        "errors": [],
+        "observedCount": 3,
+        "observedDoesNotImplyAccepted": true,
+        "recordCount": 3,
+        "records": [
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.initial-human",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/research/benchmark-plan.md",
+                "resolution": "local-path"
+              }
+            ],
+            "artifactRefs": [
+              "docs/research/benchmark-plan.md"
+            ],
+            "authorizedBy": [
+              "authority.record.initial-human"
+            ],
+            "claimScope": null,
+            "evidenceType": "requirement-note",
+            "id": "evidence.record.requirement-note",
+            "linkedFrom": [
+              "intent.product.calculator"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": null,
+            "status": "pass"
+          },
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.m5-human-review",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": "current-run",
+                "jsonResultPass": null,
+                "ref": "generated/b0-python-cli-calculator/roundtrip-report.json",
+                "resolution": "current-report-output"
+              }
+            ],
+            "artifactRefs": [
+              "generated/b0-python-cli-calculator/roundtrip-report.json"
+            ],
+            "authorizedBy": [
+              "authority.record.m5-human-review"
+            ],
+            "claimScope": null,
+            "evidenceType": "verifier-report",
+            "id": "evidence.record.roundtrip-report",
+            "linkedFrom": [
+              "intent.product.calculator"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": null,
+            "status": "pass"
+          },
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.initial-human",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/examples/b0-python-cli-calculator.graph.json",
+                "resolution": "local-path"
+              },
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/compiler/native-compiler-contract.md",
+                "resolution": "local-path"
+              }
+            ],
+            "artifactRefs": [
+              "docs/examples/b0-python-cli-calculator.graph.json",
+              "docs/compiler/native-compiler-contract.md"
+            ],
+            "authorizedBy": [
+              "authority.record.initial-human"
+            ],
+            "claimScope": "plan-only",
+            "evidenceType": "test-plan",
+            "id": "evidence.record.test-plan",
+            "linkedFrom": [
+              "intent.behavior.add",
+              "intent.behavior.sub"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": false,
+            "status": "planned"
+          }
+        ],
+        "result": "pass"
+      },
+      "history": {
+        "acceptedCount": 2,
+        "acceptedSequenceContiguous": true,
+        "errors": [],
+        "gitLinkedCount": 1,
+        "gitVerifiedCount": 1,
+        "pendingCurrentMilestoneCount": 1,
+        "recordCount": 2,
+        "records": [
+          {
+            "acceptedAuthorizers": [
+              "authority.record.initial-human"
+            ],
+            "authorizedBy": [
+              "authority.record.initial-human"
+            ],
+            "changeType": "create-graph",
+            "changedTargets": [
+              "intent.behavior.add",
+              "intent.behavior.sub",
+              "intent.product.calculator"
+            ],
+            "gitCommit": "b49055cb445626723dcb51af60fb7332bfe799b1",
+            "gitCommitBoundary": null,
+            "gitCommitVerified": true,
+            "id": "history.delta.initial-graph",
+            "sequence": 1,
+            "status": "accepted"
+          },
+          {
+            "acceptedAuthorizers": [
+              "authority.record.m5-human-review"
+            ],
+            "authorizedBy": [
+              "authority.record.m5-human-review"
+            ],
+            "changeType": "refine-evidence-authority-history",
+            "changedTargets": [
+              "authority.record.m5-human-review",
+              "evidence.record.requirement-note",
+              "evidence.record.roundtrip-report",
+              "evidence.record.test-plan",
+              "history.delta.initial-graph"
+            ],
+            "gitCommit": null,
+            "gitCommitBoundary": "pending-current-milestone",
+            "gitCommitVerified": false,
+            "id": "history.delta.m5-evidence-authority-history",
+            "sequence": 2,
+            "status": "accepted"
+          }
+        ],
+        "result": "pass"
+      },
+      "result": "pass"
+    },
+    "result": "pass",
+    "rules": [
+      "observed evidence is not accepted without accepted authority",
+      "accepted evidence status must be compatible with the evidence type",
+      "accepted authority cannot use ai as final decision authority",
+      "accepted authority targets must use allowed target kinds",
+      "accepted history deltas require changed targets and accepted authority",
+      "accepted history sequence values must be contiguous from 1..n",
+      "non-null gitCommit values must resolve to local commits",
+      "null gitCommit requires pending-current-milestone boundary"
+    ]
+  },
+  "verifierContract": "roundtrip-b0-m5-eah-v0"
 }

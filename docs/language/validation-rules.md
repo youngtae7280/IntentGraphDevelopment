@@ -115,6 +115,22 @@ Severity: P0
 
 Every `evidence.record` must include `evidenceType`, `status`, `summary`, and `recordedBy`.
 
+### V053 - Evidence Observation And Acceptance
+
+Severity: P0 in M5 and later
+
+Every `evidence.record` must include `observationStatus`, `acceptanceStatus`, and `artifactRefs`. Accepted evidence must include `acceptedByAuthority`.
+
+Observation does not imply acceptance.
+
+Accepted evidence must not have `status: "fail"`, `status: "blocked"`, or `status: "superseded"`. Accepted verifier-report evidence must have `status: "pass"`. Accepted planned evidence must declare `claimScope: "plan-only"` and `runtimeProof: false`.
+
+### V054 - Accepted Evidence Authority
+
+Severity: P0 in M5 and later
+
+Every accepted evidence record must reference an accepted `authority.record`, and that authority record must authorize the evidence record with an `authorizes` edge.
+
 ### V060 - Authority Linkage
 
 Severity: P1
@@ -133,6 +149,12 @@ Severity: P0
 
 Every `authority.record` must include `proposer`, `proposerType`, `requiredAuthority`, `validator`, `decidedBy`, `decidedByType`, `decision`, and `decisionStatus`.
 
+### V063 - Accepted Authority Scope
+
+Severity: P0 in M5 and later
+
+Every accepted `authority.record` must authorize at least one evidence record, history delta, or projection target. An accepted authority record must not have `decidedByType: "ai"` under case-normalized actor type comparison. Unknown actor types are invalid.
+
 ### V070 - History Linkage
 
 Severity: P1
@@ -150,6 +172,12 @@ Severity: P2 in M1, P1 after generated artifacts exist
 Severity: P0
 
 Every `history.delta` must include `sequence`, `changeType`, `summary`, `status`, and `gitCommit`.
+
+### V073 - Accepted History Authority And Git Boundary
+
+Severity: P0 in M5 and later
+
+Every accepted `history.delta` must be authorized by an accepted `authority.record` and must link to at least one changed node. Accepted history sequences must be contiguous from `1..n` in the B0 subset. Non-null `gitCommit` values must resolve to local commit objects. If `gitCommit` is `null`, the delta must include `gitCommitBoundary: "pending-current-milestone"` and a reason.
 
 ### V080 - Declared Code-Only Loss
 

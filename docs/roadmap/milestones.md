@@ -4,7 +4,7 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 ## Current Authorized Milestone
 
-`M5: Evidence and Authority Slice` is authorized because `M4: Round-Trip Verifier` passed its milestone review on 2026-07-09.
+`M6: AI Proposal Boundary` is authorized because `M5: Evidence and Authority Slice` passed its milestone review on 2026-07-09.
 
 ## M0: Research and Thesis Foundation
 
@@ -123,6 +123,8 @@ Quality target: Level 3.
 ## M5: Evidence and Authority Slice
 
 Goal: preserve evidence, authority, and change history through the graph/code/reconstruction loop.
+
+Review: [M5 Milestone Review](../reviews/m5-review.md)
 
 Entry criteria:
 

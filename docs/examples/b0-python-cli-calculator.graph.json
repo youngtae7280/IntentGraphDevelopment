@@ -21,6 +21,21 @@
       }
     },
     {
+      "id": "authority.record.m5-human-review",
+      "kind": "authority.record",
+      "label": "M5 evidence authority history review",
+      "attributes": {
+        "proposer": "IntentGraphDevelopment Roadmap Orchestrator",
+        "proposerType": "human",
+        "requiredAuthority": "roadmap-orchestrator",
+        "validator": "m5-semantic-verifier",
+        "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+        "decidedByType": "human",
+        "decision": "accepted-evidence-authority-history-slice",
+        "decisionStatus": "accepted"
+      }
+    },
+    {
       "id": "code.cli.command",
       "kind": "code.cli",
       "label": "calc CLI command",
@@ -121,9 +136,13 @@
       "label": "M1 requirement note",
       "attributes": {
         "evidenceType": "requirement-note",
-        "status": "planned",
+        "status": "pass",
         "summary": "The calculator benchmark is selected in docs/research/benchmark-plan.md.",
-        "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator"
+        "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+        "observationStatus": "observed",
+        "acceptanceStatus": "accepted",
+        "acceptedByAuthority": "authority.record.initial-human",
+        "artifactRefs": ["docs/research/benchmark-plan.md"]
       }
     },
     {
@@ -134,7 +153,31 @@
         "evidenceType": "test-plan",
         "status": "planned",
         "summary": "Generated implementation must satisfy add and subtract CLI examples.",
-        "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator"
+        "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+        "observationStatus": "observed",
+        "acceptanceStatus": "accepted",
+        "acceptedByAuthority": "authority.record.initial-human",
+        "claimScope": "plan-only",
+        "runtimeProof": false,
+        "artifactRefs": [
+          "docs/examples/b0-python-cli-calculator.graph.json",
+          "docs/compiler/native-compiler-contract.md"
+        ]
+      }
+    },
+    {
+      "id": "evidence.record.roundtrip-report",
+      "kind": "evidence.record",
+      "label": "Round-trip verifier report",
+      "attributes": {
+        "evidenceType": "verifier-report",
+        "status": "pass",
+        "summary": "The B0 metadata-backed verifier report records GraphEqualAfterNormalization pass and M5 evidence, authority, and history semantic validation.",
+        "recordedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+        "observationStatus": "observed",
+        "acceptanceStatus": "accepted",
+        "acceptedByAuthority": "authority.record.m5-human-review",
+        "artifactRefs": ["generated/b0-python-cli-calculator/roundtrip-report.json"]
       }
     },
     {
@@ -146,7 +189,21 @@
         "changeType": "create-graph",
         "summary": "Create the B0 calculator graph fixture for M1.",
         "status": "accepted",
-        "gitCommit": null
+        "gitCommit": "b49055cb445626723dcb51af60fb7332bfe799b1"
+      }
+    },
+    {
+      "id": "history.delta.m5-evidence-authority-history",
+      "kind": "history.delta",
+      "label": "M5 evidence authority history refinement",
+      "attributes": {
+        "sequence": 2,
+        "changeType": "refine-evidence-authority-history",
+        "summary": "Add explicit evidence observation, evidence acceptance, authority scope, and semantic history checks for M5.",
+        "status": "accepted",
+        "gitCommit": null,
+        "gitCommitBoundary": "pending-current-milestone",
+        "gitCommitReason": "The current milestone commit hash is not knowable before committing the graph content that defines this delta."
       }
     },
     {
@@ -285,6 +342,34 @@
       "attributes": {}
     },
     {
+      "id": "edge.authority.initial-requirement-note",
+      "kind": "authorizes",
+      "from": "authority.record.initial-human",
+      "to": "evidence.record.requirement-note",
+      "attributes": {}
+    },
+    {
+      "id": "edge.authority.initial-test-plan",
+      "kind": "authorizes",
+      "from": "authority.record.initial-human",
+      "to": "evidence.record.test-plan",
+      "attributes": {}
+    },
+    {
+      "id": "edge.authority.m5-delta",
+      "kind": "authorizes",
+      "from": "authority.record.m5-human-review",
+      "to": "history.delta.m5-evidence-authority-history",
+      "attributes": {}
+    },
+    {
+      "id": "edge.authority.m5-roundtrip-report",
+      "kind": "authorizes",
+      "from": "authority.record.m5-human-review",
+      "to": "evidence.record.roundtrip-report",
+      "attributes": {}
+    },
+    {
       "id": "edge.cli.handled-by-main",
       "kind": "handled_by",
       "from": "code.cli.command",
@@ -352,6 +437,13 @@
       "attributes": {}
     },
     {
+      "id": "edge.evidence.product-roundtrip-report",
+      "kind": "evidenced_by",
+      "from": "intent.product.calculator",
+      "to": "evidence.record.roundtrip-report",
+      "attributes": {}
+    },
+    {
       "id": "edge.evidence.sub-test-plan",
       "kind": "evidenced_by",
       "from": "intent.behavior.sub",
@@ -377,6 +469,41 @@
       "kind": "changes",
       "from": "history.delta.initial-graph",
       "to": "intent.behavior.sub",
+      "attributes": {}
+    },
+    {
+      "id": "edge.history.m5-changed-authority",
+      "kind": "changes",
+      "from": "history.delta.m5-evidence-authority-history",
+      "to": "authority.record.m5-human-review",
+      "attributes": {}
+    },
+    {
+      "id": "edge.history.m5-changed-initial-history",
+      "kind": "changes",
+      "from": "history.delta.m5-evidence-authority-history",
+      "to": "history.delta.initial-graph",
+      "attributes": {}
+    },
+    {
+      "id": "edge.history.m5-changed-requirement-evidence",
+      "kind": "changes",
+      "from": "history.delta.m5-evidence-authority-history",
+      "to": "evidence.record.requirement-note",
+      "attributes": {}
+    },
+    {
+      "id": "edge.history.m5-changed-roundtrip-evidence",
+      "kind": "changes",
+      "from": "history.delta.m5-evidence-authority-history",
+      "to": "evidence.record.roundtrip-report",
+      "attributes": {}
+    },
+    {
+      "id": "edge.history.m5-changed-test-plan-evidence",
+      "kind": "changes",
+      "from": "history.delta.m5-evidence-authority-history",
+      "to": "evidence.record.test-plan",
       "attributes": {}
     },
     {
@@ -567,7 +694,7 @@
     "expectedMode": "exact-with-metadata",
     "canonicalization": "graphir-v0.1",
     "requiresMetadata": true,
-    "exactRoundTrip": "Retrofit(Native(G)) = G for the M1 fixture once M2-M4 implementations exist",
+    "exactRoundTrip": "Retrofit(Native(G)) = G for the B0 fixture under the implemented M4/M5 metadata-backed verifier",
     "codeOnlyRoundTrip": "RetrofitCodeOnly(C) may recover only ProjectionCode(G)"
   }
 }

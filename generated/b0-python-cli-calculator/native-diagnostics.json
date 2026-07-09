@@ -6,15 +6,15 @@
   "generatedArtifacts": [
     {
       "path": "calc.py",
-      "sha256": "1e4ab232f86eff9eaf96043cefeaedc25b9b78568aa9de239bf9b59c75704cca"
+      "sha256": "f1dabfa1f1de8398707f61f2e7f55ee7ca5b71756bf522791ab7a441b7326921"
     },
     {
       "path": "calc.intentgraph.json",
-      "sha256": "5643f8a7765f1820403cbc429fffca8eaf64eb01024a4977c71ebe81c44380c2"
+      "sha256": "a3e79ba122784cca9b2c9b49b743b37a51cf6bed8dd7f34f8da72147fbf8a596"
     }
   ],
   "generatedAt": "deterministic:m2-native-python-b0-v0",
-  "graphDigest": "sha256:cab80515c032da327edcc1d2203be515e0060d487a91b4a5f25d355bacd91f85",
+  "graphDigest": "sha256:c45c86a936ee853b695e1969616606fc36ffed0fd96d718ce8be32986ee01678",
   "status": "pass",
   "warnings": [
     "M2 metadata carries a full graph snapshot; M3 must treat it as preservation metadata, not code-derived reconstruction."

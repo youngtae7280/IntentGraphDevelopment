@@ -159,8 +159,15 @@ M1 allows missing line ranges because source code has not been generated yet. M2
 - `status`
 - `summary`
 - `recordedBy`
+- `observationStatus` in M5 and later
+- `acceptanceStatus` in M5 and later
+- `artifactRefs` in M5 and later
 
 Evidence records become verifier-relevant in M5. Before M5, their presence and linkage are still part of the graph boundary.
+
+Accepted evidence in M5 and later must name `acceptedByAuthority` and must be authorized by the referenced `authority.record`.
+
+Accepted evidence must also have status compatible with its evidence type. Accepted verifier reports must be `pass`; accepted planned evidence must declare `claimScope: "plan-only"` and `runtimeProof: false`.
 
 ## Authority Boundary
 
@@ -176,6 +183,10 @@ Evidence records become verifier-relevant in M5. Before M5, their presence and l
 
 AI may appear as proposer. AI must not appear as final decision authority for accepted changes.
 
+In M5 and later, an accepted authority record must authorize at least one evidence record, history delta, or projection target with an `authorizes` edge.
+
+Accepted authority targets are restricted to explicit authority-bearing target kinds in the B0 subset: `evidence.record`, `history.delta`, and `projection.target`.
+
 ## History Boundary
 
 `history.delta` nodes record graph-semantic history.
@@ -189,6 +200,10 @@ Required attributes:
 - `gitCommit`
 
 `gitCommit` may be `null` in an M1 fixture. Once implementation commits exist for generated artifacts, history records should link to real commit IDs where practical.
+
+In M5 and later, a `null` `gitCommit` is allowed only for an in-flight current-milestone delta with `gitCommitBoundary: "pending-current-milestone"`.
+
+Non-null `gitCommit` values must resolve to local Git commit objects where practical. Accepted history sequence values are contiguous from `1..n` in the B0 subset.
 
 ## Code-Only Loss Model
 
