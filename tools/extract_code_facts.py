@@ -73,6 +73,7 @@ def function_facts(source_path: Path, function: ast.FunctionDef) -> list[dict[st
             expression.replace(" ", "_")
             .replace("+", "plus")
             .replace("-", "minus")
+            .replace("*", "times")
             .replace("(", "")
             .replace(")", "")
         )

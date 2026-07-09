@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.2 Tiny Code-First Maintenance Overlay Probe
+P1.3 Tiny Code-First Maintenance Delta Probe
 ```
 
-This is a Phase 1 code-first overlay probe only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a Phase 1 code-first maintenance delta probe only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -191,7 +191,7 @@ Quality target: Level 2 or higher.
 
 Do not open the next milestone until the current milestone has a written milestone review.
 
-After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.2 only.
+After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.3 only.
 
 ## P1.R: Reframe IntentGraph as Semantic Overlay
 
@@ -240,4 +240,10 @@ Status: completed on 2026-07-09. See [P1.1 Intent Unit Overlay Mapping Review](.
 
 Goal: prove the corrected semantic-overlay architecture on a tiny hand-written Python source fixture by extracting code facts, mapping Intent Units to those facts, and verifying behavior/mapping/evidence/authority/history without source text equality or hidden generated-code snapshots.
 
-Status: active after P1.1 coordinator approval.
+Status: completed on 2026-07-09. See [P1.2 Code-First Maintenance Overlay Review](../reviews/p1.2-code-first-maintenance-overlay-review.md).
+
+## P1.3: Tiny Code-First Maintenance Delta Probe
+
+Goal: prove the smallest code-first maintenance delta by adding `mul` behavior to CF0, capturing before/after code facts and overlay digests, updating Intent Units and semantic history, and verifying preservation plus new behavior without source text equality.
+
+Status: active after P1.2.R coordinator approval.

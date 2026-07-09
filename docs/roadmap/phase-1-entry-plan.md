@@ -65,11 +65,17 @@ Goal: revise B0 Intent Units into semantic overlay mapping units with `codeRefs`
 
 P1.1 resolves the naming ambiguity: `P1.0` is historical and `P1.1` is the overlay mapping revision.
 
-## Current Slice: P1.2 Tiny Code-First Maintenance Overlay Probe
+## Completed Slice: P1.2 Tiny Code-First Maintenance Overlay Probe
 
 Goal: add a tiny hand-written Python calculator source fixture, extract deterministic code facts from it, map Intent Units to those facts, and verify behavior/mapping/evidence/authority/history without requiring source text equality.
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
+
+## Current Slice: P1.3 Tiny Code-First Maintenance Delta Probe
+
+Goal: add a tiny accepted maintenance delta to CF0 and verify before/after source facts, overlay mappings, behavior checks, evidence, authority, and semantic history without source text equality.
+
+Preferred delta: add `mul` behavior to the hand-written calculator.
 
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
 
@@ -136,7 +142,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.2 Tiny Code-First Maintenance Overlay Probe
+P1.3 Tiny Code-First Maintenance Delta Probe
 ```
 
 Worker should start from:
@@ -147,4 +153,4 @@ Worker should start from:
 - `docs/examples/b0-python-cli-calculator.graph.json`
 - `docs/reviews/phase-0-final-review.md`
 
-Worker should not start a larger benchmark until P1.2 review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start a larger benchmark until P1.3 review passes and the Coordinator explicitly authorizes the next phase.

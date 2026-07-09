@@ -94,15 +94,114 @@
         }
       },
       "evidence": [
-        "evidence.extractor-output",
         "evidence.behavior-smoke",
-        "evidence.overlay-verifier"
+        "evidence.extractor-output",
+        "evidence.overlay-verifier",
+        "evidence.p1.3-maintenance-delta"
       ],
       "authority": [
-        "authority.record.p1.2-human"
+        "authority.record.p1.2-human",
+        "authority.record.p1.3-human"
       ],
       "history": [
-        "history.delta.p1.2-code-first-overlay"
+        "history.delta.p1.2-code-first-overlay",
+        "history.delta.p1.3-add-mul"
+      ],
+      "admission": {
+        "stableId": true,
+        "acceptedCommitment": true,
+        "mappingBoundary": true,
+        "codeRefBoundary": true,
+        "codeFactBoundary": true,
+        "verificationObligation": true,
+        "evidenceBoundary": true,
+        "authorityBoundary": true,
+        "codeTextContained": false,
+        "rawUtterance": false,
+        "hypothesisOnly": false
+      }
+    },
+    {
+      "id": "unit.behavior.mul",
+      "kind": "behavior",
+      "status": "accepted",
+      "contract": {
+        "summary": "python calc.py mul LEFT RIGHT prints LEFT multiplied by RIGHT.",
+        "acceptedDevelopmentCommitment": "The multiply behavior is accepted as a code-first maintenance delta unit."
+      },
+      "codeRefs": [
+        {
+          "id": "codeRef.mul.function",
+          "artifactId": "source.calc.py",
+          "factId": "fact.function.mul",
+          "refKind": "symbol",
+          "symbol": "mul",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.mul.function",
+          "factId": "fact.function.mul",
+          "expectedFactKind": "function"
+        },
+        {
+          "id": "codeFactRef.mul.return",
+          "factId": "fact.function.mul.return.left_times_right",
+          "expectedFactKind": "return-expression"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.mul.behavior-to-code",
+          "obligationKind": "behavior-to-code-fact",
+          "mode": "code-first-maintenance-overlay",
+          "intentIds": [
+            "intent.behavior.mul"
+          ],
+          "codeRefIds": [
+            "codeRef.mul.function"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.mul.function",
+            "codeFactRef.mul.return"
+          ],
+          "verificationIds": [
+            "test.case.mul"
+          ],
+          "evidenceIds": [
+            "evidence.extractor-output",
+            "evidence.behavior-smoke",
+            "evidence.overlay-verifier",
+            "evidence.p1.3-maintenance-delta"
+          ],
+          "authorityIds": [
+            "authority.record.p1.2-human",
+            "authority.record.p1.3-human"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ],
+      "verification": {
+        "behaviorSmoke": {
+          "command": "python calc.py mul 3 4",
+          "expectedStdout": "12\n",
+          "expectedExitCode": 0
+        }
+      },
+      "evidence": [
+        "evidence.extractor-output",
+        "evidence.behavior-smoke",
+        "evidence.overlay-verifier",
+        "evidence.p1.3-maintenance-delta"
+      ],
+      "authority": [
+        "authority.record.p1.2-human",
+        "authority.record.p1.3-human"
+      ],
+      "history": [
+        "history.delta.p1.2-code-first-overlay",
+        "history.delta.p1.3-add-mul"
       ],
       "admission": {
         "stableId": true,
@@ -185,15 +284,18 @@
         }
       },
       "evidence": [
-        "evidence.extractor-output",
         "evidence.behavior-smoke",
-        "evidence.overlay-verifier"
+        "evidence.extractor-output",
+        "evidence.overlay-verifier",
+        "evidence.p1.3-maintenance-delta"
       ],
       "authority": [
-        "authority.record.p1.2-human"
+        "authority.record.p1.2-human",
+        "authority.record.p1.3-human"
       ],
       "history": [
-        "history.delta.p1.2-code-first-overlay"
+        "history.delta.p1.2-code-first-overlay",
+        "history.delta.p1.3-add-mul"
       ],
       "admission": {
         "stableId": true,
@@ -214,7 +316,7 @@
       "kind": "product",
       "status": "accepted",
       "contract": {
-        "summary": "Maintain a hand-written Python CLI calculator with add and subtract behavior.",
+        "summary": "Maintain a hand-written Python CLI calculator with add, subtract, and multiply behavior.",
         "acceptedDevelopmentCommitment": "The calculator product unit is accepted as the parent code-first overlay unit."
       },
       "codeRefs": [
@@ -251,6 +353,11 @@
           "expectedFactKind": "call"
         },
         {
+          "id": "codeFactRef.product.main.calls-mul",
+          "factId": "fact.function.main.calls.mul",
+          "expectedFactKind": "call"
+        },
+        {
           "id": "codeFactRef.product.main.calls-sub",
           "factId": "fact.function.main.calls.sub",
           "expectedFactKind": "call"
@@ -272,19 +379,23 @@
             "codeFactRef.product.file",
             "codeFactRef.product.main",
             "codeFactRef.product.main.calls-add",
+            "codeFactRef.product.main.calls-mul",
             "codeFactRef.product.main.calls-sub"
           ],
           "verificationIds": [
             "test.case.add",
+            "test.case.mul",
             "test.case.sub"
           ],
           "evidenceIds": [
-            "evidence.extractor-output",
             "evidence.behavior-smoke",
-            "evidence.overlay-verifier"
+            "evidence.extractor-output",
+            "evidence.overlay-verifier",
+            "evidence.p1.3-maintenance-delta"
           ],
           "authorityIds": [
-            "authority.record.p1.2-human"
+            "authority.record.p1.2-human",
+            "authority.record.p1.3-human"
           ],
           "sourceTextEqualityRequired": false
         }
@@ -292,19 +403,23 @@
       "verification": {
         "behaviorSmokeIds": [
           "test.case.add",
-          "test.case.sub"
+          "test.case.sub",
+          "test.case.mul"
         ]
       },
       "evidence": [
-        "evidence.extractor-output",
         "evidence.behavior-smoke",
-        "evidence.overlay-verifier"
+        "evidence.extractor-output",
+        "evidence.overlay-verifier",
+        "evidence.p1.3-maintenance-delta"
       ],
       "authority": [
-        "authority.record.p1.2-human"
+        "authority.record.p1.2-human",
+        "authority.record.p1.3-human"
       ],
       "history": [
-        "history.delta.p1.2-code-first-overlay"
+        "history.delta.p1.2-code-first-overlay",
+        "history.delta.p1.3-add-mul"
       ],
       "admission": {
         "stableId": true,
@@ -329,6 +444,12 @@
       "to": "unit.behavior.add"
     },
     {
+      "id": "unit-edge.product-refines-mul",
+      "kind": "refines",
+      "from": "unit.product.calculator",
+      "to": "unit.behavior.mul"
+    },
+    {
       "id": "unit-edge.product-refines-sub",
       "kind": "refines",
       "from": "unit.product.calculator",
@@ -350,6 +471,19 @@
       "expectedExitCode": 0
     },
     {
+      "id": "test.case.mul",
+      "kind": "behavior-smoke",
+      "command": [
+        "python",
+        "calc.py",
+        "mul",
+        "3",
+        "4"
+      ],
+      "expectedStdout": "12\n",
+      "expectedExitCode": 0
+    },
+    {
       "id": "test.case.sub",
       "kind": "behavior-smoke",
       "command": [
@@ -365,22 +499,28 @@
   ],
   "evidence": [
     {
-      "id": "evidence.extractor-output",
-      "kind": "code-facts-report",
-      "status": "planned",
-      "artifactRef": "generated/cf0-python-cli-calculator/code-facts.json"
-    },
-    {
       "id": "evidence.behavior-smoke",
       "kind": "behavior-smoke-report",
       "status": "planned",
       "artifactRef": "generated/cf0-python-cli-calculator/code-first-overlay-report.json"
     },
     {
+      "id": "evidence.extractor-output",
+      "kind": "code-facts-report",
+      "status": "planned",
+      "artifactRef": "generated/cf0-python-cli-calculator/code-facts.json"
+    },
+    {
       "id": "evidence.overlay-verifier",
       "kind": "overlay-verifier-report",
       "status": "planned",
       "artifactRef": "generated/cf0-python-cli-calculator/code-first-overlay-report.json"
+    },
+    {
+      "id": "evidence.p1.3-maintenance-delta",
+      "kind": "maintenance-delta-report",
+      "status": "planned",
+      "artifactRef": "generated/cf0-python-cli-calculator/p1.3-maintenance-delta-report.json"
     }
   ],
   "authority": [
@@ -394,6 +534,17 @@
       "decidedByType": "human",
       "decision": "accepted-code-first-overlay-probe",
       "decisionStatus": "accepted"
+    },
+    {
+      "id": "authority.record.p1.3-human",
+      "proposer": "IntentGraphDevelopment Roadmap Orchestrator",
+      "proposerType": "human",
+      "requiredAuthority": "roadmap-orchestrator",
+      "validator": "p1.3-code-first-delta-verifier",
+      "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
+      "decidedByType": "human",
+      "decision": "accepted-add-mul-maintenance-delta",
+      "decisionStatus": "accepted"
     }
   ],
   "history": [
@@ -403,6 +554,15 @@
       "changeType": "create-code-first-overlay-probe",
       "status": "accepted",
       "summary": "Create CF0 hand-written source, extracted code facts, and semantic overlay mappings.",
+      "gitCommit": null,
+      "gitCommitBoundary": "pending-current-milestone"
+    },
+    {
+      "id": "history.delta.p1.3-add-mul",
+      "sequence": 2,
+      "changeType": "add-behavior",
+      "status": "accepted",
+      "summary": "Add multiply behavior to the hand-written CF0 calculator and overlay mappings.",
       "gitCommit": null,
       "gitCommitBoundary": "pending-current-milestone"
     }

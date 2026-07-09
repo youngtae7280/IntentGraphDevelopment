@@ -346,6 +346,32 @@ Severity: P0 in P1.2
 
 CF0 verification must not depend on `hiddenState.sourceGraphSnapshot` or generated-code preservation metadata.
 
+## P1.3 Code-First Maintenance Delta Rules
+
+### V400 - Before-State Captured
+
+Severity: P0 in P1.3
+
+Before-state source digest, code facts digest/count, overlay digest, and mapping obligation count must be captured before the source and overlay mutation.
+
+### V401 - Delta Report Is Code-First
+
+Severity: P0 in P1.3
+
+The delta report must declare `mode: "code-first-maintenance-delta"`, `sourceTextEqualityRequired: false`, and `hiddenGeneratedCodeSnapshotUsed: false`.
+
+### V402 - Existing Mappings Preserved
+
+Severity: P0 in P1.3
+
+Existing add/sub behavior mappings must remain resolved after the delta.
+
+### V403 - New Behavior Mapped
+
+Severity: P0 in P1.3
+
+The new behavior unit must include code refs, code fact refs, and mapping obligations that resolve to after-state extracted facts.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

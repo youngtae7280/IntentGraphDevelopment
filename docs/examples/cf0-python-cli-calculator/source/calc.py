@@ -13,11 +13,15 @@ def sub(left: int, right: int) -> int:
     return left - right
 
 
+def mul(left: int, right: int) -> int:
+    return left * right
+
+
 def main(argv: list[str] | None = None) -> int:
     if argv is None:
         argv = sys.argv[1:]
     if len(argv) != 3:
-        print("usage: calc {add|sub} LEFT RIGHT", file=sys.stderr)
+        print("usage: calc {add|sub|mul} LEFT RIGHT", file=sys.stderr)
         return 2
     operation, left_raw, right_raw = argv
     try:
@@ -31,6 +35,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if operation == "sub":
         print(sub(left, right))
+        return 0
+    if operation == "mul":
+        print(mul(left, right))
         return 0
     print(f"unsupported operation: {operation}", file=sys.stderr)
     return 2
