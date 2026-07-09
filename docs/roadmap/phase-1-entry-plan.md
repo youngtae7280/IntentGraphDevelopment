@@ -71,22 +71,21 @@ Goal: add a tiny hand-written Python calculator source fixture, extract determin
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
 
-## Current Slice: P1.7 Tiny Code-First Behavior-Preserving Refactor Delta Probe
+## Current Slice: P1.7.R Historical Delta Baseline Boundary Correction
 
-Goal: prove a behavior-preserving CF0 refactor where the stable Intent Unit remains the same while the implementation code facts and mappings change.
+Goal: separate historical P1.3 additive delta evidence from the current P1.7 refactor state.
 
-P1.7 refactors the implementation function for CLI operation `mul` from `mul` to `multiply`. The accepted behavior `python calc.py mul 3 4 -> 12` remains unchanged, and `unit.behavior.mul` remains the stable semantic unit.
+After P1.7, CF0 has two relevant states: the P1.3 after-state where implementation function `mul` exists, and the current P1.7 after-state where the implementation function is `multiply`. Historical P1.3 harnesses must use named P1.3 historical artifacts, not current P1.7 code facts or overlays.
 
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
 
 Expected changes:
 
-- capture P1.7 before-state CF0 code facts and overlay
-- refactor hand-written CF0 source from `def mul` to `def multiply`
-- keep CLI operation `mul` unchanged
-- update `unit.behavior.mul` code refs/facts from `fact.function.mul` to `fact.function.multiply`
-- verify old `mul` implementation facts are removed and new `multiply` facts are added
-- record refactor evidence, authority, and history
+- add clearly named P1.3 historical after-overlay and after-source artifacts
+- update the P1.4 negative harness to use P1.3 historical after facts, overlay, and source root
+- make the harness rerun the unmutated P1.3 positive baseline first
+- make the harness report historical/current boundary fields
+- keep the current P1.7 refactor report passing
 
 Non-goals:
 
@@ -99,36 +98,34 @@ Non-goals:
 - no automatic AI authority
 - no new behavior unit for the implementation rename
 - no source text equality requirement
+- no new feature delta
 
-## Required Output For P1.7
+## Required Output For P1.7.R
 
-P1.7 should produce:
+P1.7.R should produce:
 
-- updated CF0 hand-written source
-- updated CF0 overlay mappings
-- P1.7 before-state artifacts
-- P1.7 refactor delta artifact and report
-- updated verifier support for refactor deltas
-- updated review and validation rule
+- historical P1.3 after-state overlay and source artifacts
+- repaired P1.4 negative harness report
+- updated P1.4 and P1.7 review notes
+- updated validation rule for historical/current delta boundaries
 
 ## Acceptance Criteria
 
-P1.7 passes only if:
+P1.7.R passes only if:
 
-1. `add`, `sub`, and `mul` behavior checks pass.
-2. `unit.behavior.mul` remains stable and no new behavior unit is created.
-3. Current facts include `fact.function.multiply` and no longer include `fact.function.mul`.
-4. Overlay mappings resolve to current `multiply` facts.
-5. Refactor evidence, authority, and history records resolve.
-6. Source text equality remains unnecessary and no hidden generated-code snapshot is used.
+1. P1.4 reruns a clean P1.3 historical positive baseline.
+2. P1.4 report states current code facts and current overlay are not used.
+3. P1.4 negative probes fail for their intended mutation reasons, not because P1.7 current facts lack P1.3 facts.
+4. P1.7 current refactor report still passes.
+5. Current source still supports add/sub/mul.
 
 ## Stop Conditions
 
 Stop and report before broadening scope if:
 
-- The refactor creates a new behavior unit instead of preserving `unit.behavior.mul`.
-- Overlay mappings still reference removed `mul` implementation facts.
-- Behavior preservation fails.
+- P1.4 historical harness uses current P1.7 facts or overlay.
+- P1.4 positive historical baseline does not pass.
+- P1.7 current refactor report stops passing.
 - IntentGraph is described again as a universal source-code replacement.
 - The project starts duplicating mature language workbench, code graph, or provenance systems without a build/borrow/integrate decision.
 
@@ -137,7 +134,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.7 Tiny Code-First Behavior-Preserving Refactor Delta Probe
+P1.7.R Historical Delta Baseline Boundary Correction
 ```
 
 Worker should start from:
@@ -147,8 +144,9 @@ Worker should start from:
 - `docs/language/graphir-boundary.md`
 - `docs/examples/cf0-python-cli-calculator/source/calc.py`
 - `docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json`
-- `tools/extract_code_facts.py`
-- `tools/verify_code_first_overlay.py`
 - `tools/verify_code_first_delta.py`
+- `tools/run_cf0_delta_negative_probes.py`
+- `generated/cf0-python-cli-calculator/p1.3-after-code-facts.json`
+- `generated/cf0-python-cli-calculator/p1.7-before-overlay.json`
 
-Worker should not start the next phase or a larger benchmark until P1.7 review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start the next phase or a larger benchmark until P1.7.R review passes and the Coordinator explicitly authorizes the next phase.

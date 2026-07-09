@@ -414,6 +414,12 @@ Severity: P0 in P1.7
 
 A code-first refactor delta must preserve the accepted Intent Unit id while updating code refs, code fact refs, and mapping obligations to current extracted facts. Old implementation facts must be reported as removed or historical, not used as current mappings.
 
+### V411 - Historical Delta Baselines Are Explicit
+
+Severity: P0 in P1.7.R
+
+Historical delta harnesses must use named historical after-state facts, overlays, and source roots. They must not silently mix historical delta expectations with the current source or current overlay.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

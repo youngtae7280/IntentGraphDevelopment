@@ -1,27 +1,43 @@
 {
+  "baselineScope": "historical-p1.3-additive-after-state",
   "boundaries": {
     "aiAuthorityPromoted": false,
     "broadExtractorClaimed": false,
+    "currentRefactorStateUsed": false,
     "generalPlannerClaimed": false,
     "hiddenGeneratedCodeSnapshotUsed": false,
+    "historicalAdditiveBaseline": true,
     "sourceTextEqualityRequired": false
   },
+  "currentCodeFactsUsed": false,
+  "currentOverlayUsed": false,
+  "historicalInputs": {
+    "afterCodeFacts": "generated/cf0-python-cli-calculator/p1.3-after-code-facts.json",
+    "afterOverlay": "generated/cf0-python-cli-calculator/p1.3-after-overlay.json",
+    "beforeCodeFacts": "generated/cf0-python-cli-calculator/p1.3-before-code-facts.json",
+    "beforeOverlay": "generated/cf0-python-cli-calculator/p1.3-before-overlay.json",
+    "delta": "docs/examples/cf0-python-cli-calculator/deltas/p1.3-add-mul.delta.json",
+    "sourceRoot": "generated/cf0-python-cli-calculator/p1.3-after-source"
+  },
+  "historicalSourceUsed": true,
   "mode": "cf0-code-first-delta-negative-probes",
   "positiveBaseline": {
     "deltaRecordsVerification": "pass",
-    "deltaReport": "generated/cf0-python-cli-calculator/p1.3-maintenance-delta-report.json",
+    "errors": [],
+    "exitCode": 0,
     "hiddenGeneratedCodeSnapshotUsed": false,
-    "result": "pass",
+    "rerunResult": "pass",
+    "scope": "historical-p1.3-additive-after-state",
     "sourceTextEqualityRequired": false
   },
   "probeCount": 9,
   "probes": [
     {
       "actualErrors": [
-        "before source digest does not match before code facts",
-        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
+        "before source digest does not match before code facts"
       ],
       "actualExitCode": 1,
+      "actualMessage": "",
       "actualVerifierResult": "fail",
       "expectedErrorSubstring": "before source digest does not match before code facts",
       "expectedFailureObserved": true,
@@ -30,10 +46,10 @@
     },
     {
       "actualErrors": [
-        "before overlay digest does not match before overlay artifact",
-        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
+        "before overlay digest does not match before overlay artifact"
       ],
       "actualExitCode": 1,
+      "actualMessage": "",
       "actualVerifierResult": "fail",
       "expectedErrorSubstring": "before overlay digest does not match before overlay artifact",
       "expectedFailureObserved": true,
@@ -42,10 +58,10 @@
     },
     {
       "actualErrors": [
-        "before mapping obligation count does not match before overlay artifact",
-        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
+        "before mapping obligation count does not match before overlay artifact"
       ],
       "actualExitCode": 1,
+      "actualMessage": "",
       "actualVerifierResult": "fail",
       "expectedErrorSubstring": "before mapping obligation count does not match before overlay artifact",
       "expectedFailureObserved": true,
@@ -54,9 +70,10 @@
     },
     {
       "actualErrors": [
-        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.missing', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
+        "missing expected added facts: ['fact.function.missing']"
       ],
       "actualExitCode": 1,
+      "actualMessage": "",
       "actualVerifierResult": "fail",
       "expectedErrorSubstring": "missing expected added facts",
       "expectedFailureObserved": true,
@@ -65,10 +82,10 @@
     },
     {
       "actualErrors": [
-        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']",
         "missing delta evidence records: ['evidence.missing']"
       ],
       "actualExitCode": 1,
+      "actualMessage": "",
       "actualVerifierResult": "fail",
       "expectedErrorSubstring": "missing delta evidence records",
       "expectedFailureObserved": true,
@@ -77,10 +94,10 @@
     },
     {
       "actualErrors": [
-        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']",
         "missing delta authority records: ['authority.missing']"
       ],
       "actualExitCode": 1,
+      "actualMessage": "",
       "actualVerifierResult": "fail",
       "expectedErrorSubstring": "missing delta authority records",
       "expectedFailureObserved": true,
@@ -89,10 +106,10 @@
     },
     {
       "actualErrors": [
-        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']",
         "missing delta history records: ['history.missing']"
       ],
       "actualExitCode": 1,
+      "actualMessage": "",
       "actualVerifierResult": "fail",
       "expectedErrorSubstring": "missing delta history records",
       "expectedFailureObserved": true,
@@ -101,10 +118,10 @@
     },
     {
       "actualErrors": [
-        "delta must not require source text equality",
-        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
+        "delta must not require source text equality"
       ],
       "actualExitCode": 1,
+      "actualMessage": "",
       "actualVerifierResult": "fail",
       "expectedErrorSubstring": "delta must not require source text equality",
       "expectedFailureObserved": true,
@@ -113,10 +130,10 @@
     },
     {
       "actualErrors": [
-        "delta must not use hidden generated-code snapshots",
-        "missing expected added facts: ['fact.function.main.calls.mul', 'fact.function.mul', 'fact.function.mul.return.left_times_right']"
+        "delta must not use hidden generated-code snapshots"
       ],
       "actualExitCode": 1,
+      "actualMessage": "",
       "actualVerifierResult": "fail",
       "expectedErrorSubstring": "delta must not use hidden generated-code snapshots",
       "expectedFailureObserved": true,

@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.7 Tiny Code-First Behavior-Preserving Refactor Delta Probe
+P1.7.R Historical Delta Baseline Boundary Correction
 ```
 
-This is a focused CF0 code-first refactor delta probe only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused correction to separate historical P1.3 additive delta evidence from the current P1.7 refactor state, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -270,4 +270,10 @@ Status: completed on 2026-07-09. See [P1.6 B0 Typed Preservation Negative Probes
 
 Goal: prove a tiny code-first refactor where `unit.behavior.mul` remains stable while implementation code facts migrate from `mul` to `multiply` and behavior remains unchanged.
 
-Status: completed on 2026-07-09. See [P1.7 Code-First Refactor Delta Review](../reviews/p1.7-code-first-refactor-delta-review.md).
+Status: completed on 2026-07-09, with P1.7.R historical baseline correction. See [P1.7 Code-First Refactor Delta Review](../reviews/p1.7-code-first-refactor-delta-review.md).
+
+## P1.7.R: Historical Delta Baseline Boundary Correction
+
+Goal: ensure the P1.4 negative harness reruns the P1.3 additive delta against named historical P1.3 after-state facts, overlay, and source rather than current P1.7 refactor artifacts.
+
+Status: completed on 2026-07-09. Review notes are recorded in the P1.4 and P1.7 reviews.
