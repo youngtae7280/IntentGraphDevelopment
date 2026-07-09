@@ -1,12 +1,12 @@
 # IntentGraph Language Principles
 
-M1 defines the smallest source graph language and canonical GraphIR boundary needed for the first benchmark. It does not define a general language workbench, custom editor, parser generator, compiler, reconstructor, verifier, UI, or AI runtime.
+M1 defined the smallest overlay schema and canonical GraphIR boundary needed for the first benchmark. It does not define a general language workbench, custom editor, parser generator, compiler, reconstructor, verifier, UI, or AI runtime.
 
 The formal center of gravity for this milestone is `docs/design/intentgraph-formal-blueprint.md`.
 
 ## M1 Language Choice
 
-For Phase 0, the IntentGraph source language is canonical JSON that directly serializes GraphIR.
+For Phase 0, the IntentGraph exchange format is canonical JSON that directly serializes GraphIR.
 
 This is intentionally conservative:
 
@@ -14,16 +14,16 @@ This is intentionally conservative:
 - JSON can be validated with ordinary tooling.
 - JSON keeps graph identity explicit through stable IDs.
 - JSON makes generated preservation metadata easy to compare.
-- JSON keeps M1 focused on source meaning rather than authoring ergonomics.
+- JSON keeps M1 focused on semantic meaning rather than authoring ergonomics.
 
-Future milestones may add an authoring syntax or workbench, but only after the round-trip thesis is proven.
+Future milestones may add an authoring syntax or workbench, but only after overlay mapping and generated-code experiment boundaries are clear.
 
-## Source And GraphIR Relationship
+## Overlay And GraphIR Relationship
 
-In M1, the source document and GraphIR use the same semantic shape.
+In M1, the hand-authored overlay document and GraphIR use the same semantic shape.
 
 ```text
-IntentGraph JSON source = canonical GraphIR serialization
+IntentGraph JSON = canonical GraphIR serialization
 ```
 
 Later versions may distinguish authoring syntax from canonical GraphIR. Until then, no behavior may depend on hidden parser defaults, tool memory, chat history, or file layout outside the graph document.
@@ -31,9 +31,9 @@ Later versions may distinguish authoring syntax from canonical GraphIR. Until th
 ## Core Principles
 
 1. Every meaningful item has a stable ID.
-2. Nodes represent source-level things; edges represent source-level relationships.
-3. Code is represented as a projection target, not as the source of truth.
-4. Generated source mapping metadata is part of the graph boundary, not an optional debug artifact.
+2. Nodes represent semantic things or code references/facts; edges represent semantic, mapping, or code-fact relationships.
+3. Code nodes are pointers or facts, not code text.
+4. Generated source mapping metadata is part of the generated-code boundary, not an optional debug artifact.
 5. Evidence is represented as graph data linked to the claim it supports.
 6. Authority is represented as graph data linked to the change or acceptance decision it governs.
 7. Change history is semantic graph history linked to Git, not a replacement for Git.
@@ -47,7 +47,7 @@ The M1 language must describe:
 
 - product intent for the benchmark
 - domain concepts used by that intent
-- code projection nodes for generated Python source
+- code reference/projection nodes for generated Python source
 - generated source mapping metadata
 - tests or verification expectations
 - evidence records
@@ -80,7 +80,7 @@ An M1 graph document must:
 - sort node and edge arrays by `id` when practical
 - avoid absolute filesystem paths
 - use stable IDs rather than generated array positions
-- make all non-code meaning explicit in graph nodes, edges, or projection metadata
+- make all non-code meaning explicit in graph nodes, edges, mapping obligations, or generated-code metadata
 - preserve enough metadata for a later reconstructor to fail loudly when data is missing
 - declare round-trip and projection expectations explicitly
 
@@ -92,4 +92,4 @@ The first M1 fixture is:
 docs/examples/b0-python-cli-calculator.graph.json
 ```
 
-That fixture is the hand-authored graph M2 must compile once implementation is allowed.
+That fixture is the hand-authored graph used by the Phase 0 generated-code experiment.

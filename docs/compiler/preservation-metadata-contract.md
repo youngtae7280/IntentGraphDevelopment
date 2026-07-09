@@ -35,7 +35,7 @@ M2 serializes `mu` as `generated/b0-python-cli-calculator/calc.intentgraph.json`
 
 ## Graph Digest
 
-`graphDigest` is the SHA-256 digest of the canonical source graph JSON used by the compiler.
+`graphDigest` is the SHA-256 digest of the canonical graph JSON used by generated-code mode.
 
 `sourceGraph` records both:
 
@@ -98,7 +98,7 @@ Intent Units and unit edges are metadata-only in P1.0.
 
 ## Hidden State
 
-M2 includes a full source graph snapshot in `hiddenState.sourceGraphSnapshot`.
+M2 includes a full graph snapshot in `hiddenState.sourceGraphSnapshot`.
 
 This is deliberate for the first round-trip slice: evidence, authority, history, and exact graph identity are not recoverable from generated Python alone. M3 must treat this as preservation metadata, not as code-derived reconstruction.
 

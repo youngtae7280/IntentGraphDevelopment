@@ -17,7 +17,7 @@ Why this benchmark:
 - does not require package setup or external services
 - can exercise functions, CLI argument parsing, tests, evidence, authority, and history fields
 - Python has a standard `ast` module for code-only projection checks
-- complex enough to distinguish graph-as-source round-trip from ordinary code generation
+- complex enough to distinguish semantic overlay consistency from ordinary code generation or code graph viewing
 
 Initial product behavior:
 
@@ -46,13 +46,13 @@ The implementation milestones must eventually produce:
 
 | Comparator lane | What it can likely do for the benchmark | What IntentGraph must still prove |
 |---|---|---|
-| MPS / EMF / Acceleo / MetaEdit+ | model-to-code generation and model persistence | generated code plus metadata reconstructs the source graph with evidence/authority/history |
-| Xtext / Spoofax / MontiCore | textual DSL parsing, editor/compiler infrastructure | graph-as-source boundary without building a broad language workbench |
-| QVT / TGG | model/model consistency and synchronization theory | source graph to generated code to reconstructed graph equality under declared rules |
+| MPS / EMF / Acceleo / MetaEdit+ | model-to-code generation and model persistence | generated-code mode remains limited and metadata-backed |
+| Xtext / Spoofax / MontiCore | textual DSL parsing, editor/compiler infrastructure | overlay schema boundary without building a broad language workbench |
+| QVT / TGG | model/model consistency and synchronization theory | declared consistency rules for overlay mappings and generated-code experiments |
 | Joern / CodeQL | code-derived facts and static analysis | non-code intent, evidence, authority, and history survive reconstruction |
-| SCIP / Kythe / Glean / LSIF / SemanticDB | symbol/reference indexes and generated-code mapping concepts | preservation metadata reconstructs source graph nodes, not only navigation facts |
+| SCIP / Kythe / Glean / LSIF / SemanticDB | symbol/reference indexes and generated-code mapping concepts | code facts and anchors support mapping without copying code text |
 | Graphify / RepoGraph | AI context and repository graph retrieval | AI proposals remain non-authoritative and verifier/authority decides acceptance |
-| PROV / OpenLineage / SLSA / in-toto | provenance/evidence vocabulary and production-chain metadata | evidence is bound to graph nodes, deltas, generated code, and verifier claims |
+| PROV / OpenLineage / SLSA / in-toto | provenance/evidence vocabulary and production-chain metadata | evidence is bound to graph nodes, deltas, code references, mappings, and verifier claims |
 | Git / CODEOWNERS / OPA | history, ownership, review, and policy mechanisms | graph semantic deltas and authority decisions are preserved through round-trip |
 | Cytoscape.js / Graphviz / Sirius | graph visualization and workbench patterns | no visualization claim until core round-trip behavior exists |
 

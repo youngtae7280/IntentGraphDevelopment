@@ -58,7 +58,7 @@ Negative checks:
 M6 stayed inside the M0 decision:
 
 - Graphify and RepoGraph are treated as context/proposal pressure, not authority systems
-- Codex-style review is treated as review/proposal/evidence input, not source authority
+- Codex-style review is treated as review/proposal/evidence input, not authority
 - no AI runtime, repository graph retrieval engine, or broad agent framework was implemented
 - no OPA/Rego policy engine was invented
 
@@ -76,7 +76,7 @@ Proved for the B0 slice:
 - proposal validation fails closed for M6 mutations outside `test.case` / `tested_by`
 - an AI-origin proposal can be accepted for application only when final decision authority is non-AI
 - an AI self-authorized proposal is rejected even when it declares `decisionStatus: "accepted"`
-- proposal validation does not mutate the source graph automatically
+- proposal validation does not mutate the graph automatically
 
 Changed:
 
@@ -87,7 +87,7 @@ Changed:
 
 The M5 round-trip remains the current metadata-backed graph/code/reconstruction proof.
 
-M6 does not change the source graph or generated code. It validates proposal artifacts against the current B0 graph digest.
+M6 does not change the graph or generated code. It validates proposal artifacts against the current B0 graph digest.
 
 ## Evidence Status
 
@@ -122,7 +122,7 @@ If a future milestone applies accepted proposals, it must create an accepted `hi
 | M6-P1-002 | P1 | `updateNodeAttributes` could corrupt evidence/authority/history semantics after pre-delta evidence checks. | Resolved by restricting M6 updates to `test.case` nodes and running M5 semantic validation on the post-delta graph. |
 | M6-P1-003 | P1 | `RequiredAuthorityGranted` only checked proposal decision fields, not graph authority. | Resolved by requiring `decision.authorityRecordId` to reference an accepted non-AI `authority.record` with matching required authority. |
 | M6-P1-004 | P1 | M6 promotion to M7 was premature while validator false acceptances existed. | Resolved by reverting promotion, fixing validator gaps, and only re-promoting after red-team probes passed. |
-| M6-P2-001 | P2 | Accepted-for-application could be confused with already-applied graph state. | Resolved by documenting that the validator does not mutate the source graph and by reporting `automaticApplication = false`. |
+| M6-P2-001 | P2 | Accepted-for-application could be confused with already-applied graph state. | Resolved by documenting that the validator does not mutate the graph and by reporting `automaticApplication = false`. |
 | M6-P2-002 | P2 | M6 could accidentally duplicate Graphify/RepoGraph context retrieval work. | Resolved by scoping M6 to proposal validation and recording prior-art pressure in the proposal format doc. |
 | M6-P2-003 | P2 | The first validator shape could be read as allowing proposal mutation of authority/evidence/history records. | Resolved by failing closed outside `test.case` node and `tested_by` edge proposals for M6. |
 | M6-P2-004 | P2 | Required evidence could be read as proposal-specific proof when it is currently base-graph prerequisite evidence. | Resolved by labeling required accepted evidence role as `base-graph-prerequisite`. |

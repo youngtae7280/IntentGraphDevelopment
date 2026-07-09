@@ -11,15 +11,15 @@ Phase 1 is not automatically authorized by this review. Do not create `M8`. Star
 
 ## Thesis Verdict
 
-Phase 0 strengthens the thesis for the approved tiny slice:
+Phase 0 strengthens a limited generated-code feasibility slice:
 
 ```text
 G -> Native(G) -> (C, mu) -> Retrofit(C, mu) -> G' -> Verify(G, G')
 ```
 
-For `B0-python-cli-calculator`, the repository now contains a source graph, deterministic generated Python source, preservation metadata, reconstructed graph, round-trip verifier report, evidence/authority/history semantic validation, AI proposal validation, and a non-authoritative workbench projection.
+For `B0-python-cli-calculator`, the repository contains a graph, deterministic generated Python source, preservation metadata, reconstructed graph, round-trip verifier report, evidence/authority/history semantic validation, AI proposal validation, and a non-authoritative workbench projection.
 
-Phase 0 also narrows the honest claim:
+P1.R further narrows the honest claim:
 
 - exact reconstruction is metadata-backed and currently uses `mu.hiddenState.sourceGraphSnapshot`
 - code-only reconstruction is lossy and is not used for exact equality
@@ -27,8 +27,11 @@ Phase 0 also narrows the honest claim:
 - AI output is proposal data, not authority
 - workbench visualization is a report/projection, not authority
 - Git remains file history; IntentGraph adds semantic graph history
+- source code remains the implementation source
+- IntentGraph is a semantic overlay over code artifacts, not a source-code replacement
+- graph-first generation is a limited mode, not the universal model
 
-Result: the core thesis is feasible for B0, but not yet proven for broader languages, code-only recovery, scale, policy engines, or an interactive IDE.
+Result: the generated-code experiment is feasible for B0, but the broader thesis must be evaluated as overlay/code consistency and change orchestration for existing codebases.
 
 ## Acceptance Checklist
 
@@ -56,7 +59,7 @@ python tools\emit_workbench_projection.py --graph docs\examples\b0-python-cli-ca
 
 Additional validation:
 
-- JSON parsing passed for source graph, proposals, preservation metadata, reconstructed graph, diagnostics, verifier report, proposal report, and workbench projection.
+- JSON parsing passed for graph, proposals, preservation metadata, reconstructed graph, diagnostics, verifier report, proposal report, and workbench projection.
 - `py_compile` passed for all Phase 0 Python tools and generated `calc.py`.
 - Runtime checks passed: `add 2 3 -> 5`, `sub 5 2 -> 3`, invalid operation exits `2`, invalid integer exits `2`.
 - Report assertions passed: round-trip result `pass`, `graphEqual = true`, semantic validation `pass`, evidence accepted count `3`, AI final authority count `0`, Git verified count `1`, proposal validation `pass`, workbench input consistency `pass`.
@@ -72,10 +75,10 @@ No late prior-art discovery replaces the combined Phase 0 slice. Stronger system
 | Lane | Current pressure | Phase 0 decision |
 |---|---|---|
 | Language/workbench | [JetBrains MPS](https://www.jetbrains.com/mps/) and [Eclipse EMF](https://projects.eclipse.org/projects/modeling.emf) are stronger general language/modeling platforms. | Do not build a broad language workbench; keep GraphIR tiny. |
-| Model/code generation | EMF/MDE and generator ecosystems pressure model-to-code claims. | Claim only IntentGraph-specific preservation metadata and round-trip boundary. |
+| Model/code generation | EMF/MDE and generator ecosystems pressure model-to-code claims. | Treat graph-first generation as a limited mode and avoid source-language overclaiming. |
 | Bidirectional semantics | [Eclipse QVT Operational](https://projects.eclipse.org/projects/modeling.qvt-oml) and [eMoflon IBeX/TGG](https://emoflon.org/ibex/) pressure consistency semantics. | Keep explicit B0 equality/projection verifier; do not claim general BX. |
-| Code facts | [CodeQL](https://codeql.github.com/docs/), [Joern](https://docs.joern.io/code-property-graph/), [Kythe](https://kythe.io/docs/schema/indexing-generated-code.html), and [Glean](https://glean.software/) are stronger extraction/indexing systems. | Keep code-only retrofit lossy; use metadata for exact graph recovery. |
-| AI context graphs | [Graphify](https://graphify.net/) and [RepoGraph](https://arxiv.org/abs/2410.14684) pressure repository-context claims. | Treat AI context as proposal support, not source authority. |
+| Code facts | [CodeQL](https://codeql.github.com/docs/), [Joern](https://docs.joern.io/code-property-graph/), [Kythe](https://kythe.io/docs/schema/indexing-generated-code.html), and [Glean](https://glean.software/) are stronger extraction/indexing systems. | Treat code nodes as pointers/facts; borrow or compare before building extraction. |
+| AI context graphs | [Graphify](https://graphify.net/) and [RepoGraph](https://arxiv.org/abs/2410.14684) pressure repository-context claims. | Treat AI context as proposal support, not authority. |
 | Evidence/authority/history | [W3C PROV](https://www.w3.org/TR/prov-dm/), [OPA](https://openpolicyagent.org/docs), [SLSA](https://slsa.dev/), and [in-toto](https://in-toto.io/) are stronger generic provenance/policy/supply-chain systems. | Keep minimal IntentGraph binding; integrate or benchmark before broad policy/provenance work. |
 | Visualization | [Sirius](https://eclipse.dev/sirius/doc/), [Cytoscape.js](https://js.cytoscape.org/), [Graphviz](https://graphviz.org/), [Mermaid](https://mermaid.js.org/), and [React Flow](https://reactflow.dev/) are stronger UI/graph tools. | Keep M7 as static projection report; no full IDE. |
 
@@ -91,14 +94,14 @@ No unresolved P0/P1 issues remain. No P2 issue remains without a written resolut
 
 ## Deferred P2 Decisions
 
-- `PHASE0-FINAL-P2-001`: Self-referential semantic-history finalization is deferred to Phase 1 entry. Reason: placing the closing commit hash inside the source graph changes the graph digest, so Phase 0 would need either an external ledger or a two-step finalization model. The current boundary is explicit and verifier-visible.
+- `PHASE0-FINAL-P2-001`: Self-referential semantic-history finalization is deferred to Phase 1 entry. Reason: placing the closing commit hash inside the graph changes the graph digest, so Phase 0 would need either an external ledger or a two-step finalization model. The current boundary is explicit and verifier-visible.
 - M0 license/integration review remains deferred until an actual external integration candidate is selected.
 - Deeper academic comparison remains capability-gated; Phase 0 used enough prior-art pressure to avoid duplicate implementation in the approved slice.
 
 ## Weak Assumptions
 
 - `hiddenState.sourceGraphSnapshot` is doing heavy work. Phase 1 should reduce or justify this dependency before expanding benchmarks.
-- B0 is one tiny Python CLI benchmark. It does not prove scale, multi-file generation, edits to generated code, or cross-language behavior.
+- B0 is one tiny Python CLI benchmark. It does not prove scale, multi-file generation, edits to generated code, cross-language behavior, or code-first maintenance over existing projects.
 - Evidence and authority are minimal graph envelopes, not PROV/OPA/SLSA replacements.
 - AI proposal validation uses synthetic fixtures, not a live AI proposal stream.
 - The workbench boundary is a JSON projection, not an interactive application.
@@ -110,6 +113,7 @@ Phase 1 should narrow or pivot if any of these occur:
 
 - exact reconstruction is claimed without preservation metadata
 - code-only facts are claimed to recover full intent, evidence, authority, or history
+- IntentGraph is claimed to replace source code as a universal source language
 - AI proposal output is treated as final authority
 - generated code is treated as proof without verifier evidence
 - evidence/authority/history cannot round-trip beyond B0 without opaque hidden snapshots
@@ -118,9 +122,11 @@ Phase 1 should narrow or pivot if any of these occur:
 
 ## Phase 1 Entry Conditions
 
-Recommended first Phase 1 focus:
+Recommended first Phase 1 focus after P1.R review:
 
-- reduce the dependence on `hiddenState.sourceGraphSnapshot`
+- revise Intent Units as semantic overlay mapping units
+- define `codeRef`, `codeFactRef`, and mapping obligation rules
+- reduce the dependence on `hiddenState.sourceGraphSnapshot` inside generated-code mode
 - define a commit-finalization strategy for semantic graph history
 - add an executable test harness around the B0 pipeline and negative probes
 - choose one slightly larger benchmark only after rerunning the prior-art gate

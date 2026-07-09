@@ -1,33 +1,91 @@
 # IntentGraph Formal Blueprint
 
-Status: draft center of gravity for M1 plus Phase 1 Intent Unit revision note
+Status: draft center of gravity under P1.R semantic-overlay correction
 
-This blueprint is not the final architecture. It is the M1 formal center of gravity: a compact design map that keeps the source graph language, GraphIR boundary, preservation metadata, compiler/reconstructor contracts, and verifier target aligned while Phase 0 remains intentionally tiny.
+This blueprint is not the final architecture. It is being revised from the earlier graph-as-source compiler framing into the corrected IntentGraph definition: a development-semantic overlay graph linked to existing source code artifacts.
 
 This document must be revised when prior-art review, milestone review, benchmark evidence, or round-trip results show that a definition is too weak, too broad, or wrong.
 
-Phase 0 proved the tiny flat-GraphIR loop. Phase 1 must revise the source structure around Intent Units before larger benchmarks are added. See `docs/design/intent-unit-model.md`.
+Phase 0 proved a tiny metadata-backed round-trip experiment. That result remains useful, but it is now interpreted as a generated-code feasibility slice rather than the universal IntentGraph architecture. Phase 1 must revise the structure around semantic overlay mappings before larger benchmarks are added. See `docs/design/intent-unit-model.md`.
 
 ## Layer 1: Formal Definitions
 
-### Core Loop
+### Corrected State Model
+
+```text
+D = (I, C, X, M, E, A, H)
+```
+
+Definitions:
+
+- `I`: intent, behavior, and verification graph.
+- `C`: source code artifacts in ordinary programming language files.
+- `X`: extracted code fact graph.
+- `M`: mapping between `I`, `X`, and `C`.
+- `E`: evidence.
+- `A`: authority.
+- `H`: semantic history.
+- `D`: full development state under IntentGraph orchestration.
+
+IntentGraph is the overlay portion of this state: `I`, `M`, `E`, `A`, and `H`, plus stable references to `C` and facts from `X`. It does not copy code text into the graph or replace the programming language source files.
+
+### Code Node Definition
+
+```text
+code node != code text
+code node = stable pointer/reference/fact for source artifact, symbol, range, or anchor
+```
+
+A code node may point to a file, symbol, range, anchor, generated artifact, or extracted code fact. It must not be treated as the source text itself.
+
+### Engine Operations
+
+```text
+Extract(C) -> X
+Map(I, X) -> M
+Plan(I, C, X, M, request) -> DeltaC, DeltaI, DeltaM
+Verify(I, C', X', M', E, A) -> pass/fail
+Record(H, accepted delta)
+```
+
+These operations make the engine a consistency, evidence, authority, and change orchestration engine. A traditional graph-to-code compiler may exist as one mode, but it is not the default definition of IntentGraph.
+
+### Round-Trip Distinction
+
+Graph-first generation mode:
 
 ```text
 G -> Native(G) -> (C, mu) -> Retrofit(C, mu) -> G' -> Verify(G, G')
 ```
 
-Definitions:
+This mode is limited to greenfield or generated-code regions where the graph is intentionally used to generate source code and preservation metadata.
 
-- `G`: source intent graph. This is the primary source artifact.
-- `Native`: graph-to-code compiler.
-- `C`: generated source code. Code is output, not source authority.
+Code-first maintenance mode:
+
+```text
+C -> X -> M/I -> C'
+```
+
+Expected verification:
+
+```text
+Behavior(C') ~= Behavior(C)
+```
+
+Code-first maintenance verifies behavior, contract, evidence, authority, and mapping preservation. It does not require `C' == C`.
+
+Definitions for graph-first mode:
+
+- `G`: intent graph used as input to a generated-code mode.
+- `Native`: graph-to-code generation operation for that limited mode.
+- `C`: generated source code artifact.
 - `mu`: preservation metadata emitted with generated source.
 - `Retrofit`: code-to-graph reconstructor.
 - `G'`: reconstructed graph.
 - `Verify`: equality/projection checker.
-- `D`: diagnostics emitted by passes. Diagnostics may include errors, warnings, trace facts, and review notes.
+- diagnostics emitted by passes may include errors, warnings, trace facts, and review notes.
 
-Phase 0 must prove or weaken this loop on one tiny benchmark before broader language, workbench, AI, or multi-language scope is added.
+Phase 0 proved this loop for one tiny benchmark. P1.R corrects the architecture so the loop is no longer overclaimed as the whole model.
 
 ### IntentGraph Tuple
 
@@ -35,25 +93,25 @@ Phase 0 must prove or weaken this loop on one tiny benchmark before broader lang
 G = (V, E, kindV, kindE, attr, prov, auth, hist, meta)
 ```
 
-Definitions:
+Definitions for the overlay graph portion:
 
 - `V`: finite set of graph nodes.
 - `E`: finite set of directed graph edges.
 - `kindV`: function assigning each node in `V` a supported node kind.
 - `kindE`: function assigning each edge in `E` a supported edge kind.
 - `attr`: attribute map for nodes and edges.
-- `prov`: provenance and evidence model attached to graph claims, compiler activities, reconstructor activities, verifier results, and decisions.
+- `prov`: provenance and evidence model attached to graph claims, extraction activities, mapping activities, verifier results, and decisions.
 - `auth`: authority model that records proposer, validator, required authority, reviewer or decision authority, decision, and accepted state.
 - `hist`: semantic graph history, represented as proposed, accepted, rejected, or superseded graph deltas linked to ordinary version control when available.
-- `meta`: graph-level metadata, including version, benchmark identity, projection declarations, preservation expectations, and verification expectations.
+- `meta`: graph-level metadata, including version, benchmark identity, mapping declarations, generated-code mode declarations where applicable, preservation expectations, and verification expectations.
 
-M1 does not define every possible node or edge kind. It defines layers and the tiny `B0-python-cli-calculator` subset in `docs/language/graphir-boundary.md` and `docs/examples/b0-python-cli-calculator.graph.json`.
+M1 did not define every possible node or edge kind. It defined layers and the tiny `B0-python-cli-calculator` subset in `docs/language/graphir-boundary.md` and `docs/examples/b0-python-cli-calculator.graph.json`. P1.R reframes those artifacts as an early generated-code experiment plus overlay-mapping vocabulary.
 
 ### Phase 1 Intent Unit Shape
 
-Phase 0 used a flat GraphIR document. That is not the intended long-term source shape.
+Phase 0 used a flat GraphIR document. That is not the intended long-term overlay shape.
 
-The next revision treats Intent Units as the primary source-level development units:
+The next revision treats Intent Units as semantic overlay mapping units:
 
 ```text
 G_unit = (U, EU, IU, meta)
@@ -64,9 +122,9 @@ Where:
 - `U`: finite set of Intent Units.
 - `EU`: typed relationships between Intent Units.
 - `IU`: mapping from each unit to its internal graph.
-- `meta`: graph-level metadata, projection declarations, verification expectations, and versioning.
+- `meta`: graph-level metadata, mapping declarations, verification expectations, and versioning.
 
-Each unit is a stable, compilable, reconstructable development meaning unit:
+Each unit is a stable semantic development meaning unit:
 
 ```text
 u = (
@@ -74,8 +132,9 @@ u = (
   kind,
   contract,
   internalGraph,
-  projection,
-  reconstruction,
+  codeRefs,
+  codeFactRefs,
+  mappingObligations,
   verification,
   evidence,
   authority,
@@ -84,9 +143,9 @@ u = (
 )
 ```
 
-Phase 1 must reinterpret the B0 flat graph as unit-structured source before broadening the benchmark. Phase 0 node and edge kinds may remain valid, but they should live inside or between Intent Units rather than forming an unbounded flat bag of facts.
+Intent Units do not contain code text. They link to implementation through code references, extracted code facts, and mapping obligations. Phase 1 must reinterpret the B0 flat graph as a unit-structured overlay before broadening the benchmark. Phase 0 node and edge kinds may remain valid, but they should live inside or between Intent Units rather than forming an unbounded flat bag of facts.
 
-### Preservation Metadata
+### Preservation Metadata For Generated-Code Mode
 
 ```text
 mu = (nodeMap, edgeMap, graphDigest, projectionRules, hiddenState)
@@ -94,13 +153,13 @@ mu = (nodeMap, edgeMap, graphDigest, projectionRules, hiddenState)
 
 Definitions:
 
-- `nodeMap`: mapping from source graph node IDs to generated source artifacts, generated ranges, symbols, or projection IDs.
-- `edgeMap`: mapping from source graph edge IDs to generated source artifacts, relationship facts, or projection IDs when an edge is emitted or preserved.
-- `graphDigest`: canonical digest of the source graph or relevant projection used to detect stale metadata.
+- `nodeMap`: mapping from graph node IDs to generated source artifacts, generated ranges, symbols, anchors, or projection IDs.
+- `edgeMap`: mapping from graph edge IDs to generated source artifacts, relationship facts, anchors, or projection IDs when an edge is emitted or preserved.
+- `graphDigest`: canonical digest of the graph or relevant projection used to detect stale metadata.
 - `projectionRules`: declared rules for which graph parts are emitted, preserved only in metadata, or excluded from generated source.
 - `hiddenState`: required non-code reconstruction state that cannot be recovered from `C` alone.
 
-Exact round-trip is generally impossible without `mu`:
+Exact graph-first round-trip is generally impossible without `mu`:
 
 ```text
 Retrofit(C, mu) -> G'
@@ -117,6 +176,8 @@ Loss model without `mu`:
 - semantic graph history is not ordinary source-code history
 - stable graph IDs may be absent or ambiguous
 - projection choices may be indistinguishable from hand-written code
+
+In code-first maintenance mode, `mu` is not the whole mapping story. The engine relies on `X` and `M`: extracted code facts and explicit mappings between intent and code artifacts.
 
 ## Layer 2: Invariants And Rules
 
@@ -153,13 +214,14 @@ Those claims require separate evidence, authority, runtime, and verifier results
 
 ### Stable Identity Rules
 
-Stable identity is required because generated source, metadata, reconstructed graph state, evidence, authority, and history must all refer to the same graph facts.
+Stable identity is required because source artifacts, extracted facts, mappings, generated artifacts where applicable, evidence, authority, and history must all refer to the same development facts.
 
 Rules:
 
-- node IDs are durable source identities, not array indexes
+- node IDs are durable semantic identities, not array indexes
 - edge IDs are durable relationship identities, not derived list positions
-- generated code may carry graph IDs through `mu`, but generated code is not the source of those IDs
+- code node IDs identify references or facts about code artifacts; they do not contain code text
+- generated code may carry graph IDs through `mu` in generated-code mode, but generated code is not authority for accepted intent
 - canonicalization must ignore incidental ordering and formatting
 - local absolute paths, timestamps, and machine-specific state must not affect `Canon(G)`
 
@@ -205,15 +267,15 @@ AI output is proposal, not authority.
 
 AI may propose graph changes, code changes, evidence candidates, or review observations. Those outputs become accepted graph state only after deterministic validation and required authority.
 
-### Generated Code Rule
+### Source Code And Generated Code Rule
 
-Generated code is not proof.
+Source code and generated code are not proof by themselves.
 
-Working generated code may support evidence, but it does not prove the source graph, preservation metadata, reconstruction, or authority boundary. A generated program can run while round-trip consistency still fails.
+Working code may support evidence, but it does not prove intent satisfaction, mapping correctness, preservation metadata, reconstruction, or authority boundaries. A generated program can run while round-trip consistency still fails. A maintained program can run while an IntentGraph mapping is stale.
 
 ### Workbench Projection Rule
 
-A visualization or workbench is a report or projection of graph/compiler/reconstructor/verifier state.
+A visualization or workbench is a report or projection of overlay, extraction, mapping, generation, reconstruction, or verifier state.
 
 It is not authority.
 
@@ -221,17 +283,17 @@ Workbench state must not silently change accepted graph state. Any graph change 
 
 ### Imported Systems Rule
 
-Existing tools may be imported as facts, not as accepted source graph truth.
+Existing tools may be imported as facts, not as accepted IntentGraph truth.
 
 ```text
 Import(X) -> SourceFacts
 ```
 
-`SourceFacts` from code graph tools, language servers, static analyzers, provenance tools, or AI context systems may inform proposals, diagnostics, benchmarks, or evidence. They become accepted graph state only through deterministic validation and authority.
+`SourceFacts` from code graph tools, language servers, static analyzers, provenance tools, or AI context systems may inform proposals, diagnostics, benchmarks, or evidence. They become accepted overlay state only through deterministic validation and authority.
 
 ## Layer 3: Algorithms And Pass Pipeline
 
-### Native Compiler Contract
+### Generated-Code Mode Contract
 
 ```text
 Native(G, target, config) -> (C, mu, D)
@@ -262,9 +324,9 @@ Postconditions:
 - `mu.hiddenState` records non-code reconstruction state needed for exact round-trip.
 - `D` reports all unsupported graph parts rather than silently dropping them.
 
-M1 defines this contract but does not implement it. M2 is the first milestone allowed to implement the tiny `Native` path.
+This contract applies only when a generated-code mode is explicitly declared. It must not be used to imply that all IntentGraph workflows compile graphs into source code.
 
-### Retrofit Reconstructor Contract
+### Retrofit Contract For Generated-Code Mode
 
 ```text
 Retrofit(C, mu, config) -> (G', D)
@@ -275,7 +337,7 @@ Preconditions for `Retrofit(C, mu, config)`:
 
 - `C` is available.
 - `mu` is available and well-formed.
-- `mu.graphDigest` is compatible with the expected source graph or declared projection.
+- `mu.graphDigest` is compatible with the expected graph or declared projection.
 - `config` declares the target language and reconstruction rules.
 
 Postconditions for `Retrofit(C, mu, config)`:
@@ -291,9 +353,33 @@ Postconditions for `Retrofit(C, mu, config)`:
 - call/reference facts
 - limited domain hints derived from names or comments
 
-It must not claim full intent, evidence, authority, or semantic history recovery.
+It must not claim full intent, evidence, authority, semantic history, or Intent Unit recovery.
 
-### Round-Trip Verifier Contract
+### Overlay Maintenance Contract
+
+```text
+Extract(C) -> X
+Map(I, X) -> M
+Plan(I, C, X, M, request) -> DeltaC, DeltaI, DeltaM
+Verify(I, C', X', M', E, A) -> pass/fail
+Record(H, accepted delta)
+```
+
+Preconditions:
+
+- `C` is available as ordinary source code artifacts.
+- extraction rules for `X` are declared or borrowed from a selected tool.
+- existing `I` and `M` are well-formed, or the operation is explicitly bootstrapping them.
+- changes requiring authority have declared authority requirements.
+
+Postconditions:
+
+- extracted facts remain facts, not accepted intent.
+- mappings record obligations between intent/behavior claims and code artifacts or code facts.
+- proposed code and graph deltas remain proposals until deterministic checks and authority pass.
+- verification reports behavior, contract, mapping, evidence, and authority status separately.
+
+### Graph-First Round-Trip Verifier Contract
 
 ```text
 RoundTrip(G, target, config) =
@@ -323,6 +409,8 @@ ProjectionEqual(G, G', P) <=> Canon(Project(G, P)) == Canon(Project(G', P))
 ```
 
 `Verify(G, G', mu, config)` must declare whether it is checking exact graph equality or projection equality. A partial or lossy comparison must never be reported as exact equality.
+
+For code-first maintenance, the verifier must instead report behavior, contract, mapping, evidence, and authority preservation. It should not require source text equality.
 
 ### AI Proposal Algorithm
 
@@ -362,7 +450,7 @@ G_{t+1} = Apply(G_t, Delta_t)
 - applying the delta preserves `TypeCheck(G_{t+1})`
 - diagnostics are emitted for conflicts or unsupported changes
 
-### Phase 0 Minimal Pass Pipeline
+### Phase 0 Generated-Code Experiment Pass Pipeline
 
 ```text
 LoadGraphSource
@@ -392,7 +480,7 @@ Pass_8 VerifyRoundTrip
 Pass_9 EmitDiagnosticsAndReport
 ```
 
-M1 defines the source shape and typecheck expectations. M2 may implement passes through source and metadata emission for the tiny benchmark. M3 adds retrofit. M4 adds round-trip verification. M5 extends verifier coverage to evidence, authority, and history.
+This pipeline documents the Phase 0 experiment. P1.R does not erase it, but it scopes it to generated-code mode. Future code-first maintenance work needs an extraction/mapping/planning/verification pipeline instead of assuming all changes start from graph generation.
 
 ## Layer 4: Concrete B0 Fixture Example
 
@@ -402,15 +490,15 @@ Fixture:
 docs/examples/b0-python-cli-calculator.graph.json
 ```
 
-M1 status:
-The fixture is a source graph target, not a generated project. M1 does not generate source code, metadata files, reconstructed graphs, or verifier reports.
+P1.R status:
+The fixture is an early metadata-backed generated-code experiment. It remains useful evidence, but it is not the full architecture for code-first maintenance over existing codebases.
 
-Future M2/M3/M4 target:
+Phase 0 generated-code target:
 
-- `G`: B0 calculator intent graph from `docs/examples/b0-python-cli-calculator.graph.json`.
-- `C`: future generated `calc.py`.
-- `mu`: future generated `calc.intentgraph.json`.
-- `G'`: future reconstructed graph from `Retrofit(C, mu, config)`.
+- `G`: B0 calculator graph from `docs/examples/b0-python-cli-calculator.graph.json`.
+- `C`: generated `calc.py`.
+- `mu`: generated `calc.intentgraph.json`.
+- `G'`: reconstructed graph from `Retrofit(C, mu, config)`.
 - expected proof: `Verify(G, G') = pass`.
 
 Expected Phase 0 B0 loop:
@@ -425,11 +513,11 @@ G_b0
   -> pass
 ```
 
-The B0 fixture currently declares:
+The B0 fixture currently declares generated-code experiment data:
 
 - product intent for add and subtract behavior
 - domain concepts for integer operands and calculator operations
-- source graph code projection nodes for module, function, and CLI targets
+- code projection/reference nodes for module, function, and CLI targets
 - planned preservation metadata nodes using `compilerContract`
 - planned test cases for add and subtract
 - evidence records as planned evidence, not accepted runtime proof
@@ -453,7 +541,7 @@ The thesis should narrow or pivot if any of these happen inside the approved Pha
 - AI proposal output is promoted to authority without deterministic checks and explicit decision records.
 - imported facts from existing tools are treated as accepted graph truth without authority.
 - evidence is observed but reported as accepted without authority.
-- visualization or workbench state is treated as source authority.
+- visualization or workbench state is treated as authority.
 - existing systems are stronger at an extraction, workbench, policy, provenance, or generation capability and the roadmap does not revise build/borrow/integrate decisions.
 
 Invalid claims:
@@ -486,7 +574,7 @@ It does not define every possible node kind, edge kind, policy rule, evidence ty
 - validation rules: `docs/language/validation-rules.md`
 - fixture: `docs/examples/b0-python-cli-calculator.graph.json`
 
-The fixture exists so M2 can implement a small compiler contract against a declared graph rather than inventing requirements during implementation.
+The fixture exists as a small feasibility benchmark. Under the corrected overlay framing, future benchmark work must add or revise mapping obligations between intent, code artifacts, extracted facts, evidence, authority, and history.
 
 ## Blueprint Revision Rule
 

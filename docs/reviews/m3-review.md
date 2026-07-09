@@ -91,7 +91,7 @@ Authority records are present in the reconstructed graph through preservation me
 
 - `nodeMap` and `edgeMap` validation must be substantive even when a full hidden graph snapshot exists.
 - Keeping reconstruction diagnostics outside `G'` simplifies M4 equality design.
-- Code-only projection can recover useful code facts, but not source graph authority, evidence, or history.
+- Code-only projection can recover useful code facts, but not accepted authority, evidence, or history.
 - Saturation review corrected the determinism claim: M3 output is byte-stable at the declared output path, while temp-output reports can intentionally record different paths.
 
 ## Issue Review

@@ -19,7 +19,7 @@ Declared quality target: Level 2
 
 No implementation benchmark was allowed in M1.
 
-M1 produced the source graph fixture for `B0-python-cli-calculator` and manually validated that it:
+M1 produced the graph fixture for `B0-python-cli-calculator` and manually validated that it:
 
 - parses as JSON
 - uses unique node and edge IDs
@@ -46,13 +46,13 @@ The formal blueprint now records those prior-art pressures directly.
 Proved:
 
 - The first benchmark can be represented as a small canonical JSON GraphIR fixture.
-- M1 can define source graph identity, code projection nodes, preservation metadata placeholders, evidence, authority, history, and verification expectations without compiler implementation.
+- M1 can define graph identity, code projection/reference nodes, preservation metadata placeholders, evidence, authority, history, and verification expectations without compiler implementation.
 - The formal blueprint gives M2-M4 precise contracts for `Native`, `Retrofit`, `Verify`, `TypeCheck`, preservation metadata, and the Phase 0 pass pipeline.
 
 Weakened:
 
 - The initial M1 draft was under-specified for required attributes and CLI behavior.
-- `maps_from` semantics needed clarification because code projection nodes are source graph nodes about future generated code.
+- `maps_from` semantics needed clarification because code projection nodes are graph nodes about future generated code.
 
 Changed:
 
@@ -90,7 +90,7 @@ Authority is represented as graph data in the B0 fixture. AI is not final author
 
 - A formal blueprint is necessary to keep M1 from becoming only a schema sketch.
 - The B0 fixture needed explicit CLI behavior so M2 will not invent hidden compiler defaults.
-- Source-map metadata must cover code projection nodes as source graph nodes, not emitted source text.
+- Source-map metadata must cover code projection nodes as graph nodes, not emitted source text.
 
 ## Issue Review
 
@@ -118,7 +118,7 @@ M1 passes its declared quality bar.
 
 Before M2 implementation:
 
-- use `docs/examples/b0-python-cli-calculator.graph.json` as the source graph fixture
+- use `docs/examples/b0-python-cli-calculator.graph.json` as the graph fixture
 - keep the first compiler target to Python standard-library source
 - emit source and preservation metadata according to the formal blueprint
 - do not build a broad language workbench or broad code extractor

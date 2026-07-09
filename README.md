@@ -1,31 +1,31 @@
 # IntentGraph Development
 
-IntentGraph Development is a graph-native software development methodology for AI-assisted development.
+IntentGraph Development is a semantic-overlay software development methodology for AI-assisted development.
 
 The central idea:
 
-> Code is the output. Intent is the source.
+> Code remains the implementation source. IntentGraph is the semantic overlay that keeps intent, code facts, evidence, authority, and change history aligned.
 
-IntentGraph Development treats the graph as the primary source artifact, compiles it into executable source code, reconstructs the graph from generated code, and makes round-trip consistency, evidence, authority, and change history first-class parts of the software development process.
+IntentGraph is a development-semantic overlay graph linked to source code artifacts. It does not replace source code. Code nodes are stable references or facts about files, symbols, ranges, anchors, and extracted code facts, not copies of code text.
 
 ## Current Status
 
 Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](docs/reviews/phase-0-final-review.md).
 
-No `M8` was opened automatically. The next authorized work is the Phase 1 entry revision: define Intent Units as the source-level development unit before expanding benchmarks or tooling. See the [Phase 1 Entry Plan](docs/roadmap/phase-1-entry-plan.md).
+No `M8` was opened automatically. The next authorized work is the Phase 1 entry revision: reframe Intent Units as overlay mapping units before expanding benchmarks or tooling. See the [Phase 1 Entry Plan](docs/roadmap/phase-1-entry-plan.md).
 
 ## Working Definition
 
-IntentGraph is not just a code graph. It is a source graph that can contain:
+IntentGraph is not just a code graph. It is an overlay graph over an existing codebase that can contain:
 
 - product intent and requirements
-- code structure and symbols
+- stable code references and extracted code facts
 - relationships between files, functions, classes, tests, and runtime behavior
 - semantic graph deltas
 - evidence, validation results, and change history
 - authority, review, and provenance boundaries
 
-The long-term source structure is not a flat bag of nodes. Phase 1 introduces [Intent Units](docs/design/intent-unit-model.md): stable, compilable, reconstructable development meaning units with internal graphs for contract, behavior, code realization, verification, evidence, authority, history, and projection.
+The long-term overlay structure is not a flat bag of nodes. Phase 1 revises [Intent Units](docs/design/intent-unit-model.md): stable semantic work units with contracts, behavior claims, verification obligations, evidence, authority, history, and mapping obligations to `codeRef` and `codeFactRef` records.
 
 ## Initial Scope
 
@@ -34,10 +34,10 @@ This repository starts with process and design boundaries before implementation.
 Initial tracks:
 
 1. Prior-art and benchmark gate
-2. IntentGraph core language and canonical graph IR
-3. Graph-to-code compiler boundary
-4. Code-to-graph reconstructor boundary
-5. Round-trip verifier
+2. IntentGraph core overlay schema and mapping boundary
+3. Code fact extraction and mapping boundary
+4. Consistency/change orchestration boundary
+5. Limited metadata-backed generation experiment boundary
 6. AI-assisted change proposal boundary
 
 ## Before Implementation

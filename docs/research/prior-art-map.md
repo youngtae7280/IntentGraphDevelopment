@@ -10,12 +10,13 @@ Before implementing a capability, update this map with the strongest known syste
 
 ## Strongest Systems By Capability
 
-| Capability | Strongest known systems | M0 decision pressure |
+| Capability | Strongest known systems | M0/P1.R decision pressure |
 |---|---|---|
-| model as source | OMG MDA, Eclipse EMF, JetBrains MPS, MetaEdit+ | do not claim model-as-source novelty |
+| semantic overlay over code | Graphify, RepoGraph, Sourcegraph, SCIP, Kythe, Glean, PROV/Git integrations | define IntentGraph as consistency/change orchestration, not code replacement |
+| model as source | OMG MDA, Eclipse EMF, JetBrains MPS, MetaEdit+ | do not claim model-as-source novelty; graph-first generation is a limited mode |
 | textual language workbench | Xtext, Spoofax, MontiCore, Rascal | learn before building language infrastructure |
 | projectional language workbench | JetBrains MPS | learn; avoid broad workbench duplication |
-| model-to-text generation | Acceleo, OMG MOFM2T, MPS generators, MetaEdit+ | build only IntentGraph-specific deterministic compiler boundary |
+| model-to-text generation | Acceleo, OMG MOFM2T, MPS generators, MetaEdit+ | treat deterministic generation as a bounded experiment or generated-code mode |
 | bidirectional model consistency | Triple Graph Grammars, eMoflon::IBeX, QVT Relations | learn round-trip semantics before custom verifier design |
 | code graph/static analysis | Joern/Code Property Graph, CodeQL | do not build broad code analysis first |
 | symbol/code intelligence index | SCIP, Kythe, Glean, LSIF, SemanticDB, Sourcegraph | borrow concepts and compare outputs |
@@ -35,7 +36,7 @@ Source: <https://www.omg.org/mda/>
 
 MDA provides the standards-level precedent for structuring software specifications as models and separating platform-independent business/application logic from platform-specific technology. IntentGraph must not present model-to-code as novel.
 
-Decision: learn and differentiate. IntentGraph focuses on graph/code reconstruction, evidence, authority, and history rather than broad MDA platform abstraction.
+Decision: learn and differentiate. IntentGraph focuses on overlay/code consistency, evidence, authority, mappings, and history rather than broad MDA platform abstraction.
 
 ### Eclipse EMF
 
@@ -59,7 +60,7 @@ Source: <https://www.metacase.com/products.html>
 
 MetaEdit+ is mature commercial domain-specific modeling tooling with full code generation from models. It is a strong pressure against building a general DSM platform.
 
-Decision: learn and differentiate. IntentGraph should prove a tiny source graph/code/reconstruction loop before any DSM/workbench ambitions.
+Decision: learn and differentiate. IntentGraph's Phase 0 graph/code/reconstruction loop is a generated-code experiment, not a DSM/workbench ambition.
 
 ## Language Workbenches
 
@@ -77,7 +78,7 @@ Sources: <https://eclipse.dev/Xtext/>, <https://spoofax.dev/>, <https://monticor
 
 These systems cover language definition, parser/compiler/editor generation, language composition, transformation, source analysis, and DSL tooling.
 
-Decision: learn. M1 may define a tiny IntentGraph source language or data shape, but should not become a general language engineering project.
+Decision: learn. M1 may define a tiny IntentGraph overlay schema or data shape, but should not become a general language engineering project.
 
 ## Bidirectional Transformation
 
@@ -155,7 +156,7 @@ Sources: <https://graphify.net/>, <https://github.com/Graphify-Labs/graphify>
 
 Graphify builds queryable knowledge graphs for AI coding assistants from code, docs, papers, and diagrams. It is strong context infrastructure, not an authoritative source graph.
 
-Decision: differentiate. IntentGraph may use context graphs for proposals later, but AI context is not authority.
+Decision: differentiate. IntentGraph may use context graphs for proposals later, but AI context is not authority and does not replace accepted overlay mappings.
 
 ### RepoGraph and Adjacent Research
 
@@ -163,7 +164,7 @@ Sources: <https://arxiv.org/abs/2410.14684>, <https://github.com/ozyyshr/RepoGra
 
 RepoGraph is a repository-level code graph module for AI software engineering and reports benchmark gains on SWE-bench-style workflows. Adjacent code graph model and repository planning graph research should be monitored during M6.
 
-Decision: differentiate and monitor. These systems strengthen the case for graph context, but not for graph-as-source round-trip verification.
+Decision: differentiate and monitor. These systems strengthen the case for graph context and code facts, but not for treating the graph as a source-code replacement.
 
 ## Visualization And Workbench
 
@@ -203,13 +204,13 @@ Decision: borrow Git, learn from CODEOWNERS, and benchmark/integrate OPA before 
 
 IntentGraph's proposed differentiation is the combination of:
 
-- graph as primary source
-- graph-to-code compiler
-- code-to-graph reconstructor
-- round-trip verifier
-- generated-code preservation metadata
-- evidence and authority as source-level concerns
+- semantic overlay over existing source code
+- code fact extraction and intent/code mapping
+- consistency and change orchestration
+- generated-code round-trip verifier as a limited mode
+- generated-code preservation metadata where generation is declared
+- evidence and authority as overlay concerns
 - semantic graph change history linked to version control
 - AI-assisted graph/code delta proposal with deterministic acceptance
 
-No single prior-art system reviewed so far replaces that combined thesis, but many systems are stronger in individual lanes. Phase 0 must keep the first implementation slice narrow enough to test the combined loop rather than rebuilding any one mature lane.
+No single prior-art system reviewed so far replaces that combined overlay thesis, but many systems are stronger in individual lanes. Phase 0's generated-code experiment must therefore be treated as one feasibility slice, while Phase 1 work focuses on overlay mapping rather than rebuilding any one mature lane.

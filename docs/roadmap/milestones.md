@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.0 Intent Unit Grammar Revision
+P1.R Reframe IntentGraph as Semantic Overlay
 ```
 
-This is a Phase 1 entry revision only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a Phase 1 correction slice only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -53,7 +53,7 @@ Quality target: Level 2, Benchmarked Slice Preparation.
 
 ## M1: IntentGraph Language and GraphIR Boundary
 
-Goal: define the smallest source graph language and canonical GraphIR that can describe a tiny program, generated source mapping metadata, evidence, authority, and change history.
+Goal: define the smallest graph/schema boundary that can describe intent, code references, generated-code mapping metadata for the Phase 0 experiment, evidence, authority, and change history.
 
 Review: [M1 Milestone Review](../reviews/m1-review.md)
 
@@ -64,7 +64,7 @@ Entry criteria:
 
 Expected output:
 
-- formal blueprint for the source graph, preservation metadata, pass pipeline, and contracts
+- formal blueprint for the overlay graph, preservation metadata for generated-code mode, pass pipeline, and contracts
 - language principles
 - minimal GraphIR shape
 - validation rules
@@ -75,7 +75,7 @@ Quality target: Level 2.
 
 ## M2: Native Compiler Boundary
 
-Goal: define and then implement the smallest deterministic graph-to-code path for a tiny benchmark.
+Goal: define and then implement the smallest deterministic graph-to-code path for a tiny generated-code benchmark.
 
 Review: [M2 Milestone Review](../reviews/m2-review.md)
 
@@ -95,7 +95,7 @@ Quality target: Level 3, Round-Trip Slice after M3.
 
 ## M3: Retrofit Reconstructor Boundary
 
-Goal: reconstruct the graph from generated source code and preservation metadata.
+Goal: reconstruct the graph from generated source code and preservation metadata for the generated-code experiment.
 
 Review: [M3 Milestone Review](../reviews/m3-review.md)
 
@@ -191,28 +191,28 @@ Quality target: Level 2 or higher.
 
 Do not open the next milestone until the current milestone has a written milestone review.
 
-After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.0 only.
+After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.R only.
 
-## P1.0: Intent Unit Grammar Revision
+## P1.R: Reframe IntentGraph as Semantic Overlay
 
-Goal: revise the Phase 0 flat GraphIR source shape into an Intent Unit centered source graph without losing the proven B0 round-trip, evidence, authority, history, AI proposal, and workbench boundaries.
+Goal: revise the project framing from graph-as-source/compiler-first language to development-semantic overlay over existing source code.
 
 Entry criteria:
 
 - Phase 0 Final Review passed
-- user approved the Phase 1 entry revision
+- user approved the concept correction
 - [Intent Unit Model](../design/intent-unit-model.md) exists
 - [Phase 1 Entry Plan](phase-1-entry-plan.md) exists
 
 Expected output:
 
-- unit-structured B0 source graph or migration fixture
-- updated GraphIR boundary and validation rules
-- updated compiler/reconstructor/verifier contract notes
-- explicit measurement or justification of `hiddenState.sourceGraphSnapshot`
-- milestone review for P1.0
+- README, Start Here, Core Definition, Formal Blueprint, Intent Unit Model, roadmap, glossary, Phase 0 final review, prior-art map, and capability matrix updated to semantic-overlay framing
+- explicit distinction between graph-first generation mode and code-first maintenance mode
+- code node definition as reference/fact, not code text
+- Intent Unit correction around `codeRef`, `codeFactRef`, and mapping obligations
+- completion report for P1.R
 
-Quality target: Level 4, Unit-Structured Round-Trip Slice.
+Quality target: Level 4, Framing Correction Slice.
 
 Non-goals:
 
@@ -222,3 +222,10 @@ Non-goals:
 - no broad code extractor
 - no code-only exact reconstruction claim
 - no automatic AI authority
+- no continuation of P1.0 unit-structured compiler work until P1.R is reviewed
+
+## P1.0: Intent Unit Overlay Mapping Revision
+
+Goal: revise the Phase 0 flat GraphIR shape into Intent Unit centered overlay mappings without losing the B0 generated-code experiment, evidence, authority, history, AI proposal, and workbench boundaries.
+
+Status: pending after P1.R coordinator approval.

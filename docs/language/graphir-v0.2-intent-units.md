@@ -1,18 +1,20 @@
 # GraphIR v0.2 Intent Units
 
-Status: P1.0 draft grammar
+Status: P1.0 draft grammar, corrected by P1.R semantic-overlay framing
 
-GraphIR v0.2 keeps the Phase 0 node and edge graph, but wraps accepted development meaning in first-class Intent Units.
+GraphIR v0.2 keeps the Phase 0 node and edge graph, but wraps accepted development meaning in first-class Intent Units. Under P1.R, these units are semantic overlay mapping units, not code-text capsules and not replacements for source files.
 
-This is not a broad language workbench. It is the smallest B0-compatible source structure needed to preserve:
+This is not a broad language workbench. It is the smallest B0-compatible overlay structure needed to preserve:
 
-- compilable intent
-- reconstruction anchors
+- accepted intent and behavior contracts
+- code references and code fact references
+- mapping obligations
+- generated-code reconstruction anchors where generation is explicitly declared
 - verification obligations
 - evidence
 - authority
 - semantic history
-- projection and code-only loss boundaries
+- generated-code projection and code-only loss boundaries
 
 ## Top-Level Shape
 
@@ -42,6 +44,9 @@ GraphIR v0.2 adds two fields:
     "nodeIds": [],
     "edgeIds": []
   },
+  "codeRefs": [],
+  "codeFactRefs": [],
+  "mappingObligations": [],
   "projection": {},
   "reconstruction": {},
   "verification": {},
@@ -56,11 +61,14 @@ Required fields:
 
 - `id`: stable unit identity.
 - `kind`: bounded unit role. P1.0 supports `product` and `behavior` for B0.
-- `status`: unit lifecycle state. P1.0 compiled units must be `accepted`.
+- `status`: unit lifecycle state. P1.0 accepted units must be `accepted`.
 - `contract`: accepted development commitment for the unit.
 - `internalGraph`: node and edge IDs that carry the unit's internal facts.
-- `projection`: generated-code contribution and source-map expectations.
-- `reconstruction`: metadata-backed reconstruction expectations and code-only loss claim.
+- `codeRefs`: stable references to files, symbols, ranges, anchors, or generated artifacts.
+- `codeFactRefs`: references to extracted code facts.
+- `mappingObligations`: declared expectations tying behavior or verification claims to code refs/facts.
+- `projection`: generated-code contribution and source-map expectations when generated-code mode is declared.
+- `reconstruction`: metadata-backed reconstruction expectations and code-only loss claim when generated-code mode is declared.
 - `verification`: test and verifier expectations.
 - `evidence`: evidence record IDs relevant to unit acceptance.
 - `authority`: authority record IDs relevant to unit acceptance or mutation.
@@ -111,14 +119,14 @@ An Intent Unit is admitted only when all of these are true:
 - verification obligation exists or an explicit verification-not-required state is declared
 - evidence boundary exists
 - authority boundary exists
-- projection boundary exists
-- reconstruction boundary exists
+- mapping boundary exists
+- projection and reconstruction boundaries exist if generated-code mode is declared
 
 Raw utterances, hypotheses, notes, imported code facts, and AI outputs may exist in the graph, but they are not accepted Intent Units unless these admission conditions are satisfied.
 
 ## Preservation Metadata
 
-GraphIR v0.2 preservation metadata adds `unitMap`:
+GraphIR v0.2 generated-code preservation metadata adds `unitMap`:
 
 ```json
 {
@@ -143,6 +151,7 @@ This is an honest intermediate state:
 - exact unit round-trip is metadata-backed
 - code-only reconstruction remains lossy
 - source-only recovery of unit contracts, evidence, authority, and history is not claimed
+- code nodes remain references/facts, not code text
 
 ## Workbench Projection
 
@@ -154,7 +163,7 @@ Workbench projections may display:
 - unit membership
 - unit preservation report
 
-Workbench output remains a report. It is not accepted source authority.
+Workbench output remains a report. It is not accepted authority.
 
 ## P1.0 Non-Goals
 

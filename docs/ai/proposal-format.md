@@ -6,7 +6,7 @@ This format defines the smallest Phase 0 boundary for AI-proposed graph/code del
 
 ## Prior-Art Pressure
 
-Graphify and RepoGraph strengthen the case for graph-shaped AI context, but they remain context/proposal systems for IntentGraph purposes. Codex-style code review can provide high-signal review observations, but review output is still proposal/evidence input, not source authority.
+Graphify and RepoGraph strengthen the case for graph-shaped AI context, but they remain context/proposal systems for IntentGraph purposes. Codex-style code review can provide high-signal review observations, but review output is still proposal/evidence input, not authority.
 
 Sources checked for M6:
 

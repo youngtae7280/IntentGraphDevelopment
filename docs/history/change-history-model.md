@@ -52,7 +52,7 @@ The milestone review records the final commit hash after commit. Later graph upd
 
 ## Self-Referential Finalization Defer Decision
 
-Phase 0 keeps one accepted B0 history delta with `gitCommit: null` and `gitCommitBoundary: "pending-current-milestone"`. This is an explicit defer decision, not a silent pass: writing the final commit hash into the source graph changes the graph digest and requires either another semantic delta or an external finalization ledger.
+Phase 0 keeps one accepted B0 history delta with `gitCommit: null` and `gitCommitBoundary: "pending-current-milestone"`. This is an explicit defer decision, not a silent pass: writing the final commit hash into the graph changes the graph digest and requires either another semantic delta or an external finalization ledger.
 
 Phase 1 must decide one of these strategies before broadening semantic history:
 

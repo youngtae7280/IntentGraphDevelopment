@@ -2,7 +2,7 @@
 
 Milestone: M7
 
-M7 visualization exists to inspect the proven Phase 0 loop. It does not create source authority.
+M7 visualization exists to inspect the proven Phase 0 generated-code loop. It does not create authority.
 
 ## Required Views
 

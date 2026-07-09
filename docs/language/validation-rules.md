@@ -1,12 +1,12 @@
 # GraphIR Validation Rules
 
-M1 defines validation rules but does not implement them. M2 and later milestones must turn the relevant rules into executable checks before making implementation claims.
+M1 defined validation rules but did not implement them. P1.R reframes them around semantic overlay state: code nodes are references/facts, not code text, and generated-code rules apply only when a generated-code mode is declared.
 
 ## Rule Severity
 
 | Severity | Meaning |
 |---|---|
-| P0 | invalid graph; cannot be compiled, reconstructed, or reviewed |
+| P0 | invalid graph; cannot be mapped, verified, generated, reconstructed, or reviewed |
 | P1 | major correctness gap; milestone cannot pass until fixed |
 | P2 | meaningful quality issue; fix or write a defer decision |
 | P3 | optional polish |
@@ -65,17 +65,17 @@ Severity: P1
 
 Edges must respect the from/to node kind rules declared in `docs/language/graphir-boundary.md`.
 
-### V040 - Required Projection Target
+### V040 - Required Projection Target For Generated-Code Mode
 
 Severity: P0
 
-The first benchmark graph must declare exactly one Python native projection target for generated source.
+The Phase 0 generated-code benchmark graph must declare exactly one Python native projection target for generated source. Code-first maintenance fixtures should instead declare extraction and mapping expectations.
 
-### V041 - Source Map Coverage
+### V041 - Source Map Coverage For Generated-Code Mode
 
 Severity: P0 for M2 and later, P1 in M1
 
-Every code projection node that is expected to round-trip must be covered by at least one `metadata.sourceMap` node.
+Every generated-code projection node that is expected to round-trip must be covered by at least one `metadata.sourceMap` node.
 
 ### V042 - Relative Generated Paths
 
@@ -99,7 +99,7 @@ Every ID in `metadata.sourceMap.attributes.graphNodeIds` must reference an exist
 
 Severity: P1
 
-M1 source maps must name a future compiler contract, not claim that generated code or a compiler implementation already exists.
+M1 source maps must name a future generated-code contract, not claim that generated code or an implementation already exists.
 
 ### V050 - Evidence Linkage
 
@@ -195,11 +195,11 @@ Severity: P1
 
 The document must declare `verificationExpectations` with `expectedMode`, `canonicalization`, and `requiresMetadata`.
 
-### V090 - No Hidden Compiler Defaults
+### V090 - No Hidden Tool Defaults
 
 Severity: P1
 
-The graph must include enough explicit intent and code projection information for a future compiler contract to be written without relying on unstated behavior.
+The graph must include enough explicit intent, code reference, code fact, mapping, and generated-code projection information for a future tool contract to be written without relying on unstated behavior.
 
 For `B0-python-cli-calculator`, this includes operation semantics, argument parsing, output formatting, success exit code, and invalid input behavior.
 
@@ -238,8 +238,9 @@ Every accepted Intent Unit must include:
 - accepted status
 - contract
 - internal graph membership
-- projection expectations
-- reconstruction expectations
+- code references, code fact references, or explicit non-realized status
+- mapping obligations
+- projection and reconstruction expectations when generated-code mode is declared
 - verification expectations
 - evidence references
 - authority references
@@ -283,11 +284,11 @@ Severity: P1 in P1.0
 
 Behavior units must remain focused on their behavior contract. Shared product, evidence, authority, and history records may be referenced, but a behavior unit must not own unrelated behavior internals.
 
-### V208 - Unit Round-Trip Expectation
+### V208 - Unit Mapping And Generated-Code Expectation
 
 Severity: P0 in P1.0
 
-The graph must declare that exact unit round-trip requires metadata and that code-only reconstruction remains lossy for Intent Unit contracts, refinement structure, admission state, evidence, authority, and history.
+The graph must declare that code-only reconstruction remains lossy for Intent Unit contracts, refinement structure, admission state, evidence, authority, and history. If generated-code mode is declared, exact unit round-trip requires preservation metadata.
 
 ### V209 - Proposal Non-Authority For Unit Membership
 
@@ -306,7 +307,8 @@ For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check
 - product intent is represented
 - add and subtract behavior are represented
 - Python module/function/CLI projections are represented
-- source map metadata nodes exist for generated code projections
+- source map metadata nodes exist for generated-code projections
+- code nodes are references/facts rather than code text copies
 - tests are represented as expectations, not executed results
 - evidence and authority are present and linked
 - history delta is present and linked

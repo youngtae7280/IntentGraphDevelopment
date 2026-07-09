@@ -14,7 +14,7 @@ Workbench(G, Reports, Config) -> Projection
 
 The workbench may display:
 
-- source graph nodes and edges
+- overlay graph nodes and edges
 - Intent Units and unit refinement/cross-unit relations
 - generated code projection summaries
 - preservation metadata status
@@ -116,5 +116,5 @@ That choice requires a new prior-art gate and benchmark.
 | static documentation diagrams | Graphviz, Mermaid | borrow textual diagram output for orientation only |
 | custom dashboards | D3 | learn/integrate later; no custom dashboard framework in Phase 0 |
 | code navigation | Sourcegraph, SCIP, Kythe, Glean, LSIF, SemanticDB | do not build code navigation; display generated-code projection summaries only |
-| AI/repository context visualization | Graphify, RepoGraph | proposal/context display only; not source authority |
+| AI/repository context visualization | Graphify, RepoGraph | proposal/context display only; not authority |
 | status dashboard | existing dashboard frameworks plus generated JSON reports | emit static JSON projection first |

@@ -44,7 +44,7 @@ Compared lanes:
 - provenance/evidence/authority/history: W3C PROV, OpenLineage, SLSA, in-toto, SPDX/GUAC, Git, CODEOWNERS, branch protection, OPA, Reproducible Builds, Bazel
 
 Strongest finding:
-No single reviewed system replaces the combined IntentGraph thesis, but many systems are stronger in individual lanes. Phase 0 must therefore build only the missing composition slice: graph as source, deterministic generated code, preservation metadata, reconstruction, equality verification, evidence, authority, and history.
+P1.R correction: this statement is now narrowed. Phase 0 built a generated-code experiment around deterministic generated code, preservation metadata, reconstruction, equality verification, evidence, authority, and history. IntentGraph is now framed as a semantic overlay over existing code, not graph as source.
 
 ## Result
 

@@ -51,8 +51,8 @@ M2 stayed inside the M0/M1 build/borrow decisions:
 
 Proved:
 
-- The B0 source graph can deterministically generate a Python CLI calculator.
-- Generated code is digest-tied to the canonical source graph.
+- The B0 graph can deterministically generate a Python CLI calculator in generated-code mode.
+- Generated code is digest-tied to the canonical graph.
 - Preservation metadata includes node maps, edge maps, graph digest, projection rules, hidden state, generated artifact hashes, and diagnostics.
 - The generated project is small enough for M3 to consume.
 
@@ -81,11 +81,11 @@ using `generated/b0-python-cli-calculator/calc.py` and `generated/b0-python-cli-
 
 ## Evidence Status
 
-Evidence nodes are preserved in metadata through the hidden source graph snapshot and metadata-only projection classification. M5 must later verify evidence preservation explicitly.
+Evidence nodes are preserved in metadata through the hidden graph snapshot and metadata-only projection classification. M5 must later verify evidence preservation explicitly.
 
 ## Authority Status
 
-Authority nodes are preserved in metadata through the hidden source graph snapshot and metadata-only projection classification. AI remains proposal-only.
+Authority nodes are preserved in metadata through the hidden graph snapshot and metadata-only projection classification. AI remains proposal-only.
 
 ## Unexpected Discoveries
 

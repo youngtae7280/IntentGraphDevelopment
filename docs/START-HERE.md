@@ -2,7 +2,7 @@
 
 This repository must not begin with implementation.
 
-IntentGraph Development is a proposed software development method, source layer, compiler boundary, reconstructor boundary, and verification discipline. Before code exists, the project needs a stable thesis, prior-art review, benchmark criteria, and milestone gates.
+IntentGraph Development is a proposed software development method, semantic overlay graph, mapping boundary, consistency engine, and verification discipline over existing source code. Before broad implementation exists, the project needs a stable thesis, prior-art review, benchmark criteria, and milestone gates.
 
 ## Work Order
 
@@ -22,17 +22,17 @@ For a worker or new chat, follow the [Autonomous Work Loop](process/autonomous-w
 
 ## First Principle
 
-Code is the output. Intent is the source.
+Code remains the implementation source. IntentGraph is the development-semantic overlay that links intent, code facts, mapping obligations, evidence, authority, and semantic history.
 
 ## Primary Thesis
 
-IntentGraph Development treats the graph as the primary source artifact, compiles it into executable source code, reconstructs the graph from generated code, and makes round-trip consistency, evidence, authority, and change history first-class parts of the software development process.
+IntentGraph is a development-semantic overlay graph linked to source code artifacts. It does not replace source code or copy code text into the graph. Code nodes are stable references or facts for source artifacts, symbols, ranges, anchors, and extracted code facts.
 
 ## Formal Blueprint
 
-The current formal center of gravity is [IntentGraph Formal Blueprint](design/intentgraph-formal-blueprint.md). It is a draft for M1, not final architecture, and must be revised when prior-art review, milestone review, or benchmark evidence contradicts it.
+The current formal center of gravity is [IntentGraph Formal Blueprint](design/intentgraph-formal-blueprint.md). It is being revised toward the overlay state model and must change when prior-art review, milestone review, or benchmark evidence contradicts it.
 
-After Phase 0, the next source-structure center of gravity is the [Intent Unit Model](design/intent-unit-model.md). Do not expand to a larger benchmark until the B0 graph has been reconsidered as unit-structured source rather than only a flat GraphIR document.
+After Phase 0, the next structure center of gravity is the [Intent Unit Model](design/intent-unit-model.md). Do not expand to a larger benchmark until Intent Units are reconsidered as semantic overlay mapping units rather than graph-as-source capsules.
 
 ## Default Bias
 
@@ -61,7 +61,7 @@ Phase 0 is complete as of 2026-07-09. Read the [Phase 0 Final Review](reviews/ph
 
 The next authorized work is the Phase 1 entry revision described in [Phase 1 Entry Plan](roadmap/phase-1-entry-plan.md). This is not blanket authorization for broad Phase 1 expansion.
 
-Do not open compiler, reconstructor, verifier, package setup, UI, or AI runtime implementation until the relevant later milestone is current and its entry criteria are met.
+Do not open compiler, extractor, verifier, package setup, UI, or AI runtime implementation until the relevant later milestone is current and its entry criteria are met.
 
 ## Stop Criteria
 
@@ -71,4 +71,5 @@ Stop and reassess if:
 - the slice duplicates an existing tool without a decision record
 - the benchmark cannot distinguish IntentGraph from a code graph viewer, DSL tool, or model generator
 - AI output is being treated as authority rather than proposal
-- source code generation cannot be round-trip checked
+- the overlay cannot preserve behavior contracts, evidence, authority, semantic history, or mapping consistency
+- graph-first generation is treated as the universal model instead of a limited generated-code mode

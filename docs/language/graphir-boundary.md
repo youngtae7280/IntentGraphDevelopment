@@ -1,22 +1,22 @@
 # GraphIR Boundary
 
-GraphIR is the canonical internal representation used by future compilers, reconstructors, validators, and analysis passes. M1 defines the shape only; it does not implement those passes.
+GraphIR is the canonical internal representation used by overlay validators, mapping passes, generated-code mode tools, proposal validators, and analysis passes. M1 defined the initial shape only; it did not implement those passes.
 
 The formal model for this boundary is defined in `docs/design/intentgraph-formal-blueprint.md`.
 
-Version: `0.2.0` draft for P1.0, with `0.1.0` retained as the Phase 0 flat baseline.
+Version: `0.2.0` draft under P1.R semantic-overlay correction, with `0.1.0` retained as the Phase 0 flat generated-code baseline.
 
 ## Boundary Claim
 
 GraphIR v0.1 was intentionally small. It described the `B0-python-cli-calculator` benchmark as a flat node/edge graph.
 
-GraphIR v0.2 adds first-class Intent Units while keeping the Phase 0 node and edge graph as the internal fact graph. The v0.2 grammar is defined in [GraphIR v0.2 Intent Units](graphir-v0.2-intent-units.md).
+GraphIR v0.2 adds first-class Intent Units while keeping the Phase 0 node and edge graph as the internal fact graph. Under P1.R, those units are overlay mapping units: they link to implementation through code references, code facts, and mapping obligations rather than owning code text. The v0.2 grammar is defined in [GraphIR v0.2 Intent Units](graphir-v0.2-intent-units.md).
 
 GraphIR v0.1 includes:
 
 - graph identity
 - benchmark identity
-- source nodes
+- semantic nodes and code reference/fact nodes
 - typed edges
 - native projection target declaration
 - round-trip and projection expectations
@@ -32,7 +32,7 @@ GraphIR v0.2 additionally includes:
 - `unitEdges`
 - unit contracts
 - unit internal graph membership
-- unit projection and reconstruction expectations
+- unit mapping expectations, plus projection/reconstruction expectations only for generated-code mode
 - unit evidence, authority, and history linkage
 - unit admission rules that distinguish accepted units from raw utterances, notes, hypotheses, imported facts, or AI proposals
 
@@ -93,6 +93,9 @@ GraphIR v0.2 Intent Units follow this shape:
     "nodeIds": [],
     "edgeIds": []
   },
+  "codeRefs": [],
+  "codeFactRefs": [],
+  "mappingObligations": [],
   "projection": {
     "nativeTarget": "python",
     "targetFiles": ["calc.py"],
@@ -128,7 +131,7 @@ GraphIR v0.2 Intent Units follow this shape:
 }
 ```
 
-P1.0 supports `product` and `behavior` unit kinds for B0.
+P1.R keeps `product` and `behavior` unit kinds for B0, but their implementation linkage should be interpreted through code references, code facts, and mapping obligations.
 
 ## Unit Edge Shape
 
@@ -165,11 +168,11 @@ Every node has:
 }
 ```
 
-`id` is the durable identity used by compiler metadata, reconstructor output, equality checks, evidence, authority, and history.
+`id` is the durable identity used by overlay mappings, generated-code metadata, reconstructor output where applicable, equality checks, evidence, authority, and history.
 
 `kind` selects validation rules.
 
-`attributes` is a JSON object. It may contain structured data, but M1 avoids implicit semantics that only a future compiler would know.
+`attributes` is a JSON object. It may contain structured data, but GraphIR avoids implicit semantics that only a future tool would know.
 
 ## M1 Node Kinds
 
@@ -177,9 +180,9 @@ Every node has:
 |---|---|
 | `intent.requirement` | product or behavior requirement |
 | `domain.concept` | domain term used by intent or code |
-| `code.module` | source graph projection node for a generated module |
-| `code.function` | source graph projection node for a generated function |
-| `code.cli` | source graph projection node for a generated CLI command |
+| `code.module` | code reference/fact node for a module or generated module |
+| `code.function` | code reference/fact node for a function or generated function |
+| `code.cli` | code reference/fact node for a CLI command or generated CLI command |
 | `test.case` | expected test or verification case |
 | `projection.target` | generated artifact target |
 | `metadata.sourceMap` | preservation metadata linking graph nodes to generated source |
@@ -209,9 +212,9 @@ Edges are directed and typed. Edge IDs are stable because the verifier may need 
 |---|---|---|---|
 | `decomposes_to` | `intent.requirement` | `intent.requirement` | parent intent decomposes into child intent |
 | `uses_concept` | intent/code node | `domain.concept` | node uses a domain concept |
-| `projects_to` | intent/domain/code node | code/projection node | source graph meaning or code projection is projected to a generated target |
-| `contains` | `code.module` | code node | module contains generated code item |
-| `calls` | `code.function` | `code.function` | generated function calls another generated function |
+| `projects_to` | intent/domain/code node | code/projection node | overlay meaning or code reference is projected to a generated target |
+| `contains` | `code.module` | code node | module contains or references a code item |
+| `calls` | `code.function` | `code.function` | function calls another function |
 | `handled_by` | `code.cli` | `code.function` | CLI command is handled by a function |
 | `tested_by` | intent/code node | `test.case` | node is covered by a test expectation |
 | `evidenced_by` | any node | `evidence.record` | evidence supports the node or claim |
@@ -222,7 +225,7 @@ Edges are directed and typed. Edge IDs are stable because the verifier may need 
 
 ## Preservation Metadata Boundary
 
-`metadata.sourceMap` nodes are required for full reconstruction of generated code projections.
+`metadata.sourceMap` nodes are required for full reconstruction in generated-code mode. They are not the whole mapping model for code-first maintenance.
 
 Required attributes:
 
@@ -309,4 +312,4 @@ At minimum for B0:
 - semantic history records
 - some source mapping identity
 
-This prevents a future reconstructor from claiming full recovery from ordinary source code.
+This prevents a future reconstructor from claiming full recovery from ordinary source code. Code-only facts may support mapping proposals, but they do not recover accepted intent, evidence, authority, history, or Intent Unit membership by themselves.

@@ -30,7 +30,7 @@ Review trigger:
 
 ### 001 - Language Workbench And GraphIR Boundary
 
-Capability: IntentGraph source language and canonical GraphIR boundary
+Capability: IntentGraph overlay schema and canonical GraphIR boundary
 Date: 2026-07-09
 Status: accepted for M0
 
@@ -41,7 +41,7 @@ Strongest known existing systems:
 JetBrains MPS, Eclipse EMF, Xtext, Spoofax, MontiCore, Rascal, MetaEdit+.
 
 Comparison:
-These systems are stronger at general DSL authoring, projectional editing, parser/editor generation, metamodeling, and ecosystem tooling. IntentGraph's Phase 0 need is smaller: one canonical graph representation that can support compiler, reconstructor, verifier, evidence, authority, and history fields for a tiny benchmark.
+These systems are stronger at general DSL authoring, projectional editing, parser/editor generation, metamodeling, and ecosystem tooling. IntentGraph's Phase 0 need is smaller: one canonical graph representation that can support overlay mappings, generated-code mode, verifier, evidence, authority, and history fields for a tiny benchmark.
 
 Decision: build minimal boundary; learn from prior art.
 
@@ -72,7 +72,7 @@ Acceleo, OMG MOFM2T, JetBrains MPS generators, MetaEdit+, EMF.Codegen.
 Comparison:
 Existing systems already generate source code from structured models. IntentGraph must prove deterministic generation plus preservation metadata that supports graph reconstruction and equality.
 
-Decision: build tiny IntentGraph-specific compiler boundary; learn from generators.
+Decision: keep generation as a tiny IntentGraph-specific generated-code boundary; learn from generators.
 
 Reason:
 The unique slice is not generic code generation. It is generation that carries enough metadata for `Retrofit(Native(G)) = G`.
@@ -151,13 +151,13 @@ Date: 2026-07-09
 Status: accepted for M0
 
 Problem:
-Generated code must preserve enough source graph identity to reconstruct non-code graph meaning.
+Generated code must preserve enough graph identity to reconstruct non-code graph meaning when generated-code mode is declared.
 
 Strongest known existing systems:
 Kythe generated-code indexing, Source Maps, compiler debug metadata, Acceleo protected areas.
 
 Comparison:
-Kythe is the strongest explicit generated-code source mapping comparator. IntentGraph needs a smaller metadata contract that maps source graph nodes, generated source ranges, evidence links, authority records, and change history links.
+Kythe is the strongest explicit generated-code source mapping comparator. IntentGraph needs a smaller metadata contract that maps graph nodes, generated source ranges, evidence links, authority records, and change history links when generated-code mode is declared.
 
 Decision: build minimal metadata contract; learn from Kythe.
 
@@ -302,7 +302,7 @@ Strongest known existing systems:
 Graphify, RepoGraph, Sourcegraph/Cody-style context systems, code graph model research.
 
 Comparison:
-These systems are stronger at context retrieval and proposal support. They do not make an intent graph the primary source or prove round-trip consistency with authority and evidence.
+These systems are stronger at context retrieval and proposal support. They do not make AI context authoritative or prove overlay/code consistency with authority and evidence.
 
 Decision: differentiate; possibly integrate context tools later.
 

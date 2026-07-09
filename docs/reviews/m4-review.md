@@ -48,7 +48,7 @@ M4 stayed inside the M0/M1 decisions:
 - treated QVT, TGG, and eMoflon as pressure on round-trip rigor, not as systems to duplicate in Phase 0
 - kept Joern, CodeQL, Graphify, SCIP, Kythe, and Glean in the code-fact lane rather than using code facts as graph authority
 - kept code-only retrofit separate from metadata-backed exact equality
-- treated evidence, authority, and history as source graph state to be preserved and checked, not as facts inferred from generated code
+- treated evidence, authority, and history as graph state to be preserved and checked, not as facts inferred from generated code
 
 ## Result
 
@@ -84,7 +84,7 @@ Retrofit(C, mu) -> (G', D2)   implemented in M3
 Verify(G, G')                 implemented in M4
 ```
 
-M4 provides the first metadata-backed proof for the tiny graph. It does not claim code-only reconstruction can recover the full source graph.
+M4 provides the first metadata-backed proof for the tiny graph. It does not claim code-only reconstruction can recover the full graph.
 
 ## Evidence Status
 

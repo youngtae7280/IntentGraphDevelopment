@@ -4,20 +4,21 @@ This matrix is a prior-art pressure tool, not a product scorecard. A `high` scor
 
 Primary source sweep date: 2026-07-09.
 
-| Capability | MPS | EMF / Acceleo | Xtext / Spoofax / MontiCore | QVT / TGG | Joern / CodeQL | SCIP / Kythe / Glean | Graphify / RepoGraph | PROV / OPA / Git | IntentGraph Phase 0 target |
+| Capability | MPS | EMF / Acceleo | Xtext / Spoofax / MontiCore | QVT / TGG | Joern / CodeQL | SCIP / Kythe / Glean | Graphify / RepoGraph | PROV / OPA / Git | IntentGraph target |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| graph/model as primary source | high | high | medium | medium | low | low | low | low | target |
-| graph/model to source code | high | high | high | medium | none | none | low | none | target |
-| source code to graph/model facts | low | medium | medium | high if code is modeled | high | high | medium | low | target for generated code only |
+| semantic overlay over code | medium | medium | medium | medium | medium | high | high | high | target |
+| graph/model as primary source | high | high | medium | medium | low | low | low | low | limited generated-code mode only |
+| graph/model to source code | high | high | high | medium | none | none | low | none | limited generated-code mode only |
+| source code to graph/model facts | low | medium | medium | high if code is modeled | high | high | medium | low | target via extraction/mapping, not code text copies |
 | generated-code source mapping | medium | medium | low | medium | low | high in Kythe | low | medium in provenance tools | target |
 | explicit preservation metadata | medium | medium | low | medium | low | medium | low | high for provenance/history | target |
-| round-trip consistency | medium inside source model | limited | strong for DSL text | high | none | none | none | low | target |
+| round-trip consistency | medium inside source model | limited | strong for DSL text | high | none | none | none | low | target only for generated-code mode |
 | code symbol/reference graph | medium | medium | medium | medium | high | high | medium | low | limited target |
 | static analysis/security query | low | low | low | low | high | medium | low | low | non-goal |
 | AI coding context | low | low | low | low | medium | medium | high | low | proposal-only target |
-| evidence as first-class source | low | low | low | low | low | low | medium | high for provenance/evidence | target |
+| evidence as first-class overlay | low | low | low | low | low | low | medium | high for provenance/evidence | target |
 | authority and policy acceptance | low | low | low | low | medium | medium | low | high | target |
-| change history as semantic graph source | medium | medium | low | medium | low | medium | low | high in Git, low in semantic graph | target |
+| change history as semantic graph overlay | medium | medium | low | medium | low | medium | low | high in Git, low in semantic graph | target |
 | graphical workbench / visualization | high | high via Sirius ecosystem | medium | low | low | medium via consumers | high reports/graphs | low | M7 boundary only |
 
 ## Notes By Lane
@@ -26,17 +27,17 @@ Primary source sweep date: 2026-07-09.
 
 MPS, EMF, Acceleo, Xtext, Spoofax, MontiCore, Rascal, MetaEdit+, and Sirius collectively cover most general language-workbench, metamodeling, model-to-code, and graphical workbench ideas. IntentGraph should not start by building a broad language workbench.
 
-M1 should define only the smallest IntentGraph language and GraphIR boundary needed for the first benchmark.
+M1 defined only the smallest IntentGraph schema and GraphIR boundary needed for the first benchmark. P1.R reframes that boundary as overlay/mapping schema plus a limited generated-code mode.
 
 ### Bidirectional Transformation
 
-QVT and Triple Graph Grammars are the strongest conceptual pressure on round-trip semantics. IntentGraph must learn from their model/model consistency ideas, but Phase 0 needs a narrower graph/source-code/preservation-metadata equality contract.
+QVT and Triple Graph Grammars are the strongest conceptual pressure on consistency semantics. IntentGraph must learn from their model/model consistency ideas, but Phase 0's graph/source-code/preservation-metadata equality contract is only a generated-code experiment.
 
 ### Code Graph and Code Intelligence
 
 Joern/CPG and CodeQL are much stronger than a new Phase 0 custom extractor for static analysis. SCIP, Kythe, Glean, LSIF, SemanticDB, and Sourcegraph are much stronger sources for symbol/reference indexing and generated-code source mapping ideas.
 
-Phase 0 should build only a tiny generated-code reconstructor where metadata is available. General code extraction should be borrowed or compared later.
+Phase 0 built only a tiny generated-code reconstructor where metadata is available. General code extraction should be borrowed or compared later; code nodes must remain references/facts, not code text copies.
 
 ### AI Context
 
@@ -46,17 +47,17 @@ Graphify and RepoGraph show that repository graphs help AI coding. They do not m
 
 W3C PROV, OpenLineage, SLSA, in-toto, Git, CODEOWNERS, branch protection, OPA, Reproducible Builds, Bazel, SPDX, and GUAC cover mature pieces of provenance, policy, authority, deterministic validation, and artifact metadata.
 
-IntentGraph should build the binding layer that attaches these concerns to graph nodes, code projections, reconstruction claims, and accepted graph deltas.
+IntentGraph should build the binding layer that attaches these concerns to graph nodes, code references, mappings, generated-code claims, and accepted graph deltas.
 
 ## M0 Build / Borrow / Integrate Implications
 
 | Track | M0 implication |
 |---|---|
-| language/workbench | learn; build only minimal IntentGraph language/GraphIR |
-| code generation | learn; build deterministic tiny compiler boundary |
-| bidirectional semantics | learn; build minimal equality/projection rules |
+| language/workbench | learn; build only minimal IntentGraph overlay/schema |
+| code generation | learn; keep deterministic generation as limited mode |
+| bidirectional semantics | learn; build minimal equality/projection rules for generated-code mode and consistency rules for overlay mode |
 | code extraction | borrow/compare; do not build broad extractor |
-| generated-code metadata | learn from Kythe; build minimal preservation metadata |
+| generated-code metadata | learn from Kythe; build minimal preservation metadata only where generation is declared |
 | evidence/provenance | learn from PROV/OpenLineage; build IntentGraph binding |
 | authority/policy | benchmark OPA before custom policy engine |
 | history | borrow Git; build graph semantic deltas |

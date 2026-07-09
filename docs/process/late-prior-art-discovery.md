@@ -23,7 +23,7 @@ Roadmap impact:
 ## Classification Rules
 
 - `replace`: stop building the duplicated capability and switch to the stronger system.
-- `integrate`: keep IntentGraph as the source layer and use the system as a backend, adapter, extractor, compiler pass, or benchmark.
+- `integrate`: keep IntentGraph as the semantic overlay and use the system as a backend, adapter, extractor, generated-code pass, or benchmark.
 - `learn`: keep building, but update the design with the discovered pattern.
 - `differentiate`: document why the overlap is superficial and continue.
 

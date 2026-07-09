@@ -61,7 +61,7 @@ For a selected Intent Unit, a workbench may show:
 - projection and reconstruction expectations
 - evidence, authority, and history references
 
-This drill-down is still a projection. It is not accepted source authority.
+This drill-down is still a projection. It is not accepted authority.
 
 ## Diagram Projection
 
