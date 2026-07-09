@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.R Reframe IntentGraph as Semantic Overlay
+P1.1 Intent Unit Overlay Mapping Revision
 ```
 
-This is a Phase 1 correction slice only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a Phase 1 overlay mapping slice only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -191,7 +191,7 @@ Quality target: Level 2 or higher.
 
 Do not open the next milestone until the current milestone has a written milestone review.
 
-After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.R only.
+After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.1 only.
 
 ## P1.R: Reframe IntentGraph as Semantic Overlay
 
@@ -222,10 +222,16 @@ Non-goals:
 - no broad code extractor
 - no code-only exact reconstruction claim
 - no automatic AI authority
-- no continuation of P1.0 unit-structured compiler work until P1.R is reviewed
+- no continuation beyond P1.1 overlay mapping work until P1.1 is reviewed
 
-## P1.0: Intent Unit Overlay Mapping Revision
+## P1.0: Intent Unit Grammar Revision
+
+Goal: historical generated-code experiment revision that converted B0 from flat GraphIR into explicit Intent Units.
+
+Status: completed on 2026-07-09. See [P1.0 Intent Unit Grammar Review](../reviews/p1.0-intent-unit-grammar-review.md). P1.R supersedes its graph-as-source framing.
+
+## P1.1: Intent Unit Overlay Mapping Revision
 
 Goal: revise the Phase 0 flat GraphIR shape into Intent Unit centered overlay mappings without losing the B0 generated-code experiment, evidence, authority, history, AI proposal, and workbench boundaries.
 
-Status: pending after P1.R coordinator approval.
+Status: active after P1.R coordinator approval.

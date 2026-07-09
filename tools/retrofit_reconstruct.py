@@ -220,7 +220,22 @@ def validate_unit_map(metadata: dict[str, Any], graph: dict[str, Any]) -> None:
         unit_id = entry.get("unitId")
         if unit_id not in unit_ids:
             raise RetrofitError(f"unitMap references missing unit: {unit_id}")
+        unit = next(unit for unit in units if unit.get("id") == unit_id)
         mapped_unit_ids.add(unit_id)
+        for required in ["codeRefsDigest", "codeFactRefsDigest", "mappingObligationsDigest"]:
+            if required not in entry:
+                raise RetrofitError(f"unitMap {unit_id} missing overlay digest: {required}")
+        expected_digests = {
+            "codeRefsDigest": prefixed_sha256(canonical_json(unit.get("codeRefs", []))),
+            "codeFactRefsDigest": prefixed_sha256(canonical_json(unit.get("codeFactRefs", []))),
+            "mappingObligationsDigest": prefixed_sha256(canonical_json(unit.get("mappingObligations", []))),
+        }
+        for digest_key, expected in expected_digests.items():
+            if entry.get(digest_key) != expected:
+                raise RetrofitError(f"unitMap {unit_id} stale overlay digest: {digest_key}")
+        for required_list in ["codeRefIds", "codeFactRefIds", "mappingObligationIds"]:
+            if not isinstance(entry.get(required_list), list) or not entry[required_list]:
+                raise RetrofitError(f"unitMap {unit_id} missing non-empty {required_list}")
         for node_id in entry.get("internalNodeIds", []):
             if node_id not in nodes:
                 raise RetrofitError(f"unitMap {unit_id} references missing node: {node_id}")
@@ -310,7 +325,8 @@ def code_only_projection(source_path: Path, source: str) -> dict[str, Any]:
             "authority records",
             "semantic graph history",
             "intent unit contracts and unit refinement structure",
-            "stable source graph IDs",
+            "intent unit codeRefs, codeFactRefs, and mapping obligations",
+            "stable semantic graph IDs",
             "metadata source-map node IDs",
             "accepted change state",
             "verifier equality mode",

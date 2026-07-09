@@ -16,6 +16,7 @@ The workbench may display:
 
 - overlay graph nodes and edges
 - Intent Units and unit refinement/cross-unit relations
+- Intent Unit code refs, code fact refs, and mapping obligations
 - generated code projection summaries
 - preservation metadata status
 - round-trip verifier status

@@ -4,13 +4,13 @@ GraphIR is the canonical internal representation used by overlay validators, map
 
 The formal model for this boundary is defined in `docs/design/intentgraph-formal-blueprint.md`.
 
-Version: `0.2.0` draft under P1.R semantic-overlay correction, with `0.1.0` retained as the Phase 0 flat generated-code baseline.
+Version: `0.2.0` draft under P1.1 semantic-overlay mapping revision, with `0.1.0` retained as the Phase 0 flat generated-code baseline.
 
 ## Boundary Claim
 
 GraphIR v0.1 was intentionally small. It described the `B0-python-cli-calculator` benchmark as a flat node/edge graph.
 
-GraphIR v0.2 adds first-class Intent Units while keeping the Phase 0 node and edge graph as the internal fact graph. Under P1.R, those units are overlay mapping units: they link to implementation through code references, code facts, and mapping obligations rather than owning code text. The v0.2 grammar is defined in [GraphIR v0.2 Intent Units](graphir-v0.2-intent-units.md).
+GraphIR v0.2 adds first-class Intent Units while keeping the Phase 0 node and edge graph as the internal fact graph. Under P1.1, those units are overlay mapping units: they link to implementation through code references, code facts, and mapping obligations rather than owning code text. The v0.2 grammar is defined in [GraphIR v0.2 Intent Units](graphir-v0.2-intent-units.md).
 
 GraphIR v0.1 includes:
 
@@ -34,6 +34,7 @@ GraphIR v0.2 additionally includes:
 - unit internal graph membership
 - unit mapping expectations, plus projection/reconstruction expectations only for generated-code mode
 - unit evidence, authority, and history linkage
+- unit `codeRefs`, `codeFactRefs`, and `mappingObligations`
 - unit admission rules that distinguish accepted units from raw utterances, notes, hypotheses, imported facts, or AI proposals
 
 GraphIR v0.1 excludes:

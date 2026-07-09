@@ -2,7 +2,7 @@
   "benchmarkId": "B0-python-cli-calculator",
   "diagnosticsVersion": "0.1.0",
   "errors": [],
-  "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+  "graphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
   "graphirVersion": "0.2.0",
   "intentUnits": {
     "count": 3,
@@ -13,16 +13,18 @@
     ]
   },
   "reconstructedAt": "deterministic:m3-retrofit-python-b0-v0",
-  "reconstructedGraphDigest": "sha256:196199907405e2edede1e3d22efdbd2be74d462ca3174970c8824ce80494fb31",
+  "reconstructedGraphDigest": "sha256:733f04d5fb7a1dbd514fdc5bcef5927a60e776709f808a63fe003987c19cd953",
   "reconstructorContract": "retrofit-python-b0-v0",
   "roundTripVerification": "not-run-in-m3",
   "snapshotDependence": {
-    "edgeCount": 54,
+    "edgeCount": 64,
     "graphirVersion": "0.2.0",
     "intentUnitCount": 3,
-    "nodeCount": 28,
+    "mappingObligationCount": 6,
+    "nodeCount": 31,
     "reductionStrategy": [
       "preserve unitMap as explicit unit-level metadata",
+      "preserve codeRefs, codeFactRefs, and mapping obligations as unit-level metadata",
       "move evidence, authority, and history reconstruction from full snapshot to typed metadata records",
       "keep code-only reconstruction lossy unless independent evidence proves otherwise"
     ],

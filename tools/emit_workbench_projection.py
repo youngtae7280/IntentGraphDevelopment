@@ -105,6 +105,37 @@ def unit_membership(graph: dict[str, Any]) -> dict[str, dict[str, list[str]]]:
     return dict(sorted(membership.items()))
 
 
+def unit_overlay_mappings(graph: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    mappings: dict[str, dict[str, Any]] = {}
+    for unit in graph.get("intentUnits", []):
+        if not isinstance(unit, dict) or not isinstance(unit.get("id"), str):
+            continue
+        mappings[unit["id"]] = {
+            "codeRefIds": sorted(
+                ref["id"]
+                for ref in unit.get("codeRefs", [])
+                if isinstance(ref, dict) and isinstance(ref.get("id"), str)
+            ),
+            "codeFactRefIds": sorted(
+                ref["id"]
+                for ref in unit.get("codeFactRefs", [])
+                if isinstance(ref, dict) and isinstance(ref.get("id"), str)
+            ),
+            "mappingObligationIds": sorted(
+                obligation["id"]
+                for obligation in unit.get("mappingObligations", [])
+                if isinstance(obligation, dict) and isinstance(obligation.get("id"), str)
+            ),
+            "generatedCodeProjectionMode": unit.get("projection", {}).get("mode"),
+            "sourceTextEqualityRequired": any(
+                obligation.get("sourceTextEqualityRequired") is True
+                for obligation in unit.get("mappingObligations", [])
+                if isinstance(obligation, dict)
+            ),
+        }
+    return dict(sorted(mappings.items()))
+
+
 def proposal_results_by_id(proposal_report: dict[str, Any]) -> dict[str, dict[str, Any]]:
     results: dict[str, dict[str, Any]] = {}
     for result in proposal_report.get("proposalResults", []):
@@ -199,6 +230,7 @@ def build_projection(
             "edgeCount": len(edges),
             "intentUnitCount": len(graph.get("intentUnits", [])),
             "unitEdgeCount": len(graph.get("unitEdges", [])),
+            "developmentStateModel": graph.get("developmentStateModel"),
             "nodesByKind": nodes_by_kind(nodes),
             "edgesByKind": edges_by_kind(edges),
             "intentUnitsByKind": intent_units_by_kind(graph),
@@ -221,6 +253,7 @@ def build_projection(
                 for domain, value in domain_subgraphs.items()
             },
             "intentUnitPreservation": roundtrip.get("preservation", {}).get("intentUnits"),
+            "overlayMappingPreservation": roundtrip.get("preservation", {}).get("intentUnits", {}).get("mappingObligationsMatched"),
         },
         "evidenceAuthorityHistory": {
             "evidenceAccepted": semantic.get("evidence", {}).get("acceptedCount"),
@@ -245,6 +278,7 @@ def build_projection(
             "authorityByTarget": group_edges_by_kind(edges, "authorizes", "to"),
             "historyChangesByDelta": group_edges_by_kind(edges, "changes", "from"),
             "unitMembership": unit_membership(graph),
+            "unitOverlayMappings": unit_overlay_mappings(graph),
             "proposalResultsById": proposal_results_by_id(proposal_report),
         },
         "diagram": {

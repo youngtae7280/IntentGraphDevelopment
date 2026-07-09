@@ -8,7 +8,8 @@
     "authority records",
     "semantic graph history",
     "intent unit contracts and unit refinement structure",
-    "stable source graph IDs",
+    "intent unit codeRefs, codeFactRefs, and mapping obligations",
+    "stable semantic graph IDs",
     "metadata source-map node IDs",
     "accepted change state",
     "verifier equality mode"
@@ -87,5 +88,5 @@
     ]
   },
   "sourcePath": "generated/b0-python-cli-calculator/calc.py",
-  "sourceSha256": "4f89acd3c0b3ed758c275f154ba9d8f58ef19c1f32c8d390f4d10ebdf68b2fe9"
+  "sourceSha256": "d73ae3677ab4af297073bc20d9a0ce85af08f9a166ae601c5c03b9c1b429ed7b"
 }

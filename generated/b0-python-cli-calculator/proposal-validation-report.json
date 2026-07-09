@@ -1,7 +1,7 @@
 {
   "graph": {
     "benchmarkId": "B0-python-cli-calculator",
-    "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+    "graphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
     "graphId": "ig.bench.b0.python-cli-calculator",
     "path": "docs/examples/b0-python-cli-calculator.graph.json"
   },
@@ -28,11 +28,11 @@
       "expectedMatched": true,
       "expectedValidation": "accepted",
       "postDelta": {
-        "graphDigest": "sha256:fbf259e85c3a99ff1de52c284cb8d3519c0ea98625ea6c55bbd46d83c75ed81b",
+        "graphDigest": "sha256:ca30e106ff0d6b021c6852d71697e0518ea87c569a0df63fddde4c6fbd26bf83",
         "graphirValid": true,
         "semanticValidation": "pass"
       },
-      "proposalDigest": "sha256:b8cf7f879d0ee022c1d23ddb1f3898420eaf3ddf583c930fc7dbd54a2c388c83",
+      "proposalDigest": "sha256:7647a1b6c06671037723f1906d9868f249361c6dcea774b46564ef441dbe0aff",
       "proposalId": "ai.proposal.b0.add-invalid-operation-test",
       "proposalPath": "docs/proposals/b0-ai-add-invalid-operation-test.proposal.json",
       "requiredAcceptedEvidenceRole": "base-graph-prerequisite",
@@ -63,11 +63,11 @@
       "expectedMatched": true,
       "expectedValidation": "rejected",
       "postDelta": {
-        "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+        "graphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
         "graphirValid": true,
         "semanticValidation": "pass"
       },
-      "proposalDigest": "sha256:e4de9c7c967f913d6c0a2ba24ffa948116e872ac1205a6e23b105795d26c4046",
+      "proposalDigest": "sha256:937e66b7f33720ccfc93ff09eea0dfc52e5978f0f1a258139e81ac2df5f1304e",
       "proposalId": "ai.proposal.b0.invalid-self-authorized",
       "proposalPath": "docs/proposals/b0-ai-invalid-self-authorized.proposal.json",
       "requiredAcceptedEvidenceRole": "base-graph-prerequisite",

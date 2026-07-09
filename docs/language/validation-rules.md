@@ -27,7 +27,7 @@ Severity: P0
 
 M1 supports `graphirVersion: "0.1.0"`.
 
-P1.0 supports `graphirVersion: "0.2.0"` for the unit-structured B0 fixture.
+P1.1 supports `graphirVersion: "0.2.0"` for the overlay-mapped B0 fixture.
 
 ### V010 - Unique IDs
 
@@ -209,17 +209,17 @@ Severity: P0 in M1
 
 M1 artifacts must not claim generated code, reconstruction, verifier output, or test execution exists.
 
-## P1.0 Intent Unit Rules
+## P1.1 Intent Unit Overlay Mapping Rules
 
 ### V200 - Intent Units Required
 
-Severity: P0 in P1.0
+Severity: P0 in P1.1
 
 GraphIR v0.2 documents must include a non-empty `intentUnits` array and a `unitEdges` array.
 
 ### V201 - B0 Required Units
 
-Severity: P0 in P1.0
+Severity: P0 in P1.1
 
 The B0 unit-structured fixture must include:
 
@@ -229,7 +229,7 @@ The B0 unit-structured fixture must include:
 
 ### V202 - Unit Admission Fields
 
-Severity: P0 in P1.0
+Severity: P0 in P1.1
 
 Every accepted Intent Unit must include:
 
@@ -251,19 +251,19 @@ Admission fields must distinguish accepted Intent Units from raw utterances, not
 
 ### V203 - Unit Internal Graph Integrity
 
-Severity: P0 in P1.0
+Severity: P0 in P1.1
 
 Every `internalGraph.nodeIds` entry must reference an existing graph node. Every `internalGraph.edgeIds` entry must reference an existing graph edge.
 
 ### V204 - Unit Evidence Authority History Integrity
 
-Severity: P0 in P1.0
+Severity: P0 in P1.1
 
 Every unit evidence reference must target an `evidence.record`. Every authority reference must target an `authority.record`. Every history reference must target a `history.delta`.
 
 ### V205 - Unit Refinement Backbone
 
-Severity: P0 in P1.0
+Severity: P0 in P1.1
 
 B0 must include refinement unit edges:
 
@@ -274,27 +274,45 @@ unit.product.calculator -> unit.behavior.sub
 
 ### V206 - Unit Edge Class Separation
 
-Severity: P1 in P1.0
+Severity: P1 in P1.1
 
 Unit refinement relations must use `unitEdges.kind = "refines"`. Cross-unit relations must use a distinct kind such as `shares_concept` or `projects_with`.
 
 ### V207 - No Unit God Object
 
-Severity: P1 in P1.0
+Severity: P1 in P1.1
 
 Behavior units must remain focused on their behavior contract. Shared product, evidence, authority, and history records may be referenced, but a behavior unit must not own unrelated behavior internals.
 
 ### V208 - Unit Mapping And Generated-Code Expectation
 
-Severity: P0 in P1.0
+Severity: P0 in P1.1
 
 The graph must declare that code-only reconstruction remains lossy for Intent Unit contracts, refinement structure, admission state, evidence, authority, and history. If generated-code mode is declared, exact unit round-trip requires preservation metadata.
 
 ### V209 - Proposal Non-Authority For Unit Membership
 
-Severity: P0 in P1.0
+Severity: P0 in P1.1
 
 AI proposals may describe unit effects or propose new internal graph facts, but they must not silently mutate accepted unit membership. Unit membership changes require deterministic validation and accepted authority.
+
+### V210 - Unit Code References Are Not Code Text
+
+Severity: P0 in P1.1
+
+Every accepted Intent Unit must declare non-empty `codeRefs`. Each `codeRef` must identify a graph node, reference kind, mode, and `ownership: "reference-only"`. A `codeRef` must not contain source code text.
+
+### V211 - Unit Code Fact References Are Declared Facts
+
+Severity: P0 in P1.1
+
+Every accepted Intent Unit must declare non-empty `codeFactRefs`. Because P1.1 has no external extractor, each fact must be explicitly marked as `graph-fixture`, `generated-code-mode`, or `static-declared`.
+
+### V212 - Mapping Obligations Are Explicit
+
+Severity: P0 in P1.1
+
+Every accepted Intent Unit must declare non-empty `mappingObligations`. Each obligation must link intent nodes, code refs, code fact refs, verification IDs, evidence IDs, and authority IDs. `sourceTextEqualityRequired` must be `false`.
 
 ## M1 Fixture Review Checklist
 

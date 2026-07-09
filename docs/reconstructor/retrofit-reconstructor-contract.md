@@ -1,6 +1,6 @@
 # Retrofit Reconstructor Contract
 
-Milestone: M3, revised by P1.0 for unit-structured B0
+Milestone: M3, revised by P1.1 for overlay-mapped B0
 
 This contract defines the smallest `Retrofit` path for `B0-python-cli-calculator`. It is not a general source-code extractor.
 
@@ -38,7 +38,7 @@ For M3:
 
 - `C` is generated `calc.py`.
 - `mu` is generated `calc.intentgraph.json`.
-- `G'` is `reconstructed.graph.json`. In P1.0 this is `G_unit'`.
+- `G'` is `reconstructed.graph.json`. In P1.1 this is `G_unit'`, including overlay mapping fields.
 - `D` is `retrofit-diagnostics.json`.
 - `G_code` is `code-only-projection.json`.
 
@@ -48,6 +48,7 @@ For M3:
 - preservation metadata file exists
 - metadata has `metadataVersion`, `graphDigest`, `nodeMap`, `edgeMap`, `projectionRules`, and `hiddenState.sourceGraphSnapshot`
 - GraphIR v0.2 metadata has `unitMap`
+- `unitMap` includes code ref, code fact ref, and mapping obligation digests
 - generated source hash matches metadata `generatedArtifacts`
 - `hiddenState.sourceGraphSnapshot` digest matches metadata `graphDigest`
 - `projectionRules.unclassified` is empty
@@ -61,7 +62,7 @@ For M3:
 
 - `reconstructed.graph.json` is written from preservation metadata, not hidden process memory
 - reconstructed graph has `status: "m3-reconstructed"`
-- unit identity, unit edges, and unit internal graph membership are preserved from metadata
+- unit identity, unit edges, unit internal graph membership, code refs, code fact refs, and mapping obligations are preserved from metadata
 - reconstruction diagnostics state whether metadata-backed reconstruction passed
 - diagnostics do not claim M4 round-trip verification
 - code-only projection records only facts recoverable from generated Python source
@@ -84,6 +85,7 @@ It must not claim to recover:
 - authority records
 - semantic history
 - Intent Unit contracts and refinement structure
+- Intent Unit code refs, code fact refs, and mapping obligations
 - stable graph IDs
 - exact source mapping identity
 - accepted/rejected change state
@@ -110,4 +112,4 @@ M3 does not implement:
 - authority policy evaluation
 - AI proposal workflow
 
-P1.0 still does not claim code-only unit reconstruction. Intent Units are recovered through preservation metadata.
+P1.1 still does not claim code-only unit reconstruction. Intent Units and their overlay mappings are recovered through preservation metadata.

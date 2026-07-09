@@ -209,8 +209,8 @@ def require_preconditions(
     original_digest = digest_graph(original)
     if metadata.get("graphDigest") != original_digest:
         raise VerifyError("Metadata graphDigest does not match original graph digest.")
-    if original.get("status") not in {"m1-fixture", "p1-unit-fixture"}:
-        raise VerifyError("Original graph must have status m1-fixture or p1-unit-fixture.")
+    if original.get("status") not in {"m1-fixture", "p1-unit-fixture", "p1-overlay-fixture"}:
+        raise VerifyError("Original graph must have status m1-fixture, p1-unit-fixture, or p1-overlay-fixture.")
     if reconstructed.get("status") != "m3-reconstructed":
         raise VerifyError("Reconstructed graph must have status m3-reconstructed.")
     if code_only.get("claim") != "lossy-code-only-projection":
@@ -267,6 +267,9 @@ def validate_unit_structure(graph: dict[str, Any]) -> dict[str, Any]:
         "status",
         "contract",
         "internalGraph",
+        "codeRefs",
+        "codeFactRefs",
+        "mappingObligations",
         "projection",
         "reconstruction",
         "verification",
@@ -303,6 +306,7 @@ def validate_unit_structure(graph: dict[str, Any]) -> dict[str, Any]:
         for history_id in unit.get("history", []):
             if history_id not in nodes or nodes[history_id].get("kind") != "history.delta":
                 errors.append(f"{unit_id} history reference is not history.delta: {history_id}")
+        errors.extend(validate_overlay_mapping(unit, nodes))
         admission = unit.get("admission")
         if not isinstance(admission, dict) or not all(admission.get(key) is True for key in [
             "stableId",
@@ -311,10 +315,15 @@ def validate_unit_structure(graph: dict[str, Any]) -> dict[str, Any]:
             "verificationObligation",
             "evidenceBoundary",
             "authorityBoundary",
+            "mappingBoundary",
+            "codeRefBoundary",
+            "codeFactBoundary",
             "projectionBoundary",
             "reconstructionBoundary",
         ]):
             errors.append(f"{unit_id} does not satisfy Intent Unit admission rules")
+        if isinstance(admission, dict) and admission.get("codeTextContained") is not False:
+            errors.append(f"{unit_id} must declare codeTextContained false")
 
     missing_units = sorted(required_units - set(units))
     if missing_units:
@@ -346,9 +355,79 @@ def validate_unit_structure(graph: dict[str, Any]) -> dict[str, Any]:
         "unitCount": len(units),
         "unitEdgeCount": len(unit_edges),
         "unitIds": sorted(units),
+        "mappingObligationCount": sum(
+            len(unit.get("mappingObligations", []))
+            for unit in units.values()
+        ),
         "refinementEdges": sorted(refinement_edges),
         "errors": errors,
     }
+
+
+def validate_overlay_mapping(unit: dict[str, Any], nodes: dict[str, dict[str, Any]]) -> list[str]:
+    unit_id = unit.get("id", "<missing>")
+    errors: list[str] = []
+    code_refs = unit.get("codeRefs")
+    code_fact_refs = unit.get("codeFactRefs")
+    obligations = unit.get("mappingObligations")
+    if not isinstance(code_refs, list) or not code_refs:
+        return [f"{unit_id} must declare non-empty codeRefs"]
+    if not isinstance(code_fact_refs, list) or not code_fact_refs:
+        return [f"{unit_id} must declare non-empty codeFactRefs"]
+    if not isinstance(obligations, list) or not obligations:
+        return [f"{unit_id} must declare non-empty mappingObligations"]
+    code_ref_ids: set[str] = set()
+    for ref in code_refs:
+        if not isinstance(ref, dict):
+            errors.append(f"{unit_id} codeRef entries must be objects")
+            continue
+        ref_id = ref.get("id")
+        node_id = ref.get("nodeId")
+        if not isinstance(ref_id, str) or not isinstance(node_id, str):
+            errors.append(f"{unit_id} codeRef requires string id and nodeId")
+            continue
+        code_ref_ids.add(ref_id)
+        if node_id not in nodes:
+            errors.append(f"{unit_id} codeRef references missing node: {node_id}")
+        elif not nodes[node_id].get("kind", "").startswith(("code.", "metadata.", "projection.")):
+            errors.append(f"{unit_id} codeRef must point to code/metadata/projection node: {node_id}")
+        if ref.get("ownership") != "reference-only":
+            errors.append(f"{unit_id} codeRef must be reference-only: {ref_id}")
+    code_fact_ref_ids: set[str] = set()
+    for fact in code_fact_refs:
+        if not isinstance(fact, dict):
+            errors.append(f"{unit_id} codeFactRef entries must be objects")
+            continue
+        fact_id = fact.get("id")
+        node_id = fact.get("nodeId")
+        if not isinstance(fact_id, str) or not isinstance(node_id, str):
+            errors.append(f"{unit_id} codeFactRef requires string id and nodeId")
+            continue
+        code_fact_ref_ids.add(fact_id)
+        if node_id not in nodes:
+            errors.append(f"{unit_id} codeFactRef references missing node: {node_id}")
+    for obligation in obligations:
+        if not isinstance(obligation, dict):
+            errors.append(f"{unit_id} mappingObligation entries must be objects")
+            continue
+        obligation_id = obligation.get("id", "<missing>")
+        if obligation.get("sourceTextEqualityRequired") is not False:
+            errors.append(f"{unit_id} mappingObligation {obligation_id} must not require source text equality")
+        for ref_id in obligation.get("codeRefIds", []):
+            if ref_id not in code_ref_ids:
+                errors.append(f"{unit_id} mappingObligation {obligation_id} references missing codeRef: {ref_id}")
+        for fact_id in obligation.get("codeFactRefIds", []):
+            if fact_id not in code_fact_ref_ids:
+                errors.append(f"{unit_id} mappingObligation {obligation_id} references missing codeFactRef: {fact_id}")
+        for list_key in ["intentNodeIds", "verificationIds", "evidenceIds", "authorityIds"]:
+            values = obligation.get(list_key)
+            if not isinstance(values, list) or not values:
+                errors.append(f"{unit_id} mappingObligation {obligation_id} requires non-empty {list_key}")
+                continue
+            for node_id in values:
+                if node_id not in nodes:
+                    errors.append(f"{unit_id} mappingObligation {obligation_id} references missing {list_key} node: {node_id}")
+    return errors
 
 
 def unit_preservation(original: dict[str, Any], reconstructed: dict[str, Any]) -> dict[str, Any]:
@@ -366,6 +445,7 @@ def unit_preservation(original: dict[str, Any], reconstructed: dict[str, Any]) -
         "matched": original_digest == reconstructed_digest,
         "originalDigest": original_digest,
         "reconstructedDigest": reconstructed_digest,
+        "mappingObligationsMatched": original_digest == reconstructed_digest,
         "original": validate_unit_structure(original),
         "reconstructed": validate_unit_structure(reconstructed),
     }
@@ -816,7 +896,7 @@ def build_report(
         "rawStatuses": {
             "original": original.get("status"),
             "reconstructed": reconstructed.get("status"),
-            "allowedPair": [["m1-fixture", "m3-reconstructed"], ["p1-unit-fixture", "m3-reconstructed"]],
+            "allowedPair": [["m1-fixture", "m3-reconstructed"], ["p1-unit-fixture", "m3-reconstructed"], ["p1-overlay-fixture", "m3-reconstructed"]],
         },
         "digests": {
             "originalGraph": digest_graph(original),

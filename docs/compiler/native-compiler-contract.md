@@ -1,6 +1,6 @@
 # Native Compiler Contract
 
-Milestone: M2, revised by P1.0 for unit-structured B0
+Milestone: M2, revised by P1.1 for overlay-mapped B0
 
 This contract defines the smallest deterministic `Native` path for `B0-python-cli-calculator`. It is not a general compiler architecture.
 
@@ -32,22 +32,24 @@ python tools/native_compile.py --graph docs/examples/b0-python-cli-calculator.gr
 Native(G, target, config) -> (C, mu, D)
 ```
 
-For M2:
+For the B0 generated-code mode:
 
-- `G` is the B0 GraphIR JSON fixture. In P1.0 this is `G_unit`, a GraphIR v0.2 unit-structured fixture.
+- `G` is the B0 GraphIR JSON fixture. In P1.1 this is `G_unit`, a GraphIR v0.2 unit-structured overlay fixture.
 - `target` is `python`.
-- `config` is embedded in the compiler diagnostics as `native-python-b0-unit-v0`.
+- `config` is embedded in the compiler diagnostics as `native-python-b0-overlay-unit-v0`.
 - `C` is `calc.py`.
 - `mu` is `calc.intentgraph.json`.
 - `D` is `native-diagnostics.json`.
 
 ## Preconditions
 
-- `graphirVersion` is `0.2.0` for the P1.0 unit-structured fixture. The old flat `0.1.0` shape is the Phase 0 baseline.
+- `graphirVersion` is `0.2.0` for the P1.1 overlay-mapped fixture. The old flat `0.1.0` shape is the Phase 0 baseline.
 - `benchmarkId` is `B0-python-cli-calculator`.
 - required Intent Units exist: `unit.product.calculator`, `unit.behavior.add`, and `unit.behavior.sub`.
 - product unit refines into add and subtract behavior units.
-- every accepted unit declares contract, internal graph membership, projection, reconstruction, verification, evidence, authority, history, and admission fields.
+- every accepted unit declares contract, internal graph membership, `codeRefs`, `codeFactRefs`, `mappingObligations`, generated-code projection/reconstruction expectations, verification, evidence, authority, history, and admission fields.
+- every `codeRef` is reference-only and does not contain code text.
+- every mapping obligation links intent, code refs, code facts, verification, evidence, and authority, with `sourceTextEqualityRequired: false`.
 - exactly one native projection target exists and its language is `python`.
 - required M1 nodes exist for module, CLI, `add`, `sub`, and `main`.
 - required source-map nodes exist for module, CLI, `add`, `sub`, and `main`.
@@ -70,6 +72,7 @@ For M2:
   - node map
   - edge map
   - unit map
+  - code refs, code fact refs, and mapping obligation digests in unit map
   - projection rules
   - hidden state needed for exact round-trip
   - snapshot-dependence measurement for the remaining `hiddenState.sourceGraphSnapshot` dependency
@@ -122,11 +125,12 @@ M2 does not implement:
 - language workbench behavior
 - AI proposal workflow
 
-P1.0 still does not implement:
+P1.1 still does not implement:
 
 - broad unit grammar beyond B0
 - full removal of `hiddenState.sourceGraphSnapshot`
 - source-code-only unit reconstruction
+- external code fact extraction
 
 ## M3 Dependency
 

@@ -10,7 +10,8 @@
       "authority records",
       "semantic graph history",
       "intent unit contracts and unit refinement structure",
-      "stable source graph IDs",
+      "intent unit codeRefs, codeFactRefs, and mapping obligations",
+      "stable semantic graph IDs",
       "metadata source-map node IDs",
       "accepted change state",
       "verifier equality mode"
@@ -20,12 +21,12 @@
   },
   "counts": {
     "originalEdgesByKind": {
-      "authorizes": 7,
+      "authorizes": 9,
       "calls": 2,
-      "changes": 13,
+      "changes": 18,
       "contains": 4,
       "decomposes_to": 2,
-      "evidenced_by": 5,
+      "evidenced_by": 8,
       "handled_by": 1,
       "maps_from": 5,
       "maps_to": 5,
@@ -35,13 +36,13 @@
     },
     "originalIntentUnits": 3,
     "originalNodesByKind": {
-      "authority.record": 3,
+      "authority.record": 4,
       "code.cli": 1,
       "code.function": 3,
       "code.module": 1,
       "domain.concept": 2,
-      "evidence.record": 4,
-      "history.delta": 3,
+      "evidence.record": 5,
+      "history.delta": 4,
       "intent.requirement": 3,
       "metadata.sourceMap": 5,
       "projection.target": 1,
@@ -49,12 +50,12 @@
     },
     "originalUnitEdges": 3,
     "reconstructedEdgesByKind": {
-      "authorizes": 7,
+      "authorizes": 9,
       "calls": 2,
-      "changes": 13,
+      "changes": 18,
       "contains": 4,
       "decomposes_to": 2,
-      "evidenced_by": 5,
+      "evidenced_by": 8,
       "handled_by": 1,
       "maps_from": 5,
       "maps_to": 5,
@@ -64,13 +65,13 @@
     },
     "reconstructedIntentUnits": 3,
     "reconstructedNodesByKind": {
-      "authority.record": 3,
+      "authority.record": 4,
       "code.cli": 1,
       "code.function": 3,
       "code.module": 1,
       "domain.concept": 2,
-      "evidence.record": 4,
-      "history.delta": 3,
+      "evidence.record": 5,
+      "history.delta": 4,
       "intent.requirement": 3,
       "metadata.sourceMap": 5,
       "projection.target": 1,
@@ -83,11 +84,11 @@
     "normalized metadata-backed graph equality passed"
   ],
   "digests": {
-    "metadataGraphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
-    "normalizedOriginalGraph": "sha256:ee2fc7251d9fe20644412daa41253f98a3ac52b1193d6eecd01609942317fec5",
-    "normalizedReconstructedGraph": "sha256:ee2fc7251d9fe20644412daa41253f98a3ac52b1193d6eecd01609942317fec5",
-    "originalGraph": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
-    "reconstructedGraph": "sha256:196199907405e2edede1e3d22efdbd2be74d462ca3174970c8824ce80494fb31"
+    "metadataGraphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
+    "normalizedOriginalGraph": "sha256:fdc4f791d09e6061fba83a6d3bec0a3bbbb5f0cbd67fbbb8c3cdc2425c7e874d",
+    "normalizedReconstructedGraph": "sha256:fdc4f791d09e6061fba83a6d3bec0a3bbbb5f0cbd67fbbb8c3cdc2425c7e874d",
+    "originalGraph": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
+    "reconstructedGraph": "sha256:733f04d5fb7a1dbd514fdc5bcef5927a60e776709f808a63fe003987c19cd953"
   },
   "equalityMode": "GraphEqualAfterNormalization",
   "graphEqual": true,
@@ -115,28 +116,32 @@
         "domainNodeIds": [
           "authority.record.initial-human",
           "authority.record.m5-human-review",
+          "authority.record.p1-overlay-mapping",
           "authority.record.p1-unit-grammar"
         ],
         "matched": true,
-        "originalDigest": "sha256:ccd614090dd0470a0bd853a3b2545b56f225e2ea49b8d774498932b1f99b3be5",
-        "reconstructedDigest": "sha256:ccd614090dd0470a0bd853a3b2545b56f225e2ea49b8d774498932b1f99b3be5",
+        "originalDigest": "sha256:9c42e733020e9307983afff952314acdcbc1d155bbbfc665d9bae4008d73e9f5",
+        "reconstructedDigest": "sha256:9c42e733020e9307983afff952314acdcbc1d155bbbfc665d9bae4008d73e9f5",
         "reconstructedDomainNodeIds": [
           "authority.record.initial-human",
           "authority.record.m5-human-review",
+          "authority.record.p1-overlay-mapping",
           "authority.record.p1-unit-grammar"
         ]
       },
       "evidence": {
         "domainNodeIds": [
+          "evidence.record.p1-overlay-mapping-review",
           "evidence.record.p1-unit-grammar-review",
           "evidence.record.requirement-note",
           "evidence.record.roundtrip-report",
           "evidence.record.test-plan"
         ],
         "matched": true,
-        "originalDigest": "sha256:04630925475a359893c8c9f60fc3db97f560025418f29d1c6a6f871c11c70e54",
-        "reconstructedDigest": "sha256:04630925475a359893c8c9f60fc3db97f560025418f29d1c6a6f871c11c70e54",
+        "originalDigest": "sha256:e1acfac6039381015172b064672986b189cf1873c74ddcd17732ba4281c70887",
+        "reconstructedDigest": "sha256:e1acfac6039381015172b064672986b189cf1873c74ddcd17732ba4281c70887",
         "reconstructedDomainNodeIds": [
+          "evidence.record.p1-overlay-mapping-review",
           "evidence.record.p1-unit-grammar-review",
           "evidence.record.requirement-note",
           "evidence.record.roundtrip-report",
@@ -147,22 +152,26 @@
         "domainNodeIds": [
           "history.delta.initial-graph",
           "history.delta.m5-evidence-authority-history",
-          "history.delta.p1-intent-unit-grammar"
+          "history.delta.p1-intent-unit-grammar",
+          "history.delta.p1-overlay-mapping"
         ],
         "matched": true,
-        "originalDigest": "sha256:55ae0a26554b91200645e31c3496b701dd4324969e6c19fb6f31c6609bb13f30",
-        "reconstructedDigest": "sha256:55ae0a26554b91200645e31c3496b701dd4324969e6c19fb6f31c6609bb13f30",
+        "originalDigest": "sha256:069a6b55061a7ea7b0ebcc7c4fa57eb3182e07d55474c0f396cc520e2fb4a579",
+        "reconstructedDigest": "sha256:069a6b55061a7ea7b0ebcc7c4fa57eb3182e07d55474c0f396cc520e2fb4a579",
         "reconstructedDomainNodeIds": [
           "history.delta.initial-graph",
           "history.delta.m5-evidence-authority-history",
-          "history.delta.p1-intent-unit-grammar"
+          "history.delta.p1-intent-unit-grammar",
+          "history.delta.p1-overlay-mapping"
         ]
       }
     },
     "intentUnits": {
+      "mappingObligationsMatched": true,
       "matched": true,
       "original": {
         "errors": [],
+        "mappingObligationCount": 6,
         "refinementEdges": [
           "unit-edge.product-refines-add",
           "unit-edge.product-refines-sub"
@@ -176,9 +185,10 @@
           "unit.product.calculator"
         ]
       },
-      "originalDigest": "sha256:25dd4217d270f318ae4f01b2ed2630c6538b7eaf22e54418c4bfa66f53a1f2ca",
+      "originalDigest": "sha256:6c890c3078a0a98a690de6f1e55557adcd2b95f1b6e60bbf49148faaddeecd35",
       "reconstructed": {
         "errors": [],
+        "mappingObligationCount": 6,
         "refinementEdges": [
           "unit-edge.product-refines-add",
           "unit-edge.product-refines-sub"
@@ -192,22 +202,22 @@
           "unit.product.calculator"
         ]
       },
-      "reconstructedDigest": "sha256:25dd4217d270f318ae4f01b2ed2630c6538b7eaf22e54418c4bfa66f53a1f2ca"
+      "reconstructedDigest": "sha256:6c890c3078a0a98a690de6f1e55557adcd2b95f1b6e60bbf49148faaddeecd35"
     },
     "original": {
       "authorityPreserved": true,
-      "authorityRecords": 3,
+      "authorityRecords": 4,
       "evidencePreserved": true,
-      "evidenceRecords": 4,
-      "historyDeltas": 3,
+      "evidenceRecords": 5,
+      "historyDeltas": 4,
       "historyPreserved": true
     },
     "reconstructed": {
       "authorityPreserved": true,
-      "authorityRecords": 3,
+      "authorityRecords": 4,
       "evidencePreserved": true,
-      "evidenceRecords": 4,
-      "historyDeltas": 3,
+      "evidenceRecords": 5,
+      "historyDeltas": 4,
       "historyPreserved": true
     }
   },
@@ -220,9 +230,13 @@
       [
         "p1-unit-fixture",
         "m3-reconstructed"
+      ],
+      [
+        "p1-overlay-fixture",
+        "m3-reconstructed"
       ]
     ],
-    "original": "p1-unit-fixture",
+    "original": "p1-overlay-fixture",
     "reconstructed": "m3-reconstructed"
   },
   "reportVersion": "0.2.0",
@@ -230,10 +244,10 @@
   "semanticValidation": {
     "original": {
       "authority": {
-        "acceptedCount": 3,
+        "acceptedCount": 4,
         "aiFinalAuthorityCount": 0,
         "errors": [],
-        "recordCount": 3,
+        "recordCount": 4,
         "records": [
           {
             "allowedAuthorizedTargets": [
@@ -282,6 +296,27 @@
           },
           {
             "allowedAuthorizedTargets": [
+              "evidence.record.p1-overlay-mapping-review",
+              "history.delta.p1-overlay-mapping"
+            ],
+            "authorizedTargetKinds": {
+              "evidence.record.p1-overlay-mapping-review": "evidence.record",
+              "history.delta.p1-overlay-mapping": "history.delta"
+            },
+            "authorizedTargets": [
+              "evidence.record.p1-overlay-mapping-review",
+              "history.delta.p1-overlay-mapping"
+            ],
+            "decidedByType": "human",
+            "decision": "accepted-intent-unit-overlay-mapping-revision",
+            "decisionStatus": "accepted",
+            "id": "authority.record.p1-overlay-mapping",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "p1.1-overlay-mapping-review"
+          },
+          {
+            "allowedAuthorizedTargets": [
               "evidence.record.p1-unit-grammar-review",
               "history.delta.p1-intent-unit-grammar"
             ],
@@ -306,12 +341,42 @@
       },
       "errors": [],
       "evidence": {
-        "acceptedCount": 4,
+        "acceptedCount": 5,
         "errors": [],
-        "observedCount": 4,
+        "observedCount": 5,
         "observedDoesNotImplyAccepted": true,
-        "recordCount": 4,
+        "recordCount": 5,
         "records": [
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.p1-overlay-mapping",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/reviews/p1.1-intent-unit-overlay-mapping-review.md",
+                "resolution": "local-path"
+              }
+            ],
+            "artifactRefs": [
+              "docs/reviews/p1.1-intent-unit-overlay-mapping-review.md"
+            ],
+            "authorizedBy": [
+              "authority.record.p1-overlay-mapping"
+            ],
+            "claimScope": null,
+            "evidenceType": "milestone-review",
+            "id": "evidence.record.p1-overlay-mapping-review",
+            "linkedFrom": [
+              "intent.behavior.add",
+              "intent.behavior.sub",
+              "intent.product.calculator"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": null,
+            "status": "pass"
+          },
           {
             "acceptanceStatus": "accepted",
             "acceptedByAuthority": "authority.record.p1-unit-grammar",
@@ -437,13 +502,13 @@
         "result": "pass"
       },
       "history": {
-        "acceptedCount": 3,
+        "acceptedCount": 4,
         "acceptedSequenceContiguous": true,
         "errors": [],
         "gitLinkedCount": 1,
         "gitVerifiedCount": 1,
-        "pendingCurrentMilestoneCount": 2,
-        "recordCount": 3,
+        "pendingCurrentMilestoneCount": 3,
+        "recordCount": 4,
         "records": [
           {
             "acceptedAuthorizers": [
@@ -507,6 +572,28 @@
             "gitCommitVerified": false,
             "id": "history.delta.p1-intent-unit-grammar",
             "sequence": 3,
+            "status": "accepted"
+          },
+          {
+            "acceptedAuthorizers": [
+              "authority.record.p1-overlay-mapping"
+            ],
+            "authorizedBy": [
+              "authority.record.p1-overlay-mapping"
+            ],
+            "changeType": "refine-overlay-mapping",
+            "changedTargets": [
+              "authority.record.p1-overlay-mapping",
+              "evidence.record.p1-overlay-mapping-review",
+              "intent.behavior.add",
+              "intent.behavior.sub",
+              "intent.product.calculator"
+            ],
+            "gitCommit": null,
+            "gitCommitBoundary": "pending-current-milestone",
+            "gitCommitVerified": false,
+            "id": "history.delta.p1-overlay-mapping",
+            "sequence": 4,
             "status": "accepted"
           }
         ],
@@ -516,10 +603,10 @@
     },
     "reconstructed": {
       "authority": {
-        "acceptedCount": 3,
+        "acceptedCount": 4,
         "aiFinalAuthorityCount": 0,
         "errors": [],
-        "recordCount": 3,
+        "recordCount": 4,
         "records": [
           {
             "allowedAuthorizedTargets": [
@@ -568,6 +655,27 @@
           },
           {
             "allowedAuthorizedTargets": [
+              "evidence.record.p1-overlay-mapping-review",
+              "history.delta.p1-overlay-mapping"
+            ],
+            "authorizedTargetKinds": {
+              "evidence.record.p1-overlay-mapping-review": "evidence.record",
+              "history.delta.p1-overlay-mapping": "history.delta"
+            },
+            "authorizedTargets": [
+              "evidence.record.p1-overlay-mapping-review",
+              "history.delta.p1-overlay-mapping"
+            ],
+            "decidedByType": "human",
+            "decision": "accepted-intent-unit-overlay-mapping-revision",
+            "decisionStatus": "accepted",
+            "id": "authority.record.p1-overlay-mapping",
+            "proposerType": "human",
+            "requiredAuthority": "roadmap-orchestrator",
+            "validator": "p1.1-overlay-mapping-review"
+          },
+          {
+            "allowedAuthorizedTargets": [
               "evidence.record.p1-unit-grammar-review",
               "history.delta.p1-intent-unit-grammar"
             ],
@@ -592,12 +700,42 @@
       },
       "errors": [],
       "evidence": {
-        "acceptedCount": 4,
+        "acceptedCount": 5,
         "errors": [],
-        "observedCount": 4,
+        "observedCount": 5,
         "observedDoesNotImplyAccepted": true,
-        "recordCount": 4,
+        "recordCount": 5,
         "records": [
+          {
+            "acceptanceStatus": "accepted",
+            "acceptedByAuthority": "authority.record.p1-overlay-mapping",
+            "artifactChecks": [
+              {
+                "exists": true,
+                "jsonResult": null,
+                "jsonResultPass": null,
+                "ref": "docs/reviews/p1.1-intent-unit-overlay-mapping-review.md",
+                "resolution": "local-path"
+              }
+            ],
+            "artifactRefs": [
+              "docs/reviews/p1.1-intent-unit-overlay-mapping-review.md"
+            ],
+            "authorizedBy": [
+              "authority.record.p1-overlay-mapping"
+            ],
+            "claimScope": null,
+            "evidenceType": "milestone-review",
+            "id": "evidence.record.p1-overlay-mapping-review",
+            "linkedFrom": [
+              "intent.behavior.add",
+              "intent.behavior.sub",
+              "intent.product.calculator"
+            ],
+            "observationStatus": "observed",
+            "runtimeProof": null,
+            "status": "pass"
+          },
           {
             "acceptanceStatus": "accepted",
             "acceptedByAuthority": "authority.record.p1-unit-grammar",
@@ -723,13 +861,13 @@
         "result": "pass"
       },
       "history": {
-        "acceptedCount": 3,
+        "acceptedCount": 4,
         "acceptedSequenceContiguous": true,
         "errors": [],
         "gitLinkedCount": 1,
         "gitVerifiedCount": 1,
-        "pendingCurrentMilestoneCount": 2,
-        "recordCount": 3,
+        "pendingCurrentMilestoneCount": 3,
+        "recordCount": 4,
         "records": [
           {
             "acceptedAuthorizers": [
@@ -793,6 +931,28 @@
             "gitCommitVerified": false,
             "id": "history.delta.p1-intent-unit-grammar",
             "sequence": 3,
+            "status": "accepted"
+          },
+          {
+            "acceptedAuthorizers": [
+              "authority.record.p1-overlay-mapping"
+            ],
+            "authorizedBy": [
+              "authority.record.p1-overlay-mapping"
+            ],
+            "changeType": "refine-overlay-mapping",
+            "changedTargets": [
+              "authority.record.p1-overlay-mapping",
+              "evidence.record.p1-overlay-mapping-review",
+              "intent.behavior.add",
+              "intent.behavior.sub",
+              "intent.product.calculator"
+            ],
+            "gitCommit": null,
+            "gitCommitBoundary": "pending-current-milestone",
+            "gitCommitVerified": false,
+            "id": "history.delta.p1-overlay-mapping",
+            "sequence": 4,
             "status": "accepted"
           }
         ],

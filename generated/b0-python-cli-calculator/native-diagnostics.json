@@ -1,20 +1,20 @@
 {
   "benchmarkId": "B0-python-cli-calculator",
-  "compilerContract": "native-python-b0-unit-v0",
+  "compilerContract": "native-python-b0-overlay-unit-v0",
   "diagnosticsVersion": "0.1.0",
   "errors": [],
   "generatedArtifacts": [
     {
       "path": "calc.py",
-      "sha256": "4f89acd3c0b3ed758c275f154ba9d8f58ef19c1f32c8d390f4d10ebdf68b2fe9"
+      "sha256": "d73ae3677ab4af297073bc20d9a0ce85af08f9a166ae601c5c03b9c1b429ed7b"
     },
     {
       "path": "calc.intentgraph.json",
-      "sha256": "a7f94f41f94913f6b6fc7ca1c59fad8113f68b0d877632393f1cf533c22c90e0"
+      "sha256": "8958e1ee90ee18fe6daf85e82de155164c784faacff0664970e1fa21d714937f"
     }
   ],
-  "generatedAt": "deterministic:p1-native-python-b0-unit-v0",
-  "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+  "generatedAt": "deterministic:p1.1-native-python-b0-overlay-unit-v0",
+  "graphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
   "graphirVersion": "0.2.0",
   "intentUnits": {
     "count": 3,
@@ -26,6 +26,6 @@
   },
   "status": "pass",
   "warnings": [
-    "P1.0 metadata still carries a full graph snapshot; unitMap measures but does not eliminate that dependency."
+    "P1.1 metadata still carries a full graph snapshot; unitMap and overlay mapping digests measure but do not eliminate that dependency."
   ]
 }

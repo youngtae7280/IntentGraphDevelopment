@@ -10,9 +10,9 @@ from pathlib import Path
 from typing import Any
 
 
-COMPILER_CONTRACT = "native-python-b0-unit-v0"
+COMPILER_CONTRACT = "native-python-b0-overlay-unit-v0"
 METADATA_VERSION = "0.2.0"
-DETERMINISTIC_GENERATED_AT = "deterministic:p1-native-python-b0-unit-v0"
+DETERMINISTIC_GENERATED_AT = "deterministic:p1.1-native-python-b0-overlay-unit-v0"
 SUPPORTED_GRAPHIR_VERSIONS = {"0.1.0", "0.2.0"}
 
 
@@ -126,6 +126,9 @@ def validate_intent_units(
         "status",
         "contract",
         "internalGraph",
+        "codeRefs",
+        "codeFactRefs",
+        "mappingObligations",
         "projection",
         "reconstruction",
         "verification",
@@ -169,6 +172,7 @@ def validate_intent_units(
         for history_id in unit.get("history", []):
             if history_id not in nodes or nodes[history_id].get("kind") != "history.delta":
                 raise CompileError(f"{unit_id} history reference is not history.delta: {history_id}")
+        validate_unit_overlay_mapping(unit, nodes)
         admission = unit.get("admission")
         if not isinstance(admission, dict) or not all(admission.get(key) is True for key in [
             "stableId",
@@ -177,10 +181,15 @@ def validate_intent_units(
             "verificationObligation",
             "evidenceBoundary",
             "authorityBoundary",
+            "mappingBoundary",
+            "codeRefBoundary",
+            "codeFactBoundary",
             "projectionBoundary",
             "reconstructionBoundary",
         ]):
             raise CompileError(f"{unit_id} does not satisfy Intent Unit admission rules.")
+        if admission.get("codeTextContained") is not False:
+            raise CompileError(f"{unit_id} must declare that it does not contain code text.")
 
     missing_units = sorted(required_units - set(unit_index))
     if missing_units:
@@ -210,6 +219,74 @@ def validate_intent_units(
         if expected not in refinement_pairs:
             raise CompileError(f"Missing required unit refinement: {expected[0]} -> {expected[1]}")
     return units
+
+
+def validate_unit_overlay_mapping(unit: dict[str, Any], nodes: dict[str, dict[str, Any]]) -> None:
+    unit_id = unit["id"]
+    code_refs = unit.get("codeRefs")
+    code_fact_refs = unit.get("codeFactRefs")
+    obligations = unit.get("mappingObligations")
+    if not isinstance(code_refs, list) or not code_refs:
+        raise CompileError(f"{unit_id} must declare non-empty codeRefs.")
+    if not isinstance(code_fact_refs, list) or not code_fact_refs:
+        raise CompileError(f"{unit_id} must declare non-empty codeFactRefs.")
+    if not isinstance(obligations, list) or not obligations:
+        raise CompileError(f"{unit_id} must declare non-empty mappingObligations.")
+
+    code_ref_ids: set[str] = set()
+    for ref in code_refs:
+        if not isinstance(ref, dict):
+            raise CompileError(f"{unit_id} codeRef entries must be objects.")
+        for key in ["id", "nodeId", "refKind", "mode", "ownership"]:
+            if not isinstance(ref.get(key), str):
+                raise CompileError(f"{unit_id} codeRef missing string field {key}.")
+        if ref["id"] in code_ref_ids:
+            raise CompileError(f"{unit_id} duplicate codeRef id: {ref['id']}")
+        code_ref_ids.add(ref["id"])
+        node_id = ref["nodeId"]
+        if node_id not in nodes:
+            raise CompileError(f"{unit_id} codeRef references missing node: {node_id}")
+        if not nodes[node_id].get("kind", "").startswith(("code.", "metadata.", "projection.")):
+            raise CompileError(f"{unit_id} codeRef must point to a code, metadata, or projection node: {node_id}")
+        if ref["ownership"] != "reference-only":
+            raise CompileError(f"{unit_id} codeRef must be reference-only, not code ownership.")
+
+    code_fact_ref_ids: set[str] = set()
+    for fact in code_fact_refs:
+        if not isinstance(fact, dict):
+            raise CompileError(f"{unit_id} codeFactRef entries must be objects.")
+        for key in ["id", "nodeId", "factKind", "factSource", "fact"]:
+            if not isinstance(fact.get(key), str):
+                raise CompileError(f"{unit_id} codeFactRef missing string field {key}.")
+        if fact["id"] in code_fact_ref_ids:
+            raise CompileError(f"{unit_id} duplicate codeFactRef id: {fact['id']}")
+        code_fact_ref_ids.add(fact["id"])
+        if fact["nodeId"] not in nodes:
+            raise CompileError(f"{unit_id} codeFactRef references missing node: {fact['nodeId']}")
+        if fact["factSource"] not in {"graph-fixture", "generated-code-mode", "static-declared"}:
+            raise CompileError(f"{unit_id} codeFactRef has unsupported factSource: {fact['factSource']}")
+
+    for obligation in obligations:
+        if not isinstance(obligation, dict):
+            raise CompileError(f"{unit_id} mappingObligation entries must be objects.")
+        for key in ["id", "obligationKind", "mode", "preservation"]:
+            if not isinstance(obligation.get(key), str):
+                raise CompileError(f"{unit_id} mappingObligation missing string field {key}.")
+        if obligation.get("sourceTextEqualityRequired") is not False:
+            raise CompileError(f"{unit_id} mappingObligation must not require source text equality.")
+        for ref_id in obligation.get("codeRefIds", []):
+            if ref_id not in code_ref_ids:
+                raise CompileError(f"{unit_id} mappingObligation references missing codeRef: {ref_id}")
+        for fact_id in obligation.get("codeFactRefIds", []):
+            if fact_id not in code_fact_ref_ids:
+                raise CompileError(f"{unit_id} mappingObligation references missing codeFactRef: {fact_id}")
+        for list_key in ["intentNodeIds", "verificationIds", "evidenceIds", "authorityIds"]:
+            value = obligation.get(list_key)
+            if not isinstance(value, list) or not value:
+                raise CompileError(f"{unit_id} mappingObligation {obligation['id']} requires non-empty {list_key}.")
+            for node_id in value:
+                if node_id not in nodes:
+                    raise CompileError(f"{unit_id} mappingObligation {obligation['id']} references missing {list_key} node: {node_id}")
 
 
 def validate_b0_graph(graph: dict[str, Any]) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
@@ -534,15 +611,26 @@ def build_unit_map(graph: dict[str, Any]) -> list[dict[str, Any]]:
         internal_graph = unit.get("internalGraph", {})
         projection = unit.get("projection", {})
         reconstruction = unit.get("reconstruction", {})
+        code_refs = unit.get("codeRefs", [])
+        code_fact_refs = unit.get("codeFactRefs", [])
+        mapping_obligations = unit.get("mappingObligations", [])
         entries.append(
             {
                 "unitId": unit["id"],
                 "unitKind": unit.get("kind"),
                 "status": unit.get("status"),
                 "contractDigest": f"sha256:{sha256_text(canonical_json(unit.get('contract', {})))}",
+                "codeRefsDigest": f"sha256:{sha256_text(canonical_json(code_refs))}",
+                "codeFactRefsDigest": f"sha256:{sha256_text(canonical_json(code_fact_refs))}",
+                "mappingObligationsDigest": f"sha256:{sha256_text(canonical_json(mapping_obligations))}",
+                "codeRefIds": sorted(ref["id"] for ref in code_refs),
+                "codeFactRefIds": sorted(ref["id"] for ref in code_fact_refs),
+                "mappingObligationIds": sorted(obligation["id"] for obligation in mapping_obligations),
                 "internalNodeIds": sorted(internal_graph.get("nodeIds", [])),
                 "internalEdgeIds": sorted(internal_graph.get("edgeIds", [])),
                 "sourceMapIds": sorted(projection.get("sourceMapIds", [])),
+                "projectionMode": projection.get("mode"),
+                "reconstructionMode": reconstruction.get("mode"),
                 "requiresMetadata": bool(reconstruction.get("requiresMetadata", True)),
                 "codeOnlyClaim": reconstruction.get("codeOnlyClaim"),
             }
@@ -585,6 +673,8 @@ def build_metadata(
         "projectionRules": build_projection_rules(graph),
         "hiddenState": {
             "reason": "B0 exact round-trip needs non-code graph data for intent, evidence, authority, history, and stable graph identity.",
+            "overlayMode": "semantic-overlay-over-source-code",
+            "generatedCodeMode": "limited-b0-generated-code-experiment",
             "snapshotDependence": {
                 "sourceGraphSnapshotUsed": True,
                 "graphirVersion": graph["graphirVersion"],
@@ -593,8 +683,14 @@ def build_metadata(
                 "intentUnitCount": len(graph.get("intentUnits", [])),
                 "unitEdgeCount": len(graph.get("unitEdges", [])),
                 "unitMapCount": len(graph.get("intentUnits", [])),
+                "mappingObligationCount": sum(
+                    len(unit.get("mappingObligations", []))
+                    for unit in graph.get("intentUnits", [])
+                    if isinstance(unit, dict)
+                ),
                 "reductionStrategy": [
                     "preserve unitMap as explicit unit-level metadata",
+                    "preserve codeRefs, codeFactRefs, and mapping obligations as unit-level metadata",
                     "move evidence, authority, and history reconstruction from full snapshot to typed metadata records",
                     "keep code-only reconstruction lossy unless independent evidence proves otherwise",
                 ],
@@ -604,7 +700,7 @@ def build_metadata(
         "diagnostics": {
             "status": "pass",
             "warnings": [
-                "P1.0 metadata still carries a full graph snapshot; unitMap measures but does not eliminate that dependency."
+                "P1.1 metadata still carries a full graph snapshot; unitMap and overlay mapping digests measure but do not eliminate that dependency."
             ],
         },
     }

@@ -7,22 +7,34 @@
   },
   "evidenceAuthorityHistory": {
     "aiFinalAuthorityCount": 0,
-    "authorityAccepted": 3,
-    "evidenceAccepted": 4,
+    "authorityAccepted": 4,
+    "evidenceAccepted": 5,
     "gitVerifiedCount": 1,
-    "historyAccepted": 3,
-    "pendingCurrentMilestoneCount": 2
+    "historyAccepted": 4,
+    "pendingCurrentMilestoneCount": 3
   },
   "graph": {
     "benchmarkId": "B0-python-cli-calculator",
-    "edgeCount": 54,
+    "developmentStateModel": {
+      "A": "authority",
+      "C": "source code artifacts",
+      "E": "evidence",
+      "H": "semantic history",
+      "I": "intent / behavior / verification graph",
+      "M": "mapping between I and X/C",
+      "X": "declared or extracted code fact graph; B0 P1.1 uses static/generated-preservation-backed facts only",
+      "defaultMode": "code-first-maintenance-overlay",
+      "generatedCodeMode": "limited-b0-generated-code-experiment",
+      "model": "D = (I, C, X, M, E, A, H)"
+    },
+    "edgeCount": 64,
     "edgeCountsByKind": {
-      "authorizes": 7,
+      "authorizes": 9,
       "calls": 2,
-      "changes": 13,
+      "changes": 18,
       "contains": 4,
       "decomposes_to": 2,
-      "evidenced_by": 5,
+      "evidenced_by": 8,
       "handled_by": 1,
       "maps_from": 5,
       "maps_to": 5,
@@ -38,6 +50,8 @@
         "edge.authority.m5-delta",
         "edge.authority.m5-roundtrip-report",
         "edge.authority.p1-delta",
+        "edge.authority.p1-overlay-delta",
+        "edge.authority.p1-overlay-review-evidence",
         "edge.authority.p1-review-evidence"
       ],
       "calls": [
@@ -57,7 +71,12 @@
         "edge.history.p1-changed-authority",
         "edge.history.p1-changed-evidence",
         "edge.history.p1-changed-product",
-        "edge.history.p1-changed-sub"
+        "edge.history.p1-changed-sub",
+        "edge.history.p1-overlay-changed-authority-record-p1-overlay-mapping",
+        "edge.history.p1-overlay-changed-evidence-record-p1-overlay-mapping-review",
+        "edge.history.p1-overlay-changed-intent-behavior-add",
+        "edge.history.p1-overlay-changed-intent-behavior-sub",
+        "edge.history.p1-overlay-changed-intent-product-calculator"
       ],
       "contains": [
         "edge.code.module-contains-add",
@@ -70,10 +89,13 @@
         "edge.intent.product-decomposes-sub"
       ],
       "evidenced_by": [
+        "edge.evidence.add-p1-overlay-review",
         "edge.evidence.add-test-plan",
+        "edge.evidence.product-p1-overlay-review",
         "edge.evidence.product-p1-unit-review",
         "edge.evidence.product-requirement-note",
         "edge.evidence.product-roundtrip-report",
+        "edge.evidence.sub-p1-overlay-review",
         "edge.evidence.sub-test-plan"
       ],
       "handled_by": [
@@ -110,7 +132,7 @@
         "edge.intent.sub-uses-operation"
       ]
     },
-    "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+    "graphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
     "graphId": "ig.bench.b0.python-cli-calculator",
     "intentUnitCount": 3,
     "intentUnitsByKind": {
@@ -122,15 +144,15 @@
         "unit.product.calculator"
       ]
     },
-    "nodeCount": 28,
+    "nodeCount": 31,
     "nodeCountsByKind": {
-      "authority.record": 3,
+      "authority.record": 4,
       "code.cli": 1,
       "code.function": 3,
       "code.module": 1,
       "domain.concept": 2,
-      "evidence.record": 4,
-      "history.delta": 3,
+      "evidence.record": 5,
+      "history.delta": 4,
       "intent.requirement": 3,
       "metadata.sourceMap": 5,
       "projection.target": 1,
@@ -140,6 +162,7 @@
       "authority.record": [
         "authority.record.initial-human",
         "authority.record.m5-human-review",
+        "authority.record.p1-overlay-mapping",
         "authority.record.p1-unit-grammar"
       ],
       "code.cli": [
@@ -158,6 +181,7 @@
         "domain.concept.operation"
       ],
       "evidence.record": [
+        "evidence.record.p1-overlay-mapping-review",
         "evidence.record.p1-unit-grammar-review",
         "evidence.record.requirement-note",
         "evidence.record.roundtrip-report",
@@ -166,7 +190,8 @@
       "history.delta": [
         "history.delta.initial-graph",
         "history.delta.m5-evidence-authority-history",
-        "history.delta.p1-intent-unit-grammar"
+        "history.delta.p1-intent-unit-grammar",
+        "history.delta.p1-overlay-mapping"
       ],
       "intent.requirement": [
         "intent.behavior.add",
@@ -201,14 +226,14 @@
   },
   "inputConsistency": {
     "graphBenchmarkId": "B0-python-cli-calculator",
-    "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+    "graphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
     "proposalBenchmarkId": "B0-python-cli-calculator",
     "proposalBenchmarkMatchesGraph": true,
     "proposalDigestMatchesGraph": true,
-    "proposalGraphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+    "proposalGraphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
     "result": "pass",
     "roundtripDigestMatchesGraph": true,
-    "roundtripOriginalGraphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd"
+    "roundtripOriginalGraphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a"
   },
   "inputs": {
     "graph": "docs/examples/b0-python-cli-calculator.graph.json",
@@ -217,6 +242,9 @@
   },
   "navigation": {
     "authorityByTarget": {
+      "evidence.record.p1-overlay-mapping-review": [
+        "edge.authority.p1-overlay-review-evidence"
+      ],
       "evidence.record.p1-unit-grammar-review": [
         "edge.authority.p1-review-evidence"
       ],
@@ -237,16 +265,22 @@
       ],
       "history.delta.p1-intent-unit-grammar": [
         "edge.authority.p1-delta"
+      ],
+      "history.delta.p1-overlay-mapping": [
+        "edge.authority.p1-overlay-delta"
       ]
     },
     "evidenceByTarget": {
       "intent.behavior.add": [
+        "edge.evidence.add-p1-overlay-review",
         "edge.evidence.add-test-plan"
       ],
       "intent.behavior.sub": [
+        "edge.evidence.sub-p1-overlay-review",
         "edge.evidence.sub-test-plan"
       ],
       "intent.product.calculator": [
+        "edge.evidence.product-p1-overlay-review",
         "edge.evidence.product-p1-unit-review",
         "edge.evidence.product-requirement-note",
         "edge.evidence.product-roundtrip-report"
@@ -271,11 +305,21 @@
         "edge.history.p1-changed-evidence",
         "edge.history.p1-changed-product",
         "edge.history.p1-changed-sub"
+      ],
+      "history.delta.p1-overlay-mapping": [
+        "edge.history.p1-overlay-changed-authority-record-p1-overlay-mapping",
+        "edge.history.p1-overlay-changed-evidence-record-p1-overlay-mapping-review",
+        "edge.history.p1-overlay-changed-intent-behavior-add",
+        "edge.history.p1-overlay-changed-intent-behavior-sub",
+        "edge.history.p1-overlay-changed-intent-product-calculator"
       ]
     },
     "incomingEdgesByNode": {
       "authority.record.m5-human-review": [
         "edge.history.m5-changed-authority"
+      ],
+      "authority.record.p1-overlay-mapping": [
+        "edge.history.p1-overlay-changed-authority-record-p1-overlay-mapping"
       ],
       "authority.record.p1-unit-grammar": [
         "edge.history.p1-changed-authority"
@@ -314,6 +358,13 @@
         "edge.intent.add-uses-operation",
         "edge.intent.sub-uses-operation"
       ],
+      "evidence.record.p1-overlay-mapping-review": [
+        "edge.authority.p1-overlay-review-evidence",
+        "edge.evidence.add-p1-overlay-review",
+        "edge.evidence.product-p1-overlay-review",
+        "edge.evidence.sub-p1-overlay-review",
+        "edge.history.p1-overlay-changed-evidence-record-p1-overlay-mapping-review"
+      ],
       "evidence.record.p1-unit-grammar-review": [
         "edge.authority.p1-review-evidence",
         "edge.evidence.product-p1-unit-review",
@@ -345,21 +396,27 @@
       "history.delta.p1-intent-unit-grammar": [
         "edge.authority.p1-delta"
       ],
+      "history.delta.p1-overlay-mapping": [
+        "edge.authority.p1-overlay-delta"
+      ],
       "intent.behavior.add": [
         "edge.history.changed-add",
         "edge.history.p1-changed-add",
+        "edge.history.p1-overlay-changed-intent-behavior-add",
         "edge.intent.product-decomposes-add",
         "edge.metadata.add-maps-from-intent"
       ],
       "intent.behavior.sub": [
         "edge.history.changed-sub",
         "edge.history.p1-changed-sub",
+        "edge.history.p1-overlay-changed-intent-behavior-sub",
         "edge.intent.product-decomposes-sub",
         "edge.metadata.sub-maps-from-intent"
       ],
       "intent.product.calculator": [
         "edge.history.changed-product",
         "edge.history.p1-changed-product",
+        "edge.history.p1-overlay-changed-intent-product-calculator",
         "edge.metadata.cli-maps-from-product",
         "edge.metadata.module-maps-from-product"
       ],
@@ -382,6 +439,10 @@
       "authority.record.m5-human-review": [
         "edge.authority.m5-delta",
         "edge.authority.m5-roundtrip-report"
+      ],
+      "authority.record.p1-overlay-mapping": [
+        "edge.authority.p1-overlay-delta",
+        "edge.authority.p1-overlay-review-evidence"
       ],
       "authority.record.p1-unit-grammar": [
         "edge.authority.p1-delta",
@@ -420,7 +481,15 @@
         "edge.history.p1-changed-product",
         "edge.history.p1-changed-sub"
       ],
+      "history.delta.p1-overlay-mapping": [
+        "edge.history.p1-overlay-changed-authority-record-p1-overlay-mapping",
+        "edge.history.p1-overlay-changed-evidence-record-p1-overlay-mapping-review",
+        "edge.history.p1-overlay-changed-intent-behavior-add",
+        "edge.history.p1-overlay-changed-intent-behavior-sub",
+        "edge.history.p1-overlay-changed-intent-product-calculator"
+      ],
       "intent.behavior.add": [
+        "edge.evidence.add-p1-overlay-review",
         "edge.evidence.add-test-plan",
         "edge.intent.add-uses-integer",
         "edge.intent.add-uses-operation",
@@ -428,6 +497,7 @@
         "edge.test.add"
       ],
       "intent.behavior.sub": [
+        "edge.evidence.sub-p1-overlay-review",
         "edge.evidence.sub-test-plan",
         "edge.intent.sub-uses-integer",
         "edge.intent.sub-uses-operation",
@@ -435,6 +505,7 @@
         "edge.test.sub"
       ],
       "intent.product.calculator": [
+        "edge.evidence.product-p1-overlay-review",
         "edge.evidence.product-p1-unit-review",
         "edge.evidence.product-requirement-note",
         "edge.evidence.product-roundtrip-report",
@@ -478,11 +549,11 @@
         },
         "errors": [],
         "postDelta": {
-          "graphDigest": "sha256:fbf259e85c3a99ff1de52c284cb8d3519c0ea98625ea6c55bbd46d83c75ed81b",
+          "graphDigest": "sha256:ca30e106ff0d6b021c6852d71697e0518ea87c569a0df63fddde4c6fbd26bf83",
           "graphirValid": true,
           "semanticValidation": "pass"
         },
-        "proposalDigest": "sha256:b8cf7f879d0ee022c1d23ddb1f3898420eaf3ddf583c930fc7dbd54a2c388c83",
+        "proposalDigest": "sha256:7647a1b6c06671037723f1906d9868f249361c6dcea774b46564ef441dbe0aff",
         "validation": "accepted"
       },
       "ai.proposal.b0.invalid-self-authorized": {
@@ -501,11 +572,11 @@
           "delta[0] addNode id already exists: intent.product.calculator"
         ],
         "postDelta": {
-          "graphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+          "graphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
           "graphirValid": true,
           "semanticValidation": "pass"
         },
-        "proposalDigest": "sha256:e4de9c7c967f913d6c0a2ba24ffa948116e872ac1205a6e23b105795d26c4046",
+        "proposalDigest": "sha256:937e66b7f33720ccfc93ff09eea0dfc52e5978f0f1a258139e81ac2df5f1304e",
         "validation": "rejected"
       }
     },
@@ -515,11 +586,21 @@
           "edge.authority.initial-test-plan",
           "edge.authority.m5-roundtrip-report",
           "edge.authority.p1-delta",
+          "edge.authority.p1-overlay-delta",
+          "edge.authority.p1-overlay-review-evidence",
           "edge.code.main-calls-add",
           "edge.code.module-contains-add",
+          "edge.evidence.add-p1-overlay-review",
           "edge.evidence.add-test-plan",
+          "edge.evidence.product-p1-overlay-review",
+          "edge.evidence.sub-p1-overlay-review",
           "edge.history.changed-add",
           "edge.history.p1-changed-add",
+          "edge.history.p1-overlay-changed-authority-record-p1-overlay-mapping",
+          "edge.history.p1-overlay-changed-evidence-record-p1-overlay-mapping-review",
+          "edge.history.p1-overlay-changed-intent-behavior-add",
+          "edge.history.p1-overlay-changed-intent-behavior-sub",
+          "edge.history.p1-overlay-changed-intent-product-calculator",
           "edge.intent.add-uses-integer",
           "edge.intent.add-uses-operation",
           "edge.metadata.add-maps-from-intent",
@@ -530,15 +611,18 @@
         "nodeIds": [
           "authority.record.initial-human",
           "authority.record.m5-human-review",
+          "authority.record.p1-overlay-mapping",
           "authority.record.p1-unit-grammar",
           "code.function.add",
           "domain.concept.integer-operand",
           "domain.concept.operation",
+          "evidence.record.p1-overlay-mapping-review",
           "evidence.record.roundtrip-report",
           "evidence.record.test-plan",
           "history.delta.initial-graph",
           "history.delta.m5-evidence-authority-history",
           "history.delta.p1-intent-unit-grammar",
+          "history.delta.p1-overlay-mapping",
           "intent.behavior.add",
           "metadata.source-map.add",
           "test.case.add"
@@ -549,11 +633,21 @@
           "edge.authority.initial-test-plan",
           "edge.authority.m5-roundtrip-report",
           "edge.authority.p1-delta",
+          "edge.authority.p1-overlay-delta",
+          "edge.authority.p1-overlay-review-evidence",
           "edge.code.main-calls-sub",
           "edge.code.module-contains-sub",
+          "edge.evidence.add-p1-overlay-review",
+          "edge.evidence.product-p1-overlay-review",
+          "edge.evidence.sub-p1-overlay-review",
           "edge.evidence.sub-test-plan",
           "edge.history.changed-sub",
           "edge.history.p1-changed-sub",
+          "edge.history.p1-overlay-changed-authority-record-p1-overlay-mapping",
+          "edge.history.p1-overlay-changed-evidence-record-p1-overlay-mapping-review",
+          "edge.history.p1-overlay-changed-intent-behavior-add",
+          "edge.history.p1-overlay-changed-intent-behavior-sub",
+          "edge.history.p1-overlay-changed-intent-product-calculator",
           "edge.intent.sub-uses-integer",
           "edge.intent.sub-uses-operation",
           "edge.metadata.sub-maps-from-intent",
@@ -564,15 +658,18 @@
         "nodeIds": [
           "authority.record.initial-human",
           "authority.record.m5-human-review",
+          "authority.record.p1-overlay-mapping",
           "authority.record.p1-unit-grammar",
           "code.function.sub",
           "domain.concept.integer-operand",
           "domain.concept.operation",
+          "evidence.record.p1-overlay-mapping-review",
           "evidence.record.roundtrip-report",
           "evidence.record.test-plan",
           "history.delta.initial-graph",
           "history.delta.m5-evidence-authority-history",
           "history.delta.p1-intent-unit-grammar",
+          "history.delta.p1-overlay-mapping",
           "intent.behavior.sub",
           "metadata.source-map.sub",
           "test.case.sub"
@@ -586,13 +683,18 @@
           "edge.authority.m5-delta",
           "edge.authority.m5-roundtrip-report",
           "edge.authority.p1-delta",
+          "edge.authority.p1-overlay-delta",
+          "edge.authority.p1-overlay-review-evidence",
           "edge.authority.p1-review-evidence",
           "edge.cli.handled-by-main",
           "edge.code.module-contains-cli",
           "edge.code.module-contains-main",
+          "edge.evidence.add-p1-overlay-review",
+          "edge.evidence.product-p1-overlay-review",
           "edge.evidence.product-p1-unit-review",
           "edge.evidence.product-requirement-note",
           "edge.evidence.product-roundtrip-report",
+          "edge.evidence.sub-p1-overlay-review",
           "edge.history.changed-product",
           "edge.history.m5-changed-authority",
           "edge.history.m5-changed-initial-history",
@@ -604,6 +706,11 @@
           "edge.history.p1-changed-evidence",
           "edge.history.p1-changed-product",
           "edge.history.p1-changed-sub",
+          "edge.history.p1-overlay-changed-authority-record-p1-overlay-mapping",
+          "edge.history.p1-overlay-changed-evidence-record-p1-overlay-mapping-review",
+          "edge.history.p1-overlay-changed-intent-behavior-add",
+          "edge.history.p1-overlay-changed-intent-behavior-sub",
+          "edge.history.p1-overlay-changed-intent-product-calculator",
           "edge.intent.product-decomposes-add",
           "edge.intent.product-decomposes-sub",
           "edge.metadata.cli-maps-from-product",
@@ -616,22 +723,77 @@
         "nodeIds": [
           "authority.record.initial-human",
           "authority.record.m5-human-review",
+          "authority.record.p1-overlay-mapping",
           "authority.record.p1-unit-grammar",
           "code.cli.command",
           "code.function.main",
           "code.module.calc",
           "domain.concept.operation",
+          "evidence.record.p1-overlay-mapping-review",
           "evidence.record.p1-unit-grammar-review",
           "evidence.record.requirement-note",
           "evidence.record.roundtrip-report",
           "history.delta.initial-graph",
           "history.delta.m5-evidence-authority-history",
           "history.delta.p1-intent-unit-grammar",
+          "history.delta.p1-overlay-mapping",
           "intent.product.calculator",
           "metadata.source-map.cli",
           "metadata.source-map.module",
           "projection.target.python-source"
         ]
+      }
+    },
+    "unitOverlayMappings": {
+      "unit.behavior.add": {
+        "codeFactRefIds": [
+          "codeFact.add.operation-kind",
+          "codeFact.add.test-command"
+        ],
+        "codeRefIds": [
+          "codeRef.add.function",
+          "codeRef.add.source-map"
+        ],
+        "generatedCodeProjectionMode": "generated-code",
+        "mappingObligationIds": [
+          "mapping.add.behavior-to-function",
+          "mapping.add.test-to-behavior"
+        ],
+        "sourceTextEqualityRequired": false
+      },
+      "unit.behavior.sub": {
+        "codeFactRefIds": [
+          "codeFact.sub.operation-kind",
+          "codeFact.sub.test-command"
+        ],
+        "codeRefIds": [
+          "codeRef.sub.function",
+          "codeRef.sub.source-map"
+        ],
+        "generatedCodeProjectionMode": "generated-code",
+        "mappingObligationIds": [
+          "mapping.sub.behavior-to-function",
+          "mapping.sub.test-to-behavior"
+        ],
+        "sourceTextEqualityRequired": false
+      },
+      "unit.product.calculator": {
+        "codeFactRefIds": [
+          "codeFact.product.artifact",
+          "codeFact.product.cli-operations",
+          "codeFact.product.dispatch"
+        ],
+        "codeRefIds": [
+          "codeRef.product.cli",
+          "codeRef.product.main",
+          "codeRef.product.module"
+        ],
+        "generatedCodeProjectionMode": "generated-code",
+        "mappingObligationIds": [
+          "mapping.product.contract-to-cli",
+          "mapping.product.generated-artifact-boundary"
+        ],
+        "sourceTextEqualityRequired": false
       }
     }
   },
@@ -654,7 +816,8 @@
       "authority records",
       "semantic graph history",
       "intent unit contracts and unit refinement structure",
-      "stable source graph IDs",
+      "intent unit codeRefs, codeFactRefs, and mapping obligations",
+      "stable semantic graph IDs",
       "metadata source-map node IDs",
       "accepted change state",
       "verifier equality mode"
@@ -669,9 +832,11 @@
     "equalityMode": "GraphEqualAfterNormalization",
     "graphEqual": true,
     "intentUnitPreservation": {
+      "mappingObligationsMatched": true,
       "matched": true,
       "original": {
         "errors": [],
+        "mappingObligationCount": 6,
         "refinementEdges": [
           "unit-edge.product-refines-add",
           "unit-edge.product-refines-sub"
@@ -685,9 +850,10 @@
           "unit.product.calculator"
         ]
       },
-      "originalDigest": "sha256:25dd4217d270f318ae4f01b2ed2630c6538b7eaf22e54418c4bfa66f53a1f2ca",
+      "originalDigest": "sha256:6c890c3078a0a98a690de6f1e55557adcd2b95f1b6e60bbf49148faaddeecd35",
       "reconstructed": {
         "errors": [],
+        "mappingObligationCount": 6,
         "refinementEdges": [
           "unit-edge.product-refines-add",
           "unit-edge.product-refines-sub"
@@ -701,14 +867,15 @@
           "unit.product.calculator"
         ]
       },
-      "reconstructedDigest": "sha256:25dd4217d270f318ae4f01b2ed2630c6538b7eaf22e54418c4bfa66f53a1f2ca"
+      "reconstructedDigest": "sha256:6c890c3078a0a98a690de6f1e55557adcd2b95f1b6e60bbf49148faaddeecd35"
     },
     "m5ClaimScope": {
       "codeDerivedRecovery": false,
       "hiddenStateSnapshotUsed": true,
       "level4Claim": "metadata-backed preservation with semantic validation"
     },
-    "metadataGraphDigest": "sha256:6053fb87e0eb4d986b269b7a0b959dc6f32d99b0b735d7479cf25c5502ca1cfd",
+    "metadataGraphDigest": "sha256:a43a99d2cb2c4bb02c0822db74d4dbb00352bb9e9bd52d125b64cf23cafe870a",
+    "overlayMappingPreservation": true,
     "result": "pass",
     "semanticValidation": "pass"
   }

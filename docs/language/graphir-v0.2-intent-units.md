@@ -1,8 +1,8 @@
 # GraphIR v0.2 Intent Units
 
-Status: P1.0 draft grammar, corrected by P1.R semantic-overlay framing
+Status: P1.1 overlay mapping grammar
 
-GraphIR v0.2 keeps the Phase 0 node and edge graph, but wraps accepted development meaning in first-class Intent Units. Under P1.R, these units are semantic overlay mapping units, not code-text capsules and not replacements for source files.
+GraphIR v0.2 keeps the Phase 0 node and edge graph, but wraps accepted development meaning in first-class Intent Units. Under P1.1, these units are semantic overlay mapping units, not code-text capsules and not replacements for source files.
 
 This is not a broad language workbench. It is the smallest B0-compatible overlay structure needed to preserve:
 
@@ -64,8 +64,8 @@ Required fields:
 - `status`: unit lifecycle state. P1.0 accepted units must be `accepted`.
 - `contract`: accepted development commitment for the unit.
 - `internalGraph`: node and edge IDs that carry the unit's internal facts.
-- `codeRefs`: stable references to files, symbols, ranges, anchors, or generated artifacts.
-- `codeFactRefs`: references to extracted code facts.
+- `codeRefs`: stable references to files, symbols, ranges, anchors, or generated artifacts. They are reference-only and do not contain code text.
+- `codeFactRefs`: references to extracted, declared, or generated-preservation-backed code facts. P1.1 uses static declared facts only; it does not implement an external extractor.
 - `mappingObligations`: declared expectations tying behavior or verification claims to code refs/facts.
 - `projection`: generated-code contribution and source-map expectations when generated-code mode is declared.
 - `reconstruction`: metadata-backed reconstruction expectations and code-only loss claim when generated-code mode is declared.
@@ -109,6 +109,8 @@ P1.0 B0 has exactly the initial accepted unit set:
 
 The product unit is the parent contract for the calculator. The behavior units carry the accepted add/sub operation contracts.
 
+P1.1 keeps the same unit set and adds overlay mapping fields to each unit.
+
 ## Admission Rules
 
 An Intent Unit is admitted only when all of these are true:
@@ -126,7 +128,7 @@ Raw utterances, hypotheses, notes, imported code facts, and AI outputs may exist
 
 ## Preservation Metadata
 
-GraphIR v0.2 generated-code preservation metadata adds `unitMap`:
+GraphIR v0.2 generated-code preservation metadata adds `unitMap`. P1.1 extends it with overlay mapping digests:
 
 ```json
 {
@@ -137,6 +139,12 @@ GraphIR v0.2 generated-code preservation metadata adds `unitMap`:
       "internalNodeIds": [],
       "internalEdgeIds": [],
       "sourceMapIds": [],
+      "codeRefIds": [],
+      "codeFactRefIds": [],
+      "mappingObligationIds": [],
+      "codeRefsDigest": "sha256:...",
+      "codeFactRefsDigest": "sha256:...",
+      "mappingObligationsDigest": "sha256:...",
       "requiresMetadata": true,
       "codeOnlyClaim": "lossy-code-only-projection"
     }
@@ -152,6 +160,7 @@ This is an honest intermediate state:
 - code-only reconstruction remains lossy
 - source-only recovery of unit contracts, evidence, authority, and history is not claimed
 - code nodes remain references/facts, not code text
+- mapping obligations are preserved through metadata in generated-code mode
 
 ## Workbench Projection
 
