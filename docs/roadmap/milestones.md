@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.3 Tiny Code-First Maintenance Delta Probe
+P1.3.R Delta Verification Hardening
 ```
 
-This is a Phase 1 code-first maintenance delta probe only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused correction to the P1.3 code-first maintenance delta verifier and report only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -246,4 +246,4 @@ Status: completed on 2026-07-09. See [P1.2 Code-First Maintenance Overlay Review
 
 Goal: prove the smallest code-first maintenance delta by adding `mul` behavior to CF0, capturing before/after code facts and overlay digests, updating Intent Units and semantic history, and verifying preservation plus new behavior without source text equality.
 
-Status: active after P1.2.R coordinator approval.
+Status: direction accepted after coordinator review; P1.3.R hardening required before P1.4.

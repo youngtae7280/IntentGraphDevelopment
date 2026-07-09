@@ -4,14 +4,14 @@
     "codeFactsDigest": "sha256:5bb3a0890060a1e42952fda5823d86d732b99ddb41ff4f0ff6b5405add158653",
     "mappingObligationCount": 4,
     "overlayDigest": "sha256:fc6a219f25af3115d733075b2c98991d7274463c096bfb1e7f2a81997797c040",
-    "sourceDigest": "ed6cf9c2748ac22fb3459b46179b4747a63edd0d5dbcea27566b32de3ff3683f"
+    "sourceDigest": "sha256:ed6cf9c2748ac22fb3459b46179b4747a63edd0d5dbcea27566b32de3ff3683f"
   },
   "before": {
     "codeFactCount": 13,
     "codeFactsDigest": "sha256:f311d35cb0d8c16f281eacf74a60b1167d4786ff54707b51b3f0f29e0c8ac7a4",
     "mappingObligationCount": 3,
     "overlayDigest": "sha256:161a51d78808f3f9e51b5ec5c05c571aa1517ac0b9a2e0142efe788efc09d798",
-    "sourceDigest": "92d7c6a9e4ad67ebe2eb5d0f7a43bd4ddd27c3b4d334533d59fb24443205ea3e"
+    "sourceDigest": "sha256:92d7c6a9e4ad67ebe2eb5d0f7a43bd4ddd27c3b4d334533d59fb24443205ea3e"
   },
   "behaviorVerification": {
     "checks": [
@@ -68,7 +68,11 @@
   },
   "checks": [
     "before code facts captured independently",
+    "before source digest verified against before code facts",
+    "before overlay digest verified against before overlay artifact",
+    "before mapping obligation count verified against before overlay artifact",
     "after overlay verification executed",
+    "delta evidence, authority, and history ids verified",
     "source text equality not required",
     "hidden generated-code snapshot not used"
   ],
@@ -94,11 +98,24 @@
     ],
     "removedCodeFactIds": []
   },
+  "deltaRecordsVerification": {
+    "authorityIds": [
+      "authority.record.p1.3-human"
+    ],
+    "evidenceIds": [
+      "evidence.p1.3-maintenance-delta"
+    ],
+    "historyIds": [
+      "history.delta.p1.3-add-mul"
+    ],
+    "result": "pass"
+  },
   "errors": [],
   "hiddenGeneratedCodeSnapshotUsed": false,
   "inputs": {
     "afterCodeFacts": "generated/cf0-python-cli-calculator/code-facts.json",
     "beforeCodeFacts": "generated/cf0-python-cli-calculator/p1.3-before-code-facts.json",
+    "beforeOverlay": "generated/cf0-python-cli-calculator/p1.3-before-overlay.json",
     "delta": "docs/examples/cf0-python-cli-calculator/deltas/p1.3-add-mul.delta.json",
     "overlay": "docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json",
     "sourceRoot": "docs/examples/cf0-python-cli-calculator/source"

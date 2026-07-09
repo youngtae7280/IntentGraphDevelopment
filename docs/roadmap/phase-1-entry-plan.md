@@ -71,23 +71,22 @@ Goal: add a tiny hand-written Python calculator source fixture, extract determin
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
 
-## Current Slice: P1.3 Tiny Code-First Maintenance Delta Probe
+## Current Slice: P1.3.R Delta Verification Hardening
 
-Goal: add a tiny accepted maintenance delta to CF0 and verify before/after source facts, overlay mappings, behavior checks, evidence, authority, and semantic history without source text equality.
+Goal: harden the P1.3 CF0 maintenance-delta verifier so before/after digests are normalized, the before overlay digest and mapping obligation count are verified against a reproducible baseline artifact, and delta-declared evidence, authority, and history ids are checked.
 
-Preferred delta: add `mul` behavior to the hand-written calculator.
+P1.3 already added `mul` behavior to the hand-written calculator. P1.3.R must not start a new behavior delta or larger benchmark.
 
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
 
 Expected changes:
 
-- introduce `IntentUnit` as a first-class semantic overlay construct
-- define unit refinement and cross-unit relationship rules
-- define how existing Phase 0 node kinds live inside units
-- rewrite or supplement B0 as a unit-structured fixture
-- update mapping, verifier, proposal, generated-code mode, and workbench contracts where necessary
-- keep B0 deterministic and metadata-backed
-- explicitly evaluate how much `hiddenState.sourceGraphSnapshot` remains necessary
+- add `generated/cf0-python-cli-calculator/p1.3-before-overlay.json` as a baseline artifact recovered from the parent commit for verifier reproducibility
+- require `tools/verify_code_first_delta.py --before-overlay`
+- verify `before.sourceDigest`, `before.codeFactsDigest`, `before.codeFactCount`, `before.overlayDigest`, and `before.mappingObligationCount`
+- normalize report source digests as `sha256:<hex>`
+- verify delta-declared evidence, authority, and history ids against the after overlay
+- regenerate the P1.3 maintenance delta report
 
 Non-goals:
 
@@ -99,41 +98,34 @@ Non-goals:
 - no claim that source code alone recovers full intent, evidence, authority, or history
 - no automatic AI authority
 
-## Required Output For P1.1
+## Required Output For P1.3.R
 
-P1.1 should produce:
+P1.3.R should produce:
 
-- updated GraphIR/overlay boundary or a `GraphIR v0.2` correction draft
-- unit-structured B0 fixture or migration fixture that uses code refs/facts rather than code text
-- updated validation rules for Intent Units
-- updated mapping/verifier/generated-code-mode contracts
-- regenerated B0 outputs if implementation is touched
-- a written review explaining whether the unit model improved or weakened the architecture
+- hardened `tools/verify_code_first_delta.py`
+- recovered `generated/cf0-python-cli-calculator/p1.3-before-overlay.json`
+- regenerated `generated/cf0-python-cli-calculator/p1.3-maintenance-delta-report.json`
+- updated P1.3 review notes explaining the new checks
 
 ## Acceptance Criteria
 
-P1.1 passes only if:
+P1.3.R passes only if:
 
-1. B0 has explicit Intent Units.
-2. The product/calculator unit refines into add and subtract behavior units.
-3. Each unit has a contract, internal graph membership, `codeRefs`, `codeFactRefs`, `mappingObligations`, projection expectations, verification expectations, evidence/authority/history linkage, and reconstruction expectations.
-4. Existing Phase 0 semantics remain preserved.
-5. Generated-code mode remains passing for B0 or a written blocker explains why it cannot.
-6. Code-first maintenance is not falsely judged by `C' == C`; expected preservation is behavior, contract, evidence, authority, and mapping consistency.
-7. Code-only reconstruction remains explicitly lossy.
-8. AI proposal output remains non-authoritative.
-9. Workbench output remains projection/report only.
-10. Whole-graph snapshot dependence is measured and either reduced or explicitly justified.
-11. A milestone review recommends continue, improve, narrow, or pivot.
+1. The delta report uses `sha256:<hex>` source digests.
+2. The before overlay digest and mapping obligation count are verified against `p1.3-before-overlay.json`.
+3. The before source digest, code facts digest, and code fact count are verified against `p1.3-before-code-facts.json`.
+4. Delta-declared evidence, authority, and history ids are verified against the after overlay.
+5. The existing P1.3 add/sub/mul behavior checks remain passing.
+6. Source text equality remains unnecessary and no hidden generated-code snapshot is used.
+7. Negative probes for wrong before source digest and missing evidence/authority/history ids fail deterministically.
 
 ## Stop Conditions
 
 Stop and report before broadening scope if:
 
-- Intent Unit becomes a catch-all container with no validation value.
-- B0 cannot be represented as units without losing clarity.
-- Exact generated-code round-trip depends only on copying the whole graph snapshot and no better metadata strategy is proposed.
-- The unit structure makes the compiler or reconstructor less deterministic.
+- The verifier continues to trust delta-declared before-state values without checking them against artifacts.
+- The report mixes raw hex and `sha256:<hex>` digest formats.
+- The before overlay artifact cannot reproduce the declared before overlay digest.
 - IntentGraph is described again as a universal source-code replacement.
 - The project starts duplicating mature language workbench, code graph, or provenance systems without a build/borrow/integrate decision.
 
@@ -142,7 +134,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.3 Tiny Code-First Maintenance Delta Probe
+P1.3.R Delta Verification Hardening
 ```
 
 Worker should start from:
@@ -150,7 +142,9 @@ Worker should start from:
 - `docs/design/intent-unit-model.md`
 - `docs/design/intentgraph-formal-blueprint.md`
 - `docs/language/graphir-boundary.md`
-- `docs/examples/b0-python-cli-calculator.graph.json`
-- `docs/reviews/phase-0-final-review.md`
+- `docs/examples/cf0-python-cli-calculator/deltas/p1.3-add-mul.delta.json`
+- `generated/cf0-python-cli-calculator/p1.3-before-code-facts.json`
+- `generated/cf0-python-cli-calculator/p1.3-before-overlay.json`
+- `tools/verify_code_first_delta.py`
 
-Worker should not start a larger benchmark until P1.3 review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start P1.4 or a larger benchmark until P1.3.R review passes and the Coordinator explicitly authorizes the next phase.

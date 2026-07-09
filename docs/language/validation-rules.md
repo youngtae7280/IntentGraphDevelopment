@@ -372,6 +372,18 @@ Severity: P0 in P1.3
 
 The new behavior unit must include code refs, code fact refs, and mapping obligations that resolve to after-state extracted facts.
 
+### V404 - Before Overlay Verified Against Artifact
+
+Severity: P0 in P1.3.R
+
+A maintenance delta report that cites before overlay digest or mapping obligation count must verify those values against a preserved or reproducibly recovered before-overlay artifact.
+
+### V405 - Delta Records Resolve
+
+Severity: P0 in P1.3.R
+
+Every evidence, authority, and history id declared by a maintenance delta must resolve to a record in the accepted after overlay.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:
