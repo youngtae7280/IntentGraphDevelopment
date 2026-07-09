@@ -1,0 +1,167 @@
+{
+  "benchmarkId": "B0-python-cli-calculator",
+  "codeOnlyProjection": {
+    "claim": "lossy-code-only-projection",
+    "lossModel": [
+      "full product intent wording",
+      "requirement priorities",
+      "domain concept descriptions",
+      "evidence records",
+      "authority records",
+      "semantic graph history",
+      "stable source graph IDs",
+      "metadata source-map node IDs",
+      "accepted change state",
+      "verifier equality mode"
+    ],
+    "usedForExactEquality": false
+  },
+  "counts": {
+    "originalEdgesByKind": {
+      "authorizes": 1,
+      "calls": 2,
+      "changes": 3,
+      "contains": 4,
+      "decomposes_to": 2,
+      "evidenced_by": 3,
+      "handled_by": 1,
+      "maps_from": 5,
+      "maps_to": 5,
+      "projects_to": 4,
+      "tested_by": 2,
+      "uses_concept": 4
+    },
+    "originalNodesByKind": {
+      "authority.record": 1,
+      "code.cli": 1,
+      "code.function": 3,
+      "code.module": 1,
+      "domain.concept": 2,
+      "evidence.record": 2,
+      "history.delta": 1,
+      "intent.requirement": 3,
+      "metadata.sourceMap": 5,
+      "projection.target": 1,
+      "test.case": 2
+    },
+    "reconstructedEdgesByKind": {
+      "authorizes": 1,
+      "calls": 2,
+      "changes": 3,
+      "contains": 4,
+      "decomposes_to": 2,
+      "evidenced_by": 3,
+      "handled_by": 1,
+      "maps_from": 5,
+      "maps_to": 5,
+      "projects_to": 4,
+      "tested_by": 2,
+      "uses_concept": 4
+    },
+    "reconstructedNodesByKind": {
+      "authority.record": 1,
+      "code.cli": 1,
+      "code.function": 3,
+      "code.module": 1,
+      "domain.concept": 2,
+      "evidence.record": 2,
+      "history.delta": 1,
+      "intent.requirement": 3,
+      "metadata.sourceMap": 5,
+      "projection.target": 1,
+      "test.case": 2
+    }
+  },
+  "diagnostics": [
+    "preconditions passed",
+    "normalized metadata-backed graph equality passed"
+  ],
+  "digests": {
+    "metadataGraphDigest": "sha256:cab80515c032da327edcc1d2203be515e0060d487a91b4a5f25d355bacd91f85",
+    "normalizedOriginalGraph": "sha256:f96c8442f298bfe13e1a24ebe12e6d1765e678ebebfb08058b005f713839ec58",
+    "normalizedReconstructedGraph": "sha256:f96c8442f298bfe13e1a24ebe12e6d1765e678ebebfb08058b005f713839ec58",
+    "originalGraph": "sha256:cab80515c032da327edcc1d2203be515e0060d487a91b4a5f25d355bacd91f85",
+    "reconstructedGraph": "sha256:ee590921e7686e2727e6b34882b00dac775201fa88b8077c0f5c04950ed592ce"
+  },
+  "equalityMode": "GraphEqualAfterNormalization",
+  "graphEqual": true,
+  "inputs": {
+    "codeOnlyProjection": "generated/b0-python-cli-calculator/code-only-projection.json",
+    "metadata": "generated/b0-python-cli-calculator/calc.intentgraph.json",
+    "originalGraph": "docs/examples/b0-python-cli-calculator.graph.json",
+    "reconstructedGraph": "generated/b0-python-cli-calculator/reconstructed.graph.json"
+  },
+  "mismatches": [],
+  "normalizationRules": [
+    "remove top-level lifecycle field: status",
+    "sort nodes by id",
+    "sort edges by id",
+    "sort object keys for canonical JSON"
+  ],
+  "preservation": {
+    "domainSubgraphs": {
+      "authority": {
+        "domainNodeIds": [
+          "authority.record.initial-human"
+        ],
+        "matched": true,
+        "originalDigest": "sha256:5271528247ef2003c72d7686867c8a128a17e2a66c3b084948ae473cfea3c674",
+        "reconstructedDigest": "sha256:5271528247ef2003c72d7686867c8a128a17e2a66c3b084948ae473cfea3c674",
+        "reconstructedDomainNodeIds": [
+          "authority.record.initial-human"
+        ]
+      },
+      "evidence": {
+        "domainNodeIds": [
+          "evidence.record.requirement-note",
+          "evidence.record.test-plan"
+        ],
+        "matched": true,
+        "originalDigest": "sha256:e1554f257b1edb4998fd0d75ac3df5ff6ef99e8bbb9d0507b6cb8fed4475a0af",
+        "reconstructedDigest": "sha256:e1554f257b1edb4998fd0d75ac3df5ff6ef99e8bbb9d0507b6cb8fed4475a0af",
+        "reconstructedDomainNodeIds": [
+          "evidence.record.requirement-note",
+          "evidence.record.test-plan"
+        ]
+      },
+      "history": {
+        "domainNodeIds": [
+          "history.delta.initial-graph"
+        ],
+        "matched": true,
+        "originalDigest": "sha256:cbc8170ad5ab0501e9959f5039cb9cfe6af6c9f989e1e302433f6995a46df916",
+        "reconstructedDigest": "sha256:cbc8170ad5ab0501e9959f5039cb9cfe6af6c9f989e1e302433f6995a46df916",
+        "reconstructedDomainNodeIds": [
+          "history.delta.initial-graph"
+        ]
+      }
+    },
+    "original": {
+      "authorityPreserved": true,
+      "authorityRecords": 1,
+      "evidencePreserved": true,
+      "evidenceRecords": 2,
+      "historyDeltas": 1,
+      "historyPreserved": true
+    },
+    "reconstructed": {
+      "authorityPreserved": true,
+      "authorityRecords": 1,
+      "evidencePreserved": true,
+      "evidenceRecords": 2,
+      "historyDeltas": 1,
+      "historyPreserved": true
+    }
+  },
+  "rawStatuses": {
+    "allowedPair": [
+      "m1-fixture",
+      "m3-reconstructed"
+    ],
+    "original": "m1-fixture",
+    "reconstructed": "m3-reconstructed"
+  },
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "verifierContract": "roundtrip-b0-v0"
+}

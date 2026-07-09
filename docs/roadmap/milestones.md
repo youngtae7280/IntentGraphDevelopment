@@ -4,7 +4,7 @@ This roadmap defines bounded work loops. Do not ask a worker to finish IntentGra
 
 ## Current Authorized Milestone
 
-`M4: Round-Trip Verifier` is authorized because `M3: Retrofit Reconstructor Boundary` passed its milestone review on 2026-07-09.
+`M5: Evidence and Authority Slice` is authorized because `M4: Round-Trip Verifier` passed its milestone review on 2026-07-09.
 
 ## M0: Research and Thesis Foundation
 
@@ -104,6 +104,8 @@ Quality target: Level 3.
 ## M4: Round-Trip Verifier
 
 Goal: compare original graph and reconstructed graph under declared equality/projection rules.
+
+Review: [M4 Milestone Review](../reviews/m4-review.md)
 
 Entry criteria:
 
