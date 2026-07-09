@@ -71,22 +71,20 @@ Goal: add a tiny hand-written Python calculator source fixture, extract determin
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
 
-## Current Slice: P1.3.R Delta Verification Hardening
+## Current Slice: P1.4 Repeatable Code-First Delta Negative Probe Harness
 
-Goal: harden the P1.3 CF0 maintenance-delta verifier so before/after digests are normalized, the before overlay digest and mapping obligation count are verified against a reproducible baseline artifact, and delta-declared evidence, authority, and history ids are checked.
+Goal: turn the P1.3.R temporary negative probes into a committed deterministic harness so future changes cannot weaken the CF0 code-first delta verifier silently.
 
-P1.3 already added `mul` behavior to the hand-written calculator. P1.3.R must not start a new behavior delta or larger benchmark.
+P1.4 must start from the committed good CF0 delta inputs, create mutated copies in isolation, run the delta verifier, and pass only when every negative probe fails with the expected error.
 
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
 
 Expected changes:
 
-- add `generated/cf0-python-cli-calculator/p1.3-before-overlay.json` as a baseline artifact recovered from the parent commit for verifier reproducibility
-- require `tools/verify_code_first_delta.py --before-overlay`
-- verify `before.sourceDigest`, `before.codeFactsDigest`, `before.codeFactCount`, `before.overlayDigest`, and `before.mappingObligationCount`
-- normalize report source digests as `sha256:<hex>`
-- verify delta-declared evidence, authority, and history ids against the after overlay
-- regenerate the P1.3 maintenance delta report
+- add a small negative-probe harness such as `tools/run_cf0_delta_negative_probes.py`
+- emit `generated/cf0-python-cli-calculator/p1.4-negative-probes-report.json`
+- cover wrong before source digest, wrong before overlay digest/count, missing added fact, missing evidence/authority/history ids, source-text equality, and hidden snapshot claims
+- keep the P1.3 positive delta report passing
 
 Non-goals:
 
@@ -98,34 +96,31 @@ Non-goals:
 - no claim that source code alone recovers full intent, evidence, authority, or history
 - no automatic AI authority
 
-## Required Output For P1.3.R
+## Required Output For P1.4
 
-P1.3.R should produce:
+P1.4 should produce:
 
-- hardened `tools/verify_code_first_delta.py`
-- recovered `generated/cf0-python-cli-calculator/p1.3-before-overlay.json`
-- regenerated `generated/cf0-python-cli-calculator/p1.3-maintenance-delta-report.json`
-- updated P1.3 review notes explaining the new checks
+- committed negative-probe harness script
+- deterministic negative-probes JSON report
+- updated validation rules and review notes
 
 ## Acceptance Criteria
 
-P1.3.R passes only if:
+P1.4 passes only if:
 
-1. The delta report uses `sha256:<hex>` source digests.
-2. The before overlay digest and mapping obligation count are verified against `p1.3-before-overlay.json`.
-3. The before source digest, code facts digest, and code fact count are verified against `p1.3-before-code-facts.json`.
-4. Delta-declared evidence, authority, and history ids are verified against the after overlay.
-5. The existing P1.3 add/sub/mul behavior checks remain passing.
-6. Source text equality remains unnecessary and no hidden generated-code snapshot is used.
-7. Negative probes for wrong before source digest and missing evidence/authority/history ids fail deterministically.
+1. The P1.3 positive delta verification still passes.
+2. Every defined negative probe returns verifier failure.
+3. The harness exits zero only when all probes fail with expected errors.
+4. The harness report is deterministic and inspectable.
+5. The report does not imply source text equality, hidden generated-code snapshot use, AI authority, broad extraction, or a general planner.
 
 ## Stop Conditions
 
 Stop and report before broadening scope if:
 
-- The verifier continues to trust delta-declared before-state values without checking them against artifacts.
-- The report mixes raw hex and `sha256:<hex>` digest formats.
-- The before overlay artifact cannot reproduce the declared before overlay digest.
+- The harness passes when a negative probe unexpectedly succeeds.
+- Negative probe failures are not tied to expected error messages.
+- The harness requires committed bad fixtures without a clear reason.
 - IntentGraph is described again as a universal source-code replacement.
 - The project starts duplicating mature language workbench, code graph, or provenance systems without a build/borrow/integrate decision.
 
@@ -134,7 +129,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.3.R Delta Verification Hardening
+P1.4 Repeatable Code-First Delta Negative Probe Harness
 ```
 
 Worker should start from:
@@ -147,4 +142,4 @@ Worker should start from:
 - `generated/cf0-python-cli-calculator/p1.3-before-overlay.json`
 - `tools/verify_code_first_delta.py`
 
-Worker should not start P1.4 or a larger benchmark until P1.3.R review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start the next phase or a larger benchmark until P1.4 review passes and the Coordinator explicitly authorizes the next phase.

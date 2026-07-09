@@ -384,6 +384,12 @@ Severity: P0 in P1.3.R
 
 Every evidence, authority, and history id declared by a maintenance delta must resolve to a record in the accepted after overlay.
 
+### V406 - Delta Negative Probes Are Repeatable
+
+Severity: P0 in P1.4
+
+The CF0 delta verifier must have a committed harness that proves wrong before-state values, missing expected facts, missing delta records, source-text equality claims, and hidden generated-code snapshot claims fail deterministically.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

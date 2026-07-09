@@ -1,0 +1,121 @@
+{
+  "boundaries": {
+    "aiAuthorityPromoted": false,
+    "broadExtractorClaimed": false,
+    "generalPlannerClaimed": false,
+    "hiddenGeneratedCodeSnapshotUsed": false,
+    "sourceTextEqualityRequired": false
+  },
+  "mode": "cf0-code-first-delta-negative-probes",
+  "positiveBaseline": {
+    "deltaRecordsVerification": "pass",
+    "deltaReport": "generated/cf0-python-cli-calculator/p1.3-maintenance-delta-report.json",
+    "hiddenGeneratedCodeSnapshotUsed": false,
+    "result": "pass",
+    "sourceTextEqualityRequired": false
+  },
+  "probeCount": 9,
+  "probes": [
+    {
+      "actualErrors": [
+        "before source digest does not match before code facts"
+      ],
+      "actualExitCode": 1,
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "before source digest does not match before code facts",
+      "expectedFailureObserved": true,
+      "id": "wrong-before-source-digest",
+      "mutation": "Set delta.before.sourceDigest to sha256:0000."
+    },
+    {
+      "actualErrors": [
+        "before overlay digest does not match before overlay artifact"
+      ],
+      "actualExitCode": 1,
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "before overlay digest does not match before overlay artifact",
+      "expectedFailureObserved": true,
+      "id": "wrong-before-overlay-digest",
+      "mutation": "Set delta.before.overlayDigest to sha256:0000."
+    },
+    {
+      "actualErrors": [
+        "before mapping obligation count does not match before overlay artifact"
+      ],
+      "actualExitCode": 1,
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "before mapping obligation count does not match before overlay artifact",
+      "expectedFailureObserved": true,
+      "id": "wrong-before-mapping-obligation-count",
+      "mutation": "Set delta.before.mappingObligationCount to 999."
+    },
+    {
+      "actualErrors": [
+        "missing expected added facts: ['fact.function.missing']"
+      ],
+      "actualExitCode": 1,
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "missing expected added facts",
+      "expectedFailureObserved": true,
+      "id": "missing-added-code-fact",
+      "mutation": "Add fact.function.missing to expected added code facts."
+    },
+    {
+      "actualErrors": [
+        "missing delta evidence records: ['evidence.missing']"
+      ],
+      "actualExitCode": 1,
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "missing delta evidence records",
+      "expectedFailureObserved": true,
+      "id": "missing-evidence-id",
+      "mutation": "Replace delta evidence ids with evidence.missing."
+    },
+    {
+      "actualErrors": [
+        "missing delta authority records: ['authority.missing']"
+      ],
+      "actualExitCode": 1,
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "missing delta authority records",
+      "expectedFailureObserved": true,
+      "id": "missing-authority-id",
+      "mutation": "Replace delta authority ids with authority.missing."
+    },
+    {
+      "actualErrors": [
+        "missing delta history records: ['history.missing']"
+      ],
+      "actualExitCode": 1,
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "missing delta history records",
+      "expectedFailureObserved": true,
+      "id": "missing-history-id",
+      "mutation": "Replace delta history ids with history.missing."
+    },
+    {
+      "actualErrors": [
+        "delta must not require source text equality"
+      ],
+      "actualExitCode": 1,
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "delta must not require source text equality",
+      "expectedFailureObserved": true,
+      "id": "source-text-equality-true",
+      "mutation": "Set sourceTextEqualityRequired to true."
+    },
+    {
+      "actualErrors": [
+        "delta must not use hidden generated-code snapshots"
+      ],
+      "actualExitCode": 1,
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "delta must not use hidden generated-code snapshots",
+      "expectedFailureObserved": true,
+      "id": "hidden-generated-code-snapshot-true",
+      "mutation": "Set hiddenGeneratedCodeSnapshotUsed to true."
+    }
+  ],
+  "reportVersion": "0.1.0",
+  "result": "pass"
+}

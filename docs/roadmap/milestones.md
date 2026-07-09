@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.3.R Delta Verification Hardening
+P1.4 Repeatable Code-First Delta Negative Probe Harness
 ```
 
-This is a focused correction to the P1.3 code-first maintenance delta verifier and report only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused negative-probe harness for the CF0 code-first maintenance delta verifier only, not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -246,4 +246,10 @@ Status: completed on 2026-07-09. See [P1.2 Code-First Maintenance Overlay Review
 
 Goal: prove the smallest code-first maintenance delta by adding `mul` behavior to CF0, capturing before/after code facts and overlay digests, updating Intent Units and semantic history, and verifying preservation plus new behavior without source text equality.
 
-Status: direction accepted after coordinator review; P1.3.R hardening required before P1.4.
+Status: completed after P1.3.R hardening on 2026-07-09. See [P1.3 Code-First Maintenance Delta Review](../reviews/p1.3-code-first-maintenance-delta-review.md).
+
+## P1.4: Repeatable Code-First Delta Negative Probe Harness
+
+Goal: commit a deterministic harness that proves the CF0 P1.3 delta verifier fails for wrong before-state digests/counts, missing expected facts, missing delta records, source-text equality, and hidden generated-code snapshot claims.
+
+Status: completed on 2026-07-09. See [P1.4 Code-First Delta Negative Probes Review](../reviews/p1.4-code-first-delta-negative-probes-review.md).
