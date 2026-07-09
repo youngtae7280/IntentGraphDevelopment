@@ -8,9 +8,10 @@
     "historical states avoid mutable current source/facts/overlay artifacts",
     "P1.3 after-state contains old mul implementation facts",
     "P1.7 current state contains multiply facts and not old mul implementation facts",
-    "P1.7 transition preserves unit.behavior.mul while remapping facts"
+    "P1.7 transition preserves unit.behavior.mul while remapping facts",
+    "P1.9 current state contains unsupported-operation overlay contract coverage"
   ],
-  "currentStateId": "cf0.state.p1.7.current-refactor-multiply",
+  "currentStateId": "cf0.state.p1.9.current-overlay-unsupported-operation",
   "errors": [],
   "invariants": {
     "cf0SpecificIndexOnly": true,
@@ -68,16 +69,37 @@
     {
       "codeFacts": {
         "digestMode": "canonical-json",
-        "path": "generated/cf0-python-cli-calculator/code-facts.json",
+        "path": "generated/cf0-python-cli-calculator/p1.9-before-code-facts.json",
         "sha256": "sha256:ff80d8f654e3752bfb446a6100d493df452386ab98724ae36e0c4f46f742131c"
       },
-      "description": "CF0 current state after preserving unit.behavior.mul while refactoring its implementation to multiply.",
-      "id": "cf0.state.p1.7.current-refactor-multiply",
+      "description": "CF0 after preserving unit.behavior.mul while refactoring its implementation to multiply, before P1.9 overlay-only contract coverage.",
+      "id": "cf0.state.p1.7.after-refactor-multiply",
+      "kind": "historical",
+      "overlay": {
+        "digestMode": "canonical-json",
+        "path": "generated/cf0-python-cli-calculator/p1.9-before-overlay.json",
+        "sha256": "sha256:dbb203a083e39cb085f9f0f746b0db308b5382c2de3de0ea79d19804334ac37b"
+      },
+      "source": {
+        "digestMode": "file-bytes",
+        "path": "generated/cf0-python-cli-calculator/p1.9-before-source/calc.py",
+        "role": "hand-written-historical-copy",
+        "sha256": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+      }
+    },
+    {
+      "codeFacts": {
+        "digestMode": "canonical-json",
+        "path": "generated/cf0-python-cli-calculator/code-facts.json",
+        "sha256": "sha256:1a3f50c0593d614da6df13354c2a643346b6a65a6f5bd20e7b3d90e23fddd971"
+      },
+      "description": "CF0 current state after adding overlay-only unsupported-operation contract coverage without source behavior changes.",
+      "id": "cf0.state.p1.9.current-overlay-unsupported-operation",
       "kind": "current",
       "overlay": {
         "digestMode": "canonical-json",
         "path": "docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json",
-        "sha256": "sha256:dbb203a083e39cb085f9f0f746b0db308b5382c2de3de0ea79d19804334ac37b"
+        "sha256": "sha256:ebf558b2ef036ea350eb46ba81137365ce1e12af1118b96c77e02a4470f5b59e"
       },
       "source": {
         "digestMode": "file-bytes",
@@ -113,12 +135,28 @@
       },
       "fromStateId": "cf0.state.p1.3.after-add-mul",
       "id": "cf0.transition.p1.7.refactor-mul-to-multiply",
-      "toStateId": "cf0.state.p1.7.current-refactor-multiply",
+      "toStateId": "cf0.state.p1.7.after-refactor-multiply",
+      "verificationReport": {
+        "digestMode": "canonical-json",
+        "historical": true,
+        "path": "generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json",
+        "sha256": "sha256:95cef0a844820aae2f88835f7b856277a428be57175e85c7e776b29beff3074c"
+      }
+    },
+    {
+      "delta": {
+        "digestMode": "canonical-json",
+        "path": "docs/examples/cf0-python-cli-calculator/deltas/p1.9-overlay-unsupported-operation.delta.json",
+        "sha256": "sha256:4aedbaf3cfdb6d874705ba3ae24c2f8a11564fea374e883e8ac582f512dc10b2"
+      },
+      "fromStateId": "cf0.state.p1.7.after-refactor-multiply",
+      "id": "cf0.transition.p1.9.overlay-unsupported-operation",
+      "toStateId": "cf0.state.p1.9.current-overlay-unsupported-operation",
       "verificationReport": {
         "digestMode": "canonical-json",
         "historical": false,
-        "path": "generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json",
-        "sha256": "sha256:db382690ce042cd751f87e3b79b928ad4b12c844af269c773cf78cbd26051fd8"
+        "path": "generated/cf0-python-cli-calculator/p1.9-overlay-contract-delta-report.json",
+        "sha256": "sha256:5cdffd21bac57ea1746427c2ab65aac675fe01d718cabc489e9df490fd611ee8"
       }
     }
   ]

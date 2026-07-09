@@ -148,6 +148,10 @@ def run_behavior_smokes(overlay: dict[str, Any], source_root: Path) -> dict[str,
         passed = (
             completed.returncode == int(check.get("expectedExitCode"))
             and completed.stdout == check.get("expectedStdout")
+            and (
+                "expectedStderr" not in check
+                or completed.stderr == check.get("expectedStderr")
+            )
         )
         results.append(
             {
@@ -158,6 +162,7 @@ def run_behavior_smokes(overlay: dict[str, Any], source_root: Path) -> dict[str,
                 "stderr": completed.stderr,
                 "exitCode": completed.returncode,
                 "expectedStdout": check.get("expectedStdout"),
+                "expectedStderr": check.get("expectedStderr"),
                 "expectedExitCode": check.get("expectedExitCode"),
             }
         )

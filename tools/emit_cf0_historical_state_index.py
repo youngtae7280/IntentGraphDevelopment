@@ -81,6 +81,9 @@ def build_index() -> dict[str, Any]:
     p13_after_source = (CF0 / "p1.3-after-source/calc.py").as_posix()
     p13_after_facts = (CF0 / "p1.3-after-code-facts.json").as_posix()
     p13_after_overlay = (CF0 / "p1.3-after-overlay.json").as_posix()
+    p17_after_source = (CF0 / "p1.9-before-source/calc.py").as_posix()
+    p17_after_facts = (CF0 / "p1.9-before-code-facts.json").as_posix()
+    p17_after_overlay = (CF0 / "p1.9-before-overlay.json").as_posix()
     current_source = (DOCS_CF0 / "source/calc.py").as_posix()
     current_facts = (CF0 / "code-facts.json").as_posix()
     current_overlay = (DOCS_CF0 / "intentgraph.overlay.json").as_posix()
@@ -103,9 +106,17 @@ def build_index() -> dict[str, Any]:
             "overlay": artifact(p13_after_overlay),
         },
         {
-            "id": "cf0.state.p1.7.current-refactor-multiply",
+            "id": "cf0.state.p1.7.after-refactor-multiply",
+            "kind": "historical",
+            "description": "CF0 after preserving unit.behavior.mul while refactoring its implementation to multiply, before P1.9 overlay-only contract coverage.",
+            "source": artifact(p17_after_source, "hand-written-historical-copy"),
+            "codeFacts": artifact(p17_after_facts),
+            "overlay": artifact(p17_after_overlay),
+        },
+        {
+            "id": "cf0.state.p1.9.current-overlay-unsupported-operation",
             "kind": "current",
-            "description": "CF0 current state after preserving unit.behavior.mul while refactoring its implementation to multiply.",
+            "description": "CF0 current state after adding overlay-only unsupported-operation contract coverage without source behavior changes.",
             "source": artifact(current_source, "hand-written-current"),
             "codeFacts": artifact(current_facts),
             "overlay": artifact(current_overlay),
@@ -125,10 +136,20 @@ def build_index() -> dict[str, Any]:
         {
             "id": "cf0.transition.p1.7.refactor-mul-to-multiply",
             "fromStateId": "cf0.state.p1.3.after-add-mul",
-            "toStateId": "cf0.state.p1.7.current-refactor-multiply",
+            "toStateId": "cf0.state.p1.7.after-refactor-multiply",
             "delta": artifact((DOCS_CF0 / "deltas/p1.7-refactor-mul-to-multiply.delta.json").as_posix()),
             "verificationReport": {
                 **artifact((CF0 / "p1.7-refactor-delta-report.json").as_posix()),
+                "historical": True,
+            },
+        },
+        {
+            "id": "cf0.transition.p1.9.overlay-unsupported-operation",
+            "fromStateId": "cf0.state.p1.7.after-refactor-multiply",
+            "toStateId": "cf0.state.p1.9.current-overlay-unsupported-operation",
+            "delta": artifact((DOCS_CF0 / "deltas/p1.9-overlay-unsupported-operation.delta.json").as_posix()),
+            "verificationReport": {
+                **artifact((CF0 / "p1.9-overlay-contract-delta-report.json").as_posix()),
                 "historical": False,
             },
         },
@@ -138,7 +159,7 @@ def build_index() -> dict[str, Any]:
         "status": "generated",
         "reportVersion": REPORT_VERSION,
         "scope": "cf0-code-first-overlay-history-index",
-        "currentStateId": "cf0.state.p1.7.current-refactor-multiply",
+        "currentStateId": "cf0.state.p1.9.current-overlay-unsupported-operation",
         "states": states,
         "transitions": transitions,
         "invariants": {
@@ -163,6 +184,7 @@ def build_index() -> dict[str, Any]:
         "P1.3 after-state contains old mul implementation facts",
         "P1.7 current state contains multiply facts and not old mul implementation facts",
         "P1.7 transition preserves unit.behavior.mul while remapping facts",
+        "P1.9 current state contains unsupported-operation overlay contract coverage",
     ]
     return index
 
@@ -227,6 +249,12 @@ def validate_index(index: dict[str, Any]) -> None:
     if old_mul.intersection(current_ids):
         raise StateIndexError("P1.7 current state must not contain old mul implementation facts")
 
+    p17_historical_ids = fact_ids((CF0 / "p1.9-before-code-facts.json").as_posix())
+    if not new_multiply.issubset(p17_historical_ids):
+        raise StateIndexError("P1.7 historical state must contain multiply implementation facts")
+    if old_mul.intersection(p17_historical_ids):
+        raise StateIndexError("P1.7 historical state must not contain old mul implementation facts")
+
     p17_report = read_json(ROOT / CF0 / "p1.7-refactor-delta-report.json")
     remapped_units = p17_report.get("delta", {}).get("remappedUnits", [])
     if not any(isinstance(remap, dict) and remap.get("unitId") == "unit.behavior.mul" for remap in remapped_units):
@@ -236,6 +264,16 @@ def validate_index(index: dict[str, Any]) -> None:
         raise StateIndexError("unit.behavior.mul must reference current multiply facts")
     if old_mul.intersection(current_unit_facts):
         raise StateIndexError("unit.behavior.mul must not reference old mul facts in the current overlay")
+    current_overlay = read_json(ROOT / DOCS_CF0 / "intentgraph.overlay.json")
+    current_unit_ids = {
+        unit["id"]
+        for unit in current_overlay.get("intentUnits", [])
+        if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+    }
+    if "unit.behavior.unsupported-operation" not in current_unit_ids:
+        raise StateIndexError("P1.9 current state must include unit.behavior.unsupported-operation")
+    if "fact.function.main.stderr.unsupported_operation" not in current_ids:
+        raise StateIndexError("P1.9 current state must include unsupported-operation code fact")
 
 
 def write_json(path: Path, data: dict[str, Any]) -> None:

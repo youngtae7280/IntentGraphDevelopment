@@ -1,9 +1,9 @@
 {
   "after": {
-    "codeFactCount": 16,
-    "codeFactsDigest": "sha256:ff80d8f654e3752bfb446a6100d493df452386ab98724ae36e0c4f46f742131c",
-    "mappingObligationCount": 4,
-    "overlayDigest": "sha256:dbb203a083e39cb085f9f0f746b0db308b5382c2de3de0ea79d19804334ac37b",
+    "codeFactCount": 19,
+    "codeFactsDigest": "sha256:1a3f50c0593d614da6df13354c2a643346b6a65a6f5bd20e7b3d90e23fddd971",
+    "mappingObligationCount": 5,
+    "overlayDigest": "sha256:ebf558b2ef036ea350eb46ba81137365ce1e12af1118b96c77e02a4470f5b59e",
     "sourceDigest": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
   },
   "before": {
@@ -25,6 +25,7 @@
         ],
         "exitCode": 0,
         "expectedExitCode": 0,
+        "expectedStderr": null,
         "expectedStdout": "5\n",
         "id": "test.case.add",
         "result": "pass",
@@ -41,6 +42,7 @@
         ],
         "exitCode": 0,
         "expectedExitCode": 0,
+        "expectedStderr": null,
         "expectedStdout": "12\n",
         "id": "test.case.mul",
         "result": "pass",
@@ -57,11 +59,29 @@
         ],
         "exitCode": 0,
         "expectedExitCode": 0,
+        "expectedStderr": null,
         "expectedStdout": "3\n",
         "id": "test.case.sub",
         "result": "pass",
         "stderr": "",
         "stdout": "3\n"
+      },
+      {
+        "command": [
+          "python",
+          "calc.py",
+          "div",
+          "4",
+          "2"
+        ],
+        "exitCode": 2,
+        "expectedExitCode": 2,
+        "expectedStderr": "unsupported operation: div\n",
+        "expectedStdout": "",
+        "id": "test.case.unsupported-operation",
+        "result": "pass",
+        "stderr": "unsupported operation: div\n",
+        "stdout": ""
       }
     ],
     "result": "pass"
@@ -83,9 +103,13 @@
     "addedBehaviorUnits": [],
     "addedCodeFactIds": [
       "fact.function.main.calls.multiply",
+      "fact.function.main.stderr.left_and_right_must_be_integers",
+      "fact.function.main.stderr.unsupported_operation",
+      "fact.function.main.stderr.usage_calc_add_sub_mul_left_right",
       "fact.function.multiply",
       "fact.function.multiply.return.left_times_right"
     ],
+    "contractCoverageIncreased": null,
     "deltaId": "p1.7-refactor-mul-to-multiply",
     "expectedAddedCodeFactIds": [
       "fact.function.main.calls.multiply",
@@ -97,6 +121,7 @@
       "fact.function.mul",
       "fact.function.mul.return.left_times_right"
     ],
+    "overlayChanged": true,
     "preservedBehaviorUnits": [
       "unit.behavior.add",
       "unit.behavior.mul",
@@ -125,7 +150,8 @@
       "fact.function.main.calls.mul",
       "fact.function.mul",
       "fact.function.mul.return.left_times_right"
-    ]
+    ],
+    "sourceChanged": true
   },
   "deltaRecordsVerification": {
     "authorityIds": [
@@ -151,9 +177,9 @@
   },
   "mappingVerification": {
     "errors": [],
-    "mappingObligationCount": 4,
+    "mappingObligationCount": 5,
     "result": "pass",
-    "unitCount": 4,
+    "unitCount": 5,
     "units": [
       {
         "codeFactRefCount": 2,
@@ -180,12 +206,20 @@
         "unitId": "unit.behavior.sub"
       },
       {
-        "codeFactRefCount": 5,
+        "codeFactRefCount": 6,
         "codeRefCount": 2,
         "errors": [],
         "mappingObligationCount": 1,
         "result": "pass",
         "unitId": "unit.product.calculator"
+      },
+      {
+        "codeFactRefCount": 2,
+        "codeRefCount": 2,
+        "errors": [],
+        "mappingObligationCount": 1,
+        "result": "pass",
+        "unitId": "unit.behavior.unsupported-operation"
       }
     ]
   },

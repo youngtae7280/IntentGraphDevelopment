@@ -372,11 +372,6 @@
           "id": "codeFactRef.product.main.calls-sub",
           "factId": "fact.function.main.calls.sub",
           "expectedFactKind": "call"
-        },
-        {
-          "id": "codeFactRef.product.main.stderr-unsupported",
-          "factId": "fact.function.main.stderr.unsupported_operation",
-          "expectedFactKind": "stderr-output"
         }
       ],
       "mappingObligations": [
@@ -396,28 +391,24 @@
             "codeFactRef.product.main",
             "codeFactRef.product.main.calls-add",
             "codeFactRef.product.main.calls-mul",
-            "codeFactRef.product.main.calls-sub",
-            "codeFactRef.product.main.stderr-unsupported"
+            "codeFactRef.product.main.calls-sub"
           ],
           "verificationIds": [
             "test.case.add",
             "test.case.mul",
-            "test.case.sub",
-            "test.case.unsupported-operation"
+            "test.case.sub"
           ],
           "evidenceIds": [
             "evidence.behavior-smoke",
             "evidence.extractor-output",
             "evidence.overlay-verifier",
             "evidence.p1.3-maintenance-delta",
-            "evidence.p1.7-refactor-delta",
-            "evidence.p1.9-overlay-contract-delta"
+            "evidence.p1.7-refactor-delta"
           ],
           "authorityIds": [
             "authority.record.p1.2-human",
             "authority.record.p1.3-human",
-            "authority.record.p1.7-human",
-            "authority.record.p1.9-human"
+            "authority.record.p1.7-human"
           ],
           "sourceTextEqualityRequired": false
         }
@@ -426,8 +417,7 @@
         "behaviorSmokeIds": [
           "test.case.add",
           "test.case.sub",
-          "test.case.mul",
-          "test.case.unsupported-operation"
+          "test.case.mul"
         ]
       },
       "evidence": [
@@ -435,123 +425,17 @@
         "evidence.extractor-output",
         "evidence.overlay-verifier",
         "evidence.p1.3-maintenance-delta",
-        "evidence.p1.7-refactor-delta",
-        "evidence.p1.9-overlay-contract-delta"
+        "evidence.p1.7-refactor-delta"
       ],
       "authority": [
         "authority.record.p1.2-human",
         "authority.record.p1.3-human",
-        "authority.record.p1.7-human",
-        "authority.record.p1.9-human"
+        "authority.record.p1.7-human"
       ],
       "history": [
         "history.delta.p1.2-code-first-overlay",
         "history.delta.p1.3-add-mul",
-        "history.delta.p1.7-refactor-mul-to-multiply",
-        "history.delta.p1.9-overlay-unsupported-operation"
-      ],
-      "admission": {
-        "stableId": true,
-        "acceptedCommitment": true,
-        "mappingBoundary": true,
-        "codeRefBoundary": true,
-        "codeFactBoundary": true,
-        "verificationObligation": true,
-        "evidenceBoundary": true,
-        "authorityBoundary": true,
-        "codeTextContained": false,
-        "rawUtterance": false,
-        "hypothesisOnly": false
-      }
-    },
-    {
-      "id": "unit.behavior.unsupported-operation",
-      "kind": "behavior",
-      "status": "accepted",
-      "contract": {
-        "summary": "python calc.py UNKNOWN LEFT RIGHT writes unsupported operation to stderr and exits 2.",
-        "acceptedDevelopmentCommitment": "The unsupported-operation behavior is accepted as an overlay-only contract for behavior already present in source."
-      },
-      "codeRefs": [
-        {
-          "id": "codeRef.unsupported.main-stderr",
-          "artifactId": "source.calc.py",
-          "factId": "fact.function.main.stderr.unsupported_operation",
-          "refKind": "branch-output",
-          "symbol": "main",
-          "ownership": "reference-only"
-        },
-        {
-          "id": "codeRef.unsupported.main-return-2",
-          "artifactId": "source.calc.py",
-          "factId": "fact.function.main.return.2",
-          "refKind": "return-code",
-          "symbol": "main",
-          "ownership": "reference-only"
-        }
-      ],
-      "codeFactRefs": [
-        {
-          "id": "codeFactRef.unsupported.stderr",
-          "factId": "fact.function.main.stderr.unsupported_operation",
-          "expectedFactKind": "stderr-output"
-        },
-        {
-          "id": "codeFactRef.unsupported.return-2",
-          "factId": "fact.function.main.return.2",
-          "expectedFactKind": "return-expression"
-        }
-      ],
-      "mappingObligations": [
-        {
-          "id": "mapping.unsupported.behavior-to-code",
-          "obligationKind": "behavior-to-code-fact",
-          "mode": "code-first-maintenance-overlay",
-          "intentIds": [
-            "intent.behavior.unsupported-operation"
-          ],
-          "codeRefIds": [
-            "codeRef.unsupported.main-stderr",
-            "codeRef.unsupported.main-return-2"
-          ],
-          "codeFactRefIds": [
-            "codeFactRef.unsupported.stderr",
-            "codeFactRef.unsupported.return-2"
-          ],
-          "verificationIds": [
-            "test.case.unsupported-operation"
-          ],
-          "evidenceIds": [
-            "evidence.extractor-output",
-            "evidence.behavior-smoke",
-            "evidence.overlay-verifier",
-            "evidence.p1.9-overlay-contract-delta"
-          ],
-          "authorityIds": [
-            "authority.record.p1.9-human"
-          ],
-          "sourceTextEqualityRequired": false
-        }
-      ],
-      "verification": {
-        "behaviorSmoke": {
-          "command": "python calc.py div 4 2",
-          "expectedStdout": "",
-          "expectedStderr": "unsupported operation: div\n",
-          "expectedExitCode": 2
-        }
-      },
-      "evidence": [
-        "evidence.extractor-output",
-        "evidence.behavior-smoke",
-        "evidence.overlay-verifier",
-        "evidence.p1.9-overlay-contract-delta"
-      ],
-      "authority": [
-        "authority.record.p1.9-human"
-      ],
-      "history": [
-        "history.delta.p1.9-overlay-unsupported-operation"
+        "history.delta.p1.7-refactor-mul-to-multiply"
       ],
       "admission": {
         "stableId": true,
@@ -586,12 +470,6 @@
       "kind": "refines",
       "from": "unit.product.calculator",
       "to": "unit.behavior.sub"
-    },
-    {
-      "id": "unit-edge.product-refines-unsupported-operation",
-      "kind": "refines",
-      "from": "unit.product.calculator",
-      "to": "unit.behavior.unsupported-operation"
     }
   ],
   "verification": [
@@ -633,20 +511,6 @@
       ],
       "expectedStdout": "3\n",
       "expectedExitCode": 0
-    },
-    {
-      "id": "test.case.unsupported-operation",
-      "kind": "behavior-smoke",
-      "command": [
-        "python",
-        "calc.py",
-        "div",
-        "4",
-        "2"
-      ],
-      "expectedStdout": "",
-      "expectedStderr": "unsupported operation: div\n",
-      "expectedExitCode": 2
     }
   ],
   "evidence": [
@@ -679,12 +543,6 @@
       "kind": "code-first-refactor-report",
       "status": "planned",
       "artifactRef": "generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json"
-    },
-    {
-      "id": "evidence.p1.9-overlay-contract-delta",
-      "kind": "overlay-only-contract-delta-report",
-      "status": "planned",
-      "artifactRef": "generated/cf0-python-cli-calculator/p1.9-overlay-contract-delta-report.json"
     }
   ],
   "authority": [
@@ -720,17 +578,6 @@
       "decidedByType": "human",
       "decision": "accepted-code-first-refactor-delta-probe",
       "decisionStatus": "accepted"
-    },
-    {
-      "id": "authority.record.p1.9-human",
-      "proposer": "IntentGraphDevelopment Roadmap Orchestrator",
-      "proposerType": "human",
-      "requiredAuthority": "roadmap-orchestrator",
-      "validator": "p1.9-overlay-only-contract-delta-verifier",
-      "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
-      "decidedByType": "human",
-      "decision": "accepted-overlay-only-unsupported-operation-contract",
-      "decisionStatus": "accepted"
     }
   ],
   "history": [
@@ -758,15 +605,6 @@
       "changeType": "code-first-refactor-mul-to-multiply",
       "status": "accepted",
       "summary": "Refactor multiply behavior implementation function from mul to multiply while preserving the stable unit.behavior.mul contract and CLI operation.",
-      "gitCommit": null,
-      "gitCommitBoundary": "pending-current-milestone"
-    },
-    {
-      "id": "history.delta.p1.9-overlay-unsupported-operation",
-      "sequence": 4,
-      "changeType": "overlay-only-contract-coverage",
-      "status": "accepted",
-      "summary": "Model existing unsupported-operation fallback behavior as an explicit overlay contract without changing source behavior.",
       "gitCommit": null,
       "gitCommitBoundary": "pending-current-milestone"
     }

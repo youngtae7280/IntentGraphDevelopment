@@ -71,21 +71,23 @@ Goal: add a tiny hand-written Python calculator source fixture, extract determin
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
 
-## Current Slice: P1.8 CF0 Historical State Index and Report Boundary
+## Current Slice: P1.9 Tiny Code-First Overlay-Only Contract Delta Probe
 
-Goal: add a small deterministic CF0 state index that makes historical/current report boundaries explicit.
+Goal: model existing unsupported-operation behavior as an explicit overlay contract without changing CF0 source behavior.
 
-After P1.7.R, CF0 has named P1.3 historical after-state artifacts and a repaired P1.4 harness. P1.8 records those boundaries as a generated index with state ids, transition ids, artifact paths, deterministic digests, and current/historical markers.
+After P1.8, CF0 has an explicit state index. P1.9 adds a new state transition where source bytes stay unchanged, but overlay contract coverage increases for behavior already present in `main`.
 
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
 
 Expected changes:
 
-- add a generated CF0 historical state index
-- add a small emitter/validator if useful
-- include P1.3 before-add-mul, P1.3 after-add-mul, and current P1.7 refactor states
-- connect P1.3 and P1.7 transitions to their delta and report artifacts
-- keep the repaired P1.4 historical harness and current P1.7 refactor report passing
+- capture P1.9 before facts, overlay, and source artifacts
+- add deterministic unsupported-operation code facts if needed
+- add `unit.behavior.unsupported-operation`
+- add unsupported-operation verification, evidence, authority, and history records
+- add an overlay-only contract delta artifact and report
+- update the historical state index so P1.9 is current
+- keep the repaired P1.4 historical harness and P1.7 refactor report passing
 
 Non-goals:
 
@@ -100,35 +102,39 @@ Non-goals:
 - no source text equality requirement
 - no new feature delta
 - no general history engine
+- no source behavior change unless required for testability
 
-## Required Output For P1.8
+## Required Output For P1.9
 
-P1.8 should produce:
+P1.9 should produce:
 
-- `generated/cf0-python-cli-calculator/cf0-historical-state-index.json`
-- a deterministic index emitter/validator if added
-- an explicit P1.3 before-source historical copy if recovered cleanly
-- P1.8 review notes
-- updated validation rule for historical/current state index boundaries
+- `docs/examples/cf0-python-cli-calculator/deltas/p1.9-overlay-unsupported-operation.delta.json`
+- `generated/cf0-python-cli-calculator/p1.9-before-code-facts.json`
+- `generated/cf0-python-cli-calculator/p1.9-before-overlay.json`
+- `generated/cf0-python-cli-calculator/p1.9-before-source/calc.py`
+- `generated/cf0-python-cli-calculator/p1.9-overlay-contract-delta-report.json`
+- updated `generated/cf0-python-cli-calculator/cf0-historical-state-index.json`
+- P1.9 review notes
+- updated validation rule for overlay-only contract deltas
 
 ## Acceptance Criteria
 
-P1.8 passes only if:
+P1.9 passes only if:
 
-1. The state index validates unique states/transitions and exactly one current state.
-2. Every referenced artifact exists and has a deterministic `sha256:` digest.
-3. P1.3 historical states do not point to mutable current source, current facts, or current overlay artifacts.
-4. P1.3 after-state contains old `mul` implementation facts.
-5. P1.7 current state contains `multiply` implementation facts and not old `mul` implementation facts.
-6. P1.4 historical harness and P1.7 current refactor report still pass.
+1. CF0 source bytes are unchanged or any source change is explicitly justified.
+2. Unsupported-operation behavior is represented by overlay unit, facts, mappings, verification, evidence, authority, and history.
+3. Existing add/sub/mul behavior units remain preserved.
+4. The P1.9 report declares no source text equality and no hidden generated-code snapshot.
+5. The state index includes a P1.9 current state and transition.
+6. P1.4 historical harness and P1.7 refactor report still pass.
 
 ## Stop Conditions
 
 Stop and report before broadening scope if:
 
-- the index uses current P1.7 artifacts for a historical state.
-- state or transition ids are ambiguous.
-- referenced artifact digests cannot be computed deterministically.
+- source bytes change without a documented reason.
+- unsupported-operation behavior cannot be deterministically mapped to code facts.
+- P1.9 evidence, authority, or history records do not resolve.
 - P1.4 positive historical baseline does not pass.
 - P1.7 current refactor report stops passing.
 - IntentGraph is described again as a universal source-code replacement.
@@ -139,7 +145,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.8 CF0 Historical State Index and Report Boundary
+P1.9 Tiny Code-First Overlay-Only Contract Delta Probe
 ```
 
 Worker should start from:
@@ -148,9 +154,8 @@ Worker should start from:
 - `docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json`
 - `tools/verify_code_first_delta.py`
 - `tools/run_cf0_delta_negative_probes.py`
-- `generated/cf0-python-cli-calculator/p1.3-after-code-facts.json`
-- `generated/cf0-python-cli-calculator/p1.3-after-overlay.json`
-- `generated/cf0-python-cli-calculator/p1.3-after-source/calc.py`
+- `tools/emit_cf0_historical_state_index.py`
 - `generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json`
+- `generated/cf0-python-cli-calculator/cf0-historical-state-index.json`
 
-Worker should not start the next phase or a larger benchmark until P1.8 review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start the next phase or a larger benchmark until P1.9 review passes and the Coordinator explicitly authorizes the next phase.

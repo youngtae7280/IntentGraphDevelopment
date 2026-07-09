@@ -1,0 +1,47 @@
+{
+  "deltaVersion": "0.1.0",
+  "deltaId": "p1.9-overlay-unsupported-operation",
+  "benchmarkId": "CF0-python-cli-calculator",
+  "mode": "code-first-overlay-only-contract-delta",
+  "summary": "Model existing unsupported-operation behavior as an explicit overlay contract without changing CF0 source behavior.",
+  "before": {
+    "sourceDigest": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524",
+    "codeFactsDigest": "sha256:ff80d8f654e3752bfb446a6100d493df452386ab98724ae36e0c4f46f742131c",
+    "codeFactCount": 16,
+    "overlayDigest": "sha256:dbb203a083e39cb085f9f0f746b0db308b5382c2de3de0ea79d19804334ac37b",
+    "mappingObligationCount": 4
+  },
+  "expectedAfter": {
+    "sourceChanged": false,
+    "overlayChanged": true,
+    "contractCoverageIncreased": true,
+    "addedBehaviorUnits": [
+      "unit.behavior.unsupported-operation"
+    ],
+    "addedCodeFactIds": [
+      "fact.function.main.stderr.unsupported_operation"
+    ],
+    "preservedBehaviorUnits": [
+      "unit.behavior.add",
+      "unit.behavior.mul",
+      "unit.behavior.sub"
+    ],
+    "behaviorChecks": [
+      "test.case.add",
+      "test.case.sub",
+      "test.case.mul",
+      "test.case.unsupported-operation"
+    ]
+  },
+  "authorityIds": [
+    "authority.record.p1.9-human"
+  ],
+  "evidenceIds": [
+    "evidence.p1.9-overlay-contract-delta"
+  ],
+  "historyIds": [
+    "history.delta.p1.9-overlay-unsupported-operation"
+  ],
+  "sourceTextEqualityRequired": false,
+  "hiddenGeneratedCodeSnapshotUsed": false
+}

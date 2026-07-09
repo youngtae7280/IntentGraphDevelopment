@@ -1,6 +1,6 @@
 {
   "benchmarkId": "CF0-python-cli-calculator",
-  "codeFactsVersion": "0.2.0",
+  "codeFactsVersion": "0.1.0",
   "extractor": {
     "deterministic": true,
     "externalExtractor": false,
@@ -184,51 +184,6 @@
         "columnStart": 0,
         "lineEnd": 43,
         "lineStart": 20
-      },
-      "sourceMode": "ast-extracted",
-      "symbol": "main"
-    },
-    {
-      "artifactPath": "calc.py",
-      "confidence": "deterministic",
-      "id": "fact.function.main.stderr.left_and_right_must_be_integers",
-      "kind": "stderr-output",
-      "literal": "LEFT and RIGHT must be integers",
-      "location": {
-        "columnEnd": 65,
-        "columnStart": 8,
-        "lineEnd": 31,
-        "lineStart": 31
-      },
-      "sourceMode": "ast-extracted",
-      "symbol": "main"
-    },
-    {
-      "artifactPath": "calc.py",
-      "confidence": "deterministic",
-      "id": "fact.function.main.stderr.unsupported_operation",
-      "kind": "stderr-output",
-      "literal": "unsupported operation: ",
-      "location": {
-        "columnEnd": 65,
-        "columnStart": 4,
-        "lineEnd": 42,
-        "lineStart": 42
-      },
-      "sourceMode": "ast-extracted",
-      "symbol": "main"
-    },
-    {
-      "artifactPath": "calc.py",
-      "confidence": "deterministic",
-      "id": "fact.function.main.stderr.usage_calc_add_sub_mul_left_right",
-      "kind": "stderr-output",
-      "literal": "usage: calc {add|sub|mul} LEFT RIGHT",
-      "location": {
-        "columnEnd": 70,
-        "columnStart": 8,
-        "lineEnd": 24,
-        "lineStart": 24
       },
       "sourceMode": "ast-extracted",
       "symbol": "main"

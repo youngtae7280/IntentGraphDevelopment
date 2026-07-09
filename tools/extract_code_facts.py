@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 
-EXTRACTOR_VERSION = "0.1.0"
+EXTRACTOR_VERSION = "0.2.0"
 
 
 class ExtractError(Exception):
@@ -54,6 +54,54 @@ def return_expressions(function: ast.FunctionDef) -> list[str]:
     return sorted(set(expressions))
 
 
+def safe_id(value: str) -> str:
+    safe = "".join(character.lower() if character.isalnum() else "_" for character in value)
+    safe = "_".join(part for part in safe.split("_") if part)
+    return safe[:80] or "empty"
+
+
+def stderr_print_facts(source_path: Path, function: ast.FunctionDef) -> list[dict[str, Any]]:
+    facts: list[dict[str, Any]] = []
+    for child in ast.walk(function):
+        if not isinstance(child, ast.Call) or not isinstance(child.func, ast.Name) or child.func.id != "print":
+            continue
+        prints_to_stderr = any(
+            keyword.arg == "file"
+            and isinstance(keyword.value, ast.Attribute)
+            and keyword.value.attr == "stderr"
+            and isinstance(keyword.value.value, ast.Name)
+            and keyword.value.value.id == "sys"
+            for keyword in child.keywords
+        )
+        if not prints_to_stderr or not child.args:
+            continue
+        first_arg = child.args[0]
+        literal = ""
+        if isinstance(first_arg, ast.Constant) and isinstance(first_arg.value, str):
+            literal = first_arg.value
+        elif isinstance(first_arg, ast.JoinedStr):
+            literal = "".join(
+                part.value
+                for part in first_arg.values
+                if isinstance(part, ast.Constant) and isinstance(part.value, str)
+            )
+        if not literal:
+            continue
+        facts.append(
+            {
+                "id": f"fact.function.{function.name}.stderr.{safe_id(literal)}",
+                "kind": "stderr-output",
+                "sourceMode": "ast-extracted",
+                "confidence": "deterministic",
+                "artifactPath": source_path.name,
+                "symbol": function.name,
+                "literal": literal,
+                "location": line_col_range(child),
+            }
+        )
+    return facts
+
+
 def function_facts(source_path: Path, function: ast.FunctionDef) -> list[dict[str, Any]]:
     symbol = function.name
     facts: list[dict[str, Any]] = [
@@ -89,6 +137,7 @@ def function_facts(source_path: Path, function: ast.FunctionDef) -> list[dict[st
                 "location": line_col_range(function),
             }
         )
+    facts.extend(stderr_print_facts(source_path, function))
     for called in call_names(function):
         facts.append(
             {

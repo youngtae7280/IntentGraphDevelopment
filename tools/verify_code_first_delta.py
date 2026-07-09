@@ -12,7 +12,11 @@ from verify_code_first_overlay import verify as verify_overlay
 
 
 REPORT_VERSION = "0.1.0"
-ALLOWED_MODES = {"code-first-maintenance-delta", "code-first-refactor-delta"}
+ALLOWED_MODES = {
+    "code-first-maintenance-delta",
+    "code-first-refactor-delta",
+    "code-first-overlay-only-contract-delta",
+}
 
 
 class DeltaVerifyError(Exception):
@@ -132,6 +136,20 @@ def verify_delta(
         errors.append("delta must not require source text equality")
     if delta.get("hiddenGeneratedCodeSnapshotUsed") is not False:
         errors.append("delta must not use hidden generated-code snapshots")
+    source_changed = source_digest(before_facts) != source_digest(after_facts)
+    overlay_changed = digest_json(before_overlay) != digest_json(overlay)
+    expected_after = delta.get("expectedAfter", {})
+    if "sourceChanged" in expected_after and expected_after.get("sourceChanged") is not source_changed:
+        errors.append("sourceChanged expectation does not match before/after source digests")
+    if "overlayChanged" in expected_after and expected_after.get("overlayChanged") is not overlay_changed:
+        errors.append("overlayChanged expectation does not match before/after overlay digests")
+    if delta.get("mode") == "code-first-overlay-only-contract-delta":
+        if source_changed:
+            errors.append("overlay-only contract delta must not change source bytes")
+        if not overlay_changed:
+            errors.append("overlay-only contract delta must change the overlay")
+        if expected_after.get("contractCoverageIncreased") is not True:
+            errors.append("overlay-only contract delta must declare increased contract coverage")
     if delta.get("before", {}).get("sourceDigest") != source_digest(before_facts):
         errors.append("before source digest does not match before code facts")
     if delta.get("before", {}).get("codeFactsDigest") != digest_json(before_facts):
@@ -219,6 +237,9 @@ def verify_delta(
         },
         "delta": {
             "deltaId": delta.get("deltaId"),
+            "sourceChanged": source_changed,
+            "overlayChanged": overlay_changed,
+            "contractCoverageIncreased": expected_after.get("contractCoverageIncreased"),
             "addedBehaviorUnits": sorted(added_behaviors),
             "addedBehaviorCount": len(added_behaviors),
             "preservedBehaviorUnits": sorted(preserved_behaviors),

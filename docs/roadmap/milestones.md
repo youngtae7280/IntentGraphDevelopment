@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.8 CF0 Historical State Index and Report Boundary
+P1.9 Tiny Code-First Overlay-Only Contract Delta Probe
 ```
 
-This is a focused CF0 indexing slice that records historical states, current state, artifact digests, and delta transitions so future probes cannot silently mix current artifacts with historical deltas. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused CF0 semantic-overlay slice that models already-existing unsupported-operation source behavior as an explicit overlay contract. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -282,7 +282,7 @@ Status: completed on 2026-07-09. Review notes are recorded in the P1.4 and P1.7 
 
 Goal: add a small deterministic CF0 historical state index that records P1.3 before/after states, the current P1.7 refactor state, artifact digests, and the delta transitions connecting them.
 
-Status: current authorized slice. See [P1.8 CF0 Historical State Index Review](../reviews/p1.8-cf0-historical-state-index-review.md).
+Status: completed on 2026-07-10. See [P1.8 CF0 Historical State Index Review](../reviews/p1.8-cf0-historical-state-index-review.md).
 
 Non-goals:
 
@@ -291,3 +291,17 @@ Non-goals:
 - no UI/workbench visualization
 - no B0 generated-code pipeline changes
 - no dependency addition
+
+## P1.9: Tiny Code-First Overlay-Only Contract Delta Probe
+
+Goal: model CF0's existing unsupported-operation fallback as an explicit IntentGraph contract, verification obligation, evidence record, authority record, and history transition without changing source behavior.
+
+Status: current authorized slice. See [P1.9 Overlay-Only Contract Delta Review](../reviews/p1.9-overlay-only-contract-delta-review.md).
+
+Non-goals:
+
+- no broad planner
+- no UI/workbench visualization
+- no B0 generated-code pipeline changes
+- no full semantic equivalence claim
+- no source text equality requirement

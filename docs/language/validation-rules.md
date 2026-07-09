@@ -426,7 +426,15 @@ Severity: P0 in P1.8
 
 CF0 historical/current state indexes must use unique state ids, unique transition ids, deterministic `sha256:` artifact digests, exactly one current state, and explicit historical/current markers. Historical states must not point to mutable current source, current code-facts, or current overlay artifacts. Transitions must reference existing states and must identify their delta and verification report artifacts.
 
-The P1.3 after-state must remain distinguishable from the P1.7 current state: P1.3 historical facts contain the old `mul` implementation facts, while P1.7 current facts contain `multiply` implementation facts and do not use the old `mul` implementation facts as current mappings.
+The P1.3 after-state must remain distinguishable from the P1.7 refactor state and later current states: P1.3 historical facts contain the old `mul` implementation facts, while P1.7 refactor facts contain `multiply` implementation facts and do not use the old `mul` implementation facts as current mappings.
+
+### V413 - Overlay-Only Contract Delta
+
+Severity: P0 in P1.9
+
+An overlay-only contract delta must declare `sourceChanged: false`, `overlayChanged: true`, `contractCoverageIncreased: true`, `sourceTextEqualityRequired: false`, and `hiddenGeneratedCodeSnapshotUsed: false`. It must add or update IntentGraph overlay coverage for behavior that already exists in source, preserve existing accepted behavior units, verify the new contract through behavior evidence, and resolve its evidence, authority, and history records.
+
+If extractor coverage is expanded to support the new contract, the new code facts must remain deterministic and the delta report must distinguish source behavior changes from extractor/overlay coverage changes.
 
 ## M1 Fixture Review Checklist
 

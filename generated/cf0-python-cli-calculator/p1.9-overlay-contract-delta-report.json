@@ -1,4 +1,18 @@
 {
+  "after": {
+    "codeFactCount": 19,
+    "codeFactsDigest": "sha256:1a3f50c0593d614da6df13354c2a643346b6a65a6f5bd20e7b3d90e23fddd971",
+    "mappingObligationCount": 5,
+    "overlayDigest": "sha256:ebf558b2ef036ea350eb46ba81137365ce1e12af1118b96c77e02a4470f5b59e",
+    "sourceDigest": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+  },
+  "before": {
+    "codeFactCount": 16,
+    "codeFactsDigest": "sha256:ff80d8f654e3752bfb446a6100d493df452386ab98724ae36e0c4f46f742131c",
+    "mappingObligationCount": 4,
+    "overlayDigest": "sha256:dbb203a083e39cb085f9f0f746b0db308b5382c2de3de0ea79d19804334ac37b",
+    "sourceDigest": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+  },
   "behaviorVerification": {
     "checks": [
       {
@@ -72,17 +86,63 @@
     ],
     "result": "pass"
   },
-  "benchmarkId": "CF0-python-cli-calculator",
-  "codeFacts": {
-    "deterministic": true,
-    "externalExtractor": false,
-    "factCount": 19,
-    "sourceDigest": "60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524",
-    "sourceRole": "hand-written"
+  "checks": [
+    "before code facts captured independently",
+    "before source digest verified against before code facts",
+    "before overlay digest verified against before overlay artifact",
+    "before mapping obligation count verified against before overlay artifact",
+    "after overlay verification executed",
+    "expected added and removed code facts verified",
+    "remapped units verified when declared",
+    "delta evidence, authority, and history ids verified",
+    "source text equality not required",
+    "hidden generated-code snapshot not used"
+  ],
+  "delta": {
+    "addedBehaviorCount": 1,
+    "addedBehaviorUnits": [
+      "unit.behavior.unsupported-operation"
+    ],
+    "addedCodeFactIds": [
+      "fact.function.main.stderr.left_and_right_must_be_integers",
+      "fact.function.main.stderr.unsupported_operation",
+      "fact.function.main.stderr.usage_calc_add_sub_mul_left_right"
+    ],
+    "contractCoverageIncreased": true,
+    "deltaId": "p1.9-overlay-unsupported-operation",
+    "expectedAddedCodeFactIds": [
+      "fact.function.main.stderr.unsupported_operation"
+    ],
+    "expectedRemovedCodeFactIds": [],
+    "overlayChanged": true,
+    "preservedBehaviorUnits": [
+      "unit.behavior.add",
+      "unit.behavior.mul",
+      "unit.behavior.sub"
+    ],
+    "remappedUnits": [],
+    "removedCodeFactIds": [],
+    "sourceChanged": false
   },
+  "deltaRecordsVerification": {
+    "authorityIds": [
+      "authority.record.p1.9-human"
+    ],
+    "evidenceIds": [
+      "evidence.p1.9-overlay-contract-delta"
+    ],
+    "historyIds": [
+      "history.delta.p1.9-overlay-unsupported-operation"
+    ],
+    "result": "pass"
+  },
+  "errors": [],
   "hiddenGeneratedCodeSnapshotUsed": false,
   "inputs": {
-    "codeFacts": "generated/cf0-python-cli-calculator/code-facts.json",
+    "afterCodeFacts": "generated/cf0-python-cli-calculator/code-facts.json",
+    "beforeCodeFacts": "generated/cf0-python-cli-calculator/p1.9-before-code-facts.json",
+    "beforeOverlay": "generated/cf0-python-cli-calculator/p1.9-before-overlay.json",
+    "delta": "docs/examples/cf0-python-cli-calculator/deltas/p1.9-overlay-unsupported-operation.delta.json",
     "overlay": "docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json",
     "sourceRoot": "docs/examples/cf0-python-cli-calculator/source"
   },
@@ -134,7 +194,7 @@
       }
     ]
   },
-  "mode": "code-first-maintenance-overlay",
+  "mode": "code-first-overlay-only-contract-delta",
   "reportVersion": "0.1.0",
   "result": "pass",
   "semanticBoundaries": {
@@ -143,5 +203,6 @@
     "evidencePresent": true,
     "historyPresent": true
   },
+  "sourceRole": "hand-written",
   "sourceTextEqualityRequired": false
 }
