@@ -1373,3 +1373,41 @@ Recommended next slice:
 ```text
 P8.28 WindowsUtility Productization Readiness Recheck
 ```
+
+## Completed Slice: P8.28 WindowsUtility Productization Readiness Recheck
+
+Goal: recheck productization blockers after the WindowsUtility stabilization sequence through P8.27.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.28-windowsutility-productization-readiness-recheck-report.json`
+- [P8.28 WindowsUtility Productization Readiness Recheck](../reviews/p8.28-windowsutility-productization-readiness-recheck-review.md)
+
+Decision:
+
+```text
+productization-still-blocked-product-surface-and-application-gates-required
+```
+
+Resolved or improved:
+
+- target repository state
+- shell/workspace accepted mapping
+- non-applied proposal validation
+- sandboxed evidence
+- static real-project workbench
+- compact user workflow response
+
+Remaining blockers:
+
+- real proposal application loop
+- first product surface decision
+- packaging/release boundary
+- detailed usability study claim
+- broader mapping breadth if the product scope exceeds shell/workspace review
+
+Recommended next slice:
+
+```text
+P8.29 First Product Surface Decision Boundary Plan
+```

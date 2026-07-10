@@ -1,0 +1,156 @@
+{
+  "artifactRole": "intentgraph-productization-readiness-recheck-report",
+  "status": "intentgraph-productization-readiness-still-blocked",
+  "scope": "p8.28-windowsutility-productization-readiness-recheck-report-only",
+  "workItem": "P8.28 WindowsUtility Productization Readiness Recheck",
+  "date": "2026-07-10",
+  "decision": "productization-still-blocked-product-surface-and-application-gates-required",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.0-productization-readiness-gap-report.json",
+      "artifactRole": "intentgraph-productization-readiness-gap-report",
+      "status": "intentgraph-productization-readiness-blocked"
+    },
+    {
+      "path": "generated/roadmap/p8.27-windowsutility-user-workflow-benchmark-result.json",
+      "artifactRole": "intentgraph-user-workflow-benchmark-result",
+      "status": "intentgraph-user-workflow-benchmark-result-recorded"
+    },
+    {
+      "path": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json",
+      "artifactRole": "intentgraph-windowsutility-accepted-mapping-verification-report",
+      "status": "intentgraph-windowsutility-accepted-mapping-verification-passed"
+    },
+    {
+      "path": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-validation-report.json",
+      "artifactRole": "intentgraph-windowsutility-non-applied-proposal-validation-report",
+      "status": "intentgraph-windowsutility-non-applied-proposal-validation-passed"
+    },
+    {
+      "path": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-validation-report.json",
+      "artifactRole": "intentgraph-windowsutility-workbench-validation-report",
+      "status": "intentgraph-windowsutility-workbench-validation-passed"
+    }
+  ],
+  "readinessChecklist": {
+    "targetRepositoryStateAcceptable": true,
+    "realProjectInventoryPresent": true,
+    "acceptedRealProjectMappingPresent": true,
+    "acceptedMappingNegativeProbesPresent": true,
+    "nonAppliedProposalValidationPresent": true,
+    "sandboxedEvidencePresent": true,
+    "realEvidenceAuthorityWorkflowPassedForNonAppliedLoop": true,
+    "realProposalApplicationLoopPassed": false,
+    "realProjectWorkbenchPresent": true,
+    "selfConductedWorkbenchDryRunPresent": true,
+    "userWorkflowBenchmarkResponseRecorded": true,
+    "detailedUserWorkflowStudyPresent": false,
+    "productSurfaceDecisionRecordPresent": false,
+    "packagingReleaseBoundaryPresent": false,
+    "aiAuthorityPromoted": false,
+    "sourceMutationAuthorized": false,
+    "productizationAuthorized": false,
+    "productizationReady": false
+  },
+  "p8_0BlockerDisposition": [
+    {
+      "id": "blocker.target-repository-state",
+      "previousStatus": "blocked",
+      "currentStatus": "resolved",
+      "evidence": "WindowsUtility is clean/aligned at 07cbe76368e8857ad198438707f1d52301925da3."
+    },
+    {
+      "id": "blocker.accepted-real-project-mapping",
+      "previousStatus": "blocked",
+      "currentStatus": "resolved-for-shell-workspace",
+      "evidence": "P8.9 accepted the shell/workspace mapping and verification passed."
+    },
+    {
+      "id": "blocker.real-change-loop",
+      "previousStatus": "blocked",
+      "currentStatus": "partial-non-applied-loop-only",
+      "evidence": "A non-applied proposal, sandboxed build/UI/screenshot evidence, and authority boundaries exist, but no real source application loop has passed."
+    },
+    {
+      "id": "blocker.real-project-workbench",
+      "previousStatus": "blocked",
+      "currentStatus": "resolved-static-preview",
+      "evidence": "P8.21 emitted and validated a WindowsUtility shell/workspace evidence workbench projection."
+    },
+    {
+      "id": "blocker.user-workflow-benchmark",
+      "previousStatus": "blocked",
+      "currentStatus": "partial-compact-response-recorded",
+      "evidence": "P8.27 records the user/coordinator compact `accept` response. Detailed per-question usability answers are not claimed."
+    },
+    {
+      "id": "blocker.product-surface",
+      "previousStatus": "blocked",
+      "currentStatus": "blocked",
+      "evidence": "No first product surface decision record exists."
+    }
+  ],
+  "remainingBlockers": [
+    {
+      "id": "blocker.real-proposal-application-loop",
+      "severity": "p0",
+      "summary": "No WindowsUtility source change has passed through proposal, application, evidence, authority, and review.",
+      "requiredResolution": "Open a separate source-write/apply authority gate or keep productization limited to report-only surfaces."
+    },
+    {
+      "id": "blocker.product-surface-decision",
+      "severity": "p0",
+      "summary": "No first product surface has been selected.",
+      "requiredResolution": "Create a build/borrow/integrate decision for the first surface, likely CLI report commands or static local workbench export."
+    },
+    {
+      "id": "blocker.packaging-release-boundary",
+      "severity": "p0",
+      "summary": "Packaging and release safety boundaries are absent.",
+      "requiredResolution": "Define release, install, rollback, and update boundaries before any packaged product claim."
+    },
+    {
+      "id": "blocker.workflow-benchmark-detail",
+      "severity": "p2",
+      "summary": "The user response is compact and does not provide per-question timing/confusion details.",
+      "requiredResolution": "Accept for next bounded planning, but do not claim a detailed usability study."
+    },
+    {
+      "id": "blocker.mapping-breadth",
+      "severity": "p2",
+      "summary": "Only the shell/workspace mapping is accepted.",
+      "requiredResolution": "Before broad product claims, map additional WindowsUtility module surfaces or explicitly scope the product surface to shell/workspace review."
+    }
+  ],
+  "allowedNextWork": [
+    "first product surface decision boundary plan",
+    "static local workbench export decision",
+    "CLI report command decision",
+    "readiness-only product surface comparison",
+    "additional accepted mapping planning"
+  ],
+  "blockedWork": [
+    "source edits",
+    "proposal application",
+    "target writes",
+    "AI authority promotion",
+    "hardware actions",
+    "packaging",
+    "release",
+    "editor integration",
+    "GitHub workflow integration",
+    "team workflow automation",
+    "product readiness claim"
+  ],
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.29 First Product Surface Decision Boundary Plan"
+}

@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.27 WindowsUtility User Workflow Benchmark Result Record
+P8.28 WindowsUtility Productization Readiness Recheck
 ```
 
-This Phase G stabilization slice recorded the user/coordinator `accept` response for the WindowsUtility workflow benchmark request. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice rechecked productization readiness after the user workflow benchmark response. Productization remains blocked; the next safe work is a first product surface decision boundary plan. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1496,5 +1496,35 @@ Non-goals:
 - no new sandbox run, UI launch, or WindowsUtility screenshot capture
 - no AI authority promotion
 - no hardware action authority
+- no productization implementation
+- no product readiness claim
+
+## P8.28: WindowsUtility Productization Readiness Recheck
+
+Goal: recheck productization blockers after the WindowsUtility stabilization sequence through P8.27.
+
+Status: completed on 2026-07-10. See [P8.28 WindowsUtility Productization Readiness Recheck](../reviews/p8.28-windowsutility-productization-readiness-recheck-review.md).
+
+Decision:
+
+- target repository state is resolved.
+- shell/workspace accepted mapping is resolved.
+- static real-project workbench is resolved.
+- compact user workflow response is recorded.
+- real proposal application loop remains blocked.
+- first product surface decision remains blocked.
+- packaging/release boundary remains blocked.
+- productization remains unauthorized.
+- continue to `P8.29 First Product Surface Decision Boundary Plan`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
 - no productization implementation
 - no product readiness claim

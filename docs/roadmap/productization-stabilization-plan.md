@@ -1,6 +1,6 @@
 # Productization Stabilization Plan
 
-Status: created in P8.0.
+Status: created in P8.0; rechecked in P8.28.
 
 IntentGraph is not ready for productization. The current evidence proves a semantic overlay model, deterministic toy and B1 fixtures, a static workbench preview, and read-only WindowsUtility adoption artifacts. It does not yet prove a safe user-facing product.
 
@@ -100,3 +100,28 @@ Phase H implementation can open only when:
 - product surface decision record exists
 
 Until then, Phase H is restricted to readiness and stabilization artifacts only.
+
+## P8.28 Recheck
+
+P8.28 found that several P8.0 blockers are now resolved or improved:
+
+- WindowsUtility target state is clean/aligned.
+- one shell/workspace mapping is accepted and verified.
+- a non-applied shell/workspace proposal exists and validates.
+- sandboxed build, UI launch, and screenshot evidence exist.
+- a static WindowsUtility workbench projection exists.
+- the user/coordinator compact `accept` response is recorded.
+
+Productization remains blocked because:
+
+- no real proposal application loop has passed.
+- no first product surface decision exists.
+- no packaging/release boundary exists.
+- the workflow response is compact, not a detailed usability study.
+- only the shell/workspace mapping is accepted.
+
+The next safe stabilization slice is:
+
+```text
+P8.29 First Product Surface Decision Boundary Plan
+```
