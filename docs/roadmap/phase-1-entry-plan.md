@@ -558,3 +558,23 @@ P6.0 B1 Workbench Projection Schema and Static HTML Preview
 ```
 
 P6.0 may define a deterministic projection JSON and static HTML preview over B1 proposal, code facts, overlay, verifier, tests, evidence, authority, and history. It must not mutate source, apply or accept proposals, claim visualization verifies correctness, add external dependencies without decision, or productize the workflow.
+
+## Completed Slice: P6.0 B1 Workbench Projection Schema and Static HTML Preview
+
+Goal: emit a deterministic B1 workbench projection and static local HTML preview.
+
+Produced artifacts:
+
+- `tools/emit_b1_workbench_projection.py`
+- `generated/b1-typescript-rest-api/workbench/p6.0-workbench-projection.json`
+- `generated/b1-typescript-rest-api/workbench/p6.0-workbench-preview.html`
+- `generated/b1-typescript-rest-api/workbench/p6.0-workbench-validation-report.json`
+- [P6.0 B1 Workbench Projection Static HTML Review](../reviews/p6.0-b1-workbench-projection-static-html-review.md)
+
+Recommended next slice:
+
+```text
+P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan
+```
+
+P6.1 should review whether the B1 static preview is sufficient to plan real-project adoption. It must define adoption benchmark criteria before touching WindowsUtility or any other real project.

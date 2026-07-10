@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P5.1 completed.
+P6.0 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P6.0 B1 Workbench Projection Schema and Static HTML Preview.
-Phase F is open only for bounded static B1 workbench projection and preview. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, and productization remain unauthorized.
+Next recommended slice: P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan.
+Phase F has a bounded static B1 workbench projection proof. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -82,21 +82,21 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P5.1 completed:
+P6.0 completed:
 
 ```text
-Phase E Consistency Verifier Boundary Review and Phase F Entry Plan
+B1 Workbench Projection Schema and Static HTML Preview
 ```
 
-P5.1 reviewed B1 consistency verifier evidence and opened Phase F only for static workbench projection.
+P6.0 emitted deterministic projection JSON and static HTML preview over the B1 proposal workflow.
 
 The next step is:
 
 ```text
-P6.0 B1 Workbench Projection Schema and Static HTML Preview
+P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan
 ```
 
-P6.0 should make the B1 proposal workflow inspectable through deterministic projection JSON and static HTML.
+P6.1 should decide whether B1 evidence is sufficient to plan real-project adoption.
 
 ## Phase Overview
 
@@ -107,8 +107,8 @@ P6.0 should make the B1 proposal workflow inspectable through deterministic proj
 | C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static mapping, P3.1 stale failure, P3.2 ambiguity candidate, and P3.3 boundary review completed. |
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | P4.0 proposal validation and P4.1 boundary review completed for B1. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | P5.0 verifier and P5.1 boundary review completed for B1. |
-| F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | Open only for P6.0 static B1 projection/preview. |
-| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Not opened. |
+| F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | P6.0 static B1 projection/preview completed. Boundary review needed before G. |
+| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Not opened. P6.1 should plan entry criteria. |
 | H | Productization | Package CLI/local app/editor/GitHub/team workflow surfaces. | Not opened. |
 
 ## Phase A: Model Correction
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P5.1 Result And P6.0 Required Scope
+## P6.0 Result And P6.1 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,29 +585,27 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
-P5.1 result:
+P6.0 result:
 
 ```text
-Phase E boundary review passes and opens Phase F only for static workbench projection.
+B1 static workbench projection and preview pass.
 ```
 
 Recommended next slice:
 
 ```text
-P6.0 B1 Workbench Projection Schema and Static HTML Preview
+P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan
 ```
 
-P6.0 must:
+P6.1 must:
 
-- define workbench projection JSON shape
-- emit deterministic projection JSON
-- emit static HTML preview
-- expose proposal, impacted files, Intent Units, code facts, planned deltas, tests, evidence, authority, and verifier status
-- validate projection references
-- validate HTML file exists and contains key sections
-- keep visualization non-authoritative
+- review P6.0 projection, static HTML, and validation report
+- decide whether Phase G can open
+- define real-project adoption target and benchmark criteria
+- define performance, workflow, and quality comparison criteria
+- keep source mutation, patch application, AI generation, and productization out of scope unless explicitly opened later
 
-P6.0 must not:
+P6.1 must not:
 
 - expand beyond the tiny B1 static fixture and code fact boundary
 - add another CF0 semantic probe
@@ -615,8 +613,7 @@ P6.0 must not:
 - apply patches
 - grant AI authority
 - resolve ambiguity automatically
-- build a production app
-- claim visualization verifies correctness
+- begin real-project adoption before criteria are written
 - build a broad extractor
 - add dependencies without decision record
 - claim general scalability

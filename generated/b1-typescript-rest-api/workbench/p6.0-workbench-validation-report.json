@@ -1,0 +1,22 @@
+{
+  "artifactRole": "intentgraph-b1-workbench-validation-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "patchApplied": false,
+    "productized": false,
+    "proposalAccepted": false,
+    "sourceMutated": false,
+    "staticPreviewOnly": true,
+    "visualizationVerifiesCorrectness": false
+  },
+  "errors": [],
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-workbench-validation",
+  "status": "intentgraph-b1-workbench-validation-passed",
+  "summary": {
+    "errorCount": 0,
+    "htmlExists": true,
+    "selectionRecordCount": 6,
+    "timelineStepCount": 5
+  }
+}

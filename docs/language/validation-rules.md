@@ -231,6 +231,18 @@ Phase F workbench work must not open until Phase E consistency evidence has been
 
 The first Phase F slice must make deterministic reports inspectable. It must not claim that visualization verifies correctness, and it must not mutate source, apply proposals, accept proposals, or productize the workflow.
 
+## V900: B1 Workbench Projection Is Non-Authoritative
+
+Status: added in P6.0.
+
+B1 workbench projection must consume deterministic source artifacts and verifier reports. It may expose proposal state, impacted files, Intent Units, code facts, planned deltas, tests, evidence, authority, and verifier status, but it must not claim visualization verifies correctness.
+
+Validation commands:
+
+```bash
+python tools/emit_b1_workbench_projection.py --proposal docs/examples/b1-typescript-rest-api/proposals/p4.0-complete-todo-route.proposal.json --proposal-validation generated/b1-typescript-rest-api/p4.0-change-proposal-validation-report.json --consistency generated/b1-typescript-rest-api/p5.0-proposal-consistency-report.json --code-facts generated/b1-typescript-rest-api/code-facts.json --overlay docs/examples/b1-typescript-rest-api/intentgraph.overlay.json --projection-out generated/b1-typescript-rest-api/workbench/p6.0-workbench-projection.json --html-out generated/b1-typescript-rest-api/workbench/p6.0-workbench-preview.html --validation-out generated/b1-typescript-rest-api/workbench/p6.0-workbench-validation-report.json
+```
+
 ## Rule Severity
 
 | Severity | Meaning |

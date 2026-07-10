@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>B1 IntentGraph Workbench Preview</title>
+  <style>
+    :root {
+      --ig-ink: #17202a;
+      --ig-muted: #5f6c7b;
+      --ig-canvas: #f6f7f9;
+      --ig-panel: #ffffff;
+      --ig-line: #d9dee7;
+      --ig-accent: #2563eb;
+      --ig-success: #16794c;
+      --ig-warning: #996d00;
+      --ig-danger: #b42318;
+      --ig-code: #263238;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ig-ink);
+      background: var(--ig-canvas);
+      letter-spacing: 0;
+    }
+    .shell {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr) 360px;
+      min-height: 100vh;
+    }
+    nav {
+      border-right: 1px solid var(--ig-line);
+      background: #f9fafb;
+      padding: 20px 16px;
+    }
+    main { padding: 22px; min-width: 0; }
+    aside {
+      border-left: 1px solid var(--ig-line);
+      background: #fbfcfd;
+      padding: 20px;
+      overflow: auto;
+    }
+    h1 { font-size: 20px; line-height: 1.2; margin: 0 0 6px; }
+    h2 { font-size: 13px; text-transform: uppercase; color: var(--ig-muted); margin: 26px 0 10px; }
+    h3 { font-size: 15px; margin: 0 0 10px; }
+    p { color: var(--ig-muted); line-height: 1.45; }
+    .nav-item, .record {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--ig-line);
+      background: var(--ig-panel);
+      color: var(--ig-ink);
+      border-radius: 6px;
+      padding: 10px 11px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .nav-item.active, .record.active { border-color: var(--ig-accent); box-shadow: inset 0 0 0 1px var(--ig-accent); }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .panel {
+      background: var(--ig-panel);
+      border: 1px solid var(--ig-line);
+      border-radius: 8px;
+      padding: 14px;
+      min-width: 0;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 12px;
+      border: 1px solid var(--ig-line);
+      color: var(--ig-muted);
+      background: #fff;
+    }
+    .status.pass, .status.verified, .status.bound { color: var(--ig-success); border-color: #b7dfca; background: #f0fbf5; }
+    .status.not-applied, .status.planned { color: var(--ig-warning); border-color: #ead59a; background: #fff9e6; }
+    .metric { font-size: 24px; font-weight: 650; margin: 4px 0; }
+    .list { display: grid; gap: 8px; }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--ig-code);
+      font-size: 12px;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #f3f5f7;
+      border: 1px solid var(--ig-line);
+      border-radius: 6px;
+      padding: 10px;
+      max-height: 48vh;
+      overflow: auto;
+    }
+    .timeline { display: grid; gap: 10px; }
+    .timeline-step { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--ig-line); padding-bottom: 8px; }
+    @media (max-width: 980px) {
+      .shell { grid-template-columns: 1fr; }
+      nav, aside { border: 0; border-bottom: 1px solid var(--ig-line); }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav>
+      <h1>IntentGraph B1</h1>
+      <p>Static workbench preview for a non-applied change proposal.</p>
+      <h2>Sections</h2>
+      <button class="nav-item active" data-section="overview">Overview</button>
+      <button class="nav-item" data-section="impact">Impact</button>
+      <button class="nav-item" data-section="deltas">Planned Deltas</button>
+      <button class="nav-item" data-section="requirements">Requirements</button>
+      <button class="nav-item" data-section="verifier">Verifier</button>
+    </nav>
+    <main>
+      <section id="section"></section>
+    </main>
+    <aside>
+      <h2>Selection</h2>
+      <div id="records" class="list"></div>
+      <h2>Details</h2>
+      <pre id="details"></pre>
+    </aside>
+  </div>
+  <script id="workbench-data" type="application/json">{"artifactRole": "intentgraph-b1-workbench-projection", "benchmarkId": "B1-typescript-rest-api", "claimScope": {"patchApplied": false, "productized": false, "proposalAccepted": false, "sourceMutated": false, "staticPreviewOnly": true, "visualizationVerifiesCorrectness": false}, "impact": {"existingCodeFactIds": ["fact.function.completetodo"], "existingIntentUnitIds": ["unit.behavior.complete-todo"], "proposedIntentUnitIds": ["unit.route.patch-todo-complete"], "sourceFiles": ["src/routes/todos.ts", "tests/todoService.test.ts"]}, "plannedDeltas": {"deltaC": [{"applied": false, "fromModule": "../service/todoService", "id": "change.import-completeTodo", "operation": "add-import-symbol", "symbol": "completeTodo", "targetFile": "src/routes/todos.ts"}, {"applied": false, "handlerSymbol": "completeTodo", "id": "change.add-patch-complete-route", "method": "PATCH", "operation": "add-route", "path": "/todos/:id/complete", "targetFile": "src/routes/todos.ts"}, {"applied": false, "id": "change.add-route-test", "operation": "add-test-case", "targetFile": "tests/todoService.test.ts", "testIntent": "complete todo route delegates to completeTodo behavior"}], "deltaI": [{"accepted": false, "id": "unit.route.patch-todo-complete", "kind": "route", "mappingStatus": "planned", "title": "PATCH /todos/:id/complete maps to completeTodo"}], "deltaM": [{"accepted": false, "existingCodeFactIds": ["fact.function.completetodo"], "futureCodeFacts": [{"id": "future.fact.route.patch.todos.complete", "kind": "route", "sourceFile": "src/routes/todos.ts", "sourceLocationStatus": "future-not-applied"}, {"id": "future.fact.test.completeTodoRoute", "kind": "test", "sourceFile": "tests/todoService.test.ts", "sourceLocationStatus": "future-not-applied"}], "id": "mapping-update.patch-todo-complete", "intentUnitId": "unit.route.patch-todo-complete", "mappingObligationRequired": true}]}, "proposal": {"applicationStatus": "not-applied", "id": "proposal.p4.0-complete-todo-route", "mode": "non-applied-plan", "summary": "Plan a PATCH /todos/:id/complete route that would expose existing completeTodo behavior."}, "reportVersion": "0.1.0", "requirements": {"authority": [{"actor": "Coordinator", "aiAuthority": false, "id": "authority.requirement.p4.0-human-review", "kind": "human-review-required", "requiredBeforeAcceptance": true, "selfAuthorized": false}], "evidence": [{"id": "evidence.requirement.p4.0-proposal-validation", "kind": "proposal-validation-report", "requiredBeforeAcceptance": true}, {"id": "evidence.requirement.complete-todo-route-test", "kind": "test-result", "requiredBeforeAcceptance": true}], "tests": [{"id": "test.requirement.complete-todo-route", "kind": "route-behavior-test", "requiredBeforeAcceptance": true, "targetIntentUnitId": "unit.route.patch-todo-complete"}]}, "scope": "b1-typescript-rest-api-workbench-projection-static-preview", "selectionRecords": [{"details": {"codeFactRefs": 1, "codeRefs": 1, "mappingObligations": 1}, "id": "unit.behavior.complete-todo", "kind": "existing-intent-unit", "status": "resolved", "title": "Mark an existing todo as completed"}, {"details": {"accepted": false}, "id": "unit.route.patch-todo-complete", "kind": "proposed-intent-unit", "status": "planned", "title": "PATCH /todos/:id/complete maps to completeTodo"}, {"details": {"confidence": "extracted", "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea", "sourceFile": "src/service/todoService.ts"}, "id": "fact.function.completetodo", "kind": "code-fact:function", "status": "existing", "title": "completeTodo"}, {"details": {"applied": false, "fromModule": "../service/todoService", "operation": "add-import-symbol", "symbol": "completeTodo", "targetFile": "src/routes/todos.ts"}, "id": "change.import-completeTodo", "kind": "planned-source-change", "status": "not-applied", "title": "add-import-symbol"}, {"details": {"applied": false, "handlerSymbol": "completeTodo", "method": "PATCH", "operation": "add-route", "path": "/todos/:id/complete", "targetFile": "src/routes/todos.ts"}, "id": "change.add-patch-complete-route", "kind": "planned-source-change", "status": "not-applied", "title": "add-route"}, {"details": {"applied": false, "operation": "add-test-case", "targetFile": "tests/todoService.test.ts", "testIntent": "complete todo route delegates to completeTodo behavior"}, "id": "change.add-route-test", "kind": "planned-source-change", "status": "not-applied", "title": "add-test-case"}], "status": "intentgraph-b1-workbench-projection-emitted", "summary": {"codeFactCount": 31, "intentUnitCount": 7, "plannedSourceChangeCount": 3, "requiredAuthorityCount": 1, "requiredEvidenceCount": 2, "requiredTestCount": 1, "selectionRecordCount": 6}, "verifierStatus": {"proposalConsistency": "pass", "proposalConsistencyErrors": [], "proposalValidation": "pass", "proposalValidationErrors": []}, "workflowTimeline": [{"id": "baseline", "label": "Baseline", "status": "bound"}, {"id": "mapping", "label": "Intent mapping", "status": "verified"}, {"id": "proposal", "label": "Proposal", "status": "not-applied"}, {"id": "proposal-validation", "label": "Proposal validation", "status": "pass"}, {"id": "consistency", "label": "Consistency verifier", "status": "pass"}]}</script>
+  <script>
+    const projection = JSON.parse(document.getElementById('workbench-data').textContent);
+    const sectionEl = document.getElementById('section');
+    const recordsEl = document.getElementById('records');
+    const detailsEl = document.getElementById('details');
+
+    function status(value) {
+      const text = String(value ?? 'unknown');
+      return `<span class="status ${text}">${text}</span>`;
+    }
+    function renderOverview() {
+      sectionEl.innerHTML = `
+        <div class="panel">
+          <h3>${projection.proposal.id}</h3>
+          <p>${projection.proposal.summary}</p>
+          <div class="timeline">${projection.workflowTimeline.map(step => `<div class="timeline-step"><strong>${step.label}</strong>${status(step.status)}</div>`).join('')}</div>
+        </div>
+        <h2>Counts</h2>
+        <div class="grid">
+          ${metric('Intent units', projection.summary.intentUnitCount)}
+          ${metric('Code facts', projection.summary.codeFactCount)}
+          ${metric('Selectable records', projection.summary.selectionRecordCount)}
+        </div>`;
+    }
+    function metric(label, value) {
+      return `<div class="panel"><div class="metric">${value}</div><p>${label}</p></div>`;
+    }
+    function renderJson(title, data) {
+      sectionEl.innerHTML = `<div class="panel"><h3>${title}</h3><pre>${escapeHtml(JSON.stringify(data, null, 2))}</pre></div>`;
+    }
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    }
+    const renderers = {
+      overview: renderOverview,
+      impact: () => renderJson('Impact', projection.impact),
+      deltas: () => renderJson('Planned Deltas', projection.plannedDeltas),
+      requirements: () => renderJson('Requirements', projection.requirements),
+      verifier: () => renderJson('Verifier Status', projection.verifierStatus)
+    };
+    document.querySelectorAll('.nav-item').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        renderers[button.dataset.section]();
+      });
+    });
+    projection.selectionRecords.forEach((record, index) => {
+      const button = document.createElement('button');
+      button.className = 'record' + (index === 0 ? ' active' : '');
+      button.textContent = `${record.kind} · ${record.id}`;
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.record').forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        detailsEl.textContent = JSON.stringify(record, null, 2);
+      });
+      recordsEl.appendChild(button);
+    });
+    renderOverview();
+    detailsEl.textContent = JSON.stringify(projection.selectionRecords[0] || projection, null, 2);
+  </script>
+</body>
+</html>

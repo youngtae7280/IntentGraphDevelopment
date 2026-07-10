@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan
+P6.0 B1 Workbench Projection Schema and Static HTML Preview
 ```
 
-This boundary slice reviewed B1 consistency verifier evidence and opened Phase F only for a bounded static workbench projection. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase F slice added deterministic B1 workbench projection JSON and static HTML preview. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -721,4 +721,27 @@ Non-goals:
 - no production app
 - no editor or GitHub integration
 - no visualization-as-verifier claim
+- no productization
+
+## P6.0: B1 Workbench Projection Schema and Static HTML Preview
+
+Goal: emit a deterministic B1 workbench projection and static HTML preview for the non-applied proposal workflow.
+
+Status: completed on 2026-07-10. See [P6.0 B1 Workbench Projection Static HTML Review](../reviews/p6.0-b1-workbench-projection-static-html-review.md).
+
+Decision:
+
+- B1 workbench projection JSON exists.
+- static HTML preview exists.
+- projection validation report passes.
+- continue to `P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan`.
+
+Non-goals:
+
+- no source mutation
+- no patch application
+- no proposal acceptance
+- no visualization-as-verifier claim
+- no production app
+- no editor or GitHub integration
 - no productization

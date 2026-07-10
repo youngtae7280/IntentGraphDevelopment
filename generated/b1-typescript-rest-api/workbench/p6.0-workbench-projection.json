@@ -1,0 +1,244 @@
+{
+  "artifactRole": "intentgraph-b1-workbench-projection",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "patchApplied": false,
+    "productized": false,
+    "proposalAccepted": false,
+    "sourceMutated": false,
+    "staticPreviewOnly": true,
+    "visualizationVerifiesCorrectness": false
+  },
+  "impact": {
+    "existingCodeFactIds": [
+      "fact.function.completetodo"
+    ],
+    "existingIntentUnitIds": [
+      "unit.behavior.complete-todo"
+    ],
+    "proposedIntentUnitIds": [
+      "unit.route.patch-todo-complete"
+    ],
+    "sourceFiles": [
+      "src/routes/todos.ts",
+      "tests/todoService.test.ts"
+    ]
+  },
+  "plannedDeltas": {
+    "deltaC": [
+      {
+        "applied": false,
+        "fromModule": "../service/todoService",
+        "id": "change.import-completeTodo",
+        "operation": "add-import-symbol",
+        "symbol": "completeTodo",
+        "targetFile": "src/routes/todos.ts"
+      },
+      {
+        "applied": false,
+        "handlerSymbol": "completeTodo",
+        "id": "change.add-patch-complete-route",
+        "method": "PATCH",
+        "operation": "add-route",
+        "path": "/todos/:id/complete",
+        "targetFile": "src/routes/todos.ts"
+      },
+      {
+        "applied": false,
+        "id": "change.add-route-test",
+        "operation": "add-test-case",
+        "targetFile": "tests/todoService.test.ts",
+        "testIntent": "complete todo route delegates to completeTodo behavior"
+      }
+    ],
+    "deltaI": [
+      {
+        "accepted": false,
+        "id": "unit.route.patch-todo-complete",
+        "kind": "route",
+        "mappingStatus": "planned",
+        "title": "PATCH /todos/:id/complete maps to completeTodo"
+      }
+    ],
+    "deltaM": [
+      {
+        "accepted": false,
+        "existingCodeFactIds": [
+          "fact.function.completetodo"
+        ],
+        "futureCodeFacts": [
+          {
+            "id": "future.fact.route.patch.todos.complete",
+            "kind": "route",
+            "sourceFile": "src/routes/todos.ts",
+            "sourceLocationStatus": "future-not-applied"
+          },
+          {
+            "id": "future.fact.test.completeTodoRoute",
+            "kind": "test",
+            "sourceFile": "tests/todoService.test.ts",
+            "sourceLocationStatus": "future-not-applied"
+          }
+        ],
+        "id": "mapping-update.patch-todo-complete",
+        "intentUnitId": "unit.route.patch-todo-complete",
+        "mappingObligationRequired": true
+      }
+    ]
+  },
+  "proposal": {
+    "applicationStatus": "not-applied",
+    "id": "proposal.p4.0-complete-todo-route",
+    "mode": "non-applied-plan",
+    "summary": "Plan a PATCH /todos/:id/complete route that would expose existing completeTodo behavior."
+  },
+  "reportVersion": "0.1.0",
+  "requirements": {
+    "authority": [
+      {
+        "actor": "Coordinator",
+        "aiAuthority": false,
+        "id": "authority.requirement.p4.0-human-review",
+        "kind": "human-review-required",
+        "requiredBeforeAcceptance": true,
+        "selfAuthorized": false
+      }
+    ],
+    "evidence": [
+      {
+        "id": "evidence.requirement.p4.0-proposal-validation",
+        "kind": "proposal-validation-report",
+        "requiredBeforeAcceptance": true
+      },
+      {
+        "id": "evidence.requirement.complete-todo-route-test",
+        "kind": "test-result",
+        "requiredBeforeAcceptance": true
+      }
+    ],
+    "tests": [
+      {
+        "id": "test.requirement.complete-todo-route",
+        "kind": "route-behavior-test",
+        "requiredBeforeAcceptance": true,
+        "targetIntentUnitId": "unit.route.patch-todo-complete"
+      }
+    ]
+  },
+  "scope": "b1-typescript-rest-api-workbench-projection-static-preview",
+  "selectionRecords": [
+    {
+      "details": {
+        "codeFactRefs": 1,
+        "codeRefs": 1,
+        "mappingObligations": 1
+      },
+      "id": "unit.behavior.complete-todo",
+      "kind": "existing-intent-unit",
+      "status": "resolved",
+      "title": "Mark an existing todo as completed"
+    },
+    {
+      "details": {
+        "accepted": false
+      },
+      "id": "unit.route.patch-todo-complete",
+      "kind": "proposed-intent-unit",
+      "status": "planned",
+      "title": "PATCH /todos/:id/complete maps to completeTodo"
+    },
+    {
+      "details": {
+        "confidence": "extracted",
+        "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+        "sourceFile": "src/service/todoService.ts"
+      },
+      "id": "fact.function.completetodo",
+      "kind": "code-fact:function",
+      "status": "existing",
+      "title": "completeTodo"
+    },
+    {
+      "details": {
+        "applied": false,
+        "fromModule": "../service/todoService",
+        "operation": "add-import-symbol",
+        "symbol": "completeTodo",
+        "targetFile": "src/routes/todos.ts"
+      },
+      "id": "change.import-completeTodo",
+      "kind": "planned-source-change",
+      "status": "not-applied",
+      "title": "add-import-symbol"
+    },
+    {
+      "details": {
+        "applied": false,
+        "handlerSymbol": "completeTodo",
+        "method": "PATCH",
+        "operation": "add-route",
+        "path": "/todos/:id/complete",
+        "targetFile": "src/routes/todos.ts"
+      },
+      "id": "change.add-patch-complete-route",
+      "kind": "planned-source-change",
+      "status": "not-applied",
+      "title": "add-route"
+    },
+    {
+      "details": {
+        "applied": false,
+        "operation": "add-test-case",
+        "targetFile": "tests/todoService.test.ts",
+        "testIntent": "complete todo route delegates to completeTodo behavior"
+      },
+      "id": "change.add-route-test",
+      "kind": "planned-source-change",
+      "status": "not-applied",
+      "title": "add-test-case"
+    }
+  ],
+  "status": "intentgraph-b1-workbench-projection-emitted",
+  "summary": {
+    "codeFactCount": 31,
+    "intentUnitCount": 7,
+    "plannedSourceChangeCount": 3,
+    "requiredAuthorityCount": 1,
+    "requiredEvidenceCount": 2,
+    "requiredTestCount": 1,
+    "selectionRecordCount": 6
+  },
+  "verifierStatus": {
+    "proposalConsistency": "pass",
+    "proposalConsistencyErrors": [],
+    "proposalValidation": "pass",
+    "proposalValidationErrors": []
+  },
+  "workflowTimeline": [
+    {
+      "id": "baseline",
+      "label": "Baseline",
+      "status": "bound"
+    },
+    {
+      "id": "mapping",
+      "label": "Intent mapping",
+      "status": "verified"
+    },
+    {
+      "id": "proposal",
+      "label": "Proposal",
+      "status": "not-applied"
+    },
+    {
+      "id": "proposal-validation",
+      "label": "Proposal validation",
+      "status": "pass"
+    },
+    {
+      "id": "consistency",
+      "label": "Consistency verifier",
+      "status": "pass"
+    }
+  ]
+}
