@@ -1,0 +1,29 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-report",
+  "status": "intentgraph-roadmap-slice-completed",
+  "scope": "p8.26-windowsutility-user-workflow-benchmark-request",
+  "workItem": "P8.26 WindowsUtility User Workflow Benchmark Request",
+  "date": "2026-07-10",
+  "decision": "user-workflow-benchmark-response-required",
+  "producedArtifacts": [
+    "generated/roadmap/p8.26-windowsutility-user-workflow-benchmark-request.json",
+    "docs/reviews/p8.26-windowsutility-user-workflow-benchmark-request-review.md"
+  ],
+  "requestState": {
+    "responseRecorded": false,
+    "resultArtifactCreated": false,
+    "requiredNextArtifact": "P8.27 WindowsUtility User Workflow Benchmark Result Record"
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.27 WindowsUtility User Workflow Benchmark Result Record after explicit user response"
+}

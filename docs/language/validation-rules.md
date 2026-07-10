@@ -441,6 +441,14 @@ Before a real-project workflow benchmark is recorded as user evidence, a boundar
 
 A self-conducted dry run cannot be upgraded into human workflow evidence without an explicit user/coordinator response.
 
+## V1030: User Workflow Benchmark Requests Are Not Results
+
+Status: added in P8.26.
+
+A user workflow benchmark request may list materials, questions, allowed responses, and response-recording requirements, but it must not record a benchmark result until the user/coordinator explicitly responds. The request must keep source edits, proposal application, target writes, new evidence collection, AI authority, hardware authority, and productization unauthorized.
+
+The next result artifact must cite the request artifact and the exact user/coordinator response.
+
 ## Rule Severity
 
 | Severity | Meaning |

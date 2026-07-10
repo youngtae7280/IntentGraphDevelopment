@@ -1448,3 +1448,28 @@ Non-goals:
 - no hardware action authority
 - no productization implementation
 - no product readiness claim
+
+## P8.26: WindowsUtility User Workflow Benchmark Request
+
+Goal: create the explicit user/coordinator request for the WindowsUtility workflow benchmark.
+
+Status: completed on 2026-07-10. See [P8.26 WindowsUtility User Workflow Benchmark Request Review](../reviews/p8.26-windowsutility-user-workflow-benchmark-request-review.md).
+
+Decision:
+
+- benchmark request artifact exists.
+- user/coordinator response is not recorded.
+- benchmark result remains blocked until explicit response.
+- continue to `P8.27 WindowsUtility User Workflow Benchmark Result Record` only after response.
+
+Non-goals:
+
+- no benchmark result recorded
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or WindowsUtility screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim

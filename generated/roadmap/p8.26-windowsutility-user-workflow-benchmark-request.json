@@ -1,0 +1,63 @@
+{
+  "artifactRole": "intentgraph-user-workflow-benchmark-request",
+  "status": "intentgraph-user-workflow-benchmark-requested",
+  "scope": "p8.26-windowsutility-user-workflow-benchmark-request",
+  "workItem": "P8.26 WindowsUtility User Workflow Benchmark Request",
+  "date": "2026-07-10",
+  "decision": "user-workflow-benchmark-response-required",
+  "participant": "user/coordinator",
+  "materials": [
+    {
+      "id": "material.workbench-html",
+      "kind": "static-html-workbench",
+      "path": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench.html"
+    },
+    {
+      "id": "material.workbench-projection",
+      "kind": "projection-json",
+      "path": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json"
+    },
+    {
+      "id": "material.usability-dry-run",
+      "kind": "self-conducted-dry-run-report",
+      "path": "generated/windowsutility/workbench/p8.24-shell-workspace-workbench-usability-dry-run-report.json"
+    },
+    {
+      "id": "material.sandboxed-screenshot",
+      "kind": "screenshot-png",
+      "path": "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png"
+    }
+  ],
+  "questions": [
+    "Could you identify the accepted mapping?",
+    "Could you identify the covered code surface?",
+    "Could you identify build, UI launch, and screenshot evidence?",
+    "Could you identify that the proposal was not applied?",
+    "Could you identify that the original target stayed unchanged?",
+    "Could you identify false authority boundaries?",
+    "Did the workbench help compared with raw JSON?",
+    "What was confusing or missing?",
+    "Should the roadmap proceed, pause, or revise?"
+  ],
+  "allowedResponses": [
+    "proceed",
+    "pause",
+    "revise"
+  ],
+  "responseRecording": {
+    "responseRecorded": false,
+    "resultArtifactCreated": false,
+    "requiredNextArtifact": "P8.27 WindowsUtility User Workflow Benchmark Result Record"
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  }
+}

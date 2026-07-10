@@ -1319,3 +1319,27 @@ P8.26 WindowsUtility User Workflow Benchmark Request
 ```
 
 P8.26 should create the request artifact and wait for explicit user/coordinator response before benchmark results are recorded.
+
+## Completed Slice: P8.26 WindowsUtility User Workflow Benchmark Request
+
+Goal: create the explicit user/coordinator benchmark request artifact.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.26-windowsutility-user-workflow-benchmark-request.json`
+- [P8.26 WindowsUtility User Workflow Benchmark Request Review](../reviews/p8.26-windowsutility-user-workflow-benchmark-request-review.md)
+- `generated/roadmap/p8.26-windowsutility-user-workflow-benchmark-request-report.json`
+
+Decision:
+
+```text
+user-workflow-benchmark-response-required
+```
+
+Next safe work:
+
+```text
+P8.27 WindowsUtility User Workflow Benchmark Result Record
+```
+
+P8.27 must not start until the user/coordinator explicitly responds to the request.
