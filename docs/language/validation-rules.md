@@ -255,6 +255,12 @@ Status: added in P7.0.
 
 The first real-project adoption target must be selected through a plan-only report. If the target repository is dirty, ahead of origin, or contains untracked adoption artifacts, the next slice must remain read-only and emit artifacts outside the target repository unless the user explicitly authorizes target writes.
 
+## V1001: WindowsUtility Read-Only Inventory Boundary
+
+Status: added in P7.1.
+
+WindowsUtility inventory must write artifacts outside the WindowsUtility target repository unless target writes are explicitly authorized. The inventory report must record target git status before and after, selected file digest stability, write authorization, whether artifacts were written inside the target, and whether target source mutation occurred.
+
 ## Rule Severity
 
 | Severity | Meaning |

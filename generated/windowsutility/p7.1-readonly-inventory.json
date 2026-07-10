@@ -1,0 +1,675 @@
+{
+  "artifactRole": "intentgraph-windowsutility-readonly-inventory",
+  "candidateAdoptionScope": {
+    "candidateSurfaces": [
+      "solution and project structure",
+      "app entry and WPF window/view boundaries",
+      "view-model and service boundaries",
+      "test and smoke harnesses",
+      "native interop boundaries",
+      "documentation and existing DevView artifacts"
+    ],
+    "nextSlice": "P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis",
+    "taskClass": "read-only retrofit inventory for a bounded WPF/MVVM utility slice"
+  },
+  "claimScope": {
+    "aiCodeApplied": false,
+    "artifactsWrittenInsideTarget": false,
+    "productReadinessClaimed": false,
+    "readOnlyTarget": true,
+    "targetSourceMutated": false,
+    "unboundedRetrofitClaimed": false
+  },
+  "errors": [],
+  "gitStatus": {
+    "after": "## main...origin/main [ahead 4]\n?? .devview/",
+    "before": "## main...origin/main [ahead 4]\n?? .devview/",
+    "unchanged": true
+  },
+  "inventory": {
+    "docFileCount": 22,
+    "projectFileCount": 19,
+    "projectFiles": [
+      {
+        "byteLength": 804,
+        "extension": ".csproj",
+        "path": "artifacts/HardwareSmoke/WindowsUtility.HardwareSmoke.csproj",
+        "sha256": "sha256:fe843a1a12cd4ae763c5e8d04f5d48291ee087768e68366806a42aeed28fee9a"
+      },
+      {
+        "byteLength": 1897,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "sha256": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec"
+      },
+      {
+        "byteLength": 218,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Core.Abstractions/WindowsUtility.Core.Abstractions.csproj",
+        "sha256": "sha256:4d29c3a189c0733e1a32b231953bc515877a4a26f81b22bca995551a432b2c61"
+      },
+      {
+        "byteLength": 363,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Core.Native/WindowsUtility.Core.Native.csproj",
+        "sha256": "sha256:979d41cfc8a70fd8a5e3e6b6c8d7470a0e1f0f6ec088307af4bdb6d1de33a4bc"
+      },
+      {
+        "byteLength": 563,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Core.Services/WindowsUtility.Core.Services.csproj",
+        "sha256": "sha256:65f9878a6afca70a781f5fe36532e26b7b5632bde26edb7cdd58e0b30328cddc"
+      },
+      {
+        "byteLength": 218,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Diagnostics/WindowsUtility.Diagnostics.csproj",
+        "sha256": "sha256:4d29c3a189c0733e1a32b231953bc515877a4a26f81b22bca995551a432b2c61"
+      },
+      {
+        "byteLength": 767,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.Config/WindowsUtility.Modules.Config.csproj",
+        "sha256": "sha256:4bbe006bbcd23be3e4f165abe7d7b57cb8353e65e48f9a4dd7905c8303921f04"
+      },
+      {
+        "byteLength": 468,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.Diagnostics/WindowsUtility.Modules.Diagnostics.csproj",
+        "sha256": "sha256:f0f5b4f3352e2724deab942185c5388329ce717ab34f69c8f7302b0fa613abfa"
+      },
+      {
+        "byteLength": 478,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.Dump/WindowsUtility.Modules.Dump.csproj",
+        "sha256": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc"
+      },
+      {
+        "byteLength": 486,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.DumpView/WindowsUtility.Modules.DumpView.csproj",
+        "sha256": "sha256:ecbe0b131f19a3cf06d1fbfea9ecc64f8ab16ac7ec305c0983bac97d7951926b"
+      },
+      {
+        "byteLength": 478,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.Firmware/WindowsUtility.Modules.Firmware.csproj",
+        "sha256": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc"
+      },
+      {
+        "byteLength": 478,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.Model/WindowsUtility.Modules.Model.csproj",
+        "sha256": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc"
+      },
+      {
+        "byteLength": 478,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.NetAdmin/WindowsUtility.Modules.NetAdmin.csproj",
+        "sha256": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc"
+      },
+      {
+        "byteLength": 478,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.PrinterInfo/WindowsUtility.Modules.PrinterInfo.csproj",
+        "sha256": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc"
+      },
+      {
+        "byteLength": 478,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.Serial/WindowsUtility.Modules.Serial.csproj",
+        "sha256": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc"
+      },
+      {
+        "byteLength": 617,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.SimpleInfo/WindowsUtility.Modules.SimpleInfo.csproj",
+        "sha256": "sha256:48cebc11c2948f33f7bf6897f8c46c01b2f4616663c61406b742e9078d847f9f"
+      },
+      {
+        "byteLength": 478,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Modules.Test/WindowsUtility.Modules.Test.csproj",
+        "sha256": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc"
+      },
+      {
+        "byteLength": 594,
+        "extension": ".csproj",
+        "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+        "sha256": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147"
+      },
+      {
+        "byteLength": 11336,
+        "extension": ".sln",
+        "path": "WindowsUtility.sln",
+        "sha256": "sha256:ad84d6df3b27263a979668aca4a6f74baa782d6957f713df1c051498dacb5f7a"
+      }
+    ],
+    "sampleSourceFiles": [
+      {
+        "byteLength": 4056,
+        "extension": ".cs",
+        "path": "artifacts/HardwareSmoke/Program.cs",
+        "sha256": "sha256:c3976c8f0e53a52c4ca5f2caaf95075f1c1aeb9fd5947e4328a3cd8321c87e66"
+      },
+      {
+        "byteLength": 35291,
+        "extension": ".xaml",
+        "path": "src/WindowsUtility.App/App.xaml",
+        "sha256": "sha256:df8970d5db9f92bcf7065db30db7a589ba46e9992df5b31f00ba856a11579f70"
+      },
+      {
+        "byteLength": 8886,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.App/App.xaml.cs",
+        "sha256": "sha256:44f81886310aa1ecb2e6dc339cc7dadd98638d379ba63f054af0310d5539d49e"
+      },
+      {
+        "byteLength": 16877,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.App/AppThemePalettes.cs",
+        "sha256": "sha256:dd2d16010c8e0d0778a83695a72033e1aa3f2167b380c48393b53b499c3acaa3"
+      },
+      {
+        "byteLength": 643,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.App/AssemblyInfo.cs",
+        "sha256": "sha256:3fac2af92385f676e9a941befd23fe38f0a5fa6167d4a3a88f07e730c5595ca3"
+      },
+      {
+        "byteLength": 4500,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.App/FloatingDockPreviewWindow.cs",
+        "sha256": "sha256:fd66359a4f998c6947eb61da1a3622cc53c2962fab67c6c7c965ae236f5d6697"
+      },
+      {
+        "byteLength": 6879,
+        "extension": ".xaml",
+        "path": "src/WindowsUtility.App/FloatingToolWindow.xaml",
+        "sha256": "sha256:79e34ca36e305416c006ad72199f416fa892784bb98705655fbce3dd97904795"
+      },
+      {
+        "byteLength": 4880,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.App/FloatingToolWindow.xaml.cs",
+        "sha256": "sha256:893576d3b98eda20e9a17694f9be80be91f3cedf33e8fa95d7d948cf3679cea4"
+      },
+      {
+        "byteLength": 68672,
+        "extension": ".xaml",
+        "path": "src/WindowsUtility.App/MainWindow.xaml",
+        "sha256": "sha256:38b78d945785906978ca7d7a270d52ce2befd5c5f3b418e70a9ed7301bf0fb3b"
+      },
+      {
+        "byteLength": 34317,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.App/MainWindow.xaml.cs",
+        "sha256": "sha256:f2ad30bcb619214f0e8e3ef752d699b392c87a96082be414e5ca73adf5ca3f06"
+      },
+      {
+        "byteLength": 7270,
+        "extension": ".xaml",
+        "path": "src/WindowsUtility.App/OptionsWindow.xaml",
+        "sha256": "sha256:4580d12b8cf34697174ff8bd8e4614a9a79cf3ec5d2722b6f6212f29dd8c4029"
+      },
+      {
+        "byteLength": 649,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.App/OptionsWindow.xaml.cs",
+        "sha256": "sha256:2f276fe509d074c68974e35e3d9e68a2c48f72eb7fbf77bfd619eb244d185e55"
+      },
+      {
+        "byteLength": 18707,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.App/ResizableWorkspacePanel.cs",
+        "sha256": "sha256:2f7e8d8be1f63eff0f4c9827e3e4a9a86247fa5f6ee0bff8bab33b86b975eb71"
+      },
+      {
+        "byteLength": 259,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigCapabilitiesRequest.cs",
+        "sha256": "sha256:e7253b8548bc834717dcd0422c74455f3eb21732e9673bb29853b3e2bccbbd55"
+      },
+      {
+        "byteLength": 562,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigCapabilitiesResult.cs",
+        "sha256": "sha256:78ab6b6df284aa769dfb8df13b029cda5aeb01a78c177fdfe86e54ed06f7178e"
+      },
+      {
+        "byteLength": 541,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigDeviceActionKind.cs",
+        "sha256": "sha256:b4c27d913ef106b0ae2c742eb55f35458a3f8f0a2d7435d3045de6a257ea9586"
+      },
+      {
+        "byteLength": 346,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigDeviceActionRequest.cs",
+        "sha256": "sha256:42e381177b9970b4b6f9d2e9f94c0de2116dec408f4da64ed31508a458100252"
+      },
+      {
+        "byteLength": 748,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigDeviceActionResult.cs",
+        "sha256": "sha256:4ab1606fea165685413f0951a06b51617fb49736a88cd1d353006555b0fd7151"
+      },
+      {
+        "byteLength": 274,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigReadRequest.cs",
+        "sha256": "sha256:46aea3a5835c19f06dfaa026ff6c19ae959422a8809a6286e917169e6ad32068"
+      },
+      {
+        "byteLength": 534,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigReadResult.cs",
+        "sha256": "sha256:858436861f39978ed66b706ca514013eb0683ab5ee648eae8863de2869912b2b"
+      },
+      {
+        "byteLength": 253,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigStatusRequest.cs",
+        "sha256": "sha256:5e95527cb60d7b215ae3ad881f5326ef5cb680555fda5ccdc4a4f88ee21f4e8d"
+      },
+      {
+        "byteLength": 497,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigStatusResult.cs",
+        "sha256": "sha256:29ccf0c7c81c9d4f3e8863722e039dcbd2bfb1a22456a0669236bb27a84c8baa"
+      },
+      {
+        "byteLength": 317,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigWriteRequest.cs",
+        "sha256": "sha256:20592e0994055e9f7425904adc7f04ea0f324891b3e7bff31e3cf6f1c58a39c6"
+      },
+      {
+        "byteLength": 445,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/ConfigWriteResult.cs",
+        "sha256": "sha256:6e0d4dd247dd98e12654fb19a8ceff4563644fb96b38c8a940fed7f106c4c27a"
+      },
+      {
+        "byteLength": 758,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Config/IConfigService.cs",
+        "sha256": "sha256:519496c17708b1c0ac7eeeb493df2e4aed20896ce32b2298100b214c35597ead"
+      },
+      {
+        "byteLength": 167,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Devices/DeviceAccessMode.cs",
+        "sha256": "sha256:522e62b3adfd22cdc31b5b360656f4e891bfb0df5f6c66b1fcade7063baa5307"
+      },
+      {
+        "byteLength": 169,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Devices/IPrinterContextReceiver.cs",
+        "sha256": "sha256:5bbc40e5f21b8ef15860bc79a96c0faedaa9a64366919fb719cceaec7513ff11"
+      },
+      {
+        "byteLength": 154,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Devices/IPrinterDisconnectRequester.cs",
+        "sha256": "sha256:602d9677d6afbbd6e7a4c3088220b07341dd45358b72122e850cf3951ef3bcfb"
+      },
+      {
+        "byteLength": 389,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Devices/IPrinterDiscoveryService.cs",
+        "sha256": "sha256:9d5fc2fea598cfe5975f549089596df8ced5c984e2e8f3e33ab70ec099958ebe"
+      },
+      {
+        "byteLength": 284,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Devices/IPrinterSessionContextReceiver.cs",
+        "sha256": "sha256:1e81155395923e7e97f941d4a525ca9246a0d326605bc1af7d5aa93cbcaa4b2a"
+      },
+      {
+        "byteLength": 141,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Devices/PrinterConnectionType.cs",
+        "sha256": "sha256:3e0ada2933db4585a38754110493fdffdfd4b4996c95a02b85038f18c5cf94e9"
+      },
+      {
+        "byteLength": 572,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Devices/PrinterDeviceInfo.cs",
+        "sha256": "sha256:1ba37ba304e146cc49a6415418faa341cf6de85615fc035ed49030e78e854805"
+      },
+      {
+        "byteLength": 395,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Devices/PrinterDeviceKey.cs",
+        "sha256": "sha256:b7db5b801d3893451d83cf9df3df6dca0b7e2099cfdf2ae5056f6cc704469e9f"
+      },
+      {
+        "byteLength": 181,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Modules/IToolModule.cs",
+        "sha256": "sha256:16fb2570ed9793d9b89136c72bd2c602fcb2ecf51d264a5d2d90f7ddcdd70ca8"
+      },
+      {
+        "byteLength": 268,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Modules/IToolSurfaceSizeProvider.cs",
+        "sha256": "sha256:78f6f968af9a51c344cec6c7dce5747db7b6a550c0be4a90339fb71182a956cf"
+      },
+      {
+        "byteLength": 211,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Modules/IToolWorkspaceSurfaceReceiver.cs",
+        "sha256": "sha256:9babee6f97524215e251c72fed07c9a95d19333edf345f891b77458d641e5856"
+      },
+      {
+        "byteLength": 290,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Modules/ToolDescriptor.cs",
+        "sha256": "sha256:c86d2b9ddbfbae1a70234e347c12c7cf84660a31d7498aded8b460c974dff69f"
+      },
+      {
+        "byteLength": 205,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Modules/ToolLaunchContext.cs",
+        "sha256": "sha256:fe940881b55faa7ab33df66fcf609f1c2ae0b7f9325e68eba57001cbf49e6948"
+      },
+      {
+        "byteLength": 131,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Modules/ToolRiskLevel.cs",
+        "sha256": "sha256:f91129426884460f13cdc4027e2b181ea243f75056218be7a8c79b35cc0042dd"
+      },
+      {
+        "byteLength": 307,
+        "extension": ".cs",
+        "path": "src/WindowsUtility.Core.Abstractions/Modules/ToolSurfaceSize.cs",
+        "sha256": "sha256:bdb3ab849baa678af7134184e3ada343972bc71c20f03372a3f29c46a71c8493"
+      }
+    ],
+    "selectedFileCount": 263,
+    "sourceDigests": {
+      "AGENTS.md": "sha256:0fd44ff40da600d7a320f8413e4d526c228e597e0aaaa211a6fb157ab7a0c196",
+      "README.md": "sha256:443fabd456aaf2298a87ee75c04a69869392efe0bce994c2c67ffc9d5d64d538",
+      "WindowsUtility.sln": "sha256:ad84d6df3b27263a979668aca4a6f74baa782d6957f713df1c051498dacb5f7a",
+      "artifacts/HardwareSmoke/Program.cs": "sha256:c3976c8f0e53a52c4ca5f2caaf95075f1c1aeb9fd5947e4328a3cd8321c87e66",
+      "artifacts/HardwareSmoke/WindowsUtility.HardwareSmoke.csproj": "sha256:fe843a1a12cd4ae763c5e8d04f5d48291ee087768e68366806a42aeed28fee9a",
+      "artifacts/pbe-improvement-20260611-132101/02-pbe-improvement-requirements.md": "sha256:6a90b1b3ae914e099988b02db3c5561dbd48b358e87edd3f69b2782ac92a7a85",
+      "artifacts/pbe-improvement-20260611-132101/README.md": "sha256:7e15f9d21da08484dfe781e4e4a685c43053f7154b6b2a51294ee06a6c7bff73",
+      "artifacts/status/pbe-consistency-guard-report.md": "sha256:bdc38ef3d363485639b260337daeeece0e137bca92da5b0f464d74c0c643c46d",
+      "artifacts/status/pbe-structure-improvement-roadmap.md": "sha256:6b79d4e3e710cc4d1818293376c63cf804746ca19ba95a9b57bcd8abbaed00b6",
+      "docs/ImplementationStatus.md": "sha256:f50bbe75c4c6cbae3fca49387121385b7abed33ead1a6475765cd9fdf4bfc80f",
+      "docs/LegacyParityCompletionCriteria.md": "sha256:475c6cdf2c23d6debad8fe8562c6b5cd326ae537252d6a9f4058ca18f0a292d2",
+      "docs/MultiChatKickoffPrompts.md": "sha256:05d0b8f2151c916b352f4d261893561b3dae8849000c8f82e41b049bb5b1815f",
+      "docs/MultiChatWorkflow.md": "sha256:8048bff66b45a614f7b398903c4d89b6c112825cd1b37929b1e9d7d2726de7eb",
+      "docs/PrinterWorkspaceUiDesign.md": "sha256:762f33253370387cbe1ccc6a24c4d070868433dfa200c89ad3ad94305d78e97b",
+      "docs/ProjectRoadmap.md": "sha256:81ad8f0e7c8f2ec12f33c7d588aa151d532b35e1ff91f2fcd9f9c795366abff7",
+      "docs/RegressionSmokeTests.md": "sha256:f151d9a0faa65c784010bf4e5fff70ebb5e31b8b2c9d87cc43564ff90d042196",
+      "docs/UiThemeAndComponentStandards.md": "sha256:8d54f5dc265fa3900811a70236bbfc091cf18c12712b9a544b4219d7deb1fcea",
+      "docs/UnifiedWindowsUtilityPlan.md": "sha256:c13fb62832ba10391124214ce3168e5fe5a103f7ea4783f74c40a1c217b50b99",
+      "docs/ai/ambiguity-profile.md": "sha256:7749fa053b6acb6232347b84396e3d88791628f141d4aee83d1b992f3c6c8c3a",
+      "docs/ai/harness-profile.md": "sha256:323046780860a15f03b61ffafd28868be81889ef90bca0762c97db8d60904c9f",
+      "docs/ai/validation.md": "sha256:49e6902c7c7e3d0a25e58500ba1f2970305b2d1c5934bb12d360494f16ba244f",
+      "docs/config/ConfigLegacyPortingPreparation.md": "sha256:c6841c69d8fa62768587ca44540ff4420c4860031e4c8ef41ecbbda69c22b61e",
+      "docs/config/ConfigModuleCoverageLedger.md": "sha256:327b35802302b1f6f2ab460255ea6269d91cde9aff315b2dbb380c62a8700c55",
+      "docs/prototypes/config-image-to-ui/README.md": "sha256:6688552a5085645521574bd0a6579fd3a7a5c2ab2f60766dfe4213be8ea53e08",
+      "src/WindowsUtility.App/App.xaml": "sha256:df8970d5db9f92bcf7065db30db7a589ba46e9992df5b31f00ba856a11579f70",
+      "src/WindowsUtility.App/App.xaml.cs": "sha256:44f81886310aa1ecb2e6dc339cc7dadd98638d379ba63f054af0310d5539d49e",
+      "src/WindowsUtility.App/AppThemePalettes.cs": "sha256:dd2d16010c8e0d0778a83695a72033e1aa3f2167b380c48393b53b499c3acaa3",
+      "src/WindowsUtility.App/AssemblyInfo.cs": "sha256:3fac2af92385f676e9a941befd23fe38f0a5fa6167d4a3a88f07e730c5595ca3",
+      "src/WindowsUtility.App/FloatingDockPreviewWindow.cs": "sha256:fd66359a4f998c6947eb61da1a3622cc53c2962fab67c6c7c965ae236f5d6697",
+      "src/WindowsUtility.App/FloatingToolWindow.xaml": "sha256:79e34ca36e305416c006ad72199f416fa892784bb98705655fbce3dd97904795",
+      "src/WindowsUtility.App/FloatingToolWindow.xaml.cs": "sha256:893576d3b98eda20e9a17694f9be80be91f3cedf33e8fa95d7d948cf3679cea4",
+      "src/WindowsUtility.App/MainWindow.xaml": "sha256:38b78d945785906978ca7d7a270d52ce2befd5c5f3b418e70a9ed7301bf0fb3b",
+      "src/WindowsUtility.App/MainWindow.xaml.cs": "sha256:f2ad30bcb619214f0e8e3ef752d699b392c87a96082be414e5ca73adf5ca3f06",
+      "src/WindowsUtility.App/OptionsWindow.xaml": "sha256:4580d12b8cf34697174ff8bd8e4614a9a79cf3ec5d2722b6f6212f29dd8c4029",
+      "src/WindowsUtility.App/OptionsWindow.xaml.cs": "sha256:2f276fe509d074c68974e35e3d9e68a2c48f72eb7fbf77bfd619eb244d185e55",
+      "src/WindowsUtility.App/ResizableWorkspacePanel.cs": "sha256:2f7e8d8be1f63eff0f4c9827e3e4a9a86247fa5f6ee0bff8bab33b86b975eb71",
+      "src/WindowsUtility.App/WindowsUtility.App.csproj": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigCapabilitiesRequest.cs": "sha256:e7253b8548bc834717dcd0422c74455f3eb21732e9673bb29853b3e2bccbbd55",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigCapabilitiesResult.cs": "sha256:78ab6b6df284aa769dfb8df13b029cda5aeb01a78c177fdfe86e54ed06f7178e",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigDeviceActionKind.cs": "sha256:b4c27d913ef106b0ae2c742eb55f35458a3f8f0a2d7435d3045de6a257ea9586",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigDeviceActionRequest.cs": "sha256:42e381177b9970b4b6f9d2e9f94c0de2116dec408f4da64ed31508a458100252",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigDeviceActionResult.cs": "sha256:4ab1606fea165685413f0951a06b51617fb49736a88cd1d353006555b0fd7151",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigReadRequest.cs": "sha256:46aea3a5835c19f06dfaa026ff6c19ae959422a8809a6286e917169e6ad32068",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigReadResult.cs": "sha256:858436861f39978ed66b706ca514013eb0683ab5ee648eae8863de2869912b2b",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigStatusRequest.cs": "sha256:5e95527cb60d7b215ae3ad881f5326ef5cb680555fda5ccdc4a4f88ee21f4e8d",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigStatusResult.cs": "sha256:29ccf0c7c81c9d4f3e8863722e039dcbd2bfb1a22456a0669236bb27a84c8baa",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigWriteRequest.cs": "sha256:20592e0994055e9f7425904adc7f04ea0f324891b3e7bff31e3cf6f1c58a39c6",
+      "src/WindowsUtility.Core.Abstractions/Config/ConfigWriteResult.cs": "sha256:6e0d4dd247dd98e12654fb19a8ceff4563644fb96b38c8a940fed7f106c4c27a",
+      "src/WindowsUtility.Core.Abstractions/Config/IConfigService.cs": "sha256:519496c17708b1c0ac7eeeb493df2e4aed20896ce32b2298100b214c35597ead",
+      "src/WindowsUtility.Core.Abstractions/Devices/DeviceAccessMode.cs": "sha256:522e62b3adfd22cdc31b5b360656f4e891bfb0df5f6c66b1fcade7063baa5307",
+      "src/WindowsUtility.Core.Abstractions/Devices/IPrinterContextReceiver.cs": "sha256:5bbc40e5f21b8ef15860bc79a96c0faedaa9a64366919fb719cceaec7513ff11",
+      "src/WindowsUtility.Core.Abstractions/Devices/IPrinterDisconnectRequester.cs": "sha256:602d9677d6afbbd6e7a4c3088220b07341dd45358b72122e850cf3951ef3bcfb",
+      "src/WindowsUtility.Core.Abstractions/Devices/IPrinterDiscoveryService.cs": "sha256:9d5fc2fea598cfe5975f549089596df8ced5c984e2e8f3e33ab70ec099958ebe",
+      "src/WindowsUtility.Core.Abstractions/Devices/IPrinterSessionContextReceiver.cs": "sha256:1e81155395923e7e97f941d4a525ca9246a0d326605bc1af7d5aa93cbcaa4b2a",
+      "src/WindowsUtility.Core.Abstractions/Devices/PrinterConnectionType.cs": "sha256:3e0ada2933db4585a38754110493fdffdfd4b4996c95a02b85038f18c5cf94e9",
+      "src/WindowsUtility.Core.Abstractions/Devices/PrinterDeviceInfo.cs": "sha256:1ba37ba304e146cc49a6415418faa341cf6de85615fc035ed49030e78e854805",
+      "src/WindowsUtility.Core.Abstractions/Devices/PrinterDeviceKey.cs": "sha256:b7db5b801d3893451d83cf9df3df6dca0b7e2099cfdf2ae5056f6cc704469e9f",
+      "src/WindowsUtility.Core.Abstractions/Modules/IToolModule.cs": "sha256:16fb2570ed9793d9b89136c72bd2c602fcb2ecf51d264a5d2d90f7ddcdd70ca8",
+      "src/WindowsUtility.Core.Abstractions/Modules/IToolSurfaceSizeProvider.cs": "sha256:78f6f968af9a51c344cec6c7dce5747db7b6a550c0be4a90339fb71182a956cf",
+      "src/WindowsUtility.Core.Abstractions/Modules/IToolWorkspaceSurfaceReceiver.cs": "sha256:9babee6f97524215e251c72fed07c9a95d19333edf345f891b77458d641e5856",
+      "src/WindowsUtility.Core.Abstractions/Modules/ToolDescriptor.cs": "sha256:c86d2b9ddbfbae1a70234e347c12c7cf84660a31d7498aded8b460c974dff69f",
+      "src/WindowsUtility.Core.Abstractions/Modules/ToolLaunchContext.cs": "sha256:fe940881b55faa7ab33df66fcf609f1c2ae0b7f9325e68eba57001cbf49e6948",
+      "src/WindowsUtility.Core.Abstractions/Modules/ToolRiskLevel.cs": "sha256:f91129426884460f13cdc4027e2b181ea243f75056218be7a8c79b35cc0042dd",
+      "src/WindowsUtility.Core.Abstractions/Modules/ToolSurfaceSize.cs": "sha256:bdb3ab849baa678af7134184e3ada343972bc71c20f03372a3f29c46a71c8493",
+      "src/WindowsUtility.Core.Abstractions/Operations/OperationProgress.cs": "sha256:747a1a9ed476643fe1dd66470e0a89b03512be0769f524ec8c26ef2de78e8e11",
+      "src/WindowsUtility.Core.Abstractions/Operations/OperationResult.cs": "sha256:ec0236dd74490052be66a088815cbe1fb0a84b7524f35fa0b7a00af14fc0c913",
+      "src/WindowsUtility.Core.Abstractions/Options/AppOptions.cs": "sha256:86d54f68c5b4262e19f10c5630544f8e4d51e4f5e4b9a5751b7dc3aa071aa364",
+      "src/WindowsUtility.Core.Abstractions/Options/AppOptionsChangedEventArgs.cs": "sha256:daeb808a08d1d99c4be68382794ef3e73614f1b6e816e852575ba81941cc467d",
+      "src/WindowsUtility.Core.Abstractions/Options/AppThemeCatalog.cs": "sha256:cacd87f57a0c139553a9294de7f9bf9b1410d58da488717ec80d0f12a0a1c441",
+      "src/WindowsUtility.Core.Abstractions/Options/IAppOptionsService.cs": "sha256:e6cc174a25726863685fe5462cdd4758516db3173c75ca9a7ec4fd2f2d0a7839",
+      "src/WindowsUtility.Core.Abstractions/Options/StartupPrinterAction.cs": "sha256:52b16607eef3fcbecf72383777fb5f56651a07aab427dcfca5f40e49952af5e1",
+      "src/WindowsUtility.Core.Abstractions/Print/ISimpleInfoService.cs": "sha256:97330adc9e8d81d2909a23bd64d01a31c0b20b2efe8ff95759542aaf9a49c2a7",
+      "src/WindowsUtility.Core.Abstractions/Print/SimpleInfoDocument.cs": "sha256:cceef0163b4d86b6cf44581a9cf8c8f144a877dc56b34d49328dad94d4b326ff",
+      "src/WindowsUtility.Core.Abstractions/Print/SimpleInfoPrintRequest.cs": "sha256:2aa7206f65ab0d06d6b4fcc079ab6883d6ad88f2c298741db62a403a4e597f3b",
+      "src/WindowsUtility.Core.Abstractions/Sessions/IDeviceLockService.cs": "sha256:a03530a11fd5302a8c4bc755623923fb87c267f8a02fe0c2266dafd548dce980",
+      "src/WindowsUtility.Core.Abstractions/Sessions/IPrinterSession.cs": "sha256:a9cd2972c1693b6a61c38105fd04493ec78354fd5de1a64c78e0879be2e468ce",
+      "src/WindowsUtility.Core.Abstractions/Sessions/IPrinterSessionNativeHandle.cs": "sha256:f2f150dc904eea4f3438070ea355ec6b2cb82bd24ca9f48f683e3f0cecfc5c30",
+      "src/WindowsUtility.Core.Abstractions/Sessions/IPrinterSessionService.cs": "sha256:40f399ae310cb3567ffe838552622ffa548a2b0061f0ab5208c1024807dada97",
+      "src/WindowsUtility.Core.Abstractions/WindowsUtility.Core.Abstractions.csproj": "sha256:4d29c3a189c0733e1a32b231953bc515877a4a26f81b22bca995551a432b2c61",
+      "src/WindowsUtility.Core.Native/Interop/INativeCardPrinterApi.cs": "sha256:633afab8d4b20a757192f7fe1c9cd106415de613e47df21efeea29437c7ce956",
+      "src/WindowsUtility.Core.Native/Interop/NativeCardPrinterApi.cs": "sha256:7135db78ebf80695b9e29384d3233f3d83dc017036d01eaff54e6d4fb355fdca",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigCapabilitiesRequest.cs": "sha256:dbc2037cb4b5280b20a3947582b9ad325943667cd01c4563703588c1405063a4",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigCapabilitiesResult.cs": "sha256:5e5080c4c7bfc6ca675eed2c015f37af91db650372b15fe3bdd35efd7d970cc1",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigDeviceActionRequest.cs": "sha256:5d722f26d04c48459dc996f9d19781757e0a16ba1d5322f7f03231547a874a95",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigDeviceActionResult.cs": "sha256:070d777bfb7a1e8a7aeaa80bf8111ff1db870ed7e6547386d71ffae7c3399be5",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigReadRequest.cs": "sha256:d8181ace331f8743c9daa016457d56632dba60f6a4febfcae2f2d9e31c9abbac",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigReadResult.cs": "sha256:af6b2554820e086922d39de5906e3436c33735b4d3ce124721125281f4491b45",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigStatusRequest.cs": "sha256:07462d912caf525a1d239c9b2d2bafc92dcd61a8c6da626b2cefb4e96ab5869e",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigStatusResult.cs": "sha256:6d60889395fbff3e44a238fea6ca2a6d25c8d9204818c3b109fcd519ba60a29e",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigWriteRequest.cs": "sha256:9e2d676d58ba26fee4108a91bf7598fa9c06f6a99acc0ea78a83b12726d2b02d",
+      "src/WindowsUtility.Core.Native/Interop/NativeConfigWriteResult.cs": "sha256:e42969fecb0ab6988619cebb09f7aea55a0416a74382e61e8597526eed13c815",
+      "src/WindowsUtility.Core.Native/Interop/NativeCsdPreviewResult.cs": "sha256:053eca4b3c0b56700aa4576ef21d39e4cda0fb44d73339c1dfb3fea5280e9cac",
+      "src/WindowsUtility.Core.Native/Interop/NativeOpenDeviceResult.cs": "sha256:cc1216488d4cac0e7ba8d3d464861bb2ce5211fc5aaba646d707aecf48568d00",
+      "src/WindowsUtility.Core.Native/Interop/NativePrinterDevice.cs": "sha256:2a0a19adb356ddda8aa731e3c28d0a7a96adb887796bdde2354e137c5b286d94",
+      "src/WindowsUtility.Core.Native/Interop/NativeResult.cs": "sha256:ae826d39a53cace0a89a90b84a7045ccebad797a1864794786ce1a9f88c087e7",
+      "src/WindowsUtility.Core.Native/Interop/NativeResultCode.cs": "sha256:5a1a6b417c957caaba75f58658af1f870fdd25555769d111aceb3824ffac5561",
+      "src/WindowsUtility.Core.Native/Interop/NativeSessionHandle.cs": "sha256:3d66d2c67158a58a7dd7edfa7ac61d834aa3e7f3604ec29b3933644822f9da11",
+      "src/WindowsUtility.Core.Native/Interop/NativeSimpleInfoDocument.cs": "sha256:9e922237df6810d1120446cef5c896c03e034497d748996c817f704e378aaa87",
+      "src/WindowsUtility.Core.Native/Interop/NativeSimpleInfoPrintProgress.cs": "sha256:a12430ca4f20c62e290fa65410ff205edde64bf7f9e476effe5c2dc762e7e46a",
+      "src/WindowsUtility.Core.Native/Interop/NativeSimpleInfoPrintRequest.cs": "sha256:ff7f8fd684d134b5dde6224000c6899774bd9c2e540090556b5eb0cdaa206254",
+      "src/WindowsUtility.Core.Native/Interop/NativeSimpleInfoPrintResult.cs": "sha256:67d1015ed0cd2010f14d01cc7d60a4f00c209f02d9657b4d8e2f3ba9f954fa6d",
+      "src/WindowsUtility.Core.Native/WindowsUtility.Core.Native.csproj": "sha256:979d41cfc8a70fd8a5e3e6b6c8d7470a0e1f0f6ec088307af4bdb6d1de33a4bc",
+      "src/WindowsUtility.Core.Services/Config/NativeConfigService.cs": "sha256:45127797405cfedeeab745261cceb8a694850dcbaa0396df9e20220f364b2f28",
+      "src/WindowsUtility.Core.Services/Discovery/MockPrinterDiscoveryService.cs": "sha256:d759a7242095e277338b15e18825079e7630a771242c14f6cb993441c0c04908",
+      "src/WindowsUtility.Core.Services/Discovery/NativePrinterDiscoveryService.cs": "sha256:efaed3a909044994df7045c65dd242b5fca9c398a89f40e827bc5eef6ea97358",
+      "src/WindowsUtility.Core.Services/Native/NativePrinterCallRunner.cs": "sha256:61b3e692f8da04a615397c1c309680ff498d498b77b74eadc0d43d10f10d38e5",
+      "src/WindowsUtility.Core.Services/Operations/OperationScheduler.cs": "sha256:59f21b45961dc44c72dee0fd57084032b2c3c281702cd212153415be6835be38",
+      "src/WindowsUtility.Core.Services/Options/JsonAppOptionsService.cs": "sha256:4adfcc98d7e5000b59fb57c832f73074d5a2e639c8dd71f05165046ddedf5c7c",
+      "src/WindowsUtility.Core.Services/Print/MockSimpleInfoService.cs": "sha256:d632986151d40a5a87a578f5db997188288f4b2986d519e9b4942b194e5f1440",
+      "src/WindowsUtility.Core.Services/Print/NativeSimpleInfoService.cs": "sha256:b35b8a634d0499e7625b1d08d8185347a8d922cdc16426966fc5729f8c9e8d1d",
+      "src/WindowsUtility.Core.Services/Sessions/DeviceLockService.cs": "sha256:1d3d4dda78623bdd7af92a79a6e36321f183220a921978fea90bb4d8c771f9a0",
+      "src/WindowsUtility.Core.Services/Sessions/NativePrinterSessionService.cs": "sha256:6f35aed53cbd7c9450f5d440bae0799ed497f5b924781a82968276c419d496c3",
+      "src/WindowsUtility.Core.Services/Sessions/PrinterSessionService.cs": "sha256:ff8b3c61dfa45dd417ca8c078fef63a6443db1d40dc04bd10371bce3d7b5887f",
+      "src/WindowsUtility.Core.Services/WindowsUtility.Core.Services.csproj": "sha256:65f9878a6afca70a781f5fe36532e26b7b5632bde26edb7cdd58e0b30328cddc",
+      "src/WindowsUtility.Diagnostics/Logging/DiagnosticLogEntry.cs": "sha256:f52cd0a507203d2ef572e3db73212bbab2fc60a958f7c6eadad40d4d639dbe23",
+      "src/WindowsUtility.Diagnostics/Logging/FileDiagnosticLogService.cs": "sha256:260e7dbd1d1ff6a3da323ee23eed1f944d1668c950e3cdeaa7da638c611d1f16",
+      "src/WindowsUtility.Diagnostics/Logging/IDiagnosticLogService.cs": "sha256:1018be1e9d15e89d419320bbfef3f3d1f7e408659ec2204b8bc2e0c6b53cd9a8",
+      "src/WindowsUtility.Diagnostics/WindowsUtility.Diagnostics.csproj": "sha256:4d29c3a189c0733e1a32b231953bc515877a4a26f81b22bca995551a432b2c61",
+      "src/WindowsUtility.Modules.Config/Registration/ConfigToolModule.cs": "sha256:629583c06fe95efda418526ff578d4ee9dd4cd6954782be2dcb258be90dd7692",
+      "src/WindowsUtility.Modules.Config/Services/ConfigDefaultPreset.cs": "sha256:720b14b4eb1c1340390131969f1037418e6b51946604b7cf6005908e0d8a6eb9",
+      "src/WindowsUtility.Modules.Config/Services/ConfigDeviceActionDialogService.cs": "sha256:dea9f10f5d87c60998fb2921aef73fa218676c1bae9eaa7ccc6c5f20fb04e2f4",
+      "src/WindowsUtility.Modules.Config/Services/ConfigFileDialogService.cs": "sha256:4ae9c3854fe5826695c33b249bc6c61d6d36a5277e560379af8145d96ae57b1b",
+      "src/WindowsUtility.Modules.Config/Services/ConfigFileFormat.cs": "sha256:a6b5a0fca8dfc3472c694c67e558e7fa0a36d1f0fa72859cb1af99484dc2f420",
+      "src/WindowsUtility.Modules.Config/Services/ConfigFileLoadResult.cs": "sha256:8e5b8edf4ef057c9bdf6edb850f5bc331fe5d0f66d0fbe6f8d0534701a1702f2",
+      "src/WindowsUtility.Modules.Config/Services/ConfigFileSaveRequest.cs": "sha256:254a7dea9338c7bac8a8f416f7d138770097e3154660f6f001c583a808f0a352",
+      "src/WindowsUtility.Modules.Config/Services/ConfigOptionsDialogService.cs": "sha256:74db1a65424119f7f5ed93ff380b961ef5bbf45753dba9f8bcd1ae32c2456199",
+      "src/WindowsUtility.Modules.Config/Services/ConfigOptionsState.cs": "sha256:f4fc33f36f61c9f3e98db83c72bf050b1da77ed74267c3a453b4949ffe85db62",
+      "src/WindowsUtility.Modules.Config/Services/IConfigDefaultPresetService.cs": "sha256:09e56ec9cfbb2337f3dcf73046f370d073fb99de5e5736a8996549a5b4a26062",
+      "src/WindowsUtility.Modules.Config/Services/IConfigDeviceActionDialogService.cs": "sha256:9b30f6484ce89cb4ab89d87cea399f4e3135392e71ff20ba7374af8905279029",
+      "src/WindowsUtility.Modules.Config/Services/IConfigFileDialogService.cs": "sha256:ea111034e16ed7bc318b212a64c3763753c1f4222e2f2697e18318cc2834e501",
+      "src/WindowsUtility.Modules.Config/Services/IConfigFileService.cs": "sha256:24f48413243bfe7ec55d34de37dcc574135a985a52f24fd8fb6f0338406277e7",
+      "src/WindowsUtility.Modules.Config/Services/IConfigOptionsDialogService.cs": "sha256:4fa2c471da28d7f47f5e6f614d673afb3cf99c42e7eaa58b7eacc3edf45d982a",
+      "src/WindowsUtility.Modules.Config/Services/LegacyConfigDefaultPresetService.cs": "sha256:b9086f20c626e203151e180771e0613725c3af6276ecb90f5fb0566c375f2fb2",
+      "src/WindowsUtility.Modules.Config/Services/LegacyConfigFileService.cs": "sha256:e779816c6156e2e41ccc614c96d5235b677baac6de464959391839e32b50126d",
+      "src/WindowsUtility.Modules.Config/ViewModels/ConfigComboOption.cs": "sha256:720370c2aac0fde5d6edd4f1112f4b4053ded1a5b4df3eb364df219b88fc2546",
+      "src/WindowsUtility.Modules.Config/ViewModels/ConfigCommandInventory.cs": "sha256:2bf598976ff9cbb4b5430af5428d9ab98a61cd94357628d2aefd5c142e75e9a9",
+      "src/WindowsUtility.Modules.Config/ViewModels/ConfigLaminatorTagParameterRow.cs": "sha256:dcc7db09955b4db80d3bf40b5180f0da96f5cb16692715f36858ffb3a5fbfa64",
+      "src/WindowsUtility.Modules.Config/ViewModels/ConfigOptionPair.cs": "sha256:a964a012eeee1571fbb41e71a8629252968af0c14d6507340cd486012eae6b84",
+      "src/WindowsUtility.Modules.Config/ViewModels/ConfigOptionRow.cs": "sha256:fbed68e07fb395a7b4818dfc0f4cb243bca20929f59523d929e974533f806173",
+      "src/WindowsUtility.Modules.Config/ViewModels/ConfigSectionViewModel.cs": "sha256:5fe402a5edeaf1ba4ea03546f7cce2227eaa252e4cee3e942b15784c3ea53b90",
+      "src/WindowsUtility.Modules.Config/ViewModels/ConfigViewModel.cs": "sha256:4a2f5c906a1232838f122b9fb333ba4a80a92beb8ad202ced0983cf2ac457994",
+      "src/WindowsUtility.Modules.Config/Views/ConfigBitFieldToolTipConverter.cs": "sha256:32a1aa070530f7af61ec4e5eb725a52c51702912dc025a333fd1e316f5506b13",
+      "src/WindowsUtility.Modules.Config/Views/ConfigView.xaml": "sha256:98e19b33be424460cda582da2709ce68ef22254576c28befa1d4d154ee78a4ba",
+      "src/WindowsUtility.Modules.Config/Views/ConfigView.xaml.cs": "sha256:ec6cd30d71dee83398d3e30e1f0c7d7943eec17214034bf58bbe2ccdae726b76",
+      "src/WindowsUtility.Modules.Config/WindowsUtility.Modules.Config.csproj": "sha256:4bbe006bbcd23be3e4f165abe7d7b57cb8353e65e48f9a4dd7905c8303921f04",
+      "src/WindowsUtility.Modules.Diagnostics/Registration/DiagnosticsToolModule.cs": "sha256:db8e60c04ddcbf85df6a04480753debc8f09fc5e0caaae9369561a80f328b952",
+      "src/WindowsUtility.Modules.Diagnostics/Services/DiagnosticsReadPlan.cs": "sha256:e164b4f9b42ff96a2b5613a564eb307413594d638c977246ed0f6bf6276711fd",
+      "src/WindowsUtility.Modules.Diagnostics/Services/DiagnosticsReadPlanItem.cs": "sha256:65274b7efa2260d5c0b98d2498f5c6614ec0bfcebd3745401dc85096beaf3db9",
+      "src/WindowsUtility.Modules.Diagnostics/Services/DiagnosticsReadPlanRequest.cs": "sha256:7c841d0050308717fbec4d4d20ea5f2a912061dda3152d34e6c6f392282943a0",
+      "src/WindowsUtility.Modules.Diagnostics/Services/IDiagnosticsReadPlanService.cs": "sha256:1c54a684be812fa2c9bb99bb4791f5cfa2bb43da219cdb03d0cf5e0a7e3a4c2f",
+      "src/WindowsUtility.Modules.Diagnostics/Services/MockDiagnosticsReadPlanService.cs": "sha256:c7bf132ce8aeab7bef15f643ca7c913279c4e945fe7f2df25bc0cb8157283abd",
+      "src/WindowsUtility.Modules.Diagnostics/ViewModels/DiagnosticsChecklistItem.cs": "sha256:9d81f848781e61cff24178fb2fb6016f045c2cddb70a1e9bca86ac40dbc60b27",
+      "src/WindowsUtility.Modules.Diagnostics/ViewModels/DiagnosticsViewModel.cs": "sha256:6f7195b57bc2a83ff069aff84c7ccab86a2723234db6a9630fce7c0f02ae7f8f",
+      "src/WindowsUtility.Modules.Diagnostics/Views/DiagnosticsView.xaml": "sha256:502b1116d6b8f98d7fdc3e44d74f668bdccf49f5ddd869edaad88915f95e0fd5",
+      "src/WindowsUtility.Modules.Diagnostics/Views/DiagnosticsView.xaml.cs": "sha256:ca34510c81191dabbaffced4ad7dbf11d8ac552900f529364fe99877534510c9",
+      "src/WindowsUtility.Modules.Diagnostics/WindowsUtility.Modules.Diagnostics.csproj": "sha256:f0f5b4f3352e2724deab942185c5388329ce717ab34f69c8f7302b0fa613abfa",
+      "src/WindowsUtility.Modules.Dump/Registration/DumpToolModule.cs": "sha256:ed5631b80c930022dd9af9d86f6a88e3813792bc92eec739990baa9e92e3f21c",
+      "src/WindowsUtility.Modules.Dump/Services/DumpCapturePlan.cs": "sha256:b7e78a74024bdd5c2f01316dc83b49984e1c876cb296c05e4c477f519575d458",
+      "src/WindowsUtility.Modules.Dump/Services/DumpCapturePlanItem.cs": "sha256:bd32a8fddc66003b106242610808efda7724e1cd3070ae972c17977de1c8e620",
+      "src/WindowsUtility.Modules.Dump/Services/DumpCapturePlanRequest.cs": "sha256:d95b324b9f1630c33936ef3992f92f57b7e1ae6b51dd8ce467da0e7b74a87757",
+      "src/WindowsUtility.Modules.Dump/Services/IDumpCapturePlanService.cs": "sha256:cef798e462f064315b62854f6c02a3037dc33f88f91d90782d2af1a87423a718",
+      "src/WindowsUtility.Modules.Dump/Services/MockDumpCapturePlanService.cs": "sha256:370a5ad5b27136f67e33e8dab61ca9828add2bf70a8275821d19052a1bc4b455",
+      "src/WindowsUtility.Modules.Dump/ViewModels/DumpPlanItem.cs": "sha256:ee9319fcdc90802b82340407e92d8b866131336d00ad287757a2ec70043207b9",
+      "src/WindowsUtility.Modules.Dump/ViewModels/DumpViewModel.cs": "sha256:e62e5f41b11c8fc8d31e9e8f645c07d9fc43556f92a8403fedc1ca2705f158dd",
+      "src/WindowsUtility.Modules.Dump/Views/DumpView.xaml": "sha256:adbf6532090365e9b8c69205e04448ebad6523c9ba7b8b1c94e8f8d1530ccda1",
+      "src/WindowsUtility.Modules.Dump/Views/DumpView.xaml.cs": "sha256:4ae77b1220d682d7d6669e0de9cba3c5bc957ed30b2f7bc4f93b8eb434186464",
+      "src/WindowsUtility.Modules.Dump/WindowsUtility.Modules.Dump.csproj": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc",
+      "src/WindowsUtility.Modules.DumpView/Registration/DumpViewToolModule.cs": "sha256:9131001aed206ad396608581b942f8402d3e409bdaa86721879a58ae701b7541",
+      "src/WindowsUtility.Modules.DumpView/Services/DumpBookmark.cs": "sha256:05bf6b54966ff3970de34ff42514a593509d343ac42626991675690c41e465e7",
+      "src/WindowsUtility.Modules.DumpView/Services/DumpByteBucket.cs": "sha256:528cd0a1e4198691c38194df7d69593456bfd2b4fe00f9214c171b49f5d5d129",
+      "src/WindowsUtility.Modules.DumpView/Services/DumpCompareItem.cs": "sha256:d55b43857483c6872d6a5247ebcaebc15fd0d9e2a0ae1bd3c33d0f04963f9f5f",
+      "src/WindowsUtility.Modules.DumpView/Services/DumpFilePreview.cs": "sha256:79c58040a463ba97416adfa04ff54a86e73914e103ff83f74f852b2b03e2a0eb",
+      "src/WindowsUtility.Modules.DumpView/Services/DumpFilePreviewService.cs": "sha256:c7a000f55b0d38ee29fcace9473a62cc4ae52eaf0f473d20ff1a083682d40934",
+      "src/WindowsUtility.Modules.DumpView/Services/DumpHexLine.cs": "sha256:d6e913571617047a9806cf877aac4b7bba4fb3b38eebcd9daad09be9b095a253",
+      "src/WindowsUtility.Modules.DumpView/Services/DumpViewFileDialogService.cs": "sha256:e11aa7dd1d3308debe146237744fd43dc70c758768ebed27ae26893f160ff9a5",
+      "src/WindowsUtility.Modules.DumpView/Services/IDumpFilePreviewService.cs": "sha256:34b942ec62924392341d35b2627098a7f867a8e9e54191aa802dae702e597f78",
+      "src/WindowsUtility.Modules.DumpView/Services/IDumpViewFileDialogService.cs": "sha256:1aa9680c6b51dabb592aaf5be45e59aeab03bc946bfc84d241e5c0195afc86dd",
+      "src/WindowsUtility.Modules.DumpView/ViewModels/DumpPreviewDetail.cs": "sha256:445d56517beb510dfb3acdd9f3c5b82c65060ea380d3481ce4f48cc912d67181",
+      "src/WindowsUtility.Modules.DumpView/ViewModels/DumpViewModel.cs": "sha256:daf1775013eb490f1d4d849840cfd5c80a8a737f01c9ab5c06914f406d4321a0",
+      "src/WindowsUtility.Modules.DumpView/Views/DumpView.xaml": "sha256:ed8c2e91981f4cb32147f0d0a4d135ccf907c570b922bc44fca4f362c8a9be4d",
+      "src/WindowsUtility.Modules.DumpView/Views/DumpView.xaml.cs": "sha256:3b79da55da33972ea16ff6d7566a9e7e2d41bf74453f7b40b126de073a163e38",
+      "src/WindowsUtility.Modules.DumpView/WindowsUtility.Modules.DumpView.csproj": "sha256:ecbe0b131f19a3cf06d1fbfea9ecc64f8ab16ac7ec305c0983bac97d7951926b",
+      "src/WindowsUtility.Modules.Firmware/Registration/FirmwareToolModule.cs": "sha256:e02ea88b85a8c159a132db07026c27b24fa071fb643cf38b1e26220afd5031c6",
+      "src/WindowsUtility.Modules.Firmware/ViewModels/FirmwareValidationItem.cs": "sha256:fc657f0a8bf79e78e2fe2e34747462e6034ae4588e3aaa7102297a5011cac458",
+      "src/WindowsUtility.Modules.Firmware/ViewModels/FirmwareViewModel.cs": "sha256:5dd8162e763c40999a695b6cf65067600cdd2a94eb69d6a79a199d191760d07b",
+      "src/WindowsUtility.Modules.Firmware/Views/FirmwareView.xaml": "sha256:64a6052da4139edcf26033c952af152c91203cf7ce7d66cd949084fd97dd1f1d",
+      "src/WindowsUtility.Modules.Firmware/Views/FirmwareView.xaml.cs": "sha256:358922c98753de134165c2ad860a9a27908f70526820f771276a0e9050f85e47",
+      "src/WindowsUtility.Modules.Firmware/WindowsUtility.Modules.Firmware.csproj": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc",
+      "src/WindowsUtility.Modules.Model/Registration/ModelToolModule.cs": "sha256:ec91c4f61a84603fc5b1ccfc2dba5c1bbee7220ffcb3b662f43c04ea1f4ab2a9",
+      "src/WindowsUtility.Modules.Model/ViewModels/ModelPreviewItem.cs": "sha256:b3d71be67de6841336205e1ce5c8e560073015480fda539cd5c71b8661d6e93f",
+      "src/WindowsUtility.Modules.Model/ViewModels/ModelViewModel.cs": "sha256:1d959c88e7d36ea28c94d32e5d8caf3fb3d320c79c522207429bdff2dc8f31ce",
+      "src/WindowsUtility.Modules.Model/Views/ModelView.xaml": "sha256:b7b703f18f557c5b7ec5de54f449573596bec4dbd6df745da3f965ffd52169de",
+      "src/WindowsUtility.Modules.Model/Views/ModelView.xaml.cs": "sha256:ed2c77481ada91fe34a76b302a9781484f61a1b4b50d57237283f55d8b4a7a3e",
+      "src/WindowsUtility.Modules.Model/WindowsUtility.Modules.Model.csproj": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc",
+      "src/WindowsUtility.Modules.NetAdmin/Registration/NetAdminToolModule.cs": "sha256:5d3becfda7e9eed7533e8618c1a5b3514ac65eddb345fa0fe16c11539bd4a7e6",
+      "src/WindowsUtility.Modules.NetAdmin/Services/INetAdminReadPlanService.cs": "sha256:b801906619c103b970af0802174d8c6f041fb7658e1dfc5cf2ddbd8bb852807b",
+      "src/WindowsUtility.Modules.NetAdmin/Services/MockNetAdminReadPlanService.cs": "sha256:b8c32cb2cd4993219d7ba474c6d36323fff464ebe7cb716eaa8ee2bcb8f42ec0",
+      "src/WindowsUtility.Modules.NetAdmin/Services/NetAdminReadPlan.cs": "sha256:008c92f284a8b2457714cc887e41669da6c014a98c6ce79120f43ef321b41e46",
+      "src/WindowsUtility.Modules.NetAdmin/Services/NetAdminReadPlanItem.cs": "sha256:fcca4aaeab481c1803b277822db63e3c1270de2c1f143e5af79c8bbb490d8e7f",
+      "src/WindowsUtility.Modules.NetAdmin/Services/NetAdminReadPlanRequest.cs": "sha256:f82d9b8f5af268a8cd86cb2a226a80f999f31e25182678c6b428eb6e92777841",
+      "src/WindowsUtility.Modules.NetAdmin/ViewModels/NetAdminPreviewItem.cs": "sha256:5b068ac1d8a30a53395d486c64802fd63cd4c9f96480757d5847fab123250cec",
+      "src/WindowsUtility.Modules.NetAdmin/ViewModels/NetAdminViewModel.cs": "sha256:a5803c13c485a3677bc356f9dae0444d946aaaaa358a44e6303d777c69e4a434",
+      "src/WindowsUtility.Modules.NetAdmin/Views/NetAdminView.xaml": "sha256:f14e71658fc26986381fc404e2b59a1041aa9e5c48bbe7f5d959b477f74ade19",
+      "src/WindowsUtility.Modules.NetAdmin/Views/NetAdminView.xaml.cs": "sha256:5f8615d0f2c0fd906214a8e0e518cbde57aba71ed01f505b457ba4ccaae5ced0",
+      "src/WindowsUtility.Modules.NetAdmin/WindowsUtility.Modules.NetAdmin.csproj": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc",
+      "src/WindowsUtility.Modules.PrinterInfo/Registration/PrinterInfoToolModule.cs": "sha256:9af080a4300dc7e5d9a93b689e63611e88a4cbf8468e610cbb9c1a1912af2a3d",
+      "src/WindowsUtility.Modules.PrinterInfo/ViewModels/PrinterDetailRow.cs": "sha256:5942dd22ec2faaed44f8e54b6136fe85e391e1b269afadae8fa0a913e51857cf",
+      "src/WindowsUtility.Modules.PrinterInfo/ViewModels/PrinterInfoViewModel.cs": "sha256:6cf1dbc0ecb6fecddb48542a9de8407831ac2626c0ce3339d515a6b20a2931ab",
+      "src/WindowsUtility.Modules.PrinterInfo/Views/PrinterInfoView.xaml": "sha256:d862c58ccf526ac266266204105be2304e7cd77ea3ea8acbb05f908176379eac",
+      "src/WindowsUtility.Modules.PrinterInfo/Views/PrinterInfoView.xaml.cs": "sha256:98d854a6ac4442848fa22dcd825470ec6f7b3b728d58d7c11de280b5f73ca06f",
+      "src/WindowsUtility.Modules.PrinterInfo/WindowsUtility.Modules.PrinterInfo.csproj": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc",
+      "src/WindowsUtility.Modules.Serial/Registration/SerialToolModule.cs": "sha256:dcd6c467376aa945b93ca4d8551098508e74715d1aa00b9bf08cc79fe46e06ca",
+      "src/WindowsUtility.Modules.Serial/Services/ISerialReadPlanService.cs": "sha256:b199acdce01d93aa8ce7ac8904d3d0910c1236b6f86e134e95b425cfc8d9d086",
+      "src/WindowsUtility.Modules.Serial/Services/MockSerialReadPlanService.cs": "sha256:eb83ce42f99d70318511e4c082c9e22325dc9c45252840bdc20d546ac9576c01",
+      "src/WindowsUtility.Modules.Serial/Services/SerialReadPlan.cs": "sha256:70988efe91833bcf65a0eb499fef7280454b67aeef9cfa9bf003edf6a8f7c339",
+      "src/WindowsUtility.Modules.Serial/Services/SerialReadPlanItem.cs": "sha256:b182c4a06022f2fa902a63c361cc8e0e4d17e9b03a8aa3feddb2a9ab140be0f5",
+      "src/WindowsUtility.Modules.Serial/Services/SerialReadPlanRequest.cs": "sha256:d1637fd7e5d1c7662bec9c4010b157ed9329f4918bafad70488e2116c7ef1319",
+      "src/WindowsUtility.Modules.Serial/ViewModels/SerialPreviewItem.cs": "sha256:cb7f9039cc412191a8d1526f15031d1cb04f3ae4ef04390371a81363aeb7af9a",
+      "src/WindowsUtility.Modules.Serial/ViewModels/SerialViewModel.cs": "sha256:b4088d0aae98efb3ae9139b581a9824163d8fe01b1b9e64abe59a977be41f98a",
+      "src/WindowsUtility.Modules.Serial/Views/SerialView.xaml": "sha256:0407cce1aed2d6fc00e21d0979761023d714e969403040d9f6bc0732ebcba113",
+      "src/WindowsUtility.Modules.Serial/Views/SerialView.xaml.cs": "sha256:83c82269410fe4cf42cc2dec87616a8c196116d23326d49b56c61c399b14c950",
+      "src/WindowsUtility.Modules.Serial/WindowsUtility.Modules.Serial.csproj": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc",
+      "src/WindowsUtility.Modules.SimpleInfo/Controls/AspectRatioDecorator.cs": "sha256:88449e0864ca9e98d8cc34a2494495db9bd957901bc8f043f5453117d252d3c6",
+      "src/WindowsUtility.Modules.SimpleInfo/Registration/SimpleInfoToolModule.cs": "sha256:a2ba479e668efef9d4e5f20a4da515223da6795f8fbd6ce627e2657d14773245",
+      "src/WindowsUtility.Modules.SimpleInfo/Services/CsdBrowseService.cs": "sha256:37578a325ad950c386ae9636eb83757c21cc9727aa34637750e7ffa379d7bf25",
+      "src/WindowsUtility.Modules.SimpleInfo/Services/CsdPreviewResult.cs": "sha256:afadc72805d882dba3644549a84668fddaddc4aa461a8bbfd173f2afef0ef9ff",
+      "src/WindowsUtility.Modules.SimpleInfo/Services/ICsdBrowseService.cs": "sha256:455ccde6d22e0f5658dabd0801f9bea00560fc8833d30026a7529a149a1fe1e3",
+      "src/WindowsUtility.Modules.SimpleInfo/Services/ICsdPreviewService.cs": "sha256:6dd7ec4cba33658270972f207000778ad0af9ef57a4e6ab6abc8d14024e81d50",
+      "src/WindowsUtility.Modules.SimpleInfo/Services/NativeCsdPreviewService.cs": "sha256:b532b9981662d1d70ed918da33d80cf2adc1ed61997eb991dc37f5ebe1461bdb",
+      "src/WindowsUtility.Modules.SimpleInfo/ViewModels/SimpleInfoDocumentSelection.cs": "sha256:24d224036d2b2df109569f8436ff1b3b184bf8263382d8ad53e9c0247b628625",
+      "src/WindowsUtility.Modules.SimpleInfo/ViewModels/SimpleInfoViewModel.cs": "sha256:60263a6cffff4375a9ea3555fef7e889389ebe7231acba334a72e5f7715dab0e",
+      "src/WindowsUtility.Modules.SimpleInfo/Views/SimpleInfoView.xaml": "sha256:280d74ac423042771c836ab542b27858ecaaf9bc4360c6912069cdabaecfe533",
+      "src/WindowsUtility.Modules.SimpleInfo/Views/SimpleInfoView.xaml.cs": "sha256:af1fed01c8cd45205dee210de637e4489d414807e0244e620efea6c7c0e20637",
+      "src/WindowsUtility.Modules.SimpleInfo/WindowsUtility.Modules.SimpleInfo.csproj": "sha256:48cebc11c2948f33f7bf6897f8c46c01b2f4616663c61406b742e9078d847f9f",
+      "src/WindowsUtility.Modules.Test/Registration/TestToolModule.cs": "sha256:122c2db3d0ec338d9645df8792ae97492c26e41b38ab4e38e35e389e29d3352c",
+      "src/WindowsUtility.Modules.Test/Services/ITestReadPlanService.cs": "sha256:7b2ac8948e4e6272f236679f18b021628cda121f40e675c34680399d97a66586",
+      "src/WindowsUtility.Modules.Test/Services/MockTestReadPlanService.cs": "sha256:b83def9c32ec2864dd6619de94e9c9c3f10222e86abeb6b4bac2bdebea99c8fb",
+      "src/WindowsUtility.Modules.Test/Services/TestReadPlan.cs": "sha256:934852e3ea4eb0751a5cee8fa08a97cc7d9784e9ab9e3a305f7c3898afd956b4",
+      "src/WindowsUtility.Modules.Test/Services/TestReadPlanItem.cs": "sha256:e82303a28a53e9a48db27d6917721f7c826d2d16cd74959334131f45f160ebb2",
+      "src/WindowsUtility.Modules.Test/Services/TestReadPlanRequest.cs": "sha256:8a6429f096d7cfec0dbccca2f0e9c5a48e763cad10c7e2aa0cb6a32c8e994211",
+      "src/WindowsUtility.Modules.Test/ViewModels/TestChecklistItem.cs": "sha256:bd141342c60f1ab4a68cef5ca842b6dfb14c51ae716ccc95d3fc907c40da3b19",
+      "src/WindowsUtility.Modules.Test/ViewModels/TestViewModel.cs": "sha256:d3d165176f260418c12e05add10ca5e79611b1053d78ea1b82f8e2565290c28a",
+      "src/WindowsUtility.Modules.Test/Views/TestView.xaml": "sha256:f9471913100dcc65c0ceb4db1785e73fb56be2f91568a471aa367d23fa4e5dd0",
+      "src/WindowsUtility.Modules.Test/Views/TestView.xaml.cs": "sha256:b15c1c5c947d1de177a4b6c3cd21c94ea3aed1f7bbd3df4e884ab19853f81d21",
+      "src/WindowsUtility.Modules.Test/WindowsUtility.Modules.Test.csproj": "sha256:8cf420ad3075567b283bf41230973b82c864bc31bb60e9731bc68fea5743cffc",
+      "src/WindowsUtility.Shell/Commands/AsyncRelayCommand.cs": "sha256:3636f7ce1cb473d325232e3363166a19817dd73645c00ba5649579c719d15d0e",
+      "src/WindowsUtility.Shell/Commands/RelayCommand.cs": "sha256:d292bf12c66e8acaa3a3b88114969f5e75b3031dbf798ee73d925f29ceedf4ea",
+      "src/WindowsUtility.Shell/Layout/WorkspaceDisplayMode.cs": "sha256:118812fe4f2cdafa7b6894756e9b8092cae7e40ea7f11e0dbecca9f3dcd2ac1d",
+      "src/WindowsUtility.Shell/Layout/WorkspaceLayoutNode.cs": "sha256:a1508b565b9411ea8fb857a5fde51e7e4609002deaafa0448e4062c56d81d33b",
+      "src/WindowsUtility.Shell/Options/AppOptionsViewModel.cs": "sha256:0e4f8f4640a6e18609661cb0cde19093259d8eb9b63bb9a64315802a25f15b4e",
+      "src/WindowsUtility.Shell/Options/StartupPrinterActionOption.cs": "sha256:04993a6bc78fa394585acf380766607c6a46bf0d473f1ac27d6bb6cce289334d",
+      "src/WindowsUtility.Shell/SingleInstance/SingleInstanceService.cs": "sha256:d91844c2bd32c1a942a74644920fa4dcea0435495fe13bdf04580535357d95b8",
+      "src/WindowsUtility.Shell/ViewModels/IToolCloseRequester.cs": "sha256:80247b1c3efb11d0da2ae5fea9fd91c459ef4c07d4602adc6d731dc6c60b4a8e",
+      "src/WindowsUtility.Shell/ViewModels/MainShellViewModel.cs": "sha256:6fc313bda6a23c29768581c01d53e42fcfd2193abb7e1d66ffaf6736dc30d35d",
+      "src/WindowsUtility.Shell/ViewModels/PlaceholderToolViewModel.cs": "sha256:41c4ab2543388c686d8e3657c4d4ce9d1b95ddbd87c53810ce939a782a439b46",
+      "src/WindowsUtility.Shell/ViewModels/PrinterConnectionBarViewModel.cs": "sha256:7087219dcb5d8dbb5c0b8324a1a803aa328d0ab5333db1bb727e9df1d7ef5a0b",
+      "src/WindowsUtility.Shell/ViewModels/PrinterConnectionErrorDescriptions.cs": "sha256:581267f87c3de013f17296c4dd1b9eb23037a3629e3c8dc3ad96f08ae779d892",
+      "src/WindowsUtility.Shell/ViewModels/PrinterConnectionErrorEventArgs.cs": "sha256:079df038d5b4436ddcaa9714dbeeecb086f48f650c10eaa9a179db45dd289168",
+      "src/WindowsUtility.Shell/ViewModels/PrinterConnectionState.cs": "sha256:c651ee8e938b9d6c26d71737d54a713bc664ee33daa86bcbca045a2135d96c39",
+      "src/WindowsUtility.Shell/ViewModels/ToolDocumentViewModel.cs": "sha256:f192d08cb79f25e114d2ef1b88e068599fcdd4432594eaee5f2897259324df18",
+      "src/WindowsUtility.Shell/ViewModels/ViewModelBase.cs": "sha256:23f2c061947ee6b82b7b5f890e7836bd486b61ee903fe29a3d42d67a12a46454",
+      "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+      "tests/RegressionSmoke/README.md": "sha256:db6e0d504e19bb0c694e2f787fd16919c8b079b2c3737fe2422a54662f281280"
+    },
+    "sourceFileCount": 222,
+    "topLevelDirectories": [
+      "artifacts",
+      "docs",
+      "src",
+      "tests"
+    ]
+  },
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "p7.1-windowsutility-readonly-retrofit-inventory",
+  "status": "intentgraph-windowsutility-readonly-inventory-passed",
+  "target": {
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "id": "WindowsUtility",
+    "originMain": "9179755d617845fdd2b0c150617ad1c7867b197d",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "writeAuthorized": false
+  }
+}

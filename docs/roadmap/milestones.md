@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P7.0 Real Project Adoption Target and Benchmark Plan
+P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot
 ```
 
-This Phase G plan-only slice selected WindowsUtility as the first real-project target, read-only first. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G slice emitted a read-only WindowsUtility inventory outside the target repo and verified the target status/digests were unchanged. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -777,6 +777,27 @@ Decision:
 - select `C:\Users\ytkim\Desktop\kyt_work\WindowsUtility`
 - start read-only because the target is ahead of origin and has untracked `.devview/`
 - continue to `P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot`
+
+Non-goals:
+
+- no writing to WindowsUtility
+- no real-project source mutation
+- no unbounded retrofit
+- no AI-generated code application
+- no product readiness claim
+- no productization
+
+## P7.1: WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot
+
+Goal: inventory WindowsUtility from outside the target repository and prove the target stays unchanged.
+
+Status: completed on 2026-07-10. See [P7.1 WindowsUtility Read-Only Inventory Review](../reviews/p7.1-windowsutility-readonly-inventory-review.md).
+
+Decision:
+
+- read-only inventory artifacts exist in this repository.
+- WindowsUtility git status and selected file digests stayed unchanged.
+- continue to `P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis`.
 
 Non-goals:
 

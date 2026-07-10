@@ -624,3 +624,22 @@ P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot
 ```
 
 P7.1 must keep all artifacts inside IntentGraphDevelopment and verify WindowsUtility git status/source bytes are unchanged. It must not write to WindowsUtility unless a later approved slice explicitly authorizes target writes.
+
+## Completed Slice: P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot
+
+Goal: inventory WindowsUtility from outside the target repository and prove the target stays unchanged.
+
+Produced artifacts:
+
+- `tools/emit_windowsutility_readonly_inventory.py`
+- `generated/windowsutility/p7.1-readonly-inventory.json`
+- `generated/windowsutility/p7.1-readonly-inventory.md`
+- [P7.1 WindowsUtility Read-Only Inventory Review](../reviews/p7.1-windowsutility-readonly-inventory-review.md)
+
+Recommended next slice:
+
+```text
+P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis
+```
+
+P7.2 should derive candidate Intent Units, code-surface mappings, evidence gaps, authority gaps, and ambiguity records from the read-only inventory. It must keep artifacts in IntentGraphDevelopment and must not write to WindowsUtility.
