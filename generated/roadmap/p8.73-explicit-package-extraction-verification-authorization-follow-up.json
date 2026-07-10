@@ -1,0 +1,86 @@
+{
+  "artifactRole": "intentgraph-package-extraction-verification-authorization-follow-up",
+  "status": "intentgraph-package-extraction-verification-authorization-follow-up-recorded",
+  "scope": "p8.73-explicit-package-extraction-verification-authorization-follow-up",
+  "workItem": "P8.73 Explicit Package Extraction Verification Authorization Request Follow-up",
+  "date": "2026-07-10",
+  "decision": "follow-up-request-recorded-authorization-not-granted",
+  "whyThisExists": "P8.68 requested sandboxed package extraction inventory verification, but P8.71 confirmed no explicit acceptance was recorded. P8.73 narrows and restates the exact acceptance boundary before any real package extraction can occur.",
+  "userFacingRequest": {
+    "question": "Authorize bounded sandboxed extraction inventory verification of the existing WindowsUtility package artifact?",
+    "requiredAcceptedResponse": "accept sandboxed package extraction inventory verification",
+    "allowedResponses": [
+      "accept sandboxed package extraction inventory verification",
+      "reject packaged artifact verification",
+      "revise package verification scope first"
+    ],
+    "standingAcceptShortcutApplies": false,
+    "standingAcceptShortcutReason": "The current-goal accept/revise/blocked shortcut does not authorize real package extraction."
+  },
+  "toolAuthorizationContract": {
+    "requiredVerifierToken": "accept-sandboxed-package-extraction-inventory-verification",
+    "tokenMayBeUsedOnlyAfterUserResponseRecorded": true,
+    "tokenPurpose": "Allow tools/verify_windowsutility_package_extraction_inventory.py to extract a sandbox copy of the existing WindowsUtility package artifact and compare extracted inventory facts.",
+    "tokenDoesNotAuthorize": [
+      "packaged executable launch",
+      "packaged UI launch",
+      "packaged UI screenshot capture",
+      "installer creation",
+      "artifact signing",
+      "credential access",
+      "provider API calls",
+      "release tag creation",
+      "release publishing",
+      "productization claim"
+    ]
+  },
+  "reviewedEvidence": [
+    "generated/roadmap/p8.68-packaged-artifact-verification-authorization-request.json",
+    "generated/roadmap/p8.71-packaged-artifact-verification-authorization-result-gate.json",
+    "generated/roadmap/p8.72-productization-readiness-recheck-after-verification-tooling-report.json",
+    "generated/windowsutility/package-artifact/p8.69/synthetic-tool-readiness-report.json",
+    "generated/windowsutility/package-artifact/p8.70/negative-probes-report.json"
+  ],
+  "requestedAuthority": {
+    "sandboxedPackageExtractionInventoryVerificationAuthorityRequested": true,
+    "mayUseTemporarySandboxDirectory": true,
+    "mayCopyExistingPackageArtifactToSandbox": true,
+    "mayExtractSandboxPackageCopy": true,
+    "mayListExtractedFiles": true,
+    "mayHashExtractedFiles": true,
+    "mayCompareExtractedInventoryToManifest": true,
+    "mayCreateVerificationReportInGeneratedOutput": true,
+    "mayRunPackagedExecutable": false,
+    "mayLaunchPackagedUi": false,
+    "mayCapturePackagedUiScreenshot": false,
+    "mayCreateInstaller": false,
+    "maySignArtifacts": false,
+    "mayReadCredentials": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "authorizationState": {
+    "responseRecorded": false,
+    "accepted": false,
+    "rejected": false,
+    "reviseRequested": false,
+    "realPackageExtractionAllowed": false,
+    "requiredNextArtifactIfUserResponds": "P8.74 Package Extraction Verification Authorization Response Record"
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "nextAllowedIfAccepted": "P8.75 Sandboxed Existing Package Extraction Inventory Verification",
+  "nextAllowedWithoutAcceptance": "P8.74 Package Verification Scope Hold Record"
+}

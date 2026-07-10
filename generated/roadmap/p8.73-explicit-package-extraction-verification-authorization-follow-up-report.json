@@ -1,0 +1,32 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.73-explicit-package-extraction-verification-authorization-follow-up",
+  "workItem": "P8.73 Explicit Package Extraction Verification Authorization Request Follow-up",
+  "date": "2026-07-10",
+  "result": "follow-up-request-recorded-authorization-not-granted",
+  "producedArtifacts": [
+    "generated/roadmap/p8.73-explicit-package-extraction-verification-authorization-follow-up.json",
+    "docs/reviews/p8.73-explicit-package-extraction-verification-authorization-follow-up.md"
+  ],
+  "requestSummary": {
+    "requiredAcceptedResponse": "accept sandboxed package extraction inventory verification",
+    "requiredVerifierTokenAfterAcceptance": "accept-sandboxed-package-extraction-inventory-verification",
+    "standingAcceptShortcutApplies": false,
+    "realPackageExtractionAllowed": false
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSliceIfAccepted": "P8.74 Package Extraction Verification Authorization Response Record",
+  "recommendedNextSliceWithoutAcceptance": "P8.74 Package Verification Scope Hold Record"
+}

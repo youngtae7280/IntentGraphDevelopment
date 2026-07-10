@@ -2571,3 +2571,25 @@ Recommended next slice:
 ```text
 P8.73 Explicit Package Extraction Verification Authorization Request Follow-up
 ```
+
+## Completed Slice: P8.73 Explicit Package Extraction Verification Authorization Request Follow-up
+
+Goal: restate the exact acceptance boundary for real package extraction inventory verification.
+
+Result:
+
+```text
+Decision: follow-up-request-recorded-authorization-not-granted.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.73-explicit-package-extraction-verification-authorization-follow-up.json`
+- `generated/roadmap/p8.73-explicit-package-extraction-verification-authorization-follow-up-report.json`
+- [P8.73 Explicit Package Extraction Verification Authorization Request Follow-up](../reviews/p8.73-explicit-package-extraction-verification-authorization-follow-up.md)
+
+Recommended next slice without acceptance:
+
+```text
+P8.74 Package Verification Scope Hold Record
+```
