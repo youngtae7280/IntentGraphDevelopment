@@ -2681,3 +2681,25 @@ Recommended next slice:
 ```text
 P8.78 Packaged UI Screenshot Boundary Plan
 ```
+
+## Completed Slice: P8.78 Packaged UI Screenshot Boundary Plan
+
+Goal: define the future packaged UI screenshot boundary without executing it.
+
+Result:
+
+```text
+Decision: ui-screenshot-boundary-recorded-no-execution.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.78-packaged-ui-screenshot-boundary-plan.json`
+- `generated/roadmap/p8.78-packaged-ui-screenshot-boundary-plan-report.json`
+- [P8.78 Packaged UI Screenshot Boundary Plan](../reviews/p8.78-packaged-ui-screenshot-boundary-plan.md)
+
+Recommended next slice:
+
+```text
+P8.79 Packaged UI Screenshot Authorization Request
+```

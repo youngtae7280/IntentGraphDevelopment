@@ -1,0 +1,83 @@
+{
+  "artifactRole": "intentgraph-packaged-ui-screenshot-boundary-plan",
+  "status": "intentgraph-packaged-ui-screenshot-boundary-plan-recorded",
+  "scope": "p8.78-packaged-ui-screenshot-boundary-plan-report-only",
+  "workItem": "P8.78 Packaged UI Screenshot Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "ui-screenshot-boundary-recorded-no-execution",
+  "purpose": "Define the future boundary for capturing packaged UI screenshot evidence only after package extraction inventory verification, packaged executable launch smoke, and explicit screenshot authorization exist.",
+  "preconditions": [
+    {
+      "id": "precondition.extraction-inventory-verified",
+      "required": true,
+      "description": "The existing WindowsUtility package must pass sandboxed extraction inventory verification first.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.launch-smoke-authorized-and-passed",
+      "required": true,
+      "description": "Packaged executable launch smoke must be explicitly authorized and pass first.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.screenshot-authorization",
+      "required": true,
+      "description": "The user/coordinator must explicitly authorize packaged UI screenshot capture.",
+      "requiredAcceptedResponse": "accept sandboxed packaged UI screenshot capture",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.no-credentials-provider-release",
+      "required": true,
+      "description": "Screenshot capture must not require credentials, provider API calls, installer creation, signing, release, or productization authority.",
+      "currentlySatisfied": true
+    }
+  ],
+  "futureScreenshotBoundary": {
+    "mayCapturePackagedUiScreenshot": false,
+    "mayLaunchPackagedExecutable": false,
+    "mayObserveWindowTitle": false,
+    "mayRecordScreenshotUnderGenerated": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayWriteTargetRepo": false,
+    "mayInstallGlobally": false,
+    "mayCreateInstaller": false,
+    "maySignArtifacts": false,
+    "mayReadCredentials": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "futureAllowedIfAuthorizedLater": [
+    "use the sandbox extraction directory only",
+    "launch packaged executable only under the launch-smoke boundary",
+    "capture screenshot evidence under generated/ only",
+    "record screenshot metadata and visual evidence links",
+    "record process/window observation facts"
+  ],
+  "futureStillForbiddenIfScreenshotAuthorized": [
+    "global installation",
+    "WindowsUtility source edits",
+    "WindowsUtility commit or push",
+    "artifact signing",
+    "credential access",
+    "provider API calls",
+    "release tag creation",
+    "release publishing",
+    "productization claim"
+  ],
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.79 Packaged UI Screenshot Authorization Request"
+}

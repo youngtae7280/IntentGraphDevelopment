@@ -2849,3 +2849,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.78 Packaged UI Screenshot Boundary Plan`.
+
+## P8.78: Packaged UI Screenshot Boundary Plan
+
+Goal: define the future packaged UI screenshot evidence boundary without launching the package or capturing screenshots.
+
+Status: completed on 2026-07-10. See [P8.78 Packaged UI Screenshot Boundary Plan](../reviews/p8.78-packaged-ui-screenshot-boundary-plan.md).
+
+Decision:
+
+- UI screenshot boundary recorded.
+- extraction inventory verification, launch smoke pass result, and screenshot authorization are absent.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.78-packaged-ui-screenshot-boundary-plan.json`
+- `generated/roadmap/p8.78-packaged-ui-screenshot-boundary-plan-report.json`
+- [P8.78 Packaged UI Screenshot Boundary Plan](../reviews/p8.78-packaged-ui-screenshot-boundary-plan.md)
+
+Next safe work:
+
+- continue to `P8.79 Packaged UI Screenshot Authorization Request`.
