@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.29 completed.
+P8.30 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. P8.14 required future smoke evidence to use a no-target-write sandbox strategy. P8.15 proved sandboxed build smoke evidence while the original target stayed unchanged. P8.16 opened only a sandboxed UI launch feasibility boundary. P8.17 proved sandboxed UI launch/window observation while the original target stayed unchanged. P8.18 opened only a sandboxed screenshot evidence boundary. P8.19 captured validated sandboxed screenshot evidence while the original target stayed unchanged. P8.20 defined the shell/workspace evidence workbench projection boundary. P8.21 emitted a deterministic shell/workspace evidence workbench projection and static HTML preview. P8.22 added repeatable projection negative probes. P8.23 defined the workbench usability dry-run boundary. P8.24 completed the self-conducted workbench-vs-raw-JSON dry run. P8.25 defined the user workflow benchmark boundary. P8.26 created the benchmark request. P8.27 recorded the user's compact `accept` response as proceed. P8.28 rechecked productization and kept it blocked pending product-surface and application gates. P8.29 selected static local workbench export as the first product surface boundary. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. P8.14 required future smoke evidence to use a no-target-write sandbox strategy. P8.15 proved sandboxed build smoke evidence while the original target stayed unchanged. P8.16 opened only a sandboxed UI launch feasibility boundary. P8.17 proved sandboxed UI launch/window observation while the original target stayed unchanged. P8.18 opened only a sandboxed screenshot evidence boundary. P8.19 captured validated sandboxed screenshot evidence while the original target stayed unchanged. P8.20 defined the shell/workspace evidence workbench projection boundary. P8.21 emitted a deterministic shell/workspace evidence workbench projection and static HTML preview. P8.22 added repeatable projection negative probes. P8.23 defined the workbench usability dry-run boundary. P8.24 completed the self-conducted workbench-vs-raw-JSON dry run. P8.25 defined the user workflow benchmark boundary. P8.26 created the benchmark request. P8.27 recorded the user's compact `accept` response as proceed. P8.28 rechecked productization and kept it blocked pending product-surface and application gates. P8.29 selected static local workbench export as the first product surface boundary. P8.30 defined the static export boundary for a next prototype. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -1250,4 +1250,26 @@ Next safe work:
 
 ```text
 P8.30 Static Local Workbench Export Boundary
+```
+
+## P8.30 Result And Static Local Workbench Export Boundary
+
+P8.30 result:
+
+```text
+Static local workbench export boundary completed.
+Decision: static-local-workbench-export-prototype-authorized-next-slice.
+```
+
+P8.30 produced:
+
+- `generated/roadmap/p8.30-static-local-workbench-export-boundary-report.json`
+- [P8.30 Static Local Workbench Export Boundary](../reviews/p8.30-static-local-workbench-export-boundary-review.md)
+
+The next prototype must emit only local generated artifacts and must validate manifest, projection, HTML, screenshot asset, authority flags, source digests, no network dependency, and unchanged WindowsUtility target state.
+
+Next safe work:
+
+```text
+P8.31 Static Local Workbench Export Prototype
 ```

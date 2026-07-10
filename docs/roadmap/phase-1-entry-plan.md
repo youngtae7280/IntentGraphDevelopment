@@ -1435,3 +1435,26 @@ Recommended next slice:
 ```text
 P8.30 Static Local Workbench Export Boundary
 ```
+
+## Completed Slice: P8.30 Static Local Workbench Export Boundary
+
+Goal: define the exact static local workbench export boundary before implementation.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.30-static-local-workbench-export-boundary-report.json`
+- [P8.30 Static Local Workbench Export Boundary](../reviews/p8.30-static-local-workbench-export-boundary-review.md)
+
+Decision:
+
+```text
+static-local-workbench-export-prototype-authorized-next-slice
+```
+
+The next prototype may emit a deterministic local HTML/JSON export under generated output paths only. The boundary requires manifest, projection, HTML, screenshot asset, local browser validation, source digest checks, visible false authority flags, and negative probes.
+
+Recommended next slice:
+
+```text
+P8.31 Static Local Workbench Export Prototype
+```

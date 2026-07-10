@@ -1,0 +1,117 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-boundary-report",
+  "status": "intentgraph-static-local-workbench-export-boundary-recorded",
+  "scope": "p8.30-static-local-workbench-export-boundary-report-only",
+  "workItem": "P8.30 Static Local Workbench Export Boundary",
+  "date": "2026-07-10",
+  "decision": "static-local-workbench-export-prototype-authorized-next-slice",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.29-first-product-surface-decision-boundary-plan-report.json",
+      "artifactRole": "intentgraph-first-product-surface-decision-boundary-plan-report",
+      "status": "intentgraph-first-product-surface-decision-boundary-recorded"
+    },
+    {
+      "path": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-validation-report.json",
+      "artifactRole": "intentgraph-windowsutility-workbench-validation-report",
+      "status": "intentgraph-windowsutility-workbench-validation-passed"
+    },
+    {
+      "path": "generated/windowsutility/workbench/p8.22-shell-workspace-workbench-negative-probes-report.json",
+      "artifactRole": "intentgraph-windowsutility-workbench-negative-probes-report",
+      "status": "intentgraph-windowsutility-workbench-negative-probes-passed"
+    }
+  ],
+  "exportBoundary": {
+    "selectedSurface": "surface.static-local-workbench-export",
+    "prototypeAllowedNextSlice": true,
+    "implementationAuthorizedThisSlice": false,
+    "outputRootPattern": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/<slice-id>/",
+    "requiredFiles": [
+      "index.html",
+      "projection.json",
+      "manifest.json",
+      "assets/screenshot.png"
+    ],
+    "requiredManifestFields": [
+      "artifactRole",
+      "status",
+      "scope",
+      "exportVersion",
+      "sourceArtifacts",
+      "targetBaseline",
+      "authorityBoundary",
+      "generatedAtPolicy",
+      "determinism",
+      "integrity"
+    ],
+    "requiredUiSections": [
+      "accepted mapping",
+      "covered code surface",
+      "non-applied proposal",
+      "build evidence",
+      "UI launch evidence",
+      "screenshot evidence",
+      "authority false flags",
+      "source artifact links",
+      "timeline/history"
+    ],
+    "requiredValidation": [
+      "manifest JSON parses",
+      "manifest source digests match exported files or recorded inputs",
+      "index.html opens locally",
+      "projection data loads without network access",
+      "screenshot asset renders",
+      "selection/detail behavior works",
+      "authority false flags are visible",
+      "no productization/write/apply/AI/hardware authority is claimed",
+      "WindowsUtility target remains clean/aligned"
+    ]
+  },
+  "negativeProbeRequirements": [
+    "missing manifest fails",
+    "stale source digest fails",
+    "missing screenshot asset fails",
+    "productization authority true fails",
+    "target write authority true fails",
+    "proposal applied true fails",
+    "AI authority true fails",
+    "network dependency required fails",
+    "WindowsUtility target dirty fails",
+    "selection records missing fails"
+  ],
+  "blockedCapabilities": [
+    "WindowsUtility source edits",
+    "proposal application",
+    "target writes",
+    "new sandbox run unless separately authorized",
+    "new UI launch unless separately authorized",
+    "new screenshot capture unless separately authorized",
+    "AI authority promotion",
+    "hardware actions",
+    "packaging",
+    "release",
+    "installer generation",
+    "editor integration",
+    "GitHub workflow integration",
+    "remote execution",
+    "team workflow automation",
+    "product readiness claim"
+  ],
+  "authorizations": {
+    "staticWorkbenchExportPrototypeAllowedNextSlice": true,
+    "staticWorkbenchImplementationAuthorizedThisSlice": false,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.31 Static Local Workbench Export Prototype"
+}

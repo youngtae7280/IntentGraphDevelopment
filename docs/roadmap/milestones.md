@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.29 First Product Surface Decision Boundary Plan
+P8.30 Static Local Workbench Export Boundary
 ```
 
-This Phase G stabilization slice selected static local workbench export as the first product surface boundary while keeping productization, packaging, release, source writes, proposal application, AI authority, and hardware authority blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice defined the static local workbench export boundary and authorized only the next bounded prototype slice. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1547,6 +1547,34 @@ Non-goals:
 - no source edits
 - no target write authority
 - no proposal application
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
+- no editor or GitHub integration
+- no productization implementation
+- no product readiness claim
+
+## P8.30: Static Local Workbench Export Boundary
+
+Goal: define the file, manifest, validation, and negative-probe boundary for the first static local workbench export prototype.
+
+Status: completed on 2026-07-10. See [P8.30 Static Local Workbench Export Boundary](../reviews/p8.30-static-local-workbench-export-boundary-review.md).
+
+Decision:
+
+- the next bounded prototype may emit a static local workbench export.
+- required files are `index.html`, `projection.json`, `manifest.json`, and `assets/screenshot.png`.
+- required validation and negative probes are defined.
+- implementation is not performed in this slice.
+- continue to `P8.31 Static Local Workbench Export Prototype`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or screenshot capture
 - no AI authority promotion
 - no hardware action authority
 - no packaging

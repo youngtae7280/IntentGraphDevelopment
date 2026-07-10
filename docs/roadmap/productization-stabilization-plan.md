@@ -141,3 +141,20 @@ The next safe stabilization slice is:
 ```text
 P8.30 Static Local Workbench Export Boundary
 ```
+
+## P8.30 Static Export Boundary
+
+P8.30 defined the first static local export boundary. The next prototype must produce:
+
+- `index.html`
+- `projection.json`
+- `manifest.json`
+- `assets/screenshot.png`
+
+The prototype must validate local browser loading, screenshot rendering, source artifact digests, visible authority false flags, no network dependency, and unchanged WindowsUtility target state.
+
+The next safe stabilization slice is:
+
+```text
+P8.31 Static Local Workbench Export Prototype
+```
