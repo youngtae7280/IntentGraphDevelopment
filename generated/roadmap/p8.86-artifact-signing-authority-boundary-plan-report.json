@@ -1,0 +1,38 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.86-artifact-signing-authority-boundary-plan-report-only",
+  "workItem": "P8.86 Artifact Signing Authority Boundary Plan",
+  "date": "2026-07-10",
+  "result": "artifact-signing-authority-boundary-recorded-no-signing-performed",
+  "producedArtifacts": [
+    "generated/roadmap/p8.86-artifact-signing-authority-boundary-plan.json",
+    "docs/reviews/p8.86-artifact-signing-authority-boundary-plan.md"
+  ],
+  "boundarySummary": {
+    "artifactSigningAuthorizationRecorded": false,
+    "verifiedArtifactPresent": false,
+    "signingPolicyRecorded": false,
+    "keyCertificateAuthorityRecorded": false,
+    "artifactSigned": false,
+    "futurePreconditionCount": 5
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "globalInstall": false,
+    "artifactSigning": false,
+    "privateKeyAccess": false,
+    "certificateStoreAccess": false,
+    "signingTokenAccess": false,
+    "timestampAuthorityCall": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.87 Artifact Signing Authorization Request"
+}

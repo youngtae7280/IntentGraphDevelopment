@@ -1,0 +1,93 @@
+{
+  "artifactRole": "intentgraph-artifact-signing-authority-boundary-plan",
+  "status": "intentgraph-artifact-signing-authority-boundary-plan-recorded",
+  "scope": "p8.86-artifact-signing-authority-boundary-plan-report-only",
+  "workItem": "P8.86 Artifact Signing Authority Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "artifact-signing-authority-boundary-recorded-no-signing-performed",
+  "purpose": "Define the future boundary for signing a verified WindowsUtility package or installer artifact only after artifact verification, signing policy, key/certificate authority, and explicit signing authorization exist.",
+  "preconditions": [
+    {
+      "id": "precondition.verified-artifact-present",
+      "required": true,
+      "description": "A package or installer artifact must be verified by manifest, byte length, and sha256 before signing.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.signing-policy-recorded",
+      "required": true,
+      "description": "A deterministic signing policy must identify signable artifact kinds, allowed algorithms, certificate identity requirements, and metadata to record.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.key-certificate-authority-recorded",
+      "required": true,
+      "description": "A key/certificate authority boundary must exist before any private key, certificate store, token, or timestamp authority can be accessed.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.artifact-signing-authorization",
+      "required": true,
+      "description": "The user/coordinator must explicitly authorize bounded sandboxed artifact signing.",
+      "requiredAcceptedResponse": "accept sandboxed artifact signing",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.no-release-authority",
+      "required": true,
+      "description": "Signing does not imply release tag creation, release publishing, provider API calls, or productization authority.",
+      "currentlySatisfied": true
+    }
+  ],
+  "futureSigningBoundary": {
+    "maySignArtifacts": false,
+    "mayReadPrivateKeys": false,
+    "mayAccessCertificateStore": false,
+    "mayAccessSigningToken": false,
+    "mayCallTimestampAuthority": false,
+    "mayWriteSignedArtifactUnderGenerated": false,
+    "mayRecordSignatureMetadata": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayWriteTargetRepo": false,
+    "mayCreateInstaller": false,
+    "mayInstallGlobally": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "futureAllowedIfAuthorizedLater": [
+    "sign only verified artifacts in a sandbox staging directory",
+    "write signed artifacts under generated/ only",
+    "record signature metadata, certificate fingerprint, artifact hash, and signer policy version",
+    "validate signature metadata without publishing a release"
+  ],
+  "futureStillForbiddenIfSigningAuthorized": [
+    "WindowsUtility source edits",
+    "WindowsUtility commit or push",
+    "installer creation unless separately authorized",
+    "global installation",
+    "provider API calls",
+    "release tag creation",
+    "release publishing",
+    "productization claim"
+  ],
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "globalInstallPerformed": false,
+    "artifactSigned": false,
+    "privateKeyAccessed": false,
+    "certificateStoreAccessed": false,
+    "signingTokenAccessed": false,
+    "timestampAuthorityCalled": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.87 Artifact Signing Authorization Request"
+}

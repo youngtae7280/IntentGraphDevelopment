@@ -3025,3 +3025,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.86 Artifact Signing Authority Boundary Plan`.
+
+## P8.86: Artifact Signing Authority Boundary Plan
+
+Goal: define the future artifact signing authority boundary without signing artifacts.
+
+Status: completed on 2026-07-10. See [P8.86 Artifact Signing Authority Boundary Plan](../reviews/p8.86-artifact-signing-authority-boundary-plan.md).
+
+Decision:
+
+- artifact signing authority boundary recorded.
+- verified artifact, signing policy, key/certificate authority, and signing authorization are absent.
+- no package extraction, executable launch, UI screenshot capture, installer creation, global install, signing, private key/certificate/signing token access, timestamp authority call, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.86-artifact-signing-authority-boundary-plan.json`
+- `generated/roadmap/p8.86-artifact-signing-authority-boundary-plan-report.json`
+- [P8.86 Artifact Signing Authority Boundary Plan](../reviews/p8.86-artifact-signing-authority-boundary-plan.md)
+
+Next safe work:
+
+- continue to `P8.87 Artifact Signing Authorization Request`.

@@ -2855,3 +2855,25 @@ Recommended next slice:
 ```text
 P8.86 Artifact Signing Authority Boundary Plan
 ```
+
+## Completed Slice: P8.86 Artifact Signing Authority Boundary Plan
+
+Goal: define the future artifact signing authority boundary without signing artifacts.
+
+Result:
+
+```text
+Decision: artifact-signing-authority-boundary-recorded-no-signing-performed.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.86-artifact-signing-authority-boundary-plan.json`
+- `generated/roadmap/p8.86-artifact-signing-authority-boundary-plan-report.json`
+- [P8.86 Artifact Signing Authority Boundary Plan](../reviews/p8.86-artifact-signing-authority-boundary-plan.md)
+
+Recommended next slice:
+
+```text
+P8.87 Artifact Signing Authorization Request
+```
