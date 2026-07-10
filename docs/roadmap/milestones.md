@@ -2464,6 +2464,27 @@ Next safe work:
 
 - wait for the coordinator review response.
 
+## P8.62.R: Graph Delta Approval Workbench Review Access Helper
+
+Goal: make the P8.62 user-observed review easier by adding a local HTTP helper for the static graph workbench.
+
+Status: completed on 2026-07-10. See [P8.62.R Graph Delta Approval Workbench Review Access Helper](../reviews/p8.62-review-access-helper.md).
+
+Helper:
+
+- `tools/serve_graph_delta_approval_workbench.py`
+- default URL: `http://127.0.0.1:8762/index.html`
+
+Produced artifacts:
+
+- `tools/serve_graph_delta_approval_workbench.py`
+- `generated/roadmap/p8.62-review-access-helper-report.json`
+- [P8.62.R Graph Delta Approval Workbench Review Access Helper](../reviews/p8.62-review-access-helper.md)
+
+Next safe work:
+
+- wait for the coordinator review response.
+
 ## P8.62.P: Coordinator Review Response Policy Record
 
 Goal: record the coordinator's current-goal instruction that future `accept`, `revise`, or `blocked` continuation prompts should be treated as `accept`.
@@ -2513,23 +2534,23 @@ Next safe work:
 
 - continue to the next bounded product-surface slice under the current-goal auto-accept continuation policy.
 
-## P8.62.R: Graph Delta Approval Workbench Review Access Helper
+## P8.64: Graph Delta Approval Workbench Current-State Acceptance Record
 
-Goal: make the P8.62 user-observed review easier by adding a local HTTP helper for the static graph workbench.
+Goal: record that the P8.63 revised graph workbench is accepted for continuation under the coordinator's current-goal auto-accept policy.
 
-Status: completed on 2026-07-10. See [P8.62.R Graph Delta Approval Workbench Review Access Helper](../reviews/p8.62-review-access-helper.md).
+Status: completed on 2026-07-10. See [P8.64 Graph Delta Approval Workbench Current-State Acceptance Record](../reviews/p8.64-graph-delta-approval-workbench-current-state-acceptance.md).
 
-Helper:
+Decision:
 
-- `tools/serve_graph_delta_approval_workbench.py`
-- default URL: `http://127.0.0.1:8762/index.html`
+- the revised graph workbench is accepted for the next bounded product-surface slice.
+- productization remains not ready.
+- no approval automation, graph mutation, WindowsUtility source mutation, package extraction, executable launch, release publishing, or productization claim was added.
 
 Produced artifacts:
 
-- `tools/serve_graph_delta_approval_workbench.py`
-- `generated/roadmap/p8.62-review-access-helper-report.json`
-- [P8.62.R Graph Delta Approval Workbench Review Access Helper](../reviews/p8.62-review-access-helper.md)
+- `generated/roadmap/p8.64-graph-delta-approval-workbench-current-state-acceptance-report.json`
+- [P8.64 Graph Delta Approval Workbench Current-State Acceptance Record](../reviews/p8.64-graph-delta-approval-workbench-current-state-acceptance.md)
 
 Next safe work:
 
-- wait for the coordinator review response.
+- continue to `P8.65 Productization Readiness Recheck After Graph Workbench Revision`.
