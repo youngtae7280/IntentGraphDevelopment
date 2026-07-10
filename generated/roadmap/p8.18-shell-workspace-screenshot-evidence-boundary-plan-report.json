@@ -1,0 +1,43 @@
+{
+  "artifactRole": "intentgraph-screenshot-evidence-boundary-plan-report",
+  "status": "intentgraph-screenshot-evidence-boundary-plan-recorded",
+  "scope": "p8.18-shell-workspace-screenshot-evidence-boundary-plan-report-only",
+  "workItem": "P8.18 Shell Workspace Screenshot Evidence Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "sandboxed-window-screenshot-evidence-probe-required",
+  "inputs": [
+    "generated/windowsutility/p8.17-sandboxed-ui-launch-probe-report.json",
+    "generated/windowsutility/p8.17-sandboxed-ui-launch-build.log"
+  ],
+  "allowedFutureProbe": {
+    "sandboxBuildRequired": true,
+    "sandboxLaunchOnly": true,
+    "captureSandboxWindowOnly": true,
+    "originalTargetCaptureAllowed": false,
+    "hardwareActionsAllowed": false,
+    "sourceEditsAllowed": false,
+    "targetWritesAllowed": false,
+    "proposalApplicationAllowed": false,
+    "productizationAllowed": false
+  },
+  "requiredFutureEvidence": [
+    "sandbox build result",
+    "sandbox app launch and window observation",
+    "screenshot PNG artifact",
+    "non-empty screenshot validation",
+    "process termination result",
+    "original target clean/aligned post-check"
+  ],
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "sandboxWritesAuthorizedForFutureProbe": false,
+    "uiLaunchAuthorizedForFutureProbe": false,
+    "screenshotCaptureAuthorizedForFutureProbe": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe"
+}

@@ -1123,3 +1123,26 @@ P8.18 Shell Workspace Screenshot Evidence Boundary Plan
 ```
 
 P8.18 should decide how screenshot evidence can be captured from the sandboxed app without hardware actions, source edits, original target writes, or productization claims.
+
+## Completed Slice: P8.18 Shell Workspace Screenshot Evidence Boundary Plan
+
+Goal: define the safety boundary for future screenshot evidence from the sandboxed WindowsUtility app window.
+
+Produced artifacts:
+
+- [P8.18 Shell Workspace Screenshot Evidence Boundary Plan](../reviews/p8.18-shell-workspace-screenshot-evidence-boundary-plan-review.md)
+- `generated/roadmap/p8.18-shell-workspace-screenshot-evidence-boundary-plan-report.json`
+
+Decision:
+
+```text
+sandboxed-window-screenshot-evidence-probe-required
+```
+
+Next safe work:
+
+```text
+P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe
+```
+
+P8.19 may capture a PNG of the sandboxed app window and must validate that the screenshot is non-empty and the original target remains unchanged.

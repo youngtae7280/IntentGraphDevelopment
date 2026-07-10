@@ -381,6 +381,12 @@ Status: added in P8.17.
 
 A sandboxed UI launch probe must build and launch only from the sandbox, record process id, process/window observation, termination method, and original target before/after state. The probe must fail if the app exits before the observation window, if the process cannot be observed, if it cannot be closed or killed, if the sandbox refs are stale, or if the original target changes.
 
+## V1022: Screenshot Evidence Must Target The Sandboxed App Window
+
+Status: added in P8.18.
+
+Screenshot evidence for a real-project UI must capture only the sandboxed app window, write artifacts outside the original target repo, validate that the screenshot is non-empty, terminate the app, and prove the original target repo is unchanged. If a screenshot cannot be captured safely, the report must record an explicit unavailable reason instead of silently passing.
+
 ## Rule Severity
 
 | Severity | Meaning |
