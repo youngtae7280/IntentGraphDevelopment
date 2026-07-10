@@ -3223,3 +3223,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.95 Productization Authorization Request`.
+
+## P8.95: Productization Authorization Request
+
+Goal: request future final productization readiness claim authority without recording authority or claiming readiness.
+
+Status: completed on 2026-07-10. See [P8.95 Productization Authorization Request](../reviews/p8.95-productization-authorization-request.md).
+
+Decision:
+
+- productization authorization request recorded.
+- authorization is not recorded.
+- request is not actionable until all upstream verification, product candidate, installer, signing, release, and deferred-gate evidence is complete.
+- no package extraction, executable launch, UI screenshot capture, installer creation, global install, signing, credential access, provider API call, release tag creation, release publishing, product candidate acceptance, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.95-productization-authorization-request.json`
+- `generated/roadmap/p8.95-productization-authorization-request-report.json`
+- [P8.95 Productization Authorization Request](../reviews/p8.95-productization-authorization-request.md)
+
+Next safe work:
+
+- continue to `P8.96 Productization Scope Hold Record`.

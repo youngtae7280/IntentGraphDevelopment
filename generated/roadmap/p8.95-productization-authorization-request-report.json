@@ -1,0 +1,38 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.95-productization-authorization-request-only",
+  "workItem": "P8.95 Productization Authorization Request",
+  "date": "2026-07-10",
+  "result": "productization-authorization-requested-not-recorded-and-not-actionable-yet",
+  "producedArtifacts": [
+    "generated/roadmap/p8.95-productization-authorization-request.json",
+    "docs/reviews/p8.95-productization-authorization-request.md"
+  ],
+  "requestSummary": {
+    "requiredAcceptedResponse": "accept productization readiness claim",
+    "standingAcceptShortcutApplies": false,
+    "realPackageVerificationPassed": false,
+    "launchAndUiEvidencePassed": false,
+    "productCandidateAccepted": false,
+    "releaseAuthorityResolved": false,
+    "productizationAuthorizationActionableNow": false,
+    "productizationClaimAllowedNow": false
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "globalInstall": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releaseTagCreation": false,
+    "releasePublishing": false,
+    "productCandidateAcceptance": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.96 Productization Scope Hold Record"
+}

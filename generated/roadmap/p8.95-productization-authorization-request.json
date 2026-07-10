@@ -1,0 +1,75 @@
+{
+  "artifactRole": "intentgraph-productization-authorization-request",
+  "status": "intentgraph-productization-authorization-requested",
+  "scope": "p8.95-productization-authorization-request-only",
+  "workItem": "P8.95 Productization Authorization Request",
+  "date": "2026-07-10",
+  "decision": "productization-authorization-requested-not-recorded-and-not-actionable-yet",
+  "sourceBoundaryPlan": {
+    "path": "generated/roadmap/p8.94-productization-authority-boundary-plan.json",
+    "artifactRole": "intentgraph-productization-authority-boundary-plan",
+    "status": "intentgraph-productization-authority-boundary-plan-recorded"
+  },
+  "request": {
+    "question": "After all upstream verification, product candidate, installer, signing, release, and deferred-gate evidence is complete, authorize the final productization readiness claim?",
+    "requiredAcceptedResponse": "accept productization readiness claim",
+    "allowedResponses": [
+      "accept productization readiness claim",
+      "reject productization readiness claim",
+      "revise productization scope first"
+    ],
+    "standingAcceptShortcutApplies": false,
+    "standingAcceptShortcutReason": "The current-goal accept/revise/blocked shortcut handles ordinary review gates, but it does not authorize final productization readiness claims."
+  },
+  "preconditionGate": {
+    "realPackageVerificationRequired": true,
+    "realPackageVerificationPassed": false,
+    "launchAndUiEvidenceRequired": true,
+    "launchAndUiEvidencePassed": false,
+    "productCandidateAcceptanceRequired": true,
+    "productCandidateAccepted": false,
+    "installerSigningReleaseStatusRequired": true,
+    "installerSigningReleaseStatusRecorded": false,
+    "releaseAuthorityResolutionRequired": true,
+    "releaseAuthorityResolved": false,
+    "productizationAuthorizationActionableNow": false,
+    "reasonNotActionable": "The upstream verification, product candidate, installer, signing, release, and deferred-gate evidence chain is incomplete."
+  },
+  "requestedAuthorityIfPreconditionsLaterPass": {
+    "mayClaimProductizationReady": true,
+    "mayRecordFinalReadinessReport": true,
+    "mayMarkProductCandidateAccepted": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayCallProviderApis": false,
+    "mayReadCredentials": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false,
+    "mayInstallGlobally": false
+  },
+  "authorizationState": {
+    "responseRecorded": false,
+    "accepted": false,
+    "rejected": false,
+    "reviseRequested": false,
+    "productizationClaimAllowedNow": false,
+    "requiredNextArtifactIfUserResponds": "P8.96 Productization Authorization Response Record"
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "globalInstallPerformed": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releaseTagCreated": false,
+    "releasePublished": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false
+  },
+  "nextAllowedWithoutAcceptance": "P8.96 Productization Scope Hold Record"
+}
