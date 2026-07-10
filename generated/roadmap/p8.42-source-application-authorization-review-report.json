@@ -1,0 +1,121 @@
+{
+  "artifactRole": "intentgraph-source-application-authorization-review-report",
+  "authorizationDecision": {
+    "mayApplyExistingProposal": false,
+    "mayApplyFuturePatchWithoutExactPreview": false,
+    "mayCreateMinimalSourceEditProposalNext": true,
+    "mayMutateWindowsUtilityNow": false,
+    "permissionExercisedInThisSlice": false,
+    "requiresBuildValidation": true,
+    "requiresPatchPreview": true,
+    "requiresPostWriteEvidence": true,
+    "requiresPreflightCleanTarget": true,
+    "requiresRollbackPlan": true,
+    "sourceModificationPermissionObserved": true
+  },
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorizedInThisSlice": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorizedInThisSlice": false,
+    "targetWritesAuthorizedInThisSlice": false,
+    "windowsUtilityCommitAuthorizedInThisSlice": false,
+    "windowsUtilityPushAuthorizedInThisSlice": false
+  },
+  "date": "2026-07-10",
+  "decision": "minimal-source-edit-proposal-required-before-application",
+  "gateFindings": [
+    {
+      "detail": "P8.41 request records sourceModificationPermissionObserved true.",
+      "id": "finding.p8.42-user-permission-observed",
+      "result": "pass"
+    },
+    {
+      "detail": "P8.41 dry-run validation passed.",
+      "id": "finding.p8.42-dry-run-validation",
+      "result": "pass"
+    },
+    {
+      "detail": "P8.41 negative probes passed.",
+      "id": "finding.p8.42-negative-probes",
+      "result": "pass"
+    },
+    {
+      "detail": "The current bound proposal has sourcePatchExpected false, plannedSourceChanges empty, operationCount 0, and no patch preview.",
+      "id": "finding.p8.42-no-source-patch",
+      "result": "block-application"
+    }
+  ],
+  "nextSliceRequirements": [
+    "select one exact low-risk WindowsUtility source change",
+    "emit a concrete patch preview before applying",
+    "touch no Utility_Windows reference source",
+    "touch no hardware, Native, firmware, printer write, packaging, release, or installer code",
+    "verify WindowsUtility is clean and still at the expected baseline before editing",
+    "run dotnet build .\\WindowsUtility.sln after applying if the source edit proceeds",
+    "record rollback evidence and final git status"
+  ],
+  "recommendedNextSlice": "P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview",
+  "scope": "p8.42-source-application-authorization-review-report-only",
+  "sourceInputs": {
+    "changeSetPreview": {
+      "artifactRole": "intentgraph-windowsutility-source-change-set-preview",
+      "digest": "sha256:4360362a4598bfc6ecd8e8f96e6a6132123d89dc6886ae86ce47021033a45f15",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/change-set-preview.json",
+      "status": "intentgraph-windowsutility-source-change-set-preview-recorded"
+    },
+    "dryRunNegativeProbes": {
+      "artifactRole": "intentgraph-windowsutility-source-application-dry-run-negative-probes-report",
+      "digest": "sha256:2dc989dfdde9e292dfd73f3620913537ab35afe5367ada3d763bc39b4c6e350e",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/negative-probes-report.json",
+      "status": "intentgraph-windowsutility-source-application-dry-run-negative-probes-passed"
+    },
+    "dryRunRequest": {
+      "artifactRole": "intentgraph-windowsutility-source-application-dry-run-request",
+      "digest": "sha256:1d6e64892ce961c4e17fa6ea217be394990ccc071f7f0d20e0f429fb7d3df1a4",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/dry-run-request.json",
+      "status": "intentgraph-windowsutility-source-application-dry-run-request-recorded"
+    },
+    "dryRunValidation": {
+      "artifactRole": "intentgraph-windowsutility-source-application-dry-run-validation-report",
+      "digest": "sha256:5552e79b334308f4a0622cb5151105a2d108c07a72c2ffd6c7c5f20b261eb07f",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/validation-report.json",
+      "status": "intentgraph-windowsutility-source-application-dry-run-validation-passed"
+    },
+    "nonAppliedProposal": {
+      "artifactRole": "intentgraph-windowsutility-non-applied-proposal",
+      "digest": "sha256:0a0a47e9c072d8588d16f48d77a552405465cc8cd5ff29662209f6ac3612f279",
+      "path": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+      "status": "intentgraph-windowsutility-non-applied-proposal-proposed"
+    },
+    "p8.41Roadmap": {
+      "artifactRole": "intentgraph-roadmap-slice-completion-report",
+      "digest": "sha256:72602a102a6637cff761a7109b514de7a510b2940ed7b17b743d0f3b9fbb48ed",
+      "path": "generated/roadmap/p8.41-non-mutating-source-application-dry-run-prototype-report.json",
+      "status": "intentgraph-roadmap-slice-completed"
+    }
+  },
+  "sourcePatchFacts": {
+    "intendedTouchedFileCount": 2,
+    "operationCount": 0,
+    "plannedSourceChangeCount": 0,
+    "proposalApplicationStatus": "not-applied",
+    "proposalId": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+    "sourcePatchApplied": false,
+    "sourcePatchExpected": false,
+    "sourcePatchGenerated": false
+  },
+  "status": "intentgraph-source-application-authorization-review-recorded",
+  "summary": "The user source-modification permission is observed, and P8.41 dry-run evidence passed, but the bound P8.12 proposal contains no source patch or planned source changes. No WindowsUtility source edit is applied in P8.42.",
+  "targetState": {
+    "cleanAligned": true,
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "status": "## main...origin/main"
+  },
+  "workItem": "P8.42 Source Application Authorization Review / Minimal Source Application Gate"
+}

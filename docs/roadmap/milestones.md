@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.41 Non-Mutating Source Application Dry-Run Prototype
+P8.42 Source Application Authorization Review / Minimal Source Application Gate
 ```
 
-This Phase G stabilization slice emitted and validated the first non-mutating source application dry-run bundle for WindowsUtility. The user has allowed future WindowsUtility source modification, but P8.41 did not exercise that permission. Proposal application, target writes, AI authority, hardware authority, packaging, release, and productization remain blocked until the next explicit source application gate. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice reviewed the user's source-modification permission against the P8.41 dry-run evidence. It found that the current P8.12 proposal has no source patch, so a minimal source edit proposal and patch preview are required before any WindowsUtility source write. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1888,6 +1888,34 @@ Non-goals:
 - no WindowsUtility generated writes
 - no WindowsUtility commit or push
 - no git index mutation
+- no hardware action authority
+- no AI authority promotion
+- no packaging
+- no release
+- no productization implementation
+- no product readiness claim
+
+## P8.42: Source Application Authorization Review / Minimal Source Application Gate
+
+Goal: review whether the P8.41 dry-run and user source-modification permission are enough to apply a WindowsUtility source change.
+
+Status: completed on 2026-07-10. See [P8.42 Source Application Authorization Review](../reviews/p8.42-source-application-authorization-review.md).
+
+Decision:
+
+- user source-modification permission is observed.
+- P8.41 validation and negative probes passed.
+- WindowsUtility is clean/aligned.
+- the current P8.12 proposal has no source patch or planned source changes.
+- no WindowsUtility source edit is applied in P8.42.
+- continue to `P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview`.
+
+Non-goals:
+
+- no source edits
+- no proposal application
+- no target writes
+- no WindowsUtility commit or push
 - no hardware action authority
 - no AI authority promotion
 - no packaging

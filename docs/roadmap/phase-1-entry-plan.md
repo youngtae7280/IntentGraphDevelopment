@@ -1723,3 +1723,26 @@ Recommended next slice:
 ```text
 P8.42 Source Application Authorization Review / Minimal Source Application Gate
 ```
+
+## Completed Slice: P8.42 Source Application Authorization Review / Minimal Source Application Gate
+
+Goal: decide whether the P8.41 dry-run plus user source-modification permission is enough to apply a WindowsUtility source change.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.42-source-application-authorization-review-report.json`
+- [P8.42 Source Application Authorization Review](../reviews/p8.42-source-application-authorization-review.md)
+
+Decision:
+
+```text
+minimal-source-edit-proposal-required-before-application
+```
+
+The current P8.12 proposal has no source patch or planned source changes. P8.42 therefore opens only the next proposal/patch-preview step.
+
+Recommended next slice:
+
+```text
+P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview
+```

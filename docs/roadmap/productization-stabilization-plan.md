@@ -438,3 +438,21 @@ The next safe stabilization slice is:
 ```text
 P8.42 Source Application Authorization Review / Minimal Source Application Gate
 ```
+
+## P8.42 Source Application Authorization Review
+
+P8.42 reviewed the user source-modification permission against the P8.41 dry-run evidence.
+
+Result:
+
+```text
+minimal-source-edit-proposal-required-before-application
+```
+
+The permission is observed, but the existing P8.12 proposal has no source patch, planned source change, or patch operation. No WindowsUtility source files were modified in P8.42.
+
+The next safe stabilization slice is:
+
+```text
+P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview
+```
