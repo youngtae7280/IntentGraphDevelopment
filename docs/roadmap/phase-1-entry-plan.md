@@ -312,3 +312,27 @@ P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
 P2.0 is the first Phase B implementation slice. It may create the tiny B1 fixture and code fact schema/report boundary, but it must not become a broad extractor, Graphify clone, UI/workbench product, or AI coding runtime.
+
+## Completed Slice: P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture
+
+Goal: create the first bounded Phase B B1 fixture and deterministic code fact validation boundary.
+
+Produced artifacts:
+
+- `docs/examples/b1-typescript-rest-api/source/**`
+- [Code Fact Schema v0](../language/code-fact-schema-v0.md)
+- `tools/extract_b1_code_facts.py`
+- `tools/validate_b1_code_facts.py`
+- `tools/run_b1_code_fact_negative_probes.py`
+- `generated/b1-typescript-rest-api/code-facts.json`
+- `generated/b1-typescript-rest-api/code-facts-validation-report.json`
+- `generated/b1-typescript-rest-api/p2.0-code-fact-negative-probes-report.json`
+- [P2.0 B1 Code Fact Schema Static Fixture Review](../reviews/p2.0-b1-code-fact-schema-static-fixture-review.md)
+
+Recommended next slice:
+
+```text
+P2.1 B1 Incremental Code Fact Change Probe
+```
+
+P2.1 should mutate exactly one B1 source file, compare before/after code facts, and verify expected fact changes without broad extraction, Intent mapping, UI/workbench, AI planning, or productization.

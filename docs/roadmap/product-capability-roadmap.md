@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P1.19 completed.
+P2.0 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture.
-No broad extractor, UI/workbench product, AI coding runtime, or productization work is authorized by P1.19.
+Next recommended slice: P2.1 B1 Incremental Code Fact Change Probe.
+No broad extractor, UI/workbench product, AI coding runtime, or productization work is authorized by P2.0.
 ```
 
 ## Core Definition
@@ -76,20 +76,26 @@ P1.19 completed the plan-only generalization gate:
 B1-typescript-rest-api selected.
 ```
 
-The next step is the first bounded Phase B implementation slice:
+P2.0 completed the first bounded Phase B implementation slice:
 
 ```text
-P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture
+B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P2.0 may create the B1 fixture and code fact schema/report boundary, but it must not become a broad extractor, UI/workbench product, or AI coding runtime.
+The next step is:
+
+```text
+P2.1 B1 Incremental Code Fact Change Probe
+```
+
+P2.1 should mutate one B1 source file, compare before/after facts, and verify that only expected file-local facts plus declared relation summaries change.
 
 ## Phase Overview
 
 | Phase | Name | Purpose | Current state |
 |---|---|---|---|
 | A | Model Correction | Define IntentGraph as semantic overlay and correct the state model. | Mostly complete through P1.18. |
-| B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | Planned by P1.19. P2.0 recommended but not yet completed. |
+| B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | P2.0 completed first B1 static fact boundary. Incremental behavior not yet proven. |
 | C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | Not opened. |
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Not opened. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | Small fixture proofs only. |
@@ -544,7 +550,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P1.19 Result And P2.0 Required Scope
+## P2.0 Result And P2.1 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -565,13 +571,29 @@ Selected next benchmark:
 B1-typescript-rest-api
 ```
 
+P2.0 result:
+
+```text
+B1 static fixture, schema, extractor, validator, and negative probes pass.
+```
+
 Recommended next slice:
 
 ```text
-P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture
+P2.1 B1 Incremental Code Fact Change Probe
 ```
 
-P2.0 must not:
+P2.1 must:
+
+- capture the P2.0 B1 before-state facts
+- modify exactly one B1 source file in a bounded way
+- regenerate B1 code facts
+- compare before/after fact sets
+- verify expected added/changed/removed facts
+- verify unchanged files keep identical file-local facts and digests
+- keep broad extractor, UI/workbench, AI planning, and Intent mapping out of scope
+
+P2.1 must not:
 
 - expand beyond the tiny B1 static fixture and code fact boundary
 - add another CF0 semantic probe

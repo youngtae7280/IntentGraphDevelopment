@@ -1,0 +1,119 @@
+{
+  "artifactRole": "intentgraph-code-fact-negative-probes-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "aiAuthorityClaimed": false,
+    "b1FixtureBounded": true,
+    "broadExtractorClaimed": false,
+    "workbenchClaimed": false
+  },
+  "positiveBaseline": {
+    "result": "pass",
+    "returnCode": 0
+  },
+  "probeCount": 10,
+  "probes": [
+    {
+      "errors": [
+        "wrong artifactRole: wrong-role"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "wrong artifactRole",
+      "id": "wrong-role",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "fact.function.addtodo unknown fact kind: mystery",
+        "rel.calls.addtodo.createtodo missing source endpoint: fact.function.addtodo",
+        "rel.calls.addtodo.requiretitle missing source endpoint: fact.function.addtodo",
+        "rel.calls.testaddtodocreatesopentodo.addtodo missing target endpoint: fact.function.addtodo",
+        "rel.contains.src_service_todoservice_ts.fact_function_addtodo missing target endpoint: fact.function.addtodo",
+        "rel.handles_route.post.todos.addtodo missing target endpoint: fact.function.addtodo",
+        "rel.references.import.src_routes_todos_ts.addtodo missing target endpoint: fact.function.addtodo",
+        "rel.references.import.tests_todoservice_test_ts.addtodo missing target endpoint: fact.function.addtodo",
+        "rel.tests.test_add_todo_creates_open_todo.add_todo missing target endpoint: fact.function.addtodo"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "unknown fact kind",
+      "id": "unknown-fact-kind",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "rel.calls.addtodo.createtodo unknown relation kind: teleports"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "unknown relation kind",
+      "id": "unknown-relation-kind",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "rel.calls.addtodo.createtodo missing target endpoint: fact.function.missing"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "missing target endpoint",
+      "id": "missing-endpoint",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "fact.function.addtodo missing required fields: sourceDigest",
+        "fact.function.addtodo stale sourceDigest for src/service/todoService.ts"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "missing required fields: sourceDigest",
+      "id": "missing-source-digest",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "fact.function.addtodo stale sourceDigest for src/service/todoService.ts"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "stale sourceDigest",
+      "id": "stale-source-digest",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "fact.function.addtodo must not contain sourceText"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "must not contain sourceText",
+      "id": "source-text-leak",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "extractor.broadExtractor must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "extractor.broadExtractor must be false",
+      "id": "broad-extractor-true",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "fact.function.addtodo missing sourceLocation or sourceLocationStatus"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "missing sourceLocation or sourceLocationStatus",
+      "id": "missing-location",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "extractor.deterministic must be true"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "extractor.deterministic must be true",
+      "id": "nondeterministic-extractor",
+      "returnCode": 1
+    }
+  ],
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-code-fact-negative-probes",
+  "status": "intentgraph-code-fact-negative-probes-passed"
+}

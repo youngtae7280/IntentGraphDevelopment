@@ -62,7 +62,7 @@ Phase 0 is complete as of 2026-07-09. Read the [Phase 0 Final Review](reviews/ph
 
 P1.R through P1.18 corrected the model and proved it on the tiny CF0 code-first fixture. CF0 is now saturated proof evidence, not general scalability evidence.
 
-P1.19 selected `B1-typescript-rest-api` as the next benchmark shape. The next recommended work is `P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture`, described in [Phase 1 Entry Plan](roadmap/phase-1-entry-plan.md) and controlled by the [Product Capability Roadmap](roadmap/product-capability-roadmap.md). This is not authorization to build a broad extractor, UI/workbench product, or AI coding runtime.
+P1.19 selected `B1-typescript-rest-api` as the next benchmark shape. P2.0 created the first bounded B1 fixture, code fact schema, extractor, validator, and negative probes. The next recommended work is `P2.1 B1 Incremental Code Fact Change Probe`, controlled by the [Product Capability Roadmap](roadmap/product-capability-roadmap.md). This is not authorization to build a broad extractor, UI/workbench product, or AI coding runtime.
 
 Do not open compiler, extractor, verifier, package setup, UI, or AI runtime implementation until the relevant later milestone is current and its entry criteria are met.
 

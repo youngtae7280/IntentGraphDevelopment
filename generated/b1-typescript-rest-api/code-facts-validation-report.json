@@ -1,0 +1,43 @@
+{
+  "artifactRole": "intentgraph-code-facts-validation-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "aiAuthorityClaimed": false,
+    "b1FixtureBounded": true,
+    "broadExtractorClaimed": false,
+    "sourceTextAuthorityClaimed": false,
+    "workbenchClaimed": false
+  },
+  "errors": [],
+  "factKindCounts": {
+    "call": 4,
+    "file": 5,
+    "function": 4,
+    "import": 7,
+    "module": 5,
+    "route": 2,
+    "test": 2,
+    "type": 1
+  },
+  "relationKindCounts": {
+    "calls": 4,
+    "contains": 12,
+    "handles_route": 2,
+    "imports": 7,
+    "references": 7,
+    "tests": 2
+  },
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-code-facts-validation",
+  "status": "intentgraph-code-facts-validation-passed",
+  "summary": {
+    "endpointFactCount": 19,
+    "errorCount": 0,
+    "factCount": 30,
+    "relationCount": 34,
+    "sourceFileCount": 5,
+    "warningCount": 0
+  },
+  "warnings": []
+}

@@ -2,6 +2,59 @@
 
 M1 defined validation rules but did not implement them. P1.R reframes them around semantic overlay state: code nodes are references/facts, not code text, and generated-code rules apply only when a generated-code mode is declared.
 
+## V500: B1 Code Fact Schema Validation
+
+Status: added in P2.0.
+
+B1 code fact reports must use exact role/status/scope values:
+
+- `artifactRole: intentgraph-code-facts`
+- `status: intentgraph-code-facts-extracted`
+- `scope: b1-typescript-rest-api-code-facts`
+
+Every fact must include source file, source digest, extractor id, extractor version, confidence, and source location or explicit source location status.
+
+Allowed fact kinds are:
+
+- `file`
+- `module`
+- `function`
+- `type`
+- `route`
+- `test`
+- `import`
+- `call`
+
+Allowed relation kinds are:
+
+- `contains`
+- `imports`
+- `references`
+- `calls`
+- `handles_route`
+- `tests`
+- `depends_on`
+
+Every relation endpoint must resolve to an endpoint fact. Source text must not be embedded as authority. The extractor must declare deterministic output and must not claim broad extraction.
+
+Validation command:
+
+```bash
+python tools/validate_b1_code_facts.py --code-facts generated/b1-typescript-rest-api/code-facts.json --source-root docs/examples/b1-typescript-rest-api/source --out generated/b1-typescript-rest-api/code-facts-validation-report.json
+```
+
+## V501: B1 Code Fact Negative Probes
+
+Status: added in P2.0.
+
+B1 must maintain repeatable negative probes for wrong role, unknown fact kind, unknown relation kind, missing endpoint, missing provenance, stale source digest, source text leakage, broad extractor claims, missing location metadata, and nondeterministic extractor claims.
+
+Validation command:
+
+```bash
+python tools/run_b1_code_fact_negative_probes.py --out generated/b1-typescript-rest-api/p2.0-code-fact-negative-probes-report.json
+```
+
 ## Rule Severity
 
 | Severity | Meaning |

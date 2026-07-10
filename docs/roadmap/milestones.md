@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P1.19 Second Benchmark and Generalization Gate - Plan Only
+P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-This is a plan-only gate that selects `B1-typescript-rest-api` as the next benchmark shape and recommends `P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture`. It does not implement the benchmark or authorize a broad extractor/UI/productization. See [Phase 1 Entry Plan](phase-1-entry-plan.md) and [Product Capability Roadmap](product-capability-roadmap.md).
+This is the first bounded Phase B implementation slice. It creates a tiny B1 TypeScript REST fixture, B1 code fact schema, deterministic extraction report, validator, and negative probes. It does not authorize a broad extractor/UI/productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -471,3 +471,26 @@ Non-goals:
 - no AI proposal generation
 - no automatic authority
 - no source code replacement claim
+
+## P2.0: B1 TypeScript REST Code Fact Schema and Static Fixture
+
+Goal: create the first non-CF0, multi-file B1 fixture and prove a deterministic code fact schema/report boundary for Phase B.
+
+Status: completed on 2026-07-10. See [P2.0 B1 Code Fact Schema Static Fixture Review](../reviews/p2.0-b1-code-fact-schema-static-fixture-review.md).
+
+Decision:
+
+- B1 fixture exists
+- code fact schema v0 exists
+- B1 extractor is fixture-bounded and deterministic
+- B1 validator and negative probes pass
+- continue to `P2.1 B1 Incremental Code Fact Change Probe`
+
+Non-goals:
+
+- no broad TypeScript extractor
+- no external code intelligence integration
+- no Intent Unit mapping
+- no AI proposal generation
+- no UI/workbench product
+- no real-project adoption
