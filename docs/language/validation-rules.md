@@ -339,6 +339,12 @@ Status: added in P8.10.
 
 Before an accepted real-project mapping can be used as the basis for non-applied proposal work, a repeatable negative-probe harness must prove deterministic failure for stale source digest, missing source ref, missing or rejected human acceptance, accidental unacceptance, target write authority, and productization authority. The harness must keep proposal application and AI authority false.
 
+## V1015: Non-Applied Proposal Boundaries Must Keep Apply Authority False
+
+Status: added in P8.11.
+
+A real-project non-applied proposal boundary may define proposal shape, evidence requirements, authority requirements, rollback/stop conditions, and deterministic verification plans. It must keep source edits, target writes, apply authority, AI authority, and productization false unless a later explicit authority artifact grants a narrower permission.
+
 ## Rule Severity
 
 | Severity | Meaning |

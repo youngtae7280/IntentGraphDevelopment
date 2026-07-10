@@ -1,0 +1,41 @@
+{
+  "artifactRole": "intentgraph-shell-workspace-non-applied-proposal-boundary-report",
+  "status": "intentgraph-shell-workspace-non-applied-proposal-boundary-planned",
+  "scope": "p8.11-shell-workspace-non-applied-proposal-boundary-report-only",
+  "workItem": "P8.11 Shell Workspace Non-Applied Proposal Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "non-applied-proposal-boundary-open-source-edits-blocked",
+  "requiredInputs": [
+    "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+    "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json",
+    "generated/windowsutility/p8.10-shell-workspace-accepted-mapping-negative-probes-report.json",
+    "generated/roadmap/p8.6-windowsutility-target-state-resolution-report.json"
+  ],
+  "firstProposalClass": {
+    "id": "shell-workspace-smoke-evidence-non-applied-proposal",
+    "recommendedNextSlice": "P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal",
+    "sourcePatchExpected": false
+  },
+  "proposalRequirements": {
+    "acceptedMappingId": true,
+    "targetBaselineHead": true,
+    "intendedTaskClass": true,
+    "emptyCodeDeltaUnlessAuthorized": true,
+    "evidenceRequirements": true,
+    "authorityRequirements": true,
+    "rollbackStopConditions": true,
+    "deterministicVerificationPlan": true,
+    "applyAuthorized": false,
+    "targetWritesAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal"
+}
