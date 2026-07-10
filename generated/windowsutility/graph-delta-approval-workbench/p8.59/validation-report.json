@@ -1,0 +1,20 @@
+{
+  "artifactRole": "intentgraph-graph-delta-approval-workbench-projection-validation-report",
+  "date": "2026-07-10",
+  "errors": [],
+  "projectionDigest": "sha256:c5d1bb0d13d97d9f2d2b67b722847447d58b7ec0fdf324a6a38e5658d1e2e767",
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "p8.59-graph-delta-approval-workbench-projection-schema",
+  "status": "intentgraph-graph-delta-approval-workbench-projection-validation-passed",
+  "summary": {
+    "codeDiffCount": 1,
+    "deltaStepCount": 3,
+    "edgeCount": 7,
+    "errorCount": 0,
+    "graphEdgeDiffCount": 1,
+    "graphNodeDiffCount": 1,
+    "nodeCount": 10
+  },
+  "workItem": "P8.59 Graph Delta Approval Workbench Projection Schema"
+}

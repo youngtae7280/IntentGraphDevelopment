@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.58 Graph Delta Approval Workbench Boundary Plan
+P8.59 Graph Delta Approval Workbench Projection Schema
 ```
 
-This Phase G stabilization slice turned the approval graph/delta/diff requirement into an implementable workbench boundary plan. The next slice is the deterministic projection schema. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice emitted and validated the graph/delta/diff projection schema required by the approval workbench. The next slice is the static HTML prototype. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -2359,3 +2359,27 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.59 Graph Delta Approval Workbench Projection Schema`.
+
+## P8.59: Graph Delta Approval Workbench Projection Schema
+
+Goal: emit a deterministic projection JSON with graph nodes/edges, delta states, code diffs, graph element diffs, inspectors, and blockers.
+
+Status: completed on 2026-07-10. See [P8.59 Graph Delta Approval Workbench Projection Schema](../reviews/p8.59-graph-delta-approval-workbench-projection-schema.md).
+
+Decision:
+
+- graph/delta approval workbench projection schema passed validation.
+- projection includes 10 nodes, 7 edges, 3 delta steps, 1 code diff, 1 changed-node diff, and 1 changed-edge diff.
+- projection remains non-authoritative and does not implement the HTML UI yet.
+
+Produced artifacts:
+
+- `tools/emit_graph_delta_approval_workbench_projection.py`
+- `generated/windowsutility/graph-delta-approval-workbench/p8.59/projection.json`
+- `generated/windowsutility/graph-delta-approval-workbench/p8.59/validation-report.json`
+- `generated/roadmap/p8.59-graph-delta-approval-workbench-projection-schema-report.json`
+- [P8.59 Graph Delta Approval Workbench Projection Schema](../reviews/p8.59-graph-delta-approval-workbench-projection-schema.md)
+
+Next safe work:
+
+- continue to `P8.60 Static Graph Delta Approval Workbench Prototype`.

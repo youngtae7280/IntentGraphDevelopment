@@ -1,0 +1,52 @@
+{
+  "artifactRole": "intentgraph-graph-delta-approval-workbench-projection-schema-summary",
+  "status": "intentgraph-graph-delta-approval-workbench-projection-schema-passed",
+  "scope": "p8.59-graph-delta-approval-workbench-projection-schema-summary",
+  "workItem": "P8.59 Graph Delta Approval Workbench Projection Schema",
+  "date": "2026-07-10",
+  "decision": "graph-delta-approval-workbench-projection-schema-emitted-and-validated",
+  "sourceBoundary": {
+    "path": "generated/roadmap/p8.58-graph-delta-approval-workbench-boundary-plan-report.json",
+    "artifactRole": "intentgraph-graph-delta-approval-workbench-boundary-plan-report",
+    "status": "intentgraph-graph-delta-approval-workbench-boundary-plan-recorded",
+    "decision": "graph-delta-approval-workbench-boundary-ready-for-projection-schema"
+  },
+  "producedArtifacts": {
+    "projection": "generated/windowsutility/graph-delta-approval-workbench/p8.59/projection.json",
+    "validationReport": "generated/windowsutility/graph-delta-approval-workbench/p8.59/validation-report.json",
+    "emitter": "tools/emit_graph_delta_approval_workbench_projection.py"
+  },
+  "validation": {
+    "result": "pass",
+    "projectionDigest": "sha256:c5d1bb0d13d97d9f2d2b67b722847447d58b7ec0fdf324a6a38e5658d1e2e767",
+    "nodeCount": 10,
+    "edgeCount": 7,
+    "deltaStepCount": 3,
+    "codeDiffCount": 1,
+    "graphNodeDiffCount": 1,
+    "graphEdgeDiffCount": 1,
+    "errorCount": 0
+  },
+  "coverage": {
+    "edgeEndpointValidation": true,
+    "selectionPayloadsPresent": true,
+    "changedNodeHasGraphDiff": true,
+    "changedEdgeHasGraphDiff": true,
+    "codeNodeHasCodeDiff": true,
+    "deltaStepsReferenceExistingElements": true,
+    "authorityFalseFlagsPreserved": true
+  },
+  "claimScope": {
+    "projectionOnly": true,
+    "staticHtmlImplemented": false,
+    "graphUiImplemented": false,
+    "graphMutationFromUi": false,
+    "approvalAutomation": false,
+    "windowsUtilitySourceMutated": false,
+    "packageExtractionPerformed": false,
+    "packagedExecutableLaunchPerformed": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.60 Static Graph Delta Approval Workbench Prototype"
+}
