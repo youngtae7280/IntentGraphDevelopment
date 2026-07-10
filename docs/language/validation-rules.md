@@ -401,6 +401,14 @@ A real-project evidence workbench projection must not be implemented until a bou
 
 The projection must be report/projection state only. It must not hide missing evidence, convert visualization into accepted graph authority, or claim product readiness.
 
+## V1025: Real-Project Evidence Workbench Projections Must Preserve Authority Boundaries
+
+Status: added in P8.21.
+
+A real-project evidence workbench projection must link accepted mapping, proposal, build evidence, UI launch evidence, screenshot evidence, source artifact digests, selection records, and authority/safety flags. It must validate that required artifacts exist, linked evidence passed, screenshot linkage is visible, the proposal remains non-applied, and the current target remains clean/aligned.
+
+The projection and preview must keep visualization/report state separate from correctness, acceptance, source mutation, target mutation, proposal application, AI authority, hardware authority, new evidence collection, and productization. Browser validation must prove the static preview is nonblank, has navigation and selectable records, exposes authority flags, and renders the screenshot path when screenshot evidence is present.
+
 ## Rule Severity
 
 | Severity | Meaning |

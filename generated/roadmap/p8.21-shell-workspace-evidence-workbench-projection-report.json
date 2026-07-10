@@ -1,0 +1,50 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-report",
+  "status": "intentgraph-roadmap-slice-completed",
+  "scope": "p8.21-shell-workspace-evidence-workbench-projection",
+  "workItem": "P8.21 Shell Workspace Evidence Workbench Projection",
+  "date": "2026-07-10",
+  "decision": "shell-workspace-evidence-workbench-projection-pass",
+  "producedArtifacts": [
+    "tools/emit_windowsutility_workbench_projection.py",
+    "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json",
+    "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench.html",
+    "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-validation-report.json",
+    "docs/reviews/p8.21-shell-workspace-evidence-workbench-projection-review.md"
+  ],
+  "projectionResult": {
+    "validationResult": "pass",
+    "timelineStepCount": 8,
+    "evidenceCardCount": 3,
+    "sourceArtifactCount": 10,
+    "selectionRecordCount": 6,
+    "htmlExists": true,
+    "screenshotLinked": true,
+    "currentTargetStatus": "## main...origin/main",
+    "currentTargetHeadEqualsOrigin": true
+  },
+  "browserValidation": {
+    "tool": "headless Chrome through Playwright",
+    "title": "WindowsUtility Evidence Workbench",
+    "navCount": 6,
+    "recordCount": 6,
+    "screenshotNaturalWidth": 1320,
+    "screenshotNaturalHeight": 820,
+    "screenshotRenderedWidth": 708,
+    "screenshotRenderedHeight": 428,
+    "authoritySectionVisible": true,
+    "selectionDetailsUpdated": true
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.22 Shell Workspace Workbench Projection Negative Probes"
+}

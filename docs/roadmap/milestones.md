@@ -1325,3 +1325,28 @@ Non-goals:
 - no hardware action authority
 - no productization implementation
 - no product readiness claim
+
+## P8.21: Shell Workspace Evidence Workbench Projection
+
+Goal: emit a deterministic static WindowsUtility workbench projection from existing shell/workspace mapping and evidence artifacts.
+
+Status: completed on 2026-07-10. See [P8.21 Shell Workspace Evidence Workbench Projection Review](../reviews/p8.21-shell-workspace-evidence-workbench-projection-review.md).
+
+Decision:
+
+- projection JSON emitted.
+- static HTML preview emitted.
+- projection validation passed.
+- headless browser validation confirmed navigation, selection records, screenshot rendering, and authority visibility.
+- continue to `P8.22 Shell Workspace Workbench Projection Negative Probes`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or WindowsUtility screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim

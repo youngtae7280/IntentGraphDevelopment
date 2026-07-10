@@ -1196,3 +1196,30 @@ P8.21 Shell Workspace Evidence Workbench Projection
 ```
 
 P8.21 may emit deterministic projection JSON and a static local HTML preview from existing evidence. It must not collect new evidence, mutate the WindowsUtility target, apply proposals, grant AI authority, grant hardware authority, or claim productization.
+
+## Completed Slice: P8.21 Shell Workspace Evidence Workbench Projection
+
+Goal: emit a deterministic WindowsUtility shell/workspace evidence projection and static HTML preview.
+
+Produced artifacts:
+
+- `tools/emit_windowsutility_workbench_projection.py`
+- `generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json`
+- `generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench.html`
+- `generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-validation-report.json`
+- [P8.21 Shell Workspace Evidence Workbench Projection Review](../reviews/p8.21-shell-workspace-evidence-workbench-projection-review.md)
+- `generated/roadmap/p8.21-shell-workspace-evidence-workbench-projection-report.json`
+
+Decision:
+
+```text
+shell-workspace-evidence-workbench-projection-pass
+```
+
+Next safe work:
+
+```text
+P8.22 Shell Workspace Workbench Projection Negative Probes
+```
+
+P8.22 should prove deterministic failures for unsafe or incomplete workbench projection states before any richer UI or productization work.

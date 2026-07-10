@@ -1,0 +1,29 @@
+{
+  "artifactRole": "intentgraph-windowsutility-workbench-validation-report",
+  "claimScope": {
+    "aiAuthorityGranted": false,
+    "hardwareActionClaimed": false,
+    "newEvidenceCollected": false,
+    "patchApplied": false,
+    "productizationClaimed": false,
+    "projectionOnly": true,
+    "proposalAcceptedByProjection": false,
+    "sourceMutated": false,
+    "targetMutated": false,
+    "visualizationVerifiesCorrectness": false
+  },
+  "errors": [],
+  "result": "pass",
+  "scope": "p8.21-shell-workspace-evidence-workbench-validation",
+  "status": "intentgraph-windowsutility-workbench-validation-passed",
+  "summary": {
+    "errorCount": 0,
+    "evidenceCardCount": 3,
+    "htmlExists": true,
+    "screenshotExists": true,
+    "selectionRecordCount": 6,
+    "sourceArtifactCount": 10,
+    "timelineStepCount": 8
+  },
+  "workItem": "P8.21 Shell Workspace Evidence Workbench Projection"
+}
