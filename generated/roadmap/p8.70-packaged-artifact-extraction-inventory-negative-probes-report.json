@@ -1,0 +1,40 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.70-packaged-artifact-extraction-inventory-negative-probes",
+  "workItem": "P8.70 Packaged Artifact Extraction Inventory Negative Probes",
+  "date": "2026-07-10",
+  "result": "pass",
+  "producedArtifacts": [
+    "tools/run_windowsutility_package_extraction_inventory_negative_probes.py",
+    "generated/windowsutility/package-artifact/p8.70/negative-probes-report.json",
+    "docs/reviews/p8.70-packaged-artifact-extraction-inventory-negative-probes.md"
+  ],
+  "validationSummary": {
+    "probeCount": 8,
+    "allExpectedFailuresObserved": true,
+    "coveredFailures": [
+      "missing authorization token",
+      "wrong authorization token",
+      "manifest sha256 mismatch",
+      "metadata replay fileCount mismatch",
+      "non-zip package",
+      "missing required package entry",
+      "unsafe zip-slip entry",
+      "non-empty extraction root"
+    ]
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.71 Packaged Artifact Verification Authorization Result Gate"
+}

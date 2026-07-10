@@ -1,0 +1,120 @@
+{
+  "artifactRole": "intentgraph-packaged-artifact-extraction-inventory-negative-probes-report",
+  "boundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "existingPackageExtractionPerformed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "syntheticPackageExtractionPerformedInPositivePath": false
+  },
+  "date": "2026-07-10",
+  "probeCount": 8,
+  "probes": [
+    {
+      "errors": [
+        "missing accepted sandboxed extraction inventory authorization token"
+      ],
+      "exitCode": 1,
+      "expectedError": "missing accepted sandboxed extraction inventory authorization token",
+      "expectedFailureObserved": true,
+      "id": "missing-authorization-token",
+      "packageExtractionPerformed": false
+    },
+    {
+      "errors": [
+        "missing accepted sandboxed extraction inventory authorization token"
+      ],
+      "exitCode": 1,
+      "expectedError": "missing accepted sandboxed extraction inventory authorization token",
+      "expectedFailureObserved": true,
+      "id": "wrong-authorization-token",
+      "packageExtractionPerformed": false
+    },
+    {
+      "errors": [
+        "manifest sha256 does not match package artifact"
+      ],
+      "exitCode": 1,
+      "expectedError": "manifest sha256 does not match package artifact",
+      "expectedFailureObserved": true,
+      "id": "manifest-sha-mismatch",
+      "packageExtractionPerformed": false
+    },
+    {
+      "errors": [
+        "metadata replay fileCount does not match zip inventory"
+      ],
+      "exitCode": 1,
+      "expectedError": "metadata replay fileCount does not match zip inventory",
+      "expectedFailureObserved": true,
+      "id": "metadata-replay-count-mismatch",
+      "packageExtractionPerformed": false
+    },
+    {
+      "errors": [
+        "package artifact is not a readable zip",
+        "manifest sha256 does not match package artifact",
+        "manifest byteLength does not match package artifact",
+        "manifest fileCount does not match zip inventory",
+        "metadata replay sha256 does not match package artifact",
+        "metadata replay byteLength does not match package artifact",
+        "metadata replay fileCount does not match zip inventory",
+        "required package entry missing from zip inventory: WindowsUtility.App.exe",
+        "required package entry missing from zip inventory: WindowsUtility.App.dll",
+        "required package entry missing from zip inventory: SmartComm2.dll"
+      ],
+      "exitCode": 1,
+      "expectedError": "package artifact is not a readable zip",
+      "expectedFailureObserved": true,
+      "id": "package-not-zip",
+      "packageExtractionPerformed": false
+    },
+    {
+      "errors": [
+        "manifest sha256 does not match package artifact",
+        "manifest byteLength does not match package artifact",
+        "manifest fileCount does not match zip inventory",
+        "metadata replay sha256 does not match package artifact",
+        "metadata replay byteLength does not match package artifact",
+        "metadata replay fileCount does not match zip inventory",
+        "required package entry missing from zip inventory: SmartComm2.dll"
+      ],
+      "exitCode": 1,
+      "expectedError": "required package entry missing from zip inventory: SmartComm2.dll",
+      "expectedFailureObserved": true,
+      "id": "missing-required-entry",
+      "packageExtractionPerformed": false
+    },
+    {
+      "errors": [
+        "unsafe zip entry path: ../escape.txt"
+      ],
+      "exitCode": 1,
+      "expectedError": "unsafe zip entry path: ../escape.txt",
+      "expectedFailureObserved": true,
+      "id": "unsafe-zip-slip-entry",
+      "packageExtractionPerformed": false
+    },
+    {
+      "errors": [
+        "extract root must be empty before package extraction"
+      ],
+      "exitCode": 1,
+      "expectedError": "extract root must be empty before package extraction",
+      "expectedFailureObserved": true,
+      "id": "non-empty-extract-root",
+      "packageExtractionPerformed": false
+    }
+  ],
+  "recommendedNextSlice": "P8.71 Packaged Artifact Verification Authorization Result Gate",
+  "result": "pass",
+  "scope": "p8.70-packaged-artifact-extraction-inventory-negative-probes",
+  "status": "intentgraph-packaged-artifact-extraction-inventory-negative-probes-passed",
+  "workItem": "P8.70 Packaged Artifact Extraction Inventory Negative Probes"
+}

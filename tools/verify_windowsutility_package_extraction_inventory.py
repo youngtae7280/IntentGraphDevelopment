@@ -204,9 +204,12 @@ def build_report(
 
     extracted: list[dict[str, Any]] = []
     if not errors:
-        extracted = extract_safely(package_path, extract_root)
-        boundary["packageExtractionPerformed"] = True
-        errors.extend(validate_extracted_inventory(names, extracted))
+        try:
+            extracted = extract_safely(package_path, extract_root)
+            boundary["packageExtractionPerformed"] = True
+            errors.extend(validate_extracted_inventory(names, extracted))
+        except ValueError as exc:
+            errors.append(str(exc))
 
     result = "pass" if not errors else "fail"
     return {

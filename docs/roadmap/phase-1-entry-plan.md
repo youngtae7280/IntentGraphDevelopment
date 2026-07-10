@@ -2505,3 +2505,26 @@ Recommended next slice:
 ```text
 P8.70 Packaged Artifact Extraction Inventory Negative Probes
 ```
+
+## Completed Slice: P8.70 Packaged Artifact Extraction Inventory Negative Probes
+
+Goal: prove that the extraction inventory verifier rejects unsafe or stale inputs.
+
+Result:
+
+```text
+Decision: packaged-artifact-extraction-inventory-negative-probes-passed.
+```
+
+Produced artifacts:
+
+- `tools/run_windowsutility_package_extraction_inventory_negative_probes.py`
+- `generated/windowsutility/package-artifact/p8.70/negative-probes-report.json`
+- `generated/roadmap/p8.70-packaged-artifact-extraction-inventory-negative-probes-report.json`
+- [P8.70 Packaged Artifact Extraction Inventory Negative Probes](../reviews/p8.70-packaged-artifact-extraction-inventory-negative-probes.md)
+
+Recommended next slice:
+
+```text
+P8.71 Packaged Artifact Verification Authorization Result Gate
+```

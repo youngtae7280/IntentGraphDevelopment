@@ -2668,3 +2668,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.70 Packaged Artifact Extraction Inventory Negative Probes`.
+
+## P8.70: Packaged Artifact Extraction Inventory Negative Probes
+
+Goal: prove that the extraction inventory verifier rejects missing authorization, stale metadata, unsafe archives, and unsafe extraction roots.
+
+Status: completed on 2026-07-10. See [P8.70 Packaged Artifact Extraction Inventory Negative Probes](../reviews/p8.70-packaged-artifact-extraction-inventory-negative-probes.md).
+
+Decision:
+
+- 8 negative probes passed.
+- all expected failures were observed.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_package_extraction_inventory_negative_probes.py`
+- `generated/windowsutility/package-artifact/p8.70/negative-probes-report.json`
+- `generated/roadmap/p8.70-packaged-artifact-extraction-inventory-negative-probes-report.json`
+- [P8.70 Packaged Artifact Extraction Inventory Negative Probes](../reviews/p8.70-packaged-artifact-extraction-inventory-negative-probes.md)
+
+Next safe work:
+
+- continue to `P8.71 Packaged Artifact Verification Authorization Result Gate`.
