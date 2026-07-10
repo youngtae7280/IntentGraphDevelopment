@@ -1458,3 +1458,33 @@ Recommended next slice:
 ```text
 P8.31 Static Local Workbench Export Prototype
 ```
+
+## Completed Slice: P8.31 Static Local Workbench Export Prototype
+
+Goal: emit the first static local WindowsUtility workbench export prototype under generated output paths.
+
+Produced artifacts:
+
+- `tools/emit_windowsutility_static_workbench_export.py`
+- `tools/run_windowsutility_static_workbench_export_negative_probes.py`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/index.html`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/projection.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/manifest.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/assets/screenshot.png`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/validation-report.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/negative-probes-report.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/browser-validation-report.json`
+- [P8.31 Static Local Workbench Export Prototype](../reviews/p8.31-static-local-workbench-export-prototype-review.md)
+- `generated/roadmap/p8.31-static-local-workbench-export-prototype-report.json`
+
+Decision:
+
+```text
+static-local-workbench-export-prototype-passed
+```
+
+Recommended next slice:
+
+```text
+P8.32 Static Local Workbench Export Productization Gate Review
+```

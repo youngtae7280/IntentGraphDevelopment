@@ -158,3 +158,21 @@ The next safe stabilization slice is:
 ```text
 P8.31 Static Local Workbench Export Prototype
 ```
+
+## P8.31 Static Export Prototype
+
+P8.31 emitted the first static local workbench export prototype under:
+
+```text
+generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31
+```
+
+The prototype includes `index.html`, `projection.json`, `manifest.json`, and `assets/screenshot.png`. Validation, negative probes, and headless browser checks passed.
+
+The prototype is still not a package, release, editor integration, GitHub integration, or product readiness claim.
+
+The next safe stabilization slice is:
+
+```text
+P8.32 Static Local Workbench Export Productization Gate Review
+```

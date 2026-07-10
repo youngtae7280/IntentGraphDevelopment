@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.30 Static Local Workbench Export Boundary
+P8.31 Static Local Workbench Export Prototype
 ```
 
-This Phase G stabilization slice defined the static local workbench export boundary and authorized only the next bounded prototype slice. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice emitted and validated the first static local WindowsUtility workbench export prototype. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1568,6 +1568,35 @@ Decision:
 - required validation and negative probes are defined.
 - implementation is not performed in this slice.
 - continue to `P8.31 Static Local Workbench Export Prototype`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
+- no editor or GitHub integration
+- no productization implementation
+- no product readiness claim
+
+## P8.31: Static Local Workbench Export Prototype
+
+Goal: emit the first static local WindowsUtility workbench export prototype under generated output paths.
+
+Status: completed on 2026-07-10. See [P8.31 Static Local Workbench Export Prototype](../reviews/p8.31-static-local-workbench-export-prototype-review.md).
+
+Decision:
+
+- static export prototype emitted.
+- manifest/projection/HTML/screenshot validation passed.
+- browser validation passed.
+- 10 negative probes passed.
+- WindowsUtility source remains untouched.
+- continue to `P8.32 Static Local Workbench Export Productization Gate Review`.
 
 Non-goals:
 

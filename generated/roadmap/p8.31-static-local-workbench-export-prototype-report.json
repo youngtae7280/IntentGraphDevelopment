@@ -1,0 +1,73 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-report",
+  "status": "intentgraph-roadmap-slice-completed",
+  "scope": "p8.31-static-local-workbench-export-prototype",
+  "workItem": "P8.31 Static Local Workbench Export Prototype",
+  "date": "2026-07-10",
+  "decision": "static-local-workbench-export-prototype-passed",
+  "exportDir": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31",
+  "producedArtifacts": [
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/index.html",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/projection.json",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/manifest.json",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/assets/screenshot.png",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/validation-report.json",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/negative-probes-report.json",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/browser-validation-report.json",
+    "docs/reviews/p8.31-static-local-workbench-export-prototype-review.md"
+  ],
+  "exportedFileDigests": [
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/index.html",
+      "sha256": "sha256:2e191bbfb2abc02d2d777ff58e9c32ab09b8fd8d3039e5cb88f5a37d63d99e1b",
+      "byteLength": 24311
+    },
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/projection.json",
+      "sha256": "sha256:898c3552f337caed2f39779d503d1b9dd0b0499e26d442d0dfd16147f56380aa",
+      "byteLength": 19500
+    },
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/manifest.json",
+      "sha256": "sha256:8ff7c844c75aaafc245d69d3a32923bd4edeffa908b4958fa804dc71c3230c29",
+      "byteLength": 5048
+    },
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/assets/screenshot.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b",
+      "byteLength": 38739
+    },
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/validation-report.json",
+      "sha256": "sha256:009ff9bf392b8dc28602af6ff692c8055be6f35360bcf6701f7c692652011aaa",
+      "byteLength": 1011
+    },
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/negative-probes-report.json",
+      "sha256": "sha256:105d3be18beac8b22d846a86af038d40f675e51eb2daba48eeb6238ca6342d67",
+      "byteLength": 3954
+    }
+  ],
+  "validation": {
+    "exportValidationResult": "pass",
+    "negativeProbeResult": "pass",
+    "negativeProbeCount": 10,
+    "browserValidationResult": "pass",
+    "screenshotRendered": true,
+    "selectionRecordCount": 6
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.32 Static Local Workbench Export Productization Gate Review"
+}
