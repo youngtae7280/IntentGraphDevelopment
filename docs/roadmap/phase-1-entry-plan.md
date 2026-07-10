@@ -1271,3 +1271,28 @@ P8.24 Shell Workspace Workbench Usability Dry Run
 ```
 
 P8.24 should execute the bounded workbench-vs-raw-JSON comparison and report whether the workbench improves review.
+
+## Completed Slice: P8.24 Shell Workspace Workbench Usability Dry Run
+
+Goal: compare workbench inspection against raw JSON inspection for the shell/workspace evidence review questions.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_workbench_usability_dry_run.py`
+- `generated/windowsutility/workbench/p8.24-shell-workspace-workbench-usability-dry-run-report.json`
+- [P8.24 Shell Workspace Workbench Usability Dry Run Review](../reviews/p8.24-shell-workspace-workbench-usability-dry-run-review.md)
+- `generated/roadmap/p8.24-shell-workspace-workbench-usability-dry-run-report.json`
+
+Decision:
+
+```text
+shell-workspace-workbench-usability-dry-run-pass
+```
+
+Next safe work:
+
+```text
+P8.25 WindowsUtility User Workflow Benchmark Boundary Plan
+```
+
+P8.25 should plan a real user/coordinator workflow benchmark before productization or broader UI work.

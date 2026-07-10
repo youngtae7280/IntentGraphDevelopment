@@ -1,0 +1,38 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-report",
+  "status": "intentgraph-roadmap-slice-completed",
+  "scope": "p8.24-shell-workspace-workbench-usability-dry-run",
+  "workItem": "P8.24 Shell Workspace Workbench Usability Dry Run",
+  "date": "2026-07-10",
+  "decision": "shell-workspace-workbench-usability-dry-run-pass",
+  "producedArtifacts": [
+    "tools/run_windowsutility_workbench_usability_dry_run.py",
+    "generated/windowsutility/workbench/p8.24-shell-workspace-workbench-usability-dry-run-report.json",
+    "docs/reviews/p8.24-shell-workspace-workbench-usability-dry-run-review.md"
+  ],
+  "dryRunResult": {
+    "result": "pass",
+    "humanStudyClaimed": false,
+    "taskCount": 8,
+    "answerCorrectnessCount": 8,
+    "missedSafetyBoundaryCount": 0,
+    "workbenchArtifactLookupCount": 9,
+    "rawArtifactLookupCount": 17,
+    "lookupReduction": 8,
+    "screenshotEvidenceFound": true,
+    "targetUnchangedFound": true,
+    "proposalNonAppliedFound": true
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.25 WindowsUtility User Workflow Benchmark Boundary Plan"
+}

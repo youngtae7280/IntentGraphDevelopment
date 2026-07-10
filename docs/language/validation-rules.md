@@ -425,6 +425,14 @@ Before a real-project workbench expands into richer UI or productization, a usab
 
 The workbench may not pass this boundary if reviewers cannot find proposal application status, target unchanged state, screenshot evidence, safety false flags, artifact links, and recommended next action without falling back to the full raw artifact set.
 
+## V1028: Workbench Usability Dry Runs Must Distinguish Self-Conducted Evidence
+
+Status: added in P8.24.
+
+A workbench usability dry run may be self-conducted only if it explicitly says no human usability study is claimed. It must evaluate the same review questions through the workbench path and the raw JSON path, record task correctness, missed safety-boundary count, artifact lookup counts, screenshot evidence discovery, target unchanged discovery, proposal non-applied discovery, and whether productization or mutation claims were introduced.
+
+It may pass only when the workbench answers all required tasks, misses no safety false flags, finds screenshot and target/proposal state, uses fewer artifact lookups than raw JSON, and keeps source mutation, target mutation, proposal application, AI authority, hardware authority, and productization false.
+
 ## Rule Severity
 
 | Severity | Meaning |

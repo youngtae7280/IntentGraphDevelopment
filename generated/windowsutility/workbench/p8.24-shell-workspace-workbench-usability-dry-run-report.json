@@ -1,0 +1,268 @@
+{
+  "artifactRole": "intentgraph-windowsutility-workbench-usability-dry-run-report",
+  "claimScope": {
+    "aiAuthorityGranted": false,
+    "hardwareActionClaimed": false,
+    "humanUsabilityStudy": false,
+    "productizationClaimed": false,
+    "proposalApplied": false,
+    "selfConductedDryRun": true,
+    "sourceMutated": false,
+    "targetMutated": false
+  },
+  "humanStudyClaimed": false,
+  "inputs": {
+    "html": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench.html",
+    "plan": "generated/roadmap/p8.23-shell-workspace-workbench-usability-boundary-plan-report.json",
+    "projection": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json",
+    "rawPaths": {
+      "acceptedMapping": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+      "buildEvidence": "generated/windowsutility/p8.15-sandboxed-smoke-evidence-report.json",
+      "proposal": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+      "screenshotEvidence": "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json",
+      "uiLaunchEvidence": "generated/windowsutility/p8.17-sandboxed-ui-launch-probe-report.json"
+    }
+  },
+  "metrics": {
+    "answerCorrectnessCount": 8,
+    "authorityFalseFlagsFound": true,
+    "lookupReduction": 8,
+    "missedSafetyBoundaryCount": 0,
+    "proposalNonAppliedFound": true,
+    "rawArtifactLookupCount": 17,
+    "screenshotEvidenceFound": true,
+    "targetUnchangedFound": true,
+    "taskCount": 8,
+    "workbenchArtifactLookupCount": 9
+  },
+  "passCriteria": {
+    "allReviewTasksAnswered": true,
+    "noSafetyFalseFlagMissed": true,
+    "productizationClaimIntroduced": false,
+    "proposalNonAppliedStateFound": true,
+    "screenshotArtifactFound": true,
+    "sourceMutationClaimIntroduced": false,
+    "targetUnchangedStateFound": true,
+    "workbenchUsesFewerArtifactLookupsThanRawJson": true
+  },
+  "result": "pass",
+  "scope": "p8.24-shell-workspace-workbench-usability-dry-run",
+  "status": "intentgraph-windowsutility-workbench-usability-dry-run-passed",
+  "tasks": [
+    {
+      "expectedAnswer": "mapping.windowsutility.shell-workspace.accepted",
+      "id": "task.accepted-mapping",
+      "question": "Which shell/workspace mapping is accepted?",
+      "rawAnswer": "mapping.windowsutility.shell-workspace.accepted",
+      "rawArtifactLookupCount": 1,
+      "rawArtifactLookups": [
+        "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json"
+      ],
+      "rawComparableSubset": true,
+      "rawCorrect": true,
+      "workbenchAnswer": "mapping.windowsutility.shell-workspace.accepted",
+      "workbenchArtifactLookupCount": 1,
+      "workbenchArtifactLookups": [
+        "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json"
+      ],
+      "workbenchCorrect": true
+    },
+    {
+      "expectedAnswer": [
+        "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+      ],
+      "id": "task.accepted-source-refs",
+      "question": "Which source refs are covered by the accepted mapping?",
+      "rawAnswer": [
+        "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+      ],
+      "rawArtifactLookupCount": 1,
+      "rawArtifactLookups": [
+        "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json"
+      ],
+      "rawComparableSubset": true,
+      "rawCorrect": true,
+      "workbenchAnswer": [
+        "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+      ],
+      "workbenchArtifactLookupCount": 1,
+      "workbenchArtifactLookups": [
+        "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json"
+      ],
+      "workbenchCorrect": true
+    },
+    {
+      "expectedAnswer": "not-applied",
+      "id": "task.proposal-status",
+      "question": "Is the proposal applied or still non-applied?",
+      "rawAnswer": "not-applied",
+      "rawArtifactLookupCount": 1,
+      "rawArtifactLookups": [
+        "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json"
+      ],
+      "rawComparableSubset": true,
+      "rawCorrect": true,
+      "workbenchAnswer": "not-applied",
+      "workbenchArtifactLookupCount": 1,
+      "workbenchArtifactLookups": [
+        "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json"
+      ],
+      "workbenchCorrect": true
+    },
+    {
+      "expectedAnswer": {
+        "build": "pass",
+        "screenshot": "pass",
+        "uiLaunch": "pass"
+      },
+      "id": "task.evidence-status",
+      "question": "Which evidence proves build, UI launch, and screenshot status?",
+      "rawAnswer": {
+        "build": "pass",
+        "screenshot": "pass",
+        "uiLaunch": "pass"
+      },
+      "rawArtifactLookupCount": 3,
+      "rawArtifactLookups": [
+        "generated/windowsutility/p8.15-sandboxed-smoke-evidence-report.json",
+        "generated/windowsutility/p8.17-sandboxed-ui-launch-probe-report.json",
+        "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json"
+      ],
+      "rawComparableSubset": true,
+      "rawCorrect": true,
+      "workbenchAnswer": {
+        "build": "pass",
+        "screenshot": "pass",
+        "uiLaunch": "pass"
+      },
+      "workbenchArtifactLookupCount": 1,
+      "workbenchArtifactLookups": [
+        "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json"
+      ],
+      "workbenchCorrect": true
+    },
+    {
+      "expectedAnswer": true,
+      "id": "task.target-unchanged",
+      "question": "Did the original WindowsUtility target remain unchanged?",
+      "rawAnswer": true,
+      "rawArtifactLookupCount": 1,
+      "rawArtifactLookups": [
+        "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json"
+      ],
+      "rawComparableSubset": true,
+      "rawCorrect": true,
+      "workbenchAnswer": true,
+      "workbenchArtifactLookupCount": 1,
+      "workbenchArtifactLookups": [
+        "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json"
+      ],
+      "workbenchCorrect": true
+    },
+    {
+      "expectedAnswer": {
+        "aiAuthorityPromoted": false,
+        "hardwareActionsAuthorized": false,
+        "newEvidenceCollectionAuthorized": false,
+        "newScreenshotCaptureAuthorized": false,
+        "newUiLaunchAuthorized": false,
+        "productizationAuthorized": false,
+        "proposalApplicationAuthorized": false,
+        "sourceEditsAuthorized": false,
+        "targetWritesAuthorized": false
+      },
+      "id": "task.safety-flags",
+      "question": "Which safety flags remain false?",
+      "rawAnswer": {
+        "aiAuthorityPromoted": false,
+        "hardwareActionsAuthorized": false,
+        "productizationAuthorized": false,
+        "proposalApplicationAuthorized": false,
+        "sandboxWritesAuthorizedForThisProbe": true,
+        "screenshotCaptureAuthorizedForThisProbe": true,
+        "sourceEditsAuthorized": false,
+        "targetWritesAuthorized": false,
+        "uiLaunchAuthorizedForThisProbe": true
+      },
+      "rawArtifactLookupCount": 3,
+      "rawArtifactLookups": [
+        "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+        "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+        "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json"
+      ],
+      "rawComparableSubset": false,
+      "rawCorrect": false,
+      "workbenchAnswer": {
+        "aiAuthorityPromoted": false,
+        "hardwareActionsAuthorized": false,
+        "newEvidenceCollectionAuthorized": false,
+        "newScreenshotCaptureAuthorized": false,
+        "newUiLaunchAuthorized": false,
+        "productizationAuthorized": false,
+        "proposalApplicationAuthorized": false,
+        "sourceEditsAuthorized": false,
+        "targetWritesAuthorized": false
+      },
+      "workbenchArtifactLookupCount": 1,
+      "workbenchArtifactLookups": [
+        "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json"
+      ],
+      "workbenchCorrect": true
+    },
+    {
+      "expectedAnswer": {
+        "path": "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png",
+        "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+      },
+      "id": "task.screenshot-digest",
+      "question": "Which artifact proves the screenshot exists and what digest identifies it?",
+      "rawAnswer": {
+        "path": "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png",
+        "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+      },
+      "rawArtifactLookupCount": 1,
+      "rawArtifactLookups": [
+        "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json"
+      ],
+      "rawComparableSubset": true,
+      "rawCorrect": true,
+      "workbenchAnswer": {
+        "path": "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png",
+        "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+      },
+      "workbenchArtifactLookupCount": 1,
+      "workbenchArtifactLookups": [
+        "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json"
+      ],
+      "workbenchCorrect": true
+    },
+    {
+      "expectedAnswer": "P8.25 or later may improve the workbench only after usability dry-run evidence is reviewed",
+      "id": "task.next-action",
+      "question": "What is the next recommended action?",
+      "rawAnswer": "Not directly available from P8.9-P8.19 raw evidence; requires roadmap/review docs",
+      "rawArtifactLookupCount": 6,
+      "rawArtifactLookups": [
+        "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+        "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+        "generated/windowsutility/p8.15-sandboxed-smoke-evidence-report.json",
+        "generated/windowsutility/p8.17-sandboxed-ui-launch-probe-report.json",
+        "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json",
+        "docs/roadmap/product-capability-roadmap.md"
+      ],
+      "rawComparableSubset": false,
+      "rawCorrect": false,
+      "workbenchAnswer": "P8.25 or later may improve the workbench only after usability dry-run evidence is reviewed",
+      "workbenchArtifactLookupCount": 2,
+      "workbenchArtifactLookups": [
+        "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json",
+        "generated/roadmap/p8.23-shell-workspace-workbench-usability-boundary-plan-report.json"
+      ],
+      "workbenchCorrect": true
+    }
+  ],
+  "workItem": "P8.24 Shell Workspace Workbench Usability Dry Run"
+}

@@ -1398,3 +1398,29 @@ Non-goals:
 - no hardware action authority
 - no productization implementation
 - no product readiness claim
+
+## P8.24: Shell Workspace Workbench Usability Dry Run
+
+Goal: compare workbench inspection against raw JSON inspection for the shell/workspace evidence review questions.
+
+Status: completed on 2026-07-10. See [P8.24 Shell Workspace Workbench Usability Dry Run Review](../reviews/p8.24-shell-workspace-workbench-usability-dry-run-review.md).
+
+Decision:
+
+- self-conducted dry run passed.
+- all 8 review tasks were answered from the workbench path.
+- workbench path used 9 artifact lookups versus 17 for raw JSON.
+- no safety boundary was missed.
+- continue to `P8.25 WindowsUtility User Workflow Benchmark Boundary Plan`.
+
+Non-goals:
+
+- no human usability study claim
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or WindowsUtility screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim
