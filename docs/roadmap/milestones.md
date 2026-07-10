@@ -2554,3 +2554,24 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.65 Productization Readiness Recheck After Graph Workbench Revision`.
+
+## P8.65: Productization Readiness Recheck After Graph Workbench Revision
+
+Goal: recheck productization readiness after the graph delta approval workbench dark/resizable revision was accepted for continuation.
+
+Status: completed on 2026-07-10. See [P8.65 Productization Readiness Recheck After Graph Workbench Revision](../reviews/p8.65-productization-readiness-recheck-after-graph-workbench-revision.md).
+
+Decision:
+
+- readiness improved because the graph approval workbench is now present, revised, validated, and accepted for continuation.
+- productization remains blocked.
+- packaged artifact extraction/run verification, installer creation, signing, credential access, provider API calls, release authority, product candidate acceptance, and productization authority remain absent.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.65-productization-readiness-recheck-after-graph-workbench-revision-report.json`
+- [P8.65 Productization Readiness Recheck After Graph Workbench Revision](../reviews/p8.65-productization-readiness-recheck-after-graph-workbench-revision.md)
+
+Next safe work:
+
+- continue to `P8.66 Packaged Artifact Verification Authorization Request`.
