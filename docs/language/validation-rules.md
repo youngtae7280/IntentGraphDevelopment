@@ -223,6 +223,14 @@ python tools/verify_b1_proposal_consistency.py --proposal docs/examples/b1-types
 python tools/run_b1_proposal_consistency_negative_probes.py --out generated/b1-typescript-rest-api/p5.0-proposal-consistency-negative-probes-report.json
 ```
 
+## V801: Phase E Boundary Review Before Workbench Projection
+
+Status: added in P5.1.
+
+Phase F workbench work must not open until Phase E consistency evidence has been reviewed in a written boundary report. The report must state projection inputs, visible workflow state, selection expectations, screenshot or HTML validation expectations, and non-goals.
+
+The first Phase F slice must make deterministic reports inspectable. It must not claim that visualization verifies correctness, and it must not mutate source, apply proposals, accept proposals, or productize the workflow.
+
 ## Rule Severity
 
 | Severity | Meaning |

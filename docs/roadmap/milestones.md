@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P5.0 B1 Proposal Consistency Verifier
+P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan
 ```
 
-This Phase E slice added deterministic B1 proposal consistency verification and negative probes. It does not authorize source mutation, patch application, AI proposal authority, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This boundary slice reviewed B1 consistency verifier evidence and opened Phase F only for a bounded static workbench projection. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -699,4 +699,26 @@ Non-goals:
 - no AI judgment as verifier
 - no full semantic equivalence claim
 - no UI/workbench product
+- no productization
+
+## P5.1: Phase E Consistency Verifier Boundary Review and Phase F Entry Plan
+
+Goal: review P5.0 as Phase E evidence and decide whether bounded Phase F workbench projection can open.
+
+Status: completed on 2026-07-10. See [P5.1 Phase E Consistency Boundary Phase F Entry Review](../reviews/p5.1-phase-e-consistency-boundary-phase-f-entry-review.md).
+
+Decision:
+
+- Phase E is sufficient to open the first bounded Phase F slice.
+- Continue to `P6.0 B1 Workbench Projection Schema and Static HTML Preview`.
+- Phase F starts as static projection and preview only.
+
+Non-goals:
+
+- no source mutation
+- no patch application
+- no proposal acceptance
+- no production app
+- no editor or GitHub integration
+- no visualization-as-verifier claim
 - no productization

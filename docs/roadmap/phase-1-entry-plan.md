@@ -535,3 +535,26 @@ P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan
 ```
 
 P5.1 should review whether B1 proposal consistency reports are meaningful enough for a bounded workbench projection. It must define projection inputs, visible states, selection behavior, and screenshot validation before any UI implementation.
+
+## Completed Slice: P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan
+
+Goal: review B1 Phase E consistency verifier evidence and decide whether Phase F can open.
+
+Produced artifacts:
+
+- [P5.1 Phase E Consistency Boundary Phase F Entry Review](../reviews/p5.1-phase-e-consistency-boundary-phase-f-entry-review.md)
+- `generated/roadmap/p5.1-phase-f-entry-report.json`
+
+Decision:
+
+```text
+open-p6.0-b1-workbench-projection-schema-static-html-preview
+```
+
+Recommended next slice:
+
+```text
+P6.0 B1 Workbench Projection Schema and Static HTML Preview
+```
+
+P6.0 may define a deterministic projection JSON and static HTML preview over B1 proposal, code facts, overlay, verifier, tests, evidence, authority, and history. It must not mutate source, apply or accept proposals, claim visualization verifies correctness, add external dependencies without decision, or productize the workflow.

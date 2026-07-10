@@ -1,0 +1,60 @@
+{
+  "artifactRole": "intentgraph-phase-boundary-review-report",
+  "status": "intentgraph-phase-boundary-review-passed",
+  "scope": "p5.1-phase-e-consistency-boundary-phase-f-entry",
+  "workItem": "P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan",
+  "date": "2026-07-10",
+  "decision": "open-p6.0-b1-workbench-projection-schema-static-html-preview",
+  "phaseEReviewedEvidence": {
+    "p5_0ConsistencyVerifier": true,
+    "proposalValidationConsumed": true,
+    "codeFactsConsumed": true,
+    "overlayConsumed": true,
+    "baselineConsistencyChecked": true,
+    "testsEvidenceAuthorityChecked": true,
+    "unsafeStateNegativeProbes": true,
+    "sourceMutationClaimed": false,
+    "patchApplicationClaimed": false,
+    "aiJudgmentClaimed": false
+  },
+  "phaseFEntryCriteria": [
+    "define workbench projection JSON shape",
+    "consume B1 code facts, overlay, proposal, proposal validation, and consistency reports",
+    "expose proposal, impacted files, Intent Units, code facts, planned deltas, tests, evidence, authority, and verifier status",
+    "create static HTML preview",
+    "support selectable sections or nodes without hiding verifier failures",
+    "validate projection and preview existence",
+    "remain local/static and non-productized"
+  ],
+  "recommendedNextSlice": {
+    "id": "P6.0",
+    "name": "B1 Workbench Projection Schema and Static HTML Preview",
+    "allowed": [
+      "define workbench projection schema",
+      "emit deterministic projection JSON",
+      "emit static HTML preview",
+      "validate projection references",
+      "validate HTML file exists and contains key sections"
+    ],
+    "nonGoals": [
+      "source code mutation",
+      "patch application",
+      "proposal acceptance",
+      "production app",
+      "editor integration",
+      "GitHub workflow integration",
+      "team workflow productization",
+      "visualization-as-verifier claim"
+    ]
+  },
+  "acceptance": {
+    "p5_0Reviewed": true,
+    "phaseELimitsStated": true,
+    "phaseFEntryCriteriaDefined": true,
+    "p6_0ScopeDefined": true,
+    "implementationAdded": false,
+    "sourceEditAuthorized": false,
+    "aiAuthorityAuthorized": false,
+    "productizationAuthorized": false
+  }
+}
