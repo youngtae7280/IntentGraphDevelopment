@@ -1,6 +1,6 @@
 # Productization Stabilization Plan
 
-Status: created in P8.0; rechecked through P8.57.
+Status: created in P8.0; rechecked through P8.58.
 
 IntentGraph is not ready for productization. The current evidence proves a semantic overlay model, deterministic toy and B1 fixtures, a static workbench preview, and read-only WindowsUtility adoption artifacts. It does not yet prove a safe user-facing product.
 
@@ -847,4 +847,32 @@ The next safe stabilization slice is:
 
 ```text
 P8.58 Graph Delta Approval Workbench Boundary Plan
+```
+
+## P8.58 Graph Delta Approval Workbench Boundary Plan
+
+P8.58 defined the implementable boundary for a graph/delta/diff approval workbench.
+
+Resolved:
+
+- approval workbench requirement was recorded but not shaped into implementation slices
+
+Current state:
+
+- graph/delta projection schema is the next implementation target
+- static HTML graph workbench is planned after projection schema
+- negative probes and Graphify-grade usability dry run are required after prototype
+
+Still blocked:
+
+- graph delta approval workbench is not implemented yet
+- package verification authorization is deferred
+- packaged artifact extraction/run verification is absent
+- user acceptance of a package candidate is absent
+- productization authority is absent
+
+The next safe stabilization slice is:
+
+```text
+P8.59 Graph Delta Approval Workbench Projection Schema
 ```

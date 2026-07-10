@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.57 Approval Workbench Graph Delta Visualization Requirement Record
+P8.58 Graph Delta Approval Workbench Boundary Plan
 ```
 
-This Phase G stabilization slice recorded that future approval workbenches must show Graphify-grade graph exploration pressure, graph deltas, selected node/edge details, code diffs for code nodes, and graph diffs for changed existing nodes/edges before further approval gates rely on the workbench. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice turned the approval graph/delta/diff requirement into an implementable workbench boundary plan. The next slice is the deterministic projection schema. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -2337,3 +2337,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.58 Graph Delta Approval Workbench Boundary Plan`.
+
+## P8.58: Graph Delta Approval Workbench Boundary Plan
+
+Goal: define the projection, HTML behavior, validation, and benchmark boundary for the graph/delta/diff approval workbench.
+
+Status: completed on 2026-07-10. See [P8.58 Graph Delta Approval Workbench Boundary Plan](../reviews/p8.58-graph-delta-approval-workbench-boundary-plan.md).
+
+Decision:
+
+- graph/delta approval workbench boundary is ready for projection-schema implementation.
+- Cytoscape.js is the preferred first visualization layer, bundled locally with no CDN or network dependency.
+- implementation must expose graph nodes/edges, delta states, selection payloads, code diffs, graph element diffs, evidence/authority links, and missing-diff blockers.
+- productization remains blocked.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.58-graph-delta-approval-workbench-boundary-plan-report.json`
+- [P8.58 Graph Delta Approval Workbench Boundary Plan](../reviews/p8.58-graph-delta-approval-workbench-boundary-plan.md)
+
+Next safe work:
+
+- continue to `P8.59 Graph Delta Approval Workbench Projection Schema`.

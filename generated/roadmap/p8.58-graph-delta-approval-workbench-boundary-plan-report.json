@@ -1,0 +1,152 @@
+{
+  "artifactRole": "intentgraph-graph-delta-approval-workbench-boundary-plan-report",
+  "status": "intentgraph-graph-delta-approval-workbench-boundary-plan-recorded",
+  "scope": "p8.58-graph-delta-approval-workbench-boundary-plan-report-only",
+  "workItem": "P8.58 Graph Delta Approval Workbench Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "graph-delta-approval-workbench-boundary-ready-for-projection-schema",
+  "sourceRequirement": {
+    "path": "generated/roadmap/p8.57-approval-workbench-graph-delta-visualization-requirement-report.json",
+    "artifactRole": "intentgraph-approval-workbench-graph-delta-visualization-requirement-report",
+    "status": "intentgraph-approval-workbench-graph-delta-visualization-requirement-recorded",
+    "decision": "approval-workbench-must-show-interactive-graph-delta-and-diff-before-further-approval-gates"
+  },
+  "problemStatement": "Approval stages cannot rely on static cards/tables alone. Reviewers must inspect graph structure, graph deltas, code diffs, changed-node diffs, changed-edge diffs, and the evidence/authority records behind each change before answering approval prompts.",
+  "targetSurface": {
+    "id": "surface.graph-delta-approval-workbench",
+    "kind": "static-local-html-workbench",
+    "networkRequired": false,
+    "approvalAuthority": false,
+    "graphStateAuthority": false,
+    "purpose": "make approval evidence inspectable before the user/coordinator grants the next execution or release-related gate"
+  },
+  "buildBorrowIntegrateDecision": {
+    "preferredVisualizationLibrary": "Cytoscape.js",
+    "reason": "Cytoscape.js is strong for graph exploration, data-driven node/edge styling, selection events, pan/zoom, layouts, and static local HTML packaging.",
+    "fallback": "D3 or React Flow may be reconsidered if Cytoscape.js cannot satisfy delta highlighting or inspector requirements.",
+    "doNotInventLayoutEngine": true,
+    "bundleLocalAssetRequired": true,
+    "remoteCdnAllowed": false
+  },
+  "projectionSchemaRequirements": {
+    "graph": {
+      "nodes": "stable selectable node records with id, kind, label, status, source refs, evidence refs, authority refs, history refs, delta refs, graphDiffRef, and codeDiffRefs",
+      "edges": "stable selectable edge records with id, kind, source, target, status, provenance/confidence, evidence refs, authority refs, history refs, delta refs, and graphDiffRef",
+      "indexes": [
+        "nodesById",
+        "edgesById",
+        "incomingEdgesByNode",
+        "outgoingEdgesByNode",
+        "nodesByKind",
+        "edgesByKind",
+        "deltaStepsById",
+        "codeDiffsById",
+        "graphNodeDiffsById",
+        "graphEdgeDiffsById"
+      ]
+    },
+    "delta": {
+      "nodeStates": [
+        "added",
+        "removed",
+        "changed",
+        "impacted",
+        "unchanged"
+      ],
+      "edgeStates": [
+        "added",
+        "removed",
+        "changed",
+        "impacted",
+        "unchanged"
+      ],
+      "requiredViews": [
+        "before/after graph refs",
+        "added/removed/changed/impacted summary counts",
+        "selectable delta steps",
+        "affected node/edge highlight lists",
+        "missing-diff blockers"
+      ]
+    },
+    "diffs": {
+      "codeDiffs": "file path, before range, after range, change kind, diff hunks, affected graph ids, evidence refs, authority refs, blocker if missing",
+      "graphNodeDiffs": "element id, before payload, after payload, changed fields, ref changes, affected code diff refs, evidence refs, authority refs, blocker if missing",
+      "graphEdgeDiffs": "element id, before payload, after payload, changed fields, ref changes, affected code diff refs, evidence refs, authority refs, blocker if missing"
+    }
+  },
+  "staticHtmlRequirements": {
+    "graphCanvas": true,
+    "legend": true,
+    "search": true,
+    "kindFilters": true,
+    "deltaStateFilters": true,
+    "panZoom": true,
+    "stableNodeEdgeSizingWhileZooming": true,
+    "nodeClickInspector": true,
+    "edgeClickInspector": true,
+    "deltaStepClickHighlight": true,
+    "codeDiffPanel": true,
+    "graphElementDiffPanel": true,
+    "evidenceAuthorityPanel": true,
+    "noNetworkDependency": true,
+    "noMutationControls": true
+  },
+  "validationRequirements": [
+    "projection has graph nodes and edges",
+    "every edge endpoint exists",
+    "every visible node has a selection payload",
+    "every visible edge has a selection payload",
+    "changed nodes have graph node diff refs",
+    "changed edges have graph edge diff refs",
+    "code-affecting nodes or delta steps have code diff refs",
+    "missing required diff refs produce blocker records",
+    "delta steps point only to existing nodes/edges/diffs",
+    "HTML contains local graph visualization runtime only",
+    "HTML has node inspector, edge inspector, delta list, code diff panel, graph diff panel, and evidence/authority panel markers",
+    "negative probes reject missing selection payloads, missing changed-node diff, missing changed-edge diff, missing code diff, edge endpoint mismatch, network script, mutation controls, and false authority flags"
+  ],
+  "graphifyGradeBenchmarkTasks": [
+    "find a node by search and inspect its incoming/outgoing edges",
+    "select an edge and inspect relation/source/target/provenance",
+    "filter graph by delta state",
+    "select a delta step and see affected nodes and edges highlighted",
+    "select a changed code node and see the source diff",
+    "select a changed existing node and see its graph before/after diff",
+    "select a changed existing edge and see its graph before/after diff",
+    "verify evidence and authority records attached to the selected graph element",
+    "confirm productization and execution blockers are visible"
+  ],
+  "nonGoals": {
+    "noPackageExtraction": true,
+    "noPackagedExecutableLaunch": true,
+    "noWindowsUtilitySourceEdit": true,
+    "noProposalApplication": true,
+    "noGraphMutationFromUi": true,
+    "noApprovalAutomation": true,
+    "noRelease": true,
+    "noProductizationClaim": true
+  },
+  "recommendedImplementationSlices": [
+    {
+      "id": "P8.59",
+      "name": "Graph Delta Approval Workbench Projection Schema",
+      "goal": "Emit a deterministic projection JSON with graph nodes/edges, delta states, code diffs, graph element diffs, inspectors, and blockers."
+    },
+    {
+      "id": "P8.60",
+      "name": "Static Graph Delta Approval Workbench Prototype",
+      "goal": "Render the projection as static local HTML with interactive graph, selection inspector, delta highlighting, code diff, graph diff, and no network dependency."
+    },
+    {
+      "id": "P8.61",
+      "name": "Graph Delta Workbench Negative Probes",
+      "goal": "Prove missing inspector payloads, missing diffs, broken endpoints, network scripts, UI mutation controls, and false authority flags fail deterministically."
+    },
+    {
+      "id": "P8.62",
+      "name": "Graphify-Grade Usability Dry Run",
+      "goal": "Run the required graph exploration tasks against the new workbench and compare against the raw JSON/card-table path."
+    }
+  ],
+  "recommendedNextSlice": "P8.59 Graph Delta Approval Workbench Projection Schema"
+}

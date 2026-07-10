@@ -2154,3 +2154,31 @@ Recommended next slice:
 ```text
 P8.58 Graph Delta Approval Workbench Boundary Plan
 ```
+
+## Completed Slice: P8.58 Graph Delta Approval Workbench Boundary Plan
+
+Goal: define the projection-schema and static-HTML boundary for an approval workbench that shows graph state, graph deltas, code diffs, and graph element diffs.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.58-graph-delta-approval-workbench-boundary-plan-report.json`
+- [P8.58 Graph Delta Approval Workbench Boundary Plan](../reviews/p8.58-graph-delta-approval-workbench-boundary-plan.md)
+
+Decision:
+
+```text
+graph-delta-approval-workbench-boundary-ready-for-projection-schema
+```
+
+Next implementation slices:
+
+- `P8.59 Graph Delta Approval Workbench Projection Schema`
+- `P8.60 Static Graph Delta Approval Workbench Prototype`
+- `P8.61 Graph Delta Workbench Negative Probes`
+- `P8.62 Graphify-Grade Usability Dry Run`
+
+Recommended next slice:
+
+```text
+P8.59 Graph Delta Approval Workbench Projection Schema
+```
