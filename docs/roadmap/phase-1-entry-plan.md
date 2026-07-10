@@ -2550,3 +2550,24 @@ Recommended next slice without acceptance:
 ```text
 P8.72 Productization Readiness Recheck After Verification Tooling
 ```
+
+## Completed Slice: P8.72 Productization Readiness Recheck After Verification Tooling
+
+Goal: recheck productization readiness after verification tooling and negative probes.
+
+Result:
+
+```text
+Decision: productization-still-blocked-real-package-verification-and-release-authority-required.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.72-productization-readiness-recheck-after-verification-tooling-report.json`
+- [P8.72 Productization Readiness Recheck After Verification Tooling](../reviews/p8.72-productization-readiness-recheck-after-verification-tooling.md)
+
+Recommended next slice:
+
+```text
+P8.73 Explicit Package Extraction Verification Authorization Request Follow-up
+```

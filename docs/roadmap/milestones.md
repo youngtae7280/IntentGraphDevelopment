@@ -2714,3 +2714,24 @@ Produced artifacts:
 Next safe work without acceptance:
 
 - continue to `P8.72 Productization Readiness Recheck After Verification Tooling`.
+
+## P8.72: Productization Readiness Recheck After Verification Tooling
+
+Goal: recheck productization readiness after package extraction inventory verifier readiness and negative probes.
+
+Status: completed on 2026-07-10. See [P8.72 Productization Readiness Recheck After Verification Tooling](../reviews/p8.72-productization-readiness-recheck-after-verification-tooling.md).
+
+Decision:
+
+- readiness improved because package metadata replay, extraction verifier readiness, and extraction verifier negative probes exist.
+- productization remains blocked.
+- explicit real package extraction authorization, existing package extraction verification, packaged app launch verification, release authority, product candidate acceptance, and productization authority remain absent.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.72-productization-readiness-recheck-after-verification-tooling-report.json`
+- [P8.72 Productization Readiness Recheck After Verification Tooling](../reviews/p8.72-productization-readiness-recheck-after-verification-tooling.md)
+
+Next safe work:
+
+- continue to `P8.73 Explicit Package Extraction Verification Authorization Request Follow-up`.
