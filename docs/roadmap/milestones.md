@@ -2982,3 +2982,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.84 Installer Creation Scope Hold Record`.
+
+## P8.84: Installer Creation Scope Hold Record
+
+Goal: record that installer creation is held while preconditions and explicit installer authority remain absent.
+
+Status: completed on 2026-07-10. See [P8.84 Installer Creation Scope Hold Record](../reviews/p8.84-installer-creation-scope-hold-record.md).
+
+Decision:
+
+- installer creation remains held.
+- safe report-only readiness and authority-boundary planning can continue.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, screenshot capture, installer creation, global install, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.84-installer-creation-scope-hold-record.json`
+- `generated/roadmap/p8.84-installer-creation-scope-hold-record-report.json`
+- [P8.84 Installer Creation Scope Hold Record](../reviews/p8.84-installer-creation-scope-hold-record.md)
+
+Next safe work:
+
+- continue to `P8.85 Productization Readiness Recheck After Installer Boundary Planning`.

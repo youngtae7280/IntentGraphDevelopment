@@ -1,0 +1,43 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.84-installer-creation-scope-hold-record",
+  "workItem": "P8.84 Installer Creation Scope Hold Record",
+  "date": "2026-07-10",
+  "result": "installer-creation-held-pending-preconditions-and-explicit-authorization",
+  "producedArtifacts": [
+    "generated/roadmap/p8.84-installer-creation-scope-hold-record.json",
+    "docs/reviews/p8.84-installer-creation-scope-hold-record.md"
+  ],
+  "holdSummary": {
+    "packageExtractionInventoryVerificationPassed": false,
+    "launchSmokePassed": false,
+    "productCandidateAccepted": false,
+    "explicitAcceptedResponseRecorded": false,
+    "standingAcceptShortcutApplies": false,
+    "installerCreationAllowed": false
+  },
+  "blockedAuthorizations": {
+    "installerCreationAuthorized": false,
+    "globalInstallAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "globalInstall": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.85 Productization Readiness Recheck After Installer Boundary Planning"
+}

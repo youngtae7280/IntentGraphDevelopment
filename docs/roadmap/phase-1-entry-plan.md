@@ -2812,3 +2812,25 @@ Recommended next slice:
 ```text
 P8.84 Installer Creation Scope Hold Record
 ```
+
+## Completed Slice: P8.84 Installer Creation Scope Hold Record
+
+Goal: record that installer creation is held while preconditions and explicit installer authority remain absent.
+
+Result:
+
+```text
+Decision: installer-creation-held-pending-preconditions-and-explicit-authorization.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.84-installer-creation-scope-hold-record.json`
+- `generated/roadmap/p8.84-installer-creation-scope-hold-record-report.json`
+- [P8.84 Installer Creation Scope Hold Record](../reviews/p8.84-installer-creation-scope-hold-record.md)
+
+Recommended next slice:
+
+```text
+P8.85 Productization Readiness Recheck After Installer Boundary Planning
+```
