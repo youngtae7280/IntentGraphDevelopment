@@ -369,6 +369,12 @@ Status: added in P8.15.
 
 A sandboxed real-project evidence run must record target status, HEAD, and origin/main before and after the run, verify accepted source refs inside the sandbox, keep writes confined to the sandbox, and emit command logs. The run must fail if the original target status or refs change, if accepted refs do not match the baseline, or if the sandbox command fails.
 
+## V1020: UI Evidence Requires A Separate Launch Boundary
+
+Status: added in P8.16.
+
+UI evidence for a real-project target must not be conflated with build evidence or productization. Before launching a UI, the boundary must require sandbox-only launch paths, clean process termination, no hardware/device actions, no original-target writes, optional screenshot capture with an explicit unavailable reason when skipped, and an original target post-check.
+
 ## Rule Severity
 
 | Severity | Meaning |

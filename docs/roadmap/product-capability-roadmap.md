@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.15 completed.
+P8.16 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. P8.14 required future smoke evidence to use a no-target-write sandbox strategy. P8.15 proved sandboxed build smoke evidence while the original target stayed unchanged. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. P8.14 required future smoke evidence to use a no-target-write sandbox strategy. P8.15 proved sandboxed build smoke evidence while the original target stayed unchanged. P8.16 opened only a sandboxed UI launch feasibility boundary. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -172,7 +172,7 @@ accepted mapping negative probes pass.
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.16 Shell Workspace UI Evidence Boundary Plan
+P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe
 ```
 
 ## Phase Overview
@@ -970,3 +970,19 @@ P8.15 produced:
 - `generated/roadmap/p8.15-shell-workspace-sandboxed-smoke-evidence-dry-run-report.json`
 
 The sandbox build passed with exit code 0, warning count 0, and error count 0. The original WindowsUtility target remained `## main...origin/main` before and after the run.
+
+## P8.16 Result And UI Evidence Boundary
+
+P8.16 result:
+
+```text
+UI evidence requires a separate sandboxed feasibility probe.
+Decision: sandboxed-ui-launch-feasibility-probe-required.
+```
+
+P8.16 produced:
+
+- [P8.16 Shell Workspace UI Evidence Boundary Plan](../reviews/p8.16-shell-workspace-ui-evidence-boundary-plan-review.md)
+- `generated/roadmap/p8.16-shell-workspace-ui-evidence-boundary-plan-report.json`
+
+UI launch and screenshot evidence remain uncollected. The next safe step may launch only the sandboxed app, must terminate it cleanly, and must prove the original WindowsUtility target remains unchanged.

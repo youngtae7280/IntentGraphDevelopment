@@ -1074,3 +1074,26 @@ P8.16 Shell Workspace UI Evidence Boundary Plan
 ```
 
 P8.16 should decide whether UI launch/screenshot evidence can be captured safely without hardware actions or writes to the original target repo.
+
+## Completed Slice: P8.16 Shell Workspace UI Evidence Boundary Plan
+
+Goal: define the safety boundary for future sandboxed UI launch or screenshot evidence.
+
+Produced artifacts:
+
+- [P8.16 Shell Workspace UI Evidence Boundary Plan](../reviews/p8.16-shell-workspace-ui-evidence-boundary-plan-review.md)
+- `generated/roadmap/p8.16-shell-workspace-ui-evidence-boundary-plan-report.json`
+
+Decision:
+
+```text
+sandboxed-ui-launch-feasibility-probe-required
+```
+
+Next safe work:
+
+```text
+P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe
+```
+
+P8.17 may launch only the sandboxed app, terminate it cleanly, and prove the original target stayed clean/aligned.

@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run
+P8.16 Shell Workspace UI Evidence Boundary Plan
 ```
 
-This Phase G stabilization slice proved build-only smoke evidence in a disposable WindowsUtility sandbox while the original target stayed unchanged. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice defined the safety boundary for sandboxed UI launch evidence. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1203,5 +1203,28 @@ Non-goals:
 - no AI authority promotion
 - no hardware action authority
 - no UI launch or screenshot evidence yet
+- no productization implementation
+- no product readiness claim
+
+## P8.16: Shell Workspace UI Evidence Boundary Plan
+
+Goal: define how future UI launch or screenshot evidence can be attempted safely.
+
+Status: completed on 2026-07-10. See [P8.16 Shell Workspace UI Evidence Boundary Plan](../reviews/p8.16-shell-workspace-ui-evidence-boundary-plan-review.md).
+
+Decision:
+
+- UI evidence requires a separate sandboxed launch feasibility probe.
+- original target launch, hardware actions, source edits, target writes, proposal application, and productization remain blocked.
+- continue to `P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
+- no UI launch or screenshot evidence in this slice
 - no productization implementation
 - no product readiness claim
