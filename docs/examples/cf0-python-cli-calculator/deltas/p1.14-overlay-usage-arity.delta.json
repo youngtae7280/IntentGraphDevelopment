@@ -1,0 +1,49 @@
+{
+  "authorityIds": [
+    "authority.record.p1.14-human"
+  ],
+  "before": {
+    "codeFactCount": 19,
+    "codeFactsDigest": "sha256:1a3f50c0593d614da6df13354c2a643346b6a65a6f5bd20e7b3d90e23fddd971",
+    "mappingObligationCount": 6,
+    "overlayDigest": "sha256:f6b569617b57deb9061a959313594e95120cbc21a8e8879d3de7b5945fa3aab0",
+    "sourceDigest": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+  },
+  "benchmarkId": "CF0-python-cli-calculator",
+  "deltaId": "p1.14-overlay-usage-arity",
+  "deltaVersion": "0.1.0",
+  "evidenceIds": [
+    "evidence.p1.14-overlay-usage-arity-delta"
+  ],
+  "expectedAfter": {
+    "addedBehaviorUnits": [
+      "unit.behavior.usage-arity"
+    ],
+    "addedCodeFactIds": [],
+    "behaviorChecks": [
+      "test.case.add",
+      "test.case.sub",
+      "test.case.mul",
+      "test.case.unsupported-operation",
+      "test.case.invalid-integer",
+      "test.case.usage-arity"
+    ],
+    "contractCoverageIncreased": true,
+    "overlayChanged": true,
+    "preservedBehaviorUnits": [
+      "unit.behavior.add",
+      "unit.behavior.mul",
+      "unit.behavior.sub",
+      "unit.behavior.unsupported-operation",
+      "unit.behavior.invalid-integer-input"
+    ],
+    "sourceChanged": false
+  },
+  "hiddenGeneratedCodeSnapshotUsed": false,
+  "historyIds": [
+    "history.delta.p1.14-overlay-usage-arity"
+  ],
+  "mode": "code-first-overlay-only-contract-delta",
+  "sourceTextEqualityRequired": false,
+  "summary": "Model existing usage/arity behavior as an explicit overlay contract without changing CF0 source behavior."
+}

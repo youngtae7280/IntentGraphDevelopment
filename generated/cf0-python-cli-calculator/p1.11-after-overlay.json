@@ -327,7 +327,7 @@
       "kind": "product",
       "status": "accepted",
       "contract": {
-        "summary": "Maintain a hand-written Python CLI calculator with add, subtract, multiply, unsupported-operation, invalid-integer input, and usage/arity behavior.",
+        "summary": "Maintain a hand-written Python CLI calculator with add, subtract, multiply, unsupported-operation, and invalid-integer input behavior.",
         "acceptedDevelopmentCommitment": "The calculator product unit is accepted as the parent code-first overlay unit."
       },
       "codeRefs": [
@@ -382,11 +382,6 @@
           "id": "codeFactRef.product.main.stderr-invalid-integer",
           "factId": "fact.function.main.stderr.left_and_right_must_be_integers",
           "expectedFactKind": "stderr-output"
-        },
-        {
-          "id": "codeFactRef.product.main.stderr-usage",
-          "factId": "fact.function.main.stderr.usage_calc_add_sub_mul_left_right",
-          "expectedFactKind": "stderr-output"
         }
       ],
       "mappingObligations": [
@@ -408,16 +403,14 @@
             "codeFactRef.product.main.calls-mul",
             "codeFactRef.product.main.calls-sub",
             "codeFactRef.product.main.stderr-unsupported",
-            "codeFactRef.product.main.stderr-invalid-integer",
-            "codeFactRef.product.main.stderr-usage"
+            "codeFactRef.product.main.stderr-invalid-integer"
           ],
           "verificationIds": [
             "test.case.add",
             "test.case.mul",
             "test.case.sub",
             "test.case.unsupported-operation",
-            "test.case.invalid-integer",
-            "test.case.usage-arity"
+            "test.case.invalid-integer"
           ],
           "evidenceIds": [
             "evidence.behavior-smoke",
@@ -426,16 +419,14 @@
             "evidence.p1.3-maintenance-delta",
             "evidence.p1.7-refactor-delta",
             "evidence.p1.9-overlay-contract-delta",
-            "evidence.p1.11-overlay-invalid-integer-delta",
-            "evidence.p1.14-overlay-usage-arity-delta"
+            "evidence.p1.11-overlay-invalid-integer-delta"
           ],
           "authorityIds": [
             "authority.record.p1.2-human",
             "authority.record.p1.3-human",
             "authority.record.p1.7-human",
             "authority.record.p1.9-human",
-            "authority.record.p1.11-human",
-            "authority.record.p1.14-human"
+            "authority.record.p1.11-human"
           ],
           "sourceTextEqualityRequired": false
         }
@@ -446,8 +437,7 @@
           "test.case.sub",
           "test.case.mul",
           "test.case.unsupported-operation",
-          "test.case.invalid-integer",
-          "test.case.usage-arity"
+          "test.case.invalid-integer"
         ]
       },
       "evidence": [
@@ -457,24 +447,21 @@
         "evidence.p1.3-maintenance-delta",
         "evidence.p1.7-refactor-delta",
         "evidence.p1.9-overlay-contract-delta",
-        "evidence.p1.11-overlay-invalid-integer-delta",
-        "evidence.p1.14-overlay-usage-arity-delta"
+        "evidence.p1.11-overlay-invalid-integer-delta"
       ],
       "authority": [
         "authority.record.p1.2-human",
         "authority.record.p1.3-human",
         "authority.record.p1.7-human",
         "authority.record.p1.9-human",
-        "authority.record.p1.11-human",
-        "authority.record.p1.14-human"
+        "authority.record.p1.11-human"
       ],
       "history": [
         "history.delta.p1.2-code-first-overlay",
         "history.delta.p1.3-add-mul",
         "history.delta.p1.7-refactor-mul-to-multiply",
         "history.delta.p1.9-overlay-unsupported-operation",
-        "history.delta.p1.11-overlay-invalid-integer",
-        "history.delta.p1.14-overlay-usage-arity"
+        "history.delta.p1.11-overlay-invalid-integer"
       ],
       "admission": {
         "stableId": true,
@@ -695,109 +682,6 @@
         "rawUtterance": false,
         "hypothesisOnly": false
       }
-    },
-    {
-      "id": "unit.behavior.usage-arity",
-      "kind": "behavior",
-      "status": "accepted",
-      "contract": {
-        "summary": "python calc.py with the wrong number of arguments writes usage guidance to stderr and exits 2.",
-        "acceptedDevelopmentCommitment": "The usage/arity behavior is accepted as an overlay-only contract for behavior already present in source."
-      },
-      "codeRefs": [
-        {
-          "id": "codeRef.usage-arity.main-stderr",
-          "artifactId": "source.calc.py",
-          "factId": "fact.function.main.stderr.usage_calc_add_sub_mul_left_right",
-          "refKind": "arity-output",
-          "symbol": "main",
-          "ownership": "reference-only"
-        },
-        {
-          "id": "codeRef.usage-arity.main-return-2",
-          "artifactId": "source.calc.py",
-          "factId": "fact.function.main.return.2",
-          "refKind": "return-code",
-          "symbol": "main",
-          "ownership": "reference-only"
-        }
-      ],
-      "codeFactRefs": [
-        {
-          "id": "codeFactRef.usage-arity.stderr",
-          "factId": "fact.function.main.stderr.usage_calc_add_sub_mul_left_right",
-          "expectedFactKind": "stderr-output"
-        },
-        {
-          "id": "codeFactRef.usage-arity.return-2",
-          "factId": "fact.function.main.return.2",
-          "expectedFactKind": "return-expression"
-        }
-      ],
-      "mappingObligations": [
-        {
-          "id": "mapping.usage-arity.behavior-to-code",
-          "obligationKind": "behavior-to-code-fact",
-          "mode": "code-first-maintenance-overlay",
-          "intentIds": [
-            "intent.behavior.usage-arity"
-          ],
-          "codeRefIds": [
-            "codeRef.usage-arity.main-stderr",
-            "codeRef.usage-arity.main-return-2"
-          ],
-          "codeFactRefIds": [
-            "codeFactRef.usage-arity.stderr",
-            "codeFactRef.usage-arity.return-2"
-          ],
-          "verificationIds": [
-            "test.case.usage-arity"
-          ],
-          "evidenceIds": [
-            "evidence.extractor-output",
-            "evidence.behavior-smoke",
-            "evidence.overlay-verifier",
-            "evidence.p1.14-overlay-usage-arity-delta"
-          ],
-          "authorityIds": [
-            "authority.record.p1.14-human"
-          ],
-          "sourceTextEqualityRequired": false
-        }
-      ],
-      "verification": {
-        "behaviorSmoke": {
-          "command": "python calc.py add 2",
-          "expectedStdout": "",
-          "expectedStderr": "usage: calc {add|sub|mul} LEFT RIGHT\n",
-          "expectedExitCode": 2
-        }
-      },
-      "evidence": [
-        "evidence.extractor-output",
-        "evidence.behavior-smoke",
-        "evidence.overlay-verifier",
-        "evidence.p1.14-overlay-usage-arity-delta"
-      ],
-      "authority": [
-        "authority.record.p1.14-human"
-      ],
-      "history": [
-        "history.delta.p1.14-overlay-usage-arity"
-      ],
-      "admission": {
-        "stableId": true,
-        "acceptedCommitment": true,
-        "mappingBoundary": true,
-        "codeRefBoundary": true,
-        "codeFactBoundary": true,
-        "verificationObligation": true,
-        "evidenceBoundary": true,
-        "authorityBoundary": true,
-        "codeTextContained": false,
-        "rawUtterance": false,
-        "hypothesisOnly": false
-      }
     }
   ],
   "unitEdges": [
@@ -830,12 +714,6 @@
       "kind": "refines",
       "from": "unit.product.calculator",
       "to": "unit.behavior.invalid-integer-input"
-    },
-    {
-      "id": "unit-edge.product-refines-usage-arity",
-      "kind": "refines",
-      "from": "unit.product.calculator",
-      "to": "unit.behavior.usage-arity"
     }
   ],
   "verification": [
@@ -905,19 +783,6 @@
       "expectedStdout": "",
       "expectedStderr": "LEFT and RIGHT must be integers\n",
       "expectedExitCode": 2
-    },
-    {
-      "id": "test.case.usage-arity",
-      "kind": "behavior-smoke",
-      "command": [
-        "python",
-        "calc.py",
-        "add",
-        "2"
-      ],
-      "expectedStdout": "",
-      "expectedStderr": "usage: calc {add|sub|mul} LEFT RIGHT\n",
-      "expectedExitCode": 2
     }
   ],
   "evidence": [
@@ -962,12 +827,6 @@
       "kind": "overlay-only-contract-delta-report",
       "status": "planned",
       "artifactRef": "generated/cf0-python-cli-calculator/p1.11-overlay-invalid-integer-delta-report.json"
-    },
-    {
-      "id": "evidence.p1.14-overlay-usage-arity-delta",
-      "kind": "overlay-only-contract-delta-report",
-      "status": "planned",
-      "artifactRef": "generated/cf0-python-cli-calculator/p1.14-overlay-usage-arity-delta-report.json"
     }
   ],
   "authority": [
@@ -1025,17 +884,6 @@
       "decidedByType": "human",
       "decision": "accepted-overlay-only-invalid-integer-contract",
       "decisionStatus": "accepted"
-    },
-    {
-      "id": "authority.record.p1.14-human",
-      "proposer": "IntentGraphDevelopment Roadmap Orchestrator",
-      "proposerType": "human",
-      "requiredAuthority": "roadmap-orchestrator",
-      "validator": "p1.14-overlay-only-contract-delta-verifier",
-      "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
-      "decidedByType": "human",
-      "decision": "accepted-overlay-only-usage-arity-contract",
-      "decisionStatus": "accepted"
     }
   ],
   "history": [
@@ -1081,15 +929,6 @@
       "changeType": "overlay-only-contract-coverage",
       "status": "accepted",
       "summary": "Model existing invalid-integer input behavior as an explicit overlay contract without changing source behavior.",
-      "gitCommit": null,
-      "gitCommitBoundary": "pending-current-milestone"
-    },
-    {
-      "id": "history.delta.p1.14-overlay-usage-arity",
-      "sequence": 6,
-      "changeType": "overlay-only-contract-coverage",
-      "status": "accepted",
-      "summary": "Model existing usage/arity behavior as an explicit overlay contract without changing source behavior.",
       "gitCommit": null,
       "gitCommitBoundary": "pending-current-milestone"
     }

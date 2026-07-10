@@ -90,6 +90,23 @@
         "result": "pass",
         "stderr": "LEFT and RIGHT must be integers\n",
         "stdout": ""
+      },
+      {
+        "command": [
+          "python",
+          "calc.py",
+          "add",
+          "2"
+        ],
+        "errors": [],
+        "exitCode": 2,
+        "expectedExitCode": 2,
+        "expectedStderr": "usage: calc {add|sub|mul} LEFT RIGHT\n",
+        "expectedStdout": "",
+        "id": "test.case.usage-arity",
+        "result": "pass",
+        "stderr": "usage: calc {add|sub|mul} LEFT RIGHT\n",
+        "stdout": ""
       }
     ],
     "result": "pass"
@@ -110,9 +127,9 @@
   },
   "mappingVerification": {
     "errors": [],
-    "mappingObligationCount": 6,
+    "mappingObligationCount": 7,
     "result": "pass",
-    "unitCount": 6,
+    "unitCount": 7,
     "units": [
       {
         "codeFactRefCount": 2,
@@ -139,7 +156,7 @@
         "unitId": "unit.behavior.sub"
       },
       {
-        "codeFactRefCount": 7,
+        "codeFactRefCount": 8,
         "codeRefCount": 2,
         "errors": [],
         "mappingObligationCount": 1,
@@ -161,6 +178,14 @@
         "mappingObligationCount": 1,
         "result": "pass",
         "unitId": "unit.behavior.invalid-integer-input"
+      },
+      {
+        "codeFactRefCount": 2,
+        "codeRefCount": 2,
+        "errors": [],
+        "mappingObligationCount": 1,
+        "result": "pass",
+        "unitId": "unit.behavior.usage-arity"
       }
     ]
   },

@@ -466,6 +466,14 @@ Shared support code for CF0 negative probes must remain CF0-specific and must no
 
 P1.4, P1.10, and P1.12 harnesses must still pass after consolidation. Probe ids/counts must remain stable unless a documented quality fix requires a change. Positive baseline reruns must remain visible, source text equality and hidden generated-code snapshot claims must remain rejected, and CF0 source bytes must remain unchanged.
 
+### V418 - Usage Arity Overlay-Only Contract Delta
+
+Severity: P0 in P1.14
+
+A usage/arity overlay-only contract delta must preserve source bytes, increase overlay contract coverage, preserve existing accepted behavior units, and add explicit code refs, code fact refs, mapping obligations, verification, evidence, authority, and history for the usage/arity behavior already present in source.
+
+Before the current overlay changes, the prior P1.11 after-state must be captured as historical source, code facts, and overlay artifacts. The P1.12 negative harness must use those historical artifacts and must not silently use mutable current facts, overlays, or source roots from P1.14 or later slices.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

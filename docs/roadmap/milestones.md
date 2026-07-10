@@ -352,7 +352,7 @@ Non-goals:
 
 Goal: consolidate repeated CF0 negative-harness mechanics into a small CF0-local helper while preserving existing probe ids, counts, positive baselines, reports, and source behavior.
 
-Status: current authorized slice. See [P1.13 CF0 Negative Harness Consolidation Review](../reviews/p1.13-cf0-negative-harness-consolidation-review.md).
+Status: completed on 2026-07-10. See [P1.13 CF0 Negative Harness Consolidation Review](../reviews/p1.13-cf0-negative-harness-consolidation-review.md).
 
 Non-goals:
 
@@ -362,3 +362,18 @@ Non-goals:
 - no generic negative-probe framework
 - no B0 generated-code pipeline changes
 - no dependency addition
+
+## P1.14: Tiny Code-First Overlay-Only Usage Arity Contract Delta Probe
+
+Goal: model CF0's existing usage/arity handling as an explicit overlay-only contract with code facts, verification, evidence, authority, and history while preserving source bytes and historical baselines.
+
+Status: current authorized slice. See [P1.14 Usage Arity Overlay Contract Review](../reviews/p1.14-usage-arity-overlay-contract-review.md).
+
+Non-goals:
+
+- no CF0 source behavior changes
+- no broad control-flow inference
+- no UI/workbench visualization
+- no B0 generated-code pipeline changes
+- no dependency addition
+- no P1.14 negative harness yet

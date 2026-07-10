@@ -2,15 +2,15 @@
   "after": {
     "codeFactCount": 19,
     "codeFactsDigest": "sha256:1a3f50c0593d614da6df13354c2a643346b6a65a6f5bd20e7b3d90e23fddd971",
-    "mappingObligationCount": 6,
-    "overlayDigest": "sha256:f6b569617b57deb9061a959313594e95120cbc21a8e8879d3de7b5945fa3aab0",
+    "mappingObligationCount": 7,
+    "overlayDigest": "sha256:4952f0d81911493b93dac32c947fda7a887b789c2a9cf14df4963f9912505af3",
     "sourceDigest": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
   },
   "before": {
     "codeFactCount": 19,
     "codeFactsDigest": "sha256:1a3f50c0593d614da6df13354c2a643346b6a65a6f5bd20e7b3d90e23fddd971",
-    "mappingObligationCount": 5,
-    "overlayDigest": "sha256:ebf558b2ef036ea350eb46ba81137365ce1e12af1118b96c77e02a4470f5b59e",
+    "mappingObligationCount": 6,
+    "overlayDigest": "sha256:f6b569617b57deb9061a959313594e95120cbc21a8e8879d3de7b5945fa3aab0",
     "sourceDigest": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
   },
   "behaviorVerification": {
@@ -104,6 +104,23 @@
         "result": "pass",
         "stderr": "LEFT and RIGHT must be integers\n",
         "stdout": ""
+      },
+      {
+        "command": [
+          "python",
+          "calc.py",
+          "add",
+          "2"
+        ],
+        "errors": [],
+        "exitCode": 2,
+        "expectedExitCode": 2,
+        "expectedStderr": "usage: calc {add|sub|mul} LEFT RIGHT\n",
+        "expectedStdout": "",
+        "id": "test.case.usage-arity",
+        "result": "pass",
+        "stderr": "usage: calc {add|sub|mul} LEFT RIGHT\n",
+        "stdout": ""
       }
     ],
     "result": "pass"
@@ -123,16 +140,17 @@
   "delta": {
     "addedBehaviorCount": 1,
     "addedBehaviorUnits": [
-      "unit.behavior.invalid-integer-input"
+      "unit.behavior.usage-arity"
     ],
     "addedCodeFactIds": [],
     "contractCoverageIncreased": true,
-    "deltaId": "p1.11-overlay-invalid-integer",
+    "deltaId": "p1.14-overlay-usage-arity",
     "expectedAddedCodeFactIds": [],
     "expectedRemovedCodeFactIds": [],
     "overlayChanged": true,
     "preservedBehaviorUnits": [
       "unit.behavior.add",
+      "unit.behavior.invalid-integer-input",
       "unit.behavior.mul",
       "unit.behavior.sub",
       "unit.behavior.unsupported-operation"
@@ -143,31 +161,31 @@
   },
   "deltaRecordsVerification": {
     "authorityIds": [
-      "authority.record.p1.11-human"
+      "authority.record.p1.14-human"
     ],
     "evidenceIds": [
-      "evidence.p1.11-overlay-invalid-integer-delta"
+      "evidence.p1.14-overlay-usage-arity-delta"
     ],
     "historyIds": [
-      "history.delta.p1.11-overlay-invalid-integer"
+      "history.delta.p1.14-overlay-usage-arity"
     ],
     "result": "pass"
   },
   "errors": [],
   "hiddenGeneratedCodeSnapshotUsed": false,
   "inputs": {
-    "afterCodeFacts": "generated/cf0-python-cli-calculator/p1.11-after-code-facts.json",
-    "beforeCodeFacts": "generated/cf0-python-cli-calculator/p1.11-before-code-facts.json",
-    "beforeOverlay": "generated/cf0-python-cli-calculator/p1.11-before-overlay.json",
-    "delta": "docs/examples/cf0-python-cli-calculator/deltas/p1.11-overlay-invalid-integer.delta.json",
-    "overlay": "generated/cf0-python-cli-calculator/p1.11-after-overlay.json",
-    "sourceRoot": "generated/cf0-python-cli-calculator/p1.11-after-source"
+    "afterCodeFacts": "generated/cf0-python-cli-calculator/code-facts.json",
+    "beforeCodeFacts": "generated/cf0-python-cli-calculator/p1.14-before-code-facts.json",
+    "beforeOverlay": "generated/cf0-python-cli-calculator/p1.14-before-overlay.json",
+    "delta": "docs/examples/cf0-python-cli-calculator/deltas/p1.14-overlay-usage-arity.delta.json",
+    "overlay": "docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json",
+    "sourceRoot": "docs/examples/cf0-python-cli-calculator/source"
   },
   "mappingVerification": {
     "errors": [],
-    "mappingObligationCount": 6,
+    "mappingObligationCount": 7,
     "result": "pass",
-    "unitCount": 6,
+    "unitCount": 7,
     "units": [
       {
         "codeFactRefCount": 2,
@@ -194,7 +212,7 @@
         "unitId": "unit.behavior.sub"
       },
       {
-        "codeFactRefCount": 7,
+        "codeFactRefCount": 8,
         "codeRefCount": 2,
         "errors": [],
         "mappingObligationCount": 1,
@@ -216,6 +234,14 @@
         "mappingObligationCount": 1,
         "result": "pass",
         "unitId": "unit.behavior.invalid-integer-input"
+      },
+      {
+        "codeFactRefCount": 2,
+        "codeRefCount": 2,
+        "errors": [],
+        "mappingObligationCount": 1,
+        "result": "pass",
+        "unitId": "unit.behavior.usage-arity"
       }
     ]
   },

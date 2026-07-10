@@ -1,15 +1,28 @@
 {
   "artifactRole": "intentgraph-cf0-input-validation-negative-probes-report",
   "baselineDelta": "docs/examples/cf0-python-cli-calculator/deltas/p1.11-overlay-invalid-integer.delta.json",
-  "baselineScope": "current-p1.11-overlay-only-input-validation-delta",
+  "baselineScope": "historical-p1.11-overlay-only-input-validation-delta",
   "boundaries": {
     "aiAuthorityPromoted": false,
+    "currentP1_14ArtifactsUsed": false,
     "generalNegativeProbeFrameworkClaimed": false,
     "hiddenGeneratedCodeSnapshotUsed": false,
+    "historicalInputValidationBaseline": true,
     "productBehaviorAdded": false,
     "sourceBytesUnchanged": true,
     "sourceTextEqualityRequired": false
   },
+  "currentCodeFactsUsed": false,
+  "currentOverlayUsed": false,
+  "historicalInputs": {
+    "afterCodeFacts": "generated/cf0-python-cli-calculator/p1.11-after-code-facts.json",
+    "afterOverlay": "generated/cf0-python-cli-calculator/p1.11-after-overlay.json",
+    "beforeCodeFacts": "generated/cf0-python-cli-calculator/p1.11-before-code-facts.json",
+    "beforeOverlay": "generated/cf0-python-cli-calculator/p1.11-before-overlay.json",
+    "delta": "docs/examples/cf0-python-cli-calculator/deltas/p1.11-overlay-invalid-integer.delta.json",
+    "sourceRoot": "generated/cf0-python-cli-calculator/p1.11-after-source"
+  },
+  "historicalSourceUsed": true,
   "positiveBaseline": {
     "contractCoverageIncreased": true,
     "errors": [],
