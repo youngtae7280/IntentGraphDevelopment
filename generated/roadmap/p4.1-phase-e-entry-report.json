@@ -1,0 +1,64 @@
+{
+  "artifactRole": "intentgraph-phase-boundary-review-report",
+  "status": "intentgraph-phase-boundary-review-passed",
+  "scope": "p4.1-phase-d-change-proposal-boundary-phase-e-entry",
+  "workItem": "P4.1 Phase D Change Proposal Boundary Review and Phase E Entry Plan",
+  "date": "2026-07-10",
+  "decision": "open-p5.0-b1-proposal-consistency-verifier",
+  "phaseDReviewedEvidence": {
+    "p4_0ProposalSchema": true,
+    "p4_0NonAppliedProposal": true,
+    "baselineBinding": true,
+    "deltaCDeclared": true,
+    "deltaIDeclared": true,
+    "deltaMDeclared": true,
+    "testsEvidenceAuthorityRequired": true,
+    "unsafeProposalNegativeProbes": true,
+    "sourceMutationClaimed": false,
+    "patchApplicationClaimed": false,
+    "aiAuthorityClaimed": false
+  },
+  "phaseEEntryCriteria": [
+    "consume P4.0 proposal validation report",
+    "consume B1 code facts and B1 overlay",
+    "verify proposal baseline consistency",
+    "verify impact scope against mapped units and source files",
+    "verify required tests, evidence, and authority are present",
+    "verify proposal remains non-applied",
+    "emit deterministic pass/fail report",
+    "add negative probes for missing inputs, stale baseline, missing mapping, missing tests/evidence/authority, and source mutation claims"
+  ],
+  "recommendedNextSlice": {
+    "id": "P5.0",
+    "name": "B1 Proposal Consistency Verifier",
+    "allowed": [
+      "define B1 consistency verifier report",
+      "consume P4.0 proposal validation report",
+      "verify source/code-fact baseline consistency",
+      "verify proposal-to-overlay mapping references",
+      "verify test, evidence, and authority requirements",
+      "verify non-applied claim scope",
+      "add deterministic negative probes"
+    ],
+    "nonGoals": [
+      "source code mutation",
+      "patch application",
+      "proposal acceptance",
+      "AI judgment as verifier",
+      "full semantic equivalence claim",
+      "workbench UI",
+      "productization"
+    ]
+  },
+  "acceptance": {
+    "p4_0Reviewed": true,
+    "phaseDLimitsStated": true,
+    "phaseEEntryCriteriaDefined": true,
+    "p5_0ScopeDefined": true,
+    "implementationAdded": false,
+    "sourceEditAuthorized": false,
+    "aiAuthorityAuthorized": false,
+    "workbenchAuthorized": false,
+    "productizationAuthorized": false
+  }
+}

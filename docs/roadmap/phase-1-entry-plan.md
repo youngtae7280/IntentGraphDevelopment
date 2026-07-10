@@ -492,3 +492,26 @@ P4.1 Phase D Change Proposal Boundary Review and Phase E Entry Plan
 ```
 
 P4.1 should review P4.0 and decide whether Phase E can open for deterministic consistency verification over proposal, source baseline, code facts, overlay mappings, tests, evidence, authority, and history. It must not apply the proposal yet.
+
+## Completed Slice: P4.1 Phase D Change Proposal Boundary Review and Phase E Entry Plan
+
+Goal: review B1 Phase D proposal evidence and decide whether Phase E can open.
+
+Produced artifacts:
+
+- [P4.1 Phase D Change Proposal Boundary Phase E Entry Review](../reviews/p4.1-phase-d-change-proposal-boundary-phase-e-entry-review.md)
+- `generated/roadmap/p4.1-phase-e-entry-report.json`
+
+Decision:
+
+```text
+open-p5.0-b1-proposal-consistency-verifier
+```
+
+Recommended next slice:
+
+```text
+P5.0 B1 Proposal Consistency Verifier
+```
+
+P5.0 may define a deterministic consistency verifier over the P4.0 proposal, B1 code facts, B1 overlay, proposal validation report, tests, evidence, authority, and non-applied claim scope. It must not mutate source, apply patches, accept the proposal, use AI judgment as verifier, build UI/workbench, or productize the workflow.

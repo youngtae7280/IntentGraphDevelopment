@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P4.0 B1 Change Proposal Schema and Non-Applied Plan
+P4.1 Phase D Change Proposal Boundary Review and Phase E Entry Plan
 ```
 
-This Phase D slice created the first B1 non-applied proposal schema, proposal artifact, validator, and negative probes. It does not authorize source mutation, patch application, AI proposal authority, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This boundary slice reviewed the B1 Phase D proposal evidence and opened Phase E only for deterministic, non-applied consistency verification. It does not authorize source mutation, patch application, AI proposal authority, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -654,4 +654,26 @@ Non-goals:
 - no broad planner
 - no UI/workbench product
 - no broadened extraction
+- no productization
+
+## P4.1: Phase D Change Proposal Boundary Review and Phase E Entry Plan
+
+Goal: review P4.0 as Phase D evidence and decide whether bounded Phase E consistency verification can open.
+
+Status: completed on 2026-07-10. See [P4.1 Phase D Change Proposal Boundary Phase E Entry Review](../reviews/p4.1-phase-d-change-proposal-boundary-phase-e-entry-review.md).
+
+Decision:
+
+- Phase D is sufficient to open the first bounded Phase E slice.
+- Continue to `P5.0 B1 Proposal Consistency Verifier`.
+- Phase E starts deterministic and non-applied.
+
+Non-goals:
+
+- no source mutation
+- no patch application
+- no proposal acceptance
+- no AI judgment as verifier
+- no full semantic equivalence claim
+- no UI/workbench product
 - no productization

@@ -202,6 +202,14 @@ python tools/validate_b1_change_proposal.py --proposal docs/examples/b1-typescri
 python tools/run_b1_change_proposal_negative_probes.py --out generated/b1-typescript-rest-api/p4.0-change-proposal-negative-probes-report.json
 ```
 
+## V701: Phase D Boundary Review Before Consistency Verification
+
+Status: added in P4.1.
+
+Phase E consistency verification must not open until Phase D proposal evidence has been reviewed in a written boundary report. The report must review proposal schema, non-applied proposal artifact, baseline binding, declared `DeltaC`/`DeltaI`/`DeltaM`, required tests, required evidence, required authority, unsafe proposal negative probes, and implementation non-goals.
+
+The first Phase E slice must be deterministic and non-applied. It may verify consistency of proposal artifacts, code facts, overlay mappings, evidence requirements, and authority requirements, but it must not mutate source, apply patches, accept proposals, or use AI judgment as verifier.
+
 ## Rule Severity
 
 | Severity | Meaning |
