@@ -1,0 +1,110 @@
+{
+  "artifactRole": "intentgraph-packaged-artifact-metadata-replay-negative-probes-report",
+  "boundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "date": "2026-07-10",
+  "probeCount": 8,
+  "probes": [
+    {
+      "errors": [
+        "manifest sha256 does not match replayed package artifact"
+      ],
+      "exitCode": 1,
+      "expectedError": "manifest sha256 does not match replayed package artifact",
+      "expectedFailureObserved": true,
+      "id": "manifest-sha-mismatch"
+    },
+    {
+      "errors": [
+        "manifest byteLength does not match replayed package artifact"
+      ],
+      "exitCode": 1,
+      "expectedError": "manifest byteLength does not match replayed package artifact",
+      "expectedFailureObserved": true,
+      "id": "manifest-byte-length-mismatch"
+    },
+    {
+      "errors": [
+        "manifest fileCount does not match replayed package artifact"
+      ],
+      "exitCode": 1,
+      "expectedError": "manifest fileCount does not match replayed package artifact",
+      "expectedFailureObserved": true,
+      "id": "manifest-file-count-mismatch"
+    },
+    {
+      "errors": [
+        "boundary must keep extraction unauthorized"
+      ],
+      "exitCode": 1,
+      "expectedError": "boundary must keep extraction unauthorized",
+      "expectedFailureObserved": true,
+      "id": "boundary-extraction-authorized"
+    },
+    {
+      "errors": [
+        "boundary must keep packaged executable launch unauthorized"
+      ],
+      "exitCode": 1,
+      "expectedError": "boundary must keep packaged executable launch unauthorized",
+      "expectedFailureObserved": true,
+      "id": "boundary-execution-authorized"
+    },
+    {
+      "errors": [
+        "manifest sha256 does not match replayed package artifact",
+        "manifest byteLength does not match replayed package artifact",
+        "boundary sha256 does not match replayed package artifact",
+        "boundary byteLength does not match replayed package artifact"
+      ],
+      "exitCode": 1,
+      "expectedError": "manifest sha256 does not match replayed package artifact",
+      "expectedFailureObserved": true,
+      "id": "package-byte-appended"
+    },
+    {
+      "errors": [
+        "package artifact is not a readable zip",
+        "manifest sha256 does not match replayed package artifact",
+        "manifest byteLength does not match replayed package artifact",
+        "manifest fileCount does not match replayed package artifact",
+        "boundary sha256 does not match replayed package artifact",
+        "boundary byteLength does not match replayed package artifact",
+        "boundary fileCount does not match replayed package artifact"
+      ],
+      "exitCode": 1,
+      "expectedError": "package artifact is not a readable zip",
+      "expectedFailureObserved": true,
+      "id": "package-not-zip"
+    },
+    {
+      "errors": [
+        "required package entry missing: SmartComm2.dll",
+        "manifest sha256 does not match replayed package artifact",
+        "manifest byteLength does not match replayed package artifact",
+        "manifest fileCount does not match replayed package artifact",
+        "boundary sha256 does not match replayed package artifact",
+        "boundary byteLength does not match replayed package artifact",
+        "boundary fileCount does not match replayed package artifact"
+      ],
+      "exitCode": 1,
+      "expectedError": "required package entry missing: SmartComm2.dll",
+      "expectedFailureObserved": true,
+      "id": "package-missing-smartcomm"
+    }
+  ],
+  "recommendedNextSlice": "P8.68 Packaged Artifact Verification Authorization Request",
+  "result": "pass",
+  "scope": "p8.67-packaged-artifact-metadata-replay-negative-probes",
+  "status": "intentgraph-packaged-artifact-metadata-replay-negative-probes-passed",
+  "workItem": "P8.67 Packaged Artifact Metadata Replay Negative Probes"
+}

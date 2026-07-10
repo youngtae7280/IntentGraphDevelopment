@@ -2598,3 +2598,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.67 Packaged Artifact Metadata Replay Negative Probes`.
+
+## P8.67: Packaged Artifact Metadata Replay Negative Probes
+
+Goal: prove that packaged artifact metadata replay rejects stale package metadata, package byte mutation, missing required entries, non-zip artifacts, and verification-boundary authority drift.
+
+Status: completed on 2026-07-10. See [P8.67 Packaged Artifact Metadata Replay Negative Probes](../reviews/p8.67-packaged-artifact-metadata-replay-negative-probes.md).
+
+Decision:
+
+- 8 negative probes passed.
+- all expected failures were observed.
+- no package extraction, packaged executable launch, packaged UI launch, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_package_metadata_replay_negative_probes.py`
+- `generated/windowsutility/package-artifact/p8.67/negative-probes-report.json`
+- `generated/roadmap/p8.67-packaged-artifact-metadata-replay-negative-probes-report.json`
+- [P8.67 Packaged Artifact Metadata Replay Negative Probes](../reviews/p8.67-packaged-artifact-metadata-replay-negative-probes.md)
+
+Next safe work:
+
+- continue to `P8.68 Packaged Artifact Verification Authorization Request`.

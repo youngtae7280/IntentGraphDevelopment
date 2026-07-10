@@ -1,0 +1,38 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.67-packaged-artifact-metadata-replay-negative-probes",
+  "workItem": "P8.67 Packaged Artifact Metadata Replay Negative Probes",
+  "date": "2026-07-10",
+  "result": "pass",
+  "producedArtifacts": [
+    "tools/run_windowsutility_package_metadata_replay_negative_probes.py",
+    "generated/windowsutility/package-artifact/p8.67/negative-probes-report.json"
+  ],
+  "validationSummary": {
+    "probeCount": 8,
+    "allExpectedFailuresObserved": true,
+    "coveredFailures": [
+      "manifest sha256 mismatch",
+      "manifest byteLength mismatch",
+      "manifest fileCount mismatch",
+      "boundary extraction authority drift",
+      "boundary packaged execution authority drift",
+      "package byte mutation",
+      "non-zip package",
+      "missing required package entry"
+    ]
+  },
+  "nonGoals": {
+    "packageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "installerCreation": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.68 Packaged Artifact Verification Authorization Request"
+}

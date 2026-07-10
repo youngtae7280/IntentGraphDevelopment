@@ -2436,3 +2436,26 @@ Recommended next slice:
 ```text
 P8.67 Packaged Artifact Metadata Replay Negative Probes
 ```
+
+## Completed Slice: P8.67 Packaged Artifact Metadata Replay Negative Probes
+
+Goal: prove that P8.66 fails on stale metadata, corrupted packages, missing required entries, and authority drift.
+
+Result:
+
+```text
+Decision: packaged-artifact-metadata-replay-negative-probes-passed.
+```
+
+Produced artifacts:
+
+- `tools/run_windowsutility_package_metadata_replay_negative_probes.py`
+- `generated/windowsutility/package-artifact/p8.67/negative-probes-report.json`
+- `generated/roadmap/p8.67-packaged-artifact-metadata-replay-negative-probes-report.json`
+- [P8.67 Packaged Artifact Metadata Replay Negative Probes](../reviews/p8.67-packaged-artifact-metadata-replay-negative-probes.md)
+
+Recommended next slice:
+
+```text
+P8.68 Packaged Artifact Verification Authorization Request
+```
