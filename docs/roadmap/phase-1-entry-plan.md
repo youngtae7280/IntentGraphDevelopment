@@ -260,3 +260,18 @@ P1.19 Second Benchmark and Generalization Gate - Plan Only
 ```
 
 The next slice should not implement a larger benchmark. It should select what limitation of CF0 must be tested next, rerun the prior-art/build-borrow-integrate gate, and define pass/fail criteria before implementation.
+
+P1.19 must also align the next work with the [Product Capability Roadmap](product-capability-roadmap.md). In that roadmap, the next likely capability area is Phase B, Fast Retrofit and Code Facts. P1.19 is only the planning gate for that direction; it does not authorize the Phase B implementation.
+
+Minimum P1.19 outputs:
+
+- second benchmark candidate comparison
+- selected CF0 limitation to test next
+- prior-art/build-borrow-integrate decision for the selected direction
+- Phase B entry criteria
+- Phase B allowed work and non-goals
+- deterministic validation plan
+- pass/fail criteria
+- worker handoff instructions
+
+P1.19 must stop before implementation if these criteria are not clear.

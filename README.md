@@ -12,7 +12,9 @@ IntentGraph is a development-semantic overlay graph linked to source code artifa
 
 Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](docs/reviews/phase-0-final-review.md).
 
-No `M8` was opened automatically. The next authorized work is the Phase 1 entry revision: reframe Intent Units as overlay mapping units before expanding benchmarks or tooling. See the [Phase 1 Entry Plan](docs/roadmap/phase-1-entry-plan.md).
+No `M8` was opened automatically. P1.R through P1.18 reframed IntentGraph as a semantic overlay and proved the corrected model on a tiny CF0 code-first fixture. CF0 is now treated as saturated proof evidence, not proof of general scalability.
+
+The next recommended work is `P1.19 Second Benchmark and Generalization Gate - Plan Only`. It must select the next limitation to test and define criteria before larger benchmark, extractor, UI, or product work begins. See the [Phase 1 Entry Plan](docs/roadmap/phase-1-entry-plan.md) and [Product Capability Roadmap](docs/roadmap/product-capability-roadmap.md).
 
 ## Working Definition
 
@@ -58,6 +60,7 @@ Start here:
 - [Non-Goals](docs/concept/non-goals.md)
 - [Milestones](docs/roadmap/milestones.md)
 - [Phase 1 Entry Plan](docs/roadmap/phase-1-entry-plan.md)
+- [Product Capability Roadmap](docs/roadmap/product-capability-roadmap.md)
 
 Every major implementation slice must pass:
 

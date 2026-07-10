@@ -16,6 +16,12 @@ P1.18 Phase One Direction and CF0 Specialization Review
 
 This is a planning and quality review slice that pauses new CF0 semantic probes by default and recommends a plan-only second benchmark/generalization gate. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
+Long-range product capability roadmap:
+
+- [Product Capability Roadmap](product-capability-roadmap.md)
+
+That roadmap defines Phase A through Phase H, the phase gate rules, allowed work, non-goals, required outputs, verification gates, exit criteria, and stop conditions. It is the controlling roadmap for post-P1.18 planning, but it does not authorize all phases at once.
+
 ## M0: Research and Thesis Foundation
 
 Goal: make the concept, prior-art landscape, and first benchmark criteria stable enough to justify a first implementation slice.
@@ -192,6 +198,8 @@ Quality target: Level 2 or higher.
 Do not open the next milestone until the current milestone has a written milestone review.
 
 After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. Post-Phase-0 correction and CF0 proof-hardening slices are tracked as P1.R through P1.18 and remain bounded by explicit Coordinator approval.
+
+Post-P1.18 work must follow the [Product Capability Roadmap](product-capability-roadmap.md). A later phase may start only when its phase gate is explicitly opened, its prior-art/build-borrow-integrate decision is current, and its verification criteria are written before implementation.
 
 ## P1.R: Reframe IntentGraph as Semantic Overlay
 

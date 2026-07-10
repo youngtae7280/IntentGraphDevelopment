@@ -120,10 +120,18 @@ M1 may start when M0 review passes and the following are stable:
 
 ## Later Benchmark Candidates
 
-These remain future candidates and are not authorized before the tiny benchmark proves the core loop:
+These remain future candidates and are not authorized before the tiny benchmark proves the core loop and the post-P1.18 planning gate selects the next limitation to test.
 
 1. Todo web app
 2. Small REST API
 3. Small desktop utility
 
 Each later benchmark must rerun the prior-art gate before implementation.
+
+The next recommended planning slice is:
+
+```text
+P1.19 Second Benchmark and Generalization Gate - Plan Only
+```
+
+P1.19 must use the [Product Capability Roadmap](../roadmap/product-capability-roadmap.md) to decide whether the next benchmark primarily tests Phase B fast retrofit/code facts, a bounded Phase F workbench projection, or another explicitly justified capability gap. It must define pass/fail criteria before any benchmark implementation begins.
