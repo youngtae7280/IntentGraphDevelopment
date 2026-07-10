@@ -964,3 +964,26 @@ Non-goals:
 - no AI authority promotion
 - no productization implementation
 - no product readiness claim
+
+## P8.5: Shell Workspace Mapping Draft Negative Probes
+
+Goal: prove stale digest and missing ref failures are deterministic before the shell-workspace mapping draft can be considered for acceptance.
+
+Status: completed on 2026-07-10. See [P8.5 Shell Workspace Mapping Draft Negative Probes Review](../reviews/p8.5-shell-workspace-mapping-draft-negative-probes-review.md).
+
+Decision:
+
+- positive mapping draft verification passes.
+- stale digest, missing ref, accidental accepted, target write, and baseline accepted probes fail deterministically.
+- mapping remains unaccepted.
+- target baseline resolution is now the external blocker.
+
+Non-goals:
+
+- no writing to WindowsUtility
+- no accepted real-project mapping
+- no proposal application
+- no target write authority
+- no AI authority promotion
+- no productization implementation
+- no product readiness claim

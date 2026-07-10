@@ -303,6 +303,12 @@ Status: added in P8.4.
 
 When a real-project target state is unresolved, a mapping draft may record read-only source refs and digests only if the artifact is written outside the target repository and keeps `accepted:false`, `baselineAccepted:false`, and target write authority false. The draft must list stale/missing mapping probes as required before acceptance.
 
+## V1009: Mapping Draft Negative Probes Are Required Before Acceptance
+
+Status: added in P8.5.
+
+A real-project mapping draft must not become accepted until a repeatable verifier proves the positive baseline and deterministic negative failures for stale source digest, missing source ref, accidental acceptance, target write authority, and baseline acceptance. The negative-probe report must keep accepted mapping, target writes, proposal application, AI authority, and productization false.
+
 ## Rule Severity
 
 | Severity | Meaning |

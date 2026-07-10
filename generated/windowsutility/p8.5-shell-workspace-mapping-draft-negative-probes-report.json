@@ -1,0 +1,67 @@
+{
+  "artifactRole": "intentgraph-windowsutility-mapping-draft-negative-probes-report",
+  "authorizations": {
+    "acceptedMappingCreated": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "positiveBaseline": {
+    "draft": "generated/windowsutility/p8.4-shell-workspace-accepted-mapping-draft.json",
+    "rerunResult": "pass"
+  },
+  "probeCount": 5,
+  "probes": [
+    {
+      "actualErrors": [
+        "digest mismatch for source ref: src/WindowsUtility.App/WindowsUtility.App.csproj"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "digest mismatch for source ref",
+      "expectedFailureObserved": true,
+      "id": "stale-digest"
+    },
+    {
+      "actualErrors": [
+        "source ref missing: src/WindowsUtility.App/Missing.csproj"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "source ref missing",
+      "expectedFailureObserved": true,
+      "id": "missing-source-ref"
+    },
+    {
+      "actualErrors": [
+        "mapping draft must remain unaccepted"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "mapping draft must remain unaccepted",
+      "expectedFailureObserved": true,
+      "id": "accepted-true"
+    },
+    {
+      "actualErrors": [
+        "target writes must remain unauthorized",
+        "targetWritesAuthorized must remain false"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "target writes must remain unauthorized",
+      "expectedFailureObserved": true,
+      "id": "target-write-true"
+    },
+    {
+      "actualErrors": [
+        "target baseline must remain unaccepted"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "target baseline must remain unaccepted",
+      "expectedFailureObserved": true,
+      "id": "baseline-accepted-true"
+    }
+  ],
+  "result": "pass",
+  "scope": "p8.5-shell-workspace-mapping-draft-negative-probes-report-only",
+  "status": "intentgraph-windowsutility-mapping-draft-negative-probes-passed",
+  "workItem": "P8.5 Shell Workspace Mapping Draft Negative Probes"
+}

@@ -803,3 +803,29 @@ P8.5 Shell Workspace Mapping Draft Negative Probes
 ```
 
 P8.5 should prove stale digest and missing ref failures are deterministic. It must not accept the mapping or mutate WindowsUtility.
+
+## Completed Slice: P8.5 Shell Workspace Mapping Draft Negative Probes
+
+Goal: add repeatable positive verification and negative probes for the shell-workspace mapping draft.
+
+Produced artifacts:
+
+- `tools/verify_windowsutility_mapping_draft.py`
+- `tools/run_windowsutility_mapping_draft_negative_probes.py`
+- `generated/windowsutility/p8.5-shell-workspace-mapping-draft-verification-report.json`
+- `generated/windowsutility/p8.5-shell-workspace-mapping-draft-negative-probes-report.json`
+- [P8.5 Shell Workspace Mapping Draft Negative Probes Review](../reviews/p8.5-shell-workspace-mapping-draft-negative-probes-review.md)
+
+Decision:
+
+```text
+mapping-draft-probes-pass-mapping-still-unaccepted
+```
+
+Current blocker:
+
+```text
+target baseline resolution or explicit dirty-baseline acceptance
+```
+
+Without that external decision, accepted mapping, proposal application, target writes, and productization remain blocked.

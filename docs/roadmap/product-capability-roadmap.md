@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.4 completed.
+P8.5 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -133,10 +133,15 @@ P8.4 completed:
 shell-workspace mapping draft created; still unaccepted.
 ```
 
+P8.5 completed:
+
+```text
+mapping draft positive verification and negative probes pass.
+```
+
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.5 Shell Workspace Mapping Draft Negative Probes
 external target-state resolution
 ```
 
@@ -744,3 +749,21 @@ P8.4 produced:
 - `generated/roadmap/p8.4-shell-workspace-mapping-draft-report.json`
 
 The draft records read-only source digests and keeps `accepted:false`, `baselineAccepted:false`, target writes false, AI authority false, and productization false.
+
+## P8.5 Result And Mapping Draft Negative Probes
+
+P8.5 result:
+
+```text
+shell-workspace mapping draft verifier and negative probes pass.
+```
+
+P8.5 produced:
+
+- `tools/verify_windowsutility_mapping_draft.py`
+- `tools/run_windowsutility_mapping_draft_negative_probes.py`
+- `generated/windowsutility/p8.5-shell-workspace-mapping-draft-verification-report.json`
+- `generated/windowsutility/p8.5-shell-workspace-mapping-draft-negative-probes-report.json`
+- [P8.5 Shell Workspace Mapping Draft Negative Probes Review](../reviews/p8.5-shell-workspace-mapping-draft-negative-probes-review.md)
+
+The next blocker is external: target baseline resolution or explicit dirty-baseline acceptance. Without it, the mapping draft must remain unaccepted and proposal application must remain blocked.
