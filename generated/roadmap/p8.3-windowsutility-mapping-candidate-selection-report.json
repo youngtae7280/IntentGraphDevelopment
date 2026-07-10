@@ -1,0 +1,62 @@
+{
+  "artifactRole": "intentgraph-windowsutility-mapping-candidate-selection-report",
+  "status": "intentgraph-windowsutility-mapping-candidate-selected",
+  "scope": "p8.3-windowsutility-accepted-mapping-candidate-selection-report-only",
+  "workItem": "P8.3 WindowsUtility Accepted Mapping Candidate Selection",
+  "date": "2026-07-10",
+  "decision": "select-shell-workspace-candidate-do-not-accept",
+  "sourceReports": [
+    "generated/windowsutility/p7.2-mapping-hypothesis.json",
+    "generated/roadmap/p8.1-windowsutility-repository-state-resolution-report.json",
+    "generated/roadmap/p8.2-windowsutility-accepted-mapping-boundary-report.json"
+  ],
+  "selectedCandidate": {
+    "id": "unit.windowsutility.shell-workspace",
+    "title": "WindowsUtility WPF shell and workspace",
+    "kind": "application-shell",
+    "accepted": false,
+    "selectionReason": "smallest candidate surface with two project refs and no broad hardware module family scope",
+    "codeSurfaceRefs": [
+      "src/WindowsUtility.App/WindowsUtility.App.csproj",
+      "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+    ],
+    "futureEvidenceRequirements": [
+      "shell navigation smoke test",
+      "screenshot or UI surface evidence",
+      "source digest baseline for selected refs"
+    ],
+    "futureAuthorityRequirements": [
+      "user acceptance for shell/workspace mapping",
+      "coordinator approval before any target write"
+    ]
+  },
+  "deferredCandidates": [
+    {
+      "id": "unit.windowsutility.core-services",
+      "reason": "native boundary risk should wait until shell mapping boundary is proven"
+    },
+    {
+      "id": "unit.windowsutility.utility-modules",
+      "reason": "broad module and hardware-aware scope is too large for first accepted mapping"
+    },
+    {
+      "id": "unit.windowsutility.tests-and-smoke",
+      "reason": "hardware fallback evidence should follow a smaller shell mapping proof"
+    }
+  ],
+  "authorizations": {
+    "acceptedMappingCreated": false,
+    "targetWritesAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "blockedUntil": [
+    "repository baseline resolved or explicitly scoped",
+    "selected refs revalidated against baseline inventory",
+    "shell evidence requirements declared",
+    "human authority requirements declared",
+    "stale/missing mapping negative probes added"
+  ],
+  "recommendedNextSlice": "P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft"
+}

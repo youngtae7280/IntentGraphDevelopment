@@ -291,6 +291,12 @@ Status: added in P8.2.
 
 A real-project mapping hypothesis may become accepted only when the accepted mapping artifact records selected hypothesis id, Intent Unit id, source refs, source digest baseline, ambiguity disposition, evidence requirements, authority requirements, and deterministic stale/missing mapping failure probes. Accepted mappings must not imply target write authority, proposal application authority, AI authority, productization, source text equality, or hidden generated-code snapshots.
 
+## V1007: Candidate Selection Is Not Mapping Acceptance
+
+Status: added in P8.3.
+
+Selecting a real-project mapping candidate must keep the mapping unaccepted unless an accepted-mapping artifact is explicitly emitted and validated. Candidate selection may record rationale, refs, evidence requirements, and authority requirements, but it must keep target writes, proposal application, AI authority, and productization false.
+
 ## Rule Severity
 
 | Severity | Meaning |

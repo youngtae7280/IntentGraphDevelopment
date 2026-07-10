@@ -756,3 +756,26 @@ P8.3 WindowsUtility Accepted Mapping Candidate Selection
 ```
 
 P8.3 must still remain outside WindowsUtility unless target writes are explicitly authorized. It may select one candidate and prepare a mapping artifact, but it must not apply proposals or claim productization readiness.
+
+## Completed Slice: P8.3 WindowsUtility Accepted Mapping Candidate Selection
+
+Goal: select one WindowsUtility mapping candidate for future accepted-mapping draft work.
+
+Produced artifacts:
+
+- [P8.3 WindowsUtility Accepted Mapping Candidate Selection Review](../reviews/p8.3-windowsutility-accepted-mapping-candidate-selection-review.md)
+- `generated/roadmap/p8.3-windowsutility-mapping-candidate-selection-report.json`
+
+Decision:
+
+```text
+select-shell-workspace-candidate-do-not-accept
+```
+
+Next safe work:
+
+```text
+P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft
+```
+
+P8.4 may draft a mapping artifact outside WindowsUtility. It must still keep the mapping unaccepted unless target baseline, evidence, authority, and stale/missing mapping probes are complete.

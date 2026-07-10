@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.2 completed.
+P8.3 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. P8.2 defined how mappings may be accepted, but did not accept one. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate without accepting it. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -121,10 +121,16 @@ P8.2 completed:
 Accepted mapping boundary defined; no mapping accepted.
 ```
 
+P8.3 completed:
+
+```text
+shell-workspace selected as first accepted-mapping candidate; no mapping accepted.
+```
+
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.3 WindowsUtility Accepted Mapping Candidate Selection
+P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft
 external target-state resolution
 ```
 
@@ -699,3 +705,19 @@ P8.2 produced:
 - `generated/roadmap/p8.2-windowsutility-accepted-mapping-boundary-report.json`
 
 WindowsUtility mappings remain hypotheses until a later slice selects a candidate, records baseline state, resolves ambiguity, defines evidence and authority requirements, and runs stale/missing mapping probes.
+
+## P8.3 Result And Mapping Candidate Selection
+
+P8.3 result:
+
+```text
+shell-workspace candidate selected.
+Decision: select-shell-workspace-candidate-do-not-accept.
+```
+
+P8.3 produced:
+
+- [P8.3 WindowsUtility Accepted Mapping Candidate Selection Review](../reviews/p8.3-windowsutility-accepted-mapping-candidate-selection-review.md)
+- `generated/roadmap/p8.3-windowsutility-mapping-candidate-selection-report.json`
+
+The selected candidate is still unaccepted. Target writes, proposal application, AI authority, and productization remain blocked.

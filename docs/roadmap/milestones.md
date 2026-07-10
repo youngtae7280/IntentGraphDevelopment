@@ -919,3 +919,25 @@ Non-goals:
 - no AI authority promotion
 - no productization implementation
 - no product readiness claim
+
+## P8.3: WindowsUtility Accepted Mapping Candidate Selection
+
+Goal: select the first WindowsUtility mapping candidate without accepting it.
+
+Status: completed on 2026-07-10. See [P8.3 WindowsUtility Accepted Mapping Candidate Selection Review](../reviews/p8.3-windowsutility-accepted-mapping-candidate-selection-review.md).
+
+Decision:
+
+- select `unit.windowsutility.shell-workspace`.
+- no mapping is accepted in P8.3.
+- target writes, proposal application, AI authority, and productization remain blocked.
+
+Non-goals:
+
+- no writing to WindowsUtility
+- no accepted real-project mappings
+- no proposal application
+- no target write authority
+- no AI authority promotion
+- no productization implementation
+- no product readiness claim
