@@ -1,0 +1,93 @@
+{
+  "artifactRole": "intentgraph-source-application-authority-boundary-plan-report",
+  "status": "intentgraph-source-application-authority-boundary-planned",
+  "scope": "p8.39-source-application-authority-boundary-plan-report-only",
+  "workItem": "P8.39 Source Application Authority Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "source-application-authority-boundary-planned-report-only",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.38-static-local-workbench-export-productization-readiness-recheck-report.json",
+      "artifactRole": "intentgraph-productization-readiness-recheck-report",
+      "status": "intentgraph-productization-readiness-still-blocked",
+      "decision": "productization-still-blocked-source-application-packaging-release-gates-required"
+    },
+    {
+      "path": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json",
+      "artifactRole": "intentgraph-windowsutility-accepted-mapping-verification-report",
+      "status": "intentgraph-windowsutility-accepted-mapping-verification-passed"
+    },
+    {
+      "path": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-validation-report.json",
+      "artifactRole": "intentgraph-windowsutility-non-applied-proposal-validation-report",
+      "status": "intentgraph-windowsutility-non-applied-proposal-validation-passed"
+    },
+    {
+      "path": "generated/roadmap/p8.37-static-local-workbench-export-orientation-review-result.json",
+      "artifactRole": "intentgraph-static-local-workbench-export-orientation-review-result",
+      "status": "intentgraph-static-local-workbench-export-orientation-review-result-recorded"
+    }
+  ],
+  "currentAllowedState": {
+    "acceptedMappingPresent": true,
+    "nonAppliedProposalPresent": true,
+    "sandboxedEvidencePresent": true,
+    "reviewedStaticWorkbenchSurfacePresent": true,
+    "sourceApplicationLoopPassed": false,
+    "sourceApplicationAuthorityPresent": false,
+    "targetWritesAuthorized": false,
+    "proposalApplicationAuthorized": false
+  },
+  "requiredFutureAuthorityBoundary": {
+    "explicitSourceApplicationRequestRequired": true,
+    "scopedPatchOrChangeSetRequired": true,
+    "cleanTargetBaselineRequired": true,
+    "preApplyBuildAndTestPlanRequired": true,
+    "postApplyEvidencePlanRequired": true,
+    "rollbackPlanRequired": true,
+    "humanApprovalRequired": true,
+    "hardwareActionApprovalRequiredIfTouched": true,
+    "semanticOverlayMappingUpdateRequired": true,
+    "historyRecordRequired": true,
+    "authorityRecordRequired": true,
+    "noImplicitAiAuthority": true
+  },
+  "futureDryRunBoundary": {
+    "recommendedMode": "non-mutating-source-application-dry-run",
+    "mayGeneratePatchProposal": true,
+    "mayValidatePatchShape": true,
+    "mayCheckExpectedTouchedFiles": true,
+    "mayCheckEvidencePlan": true,
+    "mayCheckRollbackPlan": true,
+    "mayWriteGeneratedReportsOnly": true,
+    "mayModifyWindowsUtilitySource": false,
+    "mayApplyPatch": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false
+  },
+  "blockedUntilSeparateApproval": [
+    "actual source edits",
+    "patch application",
+    "target writes",
+    "WindowsUtility commit",
+    "WindowsUtility push",
+    "hardware-affecting behavior",
+    "packaging",
+    "release",
+    "productization claim"
+  ],
+  "authorizations": {
+    "sourceApplicationBoundaryPlanned": true,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityPushAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.40 Non-Mutating Source Application Dry-Run Boundary"
+}

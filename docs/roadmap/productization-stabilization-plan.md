@@ -359,3 +359,31 @@ The next safe stabilization slice is:
 ```text
 P8.39 Source Application Authority Boundary Plan
 ```
+
+## P8.39 Source Application Authority Boundary Plan
+
+P8.39 defined the report-only authority boundary required before future source application or dry-run work.
+
+The next safe mode is:
+
+```text
+non-mutating-source-application-dry-run
+```
+
+Still blocked:
+
+- source writes
+- proposal application
+- target writes
+- WindowsUtility commit
+- WindowsUtility push
+- hardware actions
+- packaging
+- release
+- productization
+
+The next safe stabilization slice is:
+
+```text
+P8.40 Non-Mutating Source Application Dry-Run Boundary
+```

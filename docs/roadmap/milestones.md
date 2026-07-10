@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.38 Static Local Workbench Export Productization Readiness Recheck
+P8.39 Source Application Authority Boundary Plan
 ```
 
-This Phase G stabilization slice rechecked productization after the reviewed static export and kept productization blocked pending source application, packaging, and release gates. Source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice planned the source application authority boundary without granting source writes. Proposal application, target writes, AI authority, hardware authority, packaging, release, and productization remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1797,6 +1797,35 @@ Non-goals:
 - no source edits
 - no target write authority
 - no proposal application
+- no new sandbox run, UI launch, or screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
+- no editor or GitHub integration
+- no productization implementation
+- no product readiness claim
+
+## P8.39: Source Application Authority Boundary Plan
+
+Goal: define the report-only authority boundary required before a future source application or dry-run can be considered.
+
+Status: completed on 2026-07-10. See [P8.39 Source Application Authority Boundary Plan](../reviews/p8.39-source-application-authority-boundary-plan.md).
+
+Decision:
+
+- source application authority boundary planned.
+- future safe mode is non-mutating source application dry-run.
+- real source edits remain unauthorized.
+- target writes remain unauthorized.
+- continue to `P8.40 Non-Mutating Source Application Dry-Run Boundary`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no WindowsUtility commit or push
 - no new sandbox run, UI launch, or screenshot capture
 - no AI authority promotion
 - no hardware action authority

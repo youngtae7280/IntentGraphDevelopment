@@ -1648,3 +1648,24 @@ Recommended next slice:
 ```text
 P8.39 Source Application Authority Boundary Plan
 ```
+
+## Completed Slice: P8.39 Source Application Authority Boundary Plan
+
+Goal: define the report-only source application authority boundary for future dry-run planning.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.39-source-application-authority-boundary-plan-report.json`
+- [P8.39 Source Application Authority Boundary Plan](../reviews/p8.39-source-application-authority-boundary-plan.md)
+
+Decision:
+
+```text
+source-application-authority-boundary-planned-report-only
+```
+
+Recommended next slice:
+
+```text
+P8.40 Non-Mutating Source Application Dry-Run Boundary
+```
