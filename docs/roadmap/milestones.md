@@ -3246,3 +3246,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.96 Productization Scope Hold Record`.
+
+## P8.96: Productization Scope Hold Record
+
+Goal: record that productization remains held while upstream evidence and explicit productization authority remain absent.
+
+Status: completed on 2026-07-10. See [P8.96 Productization Scope Hold Record](../reviews/p8.96-productization-scope-hold-record.md).
+
+Decision:
+
+- productization remains held.
+- safe report-only readiness and missing-evidence planning can continue.
+- no package extraction, executable launch, UI screenshot capture, installer creation, global install, signing, credential access, provider API call, release tag creation, release publishing, product candidate acceptance, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.96-productization-scope-hold-record.json`
+- `generated/roadmap/p8.96-productization-scope-hold-record-report.json`
+- [P8.96 Productization Scope Hold Record](../reviews/p8.96-productization-scope-hold-record.md)
+
+Next safe work:
+
+- continue to `P8.97 Final Productization Readiness Gap Summary`.
