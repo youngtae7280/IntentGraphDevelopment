@@ -2804,3 +2804,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.76 Packaged Executable Launch Smoke Boundary Plan`.
+
+## P8.76: Packaged Executable Launch Smoke Boundary Plan
+
+Goal: define the future packaged executable launch smoke boundary without launching the package.
+
+Status: completed on 2026-07-10. See [P8.76 Packaged Executable Launch Smoke Boundary Plan](../reviews/p8.76-packaged-executable-launch-smoke-boundary-plan.md).
+
+Decision:
+
+- launch smoke boundary recorded.
+- extraction inventory verification and launch authorization are both absent.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.76-packaged-executable-launch-smoke-boundary-plan.json`
+- `generated/roadmap/p8.76-packaged-executable-launch-smoke-boundary-plan-report.json`
+- [P8.76 Packaged Executable Launch Smoke Boundary Plan](../reviews/p8.76-packaged-executable-launch-smoke-boundary-plan.md)
+
+Next safe work:
+
+- continue to `P8.77 Packaged Executable Launch Smoke Authorization Request`.

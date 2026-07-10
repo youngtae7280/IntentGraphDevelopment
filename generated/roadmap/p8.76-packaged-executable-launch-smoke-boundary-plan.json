@@ -1,0 +1,83 @@
+{
+  "artifactRole": "intentgraph-packaged-executable-launch-smoke-boundary-plan",
+  "status": "intentgraph-packaged-executable-launch-smoke-boundary-plan-recorded",
+  "scope": "p8.76-packaged-executable-launch-smoke-boundary-plan-report-only",
+  "workItem": "P8.76 Packaged Executable Launch Smoke Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "launch-smoke-boundary-recorded-no-execution",
+  "purpose": "Define the future boundary for launching the packaged WindowsUtility executable from a sandbox only after package extraction inventory verification and explicit launch authorization exist.",
+  "preconditions": [
+    {
+      "id": "precondition.extraction-inventory-verified",
+      "required": true,
+      "description": "The existing WindowsUtility package must first pass sandboxed extraction inventory verification.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.launch-authorization",
+      "required": true,
+      "description": "The user/coordinator must explicitly authorize packaged executable launch smoke.",
+      "requiredAcceptedResponse": "accept sandboxed packaged executable launch smoke",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.no-credentials-provider-release",
+      "required": true,
+      "description": "Launch smoke must not require credentials, provider API calls, installer creation, signing, or release authority.",
+      "currentlySatisfied": true
+    },
+    {
+      "id": "precondition.target-repo-clean",
+      "required": true,
+      "description": "WindowsUtility target repo must remain clean/aligned before and after smoke.",
+      "currentlySatisfied": true
+    }
+  ],
+  "futureLaunchSmokeBoundary": {
+    "mayLaunchPackagedExecutable": false,
+    "mayObserveProcessExit": false,
+    "mayCaptureStartupLogs": false,
+    "mayCaptureUiScreenshot": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayWriteTargetRepo": false,
+    "mayInstallGlobally": false,
+    "mayCreateInstaller": false,
+    "maySignArtifacts": false,
+    "mayReadCredentials": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "futureAllowedIfAuthorizedLater": [
+    "launch packaged executable from sandbox extraction directory",
+    "observe startup process health",
+    "record stdout/stderr/log files produced inside sandbox only",
+    "optionally capture UI screenshot only if a separate screenshot authorization exists",
+    "write smoke evidence under generated/"
+  ],
+  "futureStillForbiddenIfLaunchAuthorized": [
+    "global installation",
+    "WindowsUtility source edits",
+    "WindowsUtility commit or push",
+    "artifact signing",
+    "credential access",
+    "provider API calls",
+    "release tag creation",
+    "release publishing",
+    "productization claim"
+  ],
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.77 Packaged Executable Launch Smoke Authorization Request"
+}
