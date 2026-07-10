@@ -1,0 +1,82 @@
+{
+  "artifactRole": "intentgraph-artifact-signing-scope-hold-record",
+  "status": "intentgraph-artifact-signing-scope-held",
+  "scope": "p8.88-artifact-signing-scope-hold-record",
+  "workItem": "P8.88 Artifact Signing Scope Hold Record",
+  "date": "2026-07-10",
+  "decision": "artifact-signing-held-pending-preconditions-and-explicit-authorization",
+  "sourceAuthorizationRequest": {
+    "path": "generated/roadmap/p8.87-artifact-signing-authorization-request.json",
+    "artifactRole": "intentgraph-artifact-signing-authorization-request",
+    "status": "intentgraph-artifact-signing-authorization-requested"
+  },
+  "holdReason": {
+    "verifiedArtifactPresent": false,
+    "signingPolicyRecorded": false,
+    "keyCertificateAuthorityBoundaryRecorded": false,
+    "explicitAcceptedResponseRequired": "accept sandboxed artifact signing",
+    "explicitAcceptedResponseRecorded": false,
+    "standingAcceptShortcutApplies": false,
+    "artifactSigningAllowed": false
+  },
+  "safeProgressAllowedWhileHeld": [
+    "document future signing execution plan",
+    "document release authority boundary without enabling it",
+    "refresh productization readiness reports",
+    "record signing policy requirements without selecting credentials",
+    "record product candidate acceptance criteria without accepting the candidate"
+  ],
+  "unsafeProgressBlockedWhileHeld": [
+    "extract existing WindowsUtility package artifact",
+    "run packaged executable",
+    "launch packaged UI",
+    "capture packaged UI screenshot",
+    "create installer",
+    "install globally",
+    "sign artifacts",
+    "read private keys",
+    "access certificate store",
+    "access signing token",
+    "call timestamp authority",
+    "read credentials",
+    "call provider APIs",
+    "create release tags",
+    "publish releases",
+    "claim productization readiness"
+  ],
+  "authorizations": {
+    "sandboxedPackageExtractionInventoryVerificationAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "packagedUiScreenshotAuthorized": false,
+    "installerCreationAuthorized": false,
+    "globalInstallAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "privateKeyAccessAuthorized": false,
+    "certificateStoreAccessAuthorized": false,
+    "signingTokenAccessAuthorized": false,
+    "timestampAuthorityCallAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "globalInstallPerformed": false,
+    "artifactSigned": false,
+    "privateKeyAccessed": false,
+    "certificateStoreAccessed": false,
+    "signingTokenAccessed": false,
+    "timestampAuthorityCalled": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.89 Productization Readiness Recheck After Signing Boundary Planning"
+}

@@ -3070,3 +3070,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.88 Artifact Signing Scope Hold Record`.
+
+## P8.88: Artifact Signing Scope Hold Record
+
+Goal: record that artifact signing is held while preconditions and explicit signing authority remain absent.
+
+Status: completed on 2026-07-10. See [P8.88 Artifact Signing Scope Hold Record](../reviews/p8.88-artifact-signing-scope-hold-record.md).
+
+Decision:
+
+- artifact signing remains held.
+- safe report-only readiness and release-boundary planning can continue.
+- no package extraction, executable launch, UI screenshot capture, installer creation, global install, signing, private key/certificate/signing token access, timestamp authority call, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.88-artifact-signing-scope-hold-record.json`
+- `generated/roadmap/p8.88-artifact-signing-scope-hold-record-report.json`
+- [P8.88 Artifact Signing Scope Hold Record](../reviews/p8.88-artifact-signing-scope-hold-record.md)
+
+Next safe work:
+
+- continue to `P8.89 Productization Readiness Recheck After Signing Boundary Planning`.

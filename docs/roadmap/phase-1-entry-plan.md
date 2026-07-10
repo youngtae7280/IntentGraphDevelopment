@@ -2899,3 +2899,25 @@ Recommended next slice:
 ```text
 P8.88 Artifact Signing Scope Hold Record
 ```
+
+## Completed Slice: P8.88 Artifact Signing Scope Hold Record
+
+Goal: record that artifact signing is held while preconditions and explicit signing authority remain absent.
+
+Result:
+
+```text
+Decision: artifact-signing-held-pending-preconditions-and-explicit-authorization.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.88-artifact-signing-scope-hold-record.json`
+- `generated/roadmap/p8.88-artifact-signing-scope-hold-record-report.json`
+- [P8.88 Artifact Signing Scope Hold Record](../reviews/p8.88-artifact-signing-scope-hold-record.md)
+
+Recommended next slice:
+
+```text
+P8.89 Productization Readiness Recheck After Signing Boundary Planning
+```
