@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.59 Graph Delta Approval Workbench Projection Schema
+P8.63 Graph Delta Approval Workbench Dark Resizable Revision
 ```
 
-This Phase G stabilization slice emitted and validated the graph/delta/diff projection schema required by the approval workbench. The next slice is the static HTML prototype. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice implemented the coordinator's graph workbench revise feedback: dark theme, Graphify-inspired graph styling, and resizable review panels. The coordinator also recorded a current-goal policy that future accept/revise/blocked continuation prompts should be treated as accept. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -2459,6 +2459,76 @@ Produced artifacts:
 
 - `generated/roadmap/p8.62-user-observed-graph-delta-approval-workbench-review-request.json`
 - [P8.62 User-Observed Graph Delta Approval Workbench Review Request](../reviews/p8.62-user-observed-graph-delta-approval-workbench-review-request.md)
+
+Next safe work:
+
+- wait for the coordinator review response.
+
+## P8.62.P: Coordinator Review Response Policy Record
+
+Goal: record the coordinator's current-goal instruction that future `accept`, `revise`, or `blocked` continuation prompts should be treated as `accept`.
+
+Status: completed on 2026-07-10. See [P8.62 Coordinator Review Response Policy Record](../reviews/p8.62-coordinator-auto-accept-review-policy.md).
+
+Decision:
+
+- the standing response policy applies only to future gates inside the current active goal.
+- the explicit P8.62 `revise` feedback remains authoritative and must be implemented.
+- the policy does not authorize graph mutation, WindowsUtility source mutation, package extraction, executable launch, release publishing, credential access, provider API calls, or productization claims.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.62-coordinator-auto-accept-review-policy-report.json`
+- [P8.62 Coordinator Review Response Policy Record](../reviews/p8.62-coordinator-auto-accept-review-policy.md)
+
+Next safe work:
+
+- continue to `P8.63 Graph Delta Approval Workbench Dark Resizable Revision`.
+
+## P8.63: Graph Delta Approval Workbench Dark Resizable Revision
+
+Goal: revise the P8.60 static graph workbench after coordinator feedback by making the base theme dark, making panels resizable, and making the graph presentation more restrained and Graphify-like.
+
+Status: completed on 2026-07-10. See [P8.63 Graph Delta Approval Workbench Dark Resizable Revision](../reviews/p8.63-graph-delta-approval-workbench-dark-resizable-revision.md).
+
+Decision:
+
+- the P8.62 `revise` feedback was implemented.
+- the same `p8.60/index.html` review target was regenerated so the user's open path points at the revised surface.
+- `validation-report.json` now records `darkTheme`, `resizablePanels`, `panelResizeInteraction`, and `graphifyInspiredDarkGraphTheme` as passing.
+- graph pan/zoom, semantic zoom, node/edge inspector, code diff panel, changed node diff panel, and changed edge diff panel remain present.
+- no approval automation, graph mutation, WindowsUtility source mutation, package extraction, executable launch, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `tools/emit_graph_delta_approval_workbench_static_html.py`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/projection.json`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/manifest.json`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/validation-report.json`
+- `generated/roadmap/p8.63-graph-delta-approval-workbench-dark-resizable-revision-report.json`
+- [P8.63 Graph Delta Approval Workbench Dark Resizable Revision](../reviews/p8.63-graph-delta-approval-workbench-dark-resizable-revision.md)
+
+Next safe work:
+
+- continue to the next bounded product-surface slice under the current-goal auto-accept continuation policy.
+
+## P8.62.R: Graph Delta Approval Workbench Review Access Helper
+
+Goal: make the P8.62 user-observed review easier by adding a local HTTP helper for the static graph workbench.
+
+Status: completed on 2026-07-10. See [P8.62.R Graph Delta Approval Workbench Review Access Helper](../reviews/p8.62-review-access-helper.md).
+
+Helper:
+
+- `tools/serve_graph_delta_approval_workbench.py`
+- default URL: `http://127.0.0.1:8762/index.html`
+
+Produced artifacts:
+
+- `tools/serve_graph_delta_approval_workbench.py`
+- `generated/roadmap/p8.62-review-access-helper-report.json`
+- [P8.62.R Graph Delta Approval Workbench Review Access Helper](../reviews/p8.62-review-access-helper.md)
 
 Next safe work:
 

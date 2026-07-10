@@ -14,16 +14,16 @@
   "date": "2026-07-10",
   "files": [
     {
-      "byteLength": 74701,
+      "byteLength": 80006,
       "path": "index.html",
-      "sha256": "sha256:92c6fa20822afef47f4b8a22cfac8b36e604fc690530eed439de9103ef92a0af"
+      "sha256": "sha256:c71e2574766a0fcdf0ca59881609c066180dd99e981ca83ea75f35f22c6766c6"
     },
     {
       "artifactRole": "intentgraph-static-graph-delta-approval-workbench-projection",
-      "byteLength": 53771,
+      "byteLength": 53977,
       "path": "projection.json",
       "scope": "p8.60-static-graph-delta-approval-workbench-prototype",
-      "sha256": "sha256:65dd159ea5cefa44f2833dbb0882c90055a0c4c68238ac6771aaaa53fe69dcaf",
+      "sha256": "sha256:0da7c29a06f65960735472e51ae27044576edcc5ecda107eb65de6d07e0a58a3",
       "status": "intentgraph-static-graph-delta-approval-workbench-projection-emitted",
       "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
     },
@@ -40,20 +40,22 @@
   ],
   "projection": {
     "artifactRole": "intentgraph-static-graph-delta-approval-workbench-projection",
-    "byteLength": 53771,
+    "byteLength": 53977,
     "path": "generated/product-surfaces/graph-delta-approval-workbench/p8.60/projection.json",
     "scope": "p8.60-static-graph-delta-approval-workbench-prototype",
-    "sha256": "sha256:65dd159ea5cefa44f2833dbb0882c90055a0c4c68238ac6771aaaa53fe69dcaf",
+    "sha256": "sha256:0da7c29a06f65960735472e51ae27044576edcc5ecda107eb65de6d07e0a58a3",
     "status": "intentgraph-static-graph-delta-approval-workbench-projection-emitted",
     "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
   },
   "runtime": {
     "assetPath": "assets/cytoscape.min.js",
     "cdnRequired": false,
+    "darkThemeRequired": true,
     "graphLibrary": "cytoscape",
     "graphLibraryVersion": "3.34.0",
     "networkRequired": false,
     "panZoomRequired": true,
+    "resizablePanelsRequired": true,
     "semanticZoomRequired": true
   },
   "scope": "p8.60-static-graph-delta-approval-workbench-prototype",

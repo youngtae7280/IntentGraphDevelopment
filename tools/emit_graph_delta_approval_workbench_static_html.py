@@ -141,10 +141,17 @@ def build_workbench_projection(source_projection: dict[str, Any], source_project
     )
     projection["uiContract"] = {
         "mode": "static-local-approval-workbench",
+        "theme": "dark-graph-console",
+        "graphPresentation": "graphify-inspired-dark-inspection",
         "graphLibrary": "cytoscape",
         "graphLibraryVersion": CYTOSCAPE_VERSION,
         "networkRequired": False,
         "externalRuntimeUrlsAllowed": False,
+        "panelResizing": {
+            "leftRail": True,
+            "inspector": True,
+            "diffDock": True,
+        },
         "graphInteractionQuality": {
             "userPanningEnabled": True,
             "wheelZoomEnabled": True,
@@ -282,9 +289,17 @@ def validate_output(output_dir: Path, projection: dict[str, Any]) -> dict[str, A
             "id=\"zoomIn\"",
             "id=\"zoomOut\"",
             "id=\"fitGraph\"",
+            "data-theme=\"dark-graph-console\"",
+            "data-resizer=\"rail\"",
+            "data-resizer=\"inspector\"",
+            "data-resizer=\"diff\"",
+            "--rail-width",
+            "--inspector-width",
+            "--diff-height",
             "wheelSensitivity",
             "userPanningEnabled",
             "applySemanticZoom",
+            "initPanelResizers",
             "renderCodeDiffs",
             "renderGraphElementDiff",
             "changedFields",
@@ -342,6 +357,10 @@ def validate_output(output_dir: Path, projection: dict[str, Any]) -> dict[str, A
             "changedEdgeDiffPanel": result == "pass",
             "panZoomInteraction": result == "pass",
             "semanticZoom": result == "pass",
+            "darkTheme": result == "pass",
+            "resizablePanels": result == "pass",
+            "panelResizeInteraction": result == "pass",
+            "graphifyInspiredDarkGraphTheme": result == "pass",
             "graphifyGradeInspectabilityTarget": result == "pass",
             "localCytoscapeAsset": cytoscape_js.exists(),
             "networkDependency": False,
@@ -374,6 +393,8 @@ def build_manifest(output_dir: Path, projection_path: Path, source_projection_pa
             "cdnRequired": False,
             "panZoomRequired": True,
             "semanticZoomRequired": True,
+            "darkThemeRequired": True,
+            "resizablePanelsRequired": True,
         },
         "files": files,
         "claimScope": {
@@ -418,6 +439,8 @@ def build_roadmap_report(output_dir: Path, validation: dict[str, Any], manifest:
             "changed node before/after graph diff panel",
             "changed edge before/after graph diff panel",
             "evidence and authority panel",
+            "dark graph inspection theme",
+            "left rail, inspector, and diff dock panel resizing",
         ],
         "nonGoals": {
             "approvalAutomation": False,
@@ -441,23 +464,29 @@ HTML_TEMPLATE = r"""<!doctype html>
   <script src="assets/cytoscape.min.js"></script>
   <style>
     :root {
-      --ink: #17202f;
-      --muted: #687385;
-      --paper: #fbfcfe;
-      --surface: #f3f5f8;
-      --surface-strong: #e9edf3;
-      --line: #d7dde7;
-      --line-strong: #b7c0ce;
-      --accent: #2f63d6;
-      --accent-soft: #e8efff;
-      --add: #16825d;
-      --add-soft: #e8f7f1;
-      --changed: #9a6500;
-      --changed-soft: #fff4db;
-      --removed: #b83b30;
-      --removed-soft: #fff0ed;
-      --code: #145c72;
-      --shadow: rgba(20, 31, 48, 0.08);
+      --ink: #dce3ed;
+      --muted: #8893a3;
+      --subtle: #5f6b7d;
+      --paper: #111318;
+      --surface: #08090d;
+      --surface-strong: #151922;
+      --surface-quiet: #0d0f14;
+      --line: #272d38;
+      --line-strong: #3b4555;
+      --accent: #73a7ff;
+      --accent-soft: rgba(115, 167, 255, .14);
+      --add: #45d09a;
+      --add-soft: rgba(69, 208, 154, .12);
+      --changed: #d5a448;
+      --changed-soft: rgba(213, 164, 72, .13);
+      --removed: #e06d63;
+      --removed-soft: rgba(224, 109, 99, .12);
+      --code: #68c7d5;
+      --code-soft: rgba(104, 199, 213, .12);
+      --shadow: rgba(0, 0, 0, .28);
+      --rail-width: 286px;
+      --inspector-width: 424px;
+      --diff-height: 282px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -469,6 +498,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       background: var(--surface);
       font-family: var(--sans);
       letter-spacing: 0;
+      color-scheme: dark;
     }
     button, input, select { font: inherit; }
     .shell {
@@ -482,7 +512,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       gap: 18px;
       align-items: center;
       padding: 14px 18px;
-      background: var(--paper);
+      background: #0b0c10;
       border-bottom: 1px solid var(--line);
     }
     .eyebrow {
@@ -514,37 +544,87 @@ HTML_TEMPLATE = r"""<!doctype html>
       min-height: 25px;
       align-items: center;
       border: 1px solid var(--line);
-      background: #fff;
+      background: #10141b;
       color: var(--muted);
       border-radius: 999px;
       padding: 3px 9px;
       font-size: 12px;
       white-space: nowrap;
     }
-    .badge.ok { color: var(--add); border-color: #a9d9c6; background: var(--add-soft); }
-    .badge.warn { color: var(--changed); border-color: #e4c98f; background: var(--changed-soft); }
+    .badge.ok { color: var(--add); border-color: rgba(69, 208, 154, .32); background: var(--add-soft); }
+    .badge.warn { color: var(--changed); border-color: rgba(213, 164, 72, .34); background: var(--changed-soft); }
     .workbench {
       min-height: 0;
       display: grid;
-      grid-template-columns: 260px minmax(480px, 1fr) 390px;
-      grid-template-rows: minmax(0, 1fr) 250px;
+      grid-template-columns: var(--rail-width) 8px minmax(480px, 1fr) 8px var(--inspector-width);
+      grid-template-rows: minmax(0, 1fr) 8px var(--diff-height);
+      background: var(--surface);
     }
     .rail, .inspector, .diffDock {
       background: var(--paper);
       border-color: var(--line);
     }
     .rail {
-      grid-row: 1 / 3;
+      grid-column: 1;
+      grid-row: 1 / 4;
       border-right: 1px solid var(--line);
       overflow: auto;
       padding: 14px;
     }
+    .resizer {
+      position: relative;
+      background: #090b10;
+      z-index: 10;
+      touch-action: none;
+    }
+    .resizer::after {
+      content: "";
+      position: absolute;
+      background: var(--line-strong);
+      opacity: .62;
+      transition: opacity .14s ease, background .14s ease;
+    }
+    .resizer:hover::after,
+    .resizer.active::after {
+      background: var(--accent);
+      opacity: 1;
+    }
+    .resizer.vertical { cursor: col-resize; }
+    .resizer.vertical::after {
+      top: 12px;
+      bottom: 12px;
+      left: 3px;
+      width: 2px;
+      border-radius: 2px;
+    }
+    .resizer.horizontal { cursor: row-resize; }
+    .resizer.horizontal::after {
+      left: 12px;
+      right: 12px;
+      top: 3px;
+      height: 2px;
+      border-radius: 2px;
+    }
+    .leftResizer {
+      grid-column: 2;
+      grid-row: 1 / 4;
+    }
+    .rightResizer {
+      grid-column: 4;
+      grid-row: 1 / 4;
+    }
+    .bottomResizer {
+      grid-column: 3;
+      grid-row: 2;
+    }
     .graphPane {
+      grid-column: 3;
+      grid-row: 1;
       min-width: 0;
       min-height: 0;
       display: grid;
       grid-template-rows: auto minmax(0, 1fr);
-      background: #eef2f7;
+      background: #07080b;
     }
     .graphToolbar {
       min-height: 52px;
@@ -554,7 +634,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       align-items: center;
       padding: 10px 12px;
       border-bottom: 1px solid var(--line);
-      background: rgba(251, 252, 254, .92);
+      background: #0c0e13;
     }
     .searchRow {
       display: grid;
@@ -566,45 +646,46 @@ HTML_TEMPLATE = r"""<!doctype html>
       min-height: 32px;
       border: 1px solid var(--line);
       border-radius: 6px;
-      background: #fff;
+      background: #0c1017;
       color: var(--ink);
       padding: 6px 9px;
     }
+    input::placeholder { color: var(--subtle); }
     .toolButtons { display: flex; gap: 6px; align-items: center; }
     .iconButton {
       min-width: 32px;
       height: 32px;
       border: 1px solid var(--line);
       border-radius: 6px;
-      background: #fff;
+      background: #10141b;
       color: var(--ink);
       cursor: pointer;
     }
     .iconButton:hover, .item:hover, .stepButton:hover {
       border-color: var(--line-strong);
-      background: #f8fafc;
+      background: #151a23;
     }
     #graphCanvas {
       width: 100%;
       height: 100%;
       min-height: 360px;
       background:
-        linear-gradient(rgba(23, 32, 47, .045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(23, 32, 47, .045) 1px, transparent 1px),
-        #eef2f7;
-      background-size: 28px 28px;
+        linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px),
+        #07080b;
+      background-size: 32px 32px;
     }
     .inspector {
-      grid-column: 3;
-      grid-row: 1 / 3;
+      grid-column: 5;
+      grid-row: 1 / 4;
       border-left: 1px solid var(--line);
       min-height: 0;
       overflow: auto;
       padding: 14px;
     }
     .diffDock {
-      grid-column: 2;
-      grid-row: 2;
+      grid-column: 3;
+      grid-row: 3;
       border-top: 1px solid var(--line);
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -642,7 +723,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       border: 1px solid var(--line);
       border-radius: 7px;
       padding: 9px;
-      background: #fff;
+      background: #0c1017;
     }
     .metric strong {
       display: block;
@@ -654,7 +735,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       width: 100%;
       border: 1px solid var(--line);
       border-radius: 7px;
-      background: #fff;
+      background: #0c1017;
       color: var(--ink);
       text-align: left;
       padding: 9px;
@@ -666,8 +747,8 @@ HTML_TEMPLATE = r"""<!doctype html>
       background: var(--accent-soft);
       box-shadow: inset 0 0 0 1px var(--accent);
     }
-    .item.changed, .stepButton.changed { border-color: #dfbf79; background: var(--changed-soft); }
-    .item.added, .stepButton.added { border-color: #9ad1bd; background: var(--add-soft); }
+    .item.changed, .stepButton.changed { border-color: rgba(213, 164, 72, .45); background: var(--changed-soft); }
+    .item.added, .stepButton.added { border-color: rgba(69, 208, 154, .42); background: var(--add-soft); }
     .itemTitle {
       font-size: 12px;
       font-weight: 650;
@@ -689,11 +770,11 @@ HTML_TEMPLATE = r"""<!doctype html>
       padding: 2px 7px;
       font-size: 11px;
       color: var(--muted);
-      background: #fff;
+      background: #0c1017;
     }
-    .pill.added { color: var(--add); border-color: #a9d9c6; background: var(--add-soft); }
-    .pill.changed { color: var(--changed); border-color: #e4c98f; background: var(--changed-soft); }
-    .pill.removed { color: var(--removed); border-color: #dfaaa4; background: var(--removed-soft); }
+    .pill.added { color: var(--add); border-color: rgba(69, 208, 154, .35); background: var(--add-soft); }
+    .pill.changed { color: var(--changed); border-color: rgba(213, 164, 72, .38); background: var(--changed-soft); }
+    .pill.removed { color: var(--removed); border-color: rgba(224, 109, 99, .38); background: var(--removed-soft); }
     .kv {
       display: grid;
       grid-template-columns: 118px minmax(0, 1fr);
@@ -713,7 +794,8 @@ HTML_TEMPLATE = r"""<!doctype html>
       white-space: pre-wrap;
       word-break: break-word;
       border: 1px solid var(--line);
-      background: #f6f8fb;
+      background: #0a0d13;
+      color: #cbd5e1;
       border-radius: 7px;
       padding: 10px;
     }
@@ -721,7 +803,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       border: 1px solid var(--line);
       border-radius: 7px;
       overflow: hidden;
-      background: #fff;
+      background: #0c1017;
       margin-bottom: 10px;
     }
     .diffHead {
@@ -729,7 +811,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       justify-content: space-between;
       gap: 10px;
       border-bottom: 1px solid var(--line);
-      background: #f8fafc;
+      background: #111821;
       padding: 8px 10px;
       font-size: 12px;
       font-weight: 650;
@@ -738,7 +820,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       margin: 0;
       border: 0;
       border-radius: 0;
-      background: #0f1724;
+      background: #05070b;
       color: #d7e1ef;
       max-height: 390px;
       overflow: auto;
@@ -754,7 +836,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       color: var(--muted);
       border-radius: 7px;
       padding: 14px;
-      background: #fff;
+      background: #0c1017;
       font-size: 13px;
       line-height: 1.4;
     }
@@ -772,7 +854,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       border-radius: 50%;
       margin-right: 7px;
       vertical-align: -1px;
-      background: #adc0d5;
+      background: #6f7d90;
     }
     .legend .added::before { background: var(--add); }
     .legend .changed::before { background: var(--changed); }
@@ -780,23 +862,26 @@ HTML_TEMPLATE = r"""<!doctype html>
     .legend .selected::before { background: var(--accent); }
     @media (max-width: 1120px) {
       .workbench {
-        grid-template-columns: 230px minmax(0, 1fr);
-        grid-template-rows: minmax(420px, 1fr) 360px auto;
+        grid-template-columns: minmax(210px, var(--rail-width)) 8px minmax(0, 1fr);
+        grid-template-rows: minmax(420px, 1fr) 8px minmax(260px, var(--diff-height)) auto;
       }
+      .rightResizer { display: none; }
+      .bottomResizer { grid-column: 3; grid-row: 2; }
+      .leftResizer { grid-column: 2; grid-row: 1 / 5; }
       .inspector {
-        grid-column: 1 / 3;
-        grid-row: 3;
+        grid-column: 1 / 4;
+        grid-row: 4;
         border-left: 0;
         border-top: 1px solid var(--line);
       }
       .diffDock {
-        grid-column: 2;
-        grid-row: 2;
+        grid-column: 3;
+        grid-row: 3;
       }
     }
   </style>
 </head>
-<body>
+<body data-theme="dark-graph-console">
   <script>window.__WORKBENCH_PROJECTION__ = __WORKBENCH_DATA__;</script>
   <div class="shell">
     <header class="topbar">
@@ -834,6 +919,8 @@ HTML_TEMPLATE = r"""<!doctype html>
         </div>
       </nav>
 
+      <div class="resizer vertical leftResizer" data-resizer="rail" role="separator" aria-label="Resize delta step rail"></div>
+
       <main class="graphPane">
         <div class="graphToolbar">
           <div class="searchRow">
@@ -855,11 +942,15 @@ HTML_TEMPLATE = r"""<!doctype html>
         <div id="graphCanvas" aria-label="Graph delta canvas"></div>
       </main>
 
+      <div class="resizer vertical rightResizer" data-resizer="inspector" role="separator" aria-label="Resize inspector panel"></div>
+
       <aside class="inspector">
         <div id="inspectorPanel"></div>
         <h2>Evidence / Authority</h2>
         <div id="evidenceAuthorityPanel"></div>
       </aside>
+
+      <div class="resizer horizontal bottomResizer" data-resizer="diff" role="separator" aria-label="Resize diff dock"></div>
 
       <section class="diffDock">
         <div class="diffPane">
@@ -1099,13 +1190,13 @@ HTML_TEMPLATE = r"""<!doctype html>
           selector: "node",
           style: {
             "shape": "round-rectangle",
-            "background-color": "#ffffff",
-            "border-color": "#8795a8",
+            "background-color": "#121722",
+            "border-color": "#4b5566",
             "border-width": 2,
             "label": "data(label)",
             "font-family": "ui-sans-serif, system-ui",
             "font-size": 10,
-            "color": "#17202f",
+            "color": "#dce3ed",
             "text-wrap": "wrap",
             "text-max-width": 110,
             "text-valign": "center",
@@ -1115,36 +1206,36 @@ HTML_TEMPLATE = r"""<!doctype html>
             "overlay-opacity": 0
           }
         },
-        { selector: "node[kind = 'intent']", style: { "shape": "hexagon", "background-color": "#f7fbff", "border-color": "#2f63d6" } },
-        { selector: "node[kind = 'evidence']", style: { "shape": "diamond", "background-color": "#f4fbf8", "border-color": "#16825d" } },
-        { selector: "node[kind = 'package-artifact']", style: { "shape": "tag", "background-color": "#fbf7ff", "border-color": "#7c58a8" } },
-        { selector: "node.code-node", style: { "shape": "round-rectangle", "background-color": "#ecf8fb", "border-color": "#145c72" } },
-        { selector: "node.added", style: { "background-color": "#e8f7f1", "border-color": "#16825d", "border-width": 3 } },
-        { selector: "node.changed", style: { "background-color": "#fff4db", "border-color": "#9a6500", "border-width": 3 } },
+        { selector: "node[kind = 'intent']", style: { "shape": "hexagon", "background-color": "#111827", "border-color": "#73a7ff" } },
+        { selector: "node[kind = 'evidence']", style: { "shape": "diamond", "background-color": "#101a17", "border-color": "#45d09a" } },
+        { selector: "node[kind = 'package-artifact']", style: { "shape": "tag", "background-color": "#181622", "border-color": "#a78bfa" } },
+        { selector: "node.code-node", style: { "shape": "round-rectangle", "background-color": "#0f1a20", "border-color": "#68c7d5" } },
+        { selector: "node.added", style: { "background-color": "#0f1c18", "border-color": "#45d09a", "border-width": 3 } },
+        { selector: "node.changed", style: { "background-color": "#1c1710", "border-color": "#d5a448", "border-width": 3 } },
         {
           selector: "edge",
           style: {
             "curve-style": "bezier",
             "target-arrow-shape": "triangle",
-            "target-arrow-color": "#7b8798",
-            "line-color": "#aeb8c6",
+            "target-arrow-color": "#5b6472",
+            "line-color": "#454d5b",
             "width": 2,
             "label": "data(label)",
             "font-size": 9,
-            "text-background-color": "#eef2f7",
-            "text-background-opacity": 0.86,
+            "text-background-color": "#0a0d13",
+            "text-background-opacity": 0.92,
             "text-background-padding": 2,
-            "color": "#556174",
+            "color": "#a7b0bf",
             "overlay-opacity": 0
           }
         },
-        { selector: "edge.added", style: { "line-color": "#16825d", "target-arrow-color": "#16825d", "width": 3 } },
-        { selector: "edge.changed", style: { "line-color": "#9a6500", "target-arrow-color": "#9a6500", "line-style": "dashed", "width": 3 } },
+        { selector: "edge.added", style: { "line-color": "#45d09a", "target-arrow-color": "#45d09a", "width": 3 } },
+        { selector: "edge.changed", style: { "line-color": "#d5a448", "target-arrow-color": "#d5a448", "line-style": "dashed", "width": 3 } },
         { selector: ".faded", style: { "opacity": 0.18, "text-opacity": 0.06 } },
         { selector: ".step-focus", style: { "opacity": 1, "z-index": 40 } },
-        { selector: ".selected", style: { "border-color": "#2f63d6", "line-color": "#2f63d6", "target-arrow-color": "#2f63d6", "border-width": 5, "width": 4, "z-index": 90 } },
+        { selector: ".selected", style: { "border-color": "#73a7ff", "line-color": "#73a7ff", "target-arrow-color": "#73a7ff", "border-width": 5, "width": 4, "z-index": 90 } },
         { selector: "edge.selected", style: { "width": 5 } },
-        { selector: ".search-hit", style: { "border-color": "#111827", "line-color": "#111827", "target-arrow-color": "#111827", "z-index": 70 } }
+        { selector: ".search-hit", style: { "border-color": "#dce3ed", "line-color": "#dce3ed", "target-arrow-color": "#dce3ed", "z-index": 70 } }
       ],
       layout: {
         name: "cose",
@@ -1177,6 +1268,74 @@ HTML_TEMPLATE = r"""<!doctype html>
             width: Math.max(1.2, base * inv),
             "font-size": Math.max(7, Math.min(11, 9 * inv))
           });
+        });
+      });
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function readCssPx(name, fallback) {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      const value = Number.parseFloat(raw);
+      return Number.isFinite(value) ? value : fallback;
+    }
+
+    function setCssPx(name, value) {
+      document.documentElement.style.setProperty(name, `${Math.round(value)}px`);
+    }
+
+    function resizeGraphCanvasSoon() {
+      window.requestAnimationFrame(() => {
+        cy.resize();
+        applySemanticZoom();
+      });
+    }
+
+    function initPanelResizers() {
+      document.querySelectorAll("[data-resizer]").forEach((handle) => {
+        handle.addEventListener("pointerdown", (event) => {
+          event.preventDefault();
+          const kind = handle.getAttribute("data-resizer");
+          const startX = event.clientX;
+          const startY = event.clientY;
+          const startRail = readCssPx("--rail-width", 286);
+          const startInspector = readCssPx("--inspector-width", 424);
+          const startDiff = readCssPx("--diff-height", 282);
+          handle.classList.add("active");
+          handle.setPointerCapture(event.pointerId);
+
+          const onMove = (moveEvent) => {
+            if (kind === "rail") {
+              const maxRail = Math.max(260, Math.min(560, window.innerWidth * 0.38));
+              setCssPx("--rail-width", clamp(startRail + moveEvent.clientX - startX, 220, maxRail));
+            }
+            if (kind === "inspector") {
+              const maxInspector = Math.max(340, Math.min(720, window.innerWidth * 0.48));
+              setCssPx("--inspector-width", clamp(startInspector - (moveEvent.clientX - startX), 300, maxInspector));
+            }
+            if (kind === "diff") {
+              const maxDiff = Math.max(260, Math.min(560, window.innerHeight * 0.56));
+              setCssPx("--diff-height", clamp(startDiff - (moveEvent.clientY - startY), 190, maxDiff));
+            }
+            resizeGraphCanvasSoon();
+          };
+
+          const onUp = (upEvent) => {
+            handle.classList.remove("active");
+            if (handle.hasPointerCapture(upEvent.pointerId)) {
+              handle.releasePointerCapture(upEvent.pointerId);
+            }
+            handle.removeEventListener("pointermove", onMove);
+            handle.removeEventListener("pointerup", onUp);
+            handle.removeEventListener("pointercancel", onUp);
+            resizeGraphCanvasSoon();
+          };
+
+          handle.addEventListener("pointermove", onMove);
+          handle.addEventListener("pointerup", onUp);
+          handle.addEventListener("pointercancel", onUp);
         });
       });
     }
@@ -1301,6 +1460,7 @@ HTML_TEMPLATE = r"""<!doctype html>
     document.getElementById("resetFocus").addEventListener("click", resetFocus);
     document.getElementById("searchBox").addEventListener("input", applySearchAndFilter);
     document.getElementById("statusFilter").addEventListener("change", applySearchAndFilter);
+    initPanelResizers();
 
     document.getElementById("nodeCount").textContent = String((graph.nodes || []).length);
     document.getElementById("edgeCount").textContent = String((graph.edges || []).length);

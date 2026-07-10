@@ -8,9 +8,11 @@
     "code node code diff panel",
     "changed node before/after graph diff panel",
     "changed edge before/after graph diff panel",
-    "evidence and authority panel"
+    "evidence and authority panel",
+    "dark graph inspection theme",
+    "left rail, inspector, and diff dock panel resizing"
   ],
-  "manifestDigest": "sha256:31b4db4f4d4f375ff066c2011f2b2491161bc396a160b06c23364b632e697d17",
+  "manifestDigest": "sha256:037e90423b09acbe7a3f7092930c10e4208ce6f71220af272976850bd579dca7",
   "nonGoals": {
     "approvalAutomation": false,
     "graphMutationFromUi": false,
@@ -53,15 +55,19 @@
       "changedEdgeDiffPanel": true,
       "changedNodeDiffPanel": true,
       "codeDiffPanel": true,
+      "darkTheme": true,
       "deltaStepHighlighting": true,
       "edgeInspector": true,
       "graphCanvas": true,
       "graphifyGradeInspectabilityTarget": true,
+      "graphifyInspiredDarkGraphTheme": true,
       "localCytoscapeAsset": true,
       "mutationControlsPresent": false,
       "networkDependency": false,
       "nodeInspector": true,
       "panZoomInteraction": true,
+      "panelResizeInteraction": true,
+      "resizablePanels": true,
       "semanticZoom": true
     },
     "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"

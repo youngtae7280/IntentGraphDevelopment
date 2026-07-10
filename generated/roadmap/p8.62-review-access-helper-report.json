@@ -1,0 +1,35 @@
+{
+  "artifactRole": "intentgraph-review-access-helper-report",
+  "status": "intentgraph-review-access-helper-recorded",
+  "scope": "p8.62-review-access-helper",
+  "workItem": "P8.62.R Graph Delta Approval Workbench Review Access Helper",
+  "date": "2026-07-10",
+  "reviewTarget": {
+    "path": "generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html",
+    "localServerScript": "tools/serve_graph_delta_approval_workbench.py",
+    "defaultUrl": "http://127.0.0.1:8762/index.html"
+  },
+  "purpose": [
+    "Make the P8.62 user-observed review easier to run.",
+    "Avoid relying on file:// opening when a local HTTP route is easier for browsers.",
+    "Keep the review gate explicit: only the coordinator can answer accept, revise, or blocked."
+  ],
+  "usage": [
+    "python tools/serve_graph_delta_approval_workbench.py",
+    "Open http://127.0.0.1:8762/index.html if the browser does not open automatically.",
+    "Run the P8.62 checklist.",
+    "Reply with accept, revise, or blocked."
+  ],
+  "authorizations": {
+    "externalNetworkRequired": false,
+    "windowsUtilitySourceMutationAuthorized": false,
+    "graphMutationFromUiAuthorized": false,
+    "approvalAutomationAuthorized": false,
+    "packageExtractionAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "result": "recorded",
+  "recommendedNextAction": "Run the helper locally and wait for the coordinator review response."
+}

@@ -1,0 +1,31 @@
+{
+  "artifactRole": "intentgraph-coordinator-review-response-policy-report",
+  "status": "intentgraph-coordinator-review-response-policy-recorded",
+  "scope": "p8.62-current-goal-review-response-policy",
+  "workItem": "P8.62 Coordinator Review Response Policy Record",
+  "date": "2026-07-10",
+  "sourceInstruction": "Until the current goal ends, whenever an accept/revise/blocked response would be required from the coordinator, treat it as accept.",
+  "appliesTo": {
+    "currentGoalOnly": true,
+    "futureReviewGatesOnly": true,
+    "currentExplicitReviseFeedbackAlreadyRecorded": true
+  },
+  "interpretation": [
+    "Future accept/revise/blocked continuation gates in the active goal may be recorded as accept without stopping for another coordinator reply.",
+    "The explicit P8.62 revise feedback remains authoritative and must be implemented before continuing.",
+    "This policy does not authorize destructive actions or broaden non-goals."
+  ],
+  "authorizations": {
+    "approvalAutomationAuthorized": false,
+    "graphMutationFromUiAuthorized": false,
+    "windowsUtilitySourceMutationAuthorized": false,
+    "packageExtractionAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "providerApiCallAuthorized": false
+  },
+  "result": "recorded",
+  "recommendedNextAction": "Implement the P8.62 revise feedback as P8.63, then auto-accept the continuation gate only if validation passes."
+}

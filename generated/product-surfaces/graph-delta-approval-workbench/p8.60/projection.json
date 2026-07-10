@@ -1456,9 +1456,15 @@
     },
     "graphLibrary": "cytoscape",
     "graphLibraryVersion": "3.34.0",
+    "graphPresentation": "graphify-inspired-dark-inspection",
     "mode": "static-local-approval-workbench",
     "mutationControlsPresent": false,
     "networkRequired": false,
+    "panelResizing": {
+      "diffDock": true,
+      "inspector": true,
+      "leftRail": true
+    },
     "selectionBehaviors": [
       "node-click-shows-node-inspector",
       "edge-click-shows-edge-inspector",
@@ -1466,7 +1472,8 @@
       "code-node-click-shows-code-diff",
       "changed-node-click-shows-graph-node-before-after-diff",
       "changed-edge-click-shows-graph-edge-before-after-diff"
-    ]
+    ],
+    "theme": "dark-graph-console"
   },
   "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
 }
