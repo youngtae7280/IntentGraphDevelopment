@@ -1,0 +1,136 @@
+{
+  "artifactRole": "intentgraph-packaged-artifact-extraction-inventory-tool-readiness-report",
+  "boundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "existingPackageExtractionPerformed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "syntheticPackageExtractionPerformed": true
+  },
+  "date": "2026-07-10",
+  "readinessAssertions": {
+    "authorizationTokenRequired": true,
+    "existingWindowsUtilityPackageExtracted": false,
+    "extractedInventoryComparedToZipInventory": true,
+    "sandboxExtractionSupported": true,
+    "syntheticPackageOnly": true
+  },
+  "recommendedNextSlice": "P8.70 Packaged Artifact Extraction Inventory Negative Probes",
+  "result": "pass",
+  "scope": "p8.69-sandboxed-package-extraction-inventory-verifier-readiness",
+  "status": "intentgraph-packaged-artifact-extraction-inventory-tool-readiness-passed",
+  "verifierReport": {
+    "artifactRole": "intentgraph-packaged-artifact-extraction-inventory-report",
+    "authorizations": {
+      "mayCallProviderApis": false,
+      "mayCapturePackagedUiScreenshot": false,
+      "mayClaimProductizationReady": false,
+      "mayCompareExtractedInventoryToManifest": true,
+      "mayCopyExistingPackageArtifactToSandbox": true,
+      "mayCreateInstaller": false,
+      "mayCreateReleaseTags": false,
+      "mayExtractSandboxPackageCopy": true,
+      "mayHashExtractedFiles": true,
+      "mayLaunchPackagedUi": false,
+      "mayListExtractedFiles": true,
+      "mayPublishReleases": false,
+      "mayReadCredentials": false,
+      "mayRunPackagedExecutable": false,
+      "maySignArtifacts": false,
+      "mayUseTemporarySandboxDirectory": true
+    },
+    "boundary": {
+      "artifactSigned": false,
+      "authorizationTokenAccepted": true,
+      "credentialAccessed": false,
+      "installerCreated": false,
+      "packageExtractionPerformed": true,
+      "packagedExecutableLaunched": false,
+      "packagedUiLaunched": false,
+      "packagedUiScreenshotCaptured": false,
+      "productizationClaimed": false,
+      "providerApiCalled": false,
+      "releasePublished": false
+    },
+    "date": "2026-07-10",
+    "errors": [],
+    "extractionInventory": {
+      "extractRoot": "<synthetic-temp>/extract-root",
+      "fileCount": 4,
+      "requiredEntries": {
+        "SmartComm2.dll": true,
+        "WindowsUtility.App.dll": true,
+        "WindowsUtility.App.exe": true
+      },
+      "sampleEntries": [
+        {
+          "byteLength": 32,
+          "path": "SmartComm2.dll",
+          "sha256": "sha256:4f82012cfaec50d67c861aeec05c7f122dda1ef984b5e7a01ed1065605e1cb28"
+        },
+        {
+          "byteLength": 30,
+          "path": "WindowsUtility.App.dll",
+          "sha256": "sha256:34950e14b13d945261f15a9c9bc8134b9750127296b07e996302f0ce4124969e"
+        },
+        {
+          "byteLength": 33,
+          "path": "WindowsUtility.App.exe",
+          "sha256": "sha256:473301ae64596bbd665afb3a389677e7ade8f1b540a275712697eb43c001d53d"
+        },
+        {
+          "byteLength": 28,
+          "path": "WindowsUtility.Shell.dll",
+          "sha256": "sha256:5c6372ea67cf277c77f16b658b9680a8b983f9a727cc17431a21875183e08636"
+        }
+      ]
+    },
+    "recommendedNextSlice": "P8.70 Packaged Artifact Extraction Inventory Negative Probes",
+    "result": "pass",
+    "scope": "p8.69-sandboxed-package-extraction-inventory-verifier-readiness",
+    "sourceReports": {
+      "metadataReplay": {
+        "byteLength": 1082,
+        "path": "<synthetic-temp>/metadata-replay-report.json",
+        "sha256": "sha256:afbbff157ef74f22e32bcc2346a9cb4b0cecf97c3ece5c04e7428e6d86016027"
+      },
+      "packageArtifact": {
+        "byteLength": 619,
+        "path": "<synthetic-temp>/synthetic-package.zip",
+        "sha256": "sha256:395b1d5c1b401031a90fa0c1520279de6c34396487973194487cce9daddb1ac3"
+      },
+      "packageManifest": {
+        "byteLength": 832,
+        "path": "<synthetic-temp>/package-manifest.json",
+        "sha256": "sha256:851d85788f43f85820c91f13a28fdf5ec80597f169ab96f4076f4071a6810bb2"
+      }
+    },
+    "status": "intentgraph-packaged-artifact-extraction-inventory-passed",
+    "verificationMode": "synthetic-tool-readiness-only",
+    "verifierExitCode": 0,
+    "verifierStderr": "",
+    "verifierStdout": "",
+    "workItem": "Packaged Artifact Extraction Inventory Verification",
+    "zipInventory": {
+      "fileCount": 4,
+      "requiredEntries": {
+        "SmartComm2.dll": true,
+        "WindowsUtility.App.dll": true,
+        "WindowsUtility.App.exe": true
+      },
+      "sampleEntries": [
+        "SmartComm2.dll",
+        "WindowsUtility.App.dll",
+        "WindowsUtility.App.exe",
+        "WindowsUtility.Shell.dll"
+      ]
+    }
+  },
+  "workItem": "P8.69 Sandboxed Package Extraction Inventory Verifier Readiness"
+}

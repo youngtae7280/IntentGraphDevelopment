@@ -2643,3 +2643,28 @@ Produced artifacts:
 Next safe work if accepted:
 
 - continue to `P8.69 Sandboxed Package Extraction Inventory Verification`.
+
+## P8.69: Sandboxed Package Extraction Inventory Verifier Readiness
+
+Goal: prepare and validate the sandbox extraction inventory verifier without extracting the existing WindowsUtility package artifact.
+
+Status: completed on 2026-07-10. See [P8.69 Sandboxed Package Extraction Inventory Verifier Readiness](../reviews/p8.69-sandboxed-package-extraction-inventory-verifier-readiness.md).
+
+Decision:
+
+- synthetic package extraction inventory readiness passed.
+- verifier requires the explicit sandbox extraction authorization token.
+- extracted inventory is compared with zip inventory.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `tools/verify_windowsutility_package_extraction_inventory.py`
+- `tools/run_windowsutility_package_extraction_inventory_tool_readiness.py`
+- `generated/windowsutility/package-artifact/p8.69/synthetic-tool-readiness-report.json`
+- `generated/roadmap/p8.69-sandboxed-package-extraction-inventory-verifier-readiness-report.json`
+- [P8.69 Sandboxed Package Extraction Inventory Verifier Readiness](../reviews/p8.69-sandboxed-package-extraction-inventory-verifier-readiness.md)
+
+Next safe work:
+
+- continue to `P8.70 Packaged Artifact Extraction Inventory Negative Probes`.
