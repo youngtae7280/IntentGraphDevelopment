@@ -1,0 +1,78 @@
+{
+  "artifactRole": "intentgraph-windowsutility-accepted-mapping-draft",
+  "status": "intentgraph-windowsutility-accepted-mapping-draft-created",
+  "scope": "p8.4-shell-workspace-accepted-mapping-draft-readonly",
+  "workItem": "P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft",
+  "date": "2026-07-10",
+  "target": {
+    "id": "WindowsUtility",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "observedStatusShortBranch": [
+      "## main...origin/main [ahead 4]",
+      "?? .devview/"
+    ],
+    "baselineAccepted": false,
+    "targetWritesAuthorized": false
+  },
+  "selectedHypothesis": {
+    "id": "unit.windowsutility.shell-workspace",
+    "source": "generated/roadmap/p8.3-windowsutility-mapping-candidate-selection-report.json"
+  },
+  "draftMapping": {
+    "id": "mapping.windowsutility.shell-workspace.draft",
+    "intentUnitId": "unit.windowsutility.shell-workspace",
+    "accepted": false,
+    "mappingStatus": "draft-not-accepted",
+    "sourceTextEqualityRequired": false,
+    "hiddenGeneratedCodeSnapshotUsed": false,
+    "codeSurfaceRefs": [
+      {
+        "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "byteLength": 1897,
+        "digest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+        "refResolvedReadOnly": true
+      },
+      {
+        "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+        "byteLength": 594,
+        "digest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+        "refResolvedReadOnly": true
+      }
+    ],
+    "ambiguityDisposition": [
+      {
+        "id": "ambiguity.windowsutility.module-boundaries",
+        "status": "deferred-before-mutation",
+        "reason": "shell/workspace csproj refs do not prove all runtime ownership boundaries"
+      },
+      {
+        "id": "ambiguity.windowsutility.hardware-coupling",
+        "status": "not-applicable-to-selected-shell-draft",
+        "reason": "selected draft avoids hardware-aware module families"
+      }
+    ],
+    "evidenceRequirements": [
+      "shell navigation smoke test",
+      "screenshot or UI surface evidence",
+      "source digest baseline for selected refs"
+    ],
+    "authorityRequirements": [
+      "user acceptance for shell/workspace mapping",
+      "coordinator approval before any target write"
+    ],
+    "requiredBeforeAcceptance": [
+      "target baseline accepted or resolved",
+      "stale mapping negative probe",
+      "missing source ref negative probe",
+      "evidence requirement review",
+      "authority requirement review"
+    ]
+  },
+  "authorizations": {
+    "acceptedMappingCreated": false,
+    "targetWritesAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  }
+}

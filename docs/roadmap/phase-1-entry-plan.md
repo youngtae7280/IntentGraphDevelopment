@@ -779,3 +779,27 @@ P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft
 ```
 
 P8.4 may draft a mapping artifact outside WindowsUtility. It must still keep the mapping unaccepted unless target baseline, evidence, authority, and stale/missing mapping probes are complete.
+
+## Completed Slice: P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft
+
+Goal: create a draft mapping artifact for the selected shell-workspace candidate without accepting it.
+
+Produced artifacts:
+
+- `generated/windowsutility/p8.4-shell-workspace-accepted-mapping-draft.json`
+- [P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft Review](../reviews/p8.4-windowsutility-shell-workspace-accepted-mapping-draft-review.md)
+- `generated/roadmap/p8.4-shell-workspace-mapping-draft-report.json`
+
+Decision:
+
+```text
+draft-created-mapping-not-accepted
+```
+
+Next safe work:
+
+```text
+P8.5 Shell Workspace Mapping Draft Negative Probes
+```
+
+P8.5 should prove stale digest and missing ref failures are deterministic. It must not accept the mapping or mutate WindowsUtility.

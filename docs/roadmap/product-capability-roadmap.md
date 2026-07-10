@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.3 completed.
+P8.4 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate without accepting it. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -127,10 +127,16 @@ P8.3 completed:
 shell-workspace selected as first accepted-mapping candidate; no mapping accepted.
 ```
 
+P8.4 completed:
+
+```text
+shell-workspace mapping draft created; still unaccepted.
+```
+
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft
+P8.5 Shell Workspace Mapping Draft Negative Probes
 external target-state resolution
 ```
 
@@ -721,3 +727,20 @@ P8.3 produced:
 - `generated/roadmap/p8.3-windowsutility-mapping-candidate-selection-report.json`
 
 The selected candidate is still unaccepted. Target writes, proposal application, AI authority, and productization remain blocked.
+
+## P8.4 Result And Mapping Draft
+
+P8.4 result:
+
+```text
+shell-workspace mapping draft created.
+Decision: draft-created-mapping-not-accepted.
+```
+
+P8.4 produced:
+
+- `generated/windowsutility/p8.4-shell-workspace-accepted-mapping-draft.json`
+- [P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft Review](../reviews/p8.4-windowsutility-shell-workspace-accepted-mapping-draft-review.md)
+- `generated/roadmap/p8.4-shell-workspace-mapping-draft-report.json`
+
+The draft records read-only source digests and keeps `accepted:false`, `baselineAccepted:false`, target writes false, AI authority false, and productization false.

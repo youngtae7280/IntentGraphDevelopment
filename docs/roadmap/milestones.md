@@ -941,3 +941,26 @@ Non-goals:
 - no AI authority promotion
 - no productization implementation
 - no product readiness claim
+
+## P8.4: WindowsUtility Shell Workspace Accepted Mapping Draft
+
+Goal: create a shell-workspace mapping draft outside WindowsUtility without accepting it.
+
+Status: completed on 2026-07-10. See [P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft Review](../reviews/p8.4-windowsutility-shell-workspace-accepted-mapping-draft-review.md).
+
+Decision:
+
+- draft mapping artifact created.
+- selected refs were resolved read-only and digests were recorded.
+- the mapping remains unaccepted.
+- target writes, proposal application, AI authority, and productization remain blocked.
+
+Non-goals:
+
+- no writing to WindowsUtility
+- no accepted real-project mapping
+- no proposal application
+- no target write authority
+- no AI authority promotion
+- no productization implementation
+- no product readiness claim

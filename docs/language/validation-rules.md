@@ -297,6 +297,12 @@ Status: added in P8.3.
 
 Selecting a real-project mapping candidate must keep the mapping unaccepted unless an accepted-mapping artifact is explicitly emitted and validated. Candidate selection may record rationale, refs, evidence requirements, and authority requirements, but it must keep target writes, proposal application, AI authority, and productization false.
 
+## V1008: Mapping Drafts Must Stay Outside Dirty Targets
+
+Status: added in P8.4.
+
+When a real-project target state is unresolved, a mapping draft may record read-only source refs and digests only if the artifact is written outside the target repository and keeps `accepted:false`, `baselineAccepted:false`, and target write authority false. The draft must list stale/missing mapping probes as required before acceptance.
+
 ## Rule Severity
 
 | Severity | Meaning |

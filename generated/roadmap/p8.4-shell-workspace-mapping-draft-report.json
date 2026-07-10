@@ -1,0 +1,26 @@
+{
+  "artifactRole": "intentgraph-windowsutility-shell-workspace-mapping-draft-report",
+  "status": "intentgraph-windowsutility-shell-workspace-mapping-draft-reported",
+  "scope": "p8.4-shell-workspace-accepted-mapping-draft-report-only",
+  "workItem": "P8.4 WindowsUtility Shell Workspace Accepted Mapping Draft",
+  "date": "2026-07-10",
+  "decision": "draft-created-mapping-not-accepted",
+  "draftArtifact": "generated/windowsutility/p8.4-shell-workspace-accepted-mapping-draft.json",
+  "selectedCandidate": "unit.windowsutility.shell-workspace",
+  "selectedRefsResolved": true,
+  "selectedRefCount": 2,
+  "draftAccepted": false,
+  "baselineAccepted": false,
+  "targetWritesAuthorized": false,
+  "proposalApplicationAuthorized": false,
+  "aiAuthorityPromoted": false,
+  "productizationAuthorized": false,
+  "requiredBeforeAcceptance": [
+    "target baseline accepted or resolved",
+    "stale mapping negative probe",
+    "missing source ref negative probe",
+    "evidence requirement review",
+    "authority requirement review"
+  ],
+  "recommendedNextSlice": "P8.5 Shell Workspace Mapping Draft Negative Probes"
+}
