@@ -1987,3 +1987,22 @@ Next safe work:
 ```text
 P8.62 User-Observed Graph Delta Approval Workbench Review Request
 ```
+
+## P8.62 User-Observed Graph Delta Approval Workbench Review Request
+
+P8.62 result:
+
+```text
+Decision: user-observed-graph-delta-approval-workbench-review-requested.
+```
+
+P8.62 produced:
+
+- `generated/roadmap/p8.62-user-observed-graph-delta-approval-workbench-review-request.json`
+- [P8.62 User-Observed Graph Delta Approval Workbench Review Request](../reviews/p8.62-user-observed-graph-delta-approval-workbench-review-request.md)
+
+Next safe work:
+
+```text
+Wait for coordinator review response.
+```

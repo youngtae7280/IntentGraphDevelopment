@@ -1,0 +1,99 @@
+{
+  "artifactRole": "intentgraph-user-review-request",
+  "status": "intentgraph-user-review-requested",
+  "scope": "p8.62-user-observed-graph-delta-approval-workbench-review-request",
+  "workItem": "P8.62 User-Observed Graph Delta Approval Workbench Review Request",
+  "date": "2026-07-10",
+  "reviewTarget": {
+    "kind": "static-local-html",
+    "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html",
+    "sourcePhase": "P8.60 Static Graph Delta Approval Workbench Prototype",
+    "blockedAutomationPhase": "P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run Attempt"
+  },
+  "whyUserReviewIsRequired": [
+    "The graph workbench must be judged by actual interaction quality, not just structural HTML validation.",
+    "The in-app browser automation could load the local page but policy blocked further automated interaction.",
+    "The coordinator specifically requires Graphify-grade graph movement, zoom, selection, diff visibility, and inspectability."
+  ],
+  "reviewChecklist": [
+    {
+      "id": "check.graph-visible",
+      "prompt": "Open the HTML and confirm the graph is visible, not blank."
+    },
+    {
+      "id": "check.graph-quality",
+      "prompt": "Judge whether the graph presentation is materially close to Graphify-grade inspectability."
+    },
+    {
+      "id": "check.pan",
+      "prompt": "Drag the graph canvas and confirm the graph moves."
+    },
+    {
+      "id": "check.zoom-in-out",
+      "prompt": "Zoom in and zoom out with controls or wheel input and confirm nodes/edges remain readable."
+    },
+    {
+      "id": "check.fit",
+      "prompt": "Use Fit and confirm the graph returns to a usable full view."
+    },
+    {
+      "id": "check.node-selection",
+      "prompt": "Select a graph node and confirm the right inspector panel shows node information."
+    },
+    {
+      "id": "check.edge-selection",
+      "prompt": "Select a graph edge and confirm the right inspector panel shows edge information."
+    },
+    {
+      "id": "check.delta-step",
+      "prompt": "Select deltaStep.p8.44-apply-preflight.apply and confirm affected nodes/edges are highlighted."
+    },
+    {
+      "id": "check.code-diff",
+      "prompt": "Select code.file.intentgraph-preflight and confirm the code diff panel shows the PowerShell file diff."
+    },
+    {
+      "id": "check.changed-node-diff",
+      "prompt": "Select proposal.p8.43-preflight and confirm the graph diff panel shows before/after node payload and changed fields."
+    },
+    {
+      "id": "check.changed-edge-diff",
+      "prompt": "Select edge.proposal-to-code-file and confirm the graph diff panel shows before/after edge payload and changed fields."
+    }
+  ],
+  "acceptableResponses": [
+    {
+      "response": "accept",
+      "meaning": "The workbench is good enough to continue to the next non-productization gate."
+    },
+    {
+      "response": "revise",
+      "meaning": "The workbench is not good enough. Provide what failed or what felt below Graphify-grade, and the next phase must revise the workbench."
+    },
+    {
+      "response": "blocked",
+      "meaning": "The HTML cannot be opened or reviewed in the current environment."
+    }
+  ],
+  "doNotAcceptIf": [
+    "The graph is blank or visually broken.",
+    "The graph cannot be moved.",
+    "Zoom makes the graph unusable or unreadable.",
+    "Nodes and edges cannot be selected.",
+    "Selected node or edge details do not appear.",
+    "Code node selection does not show code diff.",
+    "Changed node selection does not show before/after graph node diff.",
+    "Changed edge selection does not show before/after graph edge diff.",
+    "The result feels materially worse than Graphify-style graph inspection."
+  ],
+  "authorizations": {
+    "windowsUtilitySourceMutationAuthorized": false,
+    "graphMutationFromUiAuthorized": false,
+    "approvalAutomationAuthorized": false,
+    "packageExtractionAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedUserMessage": "Open the P8.60 graph workbench HTML, try the checklist, then reply with accept, revise, or blocked."
+}

@@ -966,3 +966,27 @@ The next safe stabilization slice is:
 ```text
 P8.62 User-Observed Graph Delta Approval Workbench Review Request
 ```
+
+## P8.62 User-Observed Graph Delta Approval Workbench Review Request
+
+P8.62 requests human review of the graph delta approval workbench.
+
+Current state:
+
+- review request is recorded.
+- review target is `generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html`.
+- acceptable responses are `accept`, `revise`, or `blocked`.
+
+Still blocked:
+
+- graph workbench user acceptance.
+- package verification authorization.
+- packaged artifact extraction/run verification.
+- user acceptance of a package candidate.
+- productization authority.
+
+The next safe stabilization action is:
+
+```text
+Wait for coordinator review response.
+```

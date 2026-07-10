@@ -2287,3 +2287,26 @@ Recommended next slice:
 ```text
 P8.62 User-Observed Graph Delta Approval Workbench Review Request
 ```
+
+## Requested Slice: P8.62 User-Observed Graph Delta Approval Workbench Review Request
+
+Goal: request user-observed review of the P8.60 graph delta approval workbench.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.62-user-observed-graph-delta-approval-workbench-review-request.json`
+- [P8.62 User-Observed Graph Delta Approval Workbench Review Request](../reviews/p8.62-user-observed-graph-delta-approval-workbench-review-request.md)
+
+Decision pending:
+
+```text
+accept | revise | blocked
+```
+
+Review target:
+
+```text
+generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html
+```
+
+The next phase must not proceed past this gate until the coordinator response is recorded.

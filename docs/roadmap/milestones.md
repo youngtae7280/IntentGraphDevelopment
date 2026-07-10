@@ -2438,3 +2438,28 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.62 User-Observed Graph Delta Approval Workbench Review Request`.
+
+## P8.62: User-Observed Graph Delta Approval Workbench Review Request
+
+Goal: request human review of the P8.60 graph workbench because P8.61 automated visual/interaction QA was blocked by browser policy.
+
+Status: requested on 2026-07-10. See [P8.62 User-Observed Graph Delta Approval Workbench Review Request](../reviews/p8.62-user-observed-graph-delta-approval-workbench-review-request.md).
+
+Review target:
+
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html`
+
+Decision pending:
+
+- `accept`
+- `revise`
+- `blocked`
+
+Produced artifacts:
+
+- `generated/roadmap/p8.62-user-observed-graph-delta-approval-workbench-review-request.json`
+- [P8.62 User-Observed Graph Delta Approval Workbench Review Request](../reviews/p8.62-user-observed-graph-delta-approval-workbench-review-request.md)
+
+Next safe work:
+
+- wait for the coordinator review response.
