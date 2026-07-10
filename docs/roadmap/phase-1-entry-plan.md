@@ -1927,3 +1927,28 @@ Recommended next slice:
 ```text
 P8.51 Packaging/Release Dry-Run Workbench Refresh
 ```
+
+## Completed Slice: P8.51 Packaging/Release Dry-Run Workbench Refresh
+
+Goal: refresh the static WindowsUtility workbench export with P8.49 packaging/release dry-run and P8.50 productization gate evidence.
+
+Produced artifacts:
+
+- `generated/windowsutility/workbench/p8.51-packaging-release-workbench-projection.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/index.html`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/validation-report.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/negative-probes-report.json`
+- `generated/roadmap/p8.51-packaging-release-dry-run-workbench-refresh-report.json`
+- [P8.51 Packaging/Release Dry-Run Workbench Refresh](../reviews/p8.51-packaging-release-dry-run-workbench-refresh.md)
+
+Decision:
+
+```text
+packaging-release-dry-run-workbench-refresh-passed
+```
+
+Recommended next slice:
+
+```text
+P8.52 Productization Readiness Recheck After Packaging/Release Dry-Run
+```

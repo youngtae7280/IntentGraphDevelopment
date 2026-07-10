@@ -1,0 +1,107 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-manifest",
+  "authorityBoundary": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "boundaryReport": {
+    "artifactRole": "intentgraph-productization-packaging-release-dry-run-result-gate-report",
+    "byteLength": 3918,
+    "decision": "packaging-release-dry-run-passed-productization-still-blocked",
+    "path": "generated/roadmap/p8.50-packaging-release-dry-run-result-productization-gate-report.json",
+    "scope": "p8.50-packaging-release-dry-run-result-productization-gate-report-only",
+    "sha256": "sha256:8c5ed520920804527d50e5167d298f3dc07c733875733f6eea888a0f74b48a14",
+    "status": "intentgraph-productization-packaging-release-dry-run-result-gate-reviewed",
+    "workItem": "P8.50 Packaging/Release Dry-Run Result Review / Next Productization Gate"
+  },
+  "determinism": {
+    "localFilesOnly": true,
+    "networkRequired": false,
+    "noNondeterministicTimestamp": true,
+    "sourceDigestBound": true
+  },
+  "exportVersion": "0.2.0",
+  "exportedFiles": [
+    {
+      "byteLength": 40596,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/index.html",
+      "sha256": "sha256:6827f1f2900a16ed1f234a7b3f0f769da086a57c9a232cd5ddb499eb611ecd43"
+    },
+    {
+      "artifactRole": "intentgraph-static-local-workbench-export-projection",
+      "byteLength": 37053,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/projection.json",
+      "scope": "p8.51-packaging-release-dry-run-workbench-refresh",
+      "sha256": "sha256:8a9970d446923ed630abbda57edb44ea45b9a4ea931b5b506ecf374b22157347",
+      "status": "intentgraph-static-local-workbench-export-projection-emitted",
+      "workItem": "P8.51 Packaging/Release Dry-Run Workbench Refresh"
+    },
+    {
+      "byteLength": 38739,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/assets/screenshot.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+    }
+  ],
+  "generatedAtPolicy": "deterministic-no-runtime-timestamp",
+  "integrity": {
+    "indexPath": "index.html",
+    "projectionPath": "projection.json",
+    "screenshotPath": "assets/screenshot.png"
+  },
+  "outputRoot": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51",
+  "scope": "p8.51-packaging-release-dry-run-workbench-refresh",
+  "sourceArtifacts": [
+    {
+      "artifactRole": "intentgraph-productization-packaging-release-dry-run-result-gate-report",
+      "byteLength": 3918,
+      "decision": "packaging-release-dry-run-passed-productization-still-blocked",
+      "path": "generated/roadmap/p8.50-packaging-release-dry-run-result-productization-gate-report.json",
+      "scope": "p8.50-packaging-release-dry-run-result-productization-gate-report-only",
+      "sha256": "sha256:8c5ed520920804527d50e5167d298f3dc07c733875733f6eea888a0f74b48a14",
+      "status": "intentgraph-productization-packaging-release-dry-run-result-gate-reviewed",
+      "workItem": "P8.50 Packaging/Release Dry-Run Result Review / Next Productization Gate"
+    },
+    {
+      "artifactRole": "intentgraph-static-local-workbench-export-projection",
+      "byteLength": 37053,
+      "path": "generated/windowsutility/workbench/p8.51-packaging-release-workbench-projection.json",
+      "scope": "p8.51-packaging-release-dry-run-workbench-refresh",
+      "sha256": "sha256:8a9970d446923ed630abbda57edb44ea45b9a4ea931b5b506ecf374b22157347",
+      "status": "intentgraph-static-local-workbench-export-projection-emitted",
+      "workItem": "P8.51 Packaging/Release Dry-Run Workbench Refresh"
+    },
+    {
+      "byteLength": 34398,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/index.html",
+      "sha256": "sha256:eac1ca4a4462d6a22bc3764d1b3f61f85df73f0b54ee379259a00353408ac0c8"
+    },
+    {
+      "byteLength": 38739,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/assets/screenshot.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+    }
+  ],
+  "status": "intentgraph-static-local-workbench-export-manifest-emitted",
+  "targetBaseline": {
+    "baselineHead": "07cbe76368e8857ad198438707f1d52301925da3",
+    "baselineOriginMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "baselineStatus": "clean-aligned",
+    "current": {
+      "head": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+      "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+      "status": "## main...origin/main"
+    },
+    "id": "WindowsUtility",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility"
+  },
+  "workItem": "P8.51 Packaging/Release Dry-Run Workbench Refresh"
+}

@@ -1,6 +1,6 @@
 # Productization Stabilization Plan
 
-Status: created in P8.0; rechecked through P8.50.
+Status: created in P8.0; rechecked through P8.51.
 
 IntentGraph is not ready for productization. The current evidence proves a semantic overlay model, deterministic toy and B1 fixtures, a static workbench preview, and read-only WindowsUtility adoption artifacts. It does not yet prove a safe user-facing product.
 
@@ -646,4 +646,29 @@ The next safe stabilization slice is:
 
 ```text
 P8.51 Packaging/Release Dry-Run Workbench Refresh
+```
+
+## P8.51 Packaging/Release Dry-Run Workbench Refresh
+
+P8.51 refreshed the static WindowsUtility workbench export with packaging/release dry-run evidence.
+
+Resolved:
+
+- packaging/release dry-run evidence is visible in the workbench/product surface
+
+Still blocked:
+
+- package artifacts are not authorized
+- installers are not authorized
+- artifact signing is not authorized
+- credential access is not authorized
+- provider API calls are not authorized
+- release tags are not authorized
+- release publishing is not authorized
+- productization authority is absent
+
+The next safe stabilization slice is:
+
+```text
+P8.52 Productization Readiness Recheck After Packaging/Release Dry-Run
 ```

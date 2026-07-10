@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.50 Packaging/Release Dry-Run Result Review / Next Productization Gate
+P8.51 Packaging/Release Dry-Run Workbench Refresh
 ```
 
-This Phase G stabilization slice reviewed the non-mutating packaging/release dry-run result. Productization remains blocked pending refreshed workbench visibility, package artifact authority, release authority, and productization authority. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice refreshed the static workbench with packaging/release dry-run evidence. Productization remains blocked pending a readiness recheck, package artifact authority, release authority, and productization authority. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -2122,6 +2122,34 @@ Decision:
 - workbench/product surface must be refreshed with packaging/release dry-run evidence.
 - package/release authority remains absent.
 - continue to `P8.51 Packaging/Release Dry-Run Workbench Refresh`.
+
+Non-goals:
+
+- no WindowsUtility source edit
+- no WindowsUtility build artifact creation
+- no package artifact creation
+- no installer creation
+- no artifact signing
+- no credential access
+- no provider API calls
+- no release tag creation
+- no release publishing
+- no productization implementation
+- no product readiness claim
+
+## P8.51: Packaging/Release Dry-Run Workbench Refresh
+
+Goal: refresh the static workbench/product surface with the packaging/release dry-run result.
+
+Status: completed on 2026-07-10. See [P8.51 Packaging/Release Dry-Run Workbench Refresh](../reviews/p8.51-packaging-release-dry-run-workbench-refresh.md).
+
+Decision:
+
+- p8.51 static export emitted.
+- P8.49 packaging/release dry-run result is visible in the projection.
+- P8.50 productization gate result is visible.
+- validation and negative probes passed.
+- continue to `P8.52 Productization Readiness Recheck After Packaging/Release Dry-Run`.
 
 Non-goals:
 

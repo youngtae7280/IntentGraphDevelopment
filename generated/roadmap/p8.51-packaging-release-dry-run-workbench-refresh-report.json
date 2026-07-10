@@ -1,0 +1,52 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-completion-report",
+  "status": "intentgraph-roadmap-slice-completed",
+  "scope": "p8.51-packaging-release-dry-run-workbench-refresh-report-only",
+  "workItem": "P8.51 Packaging/Release Dry-Run Workbench Refresh",
+  "date": "2026-07-10",
+  "decision": "packaging-release-dry-run-workbench-refresh-passed",
+  "summary": "Refreshed the static WindowsUtility workbench export so P8.49 packaging/release dry-run and P8.50 productization gate evidence are visible.",
+  "export": {
+    "root": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51",
+    "index": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/index.html",
+    "projection": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/projection.json",
+    "manifest": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/manifest.json",
+    "validation": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/validation-report.json",
+    "negativeProbes": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51/negative-probes-report.json"
+  },
+  "projectionSummary": {
+    "sourceApplicationApplied": true,
+    "packagingReleaseDryRunPassed": true,
+    "packagingReleaseVisibleInWorkbench": true,
+    "productizationStillBlocked": true,
+    "packageArtifactCreated": false,
+    "releasePublished": false,
+    "evidenceCardCount": 7,
+    "selectionRecordCount": 10,
+    "timelineStepCount": 12
+  },
+  "validation": {
+    "result": "pass",
+    "selectionRecordCount": 10,
+    "errorCount": 0
+  },
+  "negativeProbes": {
+    "result": "pass",
+    "probeCount": 10
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "installerCreationAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.52 Productization Readiness Recheck After Packaging/Release Dry-Run"
+}

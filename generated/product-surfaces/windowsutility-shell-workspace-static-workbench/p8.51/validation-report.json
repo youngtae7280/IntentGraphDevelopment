@@ -1,0 +1,29 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-validation-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "errors": [],
+  "exportDir": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.51",
+  "result": "pass",
+  "scope": "p8.51-packaging-release-dry-run-workbench-refresh-validation",
+  "status": "intentgraph-static-local-workbench-export-validation-passed",
+  "summary": {
+    "errorCount": 0,
+    "exportedFileCount": 3,
+    "indexExists": true,
+    "manifestExists": true,
+    "projectionExists": true,
+    "screenshotExists": true,
+    "selectionRecordCount": 10,
+    "sourceArtifactCount": 4
+  },
+  "workItem": "P8.51 Packaging/Release Dry-Run Workbench Refresh"
+}
