@@ -1,0 +1,55 @@
+{
+  "artifactRole": "intentgraph-phase-boundary-review-report",
+  "status": "intentgraph-phase-boundary-review-passed",
+  "scope": "p6.1-phase-f-workbench-boundary-phase-g-entry",
+  "workItem": "P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan",
+  "date": "2026-07-10",
+  "decision": "open-p7.0-real-project-adoption-target-benchmark-plan",
+  "phaseFReviewedEvidence": {
+    "p6_0WorkbenchProjection": true,
+    "staticHtmlPreview": true,
+    "verifierStateVisible": true,
+    "testsEvidenceAuthorityVisible": true,
+    "selectableRecords": true,
+    "visualizationAsVerifierClaimed": false,
+    "sourceMutationClaimed": false,
+    "productizationClaimed": false
+  },
+  "phaseGEntryCriteria": [
+    "choose real-project adoption target",
+    "define candidate task class",
+    "define retrofit scope and non-goals",
+    "define performance benchmark criteria",
+    "define workflow benchmark criteria",
+    "define quality comparison criteria against ordinary AI coding",
+    "define rollback and stop conditions",
+    "avoid source mutation until adoption criteria are accepted"
+  ],
+  "recommendedNextSlice": {
+    "id": "P7.0",
+    "name": "Real Project Adoption Target and Benchmark Plan",
+    "allowed": [
+      "evaluate WindowsUtility or another target",
+      "define adoption task class",
+      "define benchmark metrics",
+      "define non-goals and stop conditions",
+      "write worker handoff for bounded adoption slice"
+    ],
+    "nonGoals": [
+      "real-project source mutation",
+      "broad unbounded retrofit",
+      "AI-generated code application",
+      "product readiness claim",
+      "CLI/app/editor/GitHub productization"
+    ]
+  },
+  "acceptance": {
+    "p6_0Reviewed": true,
+    "phaseFLimitsStated": true,
+    "phaseGEntryCriteriaDefined": true,
+    "p7_0ScopeDefined": true,
+    "implementationAdded": false,
+    "realProjectMutationAuthorized": false,
+    "productizationAuthorized": false
+  }
+}

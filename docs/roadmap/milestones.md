@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P6.0 B1 Workbench Projection Schema and Static HTML Preview
+P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan
 ```
 
-This Phase F slice added deterministic B1 workbench projection JSON and static HTML preview. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This boundary slice reviewed B1 workbench evidence and opened Phase G only for a plan-only real-project adoption gate. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -745,3 +745,23 @@ Non-goals:
 - no production app
 - no editor or GitHub integration
 - no productization
+
+## P6.1: Phase F Workbench Boundary Review and Phase G Entry Plan
+
+Goal: review P6.0 as Phase F evidence and decide whether a plan-only Phase G real-project adoption gate can open.
+
+Status: completed on 2026-07-10. See [P6.1 Phase F Workbench Boundary Phase G Entry Review](../reviews/p6.1-phase-f-workbench-boundary-phase-g-entry-review.md).
+
+Decision:
+
+- Phase F is sufficient to open a plan-only real-project adoption gate.
+- Continue to `P7.0 Real Project Adoption Target and Benchmark Plan`.
+- Phase G starts plan-only.
+
+Non-goals:
+
+- no real-project source mutation
+- no broad unbounded retrofit
+- no AI-generated code application
+- no product readiness claim
+- no CLI/app/editor/GitHub productization

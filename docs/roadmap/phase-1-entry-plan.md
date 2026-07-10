@@ -578,3 +578,26 @@ P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan
 ```
 
 P6.1 should review whether the B1 static preview is sufficient to plan real-project adoption. It must define adoption benchmark criteria before touching WindowsUtility or any other real project.
+
+## Completed Slice: P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan
+
+Goal: review B1 Phase F workbench evidence and decide whether Phase G can open.
+
+Produced artifacts:
+
+- [P6.1 Phase F Workbench Boundary Phase G Entry Review](../reviews/p6.1-phase-f-workbench-boundary-phase-g-entry-review.md)
+- `generated/roadmap/p6.1-phase-g-entry-report.json`
+
+Decision:
+
+```text
+open-p7.0-real-project-adoption-target-benchmark-plan
+```
+
+Recommended next slice:
+
+```text
+P7.0 Real Project Adoption Target and Benchmark Plan
+```
+
+P7.0 must be plan-only. It may evaluate WindowsUtility or another target and define task class, performance benchmark, workflow benchmark, quality comparison, rollback, and stop conditions. It must not mutate a real project or run an unbounded retrofit.

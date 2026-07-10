@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P6.0 completed.
+P6.1 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan.
-Phase F has a bounded static B1 workbench projection proof. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, and productization remain unauthorized.
+Next recommended slice: P7.0 Real Project Adoption Target and Benchmark Plan.
+Phase G is open only for plan-only adoption target and benchmark selection. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -82,21 +82,21 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P6.0 completed:
+P6.1 completed:
 
 ```text
-B1 Workbench Projection Schema and Static HTML Preview
+Phase F Workbench Boundary Review and Phase G Entry Plan
 ```
 
-P6.0 emitted deterministic projection JSON and static HTML preview over the B1 proposal workflow.
+P6.1 reviewed B1 workbench evidence and opened Phase G only for plan-only adoption target selection.
 
 The next step is:
 
 ```text
-P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan
+P7.0 Real Project Adoption Target and Benchmark Plan
 ```
 
-P6.1 should decide whether B1 evidence is sufficient to plan real-project adoption.
+P7.0 should select the adoption target and benchmark criteria before touching a real project.
 
 ## Phase Overview
 
@@ -107,8 +107,8 @@ P6.1 should decide whether B1 evidence is sufficient to plan real-project adopti
 | C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static mapping, P3.1 stale failure, P3.2 ambiguity candidate, and P3.3 boundary review completed. |
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | P4.0 proposal validation and P4.1 boundary review completed for B1. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | P5.0 verifier and P5.1 boundary review completed for B1. |
-| F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | P6.0 static B1 projection/preview completed. Boundary review needed before G. |
-| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Not opened. P6.1 should plan entry criteria. |
+| F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | P6.0 preview and P6.1 boundary review completed for B1. |
+| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Open only for P7.0 plan-only target and benchmark selection. |
 | H | Productization | Package CLI/local app/editor/GitHub/team workflow surfaces. | Not opened. |
 
 ## Phase A: Model Correction
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P6.0 Result And P6.1 Required Scope
+## P6.1 Result And P7.0 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,35 +585,34 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
-P6.0 result:
+P6.1 result:
 
 ```text
-B1 static workbench projection and preview pass.
+Phase F boundary review passes and opens Phase G only for a plan-only adoption gate.
 ```
 
 Recommended next slice:
 
 ```text
-P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan
+P7.0 Real Project Adoption Target and Benchmark Plan
 ```
 
-P6.1 must:
+P7.0 must:
 
-- review P6.0 projection, static HTML, and validation report
-- decide whether Phase G can open
 - define real-project adoption target and benchmark criteria
+- define candidate task class
+- define retrofit scope and non-goals
 - define performance, workflow, and quality comparison criteria
-- keep source mutation, patch application, AI generation, and productization out of scope unless explicitly opened later
+- define rollback and stop conditions
+- keep source mutation, patch application, AI generation, and productization out of scope
 
-P6.1 must not:
+P7.0 must not:
 
-- expand beyond the tiny B1 static fixture and code fact boundary
-- add another CF0 semantic probe
-- mutate source code
-- apply patches
+- mutate real-project source code
+- run broad unbounded retrofit
 - grant AI authority
-- resolve ambiguity automatically
-- begin real-project adoption before criteria are written
+- apply AI-generated code
+- claim product readiness
 - build a broad extractor
 - add dependencies without decision record
 - claim general scalability
