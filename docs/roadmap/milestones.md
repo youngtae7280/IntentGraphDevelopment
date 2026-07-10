@@ -2759,3 +2759,25 @@ Produced artifacts:
 Next safe work without acceptance:
 
 - continue to `P8.74 Package Verification Scope Hold Record`.
+
+## P8.74: Package Verification Scope Hold Record
+
+Goal: record that real package extraction is held while explicit extraction authorization remains absent.
+
+Status: completed on 2026-07-10. See [P8.74 Package Verification Scope Hold Record](../reviews/p8.74-package-verification-scope-hold-record.md).
+
+Decision:
+
+- real package extraction remains held.
+- safe report-only planning can continue.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.74-package-verification-scope-hold-record.json`
+- `generated/roadmap/p8.74-package-verification-scope-hold-record-report.json`
+- [P8.74 Package Verification Scope Hold Record](../reviews/p8.74-package-verification-scope-hold-record.md)
+
+Next safe work:
+
+- continue to `P8.75 Packaged Artifact Verification Future Execution Plan`.

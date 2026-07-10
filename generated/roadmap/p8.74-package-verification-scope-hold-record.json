@@ -1,0 +1,65 @@
+{
+  "artifactRole": "intentgraph-package-verification-scope-hold-record",
+  "status": "intentgraph-package-verification-scope-held",
+  "scope": "p8.74-package-verification-scope-hold-record",
+  "workItem": "P8.74 Package Verification Scope Hold Record",
+  "date": "2026-07-10",
+  "decision": "real-package-extraction-held-pending-explicit-authorization",
+  "sourceFollowUpRequest": {
+    "path": "generated/roadmap/p8.73-explicit-package-extraction-verification-authorization-follow-up.json",
+    "artifactRole": "intentgraph-package-extraction-verification-authorization-follow-up",
+    "status": "intentgraph-package-extraction-verification-authorization-follow-up-recorded"
+  },
+  "holdReason": {
+    "explicitAcceptedResponseRequired": "accept sandboxed package extraction inventory verification",
+    "explicitAcceptedResponseRecorded": false,
+    "standingAcceptShortcutApplies": false,
+    "realPackageExtractionAllowed": false
+  },
+  "safeProgressAllowedWhileHeld": [
+    "document future package verification execution plan",
+    "document packaged executable launch smoke boundary without executing it",
+    "document release/signing/installer authority boundaries without enabling them",
+    "refresh readiness reports",
+    "refresh static workbench surfaces from already accepted evidence"
+  ],
+  "unsafeProgressBlockedWhileHeld": [
+    "extract existing WindowsUtility package artifact",
+    "run packaged executable",
+    "launch packaged UI",
+    "capture packaged UI screenshot",
+    "create installer",
+    "sign artifacts",
+    "read credentials",
+    "call provider APIs",
+    "create release tags",
+    "publish releases",
+    "claim productization readiness"
+  ],
+  "authorizations": {
+    "sandboxedPackageExtractionInventoryVerificationAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "packagedUiLaunchAuthorized": false,
+    "packagedUiScreenshotAuthorized": false,
+    "installerCreationAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.75 Packaged Artifact Verification Future Execution Plan"
+}
