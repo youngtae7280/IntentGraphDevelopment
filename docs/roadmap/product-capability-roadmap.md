@@ -7,9 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P1.18 completed.
-Next recommended slice: P1.19 Second Benchmark and Generalization Gate - Plan Only.
-No larger benchmark, broad extractor, UI/workbench product, or productization work is authorized until that gate passes.
+P1.19 completed.
+Selected next benchmark: B1-typescript-rest-api.
+Next recommended slice: P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture.
+No broad extractor, UI/workbench product, AI coding runtime, or productization work is authorized by P1.19.
 ```
 
 ## Core Definition
@@ -69,20 +70,26 @@ Phase A is substantially complete. P1.R through P1.18 corrected the project from
 
 CF0 is now a saturated proof fixture. It proves viability, not scalability.
 
-The next step is not another CF0 semantic probe. The next step is a plan-only generalization gate:
+P1.19 completed the plan-only generalization gate:
 
 ```text
-P1.19 Second Benchmark and Generalization Gate - Plan Only
+B1-typescript-rest-api selected.
 ```
 
-P1.19 must decide what limitation CF0 failed to test, select the next benchmark shape, rerun prior-art review, and define pass/fail criteria before implementation.
+The next step is the first bounded Phase B implementation slice:
+
+```text
+P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture
+```
+
+P2.0 may create the B1 fixture and code fact schema/report boundary, but it must not become a broad extractor, UI/workbench product, or AI coding runtime.
 
 ## Phase Overview
 
 | Phase | Name | Purpose | Current state |
 |---|---|---|---|
 | A | Model Correction | Define IntentGraph as semantic overlay and correct the state model. | Mostly complete through P1.18. |
-| B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | Not opened. P1.19 should plan this. |
+| B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | Planned by P1.19. P2.0 recommended but not yet completed. |
 | C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | Not opened. |
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Not opened. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | Small fixture proofs only. |
@@ -537,11 +544,11 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P1.19 Required Scope
+## P1.19 Result And P2.0 Required Scope
 
-P1.19 is the next recommended slice and must be plan-only.
+P1.19 completed the plan-only generalization gate.
 
-P1.19 must produce:
+P1.19 produced:
 
 - second benchmark candidate comparison
 - selected limitation of CF0 to test next
@@ -552,9 +559,21 @@ P1.19 must produce:
 - validation command plan
 - worker handoff instructions
 
-P1.19 must not:
+Selected next benchmark:
 
-- implement the second benchmark
+```text
+B1-typescript-rest-api
+```
+
+Recommended next slice:
+
+```text
+P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture
+```
+
+P2.0 must not:
+
+- expand beyond the tiny B1 static fixture and code fact boundary
 - add another CF0 semantic probe
 - build a broad extractor
 - build a UI/workbench product

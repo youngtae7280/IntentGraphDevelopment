@@ -275,3 +275,40 @@ Minimum P1.19 outputs:
 - worker handoff instructions
 
 P1.19 must stop before implementation if these criteria are not clear.
+
+## Completed Slice: P1.19 Second Benchmark and Generalization Gate - Plan Only
+
+Goal: select the next benchmark shape, rerun the code-intelligence prior-art gate, and define Phase B entry criteria before implementation.
+
+Decision:
+
+```text
+continue-to-p2.0-b1-typescript-rest-code-fact-schema
+```
+
+Selected benchmark:
+
+```text
+B1-typescript-rest-api
+```
+
+Rationale:
+
+- CF0 is single-file Python and does not test cross-file mapping.
+- B1 tests multi-file imports, route/service/model/test facts, and non-Python extraction pressure.
+- A REST-style service avoids pulling UI/workbench concerns into Phase B too early.
+- A desktop utility is deferred until the code fact contract is stable.
+
+Produced artifacts:
+
+- [P1.19 Second Benchmark and Generalization Gate Review](../reviews/p1.19-second-benchmark-generalization-gate-review.md)
+- `generated/roadmap/p1.19-second-benchmark-generalization-report.json`
+- build/borrow/integrate decision 011 in [Build / Borrow / Integrate Decisions](../decisions/build-borrow-integrate-decisions.md)
+
+Recommended next slice:
+
+```text
+P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture
+```
+
+P2.0 is the first Phase B implementation slice. It may create the tiny B1 fixture and code fact schema/report boundary, but it must not become a broad extractor, Graphify clone, UI/workbench product, or AI coding runtime.

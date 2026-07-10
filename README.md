@@ -14,7 +14,7 @@ Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](docs/review
 
 No `M8` was opened automatically. P1.R through P1.18 reframed IntentGraph as a semantic overlay and proved the corrected model on a tiny CF0 code-first fixture. CF0 is now treated as saturated proof evidence, not proof of general scalability.
 
-The next recommended work is `P1.19 Second Benchmark and Generalization Gate - Plan Only`. It must select the next limitation to test and define criteria before larger benchmark, extractor, UI, or product work begins. See the [Phase 1 Entry Plan](docs/roadmap/phase-1-entry-plan.md) and [Product Capability Roadmap](docs/roadmap/product-capability-roadmap.md).
+P1.19 selected `B1-typescript-rest-api` as the next benchmark shape and recommended `P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture`. P2.0 may open Phase B in a bounded way, but it must not become a broad extractor, UI/workbench product, or AI coding runtime. See the [Phase 1 Entry Plan](docs/roadmap/phase-1-entry-plan.md) and [Product Capability Roadmap](docs/roadmap/product-capability-roadmap.md).
 
 ## Working Definition
 

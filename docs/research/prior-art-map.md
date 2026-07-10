@@ -214,3 +214,55 @@ IntentGraph's proposed differentiation is the combination of:
 - AI-assisted graph/code delta proposal with deterministic acceptance
 
 No single prior-art system reviewed so far replaces that combined overlay thesis, but many systems are stronger in individual lanes. Phase 0's generated-code experiment must therefore be treated as one feasibility slice, while Phase 1 work focuses on overlay mapping rather than rebuilding any one mature lane.
+
+## P1.19 Code Fact Generalization Update
+
+Date: 2026-07-10
+
+Purpose:
+
+Rerun the code-intelligence prior-art gate before opening Phase B fast retrofit/code facts.
+
+Reviewed primary sources:
+
+- Graphify: <https://github.com/Graphify-Labs/graphify>
+- SCIP: <https://github.com/scip-code/scip>
+- Kythe generated-code indexing: <https://kythe.io/docs/schema/indexing-generated-code.html>
+- Kythe indexer writing guide: <https://kythe.io/docs/schema/writing-an-indexer.html>
+- Glean: <https://github.com/facebookincubator/Glean>
+- Tree-sitter: <https://github.com/tree-sitter/tree-sitter>
+- CodeQL: <https://codeql.github.com/docs/>
+- Joern: <https://github.com/joernio/joern>
+- LSIF specification: <https://microsoft.github.io/language-server-protocol/specifications/lsif/0.4.0/specification/>
+
+P1.19 finding:
+
+The strongest existing systems already cover broad code parsing, symbol/reference indexes, call/reference graphs, code property graphs, static analysis, generated-code indexing, and AI context graphs. IntentGraph should not attempt a broad code graph engine in Phase B.
+
+Phase B differentiation:
+
+IntentGraph should define the overlay-facing fact contract:
+
+- which code facts are accepted
+- how source digests, ranges, anchors, confidence, extractor identity, and relation endpoints are validated
+- how extracted facts map to Intent Units
+- how stale or missing facts fail
+- how evidence, authority, and semantic history bind to mappings
+
+Decision pressure:
+
+- Learn from Tree-sitter for incremental syntax extraction.
+- Learn from SCIP, Kythe, and Glean for typed symbol/reference fact shape.
+- Learn from Kythe for generated-code and source mapping provenance.
+- Learn from Graphify and RepoGraph for AI context expectations, but do not treat context graphs as authority.
+- Learn from CodeQL and Joern for static-analysis scope boundaries, but do not build a static-analysis engine.
+
+Selected next benchmark:
+
+```text
+B1-typescript-rest-api
+```
+
+Reason:
+
+B1 should test multi-file, non-Python, route/service/test code facts without mixing in UI workbench or Windows desktop adoption too early.

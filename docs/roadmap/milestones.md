@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P1.18 Phase One Direction and CF0 Specialization Review
+P1.19 Second Benchmark and Generalization Gate - Plan Only
 ```
 
-This is a planning and quality review slice that pauses new CF0 semantic probes by default and recommends a plan-only second benchmark/generalization gate. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a plan-only gate that selects `B1-typescript-rest-api` as the next benchmark shape and recommends `P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture`. It does not implement the benchmark or authorize a broad extractor/UI/productization. See [Phase 1 Entry Plan](phase-1-entry-plan.md) and [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -449,3 +449,25 @@ Non-goals:
 - no broad extractor or generic framework
 - no B0 generated-code pipeline changes
 - no dependency addition
+
+## P1.19: Second Benchmark and Generalization Gate - Plan Only
+
+Goal: select the next benchmark after saturated CF0 proof work, rerun the code-intelligence prior-art gate, define Phase B entry/pass/fail criteria, and recommend the next bounded implementation slice.
+
+Status: completed on 2026-07-10. See [P1.19 Second Benchmark and Generalization Gate Review](../reviews/p1.19-second-benchmark-generalization-gate-review.md).
+
+Decision:
+
+- select `B1-typescript-rest-api`
+- continue to `P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture`
+- build only an overlay-facing code fact contract first
+- borrow or integrate mature code intelligence systems before broad extraction
+
+Non-goals:
+
+- no second benchmark implementation in P1.19
+- no broad extractor
+- no UI/workbench product
+- no AI proposal generation
+- no automatic authority
+- no source code replacement claim

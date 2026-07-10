@@ -1,0 +1,102 @@
+{
+  "artifactRole": "intentgraph-roadmap-review-report",
+  "status": "intentgraph-roadmap-review-passed",
+  "scope": "p1.19-second-benchmark-generalization-gate-plan-only",
+  "workItem": "P1.19 Second Benchmark and Generalization Gate - Plan Only",
+  "date": "2026-07-10",
+  "decision": "continue-to-p2.0-b1-typescript-rest-code-fact-schema",
+  "currentPosture": {
+    "p1_18Completed": true,
+    "cf0SaturatedProofFixture": true,
+    "newCf0SemanticProbesPaused": true,
+    "largerBenchmarkImplemented": false,
+    "broadExtractorImplemented": false,
+    "workbenchProductImplemented": false,
+    "productizationImplemented": false
+  },
+  "selectedSecondBenchmark": {
+    "id": "B1-typescript-rest-api",
+    "shape": "tiny multi-file TypeScript REST-style service",
+    "primaryPhase": "Phase B - Fast Retrofit and Code Facts",
+    "selectedCf0Limitations": [
+      "multi-file mapping",
+      "cross-module imports",
+      "route-to-handler facts",
+      "service function calls",
+      "model/type references",
+      "validation code references",
+      "test-to-behavior links",
+      "non-Python extraction pressure",
+      "incremental extraction behavior"
+    ]
+  },
+  "rejectedCandidates": [
+    {
+      "id": "todo-web-app",
+      "decision": "defer",
+      "reason": "mixes Phase B code facts with Phase F UI/workbench concerns too early"
+    },
+    {
+      "id": "small-desktop-utility",
+      "decision": "defer",
+      "reason": "too heavy before code fact contract is stable"
+    },
+    {
+      "id": "more-cf0-contracts",
+      "decision": "reject",
+      "reason": "CF0 is saturated proof evidence after P1.18"
+    }
+  ],
+  "priorArtRefresh": {
+    "sourceSweepDate": "2026-07-10",
+    "systemsReviewed": [
+      "Graphify",
+      "Tree-sitter",
+      "SCIP",
+      "LSIF",
+      "Kythe",
+      "Glean",
+      "CodeQL",
+      "Joern"
+    ],
+    "decision": "build-minimal-overlay-facing-code-fact-contract-borrow-integrate-before-broad-extraction"
+  },
+  "phaseBEntryCriteria": [
+    "B1 source shape documented before fixture creation",
+    "code fact schema v0 defined before broad extraction",
+    "build-borrow-integrate decision 011 accepted or revised",
+    "first extractor bounded to B1",
+    "verification criteria written before implementation",
+    "no UI/workbench/productization in same slice"
+  ],
+  "recommendedNextSlice": {
+    "id": "P2.0",
+    "name": "B1 TypeScript REST Code Fact Schema and Static Fixture",
+    "allowed": [
+      "create tiny B1 TypeScript REST-style fixture",
+      "define code fact schema v0 for B1",
+      "write deterministic B1 extraction report or fixture-backed fact file",
+      "validate endpoints, source digests, ranges or range status, extractor identity, confidence, and relation kinds",
+      "add negative probes for unknown kind, missing endpoint, stale digest, and missing provenance"
+    ],
+    "nonGoals": [
+      "broad all-language extraction",
+      "Graphify or code intelligence clone",
+      "UI/workbench product",
+      "AI proposal generation",
+      "automatic authority",
+      "source code replacement claim"
+    ]
+  },
+  "acceptance": {
+    "secondBenchmarkSelected": true,
+    "cf0LimitationSelected": true,
+    "priorArtGateRefreshed": true,
+    "buildBorrowIntegrateDecisionAdded": true,
+    "phaseBEntryCriteriaDefined": true,
+    "phaseBPassFailCriteriaDefined": true,
+    "benchmarkImplementationIntroduced": false,
+    "broadExtractorAuthorized": false,
+    "workbenchProductAuthorized": false
+  }
+}

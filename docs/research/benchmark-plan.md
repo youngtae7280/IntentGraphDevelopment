@@ -4,6 +4,8 @@ Benchmarks must exist before implementation claims.
 
 Primary source sweep date: 2026-07-09.
 
+Post-P1.18 generalization gate date: 2026-07-10.
+
 ## First Benchmark Selection
 
 Benchmark ID: `B0-python-cli-calculator`
@@ -135,3 +137,82 @@ P1.19 Second Benchmark and Generalization Gate - Plan Only
 ```
 
 P1.19 must use the [Product Capability Roadmap](../roadmap/product-capability-roadmap.md) to decide whether the next benchmark primarily tests Phase B fast retrofit/code facts, a bounded Phase F workbench projection, or another explicitly justified capability gap. It must define pass/fail criteria before any benchmark implementation begins.
+
+## P1.19 Second Benchmark Selection
+
+Selected next benchmark:
+
+```text
+B1-typescript-rest-api
+```
+
+Benchmark shape:
+
+A tiny multi-file TypeScript REST-style service with no external runtime dependency in the first slice. The fixture should be small enough to inspect manually but large enough to require file, module, function, route, import, call, reference, and test facts.
+
+Why this benchmark:
+
+- CF0 is single-file Python and cannot test cross-file mapping.
+- A REST-style service tests routes, handlers, services, validation, and tests without pulling in UI/workbench complexity too early.
+- TypeScript creates non-Python pressure without immediately requiring Windows desktop or browser UI infrastructure.
+- The shape can be implemented first as static source files and deterministic code facts before any server runtime is needed.
+- It allows Phase B to focus on `Extract(C) -> X`, code fact schema, relation endpoints, source digests, range/anchor metadata, and incremental extraction.
+
+Rejected for B1:
+
+| Candidate | Decision | Reason |
+|---|---|---|
+| Todo web app | defer | Useful for UI/workflow later, but it would mix Phase B code facts with Phase F workbench/UI concerns too early. |
+| Small desktop utility | defer | Valuable before WindowsUtility adoption, but too heavy for the first post-CF0 generalization gate. |
+| Another CF0 behavior probe | reject | P1.18 declared CF0 saturated proof evidence. |
+
+Minimum B1 source shape:
+
+- `src/routes/todos.ts` or equivalent route module
+- `src/service/todoService.ts`
+- `src/model/todo.ts`
+- `src/validation/input.ts`
+- `tests/todoService.test.ts` or equivalent test file
+
+Minimum B1 code fact kinds:
+
+- file
+- module
+- function
+- type/interface
+- route
+- test
+- import
+- call
+- reference
+- export
+
+Minimum B1 relation kinds:
+
+- contains
+- imports
+- exports
+- calls
+- references
+- handles_route
+- tests
+- depends_on
+
+B1 pass criteria for the first Phase B implementation slice:
+
+- repeated extraction over unchanged source is byte-stable
+- every relation endpoint resolves
+- every fact carries source file, source digest, extractor id, extractor version, confidence, and source range or explicit range status
+- changing one source file updates only expected file-local facts plus declared dependent summary facts
+- unsupported or unknown relation kinds fail deterministically
+- no source text is copied as graph authority
+- prior-art decision explains whether extraction is built, borrowed, or integrated
+
+B1 fail criteria:
+
+- extractor output is nondeterministic
+- source ranges or anchor status are missing
+- relations point to missing endpoints
+- implementation starts a broad all-language extractor
+- implementation clones Graphify, CodeQL, Joern, Kythe, Glean, or SCIP without a build/borrow/integrate decision
+- workbench/UI/productization begins before Phase B facts are stable

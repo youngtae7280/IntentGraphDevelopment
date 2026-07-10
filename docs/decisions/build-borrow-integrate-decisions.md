@@ -317,3 +317,32 @@ No AI runtime before M6.
 
 Review trigger:
 If AI output is treated as accepted evidence or authority, stop and fix the design.
+
+### 011 - Phase B Fast Retrofit And Code Fact Extraction
+
+Capability: deterministic code facts for fast retrofit over existing source code
+Date: 2026-07-10
+Status: accepted for P1.19 planning; implementation not yet opened
+
+Problem:
+P1.18 concluded that CF0 is saturated proof evidence. The next step must test whether IntentGraph can extract and validate useful code facts from a multi-file, non-Python codebase without rebuilding a mature code intelligence platform.
+
+Strongest known existing systems:
+Tree-sitter, SCIP, Kythe, Glean, LSIF, CodeQL, Joern, Graphify, RepoGraph, and Sourcegraph-style code navigation systems.
+
+Comparison:
+These systems are stronger at broad parsing, indexing, symbol/reference facts, call/reference graphs, static analysis, generated-code indexing, repository context graphs, and query/navigation UX. IntentGraph's Phase B need is narrower: a deterministic overlay-facing fact contract that validates source digests, ranges or anchor status, relation endpoints, extractor identity, confidence, and mapping suitability for Intent Units.
+
+Decision: build minimal adapter-facing contract; borrow and integrate before broad extraction.
+
+Reason:
+The unique IntentGraph capability is not another code graph engine. It is the binding layer between code facts and intent, mapping obligations, evidence, authority, and semantic history. Phase B should first define the contract and use the smallest benchmark that exposes cross-file facts.
+
+Benchmark required:
+`B1-typescript-rest-api`, a tiny multi-file TypeScript REST-style service with routes, service functions, model/type declarations, validation, imports, calls, references, and tests.
+
+Impact on roadmap:
+P1.19 opens only a plan for Phase B. The next implementation slice may create B1 fixture and a bounded code fact schema/extractor prototype, but it must not become a broad all-language extractor, workbench product, or AI context graph clone.
+
+Review trigger:
+If the implementation needs broad language support, semantic type resolution, static analysis, code navigation UI, or repository-scale graph querying, rerun this decision against Tree-sitter, SCIP, Kythe, Glean, CodeQL, Joern, Graphify, and Sourcegraph before building.
