@@ -1,0 +1,64 @@
+{
+  "artifactRole": "intentgraph-packaged-executable-launch-smoke-authorization-request",
+  "status": "intentgraph-packaged-executable-launch-smoke-authorization-requested",
+  "scope": "p8.77-packaged-executable-launch-smoke-authorization-request-only",
+  "workItem": "P8.77 Packaged Executable Launch Smoke Authorization Request",
+  "date": "2026-07-10",
+  "decision": "launch-smoke-authorization-requested-not-recorded-and-not-actionable-yet",
+  "request": {
+    "question": "After sandboxed package extraction inventory verification passes, authorize a bounded sandboxed packaged executable launch smoke?",
+    "requiredAcceptedResponse": "accept sandboxed packaged executable launch smoke",
+    "allowedResponses": [
+      "accept sandboxed packaged executable launch smoke",
+      "reject packaged executable launch smoke",
+      "revise launch smoke scope first"
+    ],
+    "standingAcceptShortcutApplies": false,
+    "standingAcceptShortcutReason": "The current-goal accept/revise/blocked shortcut does not authorize packaged executable launch."
+  },
+  "preconditionGate": {
+    "extractionInventoryVerificationRequired": true,
+    "extractionInventoryVerificationCurrentlyPassed": false,
+    "launchAuthorizationActionableNow": false,
+    "reasonNotActionable": "Existing package extraction inventory verification has not run."
+  },
+  "requestedAuthorityIfPreconditionsLaterPass": {
+    "mayLaunchPackagedExecutableFromSandbox": true,
+    "mayObserveProcessStartup": true,
+    "mayRecordSandboxStdoutStderrLogs": true,
+    "mayRecordProcessExitHealth": true,
+    "mayCaptureUiScreenshot": false,
+    "mayInstallGlobally": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false,
+    "mayCreateInstaller": false,
+    "maySignArtifacts": false,
+    "mayReadCredentials": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "authorizationState": {
+    "responseRecorded": false,
+    "accepted": false,
+    "rejected": false,
+    "reviseRequested": false,
+    "packagedExecutableLaunchAllowedNow": false,
+    "requiredNextArtifactIfUserResponds": "P8.78 Packaged Executable Launch Smoke Authorization Response Record"
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "nextAllowedWithoutAcceptance": "P8.78 Packaged UI Screenshot Boundary Plan"
+}

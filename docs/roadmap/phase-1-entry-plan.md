@@ -2659,3 +2659,25 @@ Recommended next slice:
 ```text
 P8.77 Packaged Executable Launch Smoke Authorization Request
 ```
+
+## Completed Slice: P8.77 Packaged Executable Launch Smoke Authorization Request
+
+Goal: record the future packaged executable launch smoke authorization request.
+
+Result:
+
+```text
+Decision: launch-smoke-authorization-requested-not-recorded-and-not-actionable-yet.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.77-packaged-executable-launch-smoke-authorization-request.json`
+- `generated/roadmap/p8.77-packaged-executable-launch-smoke-authorization-request-report.json`
+- [P8.77 Packaged Executable Launch Smoke Authorization Request](../reviews/p8.77-packaged-executable-launch-smoke-authorization-request.md)
+
+Recommended next slice:
+
+```text
+P8.78 Packaged UI Screenshot Boundary Plan
+```
