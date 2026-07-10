@@ -267,6 +267,12 @@ Status: added in P7.2.
 
 WindowsUtility read-only mapping hypotheses must remain explicitly unaccepted. The report must include candidate units, ambiguity records, evidence gaps, authority gaps, target git status stability, and false claims for target mutation, AI authority, and product readiness.
 
+## V1003: Productization Requires Real Adoption Evidence
+
+Status: added in P7.3.
+
+Phase H must not package or release the workflow unless real-project adoption evidence includes accepted mappings, a real proposal/application loop or a documented substitute, executed evidence/authority workflow, target repository readiness, user workflow benchmark, and product surface readiness. If those are absent, Phase H may open only for a readiness gap report.
+
 ## Rule Severity
 
 | Severity | Meaning |

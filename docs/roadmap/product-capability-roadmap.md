@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P7.2 completed.
+P7.3 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P7.3 Real Project Adoption Boundary Review and Productization Readiness Gate.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, and productization remain unauthorized.
+Next recommended slice: P8.0 Productization Readiness Gap Report and Stabilization Plan.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. Productization is explicitly not ready. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -90,13 +90,21 @@ WindowsUtility Read-Only Intent Mapping Hypothesis
 
 P7.2 emitted read-only WindowsUtility Intent Unit hypotheses, evidence gaps, authority gaps, and ambiguity records.
 
+P7.3 completed:
+
+```text
+Productization is not ready.
+```
+
+P7.3 reviewed Phase G evidence and opened only a readiness/gap report path for Phase H. It did not authorize product packaging, release, editor integration, GitHub workflow integration, team workflow automation, or product readiness claims.
+
 The next step is:
 
 ```text
-P7.3 Real Project Adoption Boundary Review and Productization Readiness Gate
+P8.0 Productization Readiness Gap Report and Stabilization Plan
 ```
 
-P7.3 should decide whether Phase H can open or must remain blocked.
+P8.0 must turn the productization blockers into a deterministic checklist and stabilization plan. It must not implement productization.
 
 ## Phase Overview
 
@@ -108,8 +116,8 @@ P7.3 should decide whether Phase H can open or must remain blocked.
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | P4.0 proposal validation and P4.1 boundary review completed for B1. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | P5.0 verifier and P5.1 boundary review completed for B1. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | P6.0 preview and P6.1 boundary review completed for B1. |
-| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | P7.1/P7.2 read-only WindowsUtility adoption evidence completed; boundary review needed before H. |
-| H | Productization | Package CLI/local app/editor/GitHub/team workflow surfaces. | Not opened. |
+| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | P7.0-P7.3 completed as read-only WindowsUtility adoption and productization gate evidence. |
+| H | Productization | Package CLI/local app/editor/GitHub/team workflow surfaces. | Not ready; P8.0 may only produce a readiness gap report and stabilization plan. |
 
 ## Phase A: Model Correction
 
@@ -558,7 +566,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P7.2 Result And P7.3 Required Scope
+## P7.3 Result And P8.0 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -591,27 +599,40 @@ P7.2 result:
 WindowsUtility read-only mapping hypothesis passes.
 ```
 
+P7.3 result:
+
+```text
+Productization readiness gate completed.
+Decision: productization-not-ready-open-readiness-gap-report-only.
+```
+
+P7.3 produced:
+
+- [P7.3 Real Project Adoption Boundary Productization Readiness Review](../reviews/p7.3-real-project-adoption-boundary-productization-readiness-review.md)
+- `generated/roadmap/p7.3-productization-readiness-gate-report.json`
+
 Recommended next slice:
 
 ```text
-P7.3 Real Project Adoption Boundary Review and Productization Readiness Gate
+P8.0 Productization Readiness Gap Report and Stabilization Plan
 ```
 
-P7.3 must:
+P8.0 must:
 
-- review P7.0 through P7.2 real-project adoption evidence
-- decide whether Phase H can open
-- state productization readiness gaps
-- define any allowed productization-readiness work
-- keep source mutation, patch application, AI generation, and productization out of scope unless readiness is justified
+- convert P7.3 blocking gaps into a productization readiness checklist
+- define stabilization tasks for real-project adoption, mapping acceptance, evidence, authority, workbench, installation, and release boundaries
+- define what evidence would allow future productization implementation
+- keep source mutation, patch application, AI generation, packaging, release, and productization out of scope
 
-P7.3 must not:
+P8.0 must not:
 
 - mutate real-project source code
 - run broad unbounded retrofit
 - grant AI authority
 - apply AI-generated code
 - claim product readiness
+- build packaging or release artifacts
+- build editor/GitHub/team workflow integration
 - build a broad extractor
 - add dependencies without decision record
 - claim general scalability
