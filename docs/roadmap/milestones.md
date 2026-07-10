@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.46 WindowsUtility Source Application Workbench Refresh
+P8.47 Productization Packaging/Release Boundary Plan
 ```
 
-This Phase G stabilization slice refreshed the static WindowsUtility workbench export with the P8.44 source application and P8.45 gate evidence. Productization remains blocked pending packaging/release boundaries. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice planned the report-only packaging/release safety boundary. Productization remains blocked pending a non-mutating packaging/release dry-run, package artifact authority, release authority, and productization authority. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -2022,5 +2022,32 @@ Non-goals:
 - no AI authority promotion
 - no packaging
 - no release
+- no productization implementation
+- no product readiness claim
+
+## P8.47: Productization Packaging/Release Boundary Plan
+
+Goal: define the safety boundary required before future WindowsUtility packaging, release, or productization work.
+
+Status: completed on 2026-07-10. See [P8.47 Productization Packaging/Release Boundary Plan](../reviews/p8.47-productization-packaging-release-boundary-plan.md).
+
+Decision:
+
+- report-only packaging/release boundary planned.
+- packaging remains unauthorized.
+- release remains unauthorized.
+- productization remains blocked.
+- continue to `P8.48 Non-Mutating Packaging/Release Dry-Run Boundary`.
+
+Non-goals:
+
+- no WindowsUtility source edit
+- no package artifact creation
+- no installer creation
+- no artifact signing
+- no credential access
+- no release publishing
+- no release tag creation
+- no provider API calls
 - no productization implementation
 - no product readiness claim

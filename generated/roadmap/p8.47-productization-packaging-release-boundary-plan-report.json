@@ -1,0 +1,121 @@
+{
+  "artifactRole": "intentgraph-productization-packaging-release-boundary-plan-report",
+  "status": "intentgraph-productization-packaging-release-boundary-planned",
+  "scope": "p8.47-productization-packaging-release-boundary-plan-report-only",
+  "workItem": "P8.47 Productization Packaging/Release Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "productization-packaging-release-boundary-planned-report-only",
+  "summary": "Plans the report-only safety boundary required before any future WindowsUtility packaging, release, or productization action is considered.",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.46-windowsutility-source-application-workbench-refresh-report.json",
+      "artifactRole": "intentgraph-roadmap-slice-completion-report",
+      "status": "intentgraph-roadmap-slice-completed",
+      "decision": "source-application-workbench-refresh-passed"
+    },
+    {
+      "path": "generated/roadmap/p8.45-source-application-result-productization-gate-report.json",
+      "artifactRole": "intentgraph-productization-source-application-result-gate-report",
+      "status": "intentgraph-productization-source-application-result-gate-reviewed",
+      "decision": "source-application-loop-passed-productization-still-blocked"
+    },
+    {
+      "path": "generated/roadmap/p8.44-minimal-windowsutility-source-edit-application-report.json",
+      "artifactRole": "intentgraph-windowsutility-source-edit-application-report",
+      "status": "intentgraph-windowsutility-source-edit-application-passed",
+      "decision": "source-edit-application-passed-with-scoped-preview-deviation"
+    },
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/validation-report.json",
+      "artifactRole": "intentgraph-static-local-workbench-export-validation-report",
+      "status": "intentgraph-static-local-workbench-export-validation-passed"
+    }
+  ],
+  "currentAllowedState": {
+    "acceptedMappingPresent": true,
+    "sourceApplicationLoopPassedForOneLowRiskEdit": true,
+    "sourceApplicationVisibleInWorkbench": true,
+    "sandboxedBuildEvidencePresent": true,
+    "sandboxedUiEvidencePresent": true,
+    "sandboxedScreenshotEvidencePresent": true,
+    "packagingBoundaryPresent": false,
+    "releaseBoundaryPresent": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false,
+    "productReady": false
+  },
+  "requiredFuturePackagingBoundary": {
+    "explicitPackagingRequestRequired": true,
+    "packageScopeRequired": true,
+    "artifactIdentityAndVersionRequired": true,
+    "cleanTargetBaselineRequired": true,
+    "deterministicBuildPlanRequired": true,
+    "testAndSmokeEvidencePlanRequired": true,
+    "dependencyAndLicenseReviewRequired": true,
+    "securityReviewPlanRequired": true,
+    "installerOrArchiveStrategyRequired": true,
+    "checksumAndProvenancePlanRequired": true,
+    "artifactStoragePlanRequired": true,
+    "rollbackOrRemovalPlanRequired": true,
+    "humanApprovalRequiredBeforePackaging": true,
+    "noImplicitAiAuthority": true
+  },
+  "requiredFutureReleaseBoundary": {
+    "explicitReleaseRequestRequired": true,
+    "releaseCandidateArtifactRequired": true,
+    "releaseNotesAndChangeSummaryRequired": true,
+    "tagOrVersionPolicyRequired": true,
+    "publishDestinationRequired": true,
+    "credentialsMustNotBeReadByDefault": true,
+    "releaseDryRunRequiredBeforePublish": true,
+    "postReleaseVerificationPlanRequired": true,
+    "rollbackPlanRequired": true,
+    "humanApprovalRequiredBeforeRelease": true,
+    "noImplicitAiAuthority": true
+  },
+  "futureDryRunBoundary": {
+    "recommendedMode": "non-mutating-packaging-release-dry-run",
+    "mayInspectBuildOutputs": true,
+    "mayValidatePackagingPlan": true,
+    "mayValidateReleasePlan": true,
+    "mayWriteIntentGraphGeneratedReportsOnly": true,
+    "mayCreatePackageArtifacts": false,
+    "maySignArtifacts": false,
+    "mayPublishRelease": false,
+    "mayReadCredentials": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false
+  },
+  "blockedUntilSeparateApproval": [
+    "package artifact creation",
+    "installer creation",
+    "artifact signing",
+    "credential access",
+    "release publishing",
+    "release tag creation",
+    "GitHub or provider release API calls",
+    "broad source mutation workflows",
+    "hardware-affecting validation",
+    "product readiness claim"
+  ],
+  "authorizations": {
+    "packagingReleaseBoundaryPlanned": true,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityPushAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packageArtifactsAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.48 Non-Mutating Packaging/Release Dry-Run Boundary"
+}
