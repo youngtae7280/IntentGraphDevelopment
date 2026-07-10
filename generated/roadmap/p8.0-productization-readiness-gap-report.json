@@ -1,0 +1,118 @@
+{
+  "artifactRole": "intentgraph-productization-readiness-gap-report",
+  "status": "intentgraph-productization-readiness-blocked",
+  "scope": "p8.0-productization-readiness-gap-stabilization-report-only",
+  "workItem": "P8.0 Productization Readiness Gap Report and Stabilization Plan",
+  "date": "2026-07-10",
+  "decision": "productization-blocked-stabilization-required",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p7.3-productization-readiness-gate-report.json",
+      "artifactRole": "intentgraph-productization-readiness-gate-report",
+      "status": "intentgraph-productization-readiness-not-ready"
+    },
+    {
+      "path": "generated/windowsutility/p7.1-readonly-inventory.json",
+      "artifactRole": "intentgraph-windowsutility-readonly-inventory-report",
+      "status": "intentgraph-windowsutility-readonly-inventory-reported"
+    },
+    {
+      "path": "generated/windowsutility/p7.2-mapping-hypothesis.json",
+      "artifactRole": "intentgraph-windowsutility-mapping-hypothesis-report",
+      "status": "intentgraph-windowsutility-mapping-hypothesis-reported"
+    }
+  ],
+  "readinessChecklist": {
+    "targetRepositoryStateAcceptable": false,
+    "realProjectInventoryPresent": true,
+    "acceptedRealProjectMappingPresent": false,
+    "realProposalLoopPassed": false,
+    "realEvidenceAuthorityWorkflowPassed": false,
+    "realProjectWorkbenchPresent": false,
+    "userWorkflowBenchmarkPresent": false,
+    "productSurfaceDecisionRecordPresent": false,
+    "packagingReleaseBoundaryPresent": false,
+    "aiAuthorityPromoted": false,
+    "sourceMutationAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "blockers": [
+    {
+      "id": "blocker.target-repository-state",
+      "severity": "p0",
+      "summary": "WindowsUtility target state is not clean/aligned",
+      "requiredResolution": "Resolve or explicitly scope the target's existing local state before target-write adoption work."
+    },
+    {
+      "id": "blocker.accepted-real-project-mapping",
+      "severity": "p0",
+      "summary": "WindowsUtility mappings are hypotheses only",
+      "requiredResolution": "Create an accepted mapping boundary with deterministic stale/missing mapping failure probes."
+    },
+    {
+      "id": "blocker.real-change-loop",
+      "severity": "p0",
+      "summary": "No real proposal/application/evidence/authority loop has passed",
+      "requiredResolution": "Run one low-risk real-project task through non-applied proposal and deterministic verification before applying changes."
+    },
+    {
+      "id": "blocker.real-project-workbench",
+      "severity": "p1",
+      "summary": "No WindowsUtility-specific workbench projection exists",
+      "requiredResolution": "Emit a real-project projection covering inventory, mappings, ambiguity, proposal, evidence, authority, and history."
+    },
+    {
+      "id": "blocker.user-workflow-benchmark",
+      "severity": "p1",
+      "summary": "No user workflow benchmark exists",
+      "requiredResolution": "Define and run a benchmark comparing IntentGraph-assisted workflow against ordinary AI coding for one task class."
+    },
+    {
+      "id": "blocker.product-surface",
+      "severity": "p1",
+      "summary": "No first product surface decision exists",
+      "requiredResolution": "Choose and review the first product surface after real-project adoption evidence exists."
+    }
+  ],
+  "stabilizationTracks": [
+    {
+      "id": "track.real-project-state",
+      "nextSafeSlice": "P8.1 WindowsUtility Repository State Resolution Plan",
+      "implementationAuthorized": false
+    },
+    {
+      "id": "track.accepted-mapping",
+      "nextSafeSlice": "P8.1 WindowsUtility Accepted Mapping Boundary Plan",
+      "implementationAuthorized": false
+    },
+    {
+      "id": "track.real-change-loop",
+      "nextSafeSlice": "P8.2 WindowsUtility Non-Applied Proposal Boundary",
+      "implementationAuthorized": false
+    },
+    {
+      "id": "track.real-project-workbench",
+      "nextSafeSlice": "P8.3 WindowsUtility Workbench Projection Boundary",
+      "implementationAuthorized": false
+    },
+    {
+      "id": "track.product-surface",
+      "nextSafeSlice": "future Product Surface Decision Record",
+      "implementationAuthorized": false
+    }
+  ],
+  "nonGoalsPreserved": {
+    "packaging": true,
+    "release": true,
+    "editorIntegration": true,
+    "githubWorkflowIntegration": true,
+    "teamWorkflowAutomation": true,
+    "targetSourceMutation": true,
+    "aiAuthorityPromotion": true,
+    "productReadinessClaim": true
+  },
+  "recommendedNextSlices": [
+    "P8.1 WindowsUtility Repository State Resolution Plan",
+    "P8.1 WindowsUtility Accepted Mapping Boundary Plan"
+  ]
+}

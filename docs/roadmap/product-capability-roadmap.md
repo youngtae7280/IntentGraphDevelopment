@@ -7,10 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P7.3 completed.
+P8.0 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P8.0 Productization Readiness Gap Report and Stabilization Plan.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. Productization is explicitly not ready. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
+Productization readiness is blocked.
+Next safe work must stabilize real-project adoption before product implementation.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -98,13 +99,20 @@ Productization is not ready.
 
 P7.3 reviewed Phase G evidence and opened only a readiness/gap report path for Phase H. It did not authorize product packaging, release, editor integration, GitHub workflow integration, team workflow automation, or product readiness claims.
 
-The next step is:
+P8.0 completed:
 
 ```text
-P8.0 Productization Readiness Gap Report and Stabilization Plan
+Productization Readiness Gap Report and Stabilization Plan
 ```
 
-P8.0 must turn the productization blockers into a deterministic checklist and stabilization plan. It must not implement productization.
+P8.0 turned the productization blockers into a deterministic checklist and stabilization plan. It did not implement productization.
+
+The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
+
+```text
+P8.1 WindowsUtility Repository State Resolution Plan
+P8.1 WindowsUtility Accepted Mapping Boundary Plan
+```
 
 ## Phase Overview
 
@@ -117,7 +125,7 @@ P8.0 must turn the productization blockers into a deterministic checklist and st
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | P5.0 verifier and P5.1 boundary review completed for B1. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | P6.0 preview and P6.1 boundary review completed for B1. |
 | G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | P7.0-P7.3 completed as read-only WindowsUtility adoption and productization gate evidence. |
-| H | Productization | Package CLI/local app/editor/GitHub/team workflow surfaces. | Not ready; P8.0 may only produce a readiness gap report and stabilization plan. |
+| H | Productization | Package CLI/local app/editor/GitHub/team workflow surfaces. | Blocked by P8.0 readiness report; product implementation waits for real-project stabilization evidence. |
 
 ## Phase A: Model Correction
 
@@ -566,7 +574,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P7.3 Result And P8.0 Required Scope
+## P8.0 Result And Productization Blocker Boundary
 
 P1.19 completed the plan-only generalization gate.
 
@@ -611,20 +619,29 @@ P7.3 produced:
 - [P7.3 Real Project Adoption Boundary Productization Readiness Review](../reviews/p7.3-real-project-adoption-boundary-productization-readiness-review.md)
 - `generated/roadmap/p7.3-productization-readiness-gate-report.json`
 
-Recommended next slice:
+P8.0 result:
 
 ```text
-P8.0 Productization Readiness Gap Report and Stabilization Plan
+Productization readiness gap report completed.
+Decision: productization-blocked-stabilization-required.
 ```
 
-P8.0 must:
+P8.0 produced:
 
-- convert P7.3 blocking gaps into a productization readiness checklist
-- define stabilization tasks for real-project adoption, mapping acceptance, evidence, authority, workbench, installation, and release boundaries
-- define what evidence would allow future productization implementation
-- keep source mutation, patch application, AI generation, packaging, release, and productization out of scope
+- [P8.0 Productization Readiness Gap Stabilization Review](../reviews/p8.0-productization-readiness-gap-stabilization-review.md)
+- [Productization Stabilization Plan](productization-stabilization-plan.md)
+- `generated/roadmap/p8.0-productization-readiness-gap-report.json`
 
-P8.0 must not:
+Productization remains blocked until:
+
+- WindowsUtility repository state is acceptable.
+- accepted real-project mappings exist.
+- one real-project proposal/evidence/authority loop passes deterministic verification.
+- a real-project workbench projection exists.
+- a user workflow benchmark exists.
+- the first product surface has a decision record.
+
+Next safe work must not:
 
 - mutate real-project source code
 - run broad unbounded retrofit

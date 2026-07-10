@@ -852,3 +852,26 @@ Non-goals:
 - no AI-generated code application
 - no productization implementation
 - no product readiness claim
+
+## P8.0: Productization Readiness Gap Report and Stabilization Plan
+
+Goal: convert productization blockers into a deterministic checklist and stabilization plan.
+
+Status: completed on 2026-07-10. See [P8.0 Productization Readiness Gap Stabilization Review](../reviews/p8.0-productization-readiness-gap-stabilization-review.md).
+
+Decision:
+
+- productization is blocked.
+- stabilization is required before any product implementation.
+- next safe work must address real-project repository state, accepted mappings, real proposal/evidence/authority loops, real workbench projection, user workflow benchmarks, and product surface decisions.
+
+Non-goals:
+
+- no writing to WindowsUtility
+- no accepted real-project mappings
+- no real-project source mutation
+- no proposal application
+- no packaging or release
+- no editor/GitHub/team workflow integration
+- no AI authority promotion
+- no product readiness claim

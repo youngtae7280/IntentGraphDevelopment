@@ -273,6 +273,12 @@ Status: added in P7.3.
 
 Phase H must not package or release the workflow unless real-project adoption evidence includes accepted mappings, a real proposal/application loop or a documented substitute, executed evidence/authority workflow, target repository readiness, user workflow benchmark, and product surface readiness. If those are absent, Phase H may open only for a readiness gap report.
 
+## V1004: Productization Gap Reports Must Not Become Productization
+
+Status: added in P8.0.
+
+A productization readiness gap report may define checklists, blockers, stabilization tracks, and future entry criteria. It must not create installable packages, release artifacts, editor integrations, GitHub workflow integrations, team automation, target source mutations, AI authority, or product readiness claims. If any checklist item is absent, the report must keep `productizationAuthorized:false` or equivalent blocked status.
+
 ## Rule Severity
 
 | Severity | Meaning |

@@ -685,3 +685,28 @@ P8.0 Productization Readiness Gap Report and Stabilization Plan
 ```
 
 P8.0 must be a readiness/gap artifact. It may define stabilization tasks and future acceptance criteria, but it must not package, release, integrate editors/GitHub/team workflow surfaces, mutate real-project source, apply proposals, or claim product readiness.
+
+## Completed Slice: P8.0 Productization Readiness Gap Report and Stabilization Plan
+
+Goal: convert the P7.3 blockers into a deterministic productization readiness checklist and stabilization plan.
+
+Produced artifacts:
+
+- [P8.0 Productization Readiness Gap Stabilization Review](../reviews/p8.0-productization-readiness-gap-stabilization-review.md)
+- [Productization Stabilization Plan](productization-stabilization-plan.md)
+- `generated/roadmap/p8.0-productization-readiness-gap-report.json`
+
+Decision:
+
+```text
+productization-blocked-stabilization-required
+```
+
+Next safe work:
+
+```text
+P8.1 WindowsUtility Repository State Resolution Plan
+P8.1 WindowsUtility Accepted Mapping Boundary Plan
+```
+
+Both are stabilization work. Neither may mutate WindowsUtility, apply proposals, package the product, or claim readiness unless the Coordinator explicitly opens that scope.
