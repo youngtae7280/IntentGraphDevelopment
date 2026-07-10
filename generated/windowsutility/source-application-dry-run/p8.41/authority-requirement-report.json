@@ -1,0 +1,61 @@
+{
+  "artifactRole": "intentgraph-windowsutility-source-application-authority-requirement-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "gitIndexMutationAuthorized": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityGeneratedWritesAuthorized": false,
+    "windowsUtilityPushAuthorized": false
+  },
+  "date": "2026-07-10",
+  "dryRunAuthority": {
+    "aiSelfAuthorizationAllowed": false,
+    "hardwareActionsAuthorized": false,
+    "nonMutatingDryRunRecorded": true,
+    "packagingAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceApplicationAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "nextGate": {
+    "id": "gate.p8.42-source-application-authorization-review",
+    "reason": "A source-modifying slice must use this dry-run plus explicit coordinator/user authority before editing WindowsUtility.",
+    "requiredBeforeSourceWrite": true
+  },
+  "permissionContext": {
+    "permissionExercisedInThisSlice": false,
+    "reason": "P8.41 remains a non-mutating dry-run prototype even when a later source-application slice may be authorized.",
+    "sourceModificationPermissionObserved": true
+  },
+  "requiredAuthority": [
+    {
+      "actor": "Coordinator",
+      "aiAuthority": false,
+      "id": "authority.requirement.p8.12-coordinator-review",
+      "kind": "coordinator-review-required",
+      "requiredBeforeAcceptance": true,
+      "selfAuthorized": false,
+      "targetWritesAuthorized": false
+    },
+    {
+      "actor": "User",
+      "aiAuthority": false,
+      "id": "authority.requirement.p8.12-user-evidence-acceptance",
+      "kind": "human-evidence-acceptance-required",
+      "requiredBeforeAcceptance": true,
+      "selfAuthorized": false,
+      "targetWritesAuthorized": false
+    }
+  ],
+  "scope": "p8.41-non-mutating-source-application-dry-run-prototype",
+  "status": "intentgraph-windowsutility-source-application-authority-requirements-recorded",
+  "workItem": "P8.41 Non-Mutating Source Application Dry-Run Prototype"
+}

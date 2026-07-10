@@ -1,0 +1,101 @@
+{
+  "artifactRole": "intentgraph-windowsutility-source-application-evidence-plan",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "gitIndexMutationAuthorized": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityGeneratedWritesAuthorized": false,
+    "windowsUtilityPushAuthorized": false
+  },
+  "date": "2026-07-10",
+  "dryRunCollectedEvidence": [
+    {
+      "id": "evidence.p8.41-source-digest-recheck",
+      "kind": "source-ref-digest-recheck",
+      "report": "touched-file-expectation-report.json",
+      "status": "collected-in-dry-run",
+      "targetWrites": false
+    }
+  ],
+  "hardwareRequired": false,
+  "postApplicationEvidence": [],
+  "preApplicationEvidence": [
+    {
+      "alreadySatisfied": true,
+      "id": "evidence.requirement.p8.12-accepted-mapping-verification",
+      "kind": "accepted-mapping-verification-report",
+      "requiredBeforeAcceptance": true,
+      "source": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json"
+    },
+    {
+      "id": "evidence.requirement.p8.12-source-digest-recheck",
+      "kind": "source-ref-digest-recheck",
+      "requiredBeforeAcceptance": true,
+      "status": "future-required-not-collected",
+      "targetRefs": [
+        "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+      ]
+    },
+    {
+      "hardwareRequired": false,
+      "id": "evidence.requirement.p8.12-shell-navigation-smoke",
+      "kind": "shell-navigation-smoke-result",
+      "requiredBeforeAcceptance": true,
+      "status": "future-required-not-collected",
+      "targetSurface": "WindowsUtility shell/workspace"
+    },
+    {
+      "id": "evidence.requirement.p8.12-shell-workspace-screenshot",
+      "kind": "screenshot-or-ui-surface-evidence",
+      "requiredBeforeAcceptance": true,
+      "status": "future-required-not-collected",
+      "targetSurface": "WindowsUtility shell/workspace"
+    }
+  ],
+  "proposalId": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+  "requiredEvidence": [
+    {
+      "alreadySatisfied": true,
+      "id": "evidence.requirement.p8.12-accepted-mapping-verification",
+      "kind": "accepted-mapping-verification-report",
+      "requiredBeforeAcceptance": true,
+      "source": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json"
+    },
+    {
+      "id": "evidence.requirement.p8.12-source-digest-recheck",
+      "kind": "source-ref-digest-recheck",
+      "requiredBeforeAcceptance": true,
+      "status": "future-required-not-collected",
+      "targetRefs": [
+        "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+      ]
+    },
+    {
+      "hardwareRequired": false,
+      "id": "evidence.requirement.p8.12-shell-navigation-smoke",
+      "kind": "shell-navigation-smoke-result",
+      "requiredBeforeAcceptance": true,
+      "status": "future-required-not-collected",
+      "targetSurface": "WindowsUtility shell/workspace"
+    },
+    {
+      "id": "evidence.requirement.p8.12-shell-workspace-screenshot",
+      "kind": "screenshot-or-ui-surface-evidence",
+      "requiredBeforeAcceptance": true,
+      "status": "future-required-not-collected",
+      "targetSurface": "WindowsUtility shell/workspace"
+    }
+  ],
+  "scope": "p8.41-non-mutating-source-application-dry-run-prototype",
+  "status": "intentgraph-windowsutility-source-application-evidence-plan-recorded",
+  "workItem": "P8.41 Non-Mutating Source Application Dry-Run Prototype"
+}

@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.40 Non-Mutating Source Application Dry-Run Boundary
+P8.41 Non-Mutating Source Application Dry-Run Prototype
 ```
 
-This Phase G stabilization slice recorded the non-mutating source application dry-run boundary without granting source writes. Proposal application, target writes, AI authority, hardware authority, packaging, release, and productization remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice emitted and validated the first non-mutating source application dry-run bundle for WindowsUtility. The user has allowed future WindowsUtility source modification, but P8.41 did not exercise that permission. Proposal application, target writes, AI authority, hardware authority, packaging, release, and productization remain blocked until the next explicit source application gate. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1862,5 +1862,35 @@ Non-goals:
 - no packaging
 - no release
 - no editor or GitHub integration
+- no productization implementation
+- no product readiness claim
+
+## P8.41: Non-Mutating Source Application Dry-Run Prototype
+
+Goal: emit and validate the first non-mutating WindowsUtility source-application dry-run bundle from the accepted shell/workspace mapping and P8.12 non-applied proposal.
+
+Status: completed on 2026-07-10. See [P8.41 Non-Mutating Source Application Dry-Run Prototype](../reviews/p8.41-non-mutating-source-application-dry-run-prototype.md).
+
+Decision:
+
+- dry-run request, change-set preview, touched-file expectation report, evidence plan, rollback plan, authority report, validation report, and negative probe report were emitted.
+- validation passed with 2 touched files, 4 evidence requirements, 0 source operations, and 0 errors.
+- 12 negative probes passed.
+- the user's source-modification permission is recorded as observed, but it was not exercised in this slice.
+- WindowsUtility remained clean/aligned and unchanged.
+- continue to `P8.42 Source Application Authorization Review / Minimal Source Application Gate`.
+
+Non-goals:
+
+- no WindowsUtility source edits
+- no proposal application
+- no target write authority
+- no WindowsUtility generated writes
+- no WindowsUtility commit or push
+- no git index mutation
+- no hardware action authority
+- no AI authority promotion
+- no packaging
+- no release
 - no productization implementation
 - no product readiness claim

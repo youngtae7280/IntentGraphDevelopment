@@ -1,0 +1,75 @@
+{
+  "artifactRole": "intentgraph-windowsutility-source-application-dry-run-request",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "gitIndexMutationAuthorized": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityGeneratedWritesAuthorized": false,
+    "windowsUtilityPushAuthorized": false
+  },
+  "claimScope": {
+    "dryRunOnly": true,
+    "hardwareActionClaimed": false,
+    "packagingClaimed": false,
+    "productizationClaimed": false,
+    "proposalApplied": false,
+    "releaseClaimed": false,
+    "sourceMutated": false,
+    "sourcePatchApplied": false,
+    "sourcePatchGenerated": false,
+    "targetMutated": false,
+    "windowsUtilityCommitCreated": false,
+    "windowsUtilityPushPerformed": false
+  },
+  "date": "2026-07-10",
+  "dryRunPurpose": "Create a deterministic source-application rehearsal record before any WindowsUtility source write is performed.",
+  "mode": "non-mutating-source-application-dry-run",
+  "permissionContext": {
+    "permissionExercisedInThisSlice": false,
+    "reason": "P8.41 remains a non-mutating dry-run prototype even when a later source-application slice may be authorized.",
+    "sourceModificationPermissionObserved": true
+  },
+  "reportVersion": "0.1.0",
+  "scope": "p8.41-non-mutating-source-application-dry-run-prototype",
+  "sourceInputs": {
+    "acceptedMapping": {
+      "artifactRole": "intentgraph-windowsutility-accepted-mapping",
+      "digest": "sha256:7d9ffea6e82f563246176b77f3790831fe32f28ed5a67b79130bee8239e44ee4",
+      "mappingId": "mapping.windowsutility.shell-workspace.accepted",
+      "path": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+      "status": "intentgraph-windowsutility-accepted-mapping-recorded"
+    },
+    "boundaryReport": {
+      "artifactRole": "intentgraph-non-mutating-source-application-dry-run-boundary-report",
+      "digest": "sha256:1e5443cacb0d1f42b25186cc40a3cbbf6117b296735707bb888e252886a7879e",
+      "path": "generated/roadmap/p8.40-non-mutating-source-application-dry-run-boundary-report.json",
+      "status": "intentgraph-non-mutating-source-application-dry-run-boundary-recorded"
+    },
+    "nonAppliedProposal": {
+      "applicationStatus": "not-applied",
+      "artifactRole": "intentgraph-windowsutility-non-applied-proposal",
+      "digest": "sha256:0a0a47e9c072d8588d16f48d77a552405465cc8cd5ff29662209f6ac3612f279",
+      "path": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+      "proposalId": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+      "status": "intentgraph-windowsutility-non-applied-proposal-proposed"
+    },
+    "targetRoot": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility"
+  },
+  "status": "intentgraph-windowsutility-source-application-dry-run-request-recorded",
+  "targetBaseline": {
+    "cleanAligned": true,
+    "gitStatus": "## main...origin/main",
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "sourceModificationPermissionObserved": true
+  },
+  "workItem": "P8.41 Non-Mutating Source Application Dry-Run Prototype"
+}

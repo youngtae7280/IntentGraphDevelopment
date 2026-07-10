@@ -1690,3 +1690,36 @@ Recommended next slice:
 ```text
 P8.41 Non-Mutating Source Application Dry-Run Prototype
 ```
+
+## Completed Slice: P8.41 Non-Mutating Source Application Dry-Run Prototype
+
+Goal: emit and validate the first non-mutating source-application dry-run bundle for WindowsUtility.
+
+Produced artifacts:
+
+- `tools/emit_windowsutility_source_application_dry_run.py`
+- `tools/run_windowsutility_source_application_dry_run_negative_probes.py`
+- `generated/windowsutility/source-application-dry-run/p8.41/dry-run-request.json`
+- `generated/windowsutility/source-application-dry-run/p8.41/change-set-preview.json`
+- `generated/windowsutility/source-application-dry-run/p8.41/touched-file-expectation-report.json`
+- `generated/windowsutility/source-application-dry-run/p8.41/evidence-plan.json`
+- `generated/windowsutility/source-application-dry-run/p8.41/rollback-plan.json`
+- `generated/windowsutility/source-application-dry-run/p8.41/authority-requirement-report.json`
+- `generated/windowsutility/source-application-dry-run/p8.41/validation-report.json`
+- `generated/windowsutility/source-application-dry-run/p8.41/negative-probes-report.json`
+- `generated/roadmap/p8.41-non-mutating-source-application-dry-run-prototype-report.json`
+- [P8.41 Non-Mutating Source Application Dry-Run Prototype](../reviews/p8.41-non-mutating-source-application-dry-run-prototype.md)
+
+Decision:
+
+```text
+non-mutating-source-application-dry-run-prototype-passed
+```
+
+The user's source-modification permission is recorded as observed, but it was not exercised. WindowsUtility stayed clean/aligned and unchanged.
+
+Recommended next slice:
+
+```text
+P8.42 Source Application Authorization Review / Minimal Source Application Gate
+```

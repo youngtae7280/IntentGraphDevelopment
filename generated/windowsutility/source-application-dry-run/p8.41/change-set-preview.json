@@ -1,0 +1,47 @@
+{
+  "applicationStatus": "not-applied",
+  "artifactRole": "intentgraph-windowsutility-source-change-set-preview",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "gitIndexMutationAuthorized": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityGeneratedWritesAuthorized": false,
+    "windowsUtilityPushAuthorized": false
+  },
+  "date": "2026-07-10",
+  "intendedTouchedFiles": [
+    {
+      "expectedByteLength": 1897,
+      "expectedDigest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+      "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+      "readOnlyDigestRecheck": true,
+      "writeExpected": false
+    },
+    {
+      "expectedByteLength": 594,
+      "expectedDigest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+      "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+      "readOnlyDigestRecheck": true,
+      "writeExpected": false
+    }
+  ],
+  "operationCount": 0,
+  "operations": [],
+  "patchApplicationMode": "non-mutating-preview-only",
+  "plannedSourceChanges": [],
+  "proposalId": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+  "reason": "The bound proposal requests smoke evidence and does not include a source patch.",
+  "scope": "p8.41-non-mutating-source-application-dry-run-prototype",
+  "sourcePatchApplied": false,
+  "sourcePatchExpected": false,
+  "sourcePatchGenerated": false,
+  "status": "intentgraph-windowsutility-source-change-set-preview-recorded",
+  "workItem": "P8.41 Non-Mutating Source Application Dry-Run Prototype"
+}

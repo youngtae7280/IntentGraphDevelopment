@@ -418,3 +418,23 @@ The next safe stabilization slice is:
 ```text
 P8.41 Non-Mutating Source Application Dry-Run Prototype
 ```
+
+## P8.41 Non-Mutating Source Application Dry-Run Prototype
+
+P8.41 emitted the first source-application dry-run bundle under:
+
+```text
+generated/windowsutility/source-application-dry-run/p8.41
+```
+
+The bundle includes a dry-run request, change-set preview, touched-file expectation report, evidence plan, rollback plan, authority report, validation report, and negative probe report.
+
+The user has allowed future WindowsUtility source modification, but P8.41 did not exercise that permission. Source edits, proposal application, target writes, WindowsUtility generated writes, git index mutation, commit, push, AI authority, hardware actions, packaging, release, and productization remain blocked until the next explicit source application gate.
+
+P8.41 validation passed and 12 negative probes passed.
+
+The next safe stabilization slice is:
+
+```text
+P8.42 Source Application Authorization Review / Minimal Source Application Gate
+```

@@ -1,0 +1,39 @@
+{
+  "artifactRole": "intentgraph-windowsutility-source-application-dry-run-validation-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "gitIndexMutationAuthorized": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityGeneratedWritesAuthorized": false,
+    "windowsUtilityPushAuthorized": false
+  },
+  "date": "2026-07-10",
+  "errors": [],
+  "outputFiles": [
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\source-application-dry-run\\p8.41\\dry-run-request.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\source-application-dry-run\\p8.41\\change-set-preview.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\source-application-dry-run\\p8.41\\touched-file-expectation-report.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\source-application-dry-run\\p8.41\\evidence-plan.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\source-application-dry-run\\p8.41\\rollback-plan.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\source-application-dry-run\\p8.41\\authority-requirement-report.json"
+  ],
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "p8.41-non-mutating-source-application-dry-run-prototype",
+  "status": "intentgraph-windowsutility-source-application-dry-run-validation-passed",
+  "summary": {
+    "artifactCount": 6,
+    "changeOperationCount": 0,
+    "errorCount": 0,
+    "requiredEvidenceCount": 4,
+    "touchedFileCount": 2
+  },
+  "workItem": "P8.41 Non-Mutating Source Application Dry-Run Prototype"
+}

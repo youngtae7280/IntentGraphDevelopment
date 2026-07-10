@@ -1,0 +1,87 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-completion-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "gitIndexMutationAuthorized": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityGeneratedWritesAuthorized": false,
+    "windowsUtilityPushAuthorized": false
+  },
+  "date": "2026-07-10",
+  "decision": "non-mutating-source-application-dry-run-prototype-passed",
+  "dryRunResults": {
+    "artifactCount": 6,
+    "changeOperationCount": 0,
+    "dryRunCollectedEvidenceCount": 1,
+    "negativeProbeCount": 12,
+    "negativeProbeResult": "pass",
+    "nonMutatingDryRunRecorded": true,
+    "permissionObserved": true,
+    "requiredEvidenceCount": 4,
+    "sourceMutationPerformed": false,
+    "sourcePatchApplied": false,
+    "sourcePatchExpected": false,
+    "sourcePatchGenerated": false,
+    "touchedFileCount": 2,
+    "touchedFileDigestMatchedCount": 2,
+    "validationResult": "pass"
+  },
+  "outputs": [
+    {
+      "digest": "sha256:1d6e64892ce961c4e17fa6ea217be394990ccc071f7f0d20e0f429fb7d3df1a4",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/dry-run-request.json"
+    },
+    {
+      "digest": "sha256:4360362a4598bfc6ecd8e8f96e6a6132123d89dc6886ae86ce47021033a45f15",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/change-set-preview.json"
+    },
+    {
+      "digest": "sha256:0a11efacc14303d6bcebff4456ac95fb0a4f790a7e7c32b08f2056d9e57137eb",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/touched-file-expectation-report.json"
+    },
+    {
+      "digest": "sha256:21d3a5781f9067991b8bbdd50ef54f8159cb959c2057bf8c4303281f1a53d634",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/evidence-plan.json"
+    },
+    {
+      "digest": "sha256:ff699143febaa1fc91021921d87836c5a4d87b7152b46923ac1a610b240b0edf",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/rollback-plan.json"
+    },
+    {
+      "digest": "sha256:4c76a153208126ab5234fee23ec38910c4244ce0d2c6c44a952dc60dde511efe",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/authority-requirement-report.json"
+    },
+    {
+      "digest": "sha256:5552e79b334308f4a0622cb5151105a2d108c07a72c2ffd6c7c5f20b261eb07f",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/validation-report.json"
+    },
+    {
+      "digest": "sha256:2dc989dfdde9e292dfd73f3620913537ab35afe5367ada3d763bc39b4c6e350e",
+      "path": "generated/windowsutility/source-application-dry-run/p8.41/negative-probes-report.json"
+    }
+  ],
+  "recommendedNextSlice": "P8.42 Source Application Authorization Review / Minimal Source Application Gate",
+  "scope": "p8.41-non-mutating-source-application-dry-run-prototype-report-only",
+  "sourceModificationPermission": {
+    "exercisedInThisSlice": false,
+    "observedFromCoordinator": true,
+    "reason": "P8.41 is intentionally the last non-mutating rehearsal before a future source-application authorization gate."
+  },
+  "status": "intentgraph-roadmap-slice-completed",
+  "summary": "Emitted and validated a non-mutating WindowsUtility source-application dry-run bundle without writing to WindowsUtility or applying the proposal.",
+  "targetState": {
+    "cleanAligned": true,
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "status": "## main...origin/main"
+  },
+  "workItem": "P8.41 Non-Mutating Source Application Dry-Run Prototype"
+}

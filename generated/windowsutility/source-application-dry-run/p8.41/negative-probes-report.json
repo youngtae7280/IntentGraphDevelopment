@@ -1,0 +1,136 @@
+{
+  "artifactRole": "intentgraph-windowsutility-source-application-dry-run-negative-probes-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "gitIndexMutationAuthorized": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityGeneratedWritesAuthorized": false,
+    "windowsUtilityPushAuthorized": false
+  },
+  "positiveBaseline": {
+    "dryRunDir": "generated/windowsutility/source-application-dry-run/p8.41",
+    "rerunResult": "pass"
+  },
+  "probeCount": 12,
+  "probes": [
+    {
+      "actualErrors": [
+        "dry-run-request.json.authorizations.sourceEditsAuthorized must be false"
+      ],
+      "expectedError": "dry-run-request.json.authorizations.sourceEditsAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "source-write-claimed"
+    },
+    {
+      "actualErrors": [
+        "request.claimScope.proposalApplied must be false",
+        "change-set.applicationStatus must be not-applied"
+      ],
+      "expectedError": "request.claimScope.proposalApplied must be false",
+      "expectedFailureObserved": true,
+      "id": "proposal-applied-claimed"
+    },
+    {
+      "actualErrors": [
+        "request.targetBaseline.cleanAligned must be true",
+        "request.targetBaseline.gitStatus must be clean/aligned"
+      ],
+      "expectedError": "request.targetBaseline.cleanAligned must be true",
+      "expectedFailureObserved": true,
+      "id": "dirty-target-baseline"
+    },
+    {
+      "actualErrors": [
+        "change-set.intendedTouchedFiles must be non-empty",
+        "touched-file report must include non-empty results"
+      ],
+      "expectedError": "change-set.intendedTouchedFiles must be non-empty",
+      "expectedFailureObserved": true,
+      "id": "missing-touched-file-scope"
+    },
+    {
+      "actualErrors": [
+        "evidence-plan.requiredEvidence must include at least four items"
+      ],
+      "expectedError": "evidence-plan.requiredEvidence must include at least four items",
+      "expectedFailureObserved": true,
+      "id": "missing-evidence-plan"
+    },
+    {
+      "actualErrors": [
+        "missing artifact rollback-plan.json",
+        "rollback-plan.sourceMutationPerformed must be false",
+        "rollback-plan.rollbackActionRequiredForThisDryRun must be false",
+        "rollback-plan.stopConditions must be non-empty"
+      ],
+      "expectedError": "missing artifact rollback-plan.json",
+      "expectedFailureObserved": true,
+      "id": "missing-rollback-plan"
+    },
+    {
+      "actualErrors": [
+        "authority-requirement-report.json.authorizations.aiAuthorityPromoted must be false",
+        "authority.dryRunAuthority.aiSelfAuthorizationAllowed must be false"
+      ],
+      "expectedError": "authority-requirement-report.json.authorizations.aiAuthorityPromoted must be false",
+      "expectedFailureObserved": true,
+      "id": "ai-authority-true"
+    },
+    {
+      "actualErrors": [
+        "authority-requirement-report.json.authorizations.hardwareActionsAuthorized must be false",
+        "authority.dryRunAuthority.hardwareActionsAuthorized must be false"
+      ],
+      "expectedError": "authority-requirement-report.json.authorizations.hardwareActionsAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "hardware-authority-true"
+    },
+    {
+      "actualErrors": [
+        "authority-requirement-report.json.authorizations.packagingAuthorized must be false",
+        "authority-requirement-report.json.authorizations.releaseAuthorized must be false",
+        "authority.dryRunAuthority.packagingAuthorized must be false",
+        "authority.dryRunAuthority.releaseAuthorized must be false"
+      ],
+      "expectedError": "authority-requirement-report.json.authorizations.packagingAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "packaging-release-authority-true"
+    },
+    {
+      "actualErrors": [
+        "change-set.operationCount must be 0",
+        "change-set.operations must be empty"
+      ],
+      "expectedError": "change-set.operationCount must be 0",
+      "expectedFailureObserved": true,
+      "id": "patch-operation-present"
+    },
+    {
+      "actualErrors": [
+        "change-set.sourcePatchExpected must be false"
+      ],
+      "expectedError": "change-set.sourcePatchExpected must be false",
+      "expectedFailureObserved": true,
+      "id": "source-patch-expected-true"
+    },
+    {
+      "actualErrors": [
+        "dry-run-request.json.authorizations.windowsUtilityGeneratedWritesAuthorized must be false"
+      ],
+      "expectedError": "dry-run-request.json.authorizations.windowsUtilityGeneratedWritesAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "windowsutility-generated-write-authority"
+    }
+  ],
+  "result": "pass",
+  "scope": "p8.41-non-mutating-source-application-dry-run-negative-probes-report-only",
+  "status": "intentgraph-windowsutility-source-application-dry-run-negative-probes-passed",
+  "workItem": "P8.41 Non-Mutating Source Application Dry-Run Prototype"
+}

@@ -1,0 +1,54 @@
+{
+  "artifactRole": "intentgraph-windowsutility-source-application-rollback-plan",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "gitIndexMutationAuthorized": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityGeneratedWritesAuthorized": false,
+    "windowsUtilityPushAuthorized": false
+  },
+  "date": "2026-07-10",
+  "futureRollbackRequirements": [
+    {
+      "id": "rollback.future.clean-target-baseline",
+      "requirement": "Capture clean HEAD/origin/main/status before any future source write."
+    },
+    {
+      "id": "rollback.future.patch-preview",
+      "requirement": "Record exact touched files and patch preview before applying any future source write."
+    },
+    {
+      "id": "rollback.future-stop-on-dirty-target",
+      "requirement": "Stop instead of applying if the WindowsUtility target is dirty or stale."
+    }
+  ],
+  "rollbackActionRequiredForThisDryRun": false,
+  "scope": "p8.41-non-mutating-source-application-dry-run-prototype",
+  "sourceMutationPerformed": false,
+  "status": "intentgraph-windowsutility-source-application-rollback-plan-recorded",
+  "stopConditions": [
+    {
+      "action": "stop and re-run target-state or mapping acceptance boundary",
+      "condition": "WindowsUtility target is dirty or no longer matches the accepted mapping baseline.",
+      "id": "stop.p8.12-target-dirty-or-stale"
+    },
+    {
+      "action": "stop; open a separate source-edit proposal boundary before any target write",
+      "condition": "Collecting smoke evidence appears to require source edits.",
+      "id": "stop.p8.12-source-edit-needed"
+    },
+    {
+      "action": "stop and request explicit hardware/action approval",
+      "condition": "Evidence collection would trigger hardware/device actions.",
+      "id": "stop.p8.12-hardware-required"
+    }
+  ],
+  "workItem": "P8.41 Non-Mutating Source Application Dry-Run Prototype"
+}
