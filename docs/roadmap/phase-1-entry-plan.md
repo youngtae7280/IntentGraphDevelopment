@@ -875,3 +875,28 @@ P8.8 Shell Workspace Mapping Human Acceptance Request
 ```
 
 P8.8 should create the acceptance request artifact and wait for explicit user/coordinator acceptance.
+
+## Completed Slice: P8.8 Shell Workspace Mapping Human Acceptance Request
+
+Goal: create an explicit human acceptance request for the shell-workspace mapping.
+
+Produced artifacts:
+
+- [P8.8 Shell Workspace Mapping Human Acceptance Request Review](../reviews/p8.8-shell-workspace-mapping-human-acceptance-request-review.md)
+- `generated/roadmap/p8.8-shell-workspace-mapping-human-acceptance-request.json`
+
+Decision:
+
+```text
+human-acceptance-requested-not-recorded
+```
+
+Current required decision:
+
+```text
+accept shell-workspace mapping
+reject shell-workspace mapping
+revise the mapping draft first
+```
+
+No accepted mapping artifact should be created before that explicit decision.

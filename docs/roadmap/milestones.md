@@ -1029,3 +1029,24 @@ Non-goals:
 - no AI authority promotion
 - no productization implementation
 - no product readiness claim
+
+## P8.8: Shell Workspace Mapping Human Acceptance Request
+
+Goal: create the explicit human acceptance request for the shell-workspace mapping.
+
+Status: completed on 2026-07-10. See [P8.8 Shell Workspace Mapping Human Acceptance Request Review](../reviews/p8.8-shell-workspace-mapping-human-acceptance-request-review.md).
+
+Decision:
+
+- human acceptance is requested.
+- acceptance is not recorded.
+- accepted mapping artifact is not created.
+
+Non-goals:
+
+- no accepted real-project mapping
+- no proposal application
+- no target write authority
+- no AI authority promotion
+- no productization implementation
+- no product readiness claim

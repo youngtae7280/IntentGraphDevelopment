@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.7 completed.
+P8.8 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance, but still unaccepted. Mapping acceptance, proposal application, AI authority, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request, but acceptance is not recorded. Mapping acceptance, proposal application, AI authority, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -151,10 +151,16 @@ P8.7 completed:
 shell-workspace mapping ready for human acceptance request; not accepted.
 ```
 
+P8.8 completed:
+
+```text
+human acceptance requested; not recorded.
+```
+
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.8 Shell Workspace Mapping Human Acceptance Request
+await explicit human acceptance
 ```
 
 ## Phase Overview
@@ -811,3 +817,19 @@ P8.7 produced:
 - `generated/roadmap/p8.7-shell-workspace-mapping-acceptance-readiness-report.json`
 
 The mapping remains unaccepted until explicit human acceptance is recorded.
+
+## P8.8 Result And Human Acceptance Request
+
+P8.8 result:
+
+```text
+human acceptance requested.
+Decision: human-acceptance-requested-not-recorded.
+```
+
+P8.8 produced:
+
+- [P8.8 Shell Workspace Mapping Human Acceptance Request Review](../reviews/p8.8-shell-workspace-mapping-human-acceptance-request-review.md)
+- `generated/roadmap/p8.8-shell-workspace-mapping-human-acceptance-request.json`
+
+The next step requires an explicit user/coordinator decision: accept, reject, or revise the shell-workspace mapping.

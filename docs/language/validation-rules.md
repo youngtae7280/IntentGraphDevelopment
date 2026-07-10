@@ -321,6 +321,12 @@ Status: added in P8.7.
 
 A mapping acceptance readiness report may state that a mapping is ready for human acceptance request only if the target baseline is clean/aligned or explicitly scoped, selected refs resolve, positive verification passes, negative probes pass, and evidence/authority requirements are declared. It must keep the mapping unaccepted and keep target writes, proposal application, AI authority, and productization false until explicit human acceptance is recorded in a later artifact.
 
+## V1012: Human Acceptance Requests Are Not Human Acceptance
+
+Status: added in P8.8.
+
+A human acceptance request may ask the user/coordinator to accept a mapping, but it must keep `recorded:false` and `accepted:false` until the user explicitly answers. Even after acceptance, source edits, proposal application, target writes, AI authority, and productization remain separate authority decisions.
+
 ## Rule Severity
 
 | Severity | Meaning |

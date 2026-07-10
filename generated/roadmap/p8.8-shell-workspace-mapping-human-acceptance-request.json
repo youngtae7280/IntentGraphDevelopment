@@ -1,0 +1,47 @@
+{
+  "artifactRole": "intentgraph-shell-workspace-mapping-human-acceptance-request",
+  "status": "intentgraph-shell-workspace-mapping-human-acceptance-requested",
+  "scope": "p8.8-shell-workspace-mapping-human-acceptance-request-only",
+  "workItem": "P8.8 Shell Workspace Mapping Human Acceptance Request",
+  "date": "2026-07-10",
+  "decision": "human-acceptance-requested-not-recorded",
+  "request": {
+    "question": "Accept `unit.windowsutility.shell-workspace` as the first WindowsUtility real-project Intent Unit mapping?",
+    "candidateId": "unit.windowsutility.shell-workspace",
+    "draftMappingId": "mapping.windowsutility.shell-workspace.draft",
+    "allowedResponses": [
+      "accept shell-workspace mapping",
+      "reject shell-workspace mapping",
+      "revise the mapping draft first"
+    ]
+  },
+  "reviewedEvidence": [
+    "generated/windowsutility/p8.4-shell-workspace-accepted-mapping-draft.json",
+    "generated/windowsutility/p8.5-shell-workspace-mapping-draft-verification-report.json",
+    "generated/windowsutility/p8.5-shell-workspace-mapping-draft-negative-probes-report.json",
+    "generated/roadmap/p8.6-windowsutility-target-state-resolution-report.json",
+    "generated/roadmap/p8.7-shell-workspace-mapping-acceptance-readiness-report.json"
+  ],
+  "humanAcceptance": {
+    "required": true,
+    "requested": true,
+    "recorded": false,
+    "accepted": false,
+    "rejected": false
+  },
+  "authorizations": {
+    "acceptedMappingCreated": false,
+    "targetWritesAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "nextAllowedIfAccepted": "create accepted mapping artifact outside WindowsUtility",
+  "stillForbiddenIfAccepted": [
+    "source edits",
+    "proposal application",
+    "AI code application",
+    "target writes",
+    "productization"
+  ]
+}
