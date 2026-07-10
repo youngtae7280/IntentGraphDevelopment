@@ -1,0 +1,86 @@
+{
+  "artifactRole": "intentgraph-installer-creation-boundary-plan",
+  "status": "intentgraph-installer-creation-boundary-plan-recorded",
+  "scope": "p8.82-installer-creation-boundary-plan-report-only",
+  "workItem": "P8.82 Installer Creation Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "installer-creation-boundary-recorded-no-installer-created",
+  "purpose": "Define the future boundary for creating a WindowsUtility installer only after package verification evidence, product candidate acceptance, and explicit installer authority exist.",
+  "preconditions": [
+    {
+      "id": "precondition.package-extraction-inventory-verified",
+      "required": true,
+      "description": "The existing package artifact must pass sandboxed extraction inventory verification.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.launch-smoke-passed",
+      "required": true,
+      "description": "Packaged executable launch smoke must pass if installer acceptance depends on runnable packaged behavior.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.product-candidate-accepted",
+      "required": true,
+      "description": "The user/coordinator must accept the packaged product candidate before installer creation.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.installer-creation-authorization",
+      "required": true,
+      "description": "The user/coordinator must explicitly authorize bounded sandboxed installer creation.",
+      "requiredAcceptedResponse": "accept sandboxed installer creation",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.no-signing-release-authority",
+      "required": true,
+      "description": "Installer creation does not imply signing, credential, provider, release, or productization authority.",
+      "currentlySatisfied": true
+    }
+  ],
+  "futureInstallerBoundary": {
+    "mayCreateInstaller": false,
+    "mayPackageVerifiedArtifactIntoInstaller": false,
+    "mayWriteInstallerUnderGenerated": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayWriteTargetRepo": false,
+    "mayInstallGlobally": false,
+    "maySignArtifacts": false,
+    "mayReadCredentials": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "futureAllowedIfAuthorizedLater": [
+    "use a sandbox staging directory only",
+    "create installer artifact under generated/ only",
+    "record installer manifest, byte length, hash, and file inventory",
+    "run installer metadata validation without installing globally"
+  ],
+  "futureStillForbiddenIfInstallerAuthorized": [
+    "global installation",
+    "WindowsUtility source edits",
+    "WindowsUtility commit or push",
+    "artifact signing",
+    "credential access",
+    "provider API calls",
+    "release tag creation",
+    "release publishing",
+    "productization claim"
+  ],
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.83 Installer Creation Authorization Request"
+}

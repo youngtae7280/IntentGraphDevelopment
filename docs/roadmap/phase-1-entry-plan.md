@@ -2768,3 +2768,25 @@ Recommended next slice:
 ```text
 P8.82 Installer Creation Boundary Plan
 ```
+
+## Completed Slice: P8.82 Installer Creation Boundary Plan
+
+Goal: define the future installer creation boundary without creating an installer.
+
+Result:
+
+```text
+Decision: installer-creation-boundary-recorded-no-installer-created.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.82-installer-creation-boundary-plan.json`
+- `generated/roadmap/p8.82-installer-creation-boundary-plan-report.json`
+- [P8.82 Installer Creation Boundary Plan](../reviews/p8.82-installer-creation-boundary-plan.md)
+
+Recommended next slice:
+
+```text
+P8.83 Installer Creation Authorization Request
+```
