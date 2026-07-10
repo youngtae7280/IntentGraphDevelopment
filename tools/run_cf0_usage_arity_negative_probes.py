@@ -10,9 +10,7 @@ from typing import Any
 from cf0_probe_support import (
     REPORT_VERSION,
     ROOT,
-    read_json,
-    run_negative_probe,
-    run_positive_baseline,
+    build_negative_probe_report,
     write_json,
 )
 
@@ -206,57 +204,22 @@ PROBES: list[dict[str, Any]] = [
 
 
 def build_report() -> dict[str, Any]:
-    good_delta = read_json(GOOD_DELTA)
-    good_after_facts = read_json(AFTER_FACTS)
-    good_overlay = read_json(AFTER_OVERLAY)
-    base_paths = {
-        "delta": GOOD_DELTA,
-        "before_facts": BEFORE_FACTS,
-        "before_overlay": BEFORE_OVERLAY,
-        "after_facts": AFTER_FACTS,
-        "after_overlay": AFTER_OVERLAY,
-    }
     with tempfile.TemporaryDirectory(prefix="cf0-usage-arity-negative-probes-") as tmp_name:
-        tmp = Path(tmp_name)
-        baseline = run_positive_baseline(VERIFIER, base_paths, SOURCE_ROOT, tmp / "positive-baseline-report.json")
-        probes = [
-            run_negative_probe(probe, good_delta, good_after_facts, good_overlay, base_paths, SOURCE_ROOT, VERIFIER, tmp)
-            for probe in PROBES
-        ]
-
-    baseline_passed = baseline.get("rerunResult") == "pass" and baseline.get("exitCode") == 0
-    all_passed = baseline_passed and all(probe["expectedFailureObserved"] is True for probe in probes)
-    source_digest = good_after_facts.get("source", {}).get("sha256")
-    before_source_digest = read_json(BEFORE_FACTS).get("source", {}).get("sha256")
-    return {
-        "artifactRole": "intentgraph-cf0-usage-arity-negative-probes-report",
-        "reportVersion": REPORT_VERSION,
-        "status": "pass" if all_passed else "fail",
-        "result": "pass" if all_passed else "fail",
-        "scope": "cf0-p1.14-usage-arity-negative-probes",
-        "baselineScope": "current-p1.14-overlay-only-usage-arity-delta",
-        "baselineDelta": GOOD_DELTA.relative_to(ROOT).as_posix(),
-        "positiveBaseline": {
-            "rerunResult": baseline.get("rerunResult"),
-            "exitCode": baseline.get("exitCode"),
-            "sourceChanged": baseline.get("sourceChanged"),
-            "overlayChanged": baseline.get("overlayChanged"),
-            "contractCoverageIncreased": baseline.get("contractCoverageIncreased"),
-            "sourceTextEqualityRequired": baseline.get("sourceTextEqualityRequired"),
-            "hiddenGeneratedCodeSnapshotUsed": baseline.get("hiddenGeneratedCodeSnapshotUsed"),
-            "errors": baseline.get("errors", []),
-        },
-        "probeCount": len(probes),
-        "probes": probes,
-        "boundaries": {
-            "sourceBytesUnchanged": source_digest == before_source_digest,
-            "sourceTextEqualityRequired": False,
-            "hiddenGeneratedCodeSnapshotUsed": False,
-            "aiAuthorityPromoted": False,
-            "productBehaviorAdded": False,
-            "generalNegativeProbeFrameworkClaimed": False,
-        },
-    }
+        return build_negative_probe_report(
+            artifact_role="intentgraph-cf0-usage-arity-negative-probes-report",
+            scope="cf0-p1.14-usage-arity-negative-probes",
+            baseline_scope="current-p1.14-overlay-only-usage-arity-delta",
+            good_delta_path=GOOD_DELTA,
+            before_facts_path=BEFORE_FACTS,
+            before_overlay_path=BEFORE_OVERLAY,
+            after_facts_path=AFTER_FACTS,
+            after_overlay_path=AFTER_OVERLAY,
+            source_root=SOURCE_ROOT,
+            verifier=VERIFIER,
+            probes=PROBES,
+            tmp=Path(tmp_name),
+            temp_prefix="p1.15",
+        )
 
 
 def main() -> int:

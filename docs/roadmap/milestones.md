@@ -382,7 +382,7 @@ Non-goals:
 
 Goal: add a deterministic CF0-specific harness proving P1.14 usage/arity overlay-only contract delta failures are rejected for intended reasons.
 
-Status: current authorized slice. See [P1.15 Usage Arity Negative Probes Review](../reviews/p1.15-usage-arity-negative-probes-review.md).
+Status: completed on 2026-07-10. See [P1.15 Usage Arity Negative Probes Review](../reviews/p1.15-usage-arity-negative-probes-review.md).
 
 Non-goals:
 
@@ -390,3 +390,18 @@ Non-goals:
 - no CF0 source behavior changes
 - no B0 generated-code pipeline changes
 - no dependency addition
+
+## P1.16: CF0 Overlay Contract Harness Consolidation and Boundary Review
+
+Goal: consolidate and review repeated CF0 overlay-contract negative harness mechanics while preserving explicit baseline scopes and CF0-specific boundaries.
+
+Status: current authorized slice. See [P1.16 Overlay Contract Harness Consolidation Review](../reviews/p1.16-overlay-contract-harness-consolidation-review.md).
+
+Non-goals:
+
+- no new behavior or contract unit
+- no CF0 source behavior changes
+- no B0 generated-code pipeline changes
+- no dependency addition
+- no generic negative-probe framework claim
+- no historical artifact removal

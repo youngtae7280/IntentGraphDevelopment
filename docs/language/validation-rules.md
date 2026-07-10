@@ -482,6 +482,14 @@ Usage/arity overlay-only contract deltas must have a committed negative-probe ha
 
 The harness must exit successfully only when every bad case fails for the expected reason and must not pass because the positive baseline is broken.
 
+### V420 - Overlay Contract Harness Boundary Review
+
+Severity: P1 in P1.16
+
+When multiple CF0 overlay-contract negative harnesses exist, their shared mechanics may be consolidated only if baseline identity remains explicit. A consolidation must preserve each harness's `baselineScope`, current/historical artifact boundary, positive baseline rerun, probe ids, expected-error matching, source-unchanged boundary, source-text equality rejection, and hidden generated-code snapshot rejection.
+
+The helper may remain CF0-specific. It must not claim to be a general negative-probe framework unless it actually supports all current harnesses without hidden special cases and a milestone review accepts that scope.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

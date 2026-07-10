@@ -1,0 +1,91 @@
+{
+  "artifactRole": "intentgraph-cf0-overlay-contract-harness-review-report",
+  "reportVersion": "0.1.0",
+  "status": "pass",
+  "scope": "cf0-overlay-contract-negative-harness-boundary-review",
+  "reviewedHarnesses": [
+    {
+      "id": "p1.10",
+      "script": "tools/run_cf0_overlay_contract_negative_probes.py",
+      "report": "generated/cf0-python-cli-calculator/p1.10-overlay-contract-negative-probes-report.json",
+      "baselineScope": "historical-p1.9-overlay-only-contract-delta",
+      "currentArtifactsUsed": false,
+      "historicalArtifactsUsed": true,
+      "probeCount": 13,
+      "allExpectedFailuresObserved": true,
+      "sourceBytesUnchanged": true,
+      "sourceTextEqualityRequired": false,
+      "hiddenGeneratedCodeSnapshotUsed": false
+    },
+    {
+      "id": "p1.12",
+      "script": "tools/run_cf0_input_validation_negative_probes.py",
+      "report": "generated/cf0-python-cli-calculator/p1.12-input-validation-negative-probes-report.json",
+      "baselineScope": "historical-p1.11-overlay-only-input-validation-delta",
+      "currentArtifactsUsed": false,
+      "historicalArtifactsUsed": true,
+      "probeCount": 14,
+      "allExpectedFailuresObserved": true,
+      "sourceBytesUnchanged": true,
+      "sourceTextEqualityRequired": false,
+      "hiddenGeneratedCodeSnapshotUsed": false
+    },
+    {
+      "id": "p1.15",
+      "script": "tools/run_cf0_usage_arity_negative_probes.py",
+      "report": "generated/cf0-python-cli-calculator/p1.15-usage-arity-negative-probes-report.json",
+      "baselineScope": "current-p1.14-overlay-only-usage-arity-delta",
+      "currentArtifactsUsed": true,
+      "historicalArtifactsUsed": false,
+      "probeCount": 14,
+      "allExpectedFailuresObserved": true,
+      "sourceBytesUnchanged": true,
+      "sourceTextEqualityRequired": false,
+      "hiddenGeneratedCodeSnapshotUsed": false
+    }
+  ],
+  "consolidation": {
+    "performed": true,
+    "helper": "tools/cf0_probe_support.py",
+    "consolidatedPieces": [
+      "overlay-contract report assembly",
+      "positive baseline rerun wiring",
+      "probe execution loop",
+      "common source/snapshot boundary fields",
+      "optional historical input report block"
+    ],
+    "intentionallyNotConsolidated": [
+      "phase-specific probe definitions",
+      "phase-specific baseline path constants",
+      "phase-specific mutation functions",
+      "semantic meaning of baselineScope"
+    ],
+    "generalFrameworkClaimed": false,
+    "cf0Specific": true
+  },
+  "remainingGaps": [
+    {
+      "id": "P1.16-P3-001",
+      "severity": "P3",
+      "summary": "Mutation functions remain repeated across overlay-contract harnesses.",
+      "decision": "defer because the repeated functions encode phase-specific fact ids, verification ids, and expected error strings; consolidating them now would reduce readability."
+    },
+    {
+      "id": "P1.16-P3-002",
+      "severity": "P3",
+      "summary": "The helper remains CF0-specific rather than a general framework.",
+      "decision": "intentional; a general framework is not justified until another benchmark or non-CF0 harness needs it."
+    }
+  ],
+  "checks": [
+    "P1.10, P1.12, and P1.15 harnesses pass after consolidation",
+    "historical baselines remain explicit",
+    "current P1.15 baseline remains explicit",
+    "all expected failures are observed",
+    "source bytes remain unchanged",
+    "source text equality remains false",
+    "hidden generated-code snapshot usage remains false",
+    "no B0/generated-code pipeline files are touched"
+  ],
+  "result": "pass"
+}

@@ -95,20 +95,29 @@ P1.14 must first preserve the P1.11 after-state as historical artifacts so the P
 
 Status: completed on 2026-07-10. See [P1.14 Usage Arity Overlay Contract Review](../reviews/p1.14-usage-arity-overlay-contract-review.md).
 
-## Current Slice: P1.15 Repeatable Usage-Arity Overlay Contract Negative Probe Harness
+## Completed Slice: P1.15 Repeatable Usage-Arity Overlay Contract Negative Probe Harness
 
 Goal: harden the P1.14 usage/arity overlay-only contract delta with repeatable negative probes.
 
 P1.15 must not add semantic coverage. It should start from the committed good P1.14 inputs, mutate temporary copies, run `tools/verify_code_first_delta.py`, and pass only when each bad input fails for the expected reason.
 
+Status: completed on 2026-07-10. See [P1.15 Usage Arity Negative Probes Review](../reviews/p1.15-usage-arity-negative-probes-review.md).
+
+## Current Slice: P1.16 CF0 Overlay Contract Harness Consolidation and Boundary Review
+
+Goal: consolidate and review the repeated CF0 overlay-contract negative harness pattern now that P1.10, P1.12, and P1.15 exist.
+
+P1.16 is a quality/hardening slice. It may move low-risk repeated report-building mechanics into `tools/cf0_probe_support.py`, but each harness must keep explicit baseline identity and phase-specific probes.
+
 Do not open a larger benchmark, UI, AI runtime, broader compiler slice, broad extractor, or another semantic contract automatically.
 
 Expected changes:
 
-- add `tools/run_cf0_usage_arity_negative_probes.py`
-- emit `generated/cf0-python-cli-calculator/p1.15-usage-arity-negative-probes-report.json`
-- keep P1.14 positive baseline passing before negative probes
-- keep P1.4, P1.7, P1.9, P1.10, P1.11, P1.12, and state-index regressions passing
+- update `tools/cf0_probe_support.py` if consolidation improves clarity
+- update P1.10, P1.12, and P1.15 harnesses only as needed
+- emit `generated/cf0-python-cli-calculator/p1.16-overlay-contract-harness-review-report.json`
+- add P1.16 review notes
+- keep P1.4, P1.7, P1.9, P1.10, P1.11, P1.12, P1.14, P1.15, and state-index regressions passing
 
 Non-goals:
 
@@ -126,25 +135,27 @@ Non-goals:
 - no source behavior change
 - no product behavior change
 - no new behavior or contract unit
+- no generic negative-probe framework claim
 
-## Required Output For P1.15
+## Required Output For P1.16
 
-P1.15 should produce:
+P1.16 should produce:
 
-- `tools/run_cf0_usage_arity_negative_probes.py`
-- `generated/cf0-python-cli-calculator/p1.15-usage-arity-negative-probes-report.json`
-- P1.15 review notes
-- updated validation rule for repeatable usage/arity negative probes
+- consolidated helper support or explicit no-refactor rationale
+- `generated/cf0-python-cli-calculator/p1.16-overlay-contract-harness-review-report.json`
+- P1.16 review notes
+- updated validation rule for overlay-contract harness boundary review
 
 ## Acceptance Criteria
 
-P1.15 passes only if:
+P1.16 passes only if:
 
-1. The P1.14 positive baseline reruns and passes before probes.
-2. Every declared negative probe fails for its intended reason.
-3. The harness report records baseline scope, probe ids, expected errors, actual errors, and boundary flags.
-4. P1.4, P1.7, P1.9, P1.10, P1.11, P1.12, P1.14, and state-index regressions still pass.
+1. P1.10, P1.12, and P1.15 harnesses still pass.
+2. Baseline scopes remain explicit and correct.
+3. The review report records probe counts, current/historical artifact use, expected failure status, and boundary flags.
+4. P1.4, P1.7, P1.9, P1.11, P1.14, and state-index regressions still pass.
 5. CF0 source bytes remain unchanged.
+6. Any helper consolidation remains CF0-specific and does not claim a generic framework.
 
 ## Stop Conditions
 
@@ -156,7 +167,8 @@ Stop and report before broadening scope if:
 - probe ids/counts drift without an explicit quality reason.
 - P1.4 positive historical baseline does not pass.
 - P1.7, P1.9, or P1.11 report stops passing.
-- P1.12 stops using historical P1.11 artifacts.
+- P1.10 or P1.12 stop using historical artifacts.
+- P1.15 stops clearly declaring current P1.14 artifacts.
 - CF0 source bytes change without an explicit stop-and-review decision.
 - IntentGraph is described again as a universal source-code replacement.
 - The project starts duplicating mature language workbench, code graph, or provenance systems without a build/borrow/integrate decision.
@@ -166,7 +178,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.15 Repeatable Usage-Arity Overlay Contract Negative Probe Harness
+P1.16 CF0 Overlay Contract Harness Consolidation and Boundary Review
 ```
 
 Worker should start from:
@@ -181,6 +193,10 @@ Worker should start from:
 - `tools/run_cf0_input_validation_negative_probes.py`
 - `docs/examples/cf0-python-cli-calculator/deltas/p1.11-overlay-invalid-integer.delta.json`
 - `docs/examples/cf0-python-cli-calculator/deltas/p1.14-overlay-usage-arity.delta.json`
+- `tools/cf0_probe_support.py`
+- `tools/run_cf0_overlay_contract_negative_probes.py`
+- `tools/run_cf0_input_validation_negative_probes.py`
+- `tools/run_cf0_usage_arity_negative_probes.py`
 - `generated/cf0-python-cli-calculator/p1.11-before-code-facts.json`
 - `generated/cf0-python-cli-calculator/p1.11-before-overlay.json`
 - `generated/cf0-python-cli-calculator/p1.14-before-code-facts.json`
@@ -188,4 +204,4 @@ Worker should start from:
 - `generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json`
 - `generated/cf0-python-cli-calculator/cf0-historical-state-index.json`
 
-Worker should not start the next phase or a larger benchmark until P1.15 review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start the next phase or a larger benchmark until P1.16 review passes and the Coordinator explicitly authorizes the next phase.
