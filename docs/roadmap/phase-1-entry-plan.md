@@ -601,3 +601,26 @@ P7.0 Real Project Adoption Target and Benchmark Plan
 ```
 
 P7.0 must be plan-only. It may evaluate WindowsUtility or another target and define task class, performance benchmark, workflow benchmark, quality comparison, rollback, and stop conditions. It must not mutate a real project or run an unbounded retrofit.
+
+## Completed Slice: P7.0 Real Project Adoption Target and Benchmark Plan
+
+Goal: select the first real-project adoption target and define benchmark criteria.
+
+Produced artifacts:
+
+- [P7.0 Real Project Adoption Target Benchmark Plan Review](../reviews/p7.0-real-project-adoption-target-benchmark-plan-review.md)
+- `generated/roadmap/p7.0-real-project-adoption-plan-report.json`
+
+Decision:
+
+```text
+select-windowsutility-read-only-first
+```
+
+Recommended next slice:
+
+```text
+P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot
+```
+
+P7.1 must keep all artifacts inside IntentGraphDevelopment and verify WindowsUtility git status/source bytes are unchanged. It must not write to WindowsUtility unless a later approved slice explicitly authorizes target writes.

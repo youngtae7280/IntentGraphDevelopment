@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P6.1 completed.
+P7.0 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P7.0 Real Project Adoption Target and Benchmark Plan.
-Phase G is open only for plan-only adoption target and benchmark selection. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, and productization remain unauthorized.
+Next recommended slice: P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot.
+Phase G is open only for read-only WindowsUtility inventory inside this repository. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -82,21 +82,21 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P6.1 completed:
+P7.0 completed:
 
 ```text
-Phase F Workbench Boundary Review and Phase G Entry Plan
+Real Project Adoption Target and Benchmark Plan
 ```
 
-P6.1 reviewed B1 workbench evidence and opened Phase G only for plan-only adoption target selection.
+P7.0 selected WindowsUtility as the first real-project target, read-only first because the target repo is ahead of origin and has untracked `.devview/`.
 
 The next step is:
 
 ```text
-P7.0 Real Project Adoption Target and Benchmark Plan
+P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot
 ```
 
-P7.0 should select the adoption target and benchmark criteria before touching a real project.
+P7.1 should inventory WindowsUtility from the outside and prove the target repo remains unchanged.
 
 ## Phase Overview
 
@@ -108,7 +108,7 @@ P7.0 should select the adoption target and benchmark criteria before touching a 
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | P4.0 proposal validation and P4.1 boundary review completed for B1. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | P5.0 verifier and P5.1 boundary review completed for B1. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | P6.0 preview and P6.1 boundary review completed for B1. |
-| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Open only for P7.0 plan-only target and benchmark selection. |
+| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Open only for P7.1 read-only WindowsUtility inventory. |
 | H | Productization | Package CLI/local app/editor/GitHub/team workflow surfaces. | Not opened. |
 
 ## Phase A: Model Correction
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P6.1 Result And P7.0 Required Scope
+## P7.0 Result And P7.1 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,28 +585,27 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
-P6.1 result:
+P7.0 result:
 
 ```text
-Phase F boundary review passes and opens Phase G only for a plan-only adoption gate.
+WindowsUtility selected as first real-project target, read-only first.
 ```
 
 Recommended next slice:
 
 ```text
-P7.0 Real Project Adoption Target and Benchmark Plan
+P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot
 ```
 
-P7.0 must:
+P7.1 must:
 
-- define real-project adoption target and benchmark criteria
-- define candidate task class
-- define retrofit scope and non-goals
-- define performance, workflow, and quality comparison criteria
-- define rollback and stop conditions
-- keep source mutation, patch application, AI generation, and productization out of scope
+- read WindowsUtility metadata and source structure
+- emit adoption planning artifacts inside IntentGraphDevelopment
+- record source inventory and target git status
+- verify WindowsUtility source bytes and git status are unchanged
+- identify candidate bounded adoption slice and stop conditions
 
-P7.0 must not:
+P7.1 must not:
 
 - mutate real-project source code
 - run broad unbounded retrofit

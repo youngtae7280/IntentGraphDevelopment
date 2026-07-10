@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P6.1 Phase F Workbench Boundary Review and Phase G Entry Plan
+P7.0 Real Project Adoption Target and Benchmark Plan
 ```
 
-This boundary slice reviewed B1 workbench evidence and opened Phase G only for a plan-only real-project adoption gate. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G plan-only slice selected WindowsUtility as the first real-project target, read-only first. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -765,3 +765,24 @@ Non-goals:
 - no AI-generated code application
 - no product readiness claim
 - no CLI/app/editor/GitHub productization
+
+## P7.0: Real Project Adoption Target and Benchmark Plan
+
+Goal: select the first real-project adoption target and define benchmark criteria before touching the target.
+
+Status: completed on 2026-07-10. See [P7.0 Real Project Adoption Target Benchmark Plan Review](../reviews/p7.0-real-project-adoption-target-benchmark-plan-review.md).
+
+Decision:
+
+- select `C:\Users\ytkim\Desktop\kyt_work\WindowsUtility`
+- start read-only because the target is ahead of origin and has untracked `.devview/`
+- continue to `P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot`
+
+Non-goals:
+
+- no writing to WindowsUtility
+- no real-project source mutation
+- no unbounded retrofit
+- no AI-generated code application
+- no product readiness claim
+- no productization

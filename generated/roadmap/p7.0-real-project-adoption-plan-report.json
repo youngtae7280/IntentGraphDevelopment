@@ -1,0 +1,82 @@
+{
+  "artifactRole": "intentgraph-real-project-adoption-plan-report",
+  "status": "intentgraph-real-project-adoption-plan-passed",
+  "scope": "p7.0-real-project-adoption-target-benchmark-plan",
+  "workItem": "P7.0 Real Project Adoption Target and Benchmark Plan",
+  "date": "2026-07-10",
+  "decision": "select-windowsutility-read-only-first",
+  "selectedTarget": {
+    "id": "WindowsUtility",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "initialGitStatusSummary": "main...origin/main [ahead 4], untracked .devview/",
+    "writeAuthorized": false
+  },
+  "rejectedOrDeferredTargets": [
+    {
+      "id": "Utility_Windows",
+      "decision": "defer",
+      "reason": "larger legacy surface and higher hardware/build risk before WindowsUtility inventory proof"
+    },
+    {
+      "id": "continue-b1-only",
+      "decision": "reject-for-phase-g",
+      "reason": "does not provide real-project adoption evidence"
+    }
+  ],
+  "candidateTaskClass": "read-only retrofit inventory for a bounded WPF/MVVM utility slice",
+  "benchmarkCriteria": {
+    "performance": [
+      "inventory completes within documented time budget",
+      "file count and selected source file count are recorded",
+      "IntentGraph-side reports are deterministic across reruns",
+      "target repository remains unmodified"
+    ],
+    "workflow": [
+      "candidate Intent Units and code facts are identified",
+      "unresolved mappings and ambiguity are visible",
+      "evidence and authority gaps are listed",
+      "JSON/Markdown outputs are inspectable before UI expansion"
+    ],
+    "qualityComparison": [
+      "scope clarity compared with ordinary AI coding",
+      "evidence requirement clarity",
+      "authority gap visibility",
+      "source mutation avoidance",
+      "ambiguity visibility"
+    ]
+  },
+  "stopConditions": [
+    "WindowsUtility is not clean enough for adoption work",
+    "read-only inventory cannot avoid writing into the target repo",
+    "output is mostly noise and does not help scope review",
+    "inventory takes too long for a small bounded slice",
+    "reports cannot explain evidence or authority gaps"
+  ],
+  "recommendedNextSlice": {
+    "id": "P7.1",
+    "name": "WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot",
+    "allowed": [
+      "read WindowsUtility metadata and source structure",
+      "emit adoption planning artifacts inside IntentGraphDevelopment",
+      "record source inventory and target git status",
+      "verify WindowsUtility source bytes and git status are unchanged"
+    ],
+    "nonGoals": [
+      "writing to WindowsUtility",
+      "real-project source mutation",
+      "unbounded retrofit",
+      "AI-generated code application",
+      "product readiness claim",
+      "productization"
+    ]
+  },
+  "acceptance": {
+    "targetSelected": true,
+    "targetStateRiskRecorded": true,
+    "taskClassDefined": true,
+    "benchmarkCriteriaDefined": true,
+    "stopConditionsDefined": true,
+    "realProjectMutationAuthorized": false,
+    "productizationAuthorized": false
+  }
+}

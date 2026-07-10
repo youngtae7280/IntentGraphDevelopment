@@ -249,6 +249,12 @@ Status: added in P6.1.
 
 Phase G real-project adoption must not open until Phase F workbench evidence has been reviewed in a written boundary report. The first Phase G slice must be plan-only and must define target, task class, retrofit scope, performance benchmark, workflow benchmark, quality comparison criteria, rollback, and stop conditions before any real-project mutation.
 
+## V1000: Real-Project Adoption Starts Read-Only
+
+Status: added in P7.0.
+
+The first real-project adoption target must be selected through a plan-only report. If the target repository is dirty, ahead of origin, or contains untracked adoption artifacts, the next slice must remain read-only and emit artifacts outside the target repository unless the user explicitly authorizes target writes.
+
 ## Rule Severity
 
 | Severity | Meaning |
