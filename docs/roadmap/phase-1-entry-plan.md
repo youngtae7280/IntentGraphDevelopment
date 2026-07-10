@@ -710,3 +710,26 @@ P8.1 WindowsUtility Accepted Mapping Boundary Plan
 ```
 
 Both are stabilization work. Neither may mutate WindowsUtility, apply proposals, package the product, or claim readiness unless the Coordinator explicitly opens that scope.
+
+## Completed Slice: P8.1 WindowsUtility Repository State Resolution Plan
+
+Goal: record target-state resolution options before accepted mapping or target-write work.
+
+Produced artifacts:
+
+- [P8.1 WindowsUtility Repository State Resolution Plan Review](../reviews/p8.1-windowsutility-repository-state-resolution-plan-review.md)
+- `generated/roadmap/p8.1-windowsutility-repository-state-resolution-report.json`
+
+Decision:
+
+```text
+target-state-unresolved-target-writes-blocked
+```
+
+Next safe work:
+
+```text
+P8.2 WindowsUtility Accepted Mapping Boundary Plan
+```
+
+P8.2 may define how hypotheses become accepted mappings, but it must not mutate WindowsUtility or treat the current unresolved repository state as accepted.

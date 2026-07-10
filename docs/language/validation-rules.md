@@ -279,6 +279,12 @@ Status: added in P8.0.
 
 A productization readiness gap report may define checklists, blockers, stabilization tracks, and future entry criteria. It must not create installable packages, release artifacts, editor integrations, GitHub workflow integrations, team automation, target source mutations, AI authority, or product readiness claims. If any checklist item is absent, the report must keep `productizationAuthorized:false` or equivalent blocked status.
 
+## V1005: Dirty Real-Project Targets Require Explicit Resolution
+
+Status: added in P8.1.
+
+If a selected real-project target is ahead of origin, dirty, or has untracked control artifacts, adoption must remain read-only until the state is explicitly resolved or scoped. The orchestrator must not clean, delete, commit, push, or treat the dirty state as baseline without an explicit resolution record. Accepted mappings, target writes, proposal application, and productization remain blocked until this boundary is satisfied.
+
 ## Rule Severity
 
 | Severity | Meaning |

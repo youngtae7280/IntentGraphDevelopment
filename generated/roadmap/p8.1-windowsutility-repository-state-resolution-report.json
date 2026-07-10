@@ -1,0 +1,64 @@
+{
+  "artifactRole": "intentgraph-windowsutility-repository-state-resolution-report",
+  "status": "intentgraph-windowsutility-repository-state-unresolved",
+  "scope": "p8.1-windowsutility-repository-state-resolution-report-only",
+  "workItem": "P8.1 WindowsUtility Repository State Resolution Plan",
+  "date": "2026-07-10",
+  "target": {
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "observedStatusShortBranch": [
+      "## main...origin/main [ahead 4]",
+      "?? .devview/"
+    ],
+    "cleanAligned": false,
+    "untrackedControlDirectoryPresent": true,
+    "aheadOfOrigin": true
+  },
+  "decision": "target-state-unresolved-target-writes-blocked",
+  "resolutionOptions": [
+    {
+      "id": "clean-aligned-target",
+      "description": "User resolves commits/untracked files so the target is clean and aligned before adoption.",
+      "targetWritesAuthorized": false
+    },
+    {
+      "id": "explicit-dirty-baseline",
+      "description": "Coordinator explicitly accepts the current dirty/ahead target state as the read-only baseline.",
+      "targetWritesAuthorized": false
+    },
+    {
+      "id": "alternate-target",
+      "description": "Coordinator selects a different real-project target.",
+      "targetWritesAuthorized": false
+    },
+    {
+      "id": "stay-read-only",
+      "description": "Continue only with inventory and hypothesis artifacts.",
+      "targetWritesAuthorized": false
+    }
+  ],
+  "blockedUntil": [
+    "repository state resolution decision",
+    "before-state digest inventory",
+    "rollback strategy",
+    "accepted mapping boundary",
+    "proposal validation boundary",
+    "evidence requirements",
+    "authority requirements",
+    "explicit target-write approval"
+  ],
+  "nonGoalsPreserved": {
+    "windowsUtilityMutation": true,
+    "targetCleanup": true,
+    "targetCommit": true,
+    "targetPush": true,
+    "targetWriteAuthorization": true,
+    "acceptedMapping": true,
+    "proposalApplication": true,
+    "productization": true
+  },
+  "recommendedNextSlices": [
+    "P8.2 WindowsUtility Accepted Mapping Boundary Plan",
+    "external target-state resolution"
+  ]
+}

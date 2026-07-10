@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.0 completed.
+P8.1 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -106,6 +106,14 @@ Productization Readiness Gap Report and Stabilization Plan
 ```
 
 P8.0 turned the productization blockers into a deterministic checklist and stabilization plan. It did not implement productization.
+
+P8.1 completed:
+
+```text
+WindowsUtility repository state remains unresolved.
+```
+
+P8.1 recorded the target status and kept target writes blocked.
 
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
@@ -653,3 +661,19 @@ Next safe work must not:
 - build a broad extractor
 - add dependencies without decision record
 - claim general scalability
+
+## P8.1 Result And Target-State Boundary
+
+P8.1 result:
+
+```text
+WindowsUtility repository state resolution plan completed.
+Decision: target-state-unresolved-target-writes-blocked.
+```
+
+P8.1 produced:
+
+- [P8.1 WindowsUtility Repository State Resolution Plan Review](../reviews/p8.1-windowsutility-repository-state-resolution-plan-review.md)
+- `generated/roadmap/p8.1-windowsutility-repository-state-resolution-report.json`
+
+Target writes, accepted mappings, proposal application, and productization remain blocked until the target repository state is explicitly resolved or scoped.

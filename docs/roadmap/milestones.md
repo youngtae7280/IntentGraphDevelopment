@@ -875,3 +875,25 @@ Non-goals:
 - no editor/GitHub/team workflow integration
 - no AI authority promotion
 - no product readiness claim
+
+## P8.1: WindowsUtility Repository State Resolution Plan
+
+Goal: record how the selected real-project target state must be resolved before target writes or accepted mappings.
+
+Status: completed on 2026-07-10. See [P8.1 WindowsUtility Repository State Resolution Plan Review](../reviews/p8.1-windowsutility-repository-state-resolution-plan-review.md).
+
+Decision:
+
+- WindowsUtility target state is unresolved.
+- target writes remain blocked.
+- accepted mappings and productization remain blocked until state is resolved or explicitly scoped.
+
+Non-goals:
+
+- no writing to WindowsUtility
+- no target cleanup
+- no target commit/push
+- no accepted real-project mappings
+- no proposal application
+- no productization implementation
+- no product readiness claim
