@@ -1,0 +1,65 @@
+{
+  "artifactRole": "intentgraph-packaged-ui-screenshot-authorization-request",
+  "status": "intentgraph-packaged-ui-screenshot-authorization-requested",
+  "scope": "p8.79-packaged-ui-screenshot-authorization-request-only",
+  "workItem": "P8.79 Packaged UI Screenshot Authorization Request",
+  "date": "2026-07-10",
+  "decision": "ui-screenshot-authorization-requested-not-recorded-and-not-actionable-yet",
+  "request": {
+    "question": "After sandboxed package extraction inventory verification and launch smoke pass, authorize bounded packaged UI screenshot capture?",
+    "requiredAcceptedResponse": "accept sandboxed packaged UI screenshot capture",
+    "allowedResponses": [
+      "accept sandboxed packaged UI screenshot capture",
+      "reject packaged UI screenshot capture",
+      "revise screenshot scope first"
+    ],
+    "standingAcceptShortcutApplies": false,
+    "standingAcceptShortcutReason": "The current-goal accept/revise/blocked shortcut does not authorize packaged UI screenshot capture."
+  },
+  "preconditionGate": {
+    "extractionInventoryVerificationRequired": true,
+    "extractionInventoryVerificationCurrentlyPassed": false,
+    "launchSmokeRequired": true,
+    "launchSmokeCurrentlyPassed": false,
+    "screenshotAuthorizationActionableNow": false,
+    "reasonNotActionable": "Existing package extraction inventory verification and packaged executable launch smoke have not passed."
+  },
+  "requestedAuthorityIfPreconditionsLaterPass": {
+    "mayCapturePackagedUiScreenshotFromSandbox": true,
+    "mayRecordScreenshotMetadata": true,
+    "mayRecordProcessWindowFacts": true,
+    "mayWriteScreenshotEvidenceUnderGenerated": true,
+    "mayInstallGlobally": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false,
+    "mayCreateInstaller": false,
+    "maySignArtifacts": false,
+    "mayReadCredentials": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "authorizationState": {
+    "responseRecorded": false,
+    "accepted": false,
+    "rejected": false,
+    "reviseRequested": false,
+    "packagedUiScreenshotAllowedNow": false,
+    "requiredNextArtifactIfUserResponds": "P8.80 Packaged UI Screenshot Authorization Response Record"
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "nextAllowedWithoutAcceptance": "P8.80 Packaged UI Screenshot Scope Hold Record"
+}

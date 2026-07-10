@@ -2871,3 +2871,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.79 Packaged UI Screenshot Authorization Request`.
+
+## P8.79: Packaged UI Screenshot Authorization Request
+
+Goal: record the future packaged UI screenshot authorization request without launching or capturing screenshots.
+
+Status: completed on 2026-07-10. See [P8.79 Packaged UI Screenshot Authorization Request](../reviews/p8.79-packaged-ui-screenshot-authorization-request.md).
+
+Decision:
+
+- screenshot authorization request recorded.
+- authorization is not recorded.
+- request is not actionable until existing package extraction inventory verification and launch smoke pass.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.79-packaged-ui-screenshot-authorization-request.json`
+- `generated/roadmap/p8.79-packaged-ui-screenshot-authorization-request-report.json`
+- [P8.79 Packaged UI Screenshot Authorization Request](../reviews/p8.79-packaged-ui-screenshot-authorization-request.md)
+
+Next safe work:
+
+- continue to `P8.80 Packaged UI Screenshot Scope Hold Record`.

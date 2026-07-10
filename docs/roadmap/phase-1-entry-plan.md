@@ -2703,3 +2703,25 @@ Recommended next slice:
 ```text
 P8.79 Packaged UI Screenshot Authorization Request
 ```
+
+## Completed Slice: P8.79 Packaged UI Screenshot Authorization Request
+
+Goal: record the future packaged UI screenshot authorization request.
+
+Result:
+
+```text
+Decision: ui-screenshot-authorization-requested-not-recorded-and-not-actionable-yet.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.79-packaged-ui-screenshot-authorization-request.json`
+- `generated/roadmap/p8.79-packaged-ui-screenshot-authorization-request-report.json`
+- [P8.79 Packaged UI Screenshot Authorization Request](../reviews/p8.79-packaged-ui-screenshot-authorization-request.md)
+
+Recommended next slice:
+
+```text
+P8.80 Packaged UI Screenshot Scope Hold Record
+```
