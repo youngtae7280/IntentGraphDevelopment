@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.13 Shell Workspace Non-Applied Proposal Negative Probes
+P8.14 Shell Workspace Smoke Evidence Collection Plan
 ```
 
-This Phase G stabilization slice proved the P8.12 non-applied proposal validator rejects unsafe proposal states. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice selected a no-target-write smoke evidence strategy for WindowsUtility. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1152,6 +1152,29 @@ Decision:
 Non-goals:
 
 - no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim
+
+## P8.14: Shell Workspace Smoke Evidence Collection Plan
+
+Goal: define a smoke evidence collection strategy that does not write to the original WindowsUtility target repo.
+
+Status: completed on 2026-07-10. See [P8.14 Shell Workspace Smoke Evidence Collection Plan](../reviews/p8.14-shell-workspace-smoke-evidence-collection-plan-review.md).
+
+Decision:
+
+- direct target builds remain unauthorized because they may write generated files.
+- future smoke evidence should run in a disposable copy or equivalent sandbox.
+- continue to `P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run`.
+
+Non-goals:
+
+- no source edits
+- no direct target build
 - no target write authority
 - no proposal application
 - no AI authority promotion

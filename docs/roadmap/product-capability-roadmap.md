@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.13 completed.
+P8.14 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. P8.14 required future smoke evidence to use a no-target-write sandbox strategy. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -172,7 +172,7 @@ accepted mapping negative probes pass.
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.14 Shell Workspace Smoke Evidence Collection Plan
+P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run
 ```
 
 ## Phase Overview
@@ -935,3 +935,19 @@ P8.13 produced:
 - `generated/roadmap/p8.13-shell-workspace-non-applied-proposal-negative-probes-report.json`
 
 The positive proposal baseline reruns, and stale binding, stale baseline, non-empty source delta, missing evidence, missing authority, target-mutating verification, target write authority, AI authority, hardware authority, productization, and self-authorization probes fail deterministically.
+
+## P8.14 Result And Smoke Evidence Collection Plan
+
+P8.14 result:
+
+```text
+target-write-safe smoke evidence strategy selected.
+Decision: sandboxed-temp-copy-smoke-evidence-dry-run-required.
+```
+
+P8.14 produced:
+
+- [P8.14 Shell Workspace Smoke Evidence Collection Plan](../reviews/p8.14-shell-workspace-smoke-evidence-collection-plan-review.md)
+- `generated/roadmap/p8.14-shell-workspace-smoke-evidence-collection-plan-report.json`
+
+Future smoke evidence should run only in a disposable copy or equivalent sandbox outside the original WindowsUtility target repo unless a later authority artifact grants a narrower target-write permission.

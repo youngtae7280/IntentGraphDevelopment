@@ -1025,3 +1025,26 @@ P8.14 Shell Workspace Smoke Evidence Collection Plan
 ```
 
 P8.14 should plan evidence collection without source edits, hardware actions, proposal application, or productization.
+
+## Completed Slice: P8.14 Shell Workspace Smoke Evidence Collection Plan
+
+Goal: define how shell/workspace smoke evidence can be collected without writing to the original WindowsUtility repo.
+
+Produced artifacts:
+
+- [P8.14 Shell Workspace Smoke Evidence Collection Plan](../reviews/p8.14-shell-workspace-smoke-evidence-collection-plan-review.md)
+- `generated/roadmap/p8.14-shell-workspace-smoke-evidence-collection-plan-report.json`
+
+Decision:
+
+```text
+sandboxed-temp-copy-smoke-evidence-dry-run-required
+```
+
+Next safe work:
+
+```text
+P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run
+```
+
+P8.15 may run evidence commands only in a disposable copy or equivalent sandbox outside the original target repo, then prove the original target repo stayed clean/aligned.

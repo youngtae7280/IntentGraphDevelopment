@@ -357,6 +357,12 @@ Status: added in P8.13.
 
 Before a real-project non-applied proposal can be used for evidence collection planning, a repeatable negative-probe harness must prove deterministic rejection for stale accepted mapping bindings, stale target baselines, non-empty source deltas, missing evidence, missing authority, target-mutating verification steps, target write authority, AI authority, hardware authority, productization authority, and self-authorization.
 
+## V1018: Smoke Evidence Must Avoid Writes To The Original Target Repo
+
+Status: added in P8.14.
+
+Real-project smoke evidence collection must not run build, launch, or screenshot workflows in a way that writes generated files to the original target repo unless a later explicit authority artifact grants that narrow permission. When build/runtime output is needed, the preferred path is a disposable copy or equivalent sandbox outside the target repo, followed by a post-check proving the original target remains clean and aligned.
+
 ## Rule Severity
 
 | Severity | Meaning |

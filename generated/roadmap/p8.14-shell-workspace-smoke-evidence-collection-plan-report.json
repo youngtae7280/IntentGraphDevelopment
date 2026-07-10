@@ -1,0 +1,43 @@
+{
+  "artifactRole": "intentgraph-smoke-evidence-collection-plan-report",
+  "status": "intentgraph-smoke-evidence-collection-plan-recorded",
+  "scope": "p8.14-shell-workspace-smoke-evidence-collection-plan-report-only",
+  "workItem": "P8.14 Shell Workspace Smoke Evidence Collection Plan",
+  "date": "2026-07-10",
+  "decision": "sandboxed-temp-copy-smoke-evidence-dry-run-required",
+  "acceptedProposalInput": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+  "negativeProbeInput": "generated/windowsutility/p8.13-shell-workspace-non-applied-proposal-negative-probes-report.json",
+  "collectionStrategy": {
+    "id": "sandboxed-temp-copy-smoke-evidence-dry-run",
+    "targetRepoWritesAllowed": false,
+    "targetSourceEditsAllowed": false,
+    "sandboxWritesAllowed": true,
+    "hardwareActionsAllowed": false,
+    "proposalApplicationAllowed": false,
+    "productizationAllowed": false
+  },
+  "requiredFutureEvidence": [
+    "accepted mapping source digest recheck",
+    "sandbox creation record",
+    "sandbox build or smoke command result",
+    "shell/workspace UI or screenshot evidence when feasible",
+    "original target clean/aligned post-check"
+  ],
+  "blockingConditions": [
+    "original target dirty or stale",
+    "run would write to original target repo",
+    "run requires hardware/device action",
+    "run requires source edits",
+    "run claims proposal application or productization"
+  ],
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "sandboxWritesAuthorizedForFutureDryRun": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run"
+}
