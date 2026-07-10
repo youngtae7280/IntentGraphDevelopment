@@ -7,7 +7,7 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.39 completed.
+P8.40 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
@@ -1480,4 +1480,24 @@ Next safe work:
 
 ```text
 P8.40 Non-Mutating Source Application Dry-Run Boundary
+```
+
+## P8.40 Result And Non-Mutating Source Application Dry-Run Boundary
+
+P8.40 result:
+
+```text
+Non-mutating source application dry-run boundary recorded.
+Decision: non-mutating-source-application-dry-run-boundary-recorded.
+```
+
+P8.40 produced:
+
+- `generated/roadmap/p8.40-non-mutating-source-application-dry-run-boundary-report.json`
+- [P8.40 Non-Mutating Source Application Dry-Run Boundary](../reviews/p8.40-non-mutating-source-application-dry-run-boundary.md)
+
+Next safe work:
+
+```text
+P8.41 Non-Mutating Source Application Dry-Run Prototype
 ```

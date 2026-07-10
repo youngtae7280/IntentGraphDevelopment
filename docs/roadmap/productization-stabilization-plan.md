@@ -387,3 +387,34 @@ The next safe stabilization slice is:
 ```text
 P8.40 Non-Mutating Source Application Dry-Run Boundary
 ```
+
+## P8.40 Non-Mutating Source Application Dry-Run Boundary
+
+P8.40 defined the boundary for future non-mutating source application dry-runs.
+
+Allowed only:
+
+- generated IntentGraphDevelopment reports
+- patch/change-set preview
+- touched-file expectation report
+- evidence plan
+- rollback plan
+- authority requirement report
+- negative probe report
+
+Still blocked:
+
+- WindowsUtility source writes
+- WindowsUtility generated writes
+- git index mutation
+- commit
+- push
+- hardware invocation
+- packaging
+- release
+
+The next safe stabilization slice is:
+
+```text
+P8.41 Non-Mutating Source Application Dry-Run Prototype
+```

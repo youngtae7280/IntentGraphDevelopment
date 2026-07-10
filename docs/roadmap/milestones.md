@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.39 Source Application Authority Boundary Plan
+P8.40 Non-Mutating Source Application Dry-Run Boundary
 ```
 
-This Phase G stabilization slice planned the source application authority boundary without granting source writes. Proposal application, target writes, AI authority, hardware authority, packaging, release, and productization remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice recorded the non-mutating source application dry-run boundary without granting source writes. Proposal application, target writes, AI authority, hardware authority, packaging, release, and productization remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1825,6 +1825,36 @@ Non-goals:
 - no source edits
 - no target write authority
 - no proposal application
+- no WindowsUtility commit or push
+- no new sandbox run, UI launch, or screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
+- no editor or GitHub integration
+- no productization implementation
+- no product readiness claim
+
+## P8.40: Non-Mutating Source Application Dry-Run Boundary
+
+Goal: define the output, validation, zero-write, and negative-probe rules for a future non-mutating source application dry-run.
+
+Status: completed on 2026-07-10. See [P8.40 Non-Mutating Source Application Dry-Run Boundary](../reviews/p8.40-non-mutating-source-application-dry-run-boundary.md).
+
+Decision:
+
+- non-mutating source application dry-run boundary recorded.
+- future dry-run may write generated IntentGraphDevelopment reports only.
+- WindowsUtility source writes remain unauthorized.
+- WindowsUtility generated writes remain unauthorized.
+- continue to `P8.41 Non-Mutating Source Application Dry-Run Prototype`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no WindowsUtility generated writes
 - no WindowsUtility commit or push
 - no new sandbox run, UI launch, or screenshot capture
 - no AI authority promotion

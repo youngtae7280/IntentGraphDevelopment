@@ -1,0 +1,85 @@
+{
+  "artifactRole": "intentgraph-non-mutating-source-application-dry-run-boundary-report",
+  "status": "intentgraph-non-mutating-source-application-dry-run-boundary-recorded",
+  "scope": "p8.40-non-mutating-source-application-dry-run-boundary-report-only",
+  "workItem": "P8.40 Non-Mutating Source Application Dry-Run Boundary",
+  "date": "2026-07-10",
+  "decision": "non-mutating-source-application-dry-run-boundary-recorded",
+  "dryRunPurpose": "Evaluate whether a future source application request has a well-scoped change set, evidence plan, rollback plan, and authority records before any WindowsUtility source write is allowed.",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.39-source-application-authority-boundary-plan-report.json",
+      "artifactRole": "intentgraph-source-application-authority-boundary-plan-report",
+      "status": "intentgraph-source-application-authority-boundary-planned"
+    },
+    {
+      "path": "generated/roadmap/p8.38-static-local-workbench-export-productization-readiness-recheck-report.json",
+      "artifactRole": "intentgraph-productization-readiness-recheck-report",
+      "status": "intentgraph-productization-readiness-still-blocked"
+    },
+    {
+      "path": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+      "artifactRole": "intentgraph-windowsutility-non-applied-proposal",
+      "status": "intentgraph-windowsutility-non-applied-proposal-recorded"
+    }
+  ],
+  "allowedDryRunOutputs": [
+    "generated source application dry-run request",
+    "generated patch/change-set preview",
+    "generated touched-file expectation report",
+    "generated pre/post evidence plan",
+    "generated rollback plan",
+    "generated authority requirement report",
+    "generated negative probe report"
+  ],
+  "dryRunValidationRequirements": {
+    "targetBaselineMustBeCleanAligned": true,
+    "acceptedMappingMustBeCited": true,
+    "proposalMustRemainNonApplied": true,
+    "intendedTouchedFilesMustBeDeclared": true,
+    "noHardwareTouchMustBeDeclaredOrEscalated": true,
+    "preApplyValidationPlanRequired": true,
+    "postApplyEvidencePlanRequired": true,
+    "rollbackPlanRequired": true,
+    "historyRecordPlanRequired": true,
+    "authorityRecordPlanRequired": true,
+    "humanApprovalRequiredBeforeActualApply": true
+  },
+  "zeroWriteRules": {
+    "mayWriteIntentGraphGeneratedArtifacts": true,
+    "mayWriteWindowsUtilitySource": false,
+    "mayWriteWindowsUtilityGeneratedArtifacts": false,
+    "mayModifyGitIndex": false,
+    "mayCommit": false,
+    "mayPush": false,
+    "mayInvokeHardware": false,
+    "mayPackage": false,
+    "mayRelease": false
+  },
+  "negativeProbeRequirements": [
+    "block if dry-run claims source writes",
+    "block if dry-run claims proposal applied",
+    "block if dry-run target baseline is dirty",
+    "block if dry-run omits touched-file scope",
+    "block if dry-run omits evidence plan",
+    "block if dry-run omits rollback plan",
+    "block if dry-run grants AI authority",
+    "block if dry-run grants hardware authority",
+    "block if dry-run grants packaging or release authority"
+  ],
+  "authorizations": {
+    "nonMutatingDryRunBoundaryRecorded": true,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityGeneratedWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityPushAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.41 Non-Mutating Source Application Dry-Run Prototype"
+}

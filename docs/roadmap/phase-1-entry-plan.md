@@ -1669,3 +1669,24 @@ Recommended next slice:
 ```text
 P8.40 Non-Mutating Source Application Dry-Run Boundary
 ```
+
+## Completed Slice: P8.40 Non-Mutating Source Application Dry-Run Boundary
+
+Goal: define the output, validation, zero-write, and negative-probe rules for a future non-mutating source application dry-run.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.40-non-mutating-source-application-dry-run-boundary-report.json`
+- [P8.40 Non-Mutating Source Application Dry-Run Boundary](../reviews/p8.40-non-mutating-source-application-dry-run-boundary.md)
+
+Decision:
+
+```text
+non-mutating-source-application-dry-run-boundary-recorded
+```
+
+Recommended next slice:
+
+```text
+P8.41 Non-Mutating Source Application Dry-Run Prototype
+```
