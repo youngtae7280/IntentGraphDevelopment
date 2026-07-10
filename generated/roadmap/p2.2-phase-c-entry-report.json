@@ -1,0 +1,59 @@
+{
+  "artifactRole": "intentgraph-phase-boundary-review-report",
+  "status": "intentgraph-phase-boundary-review-passed",
+  "scope": "p2.2-b1-code-fact-boundary-phase-c-entry",
+  "workItem": "P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan",
+  "date": "2026-07-10",
+  "decision": "open-p3.0-b1-intent-unit-mapping-schema-static-overlay-fixture",
+  "phaseBReviewedEvidence": {
+    "p2_0StaticFactBoundary": true,
+    "p2_1IncrementalFactBoundary": true,
+    "b1MultiFileFacts": true,
+    "sourceDigestProvenance": true,
+    "relationEndpointValidation": true,
+    "negativeProbes": true,
+    "broadExtractorClaimed": false,
+    "workbenchClaimed": false,
+    "aiAuthorityClaimed": false
+  },
+  "phaseCEntryCriteria": [
+    "define B1 Intent Unit mapping schema",
+    "create small B1 overlay fixture",
+    "map accepted behavior and contract units to B1 code facts",
+    "require codeRefs, codeFactRefs, and mappingObligations",
+    "verify all mapping refs resolve against B1 code facts",
+    "mark ambiguity explicitly",
+    "keep AI-generated mapping candidates proposal-only"
+  ],
+  "recommendedNextSlice": {
+    "id": "P3.0",
+    "name": "B1 Intent Unit Mapping Schema and Static Overlay Fixture",
+    "allowed": [
+      "define B1 mapping schema",
+      "create static B1 overlay fixture",
+      "verify codeRefs and codeFactRefs",
+      "verify mapping obligations",
+      "add negative probes for bad mappings"
+    ],
+    "nonGoals": [
+      "code edits",
+      "AI mapping generation",
+      "broad planner",
+      "workbench UI",
+      "broadened extraction",
+      "natural language intent recovery claim",
+      "AI authority"
+    ]
+  },
+  "acceptance": {
+    "p2_0Reviewed": true,
+    "p2_1Reviewed": true,
+    "phaseBLimitsStated": true,
+    "phaseCEntryCriteriaDefined": true,
+    "p3_0ScopeDefined": true,
+    "implementationAdded": false,
+    "broadExtractorAuthorized": false,
+    "workbenchAuthorized": false,
+    "aiAuthorityAuthorized": false
+  }
+}

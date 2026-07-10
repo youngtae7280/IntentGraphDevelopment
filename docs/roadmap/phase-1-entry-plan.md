@@ -360,3 +360,26 @@ P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan
 ```
 
 P2.2 should review whether P2.0 and P2.1 are sufficient to begin Phase C Intent Mapping. It should define the first B1 mapping slice and pass/fail criteria before mapping implementation begins.
+
+## Completed Slice: P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan
+
+Goal: review Phase B static and incremental B1 code fact evidence and decide whether Phase C can open.
+
+Decision:
+
+```text
+open-p3.0-b1-intent-unit-mapping-schema-static-overlay-fixture
+```
+
+Produced artifacts:
+
+- [P2.2 B1 Code Fact Boundary Phase C Entry Review](../reviews/p2.2-b1-code-fact-boundary-phase-c-entry-review.md)
+- `generated/roadmap/p2.2-phase-c-entry-report.json`
+
+Recommended next slice:
+
+```text
+P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture
+```
+
+P3.0 may create a static B1 overlay mapping fixture and deterministic mapping verifier. It must not edit B1 source, generate AI mappings, build a broad planner, create a UI/workbench product, or broaden extraction.

@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P2.1 B1 Incremental Code Fact Change Probe
+P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan
 ```
 
-This is the second bounded Phase B implementation slice. It proves a one-file B1 source change produces a deterministic expected code fact/relation delta and repeatable negative probe failures. It does not authorize Intent mapping, broad extraction, UI, AI planning, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This is a Phase B boundary review that permits opening the first bounded Phase C mapping slice. It recommends `P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture`. It does not authorize code edits, broad extraction, UI, AI planning, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -518,3 +518,23 @@ Non-goals:
 - no UI/workbench product
 - no AI proposal generation
 - no real-project adoption
+
+## P2.2: B1 Code Fact Boundary Review and Phase C Entry Plan
+
+Goal: review P2.0 and P2.1 as Phase B evidence, decide whether B1 facts are stable enough for Phase C, and define the first mapping slice.
+
+Status: completed on 2026-07-10. See [P2.2 B1 Code Fact Boundary Phase C Entry Review](../reviews/p2.2-b1-code-fact-boundary-phase-c-entry-review.md).
+
+Decision:
+
+- Phase B static and incremental B1 fact boundaries are sufficient to open bounded Phase C
+- continue to `P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture`
+
+Non-goals:
+
+- no mapping implementation in P2.2
+- no code edits
+- no broad extractor
+- no UI/workbench product
+- no AI proposal generation
+- no productization

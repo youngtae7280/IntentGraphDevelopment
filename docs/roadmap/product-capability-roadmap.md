@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P2.1 completed.
+P2.2 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan.
-No Intent mapping, broad extractor, UI/workbench product, AI coding runtime, or productization work is authorized before P2.2 review.
+Next recommended slice: P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture.
+Phase C is open only for a bounded static B1 mapping slice. Code edits, broad extraction, UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -82,21 +82,21 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P2.1 completed:
+P2.2 completed:
 
 ```text
-B1 Incremental Code Fact Change Probe
+B1 Code Fact Boundary Review and Phase C Entry Plan
 ```
 
-P2.1 changed one B1 source file, compared before/after facts, and verified the expected fact/relation delta plus negative probes.
+P2.2 reviewed P2.0 and P2.1 and allowed the first bounded Phase C mapping slice.
 
 The next step is:
 
 ```text
-P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan
+P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture
 ```
 
-P2.2 should decide whether Phase B has enough static and incremental evidence to start Phase C Intent Mapping.
+P3.0 should create a static B1 overlay mapping fixture and deterministic mapping verifier without editing B1 source or generating AI mappings.
 
 ## Phase Overview
 
@@ -104,7 +104,7 @@ P2.2 should decide whether Phase B has enough static and incremental evidence to
 |---|---|---|---|
 | A | Model Correction | Define IntentGraph as semantic overlay and correct the state model. | Mostly complete through P1.18. |
 | B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | P2.0 and P2.1 completed B1 static and incremental fact boundaries. Boundary review still needed. |
-| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | Not opened. P2.2 should plan entry criteria. |
+| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | Open only for P3.0 bounded static B1 mapping fixture. |
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Not opened. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | Small fixture proofs only. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | Requirements only; product UI not opened. |
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P2.1 Result And P2.2 Required Scope
+## P2.2 Result And P3.0 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,31 +585,28 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
+P2.2 result:
+
+```text
+Phase C may open for bounded static B1 mapping only.
+```
+
 Recommended next slice:
 
 ```text
-P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan
+P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture
 ```
 
-P2.1 also proved:
+P3.0 must:
 
-- capture the P2.0 B1 before-state facts
-- modify exactly one B1 source file in a bounded way
-- regenerate B1 code facts
-- compare before/after fact sets
-- verify expected added/changed/removed facts
-- verify unchanged files keep identical file-local facts and digests
-- keep broad extractor, UI/workbench, AI planning, and Intent mapping out of scope
+- define B1 Intent Unit mapping schema
+- create a small B1 overlay fixture
+- map behavior, route, and contract units to existing B1 code facts
+- require codeRefs, codeFactRefs, and mappingObligations
+- verify all mapping refs resolve against B1 code facts
+- add negative probes for bad mappings
 
-P2.2 must:
-
-- review P2.0 and P2.1 as a Phase B sequence
-- decide whether B1 facts are stable enough for Phase C
-- define the first B1 Intent mapping slice
-- define mapping pass/fail criteria before implementation
-- keep broad extractor, UI/workbench, AI planning, and productization out of scope
-
-P2.2 must not:
+P3.0 must not:
 
 - expand beyond the tiny B1 static fixture and code fact boundary
 - add another CF0 semantic probe
