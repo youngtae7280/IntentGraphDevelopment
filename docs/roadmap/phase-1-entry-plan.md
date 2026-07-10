@@ -1814,3 +1814,28 @@ Recommended next slice:
 ```text
 P8.46 WindowsUtility Source Application Workbench Refresh
 ```
+
+## Completed Slice: P8.46 WindowsUtility Source Application Workbench Refresh
+
+Goal: refresh the static WindowsUtility workbench export so the P8.44 source application result and P8.45 productization gate are visible to reviewers.
+
+Produced artifacts:
+
+- `generated/windowsutility/workbench/p8.46-source-application-workbench-projection.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/index.html`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/validation-report.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/negative-probes-report.json`
+- `generated/roadmap/p8.46-windowsutility-source-application-workbench-refresh-report.json`
+- [P8.46 WindowsUtility Source Application Workbench Refresh](../reviews/p8.46-windowsutility-source-application-workbench-refresh.md)
+
+Decision:
+
+```text
+source-application-workbench-refresh-passed
+```
+
+Recommended next slice:
+
+```text
+P8.47 Productization Packaging/Release Boundary Plan
+```

@@ -1,0 +1,29 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-validation-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "errors": [],
+  "exportDir": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46",
+  "result": "pass",
+  "scope": "p8.46-windowsutility-source-application-workbench-refresh-validation",
+  "status": "intentgraph-static-local-workbench-export-validation-passed",
+  "summary": {
+    "errorCount": 0,
+    "exportedFileCount": 3,
+    "indexExists": true,
+    "manifestExists": true,
+    "projectionExists": true,
+    "screenshotExists": true,
+    "selectionRecordCount": 8,
+    "sourceArtifactCount": 4
+  },
+  "workItem": "P8.46 WindowsUtility Source Application Workbench Refresh"
+}

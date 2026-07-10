@@ -1,0 +1,64 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-completion-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "date": "2026-07-10",
+  "decision": "source-application-workbench-refresh-passed",
+  "export": {
+    "index": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/index.html",
+    "manifest": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/manifest.json",
+    "negativeProbes": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/negative-probes-report.json",
+    "projection": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/projection.json",
+    "root": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46",
+    "validation": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/validation-report.json"
+  },
+  "negativeProbes": {
+    "probeCount": 10,
+    "result": "pass"
+  },
+  "projectionSummary": {
+    "acceptedCodeSurfaceRefCount": 2,
+    "allEvidencePassed": true,
+    "evidenceCardCount": 5,
+    "productizationStillBlocked": true,
+    "proposalNonApplied": true,
+    "selectionRecordCount": 8,
+    "sourceApplicationApplied": true,
+    "sourceArtifactCount": 12,
+    "targetUnchangedInEvidence": true,
+    "timelineStepCount": 10
+  },
+  "recommendedNextSlice": "P8.47 Productization Packaging/Release Boundary Plan",
+  "scope": "p8.46-windowsutility-source-application-workbench-refresh-report-only",
+  "status": "intentgraph-roadmap-slice-completed",
+  "summary": "Refreshed the static WindowsUtility workbench export so P8.44 source application and P8.45 productization gate evidence are visible.",
+  "targetState": {
+    "cleanAligned": true,
+    "head": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "status": "## main...origin/main"
+  },
+  "validation": {
+    "result": "pass",
+    "summary": {
+      "errorCount": 0,
+      "exportedFileCount": 3,
+      "indexExists": true,
+      "manifestExists": true,
+      "projectionExists": true,
+      "screenshotExists": true,
+      "selectionRecordCount": 8,
+      "sourceArtifactCount": 4
+    }
+  },
+  "workItem": "P8.46 WindowsUtility Source Application Workbench Refresh"
+}

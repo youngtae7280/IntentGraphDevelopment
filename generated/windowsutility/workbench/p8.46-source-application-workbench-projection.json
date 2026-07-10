@@ -1,0 +1,688 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-projection",
+  "authorityBoundary": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "newEvidenceCollectionAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "claimScope": {
+    "aiAuthorityGranted": false,
+    "hardwareActionClaimed": false,
+    "networkRequired": false,
+    "newEvidenceCollected": false,
+    "packagingClaimed": false,
+    "patchApplied": false,
+    "productizationClaimed": false,
+    "projectionOnly": true,
+    "proposalAcceptedByProjection": false,
+    "releaseClaimed": false,
+    "sourceMutated": false,
+    "staticLocalExport": true,
+    "targetMutated": false,
+    "visualizationVerifiesCorrectness": false
+  },
+  "evidence": [
+    {
+      "errorCount": null,
+      "exitCode": 0,
+      "id": "evidence.p8.15-sandboxed-build",
+      "kind": "sandboxed-build",
+      "log": "generated/windowsutility/p8.15-sandboxed-smoke-evidence-build.log",
+      "result": "pass",
+      "targetAfter": {
+        "head": "07cbe76368e8857ad198438707f1d52301925da3",
+        "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+        "status": "## main...origin/main"
+      },
+      "targetBefore": {
+        "head": "07cbe76368e8857ad198438707f1d52301925da3",
+        "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+        "status": "## main...origin/main"
+      },
+      "warningCount": null
+    },
+    {
+      "id": "evidence.p8.17-sandboxed-ui-launch",
+      "kind": "sandboxed-ui-launch",
+      "mainWindowTitle": "Card Printer Utility",
+      "processResponding": true,
+      "result": "pass",
+      "targetAfter": {
+        "head": "07cbe76368e8857ad198438707f1d52301925da3",
+        "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+        "status": "## main...origin/main"
+      },
+      "targetBefore": {
+        "head": "07cbe76368e8857ad198438707f1d52301925da3",
+        "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+        "status": "## main...origin/main"
+      },
+      "termination": {
+        "closeMainWindowReturned": true,
+        "exited": true,
+        "found": true,
+        "method": "close-main-window"
+      }
+    },
+    {
+      "byteLength": 38739,
+      "height": 820,
+      "id": "evidence.p8.19-sandboxed-screenshot",
+      "kind": "sandboxed-screenshot",
+      "mainWindowTitle": "Card Printer Utility",
+      "result": "pass",
+      "screenshotPath": "assets/screenshot.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b",
+      "targetAfter": {
+        "head": "07cbe76368e8857ad198438707f1d52301925da3",
+        "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+        "status": "## main...origin/main"
+      },
+      "targetBefore": {
+        "head": "07cbe76368e8857ad198438707f1d52301925da3",
+        "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+        "status": "## main...origin/main"
+      },
+      "validPng": true,
+      "width": 1320
+    },
+    {
+      "appliedPath": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+      "buildPassed": true,
+      "id": "evidence.p8.44-source-application",
+      "kind": "source-application",
+      "preflightPassed": true,
+      "previewDeviationCorrected": true,
+      "result": "pass",
+      "targetCommit": "ac5b2204442cde751f625a9979a4fdb437d468a8"
+    },
+    {
+      "decision": "source-application-loop-passed-productization-still-blocked",
+      "id": "evidence.p8.45-productization-gate",
+      "kind": "productization-gate",
+      "remainingBlockerCount": 4,
+      "result": "blocked"
+    }
+  ],
+  "exportVersion": "0.2.0",
+  "mapping": {
+    "accepted": true,
+    "ambiguityDisposition": [
+      {
+        "id": "ambiguity.windowsutility.module-boundaries",
+        "reason": "accepted shell/workspace mapping covers project-level shell refs only; runtime ownership boundaries remain deferred",
+        "status": "deferred-before-mutation"
+      },
+      {
+        "id": "ambiguity.windowsutility.hardware-coupling",
+        "reason": "accepted shell/workspace mapping avoids hardware-aware module families",
+        "status": "not-applicable-to-selected-shell-mapping"
+      }
+    ],
+    "authorityRequirements": [
+      "user acceptance for shell/workspace mapping",
+      "coordinator approval before any target write"
+    ],
+    "codeSurfaceRefs": [
+      {
+        "byteLength": 1897,
+        "digest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+        "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "refResolvedReadOnly": true
+      },
+      {
+        "byteLength": 594,
+        "digest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+        "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+        "refResolvedReadOnly": true
+      }
+    ],
+    "evidenceRequirements": [
+      "shell navigation smoke test",
+      "screenshot or UI surface evidence",
+      "source digest baseline for selected refs"
+    ],
+    "id": "mapping.windowsutility.shell-workspace.accepted",
+    "intentUnitId": "unit.windowsutility.shell-workspace",
+    "status": "accepted"
+  },
+  "proposal": {
+    "applicationStatus": "not-applied",
+    "class": "shell-workspace-smoke-evidence-non-applied-proposal",
+    "id": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+    "mode": "non-applied-evidence-plan",
+    "plannedSourceChangeCount": 0,
+    "requiredAuthorityCount": 2,
+    "requiredEvidenceCount": 4,
+    "sourcePatchExpected": false,
+    "summary": "Plan the first shell/workspace smoke evidence loop for the accepted WindowsUtility shell-workspace mapping without proposing or applying source changes.",
+    "validationResult": "pass"
+  },
+  "reportVersion": "0.1.0",
+  "reviewGuide": {
+    "notThis": [
+      "Not the WindowsUtility product UI.",
+      "Not a source-code change.",
+      "Not a proposal application.",
+      "Not a packaging or release artifact.",
+      "Not proof that IntentGraph is productized."
+    ],
+    "oneLine": "A static review dashboard for one proposed IntentGraph workflow over WindowsUtility shell/workspace code.",
+    "plainLanguageSummary": "This is not the WindowsUtility application. It is a local review surface that lets a human inspect whether IntentGraph has correctly gathered the mapping, evidence, and safety boundaries for one small WindowsUtility workflow before any source changes are allowed.",
+    "represents": [
+      {
+        "id": "represents.accepted-mapping",
+        "label": "Accepted mapping",
+        "meaning": "Which WindowsUtility shell/workspace area this IntentGraph slice is currently about."
+      },
+      {
+        "id": "represents.code-surface",
+        "label": "Covered code surface",
+        "meaning": "The files and workflow records that the slice claims to understand."
+      },
+      {
+        "id": "represents.non-applied-proposal",
+        "label": "Non-applied proposal",
+        "meaning": "A smoke-evidence proposal that has been described but not applied to WindowsUtility source."
+      },
+      {
+        "id": "represents.evidence",
+        "label": "Evidence",
+        "meaning": "Build, launch, screenshot, and browser checks collected from sandboxed/generated artifacts."
+      },
+      {
+        "id": "represents.authority-boundary",
+        "label": "Authority boundary",
+        "meaning": "Flags proving this page does not grant source-write, hardware, packaging, release, or productization authority."
+      }
+    ],
+    "reviewChecklist": [
+      "Can you tell what WindowsUtility area this slice is about?",
+      "Can you see what evidence exists and where it came from?",
+      "Can you see that the proposal is not applied to source code?",
+      "Can you see what remains blocked and unauthorized?",
+      "Is this review surface clear enough to guide the next IntentGraph iteration?"
+    ],
+    "title": "What this page is"
+  },
+  "scope": "p8.46-windowsutility-source-application-workbench-refresh-source-projection",
+  "selectionRecords": [
+    {
+      "details": {
+        "authorityRequirements": [
+          "user acceptance for shell/workspace mapping",
+          "coordinator approval before any target write"
+        ],
+        "codeSurfaceRefs": [
+          {
+            "byteLength": 1897,
+            "digest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+            "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+            "refResolvedReadOnly": true
+          },
+          {
+            "byteLength": 594,
+            "digest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+            "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+            "refResolvedReadOnly": true
+          }
+        ],
+        "evidenceRequirements": [
+          "shell navigation smoke test",
+          "screenshot or UI surface evidence",
+          "source digest baseline for selected refs"
+        ],
+        "intentUnitId": "unit.windowsutility.shell-workspace"
+      },
+      "id": "mapping.windowsutility.shell-workspace.accepted",
+      "kind": "accepted-mapping",
+      "status": "accepted",
+      "title": "Shell/workspace accepted mapping"
+    },
+    {
+      "details": {
+        "plannedSourceChangeCount": 0,
+        "proposalMode": "non-applied-evidence-plan",
+        "sourcePatchExpected": false,
+        "summary": "Plan the first shell/workspace smoke evidence loop for the accepted WindowsUtility shell-workspace mapping without proposing or applying source changes."
+      },
+      "id": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+      "kind": "non-applied-proposal",
+      "status": "not-applied",
+      "title": "Shell/workspace smoke evidence proposal"
+    },
+    {
+      "details": {
+        "errorCount": null,
+        "exitCode": 0,
+        "id": "evidence.p8.15-sandboxed-build",
+        "kind": "sandboxed-build",
+        "log": "generated/windowsutility/p8.15-sandboxed-smoke-evidence-build.log",
+        "result": "pass",
+        "targetAfter": {
+          "head": "07cbe76368e8857ad198438707f1d52301925da3",
+          "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+          "status": "## main...origin/main"
+        },
+        "targetBefore": {
+          "head": "07cbe76368e8857ad198438707f1d52301925da3",
+          "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+          "status": "## main...origin/main"
+        },
+        "warningCount": null
+      },
+      "id": "evidence.p8.15-sandboxed-build",
+      "kind": "sandboxed-build",
+      "status": "pass",
+      "title": "Sandboxed Build"
+    },
+    {
+      "details": {
+        "id": "evidence.p8.17-sandboxed-ui-launch",
+        "kind": "sandboxed-ui-launch",
+        "mainWindowTitle": "Card Printer Utility",
+        "processResponding": true,
+        "result": "pass",
+        "targetAfter": {
+          "head": "07cbe76368e8857ad198438707f1d52301925da3",
+          "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+          "status": "## main...origin/main"
+        },
+        "targetBefore": {
+          "head": "07cbe76368e8857ad198438707f1d52301925da3",
+          "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+          "status": "## main...origin/main"
+        },
+        "termination": {
+          "closeMainWindowReturned": true,
+          "exited": true,
+          "found": true,
+          "method": "close-main-window"
+        }
+      },
+      "id": "evidence.p8.17-sandboxed-ui-launch",
+      "kind": "sandboxed-ui-launch",
+      "status": "pass",
+      "title": "Sandboxed Ui Launch"
+    },
+    {
+      "details": {
+        "byteLength": 38739,
+        "height": 820,
+        "id": "evidence.p8.19-sandboxed-screenshot",
+        "kind": "sandboxed-screenshot",
+        "mainWindowTitle": "Card Printer Utility",
+        "result": "pass",
+        "screenshotPath": "assets/screenshot.png",
+        "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b",
+        "targetAfter": {
+          "head": "07cbe76368e8857ad198438707f1d52301925da3",
+          "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+          "status": "## main...origin/main"
+        },
+        "targetBefore": {
+          "head": "07cbe76368e8857ad198438707f1d52301925da3",
+          "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+          "status": "## main...origin/main"
+        },
+        "validPng": true,
+        "width": 1320
+      },
+      "id": "evidence.p8.19-sandboxed-screenshot",
+      "kind": "sandboxed-screenshot",
+      "status": "pass",
+      "title": "Sandboxed Screenshot"
+    },
+    {
+      "details": {
+        "aiAuthorityPromoted": false,
+        "hardwareActionsAuthorized": false,
+        "newEvidenceCollectionAuthorized": false,
+        "newScreenshotCaptureAuthorized": false,
+        "newUiLaunchAuthorized": false,
+        "productizationAuthorized": false,
+        "proposalApplicationAuthorized": false,
+        "sourceEditsAuthorized": false,
+        "targetWritesAuthorized": false
+      },
+      "id": "authority.boundary.p8.21",
+      "kind": "authority-boundary",
+      "status": "blocked",
+      "title": "No write, apply, AI, hardware, or productization authority"
+    },
+    {
+      "details": {
+        "appliedPath": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+        "buildPassed": true,
+        "hardwareActionPerformed": false,
+        "id": "source-application.p8.44",
+        "kind": "source-application-result",
+        "preflightPassed": true,
+        "previewDeviation": {
+          "additionalFilesTouched": false,
+          "deviationReason": "Initial application validation found that $PSScriptRoot was empty during default parameter evaluation in Windows PowerShell. The script was corrected in the same selected file by moving RepoRoot resolution into the script body with a MyInvocation fallback.",
+          "previewExactContentApplied": false,
+          "scopeExpanded": false,
+          "touchedFileChanged": false
+        },
+        "productRuntimeChanged": false,
+        "status": "applied-and-validated",
+        "targetCommit": "ac5b2204442cde751f625a9979a4fdb437d468a8"
+      },
+      "id": "source-application.p8.44",
+      "kind": "source-application-result",
+      "status": "pass",
+      "title": "First WindowsUtility source application"
+    },
+    {
+      "details": {
+        "artifactRole": "intentgraph-productization-gate-review-report",
+        "authorizations": {
+          "additionalSourceEditsAuthorized": false,
+          "aiAuthorityPromoted": false,
+          "hardwareActionsAuthorized": false,
+          "packagingAuthorized": false,
+          "productizationAuthorized": false,
+          "releaseAuthorized": false
+        },
+        "date": "2026-07-10",
+        "decision": "source-application-loop-passed-productization-still-blocked",
+        "recommendedNextSlice": "P8.46 WindowsUtility Source Application Workbench Refresh",
+        "remainingBlockers": [
+          {
+            "id": "blocker.workbench-not-refreshed-after-source-application",
+            "requiredNext": "refresh WindowsUtility workbench/product surface with P8.44 source application evidence",
+            "status": "open"
+          },
+          {
+            "id": "blocker.product-runtime-change-not-proven",
+            "requiredNext": "do not infer product runtime readiness from a test-automation helper edit",
+            "status": "open"
+          },
+          {
+            "id": "blocker.packaging-release-boundary-absent",
+            "requiredNext": "define packaging/release boundary before any package or release",
+            "status": "open"
+          },
+          {
+            "id": "blocker.productization-authority-absent",
+            "requiredNext": "explicit productization gate required",
+            "status": "open"
+          }
+        ],
+        "resolvedBlockers": [
+          {
+            "evidence": "P8.44 applied, validated, committed, and pushed a WindowsUtility test-automation source edit.",
+            "id": "blocker.real-source-application-loop-absent",
+            "status": "resolved-for-one-low-risk-test-automation-edit"
+          }
+        ],
+        "scope": "p8.45-source-application-result-productization-gate-report-only",
+        "sourceApplicationEvidence": {
+          "applicationReport": {
+            "digest": "sha256:cc8fe9f3d11f1e58b722b2d0195454a1d059c706d6a77d7b3d6dacfd2f00f97d",
+            "path": "generated/windowsutility/source-application-applications/p8.44/application-report.json"
+          },
+          "buildPassed": true,
+          "preflightPassed": true,
+          "roadmapReport": {
+            "digest": "sha256:2c404355d3fa7d76bc83b4553caa961e2083c6588f43bfa8a51343edae0b4be0",
+            "path": "generated/roadmap/p8.44-minimal-windowsutility-source-edit-application-report.json"
+          },
+          "targetCommit": "ac5b2204442cde751f625a9979a4fdb437d468a8"
+        },
+        "status": "intentgraph-productization-gate-reviewed",
+        "summary": "The first WindowsUtility source application loop passed, resolving the absent source-application-loop blocker. Productization remains blocked pending refreshed workbench visibility and packaging/release boundaries.",
+        "targetState": {
+          "cleanAligned": true,
+          "head": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+          "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+          "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+          "status": "## main...origin/main"
+        },
+        "workItem": "P8.45 Source Application Result Review / Next Productization Gate"
+      },
+      "id": "productization-gate.p8.45",
+      "kind": "productization-gate",
+      "status": "blocked",
+      "title": "Productization still blocked"
+    }
+  ],
+  "sourceApplication": {
+    "appliedPath": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+    "buildPassed": true,
+    "hardwareActionPerformed": false,
+    "id": "source-application.p8.44",
+    "kind": "source-application-result",
+    "preflightPassed": true,
+    "previewDeviation": {
+      "additionalFilesTouched": false,
+      "deviationReason": "Initial application validation found that $PSScriptRoot was empty during default parameter evaluation in Windows PowerShell. The script was corrected in the same selected file by moving RepoRoot resolution into the script body with a MyInvocation fallback.",
+      "previewExactContentApplied": false,
+      "scopeExpanded": false,
+      "touchedFileChanged": false
+    },
+    "productRuntimeChanged": false,
+    "status": "applied-and-validated",
+    "targetCommit": "ac5b2204442cde751f625a9979a4fdb437d468a8"
+  },
+  "sourceArtifacts": [
+    {
+      "artifactRole": "intentgraph-windowsutility-accepted-mapping",
+      "byteLength": 2960,
+      "exists": true,
+      "path": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+      "scope": "p8.9-shell-workspace-accepted-mapping",
+      "sha256": "sha256:9a41cb73c98dd5fb69030064db68ab5a14361c534948da70b3a1086970aa090a",
+      "status": "intentgraph-windowsutility-accepted-mapping-recorded",
+      "workItem": "P8.9 Shell Workspace Accepted Mapping Record"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-accepted-mapping-verification-report",
+      "byteLength": 1180,
+      "exists": true,
+      "path": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json",
+      "result": "pass",
+      "scope": "p8.9-shell-workspace-accepted-mapping-verification-report-only",
+      "sha256": "sha256:9efdbb585e0a17e1703096aa9c1480504961182e929743951aeb1e3630ab3023",
+      "status": "intentgraph-windowsutility-accepted-mapping-verification-passed"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-accepted-mapping-negative-probes-report",
+      "byteLength": 2839,
+      "exists": true,
+      "path": "generated/windowsutility/p8.10-shell-workspace-accepted-mapping-negative-probes-report.json",
+      "result": "pass",
+      "scope": "p8.10-shell-workspace-accepted-mapping-negative-probes-report-only",
+      "sha256": "sha256:d7a199fd99a26a61912ed56430b690206efff3ca7bc6e1c7e5b8af99ead76ad2",
+      "status": "intentgraph-windowsutility-accepted-mapping-negative-probes-passed",
+      "workItem": "P8.10 Shell Workspace Accepted Mapping Negative Probes"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-non-applied-proposal",
+      "byteLength": 6901,
+      "exists": true,
+      "path": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+      "proposalId": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+      "scope": "p8.12-shell-workspace-smoke-evidence-non-applied-proposal",
+      "sha256": "sha256:9ed17daa7dd454f229eb0e0f1f80250c1de984e6ce9c4610cd429d3fc65654c0",
+      "status": "intentgraph-windowsutility-non-applied-proposal-proposed",
+      "workItem": "P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-non-applied-proposal-validation-report",
+      "byteLength": 1182,
+      "exists": true,
+      "path": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-validation-report.json",
+      "proposalId": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+      "result": "pass",
+      "scope": "p8.12-shell-workspace-smoke-evidence-non-applied-proposal-validation-report",
+      "sha256": "sha256:7251d644fbc89b6a191cd49f4abd873c0ce68a0c19069969aeb89d322e1d3497",
+      "status": "intentgraph-windowsutility-non-applied-proposal-validation-passed"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-non-applied-proposal-negative-probes-report",
+      "byteLength": 5917,
+      "exists": true,
+      "path": "generated/windowsutility/p8.13-shell-workspace-non-applied-proposal-negative-probes-report.json",
+      "result": "pass",
+      "scope": "p8.13-shell-workspace-non-applied-proposal-negative-probes-report-only",
+      "sha256": "sha256:49891d1208df9fb1ddadab01d5977adeb0294f1ce68c52729079c996593eba46",
+      "status": "intentgraph-windowsutility-non-applied-proposal-negative-probes-passed",
+      "workItem": "P8.13 Shell Workspace Non-Applied Proposal Negative Probes"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-sandboxed-smoke-evidence-report",
+      "byteLength": 2549,
+      "exists": true,
+      "path": "generated/windowsutility/p8.15-sandboxed-smoke-evidence-report.json",
+      "result": "pass",
+      "scope": "p8.15-shell-workspace-sandboxed-smoke-evidence-dry-run",
+      "sha256": "sha256:e6286e9ea38cdba5ddf3846d86b23511c4f312e0690b8a589fbd0eb328b893d1",
+      "status": "intentgraph-windowsutility-sandboxed-smoke-evidence-passed",
+      "workItem": "P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-sandboxed-ui-launch-probe-report",
+      "byteLength": 3206,
+      "exists": true,
+      "path": "generated/windowsutility/p8.17-sandboxed-ui-launch-probe-report.json",
+      "result": "pass",
+      "scope": "p8.17-shell-workspace-sandboxed-ui-launch-feasibility-probe",
+      "sha256": "sha256:df2f5cdcac412ef47cea7c44b847f8b76a2436a4b83a1b927a36506488b69f05",
+      "status": "intentgraph-windowsutility-sandboxed-ui-launch-probe-passed",
+      "workItem": "P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-sandboxed-screenshot-probe-report",
+      "byteLength": 3599,
+      "exists": true,
+      "path": "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json",
+      "result": "pass",
+      "scope": "p8.19-shell-workspace-sandboxed-screenshot-evidence-probe",
+      "sha256": "sha256:d7f5d03213c370f0fc9b20bbca3f1e2fe3900e99555adde6d1d30e034d6ed0e0",
+      "status": "intentgraph-windowsutility-sandboxed-screenshot-probe-passed",
+      "workItem": "P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe"
+    },
+    {
+      "byteLength": 38739,
+      "exists": true,
+      "path": "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-source-application-report",
+      "byteLength": 3590,
+      "decision": "minimal-source-edit-applied-and-validated",
+      "exists": true,
+      "path": "generated/windowsutility/source-application-applications/p8.44/application-report.json",
+      "sha256": "sha256:1999d94b913ba07caa4db3f73e2f1ea1db1a92328333bb4dedd2cc2c88884835",
+      "status": "intentgraph-windowsutility-source-application-applied",
+      "workItem": "P8.44 Minimal WindowsUtility Source Edit Application"
+    },
+    {
+      "artifactRole": "intentgraph-productization-gate-review-report",
+      "byteLength": 2958,
+      "decision": "source-application-loop-passed-productization-still-blocked",
+      "exists": true,
+      "path": "generated/roadmap/p8.45-source-application-result-productization-gate-report.json",
+      "sha256": "sha256:60da102ac84d3ed77b1e78c69b7dbcd940e7988475e78d0975dd3957d05e8ec8",
+      "status": "intentgraph-productization-gate-reviewed",
+      "workItem": "P8.45 Source Application Result Review / Next Productization Gate"
+    }
+  ],
+  "status": "intentgraph-static-local-workbench-export-projection-emitted",
+  "summary": {
+    "acceptedCodeSurfaceRefCount": 2,
+    "allEvidencePassed": true,
+    "evidenceCardCount": 5,
+    "productizationStillBlocked": true,
+    "proposalNonApplied": true,
+    "selectionRecordCount": 8,
+    "sourceApplicationApplied": true,
+    "sourceArtifactCount": 12,
+    "targetUnchangedInEvidence": true,
+    "timelineStepCount": 10
+  },
+  "target": {
+    "baselineHead": "07cbe76368e8857ad198438707f1d52301925da3",
+    "baselineOriginMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "baselineStatus": "clean-aligned",
+    "current": {
+      "head": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+      "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+      "status": "## main...origin/main"
+    },
+    "id": "WindowsUtility",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility"
+  },
+  "workItem": "P8.46 WindowsUtility Source Application Workbench Refresh",
+  "workflowTimeline": [
+    {
+      "artifact": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+      "id": "p8.9-accepted-mapping",
+      "label": "Accepted mapping",
+      "status": "accepted"
+    },
+    {
+      "artifact": "generated/windowsutility/p8.10-shell-workspace-accepted-mapping-negative-probes-report.json",
+      "id": "p8.10-accepted-mapping-negative-probes",
+      "label": "Mapping negative probes",
+      "status": "pass"
+    },
+    {
+      "artifact": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+      "id": "p8.12-non-applied-proposal",
+      "label": "Non-applied evidence proposal",
+      "status": "not-applied"
+    },
+    {
+      "artifact": "generated/windowsutility/p8.13-shell-workspace-non-applied-proposal-negative-probes-report.json",
+      "id": "p8.13-proposal-negative-probes",
+      "label": "Proposal negative probes",
+      "status": "pass"
+    },
+    {
+      "artifact": "generated/windowsutility/p8.15-sandboxed-smoke-evidence-report.json",
+      "id": "p8.15-sandboxed-build",
+      "label": "Sandboxed build evidence",
+      "status": "pass"
+    },
+    {
+      "artifact": "generated/windowsutility/p8.17-sandboxed-ui-launch-probe-report.json",
+      "id": "p8.17-sandboxed-ui-launch",
+      "label": "Sandboxed UI launch evidence",
+      "status": "pass"
+    },
+    {
+      "artifact": "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json",
+      "id": "p8.19-sandboxed-screenshot",
+      "label": "Sandboxed screenshot evidence",
+      "status": "pass"
+    },
+    {
+      "artifact": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json",
+      "id": "p8.21-workbench-projection",
+      "label": "Workbench projection",
+      "status": "emitted"
+    },
+    {
+      "artifact": "generated/windowsutility/source-application-applications/p8.44/application-report.json",
+      "id": "p8.44-source-application",
+      "label": "Source application applied",
+      "status": "pass"
+    },
+    {
+      "artifact": "generated/roadmap/p8.45-source-application-result-productization-gate-report.json",
+      "id": "p8.45-productization-gate",
+      "label": "Productization gate rechecked",
+      "status": "blocked"
+    }
+  ]
+}

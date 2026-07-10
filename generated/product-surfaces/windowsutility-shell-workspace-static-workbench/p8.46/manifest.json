@@ -1,0 +1,107 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-manifest",
+  "authorityBoundary": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "boundaryReport": {
+    "artifactRole": "intentgraph-productization-gate-review-report",
+    "byteLength": 2958,
+    "decision": "source-application-loop-passed-productization-still-blocked",
+    "path": "generated/roadmap/p8.45-source-application-result-productization-gate-report.json",
+    "scope": "p8.45-source-application-result-productization-gate-report-only",
+    "sha256": "sha256:60da102ac84d3ed77b1e78c69b7dbcd940e7988475e78d0975dd3957d05e8ec8",
+    "status": "intentgraph-productization-gate-reviewed",
+    "workItem": "P8.45 Source Application Result Review / Next Productization Gate"
+  },
+  "determinism": {
+    "localFilesOnly": true,
+    "networkRequired": false,
+    "noNondeterministicTimestamp": true,
+    "sourceDigestBound": true
+  },
+  "exportVersion": "0.2.0",
+  "exportedFiles": [
+    {
+      "byteLength": 34398,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/index.html",
+      "sha256": "sha256:eac1ca4a4462d6a22bc3764d1b3f61f85df73f0b54ee379259a00353408ac0c8"
+    },
+    {
+      "artifactRole": "intentgraph-static-local-workbench-export-projection",
+      "byteLength": 29645,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/projection.json",
+      "scope": "p8.46-windowsutility-source-application-workbench-refresh",
+      "sha256": "sha256:f34e3a36e96684e4c93307c8d96635a809bf694695c39e5807861a8f9bf2b01b",
+      "status": "intentgraph-static-local-workbench-export-projection-emitted",
+      "workItem": "P8.46 WindowsUtility Source Application Workbench Refresh"
+    },
+    {
+      "byteLength": 38739,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46/assets/screenshot.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+    }
+  ],
+  "generatedAtPolicy": "deterministic-no-runtime-timestamp",
+  "integrity": {
+    "indexPath": "index.html",
+    "projectionPath": "projection.json",
+    "screenshotPath": "assets/screenshot.png"
+  },
+  "outputRoot": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.46",
+  "scope": "p8.46-windowsutility-source-application-workbench-refresh",
+  "sourceArtifacts": [
+    {
+      "artifactRole": "intentgraph-productization-gate-review-report",
+      "byteLength": 2958,
+      "decision": "source-application-loop-passed-productization-still-blocked",
+      "path": "generated/roadmap/p8.45-source-application-result-productization-gate-report.json",
+      "scope": "p8.45-source-application-result-productization-gate-report-only",
+      "sha256": "sha256:60da102ac84d3ed77b1e78c69b7dbcd940e7988475e78d0975dd3957d05e8ec8",
+      "status": "intentgraph-productization-gate-reviewed",
+      "workItem": "P8.45 Source Application Result Review / Next Productization Gate"
+    },
+    {
+      "artifactRole": "intentgraph-static-local-workbench-export-projection",
+      "byteLength": 29663,
+      "path": "generated/windowsutility/workbench/p8.46-source-application-workbench-projection.json",
+      "scope": "p8.46-windowsutility-source-application-workbench-refresh-source-projection",
+      "sha256": "sha256:0eac99261572fbd463cf73be1ec87f56895418a81fda2f7b95bf0249d1037a96",
+      "status": "intentgraph-static-local-workbench-export-projection-emitted",
+      "workItem": "P8.46 WindowsUtility Source Application Workbench Refresh"
+    },
+    {
+      "byteLength": 27954,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/index.html",
+      "sha256": "sha256:ca043638d1ff2ced9a1a1255e35e60f0fbe1b81b3837fc35823a66271de873bf"
+    },
+    {
+      "byteLength": 38739,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/assets/screenshot.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+    }
+  ],
+  "status": "intentgraph-static-local-workbench-export-manifest-emitted",
+  "targetBaseline": {
+    "baselineHead": "07cbe76368e8857ad198438707f1d52301925da3",
+    "baselineOriginMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "baselineStatus": "clean-aligned",
+    "current": {
+      "head": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+      "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+      "status": "## main...origin/main"
+    },
+    "id": "WindowsUtility",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility"
+  },
+  "workItem": "P8.46 WindowsUtility Source Application Workbench Refresh"
+}

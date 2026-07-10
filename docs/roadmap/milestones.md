@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.45 Source Application Result Review / Next Productization Gate
+P8.46 WindowsUtility Source Application Workbench Refresh
 ```
 
-This Phase G stabilization slice reviewed the first WindowsUtility source application result. The real source-application-loop blocker is resolved for one low-risk edit, but productization remains blocked pending refreshed workbench visibility and packaging/release gates. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice refreshed the static WindowsUtility workbench export with the P8.44 source application and P8.45 gate evidence. Productization remains blocked pending packaging/release boundaries. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1990,6 +1990,30 @@ Decision:
 - workbench/product surface must be refreshed with source application evidence.
 - packaging/release boundaries remain absent.
 - continue to `P8.46 WindowsUtility Source Application Workbench Refresh`.
+
+Non-goals:
+
+- no new source edit
+- no hardware action authority
+- no AI authority promotion
+- no packaging
+- no release
+- no productization implementation
+- no product readiness claim
+
+## P8.46: WindowsUtility Source Application Workbench Refresh
+
+Goal: refresh the static workbench/product surface with the first source application result.
+
+Status: completed on 2026-07-10. See [P8.46 WindowsUtility Source Application Workbench Refresh](../reviews/p8.46-windowsutility-source-application-workbench-refresh.md).
+
+Decision:
+
+- p8.46 static export emitted.
+- P8.44 source application result is visible in the projection.
+- P8.45 productization gate result is visible.
+- validation and negative probes passed.
+- continue to `P8.47 Productization Packaging/Release Boundary Plan`.
 
 Non-goals:
 
