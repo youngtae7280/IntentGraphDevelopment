@@ -68,3 +68,116 @@ This drill-down is still a projection. It is not accepted authority.
 M7 may emit a simple Mermaid graph text block for documentation.
 
 The diagram is intentionally lossy. It helps people orient themselves, but it must not be used for equality, authority, or acceptance decisions.
+
+## Approval-Stage Selection Model
+
+P8.57 requires selection-ready graph projections for approval-stage workbenches.
+
+Every visible graph node must have a stable selection payload:
+
+```text
+SelectedNode = {
+  id,
+  kind,
+  label,
+  status,
+  attributes,
+  sourceRefs,
+  graphDiffRef,
+  codeDiffRefs,
+  incomingEdges,
+  outgoingEdges,
+  evidenceRefs,
+  authorityRefs,
+  historyRefs,
+  deltaRefs
+}
+```
+
+Every visible graph edge must have a stable selection payload:
+
+```text
+SelectedEdge = {
+  id,
+  kind,
+  source,
+  target,
+  status,
+  attributes,
+  graphDiffRef,
+  confidence,
+  provenance,
+  evidenceRefs,
+  authorityRefs,
+  historyRefs,
+  deltaRefs
+}
+```
+
+## Approval-Stage Delta Model
+
+Every approval-stage workbench projection must expose a delta view:
+
+```text
+GraphDeltaView = {
+  beforeGraphRef,
+  afterGraphRef,
+  addedNodes,
+  removedNodes,
+  changedNodes,
+  impactedNodes,
+  addedEdges,
+  removedEdges,
+  changedEdges,
+  impactedEdges,
+  graphNodeDiffs,
+  graphEdgeDiffs,
+  codeDiffs,
+  steps
+}
+```
+
+Selecting a delta step must highlight the affected nodes and edges and update the detail panel with the evidence, authority, and history records that justify that step.
+
+If the selected node is a code node, or if the selected delta step affects code refs, the workbench must also expose:
+
+```text
+CodeDiffView = {
+  filePath,
+  beforeRange,
+  afterRange,
+  changeKind,
+  diffHunks,
+  affectedNodeIds,
+  affectedEdgeIds,
+  deltaStepId,
+  evidenceRefs,
+  authorityRefs,
+  blockerIfMissing
+}
+```
+
+`blockerIfMissing` is required whenever a code-affecting graph delta has no corresponding source diff. The workbench must not let that absence look like a clean approval state.
+
+For changed existing graph nodes and edges, the workbench must expose:
+
+```text
+GraphElementDiffView = {
+  elementId,
+  elementKind,
+  changeKind,
+  beforePayload,
+  afterPayload,
+  changedFields,
+  addedRefs,
+  removedRefs,
+  changedRefs,
+  affectedCodeDiffRefs,
+  deltaStepId,
+  evidenceRefs,
+  authorityRefs,
+  blockerIfMissing
+}
+```
+
+`blockerIfMissing` is required whenever a node or edge is classified as changed but its before/after graph diff payload is absent.

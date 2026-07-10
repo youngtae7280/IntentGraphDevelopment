@@ -2082,3 +2082,75 @@ Recommended next slice:
 ```text
 P8.56 Packaged Artifact Verification Boundary
 ```
+
+## Completed Slice: P8.56 Packaged Artifact Verification Boundary
+
+Goal: define what packaged artifact verification may do after P8.55.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.56-packaged-artifact-verification-boundary-report.json`
+- [P8.56 Packaged Artifact Verification Boundary](../reviews/p8.56-packaged-artifact-verification-boundary.md)
+
+Decision:
+
+```text
+packaged-artifact-verification-boundary-recorded-execution-not-authorized
+```
+
+Allowed without new authority:
+
+- recompute package checksum.
+- inspect zip inventory.
+- replay P8.55 package metadata verification.
+
+Still requires explicit authorization:
+
+- sandbox package extraction
+- packaged executable launch
+- packaged UI launch
+- packaged UI screenshot capture
+- installer creation
+- artifact signing
+- credential access
+- provider API calls
+- release tag creation
+- release publishing
+- productization claims
+
+Recommended next slice:
+
+```text
+P8.57 Approval Workbench Graph Delta Visualization Requirement Record
+```
+
+## Completed Slice: P8.57 Approval Workbench Graph Delta Visualization Requirement Record
+
+Goal: record that approval-stage workbenches must visualize graph state and graph deltas, with click-to-inspect node/edge panels and diff views.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.57-approval-workbench-graph-delta-visualization-requirement-report.json`
+- [P8.57 Approval Workbench Graph Delta Visualization Requirement Record](../reviews/p8.57-approval-workbench-graph-delta-visualization-requirement.md)
+
+Decision:
+
+```text
+approval-workbench-must-show-interactive-graph-delta-and-diff-before-further-approval-gates
+```
+
+Required before further approval-oriented workbench gates:
+
+- interactive graph view
+- graph delta view
+- selectable nodes and edges
+- selection details panel
+- code diff for selected code nodes or code-affecting deltas
+- graph before/after diff for changed existing nodes and edges
+- explicit blocker when a required diff is missing
+
+Recommended next slice:
+
+```text
+P8.58 Graph Delta Approval Workbench Boundary Plan
+```

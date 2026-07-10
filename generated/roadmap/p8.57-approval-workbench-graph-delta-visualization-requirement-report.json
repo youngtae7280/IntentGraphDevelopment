@@ -1,0 +1,111 @@
+{
+  "artifactRole": "intentgraph-approval-workbench-graph-delta-visualization-requirement-report",
+  "status": "intentgraph-approval-workbench-graph-delta-visualization-requirement-recorded",
+  "scope": "p8.57-approval-workbench-graph-delta-visualization-requirement-report-only",
+  "workItem": "P8.57 Approval Workbench Graph Delta Visualization Requirement Record",
+  "date": "2026-07-10",
+  "decision": "approval-workbench-must-show-interactive-graph-delta-and-diff-before-further-approval-gates",
+  "coordinatorFeedback": [
+    {
+      "raw": "사용자 승인단계에서 워크벤치를 보여주는건 좋은데, 그래프를 시각화해서(graphify급) 보여주고 delta 가 어떻게되는지 까지 시각화 해서 보여줘야한다. 각 노드와 엣지를 클릭하면 해당 정보를 패널에 보여야한다",
+      "normalized": "Approval-stage workbenches must visualize the graph at Graphify-grade usability, show graph deltas, and show selected node/edge details in a panel."
+    },
+    {
+      "raw": "또한 코드 노드를 선택하면 코드가 어떻게 바뀌는지도 diff 를 보여줘야한다",
+      "normalized": "Selecting a code node must show the related source code diff when the current delta affects that code."
+    },
+    {
+      "raw": "만약 delta 에서 기존 노드나 엣지에 변화가 생긴다면, 변화가 생긴 노드와 엣지도 diff 를 보여줘야한다",
+      "normalized": "Changed existing nodes and edges must show graph before/after diffs, not only status badges."
+    }
+  ],
+  "requiredWorkbenchCapabilities": {
+    "interactiveGraphVisualization": true,
+    "graphifyGradeUsabilityPressure": true,
+    "panAndZoom": true,
+    "searchAndFilter": true,
+    "nodeSelection": true,
+    "edgeSelection": true,
+    "selectionInspectorPanel": true,
+    "graphDeltaVisualization": true,
+    "deltaStepSelection": true,
+    "deltaStepGraphHighlighting": true,
+    "codeNodeSourceDiff": true,
+    "changedGraphNodeDiff": true,
+    "changedGraphEdgeDiff": true,
+    "missingDiffBlocksApproval": true
+  },
+  "minimumInspectorRequirements": {
+    "nodeInspector": [
+      "node id",
+      "node kind",
+      "label",
+      "status",
+      "source refs",
+      "graph node diff for changed existing nodes",
+      "code diff for code nodes affected by the selected delta",
+      "incoming edges",
+      "outgoing edges",
+      "evidence refs",
+      "authority refs",
+      "history refs",
+      "delta refs"
+    ],
+    "edgeInspector": [
+      "edge id",
+      "edge kind",
+      "source node",
+      "target node",
+      "status",
+      "graph edge diff for changed existing edges",
+      "confidence/provenance",
+      "evidence refs",
+      "authority refs",
+      "history refs",
+      "delta refs"
+    ],
+    "codeDiffInspector": [
+      "file path",
+      "before range",
+      "after range",
+      "change kind",
+      "diff hunks",
+      "affected node ids",
+      "affected edge ids",
+      "delta step id",
+      "evidence refs",
+      "authority refs",
+      "blocker if missing"
+    ],
+    "graphElementDiffInspector": [
+      "element id",
+      "element kind",
+      "change kind",
+      "before payload",
+      "after payload",
+      "changed fields",
+      "added refs",
+      "removed refs",
+      "changed refs",
+      "affected code diff refs",
+      "delta step id",
+      "evidence refs",
+      "authority refs",
+      "blocker if missing"
+    ]
+  },
+  "productizationImpact": {
+    "packageVerificationAuthorizationDeferred": true,
+    "approvalSurfacesMustBeGraphDeltaCapable": true,
+    "currentStaticWorkbenchInsufficientForFutureApprovalGates": true,
+    "nextSliceShouldPlanGraphDeltaWorkbench": true
+  },
+  "nonGoals": {
+    "noPackageExtraction": true,
+    "noPackagedExecutableLaunch": true,
+    "noWindowsUtilitySourceEdit": true,
+    "noRelease": true,
+    "noProductizationClaim": true
+  },
+  "recommendedNextSlice": "P8.58 Graph Delta Approval Workbench Boundary Plan"
+}

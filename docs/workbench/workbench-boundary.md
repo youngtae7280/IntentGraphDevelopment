@@ -108,6 +108,33 @@ If Phase 1 needs an interactive workbench, start by integrating an existing visu
 
 That choice requires a new prior-art gate and benchmark.
 
+## Approval-Stage Interactive Graph Boundary
+
+P8.57 strengthens the future integration decision: any workbench used as the primary user/coordinator approval surface must include an interactive graph and delta visualization.
+
+The approval-stage workbench must:
+
+- render graph nodes and edges directly.
+- show graph deltas directly.
+- show graph before/after diffs for changed existing nodes and edges.
+- show code diffs for selected code nodes or selected code-affecting delta steps.
+- allow node selection and edge selection.
+- populate a detail panel from selected node or edge data.
+- highlight graph elements affected by a selected delta step.
+- synchronize graph delta selection with code diff selection.
+- keep the visualization non-authoritative.
+
+The approval-stage workbench must not:
+
+- treat graph coordinates as accepted graph authority.
+- treat a click as approval.
+- hide missing graph diff data for changed nodes or changed edges.
+- hide missing code diff data for code-affecting deltas.
+- hide validation, evidence, authority, or productization blockers behind a visual success state.
+- claim Graphify parity until an explicit benchmark compares the surface against Graphify-like graph exploration tasks.
+
+Implementation should borrow an existing graph visualization library rather than inventing a layout engine. For the current product surface, Cytoscape.js is the preferred first candidate because it is strong for graph exploration, selection, styling by data attributes, and static local HTML packaging.
+
 ## Prior-Art Pressure Matrix
 
 | Capability | Stronger existing systems | M7 decision |

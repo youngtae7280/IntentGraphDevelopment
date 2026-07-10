@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.55 Sandboxed Package Artifact Creation Probe
+P8.57 Approval Workbench Graph Delta Visualization Requirement Record
 ```
 
-This Phase G stabilization slice created and validated a bounded sandboxed WindowsUtility package artifact while keeping the original WindowsUtility target repository clean/aligned. Release, signing, credential, provider API, installer, and productization authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice recorded that future approval workbenches must show Graphify-grade graph exploration pressure, graph deltas, selected node/edge details, code diffs for code nodes, and graph diffs for changed existing nodes/edges before further approval gates rely on the workbench. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -2290,3 +2290,50 @@ Non-goals:
 Next safe work:
 
 - continue to `P8.56 Packaged Artifact Verification Boundary`.
+
+## P8.56: Packaged Artifact Verification Boundary
+
+Goal: define the boundary for future verification of the P8.55 package artifact.
+
+Status: completed on 2026-07-10. See [P8.56 Packaged Artifact Verification Boundary](../reviews/p8.56-packaged-artifact-verification-boundary.md).
+
+Decision:
+
+- metadata/checksum/zip inventory replay can be verified from the committed package artifact.
+- sandbox extraction is not yet authorized.
+- packaged executable launch is not yet authorized.
+- packaged UI screenshot capture is not yet authorized.
+- installer, signing, release, and productization authority remain absent.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.56-packaged-artifact-verification-boundary-report.json`
+- [P8.56 Packaged Artifact Verification Boundary](../reviews/p8.56-packaged-artifact-verification-boundary.md)
+
+Next safe work:
+
+- continue to `P8.57 Approval Workbench Graph Delta Visualization Requirement Record`.
+
+## P8.57: Approval Workbench Graph Delta Visualization Requirement Record
+
+Goal: record the coordinator requirement that approval-stage workbenches must show graph visualization, graph delta, selected node/edge details, code diffs, and changed graph element diffs.
+
+Status: completed on 2026-07-10. See [P8.57 Approval Workbench Graph Delta Visualization Requirement Record](../reviews/p8.57-approval-workbench-graph-delta-visualization-requirement.md).
+
+Decision:
+
+- current static card/table workbench is insufficient for future approval gates.
+- graph visualization must be comparable to Graphify-grade inspectability.
+- selecting nodes and edges must populate a detail panel.
+- selecting code nodes or code-affecting deltas must show code diff.
+- changed existing nodes and edges must show before/after graph diff.
+- missing code or graph diff data must block approval rather than being hidden.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.57-approval-workbench-graph-delta-visualization-requirement-report.json`
+- [P8.57 Approval Workbench Graph Delta Visualization Requirement Record](../reviews/p8.57-approval-workbench-graph-delta-visualization-requirement.md)
+
+Next safe work:
+
+- continue to `P8.58 Graph Delta Approval Workbench Boundary Plan`.

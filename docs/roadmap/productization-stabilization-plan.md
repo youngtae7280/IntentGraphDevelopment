@@ -1,6 +1,6 @@
 # Productization Stabilization Plan
 
-Status: created in P8.0; rechecked through P8.55.
+Status: created in P8.0; rechecked through P8.57.
 
 IntentGraph is not ready for productization. The current evidence proves a semantic overlay model, deterministic toy and B1 fixtures, a static workbench preview, and read-only WindowsUtility adoption artifacts. It does not yet prove a safe user-facing product.
 
@@ -791,4 +791,60 @@ The next safe stabilization slice is:
 
 ```text
 P8.56 Packaged Artifact Verification Boundary
+```
+
+## P8.56 Packaged Artifact Verification Boundary
+
+P8.56 recorded the boundary for future package verification.
+
+Current state:
+
+- package metadata replay is allowed
+- checksum recomputation is allowed
+- zip inventory inspection is allowed
+- sandbox extraction is not yet authorized
+- packaged executable launch is not yet authorized
+- packaged UI screenshot capture is not yet authorized
+
+Still blocked:
+
+- packaged artifact extraction/run verification
+- installers are not authorized
+- artifact signing is not authorized
+- credential access is not authorized
+- provider API calls are not authorized
+- release tags are not authorized
+- release publishing is not authorized
+- user acceptance of a package candidate is absent
+- productization authority is absent
+
+The next safe stabilization slice is:
+
+```text
+P8.57 Packaged Artifact Verification Authorization Request
+```
+
+## P8.57 Approval Workbench Graph Delta Visualization Requirement Record
+
+P8.57 records that the current approval workbench direction is not sufficient unless it can visualize graph state, graph delta, selected element details, and diffs.
+
+New requirement:
+
+- approval surfaces must show an interactive graph
+- graph delta must be visible
+- nodes and edges must be selectable
+- selected node/edge information must appear in a panel
+- selected code nodes and code-affecting deltas must show code diffs
+- changed existing nodes and edges must show before/after graph diffs
+- missing required diff data must block approval
+
+Impact:
+
+- package verification authorization is deferred
+- a graph delta approval workbench boundary must come next
+
+The next safe stabilization slice is:
+
+```text
+P8.58 Graph Delta Approval Workbench Boundary Plan
 ```
