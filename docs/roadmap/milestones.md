@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.32 Static Local Workbench Export Productization Gate Review
+P8.33 Static Local Workbench Export User Review Request
 ```
 
-This Phase G stabilization slice reviewed the static export prototype and found it ready for user review but not productized. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice created the user/coordinator review request for the static export. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1624,6 +1624,33 @@ Decision:
 - static export is not ready for packaging or release.
 - productization remains blocked.
 - continue to `P8.33 Static Local Workbench Export User Review Request`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
+- no editor or GitHub integration
+- no productization implementation
+- no product readiness claim
+
+## P8.33: Static Local Workbench Export User Review Request
+
+Goal: ask the user/coordinator to inspect the P8.31 static export and answer whether it is understandable, useful, visually acceptable, and safe enough for the next bounded product-surface iteration.
+
+Status: completed on 2026-07-10. See [P8.33 Static Local Workbench Export User Review Request](../reviews/p8.33-static-local-workbench-export-user-review-request.md).
+
+Decision:
+
+- user/coordinator review request created.
+- no review result has been recorded.
+- wait for explicit user/coordinator response.
+- next result-recording slice may be `P8.34 Static Local Workbench Export User Review Result Record` only after response.
 
 Non-goals:
 

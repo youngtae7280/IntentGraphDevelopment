@@ -1,0 +1,76 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-user-review-request",
+  "status": "intentgraph-static-local-workbench-export-user-review-requested",
+  "scope": "p8.33-static-local-workbench-export-user-review-request",
+  "workItem": "P8.33 Static Local Workbench Export User Review Request",
+  "date": "2026-07-10",
+  "decision": "static-export-user-review-response-required",
+  "participant": "user/coordinator",
+  "reviewTarget": {
+    "id": "windowsutility-shell-workspace-static-local-workbench-export",
+    "kind": "static-local-html-workbench-export",
+    "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/index.html",
+    "absolutePath": "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\product-surfaces\\windowsutility-shell-workspace-static-workbench\\p8.31\\index.html",
+    "fileUrl": "file:///C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/index.html"
+  },
+  "supportingMaterials": [
+    {
+      "id": "material.static-export-manifest",
+      "kind": "manifest-json",
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/manifest.json"
+    },
+    {
+      "id": "material.static-export-projection",
+      "kind": "projection-json",
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/projection.json"
+    },
+    {
+      "id": "material.static-export-screenshot",
+      "kind": "screenshot-png",
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/assets/screenshot.png"
+    },
+    {
+      "id": "material.static-export-browser-validation",
+      "kind": "browser-validation-report",
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/browser-validation-report.json"
+    },
+    {
+      "id": "material.productization-gate-review",
+      "kind": "gate-review-report",
+      "path": "generated/roadmap/p8.32-static-local-workbench-export-productization-gate-review-report.json"
+    }
+  ],
+  "questions": [
+    "Can you understand the accepted WindowsUtility shell/workspace mapping?",
+    "Can you understand which code surface and workflow are covered?",
+    "Can you see that the smoke evidence proposal has not been applied to WindowsUtility?",
+    "Can you identify build, UI launch, screenshot, and browser validation evidence?",
+    "Can you identify the false authority flags and blocked productization gates?",
+    "Is the static export visually and ergonomically acceptable enough for the next iteration?",
+    "What is confusing, missing, ugly, or misleading?",
+    "Should the roadmap proceed, revise the static export, or pause?"
+  ],
+  "allowedResponses": [
+    "proceed",
+    "revise",
+    "pause"
+  ],
+  "responseRecording": {
+    "responseRecorded": false,
+    "resultArtifactCreated": false,
+    "requiredNextArtifact": "P8.34 Static Local Workbench Export User Review Result Record"
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  }
+}

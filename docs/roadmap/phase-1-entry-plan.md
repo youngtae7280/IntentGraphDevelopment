@@ -1509,3 +1509,26 @@ Recommended next slice:
 ```text
 P8.33 Static Local Workbench Export User Review Request
 ```
+
+## Completed Slice: P8.33 Static Local Workbench Export User Review Request
+
+Goal: create the explicit user/coordinator request for reviewing the P8.31 static export.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.33-static-local-workbench-export-user-review-request.json`
+- [P8.33 Static Local Workbench Export User Review Request](../reviews/p8.33-static-local-workbench-export-user-review-request.md)
+
+Decision:
+
+```text
+static-export-user-review-response-required
+```
+
+Recommended next slice:
+
+```text
+P8.34 Static Local Workbench Export User Review Result Record
+```
+
+only after an explicit user/coordinator response is received.
