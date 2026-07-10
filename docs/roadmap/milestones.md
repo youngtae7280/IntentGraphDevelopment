@@ -2894,3 +2894,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.80 Packaged UI Screenshot Scope Hold Record`.
+
+## P8.80: Packaged UI Screenshot Scope Hold Record
+
+Goal: record that packaged UI screenshot capture is held while preconditions and explicit authorization remain absent.
+
+Status: completed on 2026-07-10. See [P8.80 Packaged UI Screenshot Scope Hold Record](../reviews/p8.80-packaged-ui-screenshot-scope-hold-record.md).
+
+Decision:
+
+- screenshot capture remains held.
+- safe report-only planning can continue.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.80-packaged-ui-screenshot-scope-hold-record.json`
+- `generated/roadmap/p8.80-packaged-ui-screenshot-scope-hold-record-report.json`
+- [P8.80 Packaged UI Screenshot Scope Hold Record](../reviews/p8.80-packaged-ui-screenshot-scope-hold-record.md)
+
+Next safe work:
+
+- continue to `P8.81 Productization Readiness Recheck After UI Evidence Boundary Planning`.

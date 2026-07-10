@@ -1,0 +1,32 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.80-packaged-ui-screenshot-scope-hold-record",
+  "workItem": "P8.80 Packaged UI Screenshot Scope Hold Record",
+  "date": "2026-07-10",
+  "result": "packaged-ui-screenshot-held-pending-preconditions-and-explicit-authorization",
+  "producedArtifacts": [
+    "generated/roadmap/p8.80-packaged-ui-screenshot-scope-hold-record.json",
+    "docs/reviews/p8.80-packaged-ui-screenshot-scope-hold-record.md"
+  ],
+  "holdSummary": {
+    "extractionInventoryVerificationPassed": false,
+    "launchSmokePassed": false,
+    "explicitAcceptedResponseRecorded": false,
+    "packagedUiScreenshotAllowed": false,
+    "safeProgressStillAllowed": true
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.81 Productization Readiness Recheck After UI Evidence Boundary Planning"
+}

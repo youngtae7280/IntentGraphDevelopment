@@ -1,0 +1,65 @@
+{
+  "artifactRole": "intentgraph-packaged-ui-screenshot-scope-hold-record",
+  "status": "intentgraph-packaged-ui-screenshot-scope-held",
+  "scope": "p8.80-packaged-ui-screenshot-scope-hold-record",
+  "workItem": "P8.80 Packaged UI Screenshot Scope Hold Record",
+  "date": "2026-07-10",
+  "decision": "packaged-ui-screenshot-held-pending-preconditions-and-explicit-authorization",
+  "sourceAuthorizationRequest": {
+    "path": "generated/roadmap/p8.79-packaged-ui-screenshot-authorization-request.json",
+    "artifactRole": "intentgraph-packaged-ui-screenshot-authorization-request",
+    "status": "intentgraph-packaged-ui-screenshot-authorization-requested"
+  },
+  "holdReason": {
+    "extractionInventoryVerificationPassed": false,
+    "launchSmokePassed": false,
+    "explicitAcceptedResponseRequired": "accept sandboxed packaged UI screenshot capture",
+    "explicitAcceptedResponseRecorded": false,
+    "standingAcceptShortcutApplies": false,
+    "packagedUiScreenshotAllowed": false
+  },
+  "safeProgressAllowedWhileHeld": [
+    "document future screenshot execution plan",
+    "document installer/signing/release authority boundaries without enabling them",
+    "refresh productization readiness reports",
+    "refresh static workbench surfaces from already accepted evidence"
+  ],
+  "unsafeProgressBlockedWhileHeld": [
+    "extract existing WindowsUtility package artifact",
+    "run packaged executable",
+    "launch packaged UI",
+    "capture packaged UI screenshot",
+    "create installer",
+    "sign artifacts",
+    "read credentials",
+    "call provider APIs",
+    "create release tags",
+    "publish releases",
+    "claim productization readiness"
+  ],
+  "authorizations": {
+    "sandboxedPackageExtractionInventoryVerificationAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "packagedUiScreenshotAuthorized": false,
+    "installerCreationAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.81 Productization Readiness Recheck After UI Evidence Boundary Planning"
+}
