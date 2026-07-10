@@ -1,0 +1,85 @@
+{
+  "artifactRole": "intentgraph-windowsutility-sandboxed-ui-launch-probe-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "sandboxWritesAuthorizedForThisProbe": true,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "uiLaunchAuthorizedForThisProbe": true
+  },
+  "build": {
+    "command": "dotnet build WindowsUtility.sln --nologo",
+    "exitCode": 0,
+    "log": "generated/windowsutility/p8.17-sandboxed-ui-launch-build.log",
+    "stderrLineCount": 0,
+    "stdoutLineCount": 41
+  },
+  "errors": [],
+  "proposal": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+  "result": "pass",
+  "sandbox": {
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility-p8.17-ui",
+    "removedAfterRun": true,
+    "retained": false,
+    "writesConfinedToSandbox": true
+  },
+  "scope": "p8.17-shell-workspace-sandboxed-ui-launch-feasibility-probe",
+  "screenshotEvidence": {
+    "attempted": false,
+    "captured": false,
+    "reason": "P8.17 verifies launch feasibility only; screenshot capture remains a later bounded evidence slice."
+  },
+  "sourceRefResults": [
+    {
+      "actualByteLength": 1897,
+      "actualDigest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+      "expectedByteLength": 1897,
+      "expectedDigest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+      "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 594,
+      "actualDigest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+      "expectedByteLength": 594,
+      "expectedDigest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+      "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+      "result": "pass"
+    }
+  ],
+  "status": "intentgraph-windowsutility-sandboxed-ui-launch-probe-passed",
+  "targetAfter": {
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "status": "## main...origin/main"
+  },
+  "targetBefore": {
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "status": "## main...origin/main"
+  },
+  "uiLaunch": {
+    "attempted": true,
+    "initialExitCode": null,
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility-p8.17-ui\\src\\WindowsUtility.App\\bin\\Debug\\net9.0-windows\\WindowsUtility.App.exe",
+    "pid": 44864,
+    "processObservation": {
+      "found": true,
+      "id": 44864,
+      "mainWindowTitle": "Card Printer Utility",
+      "processName": "WindowsUtility.App",
+      "responding": true
+    },
+    "started": true,
+    "termination": {
+      "closeMainWindowReturned": true,
+      "exited": true,
+      "found": true,
+      "method": "close-main-window"
+    }
+  },
+  "workItem": "P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe"
+}

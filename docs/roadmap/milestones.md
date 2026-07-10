@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.16 Shell Workspace UI Evidence Boundary Plan
+P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe
 ```
 
-This Phase G stabilization slice defined the safety boundary for sandboxed UI launch evidence. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice proved sandboxed WindowsUtility UI launch/window observation while the original target stayed unchanged. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1226,5 +1226,30 @@ Non-goals:
 - no AI authority promotion
 - no hardware action authority
 - no UI launch or screenshot evidence in this slice
+- no productization implementation
+- no product readiness claim
+
+## P8.17: Shell Workspace Sandboxed UI Launch Feasibility Probe
+
+Goal: launch and observe the sandboxed WindowsUtility app without modifying the original target repo.
+
+Status: completed on 2026-07-10. See [P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe Review](../reviews/p8.17-shell-workspace-sandboxed-ui-launch-feasibility-probe-review.md).
+
+Decision:
+
+- sandbox build passed.
+- sandbox app launched and exposed `Card Printer Utility`.
+- process was responding and closed through `CloseMainWindow`.
+- original target stayed `## main...origin/main`.
+- continue to `P8.18 Shell Workspace Screenshot Evidence Boundary Plan`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
+- no screenshot evidence yet
 - no productization implementation
 - no product readiness claim

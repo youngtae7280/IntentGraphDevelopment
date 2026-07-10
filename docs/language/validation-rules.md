@@ -375,6 +375,12 @@ Status: added in P8.16.
 
 UI evidence for a real-project target must not be conflated with build evidence or productization. Before launching a UI, the boundary must require sandbox-only launch paths, clean process termination, no hardware/device actions, no original-target writes, optional screenshot capture with an explicit unavailable reason when skipped, and an original target post-check.
 
+## V1021: Sandboxed UI Launch Probes Must Close Observed Processes
+
+Status: added in P8.17.
+
+A sandboxed UI launch probe must build and launch only from the sandbox, record process id, process/window observation, termination method, and original target before/after state. The probe must fail if the app exits before the observation window, if the process cannot be observed, if it cannot be closed or killed, if the sandbox refs are stale, or if the original target changes.
+
 ## Rule Severity
 
 | Severity | Meaning |

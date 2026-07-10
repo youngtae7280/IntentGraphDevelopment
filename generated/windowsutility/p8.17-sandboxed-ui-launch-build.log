@@ -1,0 +1,48 @@
+COMMAND: dotnet build WindowsUtility.sln --nologo
+EXIT CODE: 0
+
+STDOUT:
+  Determining projects to restore...
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Core.Native\WindowsUtility.Core.Native.csproj (in 128 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Diagnostics\WindowsUtility.Diagnostics.csproj (in 114 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Core.Abstractions\WindowsUtility.Core.Abstractions.csproj (in 114 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Core.Services\WindowsUtility.Core.Services.csproj (in 136 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Test\WindowsUtility.Modules.Test.csproj (in 144 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Serial\WindowsUtility.Modules.Serial.csproj (in 143 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Shell\WindowsUtility.Shell.csproj (in 142 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.PrinterInfo\WindowsUtility.Modules.PrinterInfo.csproj (in 143 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.NetAdmin\WindowsUtility.Modules.NetAdmin.csproj (in 144 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Dump\WindowsUtility.Modules.Dump.csproj (in 145 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.DumpView\WindowsUtility.Modules.DumpView.csproj (in 144 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Firmware\WindowsUtility.Modules.Firmware.csproj (in 145 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.SimpleInfo\WindowsUtility.Modules.SimpleInfo.csproj (in 145 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Diagnostics\WindowsUtility.Modules.Diagnostics.csproj (in 145 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Config\WindowsUtility.Modules.Config.csproj (in 145 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Model\WindowsUtility.Modules.Model.csproj (in 145 ms).
+  Restored C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.App\WindowsUtility.App.csproj (in 150 ms).
+  WindowsUtility.Diagnostics -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Diagnostics\bin\Debug\net9.0\WindowsUtility.Diagnostics.dll
+  WindowsUtility.Core.Abstractions -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Core.Abstractions\bin\Debug\net9.0\WindowsUtility.Core.Abstractions.dll
+  WindowsUtility.Core.Native -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Core.Native\bin\Debug\net9.0\WindowsUtility.Core.Native.dll
+  WindowsUtility.Core.Services -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Core.Services\bin\Debug\net9.0\WindowsUtility.Core.Services.dll
+  WindowsUtility.Shell -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Shell\bin\Debug\net9.0-windows\WindowsUtility.Shell.dll
+  WindowsUtility.Modules.Serial -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Serial\bin\Debug\net9.0-windows\WindowsUtility.Modules.Serial.dll
+  WindowsUtility.Modules.Firmware -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Firmware\bin\Debug\net9.0-windows\WindowsUtility.Modules.Firmware.dll
+  WindowsUtility.Modules.Dump -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Dump\bin\Debug\net9.0-windows\WindowsUtility.Modules.Dump.dll
+  WindowsUtility.Modules.NetAdmin -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.NetAdmin\bin\Debug\net9.0-windows\WindowsUtility.Modules.NetAdmin.dll
+  WindowsUtility.Modules.Model -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Model\bin\Debug\net9.0-windows\WindowsUtility.Modules.Model.dll
+  WindowsUtility.Modules.Test -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Test\bin\Debug\net9.0-windows\WindowsUtility.Modules.Test.dll
+  WindowsUtility.Modules.Diagnostics -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Diagnostics\bin\Debug\net9.0-windows\WindowsUtility.Modules.Diagnostics.dll
+  WindowsUtility.Modules.PrinterInfo -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.PrinterInfo\bin\Debug\net9.0-windows\WindowsUtility.Modules.PrinterInfo.dll
+  WindowsUtility.Modules.DumpView -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.DumpView\bin\Debug\net9.0-windows\WindowsUtility.Modules.DumpView.dll
+  WindowsUtility.Modules.SimpleInfo -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.SimpleInfo\bin\Debug\net9.0-windows\WindowsUtility.Modules.SimpleInfo.dll
+  WindowsUtility.Modules.Config -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.Modules.Config\bin\Debug\net9.0-windows\WindowsUtility.Modules.Config.dll
+  WindowsUtility.App -> C:\Users\ytkim\Desktop\kyt_work\WindowsUtility-p8.17-ui\src\WindowsUtility.App\bin\Debug\net9.0-windows\WindowsUtility.App.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:07.37
+
+
+STDERR:

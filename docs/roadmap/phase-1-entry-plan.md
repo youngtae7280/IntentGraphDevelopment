@@ -1097,3 +1097,29 @@ P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe
 ```
 
 P8.17 may launch only the sandboxed app, terminate it cleanly, and prove the original target stayed clean/aligned.
+
+## Completed Slice: P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe
+
+Goal: launch the sandboxed WindowsUtility app, observe its main window, terminate it, and prove the original target remains unchanged.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_sandboxed_ui_launch_probe.py`
+- `generated/windowsutility/p8.17-sandboxed-ui-launch-probe-report.json`
+- `generated/windowsutility/p8.17-sandboxed-ui-launch-build.log`
+- [P8.17 Shell Workspace Sandboxed UI Launch Feasibility Probe Review](../reviews/p8.17-shell-workspace-sandboxed-ui-launch-feasibility-probe-review.md)
+- `generated/roadmap/p8.17-shell-workspace-sandboxed-ui-launch-feasibility-probe-report.json`
+
+Decision:
+
+```text
+sandboxed-ui-launch-feasibility-pass-target-unchanged
+```
+
+Next safe work:
+
+```text
+P8.18 Shell Workspace Screenshot Evidence Boundary Plan
+```
+
+P8.18 should decide how screenshot evidence can be captured from the sandboxed app without hardware actions, source edits, original target writes, or productization claims.
