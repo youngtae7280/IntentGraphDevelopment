@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P3.2 completed.
+P3.3 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan.
-Phase C is open only for bounded B1 mapping validation. Code planning, broad extraction, UI/workbench product, AI coding runtime, and productization remain unauthorized.
+Next recommended slice: P4.0 B1 Change Proposal Schema and Non-Applied Plan.
+Phase D is open only for bounded, non-applied B1 proposal validation. Source mutation, patch application, broad extraction, UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -82,30 +82,30 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P3.2 completed:
+P3.3 completed:
 
 ```text
-B1 Ambiguous Intent Mapping Candidate Probe
+Phase C Mapping Boundary Review and Phase D Entry Plan
 ```
 
-P3.2 proved ambiguous mapping candidates remain explicit and unaccepted.
+P3.3 reviewed static mapping, stale mapping failure, and ambiguous mapping candidate evidence, then opened Phase D only for a non-applied proposal slice.
 
 The next step is:
 
 ```text
-P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan
+P4.0 B1 Change Proposal Schema and Non-Applied Plan
 ```
 
-P3.3 should decide whether Phase C is sufficient to open bounded Phase D change planning.
+P4.0 should define and validate proposal-only change-planning artifacts before any source mutation is allowed.
 
 ## Phase Overview
 
 | Phase | Name | Purpose | Current state |
 |---|---|---|---|
 | A | Model Correction | Define IntentGraph as semantic overlay and correct the state model. | Mostly complete through P1.18. |
-| B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | P2.0 and P2.1 completed B1 static and incremental fact boundaries. Boundary review still needed. |
-| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static mapping, P3.1 stale failure, and P3.2 ambiguity candidate completed. Boundary review needed. |
-| D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Not opened. P3.3 should plan entry criteria. |
+| B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | P2.0 static facts, P2.1 incremental facts, and P2.2 boundary review completed for B1. |
+| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static mapping, P3.1 stale failure, P3.2 ambiguity candidate, and P3.3 boundary review completed. |
+| D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Open only for P4.0 non-applied B1 proposal validation. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | Small fixture proofs only. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | Requirements only; product UI not opened. |
 | G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Not opened. |
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P3.2 Result And P3.3 Required Scope
+## P3.3 Result And P4.0 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,30 +585,35 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
-P3.2 result:
+P3.3 result:
 
 ```text
-B1 ambiguous mapping candidate probe passes.
+Phase C mapping boundary review passes and opens Phase D only for proposal-only planning.
 ```
 
 Recommended next slice:
 
 ```text
-P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan
+P4.0 B1 Change Proposal Schema and Non-Applied Plan
 ```
 
-P3.3 must:
+P4.0 must:
 
-- review P3.0 through P3.2
-- decide whether Phase C is sufficient to open Phase D
-- define first bounded change-planning slice
-- define proposal pass/fail criteria before implementation
-- keep code edits, AI generation, and workbench out of scope unless explicitly opened later
+- define B1 proposal schema
+- create a non-applied proposal artifact
+- bind proposals to exact source and code fact baselines
+- declare proposed `DeltaC`, `DeltaI`, `DeltaM`, required tests, evidence, and authority
+- validate proposal scope before any application
+- add negative probes for stale baselines, overbroad scope, missing tests/evidence/authority, self-authorization, AI authority, and source mutation claims
 
-P3.3 must not:
+P4.0 must not:
 
 - expand beyond the tiny B1 static fixture and code fact boundary
 - add another CF0 semantic probe
+- mutate source code
+- apply patches
+- grant AI authority
+- resolve ambiguity automatically
 - build a broad extractor
 - build a UI/workbench product
 - add dependencies without decision record

@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P3.2 B1 Ambiguous Intent Mapping Candidate Probe
+P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan
 ```
 
-This Phase C slice models explicit unresolved ambiguity and proves ambiguous candidates cannot be treated as accepted overlay mappings. It does not authorize ambiguity resolution, code edits, AI mapping generation, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This boundary slice reviewed the B1 Phase C evidence and opened Phase D only for a proposal-only B1 change-planning slice. It does not authorize source mutation, patch application, AI proposal authority, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -605,4 +605,28 @@ Non-goals:
 - no authority grant
 - no code planning
 - no UI/workbench product
+- no productization
+
+## P3.3: Phase C Mapping Boundary Review and Phase D Entry Plan
+
+Goal: review P3.0 through P3.2 as Phase C evidence and decide whether bounded Phase D change planning can open.
+
+Status: completed on 2026-07-10. See [P3.3 Phase C Mapping Boundary Phase D Entry Review](../reviews/p3.3-phase-c-mapping-boundary-phase-d-entry-review.md).
+
+Decision:
+
+- Phase C is sufficient to open the first bounded Phase D slice.
+- Continue to `P4.0 B1 Change Proposal Schema and Non-Applied Plan`.
+- Phase D starts proposal-only and non-applied.
+
+Non-goals:
+
+- no source mutation
+- no patch application
+- no automatic proposal acceptance
+- no AI authority
+- no automatic ambiguity resolution
+- no broad planner
+- no UI/workbench product
+- no broadened extraction
 - no productization

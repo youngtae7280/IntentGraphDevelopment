@@ -173,6 +173,14 @@ python tools/verify_b1_mapping_candidates.py --candidates docs/examples/b1-types
 python tools/run_b1_mapping_candidate_negative_probes.py --out generated/b1-typescript-rest-api/p3.2-mapping-candidate-negative-probes-report.json
 ```
 
+## V604: Phase C Boundary Review Before Change Planning
+
+Status: added in P3.3.
+
+Phase D change planning must not open until Phase C evidence has been reviewed in a written boundary report. The report must review static accepted mappings, stale mapping failure, ambiguous mapping candidates, AI-authority boundaries, and implementation non-goals.
+
+The first Phase D slice must be proposal-only. It must define a change proposal schema, exact baseline binding, required tests, evidence, and authority, and negative probes for unsafe proposals before any source mutation or patch application is allowed.
+
 ## Rule Severity
 
 | Severity | Meaning |

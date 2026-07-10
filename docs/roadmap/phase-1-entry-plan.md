@@ -447,3 +447,26 @@ P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan
 ```
 
 P3.3 should review P3.0 through P3.2 and decide whether Phase D change planning can open. It should not implement code planning yet.
+
+## Completed Slice: P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan
+
+Goal: review the B1 Phase C mapping evidence and decide whether Phase D can open.
+
+Produced artifacts:
+
+- [P3.3 Phase C Mapping Boundary Phase D Entry Review](../reviews/p3.3-phase-c-mapping-boundary-phase-d-entry-review.md)
+- `generated/roadmap/p3.3-phase-d-entry-report.json`
+
+Decision:
+
+```text
+open-p4.0-b1-change-proposal-schema-and-non-applied-plan
+```
+
+Recommended next slice:
+
+```text
+P4.0 B1 Change Proposal Schema and Non-Applied Plan
+```
+
+P4.0 may define a proposal schema, a non-applied change proposal artifact, a proposal validator, and negative probes for unsafe proposals. It must not mutate source, apply patches, accept AI authority, resolve ambiguity automatically, build a broad planner, build UI/workbench, broaden extraction, or productize the workflow.

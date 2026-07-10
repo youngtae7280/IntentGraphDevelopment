@@ -1,0 +1,69 @@
+{
+  "artifactRole": "intentgraph-phase-boundary-review-report",
+  "status": "intentgraph-phase-boundary-review-passed",
+  "scope": "p3.3-phase-c-mapping-boundary-phase-d-entry",
+  "workItem": "P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan",
+  "date": "2026-07-10",
+  "decision": "open-p4.0-b1-change-proposal-schema-and-non-applied-plan",
+  "phaseCReviewedEvidence": {
+    "p3_0StaticMappingBoundary": true,
+    "p3_1StaleMappingFailure": true,
+    "p3_2AmbiguousMappingCandidates": true,
+    "acceptedMappingsResolve": true,
+    "mappingObligationsVerified": true,
+    "ambiguityVisible": true,
+    "aiMappingAuthorityClaimed": false,
+    "codeEditsIntroduced": false,
+    "workbenchClaimed": false,
+    "productizationClaimed": false
+  },
+  "phaseDEntryCriteria": [
+    "define B1 change proposal schema",
+    "create non-applied change proposal artifact",
+    "declare proposed DeltaC, DeltaI, and DeltaM",
+    "declare required tests, evidence, and authority",
+    "bind proposal to exact source and code fact baselines",
+    "reject overbroad impact scope",
+    "reject stale baselines",
+    "reject missing tests, evidence, or authority",
+    "reject self-authorized or AI-authorized proposals",
+    "keep proposal separate from acceptance and application"
+  ],
+  "recommendedNextSlice": {
+    "id": "P4.0",
+    "name": "B1 Change Proposal Schema and Non-Applied Plan",
+    "allowed": [
+      "define B1 proposal schema",
+      "create a non-applied proposal artifact",
+      "declare bounded code edit intent",
+      "declare mapping update proposal",
+      "declare test, evidence, and authority requirements",
+      "add deterministic proposal validator",
+      "add negative probes for unsafe proposals"
+    ],
+    "nonGoals": [
+      "source code mutation",
+      "patch application",
+      "automatic proposal acceptance",
+      "AI authority",
+      "automatic ambiguity resolution",
+      "broad planner",
+      "workbench UI",
+      "broadened extraction",
+      "productization"
+    ]
+  },
+  "acceptance": {
+    "p3_0Reviewed": true,
+    "p3_1Reviewed": true,
+    "p3_2Reviewed": true,
+    "phaseCLimitsStated": true,
+    "phaseDEntryCriteriaDefined": true,
+    "p4_0ScopeDefined": true,
+    "implementationAdded": false,
+    "sourceEditAuthorized": false,
+    "aiAuthorityAuthorized": false,
+    "workbenchAuthorized": false,
+    "productizationAuthorized": false
+  }
+}
