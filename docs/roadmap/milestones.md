@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.47 Productization Packaging/Release Boundary Plan
+P8.48 Non-Mutating Packaging/Release Dry-Run Boundary
 ```
 
-This Phase G stabilization slice planned the report-only packaging/release safety boundary. Productization remains blocked pending a non-mutating packaging/release dry-run, package artifact authority, release authority, and productization authority. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice recorded the non-mutating packaging/release dry-run boundary. Productization remains blocked pending a dry-run prototype, package artifact authority, release authority, and productization authority. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -2049,5 +2049,33 @@ Non-goals:
 - no release publishing
 - no release tag creation
 - no provider API calls
+- no productization implementation
+- no product readiness claim
+
+## P8.48: Non-Mutating Packaging/Release Dry-Run Boundary
+
+Goal: define what a future non-mutating packaging/release dry-run may produce and validate before any package artifact or release is created.
+
+Status: completed on 2026-07-10. See [P8.48 Non-Mutating Packaging/Release Dry-Run Boundary](../reviews/p8.48-non-mutating-packaging-release-dry-run-boundary.md).
+
+Decision:
+
+- non-mutating packaging/release dry-run boundary recorded.
+- generated IntentGraphDevelopment reports are allowed.
+- package artifacts remain unauthorized.
+- release publishing remains unauthorized.
+- continue to `P8.49 Non-Mutating Packaging/Release Dry-Run Prototype`.
+
+Non-goals:
+
+- no WindowsUtility source edit
+- no WindowsUtility build artifact creation
+- no package artifact creation
+- no installer creation
+- no artifact signing
+- no credential access
+- no provider API calls
+- no release tag creation
+- no release publishing
 - no productization implementation
 - no product readiness claim

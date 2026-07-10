@@ -1860,3 +1860,24 @@ Recommended next slice:
 ```text
 P8.48 Non-Mutating Packaging/Release Dry-Run Boundary
 ```
+
+## Completed Slice: P8.48 Non-Mutating Packaging/Release Dry-Run Boundary
+
+Goal: define what a future non-mutating packaging/release dry-run may produce and validate before any package artifact or release is created.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.48-non-mutating-packaging-release-dry-run-boundary-report.json`
+- [P8.48 Non-Mutating Packaging/Release Dry-Run Boundary](../reviews/p8.48-non-mutating-packaging-release-dry-run-boundary.md)
+
+Decision:
+
+```text
+non-mutating-packaging-release-dry-run-boundary-recorded
+```
+
+Recommended next slice:
+
+```text
+P8.49 Non-Mutating Packaging/Release Dry-Run Prototype
+```
