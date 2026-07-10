@@ -103,7 +103,7 @@ P1.15 must not add semantic coverage. It should start from the committed good P1
 
 Status: completed on 2026-07-10. See [P1.15 Usage Arity Negative Probes Review](../reviews/p1.15-usage-arity-negative-probes-review.md).
 
-## Current Slice: P1.16 CF0 Overlay Contract Harness Consolidation and Boundary Review
+## Completed Slice: P1.16 CF0 Overlay Contract Harness Consolidation and Boundary Review
 
 Goal: consolidate and review the repeated CF0 overlay-contract negative harness pattern now that P1.10, P1.12, and P1.15 exist.
 
@@ -204,4 +204,29 @@ Worker should start from:
 - `generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json`
 - `generated/cf0-python-cli-calculator/cf0-historical-state-index.json`
 
-Worker should not start the next phase or a larger benchmark until P1.16 review passes and the Coordinator explicitly authorizes the next phase.
+Status: completed on 2026-07-10. See [P1.16 Overlay Contract Harness Consolidation Review](../reviews/p1.16-overlay-contract-harness-consolidation-review.md).
+
+## Completed Slice: P1.17 CF0 Code Fact Coverage and Overlay Completeness Report
+
+Goal: emit a deterministic current-state coverage report for the CF0 code-first overlay.
+
+P1.17 proves that the current overlay's `codeRefs`, `codeFactRefs`, mapping obligations, behavior verification, evidence, authority, and history resolve against current extracted code facts. It also makes the intentional boundary explicit: structural low-level code facts such as built-in parsing/printing calls do not automatically become standalone Intent Units.
+
+Produced artifacts:
+
+- `tools/emit_cf0_overlay_coverage_report.py`
+- `generated/cf0-python-cli-calculator/p1.17-overlay-coverage-report.json`
+- [P1.17 CF0 Overlay Coverage Review](../reviews/p1.17-cf0-overlay-coverage-review.md)
+
+Acceptance summary:
+
+- required behavior units present: add, sub, mul, unsupported-operation, invalid-integer-input, usage-arity
+- unresolved overlay refs: 0
+- unresolved mapping obligations: 0
+- unclassified uncovered facts: 0
+- source bytes unchanged
+- source text equality not required
+- hidden generated-code snapshot not used
+- AI authority not promoted
+
+No next Phase 1 slice is opened automatically. The next step should be selected by the Coordinator after reviewing whether to continue with CF0 workbench projection, another small semantic coverage probe, or a broader planning/research gate.

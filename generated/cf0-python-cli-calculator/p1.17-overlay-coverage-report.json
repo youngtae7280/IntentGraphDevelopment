@@ -1,0 +1,333 @@
+{
+  "artifactRole": "intentgraph-cf0-overlay-coverage-report",
+  "boundaries": {
+    "aiAuthorityPromoted": false,
+    "broadExtractorClaimed": false,
+    "genericCoverageFrameworkClaimed": false,
+    "hiddenGeneratedCodeSnapshotUsed": false,
+    "productBehaviorChanged": false,
+    "sourceBytesUnchanged": true,
+    "sourceTextEqualityRequired": false
+  },
+  "codeFacts": {
+    "coveredFactCount": 15,
+    "extractor": {
+      "deterministic": true,
+      "externalExtractor": false,
+      "mode": "tiny-cf0-ast-static",
+      "name": "tools/extract_code_facts.py"
+    },
+    "factCount": 19,
+    "unclassifiedUncoveredFactCount": 0,
+    "uncoveredFactCount": 4
+  },
+  "factCoverage": {
+    "coveredFactIds": [
+      "fact.file.calc.py",
+      "fact.function.add",
+      "fact.function.add.return.left_plus_right",
+      "fact.function.main",
+      "fact.function.main.calls.add",
+      "fact.function.main.calls.multiply",
+      "fact.function.main.calls.sub",
+      "fact.function.main.return.2",
+      "fact.function.main.stderr.left_and_right_must_be_integers",
+      "fact.function.main.stderr.unsupported_operation",
+      "fact.function.main.stderr.usage_calc_add_sub_mul_left_right",
+      "fact.function.multiply",
+      "fact.function.multiply.return.left_times_right",
+      "fact.function.sub",
+      "fact.function.sub.return.left_minus_right"
+    ],
+    "uncoveredFacts": [
+      {
+        "classification": "structural-low-level",
+        "id": "fact.function.main.calls.int",
+        "intentUnitRequired": false,
+        "kind": "call",
+        "reason": "Built-in parsing/printing call fact is useful context but not a standalone Intent Unit in CF0."
+      },
+      {
+        "classification": "structural-low-level",
+        "id": "fact.function.main.calls.len",
+        "intentUnitRequired": false,
+        "kind": "call",
+        "reason": "Built-in parsing/printing call fact is useful context but not a standalone Intent Unit in CF0."
+      },
+      {
+        "classification": "structural-low-level",
+        "id": "fact.function.main.calls.print",
+        "intentUnitRequired": false,
+        "kind": "call",
+        "reason": "Built-in parsing/printing call fact is useful context but not a standalone Intent Unit in CF0."
+      },
+      {
+        "classification": "structural-low-level",
+        "id": "fact.function.main.return.0",
+        "intentUnitRequired": false,
+        "kind": "return-expression",
+        "reason": "Successful main return fact is covered through behavior smoke checks rather than a standalone Intent Unit."
+      }
+    ]
+  },
+  "inputs": {
+    "codeFacts": "generated/cf0-python-cli-calculator/code-facts.json",
+    "overlay": "docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json",
+    "sourceRoot": "docs/examples/cf0-python-cli-calculator/source"
+  },
+  "mappingCoverage": {
+    "mappingObligationCount": 7,
+    "result": "pass",
+    "unresolvedMappingObligationCount": 0,
+    "unresolvedOverlayRefCount": 0
+  },
+  "overlay": {
+    "authorityCount": 6,
+    "behaviorUnitCount": 6,
+    "evidenceCount": 8,
+    "historyCount": 6,
+    "productUnitCount": 1,
+    "unitCount": 7,
+    "verificationCount": 6
+  },
+  "reportVersion": "0.1.0",
+  "requiredBehaviorUnits": [
+    {
+      "authorityPresent": true,
+      "evidencePresent": true,
+      "historyPresent": true,
+      "mappingPass": true,
+      "present": true,
+      "unitId": "unit.behavior.add",
+      "verificationId": "test.case.add",
+      "verificationPresent": true
+    },
+    {
+      "authorityPresent": true,
+      "evidencePresent": true,
+      "historyPresent": true,
+      "mappingPass": true,
+      "present": true,
+      "unitId": "unit.behavior.invalid-integer-input",
+      "verificationId": "test.case.invalid-integer",
+      "verificationPresent": true
+    },
+    {
+      "authorityPresent": true,
+      "evidencePresent": true,
+      "historyPresent": true,
+      "mappingPass": true,
+      "present": true,
+      "unitId": "unit.behavior.mul",
+      "verificationId": "test.case.mul",
+      "verificationPresent": true
+    },
+    {
+      "authorityPresent": true,
+      "evidencePresent": true,
+      "historyPresent": true,
+      "mappingPass": true,
+      "present": true,
+      "unitId": "unit.behavior.sub",
+      "verificationId": "test.case.sub",
+      "verificationPresent": true
+    },
+    {
+      "authorityPresent": true,
+      "evidencePresent": true,
+      "historyPresent": true,
+      "mappingPass": true,
+      "present": true,
+      "unitId": "unit.behavior.unsupported-operation",
+      "verificationId": "test.case.unsupported-operation",
+      "verificationPresent": true
+    },
+    {
+      "authorityPresent": true,
+      "evidencePresent": true,
+      "historyPresent": true,
+      "mappingPass": true,
+      "present": true,
+      "unitId": "unit.behavior.usage-arity",
+      "verificationId": "test.case.usage-arity",
+      "verificationPresent": true
+    }
+  ],
+  "result": "pass",
+  "scope": "cf0-code-first-overlay-coverage-current-state",
+  "semanticCoverage": {
+    "behaviorVerificationCoveragePass": true,
+    "evidenceAuthorityHistoryCoveragePass": true,
+    "requiredBehaviorUnitsPass": true,
+    "result": "pass",
+    "structuralFactsDoNotRequireIntentUnits": true
+  },
+  "source": {
+    "path": "docs/examples/cf0-python-cli-calculator/source/calc.py",
+    "role": "hand-written",
+    "sha256": "60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+  },
+  "status": "pass",
+  "unitCoverage": [
+    {
+      "authorityCount": 3,
+      "codeFactRefCount": 2,
+      "codeRefCount": 1,
+      "coveredFactIds": [
+        "fact.function.add",
+        "fact.function.add.return.left_plus_right"
+      ],
+      "errors": [],
+      "evidenceCount": 5,
+      "historyCount": 3,
+      "kind": "behavior",
+      "mappingObligationCount": 1,
+      "missingAuthority": [],
+      "missingEvidence": [],
+      "missingHistory": [],
+      "result": "pass",
+      "unitId": "unit.behavior.add",
+      "unresolvedCodeFactRefs": [],
+      "unresolvedCodeRefs": [],
+      "unresolvedMappingObligations": []
+    },
+    {
+      "authorityCount": 3,
+      "codeFactRefCount": 2,
+      "codeRefCount": 1,
+      "coveredFactIds": [
+        "fact.function.multiply",
+        "fact.function.multiply.return.left_times_right"
+      ],
+      "errors": [],
+      "evidenceCount": 5,
+      "historyCount": 3,
+      "kind": "behavior",
+      "mappingObligationCount": 1,
+      "missingAuthority": [],
+      "missingEvidence": [],
+      "missingHistory": [],
+      "result": "pass",
+      "unitId": "unit.behavior.mul",
+      "unresolvedCodeFactRefs": [],
+      "unresolvedCodeRefs": [],
+      "unresolvedMappingObligations": []
+    },
+    {
+      "authorityCount": 3,
+      "codeFactRefCount": 2,
+      "codeRefCount": 1,
+      "coveredFactIds": [
+        "fact.function.sub",
+        "fact.function.sub.return.left_minus_right"
+      ],
+      "errors": [],
+      "evidenceCount": 5,
+      "historyCount": 3,
+      "kind": "behavior",
+      "mappingObligationCount": 1,
+      "missingAuthority": [],
+      "missingEvidence": [],
+      "missingHistory": [],
+      "result": "pass",
+      "unitId": "unit.behavior.sub",
+      "unresolvedCodeFactRefs": [],
+      "unresolvedCodeRefs": [],
+      "unresolvedMappingObligations": []
+    },
+    {
+      "authorityCount": 6,
+      "codeFactRefCount": 8,
+      "codeRefCount": 2,
+      "coveredFactIds": [
+        "fact.file.calc.py",
+        "fact.function.main",
+        "fact.function.main.calls.add",
+        "fact.function.main.calls.multiply",
+        "fact.function.main.calls.sub",
+        "fact.function.main.stderr.left_and_right_must_be_integers",
+        "fact.function.main.stderr.unsupported_operation",
+        "fact.function.main.stderr.usage_calc_add_sub_mul_left_right"
+      ],
+      "errors": [],
+      "evidenceCount": 8,
+      "historyCount": 6,
+      "kind": "product",
+      "mappingObligationCount": 1,
+      "missingAuthority": [],
+      "missingEvidence": [],
+      "missingHistory": [],
+      "result": "pass",
+      "unitId": "unit.product.calculator",
+      "unresolvedCodeFactRefs": [],
+      "unresolvedCodeRefs": [],
+      "unresolvedMappingObligations": []
+    },
+    {
+      "authorityCount": 1,
+      "codeFactRefCount": 2,
+      "codeRefCount": 2,
+      "coveredFactIds": [
+        "fact.function.main.return.2",
+        "fact.function.main.stderr.unsupported_operation"
+      ],
+      "errors": [],
+      "evidenceCount": 4,
+      "historyCount": 1,
+      "kind": "behavior",
+      "mappingObligationCount": 1,
+      "missingAuthority": [],
+      "missingEvidence": [],
+      "missingHistory": [],
+      "result": "pass",
+      "unitId": "unit.behavior.unsupported-operation",
+      "unresolvedCodeFactRefs": [],
+      "unresolvedCodeRefs": [],
+      "unresolvedMappingObligations": []
+    },
+    {
+      "authorityCount": 1,
+      "codeFactRefCount": 2,
+      "codeRefCount": 2,
+      "coveredFactIds": [
+        "fact.function.main.return.2",
+        "fact.function.main.stderr.left_and_right_must_be_integers"
+      ],
+      "errors": [],
+      "evidenceCount": 4,
+      "historyCount": 1,
+      "kind": "behavior",
+      "mappingObligationCount": 1,
+      "missingAuthority": [],
+      "missingEvidence": [],
+      "missingHistory": [],
+      "result": "pass",
+      "unitId": "unit.behavior.invalid-integer-input",
+      "unresolvedCodeFactRefs": [],
+      "unresolvedCodeRefs": [],
+      "unresolvedMappingObligations": []
+    },
+    {
+      "authorityCount": 1,
+      "codeFactRefCount": 2,
+      "codeRefCount": 2,
+      "coveredFactIds": [
+        "fact.function.main.return.2",
+        "fact.function.main.stderr.usage_calc_add_sub_mul_left_right"
+      ],
+      "errors": [],
+      "evidenceCount": 4,
+      "historyCount": 1,
+      "kind": "behavior",
+      "mappingObligationCount": 1,
+      "missingAuthority": [],
+      "missingEvidence": [],
+      "missingHistory": [],
+      "result": "pass",
+      "unitId": "unit.behavior.usage-arity",
+      "unresolvedCodeFactRefs": [],
+      "unresolvedCodeRefs": [],
+      "unresolvedMappingObligations": []
+    }
+  ]
+}

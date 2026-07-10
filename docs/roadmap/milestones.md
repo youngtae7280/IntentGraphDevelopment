@@ -8,13 +8,13 @@ Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](../reviews/
 
 No `M8` was opened automatically.
 
-Current authorized work:
+Most recent completed work:
 
 ```text
-P1.12 Repeatable Input-Validation Overlay Contract Negative Probe Harness
+P1.17 CF0 Code Fact Coverage and Overlay Completeness Report
 ```
 
-This is a focused CF0 hardening slice that proves bad P1.11 input-validation overlay deltas fail deterministically. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused CF0 coverage/completeness slice that proves the current overlay's code refs, code fact refs, mapping obligations, verification, evidence, authority, and history resolve against current extracted code facts. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -395,7 +395,7 @@ Non-goals:
 
 Goal: consolidate and review repeated CF0 overlay-contract negative harness mechanics while preserving explicit baseline scopes and CF0-specific boundaries.
 
-Status: current authorized slice. See [P1.16 Overlay Contract Harness Consolidation Review](../reviews/p1.16-overlay-contract-harness-consolidation-review.md).
+Status: completed on 2026-07-10. See [P1.16 Overlay Contract Harness Consolidation Review](../reviews/p1.16-overlay-contract-harness-consolidation-review.md).
 
 Non-goals:
 
@@ -405,3 +405,17 @@ Non-goals:
 - no dependency addition
 - no generic negative-probe framework claim
 - no historical artifact removal
+
+## P1.17: CF0 Code Fact Coverage and Overlay Completeness Report
+
+Goal: emit a deterministic current-state report proving the CF0 overlay's code refs, code fact refs, mapping obligations, behavior verification, evidence, authority, and history resolve against extracted code facts.
+
+Status: completed on 2026-07-10. See [P1.17 CF0 Overlay Coverage Review](../reviews/p1.17-cf0-overlay-coverage-review.md).
+
+Non-goals:
+
+- no new behavior or contract unit
+- no CF0 source behavior changes
+- no broad extractor or generic coverage framework
+- no B0 generated-code pipeline changes
+- no dependency addition

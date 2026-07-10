@@ -490,6 +490,16 @@ When multiple CF0 overlay-contract negative harnesses exist, their shared mechan
 
 The helper may remain CF0-specific. It must not claim to be a general negative-probe framework unless it actually supports all current harnesses without hidden special cases and a milestone review accepts that scope.
 
+### V421 - CF0 Overlay Coverage Is Explicit
+
+Severity: P1 in P1.17
+
+The current CF0 code-first overlay must have a deterministic coverage report that compares extracted code facts with overlay `codeRefs`, `codeFactRefs`, mapping obligations, verification, evidence, authority, and history.
+
+The report must pass only when required behavior units are present, all overlay refs and mapping obligations resolve, behavior verification coverage exists for add/sub/mul/unsupported-operation/invalid-integer/usage-arity, and evidence/authority/history coverage exists for each required behavior unit.
+
+The report may classify low-level structural facts separately. It must not claim that every AST/code fact must become an Intent Unit. It must preserve the boundaries that CF0 source bytes are unchanged, source text equality is not required, no hidden generated-code snapshot is used, and AI authority is not promoted.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:
