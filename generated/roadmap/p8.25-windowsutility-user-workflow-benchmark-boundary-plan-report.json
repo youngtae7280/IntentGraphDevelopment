@@ -1,0 +1,65 @@
+{
+  "artifactRole": "intentgraph-user-workflow-benchmark-boundary-plan-report",
+  "status": "intentgraph-user-workflow-benchmark-boundary-plan-recorded",
+  "scope": "p8.25-windowsutility-user-workflow-benchmark-boundary-plan-report-only",
+  "workItem": "P8.25 WindowsUtility User Workflow Benchmark Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "windowsutility-user-workflow-benchmark-request-required",
+  "inputs": [
+    "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench.html",
+    "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json",
+    "generated/windowsutility/workbench/p8.24-shell-workspace-workbench-usability-dry-run-report.json",
+    "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+    "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png"
+  ],
+  "participant": "user/coordinator",
+  "mode": {
+    "localReviewOnly": true,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "userTasks": [
+    "identify accepted mapping",
+    "identify covered code surface",
+    "identify build/UI/screenshot evidence",
+    "identify proposal application status",
+    "identify target unchanged state",
+    "identify false authority boundaries",
+    "decide whether productization may proceed",
+    "state confusion or missing information"
+  ],
+  "requiredMetrics": [
+    "answer correctness",
+    "user confidence",
+    "duration",
+    "raw files opened",
+    "screenshot found",
+    "authority false flags found",
+    "confusion notes",
+    "proceed/pause/pivot recommendation"
+  ],
+  "passCriteria": {
+    "acceptedMappingIdentified": true,
+    "proposalNonAppliedStateIdentified": true,
+    "evidenceIdentified": true,
+    "targetUnchangedStateIdentified": true,
+    "authorityFalseFlagsIdentified": true,
+    "blockingConfusionReported": false,
+    "productizationReadinessInferred": false
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.26 WindowsUtility User Workflow Benchmark Request"
+}

@@ -1296,3 +1296,26 @@ P8.25 WindowsUtility User Workflow Benchmark Boundary Plan
 ```
 
 P8.25 should plan a real user/coordinator workflow benchmark before productization or broader UI work.
+
+## Completed Slice: P8.25 WindowsUtility User Workflow Benchmark Boundary Plan
+
+Goal: define the first user/coordinator workflow benchmark boundary for the WindowsUtility shell/workspace adoption loop.
+
+Produced artifacts:
+
+- [P8.25 WindowsUtility User Workflow Benchmark Boundary Plan](../reviews/p8.25-windowsutility-user-workflow-benchmark-boundary-plan-review.md)
+- `generated/roadmap/p8.25-windowsutility-user-workflow-benchmark-boundary-plan-report.json`
+
+Decision:
+
+```text
+windowsutility-user-workflow-benchmark-request-required
+```
+
+Next safe work:
+
+```text
+P8.26 WindowsUtility User Workflow Benchmark Request
+```
+
+P8.26 should create the request artifact and wait for explicit user/coordinator response before benchmark results are recorded.

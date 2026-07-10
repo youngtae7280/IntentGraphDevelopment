@@ -433,6 +433,14 @@ A workbench usability dry run may be self-conducted only if it explicitly says n
 
 It may pass only when the workbench answers all required tasks, misses no safety false flags, finds screenshot and target/proposal state, uses fewer artifact lookups than raw JSON, and keeps source mutation, target mutation, proposal application, AI authority, hardware authority, and productization false.
 
+## V1029: User Workflow Benchmarks Require A Request Boundary
+
+Status: added in P8.25.
+
+Before a real-project workflow benchmark is recorded as user evidence, a boundary plan must define participant, mode, benchmark materials, user tasks, metrics, pass criteria, stop conditions, and non-goals. The benchmark request must make clear that source edits, proposal application, target writes, hardware actions, AI authority, and productization are not authorized by the benchmark.
+
+A self-conducted dry run cannot be upgraded into human workflow evidence without an explicit user/coordinator response.
+
 ## Rule Severity
 
 | Severity | Meaning |

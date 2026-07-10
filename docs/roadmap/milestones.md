@@ -1424,3 +1424,27 @@ Non-goals:
 - no hardware action authority
 - no productization implementation
 - no product readiness claim
+
+## P8.25: WindowsUtility User Workflow Benchmark Boundary Plan
+
+Goal: define the first user/coordinator workflow benchmark boundary for the WindowsUtility shell/workspace adoption loop.
+
+Status: completed on 2026-07-10. See [P8.25 WindowsUtility User Workflow Benchmark Boundary Plan](../reviews/p8.25-windowsutility-user-workflow-benchmark-boundary-plan-review.md).
+
+Decision:
+
+- user/coordinator benchmark request is required before recording human workflow evidence.
+- benchmark tasks, materials, metrics, pass criteria, and stop conditions are defined.
+- continue to `P8.26 WindowsUtility User Workflow Benchmark Request`.
+
+Non-goals:
+
+- no benchmark run in this slice
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or WindowsUtility screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim
