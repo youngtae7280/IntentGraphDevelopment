@@ -230,3 +230,33 @@ Acceptance summary:
 - AI authority not promoted
 
 No next Phase 1 slice is opened automatically. The next step should be selected by the Coordinator after reviewing whether to continue with CF0 workbench projection, another small semantic coverage probe, or a broader planning/research gate.
+
+## Completed Slice: P1.18 Phase One Direction and CF0 Specialization Review
+
+Goal: review P1.R through P1.17 as a sequence and decide whether more CF0 work would keep improving the architecture or overfit the tiny fixture.
+
+Decision:
+
+```text
+pause-new-cf0-semantic-probes
+```
+
+Rationale:
+
+- CF0 now proves the corrected semantic-overlay model on a tiny code-first fixture.
+- CF0 has additive behavior, refactor, overlay-only contracts, negative harnesses, historical indexing, and coverage reporting.
+- More CF0 behavior/contract slices would mostly improve one fixture rather than test generality.
+- Broad Phase 1 remains unauthorized.
+
+Produced artifacts:
+
+- `generated/cf0-python-cli-calculator/p1.18-phase-one-direction-review-report.json`
+- [P1.18 Phase One Direction and CF0 Specialization Review](../reviews/p1.18-phase-one-direction-specialization-review.md)
+
+Recommended next slice:
+
+```text
+P1.19 Second Benchmark and Generalization Gate - Plan Only
+```
+
+The next slice should not implement a larger benchmark. It should select what limitation of CF0 must be tested next, rerun the prior-art/build-borrow-integrate gate, and define pass/fail criteria before implementation.

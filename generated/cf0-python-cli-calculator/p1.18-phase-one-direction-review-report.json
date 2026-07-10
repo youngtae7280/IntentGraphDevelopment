@@ -1,0 +1,109 @@
+{
+  "artifactRole": "intentgraph-p1-direction-specialization-review-report",
+  "reportVersion": "0.1.0",
+  "status": "pass",
+  "result": "pass",
+  "scope": "phase-one-direction-and-cf0-specialization-review",
+  "reviewedRange": {
+    "from": "P1.R",
+    "to": "P1.17"
+  },
+  "reviewedEvidence": {
+    "semanticOverlayCorrection": "P1.R",
+    "codeFirstOverlayProbe": "P1.2",
+    "codeFirstMaintenanceDelta": "P1.3",
+    "refactorDelta": "P1.7",
+    "historicalStateIndex": "P1.8",
+    "overlayOnlyContracts": [
+      "P1.9",
+      "P1.11",
+      "P1.14"
+    ],
+    "negativeHarnesses": [
+      "P1.10",
+      "P1.12",
+      "P1.15"
+    ],
+    "harnessConsolidation": "P1.16",
+    "coverageReport": "P1.17"
+  },
+  "cf0ProofSummary": {
+    "handWrittenSourcePreserved": true,
+    "sourceTextEqualityRequired": false,
+    "hiddenGeneratedCodeSnapshotUsed": false,
+    "behaviorUnitsCovered": [
+      "unit.behavior.add",
+      "unit.behavior.sub",
+      "unit.behavior.mul",
+      "unit.behavior.unsupported-operation",
+      "unit.behavior.invalid-integer-input",
+      "unit.behavior.usage-arity"
+    ],
+    "currentCodeFactCount": 19,
+    "directlyCoveredCodeFactCount": 15,
+    "unclassifiedUncoveredFactCount": 0,
+    "unresolvedOverlayRefCount": 0,
+    "unresolvedMappingObligationCount": 0
+  },
+  "specializationAssessment": {
+    "cf0SpecializationRisk": "elevated",
+    "reason": "Most post-P1.8 work has strengthened one tiny single-file Python CLI fixture. That is useful proof hardening, but additional CF0 semantic probes would mostly improve the fixture rather than test generality.",
+    "cf0Status": "saturated-proof-fixture",
+    "moreCf0SemanticProbesAllowedByDefault": false
+  },
+  "directionDecision": {
+    "decision": "pause-new-cf0-semantic-probes",
+    "broadPhaseOneAuthorized": false,
+    "largerBenchmarkAuthorized": false,
+    "workbenchProductAuthorized": false,
+    "broadExtractorAuthorized": false,
+    "nextRecommendedSlice": "P1.19 Second Benchmark and Generalization Gate - Plan Only"
+  },
+  "allowedNextWork": [
+    "plan-only second benchmark/generalization gate",
+    "bounded workbench projection of already-proven CF0 coverage/history",
+    "roadmap/documentation cleanup"
+  ],
+  "blockedWithoutCoordinatorDecision": [
+    "another CF0 behavior or overlay-only contract unit",
+    "larger benchmark implementation",
+    "broad extractor",
+    "generic negative-probe framework",
+    "full UI/workbench product",
+    "claim that CF0 proves general scalability"
+  ],
+  "issues": [
+    {
+      "id": "P1.18-P1-001",
+      "severity": "P1",
+      "summary": "CF0 specialization risk is elevated.",
+      "decision": "Pause new CF0 semantic probes until a second-benchmark/generalization gate passes."
+    },
+    {
+      "id": "P1.18-P1-002",
+      "severity": "P1",
+      "summary": "Broad Phase 1 is not authorized by the CF0 proofs alone.",
+      "decision": "Keep Phase 1 work bounded and require Coordinator approval for larger benchmark or UI work."
+    },
+    {
+      "id": "P1.18-P2-001",
+      "severity": "P2",
+      "summary": "Roadmap language still contains some historical generated-code and stale promotion wording.",
+      "decision": "Clean opportunistically; do not block this review if the wording is historical and explicitly scoped."
+    },
+    {
+      "id": "P1.18-P2-002",
+      "severity": "P2",
+      "summary": "Workbench usability remains unproven.",
+      "decision": "Consider a bounded projection after the generalization gate, not before."
+    }
+  ],
+  "boundaries": {
+    "sourceBehaviorChanged": false,
+    "sourceBytesChanged": false,
+    "b0PipelineChanged": false,
+    "dependencyAdded": false,
+    "aiAuthorityPromoted": false,
+    "genericFrameworkClaimed": false
+  }
+}

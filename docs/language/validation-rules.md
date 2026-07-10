@@ -500,6 +500,14 @@ The report must pass only when required behavior units are present, all overlay 
 
 The report may classify low-level structural facts separately. It must not claim that every AST/code fact must become an Intent Unit. It must preserve the boundaries that CF0 source bytes are unchanged, source text equality is not required, no hidden generated-code snapshot is used, and AI authority is not promoted.
 
+### V422 - CF0 Specialization Requires A Gate
+
+Severity: P1 in P1.18
+
+After CF0 has code-first maintenance deltas, overlay-only contract deltas, negative harnesses, historical state indexing, and current overlay coverage, additional CF0 semantic probes must be treated as specialization risk.
+
+New CF0 behavior or contract units must not be added by default. The next implementation-expanding step must first pass a plan-only generalization or second-benchmark gate that states what CF0 cannot prove, which prior-art systems must be reconsidered, which abstractions are reusable, and what pass/fail criteria prevent fixture overfitting.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

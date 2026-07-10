@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P1.17 CF0 Code Fact Coverage and Overlay Completeness Report
+P1.18 Phase One Direction and CF0 Specialization Review
 ```
 
-This is a focused CF0 coverage/completeness slice that proves the current overlay's code refs, code fact refs, mapping obligations, verification, evidence, authority, and history resolve against current extracted code facts. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a planning and quality review slice that pauses new CF0 semantic probes by default and recommends a plan-only second benchmark/generalization gate. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -191,7 +191,7 @@ Quality target: Level 2 or higher.
 
 Do not open the next milestone until the current milestone has a written milestone review.
 
-After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. The next approved step is P1.3 only.
+After M7, do not create M8 automatically. Phase 0 Quality Saturation Review is complete. Post-Phase-0 correction and CF0 proof-hardening slices are tracked as P1.R through P1.18 and remain bounded by explicit Coordinator approval.
 
 ## P1.R: Reframe IntentGraph as Semantic Overlay
 
@@ -417,5 +417,27 @@ Non-goals:
 - no new behavior or contract unit
 - no CF0 source behavior changes
 - no broad extractor or generic coverage framework
+- no B0 generated-code pipeline changes
+- no dependency addition
+
+## P1.18: Phase One Direction and CF0 Specialization Review
+
+Goal: review P1.R through P1.17 as a sequence, decide whether CF0 has become over-specialized, and select the next safe posture before adding more implementation scope.
+
+Status: completed on 2026-07-10. See [P1.18 Phase One Direction and CF0 Specialization Review](../reviews/p1.18-phase-one-direction-specialization-review.md).
+
+Decision:
+
+- pause new CF0 semantic behavior/contract probes by default
+- do not treat CF0 as proof of general scalability
+- do not open a larger benchmark, broad extractor, or UI/workbench product automatically
+- recommend `P1.19 Second Benchmark and Generalization Gate - Plan Only`
+
+Non-goals:
+
+- no new behavior or contract unit
+- no CF0 source behavior changes
+- no larger benchmark implementation
+- no broad extractor or generic framework
 - no B0 generated-code pipeline changes
 - no dependency addition
