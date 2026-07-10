@@ -2574,4 +2574,27 @@ Produced artifacts:
 
 Next safe work:
 
-- continue to `P8.66 Packaged Artifact Verification Authorization Request`.
+- continue to `P8.66 Packaged Artifact Metadata Replay Verification`.
+
+## P8.66: Packaged Artifact Metadata Replay Verification
+
+Goal: replay the P8.55 package artifact metadata checks without extracting or executing the package.
+
+Status: completed on 2026-07-10. See [P8.66 Packaged Artifact Metadata Replay Verification](../reviews/p8.66-packaged-artifact-metadata-replay-verification.md).
+
+Decision:
+
+- metadata replay passed.
+- package sha256, byte length, zip readability, file count, and required entries were verified.
+- no package extraction, packaged executable launch, packaged UI launch, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `tools/verify_windowsutility_package_metadata_replay.py`
+- `generated/windowsutility/package-artifact/p8.66/metadata-replay-report.json`
+- `generated/roadmap/p8.66-packaged-artifact-metadata-replay-verification-report.json`
+- [P8.66 Packaged Artifact Metadata Replay Verification](../reviews/p8.66-packaged-artifact-metadata-replay-verification.md)
+
+Next safe work:
+
+- continue to `P8.67 Packaged Artifact Metadata Replay Negative Probes`.

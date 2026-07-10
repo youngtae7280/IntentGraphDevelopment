@@ -1,0 +1,103 @@
+{
+  "artifactRole": "intentgraph-packaged-artifact-metadata-replay-report",
+  "authorizations": {
+    "mayCallProviderApis": false,
+    "mayCapturePackagedUiScreenshot": false,
+    "mayClaimProductizationReady": false,
+    "mayCreateInstaller": false,
+    "mayCreateReleaseTags": false,
+    "mayExtractPackageForVerification": false,
+    "mayInspectZipInventory": true,
+    "mayLaunchPackagedUi": false,
+    "mayPublishRelease": false,
+    "mayReadCredentials": false,
+    "mayReadPackageArtifact": true,
+    "mayRunPackagedExecutable": false,
+    "maySignArtifact": false,
+    "mayVerifyChecksumFromExistingArtifact": true
+  },
+  "boundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "date": "2026-07-10",
+  "errors": [],
+  "packageArtifactReplay": {
+    "byteLength": 4072027,
+    "fileCount": 39,
+    "path": "generated/windowsutility/package-artifact/p8.55/windowsutility-shell-workspace-p8.55-sandbox-package.zip",
+    "requiredEntries": {
+      "SmartComm2.dll": true,
+      "WindowsUtility.App.dll": true,
+      "WindowsUtility.App.exe": true
+    },
+    "sampleEntries": [
+      "CardPrinterConfig.ini",
+      "SmartComm2.dll",
+      "WindowsUtility.App.deps.json",
+      "WindowsUtility.App.dll",
+      "WindowsUtility.App.exe",
+      "WindowsUtility.App.pdb",
+      "WindowsUtility.App.runtimeconfig.json",
+      "WindowsUtility.Core.Abstractions.dll",
+      "WindowsUtility.Core.Abstractions.pdb",
+      "WindowsUtility.Core.Native.dll",
+      "WindowsUtility.Core.Native.pdb",
+      "WindowsUtility.Core.Services.dll",
+      "WindowsUtility.Core.Services.pdb",
+      "WindowsUtility.Diagnostics.dll",
+      "WindowsUtility.Diagnostics.pdb",
+      "WindowsUtility.Modules.Config.dll",
+      "WindowsUtility.Modules.Config.pdb",
+      "WindowsUtility.Modules.Diagnostics.dll",
+      "WindowsUtility.Modules.Diagnostics.pdb",
+      "WindowsUtility.Modules.Dump.dll",
+      "WindowsUtility.Modules.Dump.pdb",
+      "WindowsUtility.Modules.DumpView.dll",
+      "WindowsUtility.Modules.DumpView.pdb",
+      "WindowsUtility.Modules.Firmware.dll",
+      "WindowsUtility.Modules.Firmware.pdb",
+      "WindowsUtility.Modules.Model.dll",
+      "WindowsUtility.Modules.Model.pdb",
+      "WindowsUtility.Modules.NetAdmin.dll",
+      "WindowsUtility.Modules.NetAdmin.pdb",
+      "WindowsUtility.Modules.PrinterInfo.dll",
+      "WindowsUtility.Modules.PrinterInfo.pdb",
+      "WindowsUtility.Modules.Serial.dll",
+      "WindowsUtility.Modules.Serial.pdb",
+      "WindowsUtility.Modules.SimpleInfo.dll",
+      "WindowsUtility.Modules.SimpleInfo.pdb",
+      "WindowsUtility.Modules.Test.dll",
+      "WindowsUtility.Modules.Test.pdb",
+      "WindowsUtility.Shell.dll",
+      "WindowsUtility.Shell.pdb"
+    ],
+    "sha256": "sha256:1de950e8f3ed79a2399ffba50e9c1b59d0a4cb92ff1b9b7ee3332e5b15ccc4fe",
+    "zipReadable": true,
+    "zipTestFailure": null
+  },
+  "recommendedNextSlice": "P8.67 Packaged Artifact Metadata Replay Negative Probes",
+  "result": "pass",
+  "scope": "p8.66-packaged-artifact-metadata-replay-verification",
+  "sourceReports": {
+    "packageManifest": {
+      "byteLength": 2827,
+      "path": "generated/windowsutility/package-artifact/p8.55/package-manifest.json",
+      "sha256": "sha256:8270b67d85fb13bd26d5e3f0470ff316c1a3e0dfe2b0aa34d3b75d4fcb592818"
+    },
+    "verificationBoundary": {
+      "byteLength": 4581,
+      "path": "generated/roadmap/p8.56-packaged-artifact-verification-boundary-report.json",
+      "sha256": "sha256:f4b36076f83e5e36ad2b4be1220c1b07eebba5cc2ed3f609f21766ec8c018a51"
+    }
+  },
+  "status": "intentgraph-packaged-artifact-metadata-replay-passed",
+  "workItem": "P8.66 Packaged Artifact Metadata Replay Verification"
+}

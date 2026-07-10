@@ -1,0 +1,40 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.66-packaged-artifact-metadata-replay-verification",
+  "workItem": "P8.66 Packaged Artifact Metadata Replay Verification",
+  "date": "2026-07-10",
+  "result": "pass",
+  "sourceBoundary": "generated/roadmap/p8.56-packaged-artifact-verification-boundary-report.json",
+  "producedArtifacts": [
+    "tools/verify_windowsutility_package_metadata_replay.py",
+    "generated/windowsutility/package-artifact/p8.66/metadata-replay-report.json"
+  ],
+  "verificationSummary": {
+    "packageArtifactRead": true,
+    "sha256Recomputed": true,
+    "byteLengthRecomputed": true,
+    "zipReadable": true,
+    "fileCount": 39,
+    "requiredEntriesPresent": {
+      "WindowsUtility.App.exe": true,
+      "WindowsUtility.App.dll": true,
+      "SmartComm2.dll": true
+    },
+    "matchedManifest": true,
+    "matchedBoundary": true
+  },
+  "nonGoals": {
+    "packageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshot": false,
+    "installerCreation": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.67 Packaged Artifact Metadata Replay Negative Probes"
+}

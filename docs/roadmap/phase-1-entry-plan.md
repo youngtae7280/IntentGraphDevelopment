@@ -2411,5 +2411,28 @@ Produced artifacts:
 Recommended next slice:
 
 ```text
-P8.66 Packaged Artifact Verification Authorization Request
+P8.66 Packaged Artifact Metadata Replay Verification
+```
+
+## Completed Slice: P8.66 Packaged Artifact Metadata Replay Verification
+
+Goal: replay the P8.55 package artifact metadata checks without package extraction or execution.
+
+Result:
+
+```text
+Decision: packaged-artifact-metadata-replay-passed.
+```
+
+Produced artifacts:
+
+- `tools/verify_windowsutility_package_metadata_replay.py`
+- `generated/windowsutility/package-artifact/p8.66/metadata-replay-report.json`
+- `generated/roadmap/p8.66-packaged-artifact-metadata-replay-verification-report.json`
+- [P8.66 Packaged Artifact Metadata Replay Verification](../reviews/p8.66-packaged-artifact-metadata-replay-verification.md)
+
+Recommended next slice:
+
+```text
+P8.67 Packaged Artifact Metadata Replay Negative Probes
 ```
