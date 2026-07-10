@@ -1,0 +1,40 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.99-real-package-extraction-verification-authorization-refresh",
+  "workItem": "P8.99 Real Package Extraction Verification Authorization Refresh",
+  "date": "2026-07-10",
+  "result": "package-extraction-authorization-refresh-recorded-authorization-not-granted",
+  "producedArtifacts": [
+    "generated/roadmap/p8.99-real-package-extraction-verification-authorization-refresh.json",
+    "docs/reviews/p8.99-real-package-extraction-verification-authorization-refresh.md"
+  ],
+  "requestSummary": {
+    "requiredAcceptedResponse": "accept sandboxed package extraction inventory verification",
+    "requiredVerifierToken": "accept-sandboxed-package-extraction-inventory-verification",
+    "standingAcceptShortcutApplies": false,
+    "exactAcceptedResponseRecorded": false,
+    "realPackageExtractionAllowed": false
+  },
+  "readyEvidence": {
+    "windowsUtilityCleanAligned": true,
+    "metadataReplayPassed": true,
+    "packageExtractionVerifierPrepared": true,
+    "negativeProbesPassed": true,
+    "futureExecutionPlanRecorded": true,
+    "productizationAuthorityChainSummarized": true
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.100 Package Extraction Verification Scope Hold Refresh"
+}

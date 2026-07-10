@@ -3311,3 +3311,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.99 Real Package Extraction Verification Authorization Refresh`.
+
+## P8.99: Real Package Extraction Verification Authorization Refresh
+
+Goal: refresh the exact real package extraction verification authorization request after the productization boundary chain was summarized.
+
+Status: completed on 2026-07-10. See [P8.99 Real Package Extraction Verification Authorization Refresh](../reviews/p8.99-real-package-extraction-verification-authorization-refresh.md).
+
+Decision:
+
+- package extraction authorization refresh recorded.
+- authorization is not granted.
+- exact accepted response is still required before any real package extraction.
+- no package extraction, executable launch, UI screenshot capture, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.99-real-package-extraction-verification-authorization-refresh.json`
+- `generated/roadmap/p8.99-real-package-extraction-verification-authorization-refresh-report.json`
+- [P8.99 Real Package Extraction Verification Authorization Refresh](../reviews/p8.99-real-package-extraction-verification-authorization-refresh.md)
+
+Next safe work:
+
+- continue to `P8.100 Package Extraction Verification Scope Hold Refresh`.

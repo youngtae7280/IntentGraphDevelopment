@@ -1,0 +1,93 @@
+{
+  "artifactRole": "intentgraph-real-package-extraction-verification-authorization-refresh",
+  "status": "intentgraph-real-package-extraction-verification-authorization-refreshed",
+  "scope": "p8.99-real-package-extraction-verification-authorization-refresh",
+  "workItem": "P8.99 Real Package Extraction Verification Authorization Refresh",
+  "date": "2026-07-10",
+  "decision": "package-extraction-authorization-refresh-recorded-authorization-not-granted",
+  "whyThisExists": "P8.98 reviewed the real-evidence execution authority state and confirmed that the first executable gate remains held until the exact sandboxed package extraction acceptance is recorded.",
+  "sourceAuthorityReview": {
+    "path": "generated/roadmap/p8.98-real-evidence-execution-authority-review-report.json",
+    "artifactRole": "intentgraph-real-evidence-execution-authority-review-report",
+    "status": "intentgraph-real-evidence-execution-authority-reviewed"
+  },
+  "userFacingRequest": {
+    "question": "Authorize bounded sandboxed extraction inventory verification of the existing WindowsUtility package artifact?",
+    "requiredAcceptedResponse": "accept sandboxed package extraction inventory verification",
+    "allowedResponses": [
+      "accept sandboxed package extraction inventory verification",
+      "reject packaged artifact verification",
+      "revise package verification scope first"
+    ],
+    "standingAcceptShortcutApplies": false,
+    "standingAcceptShortcutReason": "The current-goal accept/revise/blocked shortcut does not authorize real package extraction; the exact accepted response must be recorded."
+  },
+  "toolAuthorizationContract": {
+    "requiredVerifierToken": "accept-sandboxed-package-extraction-inventory-verification",
+    "tokenMayBeUsedOnlyAfterExactAcceptedResponseRecorded": true,
+    "tokenPurpose": "Allow tools/verify_windowsutility_package_extraction_inventory.py to extract a sandbox copy of the existing WindowsUtility package artifact and compare extracted inventory facts.",
+    "tokenDoesNotAuthorize": [
+      "packaged executable launch",
+      "packaged UI launch",
+      "packaged UI screenshot capture",
+      "installer creation",
+      "artifact signing",
+      "credential access",
+      "provider API calls",
+      "release tag creation",
+      "release publishing",
+      "productization claim"
+    ]
+  },
+  "readyEvidence": {
+    "windowsUtilityCleanAligned": true,
+    "metadataReplayPassed": true,
+    "packageExtractionVerifierPrepared": true,
+    "negativeProbesPassed": true,
+    "futureExecutionPlanRecorded": true,
+    "productizationAuthorityChainSummarized": true
+  },
+  "authorizationState": {
+    "responseRecorded": false,
+    "exactAcceptedResponseRecorded": false,
+    "accepted": false,
+    "rejected": false,
+    "reviseRequested": false,
+    "realPackageExtractionAllowed": false,
+    "requiredNextArtifactIfUserResponds": "P8.100 Package Extraction Verification Authorization Response Record"
+  },
+  "requestedAuthority": {
+    "sandboxedPackageExtractionInventoryVerificationAuthorityRequested": true,
+    "mayUseTemporarySandboxDirectory": true,
+    "mayCopyExistingPackageArtifactToSandbox": true,
+    "mayExtractSandboxPackageCopy": true,
+    "mayListExtractedFiles": true,
+    "mayHashExtractedFiles": true,
+    "mayCompareExtractedInventoryToManifest": true,
+    "mayCreateVerificationReportInGeneratedOutput": true,
+    "mayRunPackagedExecutable": false,
+    "mayLaunchPackagedUi": false,
+    "mayCapturePackagedUiScreenshot": false,
+    "mayCreateInstaller": false,
+    "maySignArtifacts": false,
+    "mayReadCredentials": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "nextAllowedIfExactResponseRecorded": "P8.100 Package Extraction Verification Authorization Response Record",
+  "nextAllowedWithoutExactResponse": "P8.100 Package Extraction Verification Scope Hold Refresh"
+}
