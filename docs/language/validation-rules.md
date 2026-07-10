@@ -309,6 +309,12 @@ Status: added in P8.5.
 
 A real-project mapping draft must not become accepted until a repeatable verifier proves the positive baseline and deterministic negative failures for stale source digest, missing source ref, accidental acceptance, target write authority, and baseline acceptance. The negative-probe report must keep accepted mapping, target writes, proposal application, AI authority, and productization false.
 
+## V1010: Target-State Cleanup Must Preserve Evidence
+
+Status: added in P8.6.
+
+When resolving a dirty real-project target, existing commits may be pushed only when that is the selected resolution path, and untracked control artifacts must be archived or otherwise preserved before removal. The final report must record final `HEAD`, `origin/main`, clean/aligned status, archive location or equivalent preservation record, and must not auto-create accepted mappings, proposal application authority, AI authority, or productization authority.
+
 ## Rule Severity
 
 | Severity | Meaning |

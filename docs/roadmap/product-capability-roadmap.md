@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.5 completed.
+P8.6 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. Mapping acceptance, proposal application, AI authority, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -139,10 +139,16 @@ P8.5 completed:
 mapping draft positive verification and negative probes pass.
 ```
 
+P8.6 completed:
+
+```text
+WindowsUtility target state clean/aligned.
+```
+
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-external target-state resolution
+P8.7 Shell Workspace Mapping Acceptance Readiness Review
 ```
 
 ## Phase Overview
@@ -767,3 +773,19 @@ P8.5 produced:
 - [P8.5 Shell Workspace Mapping Draft Negative Probes Review](../reviews/p8.5-shell-workspace-mapping-draft-negative-probes-review.md)
 
 The next blocker is external: target baseline resolution or explicit dirty-baseline acceptance. Without it, the mapping draft must remain unaccepted and proposal application must remain blocked.
+
+## P8.6 Result And Clean Target State
+
+P8.6 result:
+
+```text
+WindowsUtility target state clean/aligned.
+Decision: target-state-clean-aligned.
+```
+
+P8.6 produced:
+
+- [P8.6 WindowsUtility Target State Clean Aligned Review](../reviews/p8.6-windowsutility-target-state-clean-aligned-review.md)
+- `generated/roadmap/p8.6-windowsutility-target-state-resolution-report.json`
+
+The prior untracked `.devview/` directory was archived outside the target repository before removal. Clean/aligned target state does not automatically authorize accepted mappings or productization.

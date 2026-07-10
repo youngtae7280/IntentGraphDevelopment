@@ -1,0 +1,50 @@
+{
+  "artifactRole": "intentgraph-windowsutility-target-state-resolution-report",
+  "status": "intentgraph-windowsutility-target-state-clean-aligned",
+  "scope": "p8.6-windowsutility-target-state-resolution",
+  "workItem": "P8.6 WindowsUtility Target State Clean/Aligned Resolution",
+  "date": "2026-07-10",
+  "decision": "target-state-clean-aligned",
+  "userSelectedOption": "clean-aligned-target",
+  "target": {
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "finalStatusShortBranch": "## main...origin/main",
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "clean": true,
+    "aligned": true
+  },
+  "pushedCommits": [
+    {
+      "hash": "fdffa26",
+      "message": "Remove legacy PBE workspace artifacts"
+    },
+    {
+      "hash": "eeef79c",
+      "message": "Add read-only Diagnostics module shell"
+    },
+    {
+      "hash": "73060e1",
+      "message": "Stabilize Config parity and assets"
+    },
+    {
+      "hash": "07cbe76",
+      "message": "Polish WindowsUtility shell theme and workspace"
+    }
+  ],
+  "archivedUntrackedDirectory": {
+    "relativePath": ".devview/",
+    "archivePath": "C:\\Users\\ytkim\\Desktop\\kyt_work\\_intentgraph_archives\\windowsutility-target-state-20260710\\windowsutility-dot-devview-untracked.zip",
+    "manifestPath": "C:\\Users\\ytkim\\Desktop\\kyt_work\\_intentgraph_archives\\windowsutility-target-state-20260710\\manifest.json",
+    "archiveSha256": "146fce47a5f641e457494a6558a50086dc668b75f0b7e8035174d26ed587a0b8",
+    "fileCount": 28,
+    "removedFromTargetAfterArchive": true
+  },
+  "authorizations": {
+    "acceptedMappingCreated": false,
+    "proposalApplicationAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.7 Shell Workspace Mapping Acceptance Readiness Review"
+}

@@ -829,3 +829,26 @@ target baseline resolution or explicit dirty-baseline acceptance
 ```
 
 Without that external decision, accepted mapping, proposal application, target writes, and productization remain blocked.
+
+## Completed Slice: P8.6 WindowsUtility Target State Clean/Aligned Resolution
+
+Goal: resolve the external WindowsUtility target-state blocker selected by the user.
+
+Produced artifacts:
+
+- [P8.6 WindowsUtility Target State Clean Aligned Review](../reviews/p8.6-windowsutility-target-state-clean-aligned-review.md)
+- `generated/roadmap/p8.6-windowsutility-target-state-resolution-report.json`
+
+Decision:
+
+```text
+target-state-clean-aligned
+```
+
+Next safe work:
+
+```text
+P8.7 Shell Workspace Mapping Acceptance Readiness Review
+```
+
+P8.7 may evaluate whether the shell-workspace draft can request user acceptance. It must not auto-accept the mapping, apply proposals, or claim productization readiness.
