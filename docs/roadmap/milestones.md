@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe
+P8.27 WindowsUtility User Workflow Benchmark Result Record
 ```
 
-This Phase G stabilization slice captured validated sandboxed WindowsUtility screenshot evidence while the original target stayed unchanged. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice recorded the user/coordinator `accept` response for the WindowsUtility workflow benchmark request. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1465,6 +1465,31 @@ Decision:
 Non-goals:
 
 - no benchmark result recorded
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or WindowsUtility screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim
+
+## P8.27: WindowsUtility User Workflow Benchmark Result Record
+
+Goal: record the explicit user/coordinator response to the WindowsUtility workflow benchmark request.
+
+Status: completed on 2026-07-10. See [P8.27 WindowsUtility User Workflow Benchmark Result Record Review](../reviews/p8.27-windowsutility-user-workflow-benchmark-result-review.md).
+
+Decision:
+
+- the user/coordinator response `accept` is recorded.
+- the response is normalized to `proceed`.
+- detailed per-question usability answers are not claimed.
+- WindowsUtility remains clean/aligned after the response check.
+- continue to `P8.28 WindowsUtility Productization Readiness Recheck`.
+
+Non-goals:
+
 - no source edits
 - no target write authority
 - no proposal application

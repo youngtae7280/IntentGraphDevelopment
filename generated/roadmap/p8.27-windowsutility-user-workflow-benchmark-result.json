@@ -1,0 +1,93 @@
+{
+  "artifactRole": "intentgraph-user-workflow-benchmark-result",
+  "status": "intentgraph-user-workflow-benchmark-result-recorded",
+  "scope": "p8.27-windowsutility-user-workflow-benchmark-result",
+  "workItem": "P8.27 WindowsUtility User Workflow Benchmark Result Record",
+  "date": "2026-07-10",
+  "inputRequest": {
+    "path": "generated/roadmap/p8.26-windowsutility-user-workflow-benchmark-request.json",
+    "sha256": "sha256:f0d26fe4101b9170de5d7c5eb49779463d0af486d2c9dfa7a79f2676bd706973",
+    "byteLength": 2333
+  },
+  "userResponse": {
+    "rawResponse": "accept",
+    "normalizedAllowedResponse": "proceed",
+    "responseMode": "compact-acceptance",
+    "responseRecorded": true,
+    "detailedQuestionResponsesRecorded": false,
+    "blockingConfusionReported": false,
+    "requestedRevisionReported": false,
+    "pauseRequested": false
+  },
+  "decision": "proceed-with-next-bounded-slice",
+  "benchmarkConclusion": {
+    "result": "accepted-to-proceed",
+    "humanOrCoordinatorResponsePresent": true,
+    "selfConductedDryRunOnly": false,
+    "detailedHumanUsabilityStudyClaimed": false,
+    "productizationReadinessClaimed": false
+  },
+  "materialsReviewedByRequest": [
+    {
+      "id": "material.workbench-html",
+      "kind": "static-html-workbench",
+      "path": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench.html",
+      "sha256": "sha256:6c46a482a46309e9958d6197c653971064b0a6f90b6db7e302c607e491e0874b",
+      "byteLength": 26117
+    },
+    {
+      "id": "material.workbench-projection",
+      "kind": "projection-json",
+      "path": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json",
+      "sha256": "sha256:74aab20e8d7634ccc2543288c4cf0c88ebff37ce49f460f94b9f034deb9ba72a",
+      "byteLength": 19444
+    },
+    {
+      "id": "material.usability-dry-run",
+      "kind": "self-conducted-dry-run-report",
+      "path": "generated/windowsutility/workbench/p8.24-shell-workspace-workbench-usability-dry-run-report.json",
+      "sha256": "sha256:9153a02c4ce2f858b31d876315399110a3ee26d7e8a2246b11711b8ceae852eb",
+      "byteLength": 11271
+    },
+    {
+      "id": "material.sandboxed-screenshot",
+      "kind": "screenshot-png",
+      "path": "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b",
+      "byteLength": 38739
+    }
+  ],
+  "requestQuestionCoverage": {
+    "acceptedMappingIdentified": "not-separately-answered-in-compact-acceptance",
+    "coveredCodeSurfaceIdentified": "not-separately-answered-in-compact-acceptance",
+    "buildUiScreenshotEvidenceIdentified": "not-separately-answered-in-compact-acceptance",
+    "proposalNonAppliedStateIdentified": "not-separately-answered-in-compact-acceptance",
+    "targetUnchangedStateIdentified": "not-separately-answered-in-compact-acceptance",
+    "falseAuthorityBoundariesIdentified": "not-separately-answered-in-compact-acceptance",
+    "workbenchHelpedComparedWithRawJson": "not-separately-answered-in-compact-acceptance",
+    "confusingOrMissing": "none-reported",
+    "roadmapDisposition": "proceed"
+  },
+  "targetStateObservedAfterResponse": {
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "status": "## main...origin/main",
+    "cleanAligned": true
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "nextGate": {
+    "recommendedNextSlice": "P8.28 WindowsUtility Productization Readiness Recheck",
+    "reason": "The user/coordinator response is recorded, but source edits, proposal application, target writes, AI authority, hardware authority, and productization remain unauthorized."
+  }
+}
