@@ -1,0 +1,56 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-orientation-review-result",
+  "status": "intentgraph-static-local-workbench-export-orientation-review-result-recorded",
+  "scope": "p8.37-static-local-workbench-export-orientation-review-result-record",
+  "workItem": "P8.37 Static Local Workbench Export Orientation Review Result Record",
+  "date": "2026-07-10",
+  "sourceRequest": {
+    "path": "generated/roadmap/p8.36-static-local-workbench-export-orientation-review-request.json",
+    "artifactRole": "intentgraph-static-local-workbench-export-orientation-review-request",
+    "status": "intentgraph-static-local-workbench-export-orientation-review-requested",
+    "decision": "static-export-orientation-review-response-required"
+  },
+  "reviewTarget": {
+    "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/index.html",
+    "revision": "p8.35",
+    "sourceRevisionReport": "generated/roadmap/p8.35-static-local-workbench-export-reviewer-orientation-revision-report.json"
+  },
+  "userResponse": {
+    "raw": "proceed",
+    "normalized": "proceed",
+    "language": "en",
+    "responseRecorded": true
+  },
+  "reviewResult": {
+    "orientationAccepted": true,
+    "orientationRevisionSufficientForNextIteration": true,
+    "comprehensionBlockerResolved": true,
+    "staticExportAcceptedAsReviewedSurface": true,
+    "productizationAccepted": false,
+    "packagingAccepted": false,
+    "releaseAccepted": false,
+    "sourceApplicationAccepted": false
+  },
+  "decision": "static-export-orientation-accepted-proceed",
+  "authorizations": {
+    "staticExportReviewedSurfaceAccepted": true,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "remainingGates": [
+    "source-application-loop",
+    "productization-readiness-recheck",
+    "packaging-boundary",
+    "release-boundary"
+  ],
+  "recommendedNextSlice": "P8.38 Static Local Workbench Export Productization Readiness Recheck"
+}
