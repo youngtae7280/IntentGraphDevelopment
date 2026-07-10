@@ -2383,3 +2383,35 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.60 Static Graph Delta Approval Workbench Prototype`.
+
+## P8.60: Static Graph Delta Approval Workbench Prototype
+
+Goal: render the P8.59 graph/delta/diff projection into a static local HTML approval workbench.
+
+Status: completed on 2026-07-10. See [P8.60 Static Graph Delta Approval Workbench Prototype](../reviews/p8.60-static-graph-delta-approval-workbench-prototype.md).
+
+Decision:
+
+- the static graph delta approval workbench prototype was emitted and validated.
+- Cytoscape.js is bundled locally.
+- nodes and edges are selectable.
+- delta steps highlight affected nodes and edges.
+- graph movement, wheel zoom, toolbar zoom-in, toolbar zoom-out, fit, and semantic zoom support are structurally present.
+- selected code nodes and code-affecting delta steps show code diffs.
+- changed existing graph nodes show before/after graph node diffs.
+- changed existing graph edges show before/after graph edge diffs.
+- approval automation, graph mutation, WindowsUtility source mutation, package extraction, executable launch, release publishing, and productization remain absent.
+
+Produced artifacts:
+
+- `tools/emit_graph_delta_approval_workbench_static_html.py`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/projection.json`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/manifest.json`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/validation-report.json`
+- `generated/roadmap/p8.60-static-graph-delta-approval-workbench-prototype-report.json`
+- [P8.60 Static Graph Delta Approval Workbench Prototype](../reviews/p8.60-static-graph-delta-approval-workbench-prototype.md)
+
+Next safe work:
+
+- continue to `P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run`.

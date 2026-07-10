@@ -1,0 +1,71 @@
+{
+  "artifactRole": "intentgraph-static-graph-delta-approval-workbench-manifest",
+  "claimScope": {
+    "approvalAutomation": false,
+    "graphMutationFromUi": false,
+    "graphUiImplemented": true,
+    "packageExtractionPerformed": false,
+    "packagedExecutableLaunchPerformed": false,
+    "productizationClaimed": false,
+    "releasePublished": false,
+    "staticHtmlImplemented": true,
+    "windowsUtilitySourceMutated": false
+  },
+  "date": "2026-07-10",
+  "files": [
+    {
+      "byteLength": 74701,
+      "path": "index.html",
+      "sha256": "sha256:92c6fa20822afef47f4b8a22cfac8b36e604fc690530eed439de9103ef92a0af"
+    },
+    {
+      "artifactRole": "intentgraph-static-graph-delta-approval-workbench-projection",
+      "byteLength": 53771,
+      "path": "projection.json",
+      "scope": "p8.60-static-graph-delta-approval-workbench-prototype",
+      "sha256": "sha256:65dd159ea5cefa44f2833dbb0882c90055a0c4c68238ac6771aaaa53fe69dcaf",
+      "status": "intentgraph-static-graph-delta-approval-workbench-projection-emitted",
+      "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
+    },
+    {
+      "byteLength": 435328,
+      "path": "assets/cytoscape.min.js",
+      "sha256": "sha256:9c2a3bf2592e0b14a1f7bec07c03a54f16dedf32af9cd0af155c716aa6c87bc3"
+    },
+    {
+      "byteLength": 1082,
+      "path": "assets/cytoscape-license.txt",
+      "sha256": "sha256:eb319c6e6f233607f71e8e2f450391751883cfc0eeb3ca7ef574c13d1d9c2203"
+    }
+  ],
+  "projection": {
+    "artifactRole": "intentgraph-static-graph-delta-approval-workbench-projection",
+    "byteLength": 53771,
+    "path": "generated/product-surfaces/graph-delta-approval-workbench/p8.60/projection.json",
+    "scope": "p8.60-static-graph-delta-approval-workbench-prototype",
+    "sha256": "sha256:65dd159ea5cefa44f2833dbb0882c90055a0c4c68238ac6771aaaa53fe69dcaf",
+    "status": "intentgraph-static-graph-delta-approval-workbench-projection-emitted",
+    "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
+  },
+  "runtime": {
+    "assetPath": "assets/cytoscape.min.js",
+    "cdnRequired": false,
+    "graphLibrary": "cytoscape",
+    "graphLibraryVersion": "3.34.0",
+    "networkRequired": false,
+    "panZoomRequired": true,
+    "semanticZoomRequired": true
+  },
+  "scope": "p8.60-static-graph-delta-approval-workbench-prototype",
+  "sourceProjection": {
+    "artifactRole": "intentgraph-graph-delta-approval-workbench-projection",
+    "byteLength": 52024,
+    "path": "generated/windowsutility/graph-delta-approval-workbench/p8.59/projection.json",
+    "scope": "p8.59-graph-delta-approval-workbench-projection-schema",
+    "sha256": "sha256:199fd602253dabea8962e7b232d55af9a0aa15098a9cacf77552ff1b2b9f6d60",
+    "status": "intentgraph-graph-delta-approval-workbench-projection-emitted",
+    "workItem": "P8.59 Graph Delta Approval Workbench Projection Schema"
+  },
+  "status": "intentgraph-static-graph-delta-approval-workbench-manifest-emitted",
+  "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
+}

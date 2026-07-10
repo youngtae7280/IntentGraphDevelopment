@@ -1,0 +1,32 @@
+{
+  "artifactRole": "intentgraph-static-graph-delta-approval-workbench-validation-report",
+  "counts": {
+    "codeDiffs": 1,
+    "deltaSteps": 3,
+    "edges": 7,
+    "graphEdgeDiffs": 1,
+    "graphNodeDiffs": 1,
+    "nodes": 10
+  },
+  "errors": [],
+  "result": "pass",
+  "scope": "p8.60-static-graph-delta-approval-workbench-prototype",
+  "status": "intentgraph-static-graph-delta-approval-workbench-validation-passed",
+  "uiChecks": {
+    "approvalAutomationPresent": false,
+    "changedEdgeDiffPanel": true,
+    "changedNodeDiffPanel": true,
+    "codeDiffPanel": true,
+    "deltaStepHighlighting": true,
+    "edgeInspector": true,
+    "graphCanvas": true,
+    "graphifyGradeInspectabilityTarget": true,
+    "localCytoscapeAsset": true,
+    "mutationControlsPresent": false,
+    "networkDependency": false,
+    "nodeInspector": true,
+    "panZoomInteraction": true,
+    "semanticZoom": true
+  },
+  "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
+}

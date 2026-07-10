@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IntentGraph Graph Delta Approval Workbench</title>
+  <script src="assets/cytoscape.min.js"></script>
+  <style>
+    :root {
+      --ink: #17202f;
+      --muted: #687385;
+      --paper: #fbfcfe;
+      --surface: #f3f5f8;
+      --surface-strong: #e9edf3;
+      --line: #d7dde7;
+      --line-strong: #b7c0ce;
+      --accent: #2f63d6;
+      --accent-soft: #e8efff;
+      --add: #16825d;
+      --add-soft: #e8f7f1;
+      --changed: #9a6500;
+      --changed-soft: #fff4db;
+      --removed: #b83b30;
+      --removed-soft: #fff0ed;
+      --code: #145c72;
+      --shadow: rgba(20, 31, 48, 0.08);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: var(--surface);
+      font-family: var(--sans);
+      letter-spacing: 0;
+    }
+    button, input, select { font: inherit; }
+    .shell {
+      height: 100vh;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 14px 18px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: .08em;
+      margin-bottom: 4px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+    .summary {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .badge {
+      display: inline-flex;
+      min-height: 25px;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .badge.ok { color: var(--add); border-color: #a9d9c6; background: var(--add-soft); }
+    .badge.warn { color: var(--changed); border-color: #e4c98f; background: var(--changed-soft); }
+    .workbench {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 260px minmax(480px, 1fr) 390px;
+      grid-template-rows: minmax(0, 1fr) 250px;
+    }
+    .rail, .inspector, .diffDock {
+      background: var(--paper);
+      border-color: var(--line);
+    }
+    .rail {
+      grid-row: 1 / 3;
+      border-right: 1px solid var(--line);
+      overflow: auto;
+      padding: 14px;
+    }
+    .graphPane {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      background: #eef2f7;
+    }
+    .graphToolbar {
+      min-height: 52px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 252, 254, .92);
+    }
+    .searchRow {
+      display: grid;
+      grid-template-columns: minmax(150px, 1fr) 130px;
+      gap: 8px;
+    }
+    input, select {
+      width: 100%;
+      min-height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 6px 9px;
+    }
+    .toolButtons { display: flex; gap: 6px; align-items: center; }
+    .iconButton {
+      min-width: 32px;
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .iconButton:hover, .item:hover, .stepButton:hover {
+      border-color: var(--line-strong);
+      background: #f8fafc;
+    }
+    #graphCanvas {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      background:
+        linear-gradient(rgba(23, 32, 47, .045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 47, .045) 1px, transparent 1px),
+        #eef2f7;
+      background-size: 28px 28px;
+    }
+    .inspector {
+      grid-column: 3;
+      grid-row: 1 / 3;
+      border-left: 1px solid var(--line);
+      min-height: 0;
+      overflow: auto;
+      padding: 14px;
+    }
+    .diffDock {
+      grid-column: 2;
+      grid-row: 2;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      min-width: 0;
+      min-height: 0;
+    }
+    .diffPane {
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+      padding: 12px;
+      border-right: 1px solid var(--line);
+    }
+    .diffPane:last-child { border-right: 0; }
+    h2 {
+      margin: 18px 0 8px;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    h2:first-child { margin-top: 0; }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+    .small { color: var(--muted); font-size: 12px; line-height: 1.42; }
+    .metricGrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 9px;
+      background: #fff;
+    }
+    .metric strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .item, .stepButton {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      padding: 9px;
+      margin-bottom: 7px;
+      cursor: pointer;
+    }
+    .item.active, .stepButton.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+    .item.changed, .stepButton.changed { border-color: #dfbf79; background: var(--changed-soft); }
+    .item.added, .stepButton.added { border-color: #9ad1bd; background: var(--add-soft); }
+    .itemTitle {
+      font-size: 12px;
+      font-weight: 650;
+      overflow-wrap: anywhere;
+    }
+    .itemMeta {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+      overflow-wrap: anywhere;
+    }
+    .pillRow { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 11px;
+      color: var(--muted);
+      background: #fff;
+    }
+    .pill.added { color: var(--add); border-color: #a9d9c6; background: var(--add-soft); }
+    .pill.changed { color: var(--changed); border-color: #e4c98f; background: var(--changed-soft); }
+    .pill.removed { color: var(--removed); border-color: #dfaaa4; background: var(--removed-soft); }
+    .kv {
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr);
+      gap: 6px 9px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .kv .key { color: var(--muted); }
+    .kv .value { overflow-wrap: anywhere; }
+    pre, code {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px solid var(--line);
+      background: #f6f8fb;
+      border-radius: 7px;
+      padding: 10px;
+    }
+    .diffBlock {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      overflow: hidden;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+    .diffHead {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .diffHunk {
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: #0f1724;
+      color: #d7e1ef;
+      max-height: 390px;
+      overflow: auto;
+    }
+    .jsonPair {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 8px;
+    }
+    .jsonPair pre { max-height: 260px; overflow: auto; }
+    .empty {
+      border: 1px dashed var(--line-strong);
+      color: var(--muted);
+      border-radius: 7px;
+      padding: 14px;
+      background: #fff;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .legend {
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .legend span::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 7px;
+      vertical-align: -1px;
+      background: #adc0d5;
+    }
+    .legend .added::before { background: var(--add); }
+    .legend .changed::before { background: var(--changed); }
+    .legend .code::before { background: var(--code); }
+    .legend .selected::before { background: var(--accent); }
+    @media (max-width: 1120px) {
+      .workbench {
+        grid-template-columns: 230px minmax(0, 1fr);
+        grid-template-rows: minmax(420px, 1fr) 360px auto;
+      }
+      .inspector {
+        grid-column: 1 / 3;
+        grid-row: 3;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+      .diffDock {
+        grid-column: 2;
+        grid-row: 2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>window.__WORKBENCH_PROJECTION__ = {"artifactRole": "intentgraph-static-graph-delta-approval-workbench-projection", "authorizations": {"approvalAutomationAuthorized": false, "graphMutationFromUiAuthorized": false, "packageExtractionAuthorized": false, "packagedExecutableLaunchAuthorized": false, "productizationAuthorized": false, "releasePublishingAuthorized": false, "sourceEditsAuthorized": false, "targetWritesAuthorized": false}, "claimScope": {"approvalAutomation": false, "codeDiffInspectorImplemented": true, "edgeInspectorImplemented": true, "evidenceAuthorityInspectorImplemented": true, "graphDeltaVisualizationImplemented": true, "graphElementDiffInspectorImplemented": true, "graphMutationFromUi": false, "graphUiImplemented": true, "nodeInspectorImplemented": true, "packageExtractionPerformed": false, "packagedExecutableLaunchPerformed": false, "productizationClaimed": false, "projectionOnly": false, "releasePublished": false, "staticHtmlImplemented": true, "windowsUtilitySourceMutated": false}, "date": "2026-07-10", "delta": {"addedEdges": ["edge.code-file-to-test", "edge.test-verifies-surface", "edge.package-derived-from-surface", "edge.requirement-drives-boundary", "edge.boundary-requires-code-diff"], "addedNodes": ["code.file.intentgraph-preflight", "test.preflight.intentgraph-shell", "package.p8.55-sandbox-artifact", "requirement.p8.57-graph-delta-workbench", "boundary.p8.58-graph-delta-workbench"], "afterGraphRef": "generated/windowsutility/graph-delta-approval-workbench/p8.59/projection.json", "beforeGraphRef": "generated/windowsutility/workbench/p8.51-packaging-release-workbench-projection.json", "changedEdges": ["edge.proposal-to-code-file"], "changedNodes": ["proposal.p8.43-preflight"], "codeDiffs": [{"affectedEdgeIds": ["edge.proposal-to-code-file", "edge.code-file-to-test", "edge.test-verifies-surface"], "affectedNodeIds": ["code.file.intentgraph-preflight", "test.preflight.intentgraph-shell"], "afterRange": {"endLine": 39, "startLine": 1}, "authorityRefs": ["authority.p8.44-user-source-edit"], "beforeRange": null, "blockerIfMissing": null, "changeKind": "add-file", "deltaStepId": "deltaStep.p8.44-apply-preflight.add-file", "diffHunks": ["@@ -0,0 +1,39 @@\n+[CmdletBinding()]\n+param(\n+    [string]$RepoRoot = \"\"\n+)\n+\n+Set-StrictMode -Version Latest\n+$ErrorActionPreference = \"Stop\"\n+\n+$scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }\n+if ([string]::IsNullOrWhiteSpace($RepoRoot)) {\n+    $RepoRoot = (Resolve-Path (Join-Path $scriptRoot \"..\\..\")).Path\n+}\n+\n+function Test-RequiredPath {\n+    param(\n+        [Parameter(Mandatory = $true)]\n+        [string]$RelativePath\n+    )\n+\n+    $fullPath = Join-Path $RepoRoot $RelativePath\n+    if (-not (Test-Path -LiteralPath $fullPath)) {\n+        throw \"Required path is missing: $RelativePath\"\n+    }\n+\n+    Write-Host \"[ok] $RelativePath\"\n+}\n+\n+$requiredPaths = @(\n+    \"WindowsUtility.sln\",\n+    \"src\\WindowsUtility.App\\WindowsUtility.App.csproj\",\n+    \"src\\WindowsUtility.Shell\\WindowsUtility.Shell.csproj\",\n+    \"tests\\RegressionSmoke\\Invoke-WindowsUtilityRegressionSmoke.ps1\"\n+)\n+\n+foreach ($path in $requiredPaths) {\n+    Test-RequiredPath -RelativePath $path\n+}\n+\n+Write-Host \"IntentGraph shell/workspace source-application preflight passed.\""], "evidenceRefs": ["evidence.p8.44-final-preflight", "evidence.p8.44-build"], "filePath": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1", "id": "codeDiff.add-intentgraph-preflight"}], "edgeStates": {"added": 5, "changed": 1, "impacted": 0, "removed": 0, "unchanged": 1}, "graphEdgeDiffs": [{"addedRefs": ["evidence.p8.44-final-preflight", "authority.p8.44-user-source-edit"], "affectedCodeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "afterPayload": {"attributes": {"relationState": "applied-add"}, "kind": "proposes", "source": "proposal.p8.43-preflight", "status": "changed", "target": "code.file.intentgraph-preflight"}, "authorityRefs": ["authority.p8.44-user-source-edit"], "beforePayload": {"attributes": {"relationState": "planned-add"}, "kind": "proposes", "source": "proposal.p8.43-preflight", "status": "planned", "target": "code.file.intentgraph-preflight"}, "blockerIfMissing": null, "changeKind": "planned-to-applied", "changedFields": ["status", "attributes.relationState"], "changedRefs": ["codeDiff.add-intentgraph-preflight"], "deltaStepId": "deltaStep.p8.44-apply-preflight.apply", "elementId": "edge.proposal-to-code-file", "elementKind": "edge", "evidenceRefs": ["evidence.p8.44-final-preflight"], "id": "graphEdgeDiff.edge.proposal-to-code-file", "removedRefs": []}], "graphNodeDiffs": [{"addedRefs": ["evidence.p8.44-final-preflight", "evidence.p8.44-build", "history.p8.44-source-application"], "affectedCodeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "afterPayload": {"applicationStatus": "applied", "previewExactContentApplied": false, "status": "intentgraph-windowsutility-source-application-applied", "targetCommit": "ac5b2204442cde751f625a9979a4fdb437d468a8"}, "authorityRefs": ["authority.p8.44-user-source-edit"], "beforePayload": {"applicationStatus": "not-applied", "patchApplied": false, "status": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed"}, "blockerIfMissing": null, "changeKind": "status-and-application-result", "changedFields": ["status", "applicationStatus", "previewExactContentApplied", "targetCommit"], "changedRefs": ["codeDiff.add-intentgraph-preflight"], "deltaStepId": "deltaStep.p8.44-apply-preflight.apply", "elementId": "proposal.p8.43-preflight", "elementKind": "proposal", "evidenceRefs": ["evidence.p8.44-final-preflight", "evidence.p8.44-build"], "id": "graphNodeDiff.proposal.p8.43-preflight", "removedRefs": []}], "impactedEdges": ["edge.intent-to-surface"], "impactedNodes": ["code.surface.windowsutility-shell"], "nodeStates": {"added": 5, "changed": 1, "impacted": 0, "removed": 0, "unchanged": 4}, "removedEdges": [], "removedNodes": [], "steps": [{"affectedEdgeIds": ["edge.proposal-to-code-file", "edge.code-file-to-test", "edge.test-verifies-surface"], "affectedNodeIds": ["proposal.p8.43-preflight", "code.file.intentgraph-preflight", "test.preflight.intentgraph-shell"], "authorityRefs": ["authority.p8.44-user-source-edit"], "codeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "deltaId": "delta.p8.44-apply-preflight", "evidenceRefs": ["evidence.p8.44-final-preflight", "evidence.p8.44-build"], "graphEdgeDiffRefs": ["graphEdgeDiff.edge.proposal-to-code-file"], "graphNodeDiffRefs": ["graphNodeDiff.proposal.p8.43-preflight"], "id": "deltaStep.p8.44-apply-preflight.apply", "label": "Apply shell/workspace preflight source edit", "status": "applied"}, {"affectedEdgeIds": ["edge.package-derived-from-surface"], "affectedNodeIds": ["package.p8.55-sandbox-artifact", "code.surface.windowsutility-shell"], "authorityRefs": ["authority.p8.54-package-artifact"], "codeDiffRefs": [], "deltaId": "delta.p8.55-package-artifact", "evidenceRefs": ["evidence.p8.55-package-validation"], "graphEdgeDiffRefs": [], "graphNodeDiffRefs": [], "id": "deltaStep.p8.55-package-artifact.create", "label": "Create sandboxed package artifact", "status": "recorded"}, {"affectedEdgeIds": ["edge.requirement-drives-boundary", "edge.boundary-requires-code-diff"], "affectedNodeIds": ["requirement.p8.57-graph-delta-workbench", "boundary.p8.58-graph-delta-workbench"], "authorityRefs": ["authority.coordinator.p8.57", "authority.roadmap.p8.58"], "codeDiffRefs": [], "deltaId": "delta.p8.58-boundary-plan", "evidenceRefs": [], "graphEdgeDiffRefs": [], "graphNodeDiffRefs": [], "id": "deltaStep.p8.58-boundary-plan.record", "label": "Record graph delta approval workbench boundary", "status": "recorded"}]}, "graph": {"edges": [{"attributes": {}, "authorityRefs": [], "confidence": "extracted", "deltaRefs": [], "evidenceRefs": ["evidence.p8.44-build"], "graphDiffRef": null, "historyRefs": [], "id": "edge.intent-to-surface", "kind": "targets", "label": "targets", "provenance": "generated-from-p8.59-projection-schema", "source": "intent.shell-workspace", "status": "unchanged", "target": "code.surface.windowsutility-shell"}, {"attributes": {"afterRelation": "applied-add", "beforeRelation": "planned-add"}, "authorityRefs": ["authority.p8.44-user-source-edit"], "confidence": "extracted", "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": "graphEdgeDiff.edge.proposal-to-code-file", "historyRefs": ["history.p8.44-source-application"], "id": "edge.proposal-to-code-file", "kind": "proposes", "label": "proposes", "provenance": "generated-from-p8.59-projection-schema", "source": "proposal.p8.43-preflight", "status": "changed", "target": "code.file.intentgraph-preflight"}, {"attributes": {}, "authorityRefs": [], "confidence": "extracted", "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": [], "id": "edge.code-file-to-test", "kind": "contains", "label": "contains", "provenance": "generated-from-p8.59-projection-schema", "source": "code.file.intentgraph-preflight", "status": "added", "target": "test.preflight.intentgraph-shell"}, {"attributes": {}, "authorityRefs": [], "confidence": "extracted", "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": [], "id": "edge.test-verifies-surface", "kind": "verifies", "label": "verifies", "provenance": "generated-from-p8.59-projection-schema", "source": "test.preflight.intentgraph-shell", "status": "added", "target": "code.surface.windowsutility-shell"}, {"attributes": {}, "authorityRefs": ["authority.p8.54-package-artifact"], "confidence": "extracted", "deltaRefs": ["delta.p8.55-package-artifact"], "evidenceRefs": ["evidence.p8.55-package-validation"], "graphDiffRef": null, "historyRefs": [], "id": "edge.package-derived-from-surface", "kind": "packages", "label": "packages", "provenance": "generated-from-p8.59-projection-schema", "source": "package.p8.55-sandbox-artifact", "status": "added", "target": "code.surface.windowsutility-shell"}, {"attributes": {}, "authorityRefs": ["authority.coordinator.p8.57"], "confidence": "extracted", "deltaRefs": ["delta.p8.58-boundary-plan"], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": [], "id": "edge.requirement-drives-boundary", "kind": "drives", "label": "drives", "provenance": "generated-from-p8.59-projection-schema", "source": "requirement.p8.57-graph-delta-workbench", "status": "added", "target": "boundary.p8.58-graph-delta-workbench"}, {"attributes": {}, "authorityRefs": [], "confidence": "extracted", "deltaRefs": ["delta.p8.58-boundary-plan"], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": [], "id": "edge.boundary-requires-code-diff", "kind": "requires", "label": "requires", "provenance": "generated-from-p8.59-projection-schema", "source": "boundary.p8.58-graph-delta-workbench", "status": "added", "target": "code.file.intentgraph-preflight"}], "nodes": [{"attributes": {}, "authorityRefs": ["authority.p8.44-user-source-edit"], "codeDiffRefs": [], "deltaRefs": [], "evidenceRefs": ["evidence.p8.44-build", "evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": ["history.p8.44-source-application"], "id": "intent.shell-workspace", "kind": "intent", "label": "WindowsUtility shell/workspace review intent", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json", "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"], "status": "unchanged"}, {"attributes": {}, "authorityRefs": [], "codeDiffRefs": [], "deltaRefs": [], "evidenceRefs": ["evidence.p8.44-build"], "graphDiffRef": null, "historyRefs": [], "id": "code.surface.windowsutility-shell", "kind": "code-surface", "label": "WindowsUtility shell/workspace code surface", "sourceRefs": ["src/WindowsUtility.App/WindowsUtility.App.csproj", "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"], "status": "unchanged"}, {"attributes": {"afterStatus": "intentgraph-windowsutility-source-application-applied", "beforeStatus": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed", "previewExactContentApplied": false}, "authorityRefs": ["authority.p8.43-preview-only"], "codeDiffRefs": [], "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.43-validation"], "graphDiffRef": "graphNodeDiff.proposal.p8.43-preflight", "historyRefs": ["history.p8.43-proposal-preview", "history.p8.44-source-application"], "id": "proposal.p8.43-preflight", "kind": "proposal", "label": "Minimal source edit proposal", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json"], "status": "changed"}, {"attributes": {}, "authorityRefs": ["authority.p8.44-user-source-edit"], "codeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": ["history.p8.44-source-application"], "id": "code.file.intentgraph-preflight", "kind": "code-file", "label": "Invoke-IntentGraphShellWorkspacePreflight.ps1", "sourceRefs": ["tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1", "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/applied-Invoke-IntentGraphShellWorkspacePreflight.ps1"], "status": "added"}, {"attributes": {}, "authorityRefs": ["authority.p8.44-user-source-edit"], "codeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": ["history.p8.44-source-application"], "id": "test.preflight.intentgraph-shell", "kind": "test", "label": "IntentGraph shell/workspace preflight", "sourceRefs": ["tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1"], "status": "added"}, {"attributes": {"result": "pass"}, "authorityRefs": [], "codeDiffRefs": [], "deltaRefs": [], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": [], "id": "evidence.p8.44-final-preflight", "kind": "evidence", "label": "Final preflight passed", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"], "status": "unchanged"}, {"attributes": {"result": "pass"}, "authorityRefs": [], "codeDiffRefs": [], "deltaRefs": [], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": [], "id": "evidence.p8.44-build", "kind": "evidence", "label": "WindowsUtility build passed", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"], "status": "unchanged"}, {"attributes": {"byteLength": 4072027, "fileCount": 39, "sha256": "sha256:1de950e8f3ed79a2399ffba50e9c1b59d0a4cb92ff1b9b7ee3332e5b15ccc4fe"}, "authorityRefs": ["authority.p8.54-package-artifact"], "codeDiffRefs": [], "deltaRefs": ["delta.p8.55-package-artifact"], "evidenceRefs": ["evidence.p8.55-package-validation"], "graphDiffRef": null, "historyRefs": ["history.p8.55-package-artifact"], "id": "package.p8.55-sandbox-artifact", "kind": "package-artifact", "label": "Sandboxed WindowsUtility package artifact", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.55-sandboxed-package-artifact-creation-probe-report.json"], "status": "added"}, {"attributes": {}, "authorityRefs": ["authority.coordinator.p8.57"], "codeDiffRefs": [], "deltaRefs": ["delta.p8.57-approval-workbench-requirement"], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": ["history.p8.57-requirement-record"], "id": "requirement.p8.57-graph-delta-workbench", "kind": "requirement", "label": "Approval workbench graph/delta/diff requirement", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.57-approval-workbench-graph-delta-visualization-requirement-report.json"], "status": "added"}, {"attributes": {}, "authorityRefs": ["authority.roadmap.p8.58"], "codeDiffRefs": [], "deltaRefs": ["delta.p8.58-boundary-plan"], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": ["history.p8.58-boundary-plan"], "id": "boundary.p8.58-graph-delta-workbench", "kind": "boundary", "label": "Graph delta approval workbench boundary", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.58-graph-delta-approval-workbench-boundary-plan-report.json"], "status": "added"}]}, "indexes": {"codeDiffsById": {"codeDiff.add-intentgraph-preflight": {"affectedEdgeIds": ["edge.proposal-to-code-file", "edge.code-file-to-test", "edge.test-verifies-surface"], "affectedNodeIds": ["code.file.intentgraph-preflight", "test.preflight.intentgraph-shell"], "afterRange": {"endLine": 39, "startLine": 1}, "authorityRefs": ["authority.p8.44-user-source-edit"], "beforeRange": null, "blockerIfMissing": null, "changeKind": "add-file", "deltaStepId": "deltaStep.p8.44-apply-preflight.add-file", "diffHunks": ["@@ -0,0 +1,39 @@\n+[CmdletBinding()]\n+param(\n+    [string]$RepoRoot = \"\"\n+)\n+\n+Set-StrictMode -Version Latest\n+$ErrorActionPreference = \"Stop\"\n+\n+$scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }\n+if ([string]::IsNullOrWhiteSpace($RepoRoot)) {\n+    $RepoRoot = (Resolve-Path (Join-Path $scriptRoot \"..\\..\")).Path\n+}\n+\n+function Test-RequiredPath {\n+    param(\n+        [Parameter(Mandatory = $true)]\n+        [string]$RelativePath\n+    )\n+\n+    $fullPath = Join-Path $RepoRoot $RelativePath\n+    if (-not (Test-Path -LiteralPath $fullPath)) {\n+        throw \"Required path is missing: $RelativePath\"\n+    }\n+\n+    Write-Host \"[ok] $RelativePath\"\n+}\n+\n+$requiredPaths = @(\n+    \"WindowsUtility.sln\",\n+    \"src\\WindowsUtility.App\\WindowsUtility.App.csproj\",\n+    \"src\\WindowsUtility.Shell\\WindowsUtility.Shell.csproj\",\n+    \"tests\\RegressionSmoke\\Invoke-WindowsUtilityRegressionSmoke.ps1\"\n+)\n+\n+foreach ($path in $requiredPaths) {\n+    Test-RequiredPath -RelativePath $path\n+}\n+\n+Write-Host \"IntentGraph shell/workspace source-application preflight passed.\""], "evidenceRefs": ["evidence.p8.44-final-preflight", "evidence.p8.44-build"], "filePath": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1", "id": "codeDiff.add-intentgraph-preflight"}}, "deltaStepsById": {"deltaStep.p8.44-apply-preflight.apply": {"affectedEdgeIds": ["edge.proposal-to-code-file", "edge.code-file-to-test", "edge.test-verifies-surface"], "affectedNodeIds": ["proposal.p8.43-preflight", "code.file.intentgraph-preflight", "test.preflight.intentgraph-shell"], "authorityRefs": ["authority.p8.44-user-source-edit"], "codeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "deltaId": "delta.p8.44-apply-preflight", "evidenceRefs": ["evidence.p8.44-final-preflight", "evidence.p8.44-build"], "graphEdgeDiffRefs": ["graphEdgeDiff.edge.proposal-to-code-file"], "graphNodeDiffRefs": ["graphNodeDiff.proposal.p8.43-preflight"], "id": "deltaStep.p8.44-apply-preflight.apply", "label": "Apply shell/workspace preflight source edit", "status": "applied"}, "deltaStep.p8.55-package-artifact.create": {"affectedEdgeIds": ["edge.package-derived-from-surface"], "affectedNodeIds": ["package.p8.55-sandbox-artifact", "code.surface.windowsutility-shell"], "authorityRefs": ["authority.p8.54-package-artifact"], "codeDiffRefs": [], "deltaId": "delta.p8.55-package-artifact", "evidenceRefs": ["evidence.p8.55-package-validation"], "graphEdgeDiffRefs": [], "graphNodeDiffRefs": [], "id": "deltaStep.p8.55-package-artifact.create", "label": "Create sandboxed package artifact", "status": "recorded"}, "deltaStep.p8.58-boundary-plan.record": {"affectedEdgeIds": ["edge.requirement-drives-boundary", "edge.boundary-requires-code-diff"], "affectedNodeIds": ["requirement.p8.57-graph-delta-workbench", "boundary.p8.58-graph-delta-workbench"], "authorityRefs": ["authority.coordinator.p8.57", "authority.roadmap.p8.58"], "codeDiffRefs": [], "deltaId": "delta.p8.58-boundary-plan", "evidenceRefs": [], "graphEdgeDiffRefs": [], "graphNodeDiffRefs": [], "id": "deltaStep.p8.58-boundary-plan.record", "label": "Record graph delta approval workbench boundary", "status": "recorded"}}, "edgesById": {"edge.boundary-requires-code-diff": {"attributes": {}, "authorityRefs": [], "confidence": "extracted", "deltaRefs": ["delta.p8.58-boundary-plan"], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": [], "id": "edge.boundary-requires-code-diff", "kind": "requires", "label": "requires", "provenance": "generated-from-p8.59-projection-schema", "source": "boundary.p8.58-graph-delta-workbench", "status": "added", "target": "code.file.intentgraph-preflight"}, "edge.code-file-to-test": {"attributes": {}, "authorityRefs": [], "confidence": "extracted", "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": [], "id": "edge.code-file-to-test", "kind": "contains", "label": "contains", "provenance": "generated-from-p8.59-projection-schema", "source": "code.file.intentgraph-preflight", "status": "added", "target": "test.preflight.intentgraph-shell"}, "edge.intent-to-surface": {"attributes": {}, "authorityRefs": [], "confidence": "extracted", "deltaRefs": [], "evidenceRefs": ["evidence.p8.44-build"], "graphDiffRef": null, "historyRefs": [], "id": "edge.intent-to-surface", "kind": "targets", "label": "targets", "provenance": "generated-from-p8.59-projection-schema", "source": "intent.shell-workspace", "status": "unchanged", "target": "code.surface.windowsutility-shell"}, "edge.package-derived-from-surface": {"attributes": {}, "authorityRefs": ["authority.p8.54-package-artifact"], "confidence": "extracted", "deltaRefs": ["delta.p8.55-package-artifact"], "evidenceRefs": ["evidence.p8.55-package-validation"], "graphDiffRef": null, "historyRefs": [], "id": "edge.package-derived-from-surface", "kind": "packages", "label": "packages", "provenance": "generated-from-p8.59-projection-schema", "source": "package.p8.55-sandbox-artifact", "status": "added", "target": "code.surface.windowsutility-shell"}, "edge.proposal-to-code-file": {"attributes": {"afterRelation": "applied-add", "beforeRelation": "planned-add"}, "authorityRefs": ["authority.p8.44-user-source-edit"], "confidence": "extracted", "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": "graphEdgeDiff.edge.proposal-to-code-file", "historyRefs": ["history.p8.44-source-application"], "id": "edge.proposal-to-code-file", "kind": "proposes", "label": "proposes", "provenance": "generated-from-p8.59-projection-schema", "source": "proposal.p8.43-preflight", "status": "changed", "target": "code.file.intentgraph-preflight"}, "edge.requirement-drives-boundary": {"attributes": {}, "authorityRefs": ["authority.coordinator.p8.57"], "confidence": "extracted", "deltaRefs": ["delta.p8.58-boundary-plan"], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": [], "id": "edge.requirement-drives-boundary", "kind": "drives", "label": "drives", "provenance": "generated-from-p8.59-projection-schema", "source": "requirement.p8.57-graph-delta-workbench", "status": "added", "target": "boundary.p8.58-graph-delta-workbench"}, "edge.test-verifies-surface": {"attributes": {}, "authorityRefs": [], "confidence": "extracted", "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": [], "id": "edge.test-verifies-surface", "kind": "verifies", "label": "verifies", "provenance": "generated-from-p8.59-projection-schema", "source": "test.preflight.intentgraph-shell", "status": "added", "target": "code.surface.windowsutility-shell"}}, "edgesByKind": {"contains": ["edge.code-file-to-test"], "drives": ["edge.requirement-drives-boundary"], "packages": ["edge.package-derived-from-surface"], "proposes": ["edge.proposal-to-code-file"], "requires": ["edge.boundary-requires-code-diff"], "targets": ["edge.intent-to-surface"], "verifies": ["edge.test-verifies-surface"]}, "graphEdgeDiffsById": {"graphEdgeDiff.edge.proposal-to-code-file": {"addedRefs": ["evidence.p8.44-final-preflight", "authority.p8.44-user-source-edit"], "affectedCodeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "afterPayload": {"attributes": {"relationState": "applied-add"}, "kind": "proposes", "source": "proposal.p8.43-preflight", "status": "changed", "target": "code.file.intentgraph-preflight"}, "authorityRefs": ["authority.p8.44-user-source-edit"], "beforePayload": {"attributes": {"relationState": "planned-add"}, "kind": "proposes", "source": "proposal.p8.43-preflight", "status": "planned", "target": "code.file.intentgraph-preflight"}, "blockerIfMissing": null, "changeKind": "planned-to-applied", "changedFields": ["status", "attributes.relationState"], "changedRefs": ["codeDiff.add-intentgraph-preflight"], "deltaStepId": "deltaStep.p8.44-apply-preflight.apply", "elementId": "edge.proposal-to-code-file", "elementKind": "edge", "evidenceRefs": ["evidence.p8.44-final-preflight"], "id": "graphEdgeDiff.edge.proposal-to-code-file", "removedRefs": []}}, "graphNodeDiffsById": {"graphNodeDiff.proposal.p8.43-preflight": {"addedRefs": ["evidence.p8.44-final-preflight", "evidence.p8.44-build", "history.p8.44-source-application"], "affectedCodeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "afterPayload": {"applicationStatus": "applied", "previewExactContentApplied": false, "status": "intentgraph-windowsutility-source-application-applied", "targetCommit": "ac5b2204442cde751f625a9979a4fdb437d468a8"}, "authorityRefs": ["authority.p8.44-user-source-edit"], "beforePayload": {"applicationStatus": "not-applied", "patchApplied": false, "status": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed"}, "blockerIfMissing": null, "changeKind": "status-and-application-result", "changedFields": ["status", "applicationStatus", "previewExactContentApplied", "targetCommit"], "changedRefs": ["codeDiff.add-intentgraph-preflight"], "deltaStepId": "deltaStep.p8.44-apply-preflight.apply", "elementId": "proposal.p8.43-preflight", "elementKind": "proposal", "evidenceRefs": ["evidence.p8.44-final-preflight", "evidence.p8.44-build"], "id": "graphNodeDiff.proposal.p8.43-preflight", "removedRefs": []}}, "incomingEdgesByNode": {"boundary.p8.58-graph-delta-workbench": ["edge.requirement-drives-boundary"], "code.file.intentgraph-preflight": ["edge.proposal-to-code-file", "edge.boundary-requires-code-diff"], "code.surface.windowsutility-shell": ["edge.intent-to-surface", "edge.test-verifies-surface", "edge.package-derived-from-surface"], "evidence.p8.44-build": [], "evidence.p8.44-final-preflight": [], "intent.shell-workspace": [], "package.p8.55-sandbox-artifact": [], "proposal.p8.43-preflight": [], "requirement.p8.57-graph-delta-workbench": [], "test.preflight.intentgraph-shell": ["edge.code-file-to-test"]}, "nodesById": {"boundary.p8.58-graph-delta-workbench": {"attributes": {}, "authorityRefs": ["authority.roadmap.p8.58"], "codeDiffRefs": [], "deltaRefs": ["delta.p8.58-boundary-plan"], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": ["history.p8.58-boundary-plan"], "id": "boundary.p8.58-graph-delta-workbench", "kind": "boundary", "label": "Graph delta approval workbench boundary", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.58-graph-delta-approval-workbench-boundary-plan-report.json"], "status": "added"}, "code.file.intentgraph-preflight": {"attributes": {}, "authorityRefs": ["authority.p8.44-user-source-edit"], "codeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": ["history.p8.44-source-application"], "id": "code.file.intentgraph-preflight", "kind": "code-file", "label": "Invoke-IntentGraphShellWorkspacePreflight.ps1", "sourceRefs": ["tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1", "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/applied-Invoke-IntentGraphShellWorkspacePreflight.ps1"], "status": "added"}, "code.surface.windowsutility-shell": {"attributes": {}, "authorityRefs": [], "codeDiffRefs": [], "deltaRefs": [], "evidenceRefs": ["evidence.p8.44-build"], "graphDiffRef": null, "historyRefs": [], "id": "code.surface.windowsutility-shell", "kind": "code-surface", "label": "WindowsUtility shell/workspace code surface", "sourceRefs": ["src/WindowsUtility.App/WindowsUtility.App.csproj", "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"], "status": "unchanged"}, "evidence.p8.44-build": {"attributes": {"result": "pass"}, "authorityRefs": [], "codeDiffRefs": [], "deltaRefs": [], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": [], "id": "evidence.p8.44-build", "kind": "evidence", "label": "WindowsUtility build passed", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"], "status": "unchanged"}, "evidence.p8.44-final-preflight": {"attributes": {"result": "pass"}, "authorityRefs": [], "codeDiffRefs": [], "deltaRefs": [], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": [], "id": "evidence.p8.44-final-preflight", "kind": "evidence", "label": "Final preflight passed", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"], "status": "unchanged"}, "intent.shell-workspace": {"attributes": {}, "authorityRefs": ["authority.p8.44-user-source-edit"], "codeDiffRefs": [], "deltaRefs": [], "evidenceRefs": ["evidence.p8.44-build", "evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": ["history.p8.44-source-application"], "id": "intent.shell-workspace", "kind": "intent", "label": "WindowsUtility shell/workspace review intent", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json", "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"], "status": "unchanged"}, "package.p8.55-sandbox-artifact": {"attributes": {"byteLength": 4072027, "fileCount": 39, "sha256": "sha256:1de950e8f3ed79a2399ffba50e9c1b59d0a4cb92ff1b9b7ee3332e5b15ccc4fe"}, "authorityRefs": ["authority.p8.54-package-artifact"], "codeDiffRefs": [], "deltaRefs": ["delta.p8.55-package-artifact"], "evidenceRefs": ["evidence.p8.55-package-validation"], "graphDiffRef": null, "historyRefs": ["history.p8.55-package-artifact"], "id": "package.p8.55-sandbox-artifact", "kind": "package-artifact", "label": "Sandboxed WindowsUtility package artifact", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.55-sandboxed-package-artifact-creation-probe-report.json"], "status": "added"}, "proposal.p8.43-preflight": {"attributes": {"afterStatus": "intentgraph-windowsutility-source-application-applied", "beforeStatus": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed", "previewExactContentApplied": false}, "authorityRefs": ["authority.p8.43-preview-only"], "codeDiffRefs": [], "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.43-validation"], "graphDiffRef": "graphNodeDiff.proposal.p8.43-preflight", "historyRefs": ["history.p8.43-proposal-preview", "history.p8.44-source-application"], "id": "proposal.p8.43-preflight", "kind": "proposal", "label": "Minimal source edit proposal", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json"], "status": "changed"}, "requirement.p8.57-graph-delta-workbench": {"attributes": {}, "authorityRefs": ["authority.coordinator.p8.57"], "codeDiffRefs": [], "deltaRefs": ["delta.p8.57-approval-workbench-requirement"], "evidenceRefs": [], "graphDiffRef": null, "historyRefs": ["history.p8.57-requirement-record"], "id": "requirement.p8.57-graph-delta-workbench", "kind": "requirement", "label": "Approval workbench graph/delta/diff requirement", "sourceRefs": ["C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.57-approval-workbench-graph-delta-visualization-requirement-report.json"], "status": "added"}, "test.preflight.intentgraph-shell": {"attributes": {}, "authorityRefs": ["authority.p8.44-user-source-edit"], "codeDiffRefs": ["codeDiff.add-intentgraph-preflight"], "deltaRefs": ["delta.p8.44-apply-preflight"], "evidenceRefs": ["evidence.p8.44-final-preflight"], "graphDiffRef": null, "historyRefs": ["history.p8.44-source-application"], "id": "test.preflight.intentgraph-shell", "kind": "test", "label": "IntentGraph shell/workspace preflight", "sourceRefs": ["tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1"], "status": "added"}}, "nodesByKind": {"boundary": ["boundary.p8.58-graph-delta-workbench"], "code-file": ["code.file.intentgraph-preflight"], "code-surface": ["code.surface.windowsutility-shell"], "evidence": ["evidence.p8.44-build", "evidence.p8.44-final-preflight"], "intent": ["intent.shell-workspace"], "package-artifact": ["package.p8.55-sandbox-artifact"], "proposal": ["proposal.p8.43-preflight"], "requirement": ["requirement.p8.57-graph-delta-workbench"], "test": ["test.preflight.intentgraph-shell"]}, "outgoingEdgesByNode": {"boundary.p8.58-graph-delta-workbench": ["edge.boundary-requires-code-diff"], "code.file.intentgraph-preflight": ["edge.code-file-to-test"], "code.surface.windowsutility-shell": [], "evidence.p8.44-build": [], "evidence.p8.44-final-preflight": [], "intent.shell-workspace": ["edge.intent-to-surface"], "package.p8.55-sandbox-artifact": ["edge.package-derived-from-surface"], "proposal.p8.43-preflight": ["edge.proposal-to-code-file"], "requirement.p8.57-graph-delta-workbench": ["edge.requirement-drives-boundary"], "test.preflight.intentgraph-shell": ["edge.test-verifies-surface"]}}, "recommendedNextSlice": "P8.60 Static Graph Delta Approval Workbench Prototype", "reportVersion": "0.1.0", "scope": "p8.60-static-graph-delta-approval-workbench-prototype", "selectionModel": {"codeDiffPanelRequired": true, "edgeInspectorRequired": true, "evidenceAuthorityPanelRequired": true, "graphElementDiffPanelRequired": true, "nodeInspectorRequired": true}, "sourceArtifacts": [{"artifactRole": "intentgraph-approval-workbench-graph-delta-visualization-requirement-report", "byteLength": 4061, "decision": "approval-workbench-must-show-interactive-graph-delta-and-diff-before-further-approval-gates", "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.57-approval-workbench-graph-delta-visualization-requirement-report.json", "scope": "p8.57-approval-workbench-graph-delta-visualization-requirement-report-only", "sha256": "sha256:9b5a53c6263008eb995f2b5822a6a858011ec4eabeea72d3445dd6f1b7d9f0e0", "status": "intentgraph-approval-workbench-graph-delta-visualization-requirement-recorded", "workItem": "P8.57 Approval Workbench Graph Delta Visualization Requirement Record"}, {"artifactRole": "intentgraph-graph-delta-approval-workbench-boundary-plan-report", "byteLength": 7177, "decision": "graph-delta-approval-workbench-boundary-ready-for-projection-schema", "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.58-graph-delta-approval-workbench-boundary-plan-report.json", "scope": "p8.58-graph-delta-approval-workbench-boundary-plan-report-only", "sha256": "sha256:4229c8a2d7575ed937cf13780da7585e56bbb81848fcfb28daf5c6ecd7709f93", "status": "intentgraph-graph-delta-approval-workbench-boundary-plan-recorded", "workItem": "P8.58 Graph Delta Approval Workbench Boundary Plan"}, {"artifactRole": "intentgraph-windowsutility-minimal-source-edit-proposal", "byteLength": 2904, "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json", "scope": "p8.43-minimal-windowsutility-source-edit-proposal-and-patch-preview", "sha256": "sha256:2e2829c8b29795d231c7d204adcd066174069f9d229c057c3828a89ed33d6a30", "status": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed", "workItem": "P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview"}, {"artifactRole": "intentgraph-windowsutility-source-application-report", "byteLength": 3590, "decision": "minimal-source-edit-applied-and-validated", "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json", "scope": "p8.44-minimal-windowsutility-source-edit-application", "sha256": "sha256:1999d94b913ba07caa4db3f73e2f1ea1db1a92328333bb4dedd2cc2c88884835", "status": "intentgraph-windowsutility-source-application-applied", "workItem": "P8.44 Minimal WindowsUtility Source Edit Application"}, {"artifactRole": "intentgraph-sandboxed-package-artifact-creation-probe-summary", "byteLength": 3527, "decision": "sandboxed-package-artifact-created-and-validated-productization-still-blocked", "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.55-sandboxed-package-artifact-creation-probe-report.json", "scope": "p8.55-sandboxed-package-artifact-creation-probe-summary", "sha256": "sha256:9829269ef014a3262bca8c8834b3107584cfb350d03a4d96cbf7e9d8506c7cdc", "status": "intentgraph-sandboxed-package-artifact-creation-probe-passed", "workItem": "P8.55 Sandboxed Package Artifact Creation Probe"}, {"byteLength": 1057, "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/applied-Invoke-IntentGraphShellWorkspacePreflight.ps1", "sha256": "sha256:41ea32509a09b388bbc43f9ff4c7e5409ca650017c5088230e9bd4ab7b200a62"}], "sourceBoundary": {"artifactRole": "intentgraph-graph-delta-approval-workbench-boundary-plan-report", "decision": "graph-delta-approval-workbench-boundary-ready-for-projection-schema", "status": "intentgraph-graph-delta-approval-workbench-boundary-plan-recorded"}, "sourceProjection": {"artifactRole": "intentgraph-graph-delta-approval-workbench-projection", "byteLength": 52024, "path": "generated/windowsutility/graph-delta-approval-workbench/p8.59/projection.json", "scope": "p8.59-graph-delta-approval-workbench-projection-schema", "sha256": "sha256:199fd602253dabea8962e7b232d55af9a0aa15098a9cacf77552ff1b2b9f6d60", "status": "intentgraph-graph-delta-approval-workbench-projection-emitted", "workItem": "P8.59 Graph Delta Approval Workbench Projection Schema"}, "sourceRequirement": {"artifactRole": "intentgraph-approval-workbench-graph-delta-visualization-requirement-report", "decision": "approval-workbench-must-show-interactive-graph-delta-and-diff-before-further-approval-gates", "status": "intentgraph-approval-workbench-graph-delta-visualization-requirement-recorded"}, "status": "intentgraph-static-graph-delta-approval-workbench-projection-emitted", "uiContract": {"approvalControlsPresent": false, "externalRuntimeUrlsAllowed": false, "graphInteractionQuality": {"fitControl": true, "graphifyGradeInspectabilityTarget": true, "semanticZoomKeepsNodesAndEdgesReadable": true, "toolbarZoomControls": true, "userPanningEnabled": true, "wheelZoomEnabled": true}, "graphLibrary": "cytoscape", "graphLibraryVersion": "3.34.0", "mode": "static-local-approval-workbench", "mutationControlsPresent": false, "networkRequired": false, "selectionBehaviors": ["node-click-shows-node-inspector", "edge-click-shows-edge-inspector", "delta-step-click-highlights-affected-elements", "code-node-click-shows-code-diff", "changed-node-click-shows-graph-node-before-after-diff", "changed-edge-click-shows-graph-edge-before-after-diff"]}, "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"};</script>
+  <div class="shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">IntentGraph Approval Workbench</div>
+        <h1>Graph Delta Review: WindowsUtility Shell Workspace</h1>
+        <div class="summary">Inspect graph nodes, graph edges, code diffs, changed element diffs, evidence, and authority before any approval gate.</div>
+      </div>
+      <div class="badges">
+        <span class="badge ok">Local static</span>
+        <span class="badge warn">No approval automation</span>
+        <span class="badge">Cytoscape.js bundled</span>
+      </div>
+    </header>
+
+    <section class="workbench">
+      <nav class="rail">
+        <h2>Delta Steps</h2>
+        <div id="deltaSteps"></div>
+        <h2>Graph Counts</h2>
+        <div class="metricGrid">
+          <div class="metric"><strong id="nodeCount">0</strong><span class="small">nodes</span></div>
+          <div class="metric"><strong id="edgeCount">0</strong><span class="small">edges</span></div>
+          <div class="metric"><strong id="codeDiffCount">0</strong><span class="small">code diffs</span></div>
+          <div class="metric"><strong id="graphDiffCount">0</strong><span class="small">graph diffs</span></div>
+        </div>
+        <h2>Changed Elements</h2>
+        <div id="changedElements"></div>
+        <h2>Legend</h2>
+        <div class="legend">
+          <span class="added">Added node/edge</span>
+          <span class="changed">Changed existing node/edge</span>
+          <span class="code">Code element</span>
+          <span class="selected">Current selection</span>
+        </div>
+      </nav>
+
+      <main class="graphPane">
+        <div class="graphToolbar">
+          <div class="searchRow">
+            <input id="searchBox" type="search" placeholder="Search nodes or edges">
+            <select id="statusFilter" aria-label="Status filter">
+              <option value="all">All statuses</option>
+              <option value="added">Added</option>
+              <option value="changed">Changed</option>
+              <option value="unchanged">Unchanged</option>
+            </select>
+          </div>
+          <div class="toolButtons">
+            <button class="iconButton" id="zoomOut" title="Zoom out">-</button>
+            <button class="iconButton" id="zoomIn" title="Zoom in">+</button>
+            <button class="iconButton" id="fitGraph" title="Fit graph">Fit</button>
+            <button class="iconButton" id="resetFocus" title="Clear selection">Clear</button>
+          </div>
+        </div>
+        <div id="graphCanvas" aria-label="Graph delta canvas"></div>
+      </main>
+
+      <aside class="inspector">
+        <div id="inspectorPanel"></div>
+        <h2>Evidence / Authority</h2>
+        <div id="evidenceAuthorityPanel"></div>
+      </aside>
+
+      <section class="diffDock">
+        <div class="diffPane">
+          <h2>Code Diff</h2>
+          <div id="codeDiffPanel"></div>
+        </div>
+        <div class="diffPane">
+          <h2>Graph Element Diff</h2>
+          <div id="graphDiffPanel"></div>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <script>
+    const projection = window.__WORKBENCH_PROJECTION__;
+    const graph = projection.graph || { nodes: [], edges: [] };
+    const delta = projection.delta || {};
+    const indexes = projection.indexes || {};
+    const nodeById = new Map((graph.nodes || []).map((node) => [node.id, node]));
+    const edgeById = new Map((graph.edges || []).map((edge) => [edge.id, edge]));
+    const codeDiffById = new Map((delta.codeDiffs || []).map((diff) => [diff.id, diff]));
+    const graphNodeDiffById = new Map((delta.graphNodeDiffs || []).map((diff) => [diff.id, diff]));
+    const graphEdgeDiffById = new Map((delta.graphEdgeDiffs || []).map((diff) => [diff.id, diff]));
+    const stepById = new Map((delta.steps || []).map((step) => [step.id, step]));
+    let selected = null;
+    let selectedStepId = null;
+
+    const safe = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    })[char]);
+    const json = (value) => safe(JSON.stringify(value ?? null, null, 2));
+    const unique = (values) => Array.from(new Set((values || []).filter(Boolean)));
+    const list = (value) => Array.isArray(value) ? value : [];
+    const isCodeKind = (kind) => String(kind || "").startsWith("code");
+    const diffForElement = (data, group) => group === "nodes"
+      ? graphNodeDiffById.get(data.graphDiffRef)
+      : graphEdgeDiffById.get(data.graphDiffRef);
+    const codeDiffsFor = (data, group) => {
+      const refs = new Set(list(data.codeDiffRefs));
+      const graphDiff = diffForElement(data, group);
+      list(graphDiff && graphDiff.affectedCodeDiffRefs).forEach((ref) => refs.add(ref));
+      list(graphDiff && graphDiff.changedRefs).forEach((ref) => {
+        if (codeDiffById.has(ref)) refs.add(ref);
+      });
+      return Array.from(refs).map((ref) => codeDiffById.get(ref)).filter(Boolean);
+    };
+
+    function statusClass(status) {
+      return ["added", "changed", "removed"].includes(status) ? status : "";
+    }
+
+    function renderPills(values, className = "") {
+      if (!values || values.length === 0) return "<span class=\"pill\">none</span>";
+      return values.map((value) => `<span class="pill ${className}">${safe(value)}</span>`).join("");
+    }
+
+    function renderKv(rows) {
+      return `<div class="kv">${rows.map(([key, value]) => `
+        <div class="key">${safe(key)}</div>
+        <div class="value">${Array.isArray(value) ? renderPills(value) : safe(value)}</div>
+      `).join("")}</div>`;
+    }
+
+    function renderInspector(title, type, data) {
+      const graphDiff = diffForElement(data, type === "node" ? "nodes" : "edges");
+      const rows = [
+        ["id", data.id],
+        ["kind", data.kind],
+        ["status", data.status],
+        ["label", data.label || data.kind],
+      ];
+      if (type === "edge") {
+        rows.push(["source", data.source], ["target", data.target], ["confidence", data.confidence || ""]);
+      }
+      const diffLine = graphDiff ? `<div class="pillRow"><span class="pill changed">graph diff: ${safe(graphDiff.id)}</span></div>` : "";
+      document.getElementById("inspectorPanel").innerHTML = `
+        <h2>${safe(type)} inspector</h2>
+        <h3>${safe(title)}</h3>
+        ${renderKv(rows)}
+        ${diffLine}
+        <h2>Source refs</h2>
+        <div class="pillRow">${renderPills(list(data.sourceRefs))}</div>
+        <h2>Delta refs</h2>
+        <div class="pillRow">${renderPills(list(data.deltaRefs), statusClass(data.status))}</div>
+        <h2>Attributes</h2>
+        <pre>${json(data.attributes || {})}</pre>
+      `;
+      renderEvidenceAuthority(data, graphDiff);
+      renderCodeDiffs(codeDiffsFor(data, type === "node" ? "nodes" : "edges"));
+      renderGraphElementDiff(graphDiff, type);
+    }
+
+    function renderStepInspector(step) {
+      document.getElementById("inspectorPanel").innerHTML = `
+        <h2>delta step inspector</h2>
+        <h3>${safe(step.label)}</h3>
+        ${renderKv([
+          ["id", step.id],
+          ["status", step.status],
+          ["affected nodes", list(step.affectedNodeIds)],
+          ["affected edges", list(step.affectedEdgeIds)]
+        ])}
+        <h2>Graph diff refs</h2>
+        <div class="pillRow">${renderPills([...list(step.graphNodeDiffRefs), ...list(step.graphEdgeDiffRefs)], "changed")}</div>
+      `;
+      renderEvidenceAuthority(step, null);
+      renderCodeDiffs(list(step.codeDiffRefs).map((ref) => codeDiffById.get(ref)).filter(Boolean));
+      const graphDiffs = [
+        ...list(step.graphNodeDiffRefs).map((ref) => graphNodeDiffById.get(ref)).filter(Boolean),
+        ...list(step.graphEdgeDiffRefs).map((ref) => graphEdgeDiffById.get(ref)).filter(Boolean)
+      ];
+      renderGraphDiffList(graphDiffs);
+    }
+
+    function renderEvidenceAuthority(data, diff) {
+      const evidence = unique([...list(data.evidenceRefs), ...list(diff && diff.evidenceRefs)]);
+      const authority = unique([...list(data.authorityRefs), ...list(diff && diff.authorityRefs)]);
+      const history = unique([...list(data.historyRefs), ...list(diff && diff.historyRefs)]);
+      document.getElementById("evidenceAuthorityPanel").innerHTML = `
+        <div class="small">Evidence</div>
+        <div class="pillRow">${renderPills(evidence)}</div>
+        <div class="small" style="margin-top:12px">Authority</div>
+        <div class="pillRow">${renderPills(authority)}</div>
+        <div class="small" style="margin-top:12px">History</div>
+        <div class="pillRow">${renderPills(history)}</div>
+      `;
+    }
+
+    function renderCodeDiffs(diffs) {
+      const panel = document.getElementById("codeDiffPanel");
+      if (!diffs || diffs.length === 0) {
+        panel.innerHTML = `<div class="empty">No code diff is linked to the current selection.</div>`;
+        return;
+      }
+      panel.innerHTML = diffs.map((diff) => `
+        <article class="diffBlock">
+          <div class="diffHead">
+            <span>${safe(diff.id)}</span>
+            <span>${safe(diff.changeKind)}</span>
+          </div>
+          <div class="pillRow" style="padding:8px 10px">
+            ${renderPills(list(diff.affectedNodeIds), "added")}
+            ${renderPills(list(diff.affectedEdgeIds), "changed")}
+          </div>
+          ${(diff.diffHunks || []).map((hunk) => `<pre class="diffHunk">${safe(hunk)}</pre>`).join("")}
+        </article>
+      `).join("");
+    }
+
+    function renderGraphElementDiff(diff, type) {
+      if (!diff) {
+        document.getElementById("graphDiffPanel").innerHTML = `<div class="empty">No before/after graph diff is linked to the current selection.</div>`;
+        return;
+      }
+      document.getElementById("graphDiffPanel").innerHTML = `
+        <article class="diffBlock">
+          <div class="diffHead">
+            <span>${safe(diff.id)}</span>
+            <span>${safe(type)} ${safe(diff.changeKind)}</span>
+          </div>
+          <div style="padding:10px">
+            <div class="small">Changed fields</div>
+            <div class="pillRow">${renderPills(list(diff.changedFields), "changed")}</div>
+            <div class="jsonPair" style="margin-top:10px">
+              <div>
+                <div class="small">Before</div>
+                <pre>${json(diff.beforePayload)}</pre>
+              </div>
+              <div>
+                <div class="small">After</div>
+                <pre>${json(diff.afterPayload)}</pre>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderGraphDiffList(diffs) {
+      const panel = document.getElementById("graphDiffPanel");
+      if (!diffs || diffs.length === 0) {
+        panel.innerHTML = `<div class="empty">No changed node or edge diff is linked to this delta step.</div>`;
+        return;
+      }
+      panel.innerHTML = diffs.map((diff) => `
+        <article class="diffBlock">
+          <div class="diffHead"><span>${safe(diff.id)}</span><span>${safe(diff.elementKind)} ${safe(diff.changeKind)}</span></div>
+          <div style="padding:10px">
+            <div class="small">Changed fields</div>
+            <div class="pillRow">${renderPills(list(diff.changedFields), "changed")}</div>
+            <div class="jsonPair" style="margin-top:10px">
+              <div><div class="small">Before</div><pre>${json(diff.beforePayload)}</pre></div>
+              <div><div class="small">After</div><pre>${json(diff.afterPayload)}</pre></div>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function graphElements() {
+      const nodes = (graph.nodes || []).map((node) => ({
+        data: {
+          ...node,
+          label: node.label || node.id,
+          baseSize: isCodeKind(node.kind) ? 54 : 46,
+          baseFont: 10
+        },
+        classes: `${node.status || "unchanged"} ${isCodeKind(node.kind) ? "code-node" : ""}`
+      }));
+      const edges = (graph.edges || []).map((edge) => ({
+        data: {
+          ...edge,
+          label: edge.label || edge.kind,
+          baseWidth: edge.status === "changed" ? 3 : 2
+        },
+        classes: `${edge.status || "unchanged"}`
+      }));
+      return [...nodes, ...edges];
+    }
+
+    const cy = cytoscape({
+      container: document.getElementById("graphCanvas"),
+      elements: graphElements(),
+      userPanningEnabled: true,
+      userZoomingEnabled: true,
+      boxSelectionEnabled: false,
+      wheelSensitivity: 0.18,
+      minZoom: 0.35,
+      maxZoom: 2.8,
+      style: [
+        {
+          selector: "node",
+          style: {
+            "shape": "round-rectangle",
+            "background-color": "#ffffff",
+            "border-color": "#8795a8",
+            "border-width": 2,
+            "label": "data(label)",
+            "font-family": "ui-sans-serif, system-ui",
+            "font-size": 10,
+            "color": "#17202f",
+            "text-wrap": "wrap",
+            "text-max-width": 110,
+            "text-valign": "center",
+            "text-halign": "center",
+            "width": 48,
+            "height": 38,
+            "overlay-opacity": 0
+          }
+        },
+        { selector: "node[kind = 'intent']", style: { "shape": "hexagon", "background-color": "#f7fbff", "border-color": "#2f63d6" } },
+        { selector: "node[kind = 'evidence']", style: { "shape": "diamond", "background-color": "#f4fbf8", "border-color": "#16825d" } },
+        { selector: "node[kind = 'package-artifact']", style: { "shape": "tag", "background-color": "#fbf7ff", "border-color": "#7c58a8" } },
+        { selector: "node.code-node", style: { "shape": "round-rectangle", "background-color": "#ecf8fb", "border-color": "#145c72" } },
+        { selector: "node.added", style: { "background-color": "#e8f7f1", "border-color": "#16825d", "border-width": 3 } },
+        { selector: "node.changed", style: { "background-color": "#fff4db", "border-color": "#9a6500", "border-width": 3 } },
+        {
+          selector: "edge",
+          style: {
+            "curve-style": "bezier",
+            "target-arrow-shape": "triangle",
+            "target-arrow-color": "#7b8798",
+            "line-color": "#aeb8c6",
+            "width": 2,
+            "label": "data(label)",
+            "font-size": 9,
+            "text-background-color": "#eef2f7",
+            "text-background-opacity": 0.86,
+            "text-background-padding": 2,
+            "color": "#556174",
+            "overlay-opacity": 0
+          }
+        },
+        { selector: "edge.added", style: { "line-color": "#16825d", "target-arrow-color": "#16825d", "width": 3 } },
+        { selector: "edge.changed", style: { "line-color": "#9a6500", "target-arrow-color": "#9a6500", "line-style": "dashed", "width": 3 } },
+        { selector: ".faded", style: { "opacity": 0.18, "text-opacity": 0.06 } },
+        { selector: ".step-focus", style: { "opacity": 1, "z-index": 40 } },
+        { selector: ".selected", style: { "border-color": "#2f63d6", "line-color": "#2f63d6", "target-arrow-color": "#2f63d6", "border-width": 5, "width": 4, "z-index": 90 } },
+        { selector: "edge.selected", style: { "width": 5 } },
+        { selector: ".search-hit", style: { "border-color": "#111827", "line-color": "#111827", "target-arrow-color": "#111827", "z-index": 70 } }
+      ],
+      layout: {
+        name: "cose",
+        animate: false,
+        fit: true,
+        padding: 48,
+        nodeRepulsion: 6800,
+        idealEdgeLength: 115,
+        edgeElasticity: 90,
+        gravity: 0.26,
+        numIter: 1400
+      }
+    });
+
+    function applySemanticZoom() {
+      const z = cy.zoom();
+      const inv = 1 / Math.max(0.55, Math.min(1.9, z));
+      cy.batch(() => {
+        cy.nodes().forEach((node) => {
+          const base = node.data("baseSize") || 46;
+          node.style({
+            width: Math.round(base * inv),
+            height: Math.round((base * 0.78) * inv),
+            "font-size": Math.max(7, Math.min(12, 10 * inv))
+          });
+        });
+        cy.edges().forEach((edge) => {
+          const base = edge.data("baseWidth") || 2;
+          edge.style({
+            width: Math.max(1.2, base * inv),
+            "font-size": Math.max(7, Math.min(11, 9 * inv))
+          });
+        });
+      });
+    }
+
+    function focusElements(nodeIds, edgeIds) {
+      cy.elements().removeClass("faded step-focus selected");
+      if ((!nodeIds || nodeIds.length === 0) && (!edgeIds || edgeIds.length === 0)) return;
+      cy.elements().addClass("faded");
+      let targets = cy.collection();
+      (nodeIds || []).forEach((id) => { targets = targets.union(cy.getElementById(id)); });
+      (edgeIds || []).forEach((id) => { targets = targets.union(cy.getElementById(id)); });
+      targets.removeClass("faded").addClass("step-focus");
+      targets.connectedEdges().removeClass("faded").addClass("step-focus");
+      targets.connectedNodes().removeClass("faded").addClass("step-focus");
+    }
+
+    function selectGraphElement(group, id) {
+      selected = { group, id };
+      selectedStepId = null;
+      document.querySelectorAll(".item, .stepButton").forEach((el) => el.classList.remove("active"));
+      const ele = cy.getElementById(id);
+      cy.elements().removeClass("selected");
+      if (ele && ele.length) {
+        ele.addClass("selected");
+        if (group === "nodes") focusElements([id], []);
+        if (group === "edges") focusElements([], [id]);
+      }
+      if (group === "nodes") {
+        const data = nodeById.get(id);
+        if (data) renderInspector(data.label || id, "node", data);
+      } else {
+        const data = edgeById.get(id);
+        if (data) renderInspector(data.label || id, "edge", data);
+      }
+      const item = document.querySelector(`[data-element-id="${CSS.escape(id)}"]`);
+      if (item) item.classList.add("active");
+    }
+
+    function selectDeltaStep(id) {
+      const step = stepById.get(id);
+      if (!step) return;
+      selectedStepId = id;
+      selected = null;
+      document.querySelectorAll(".item, .stepButton").forEach((el) => el.classList.remove("active"));
+      const button = document.querySelector(`[data-step-id="${CSS.escape(id)}"]`);
+      if (button) button.classList.add("active");
+      focusElements(list(step.affectedNodeIds), list(step.affectedEdgeIds));
+      renderStepInspector(step);
+    }
+
+    function renderDeltaSteps() {
+      const holder = document.getElementById("deltaSteps");
+      holder.innerHTML = (delta.steps || []).map((step) => `
+        <button class="stepButton ${statusClass(step.status)}" data-step-id="${safe(step.id)}">
+          <div class="itemTitle">${safe(step.label)}</div>
+          <div class="itemMeta">${safe(step.status)} | ${list(step.affectedNodeIds).length} nodes | ${list(step.affectedEdgeIds).length} edges</div>
+        </button>
+      `).join("");
+      holder.querySelectorAll("[data-step-id]").forEach((button) => {
+        button.addEventListener("click", () => selectDeltaStep(button.getAttribute("data-step-id")));
+      });
+    }
+
+    function renderChangedElements() {
+      const changedNodes = (graph.nodes || []).filter((node) => node.status === "changed" || node.status === "added");
+      const changedEdges = (graph.edges || []).filter((edge) => edge.status === "changed" || edge.status === "added");
+      const entries = [
+        ...changedNodes.map((node) => ({ group: "nodes", id: node.id, label: node.label, status: node.status, kind: node.kind })),
+        ...changedEdges.map((edge) => ({ group: "edges", id: edge.id, label: `${edge.source} -> ${edge.target}`, status: edge.status, kind: edge.kind }))
+      ];
+      document.getElementById("changedElements").innerHTML = entries.map((entry) => `
+        <button class="item ${statusClass(entry.status)}" data-element-group="${entry.group}" data-element-id="${safe(entry.id)}">
+          <div class="itemTitle">${safe(entry.label || entry.id)}</div>
+          <div class="itemMeta">${safe(entry.status)} | ${safe(entry.kind)}</div>
+        </button>
+      `).join("");
+      document.querySelectorAll("[data-element-id]").forEach((button) => {
+        button.addEventListener("click", () => selectGraphElement(button.getAttribute("data-element-group"), button.getAttribute("data-element-id")));
+      });
+    }
+
+    function applySearchAndFilter() {
+      const query = document.getElementById("searchBox").value.trim().toLowerCase();
+      const status = document.getElementById("statusFilter").value;
+      cy.elements().removeClass("search-hit");
+      cy.elements().forEach((ele) => {
+        const data = ele.data();
+        const haystack = `${data.id} ${data.label || ""} ${data.kind || ""} ${data.source || ""} ${data.target || ""}`.toLowerCase();
+        const statusOk = status === "all" || data.status === status;
+        const queryOk = !query || haystack.includes(query);
+        ele.style("display", statusOk && queryOk ? "element" : "none");
+        if (query && queryOk) ele.addClass("search-hit");
+      });
+    }
+
+    function resetFocus() {
+      selected = null;
+      selectedStepId = null;
+      cy.elements().removeClass("faded step-focus selected search-hit");
+      document.querySelectorAll(".item, .stepButton").forEach((el) => el.classList.remove("active"));
+      renderInitialInspector();
+    }
+
+    function renderInitialInspector() {
+      document.getElementById("inspectorPanel").innerHTML = `
+        <h2>selection</h2>
+        <h3>Choose a graph node, graph edge, or delta step.</h3>
+        <div class="empty">Changed existing graph nodes and edges show before/after graph diffs. Code nodes and code-affecting steps show source code diffs.</div>
+      `;
+      document.getElementById("evidenceAuthorityPanel").innerHTML = `<div class="empty">Evidence, authority, and history refs appear here for the selected item.</div>`;
+      document.getElementById("codeDiffPanel").innerHTML = `<div class="empty">Select a code node or code-affecting delta step to inspect code changes.</div>`;
+      document.getElementById("graphDiffPanel").innerHTML = `<div class="empty">Select a changed node or changed edge to inspect graph before/after payloads.</div>`;
+    }
+
+    cy.on("tap", "node", (event) => selectGraphElement("nodes", event.target.id()));
+    cy.on("tap", "edge", (event) => selectGraphElement("edges", event.target.id()));
+    cy.on("tap", (event) => { if (event.target === cy) resetFocus(); });
+    cy.on("zoom", applySemanticZoom);
+    document.getElementById("zoomIn").addEventListener("click", () => cy.zoom({ level: cy.zoom() * 1.18, renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 } }));
+    document.getElementById("zoomOut").addEventListener("click", () => cy.zoom({ level: cy.zoom() / 1.18, renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 } }));
+    document.getElementById("fitGraph").addEventListener("click", () => cy.fit(undefined, 42));
+    document.getElementById("resetFocus").addEventListener("click", resetFocus);
+    document.getElementById("searchBox").addEventListener("input", applySearchAndFilter);
+    document.getElementById("statusFilter").addEventListener("change", applySearchAndFilter);
+
+    document.getElementById("nodeCount").textContent = String((graph.nodes || []).length);
+    document.getElementById("edgeCount").textContent = String((graph.edges || []).length);
+    document.getElementById("codeDiffCount").textContent = String((delta.codeDiffs || []).length);
+    document.getElementById("graphDiffCount").textContent = String((delta.graphNodeDiffs || []).length + (delta.graphEdgeDiffs || []).length);
+    renderDeltaSteps();
+    renderChangedElements();
+    renderInitialInspector();
+    applySemanticZoom();
+    setTimeout(() => cy.fit(undefined, 44), 0);
+  </script>
+</body>
+</html>

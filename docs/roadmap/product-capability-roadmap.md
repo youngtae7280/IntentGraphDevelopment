@@ -1940,3 +1940,29 @@ Next safe work:
 ```text
 P8.60 Static Graph Delta Approval Workbench Prototype
 ```
+
+## P8.60 Static Graph Delta Approval Workbench Prototype
+
+P8.60 result:
+
+```text
+Decision: static-graph-delta-approval-workbench-prototype-emitted-and-validated.
+```
+
+P8.60 produced:
+
+- `tools/emit_graph_delta_approval_workbench_static_html.py`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/projection.json`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/manifest.json`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/validation-report.json`
+- `generated/roadmap/p8.60-static-graph-delta-approval-workbench-prototype-report.json`
+- [P8.60 Static Graph Delta Approval Workbench Prototype](../reviews/p8.60-static-graph-delta-approval-workbench-prototype.md)
+
+P8.60 includes structural support for graph movement, wheel zoom, toolbar zoom-in, toolbar zoom-out, fit, semantic zoom readability, selected node/edge inspection, selected code-node code diff, and changed node/edge graph diff inspection.
+
+Next safe work:
+
+```text
+P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run
+```

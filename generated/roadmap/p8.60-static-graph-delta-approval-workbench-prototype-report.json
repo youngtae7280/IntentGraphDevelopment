@@ -1,0 +1,70 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "date": "2026-07-10",
+  "implementedSelectionBehaviors": [
+    "node selection inspector",
+    "edge selection inspector",
+    "delta step highlighting",
+    "code node code diff panel",
+    "changed node before/after graph diff panel",
+    "changed edge before/after graph diff panel",
+    "evidence and authority panel"
+  ],
+  "manifestDigest": "sha256:31b4db4f4d4f375ff066c2011f2b2491161bc396a160b06c23364b632e697d17",
+  "nonGoals": {
+    "approvalAutomation": false,
+    "graphMutationFromUi": false,
+    "packageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "productizationClaimed": false,
+    "releasePublishing": false,
+    "windowsUtilitySourceMutation": false
+  },
+  "outputDir": "generated/product-surfaces/graph-delta-approval-workbench/p8.60",
+  "producedArtifacts": [
+    "tools/emit_graph_delta_approval_workbench_static_html.py",
+    "generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html",
+    "generated/product-surfaces/graph-delta-approval-workbench/p8.60/projection.json",
+    "generated/product-surfaces/graph-delta-approval-workbench/p8.60/manifest.json",
+    "generated/product-surfaces/graph-delta-approval-workbench/p8.60/validation-report.json",
+    "generated/product-surfaces/graph-delta-approval-workbench/p8.60/assets/cytoscape.min.js",
+    "generated/product-surfaces/graph-delta-approval-workbench/p8.60/assets/cytoscape-license.txt"
+  ],
+  "recommendedNextSlice": "P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run",
+  "result": "pass",
+  "scope": "p8.60-static-graph-delta-approval-workbench-prototype",
+  "status": "intentgraph-roadmap-phase-completed",
+  "validation": {
+    "artifactRole": "intentgraph-static-graph-delta-approval-workbench-validation-report",
+    "counts": {
+      "codeDiffs": 1,
+      "deltaSteps": 3,
+      "edges": 7,
+      "graphEdgeDiffs": 1,
+      "graphNodeDiffs": 1,
+      "nodes": 10
+    },
+    "errors": [],
+    "result": "pass",
+    "scope": "p8.60-static-graph-delta-approval-workbench-prototype",
+    "status": "intentgraph-static-graph-delta-approval-workbench-validation-passed",
+    "uiChecks": {
+      "approvalAutomationPresent": false,
+      "changedEdgeDiffPanel": true,
+      "changedNodeDiffPanel": true,
+      "codeDiffPanel": true,
+      "deltaStepHighlighting": true,
+      "edgeInspector": true,
+      "graphCanvas": true,
+      "graphifyGradeInspectabilityTarget": true,
+      "localCytoscapeAsset": true,
+      "mutationControlsPresent": false,
+      "networkDependency": false,
+      "nodeInspector": true,
+      "panZoomInteraction": true,
+      "semanticZoom": true
+    },
+    "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
+  },
+  "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
+}

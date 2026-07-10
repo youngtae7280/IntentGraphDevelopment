@@ -2206,3 +2206,45 @@ Recommended next slice:
 ```text
 P8.60 Static Graph Delta Approval Workbench Prototype
 ```
+
+## Completed Slice: P8.60 Static Graph Delta Approval Workbench Prototype
+
+Goal: emit a static local HTML prototype for reviewing graph deltas, selected graph elements, code diffs, and changed graph element diffs before approval.
+
+Produced artifacts:
+
+- `tools/emit_graph_delta_approval_workbench_static_html.py`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/projection.json`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/manifest.json`
+- `generated/product-surfaces/graph-delta-approval-workbench/p8.60/validation-report.json`
+- `generated/roadmap/p8.60-static-graph-delta-approval-workbench-prototype-report.json`
+- [P8.60 Static Graph Delta Approval Workbench Prototype](../reviews/p8.60-static-graph-delta-approval-workbench-prototype.md)
+
+Decision:
+
+```text
+static-graph-delta-approval-workbench-prototype-emitted-and-validated
+```
+
+The prototype implements:
+
+- local Cytoscape.js graph canvas.
+- graph pan, wheel zoom, toolbar zoom-in, toolbar zoom-out, fit, and semantic zoom support.
+- node selection and edge selection.
+- delta step highlighting.
+- inspector panel for selected node or edge.
+- evidence/authority/history panel.
+- code diff panel for code nodes and code-affecting delta steps.
+- graph before/after diff panel for changed existing nodes.
+- graph before/after diff panel for changed existing edges.
+
+The browser visual/interaction QA remains separate because the in-app browser blocked direct `file://` automation for this artifact.
+
+Recommended next slice:
+
+```text
+P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run
+```
+
+P8.61 acceptance must include Graphify-grade inspectability checks: the graph must be movable, zoomable in and out, recoverable with fit, readable after zoom, and useful for inspecting selected nodes, selected edges, delta steps, code diffs, and changed graph element diffs.

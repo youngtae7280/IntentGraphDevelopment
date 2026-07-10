@@ -1,0 +1,1472 @@
+{
+  "artifactRole": "intentgraph-static-graph-delta-approval-workbench-projection",
+  "authorizations": {
+    "approvalAutomationAuthorized": false,
+    "graphMutationFromUiAuthorized": false,
+    "packageExtractionAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "productizationAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "claimScope": {
+    "approvalAutomation": false,
+    "codeDiffInspectorImplemented": true,
+    "edgeInspectorImplemented": true,
+    "evidenceAuthorityInspectorImplemented": true,
+    "graphDeltaVisualizationImplemented": true,
+    "graphElementDiffInspectorImplemented": true,
+    "graphMutationFromUi": false,
+    "graphUiImplemented": true,
+    "nodeInspectorImplemented": true,
+    "packageExtractionPerformed": false,
+    "packagedExecutableLaunchPerformed": false,
+    "productizationClaimed": false,
+    "projectionOnly": false,
+    "releasePublished": false,
+    "staticHtmlImplemented": true,
+    "windowsUtilitySourceMutated": false
+  },
+  "date": "2026-07-10",
+  "delta": {
+    "addedEdges": [
+      "edge.code-file-to-test",
+      "edge.test-verifies-surface",
+      "edge.package-derived-from-surface",
+      "edge.requirement-drives-boundary",
+      "edge.boundary-requires-code-diff"
+    ],
+    "addedNodes": [
+      "code.file.intentgraph-preflight",
+      "test.preflight.intentgraph-shell",
+      "package.p8.55-sandbox-artifact",
+      "requirement.p8.57-graph-delta-workbench",
+      "boundary.p8.58-graph-delta-workbench"
+    ],
+    "afterGraphRef": "generated/windowsutility/graph-delta-approval-workbench/p8.59/projection.json",
+    "beforeGraphRef": "generated/windowsutility/workbench/p8.51-packaging-release-workbench-projection.json",
+    "changedEdges": [
+      "edge.proposal-to-code-file"
+    ],
+    "changedNodes": [
+      "proposal.p8.43-preflight"
+    ],
+    "codeDiffs": [
+      {
+        "affectedEdgeIds": [
+          "edge.proposal-to-code-file",
+          "edge.code-file-to-test",
+          "edge.test-verifies-surface"
+        ],
+        "affectedNodeIds": [
+          "code.file.intentgraph-preflight",
+          "test.preflight.intentgraph-shell"
+        ],
+        "afterRange": {
+          "endLine": 39,
+          "startLine": 1
+        },
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "beforeRange": null,
+        "blockerIfMissing": null,
+        "changeKind": "add-file",
+        "deltaStepId": "deltaStep.p8.44-apply-preflight.add-file",
+        "diffHunks": [
+          "@@ -0,0 +1,39 @@\n+[CmdletBinding()]\n+param(\n+    [string]$RepoRoot = \"\"\n+)\n+\n+Set-StrictMode -Version Latest\n+$ErrorActionPreference = \"Stop\"\n+\n+$scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }\n+if ([string]::IsNullOrWhiteSpace($RepoRoot)) {\n+    $RepoRoot = (Resolve-Path (Join-Path $scriptRoot \"..\\..\")).Path\n+}\n+\n+function Test-RequiredPath {\n+    param(\n+        [Parameter(Mandatory = $true)]\n+        [string]$RelativePath\n+    )\n+\n+    $fullPath = Join-Path $RepoRoot $RelativePath\n+    if (-not (Test-Path -LiteralPath $fullPath)) {\n+        throw \"Required path is missing: $RelativePath\"\n+    }\n+\n+    Write-Host \"[ok] $RelativePath\"\n+}\n+\n+$requiredPaths = @(\n+    \"WindowsUtility.sln\",\n+    \"src\\WindowsUtility.App\\WindowsUtility.App.csproj\",\n+    \"src\\WindowsUtility.Shell\\WindowsUtility.Shell.csproj\",\n+    \"tests\\RegressionSmoke\\Invoke-WindowsUtilityRegressionSmoke.ps1\"\n+)\n+\n+foreach ($path in $requiredPaths) {\n+    Test-RequiredPath -RelativePath $path\n+}\n+\n+Write-Host \"IntentGraph shell/workspace source-application preflight passed.\""
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight",
+          "evidence.p8.44-build"
+        ],
+        "filePath": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+        "id": "codeDiff.add-intentgraph-preflight"
+      }
+    ],
+    "edgeStates": {
+      "added": 5,
+      "changed": 1,
+      "impacted": 0,
+      "removed": 0,
+      "unchanged": 1
+    },
+    "graphEdgeDiffs": [
+      {
+        "addedRefs": [
+          "evidence.p8.44-final-preflight",
+          "authority.p8.44-user-source-edit"
+        ],
+        "affectedCodeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "afterPayload": {
+          "attributes": {
+            "relationState": "applied-add"
+          },
+          "kind": "proposes",
+          "source": "proposal.p8.43-preflight",
+          "status": "changed",
+          "target": "code.file.intentgraph-preflight"
+        },
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "beforePayload": {
+          "attributes": {
+            "relationState": "planned-add"
+          },
+          "kind": "proposes",
+          "source": "proposal.p8.43-preflight",
+          "status": "planned",
+          "target": "code.file.intentgraph-preflight"
+        },
+        "blockerIfMissing": null,
+        "changeKind": "planned-to-applied",
+        "changedFields": [
+          "status",
+          "attributes.relationState"
+        ],
+        "changedRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaStepId": "deltaStep.p8.44-apply-preflight.apply",
+        "elementId": "edge.proposal-to-code-file",
+        "elementKind": "edge",
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "id": "graphEdgeDiff.edge.proposal-to-code-file",
+        "removedRefs": []
+      }
+    ],
+    "graphNodeDiffs": [
+      {
+        "addedRefs": [
+          "evidence.p8.44-final-preflight",
+          "evidence.p8.44-build",
+          "history.p8.44-source-application"
+        ],
+        "affectedCodeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "afterPayload": {
+          "applicationStatus": "applied",
+          "previewExactContentApplied": false,
+          "status": "intentgraph-windowsutility-source-application-applied",
+          "targetCommit": "ac5b2204442cde751f625a9979a4fdb437d468a8"
+        },
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "beforePayload": {
+          "applicationStatus": "not-applied",
+          "patchApplied": false,
+          "status": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed"
+        },
+        "blockerIfMissing": null,
+        "changeKind": "status-and-application-result",
+        "changedFields": [
+          "status",
+          "applicationStatus",
+          "previewExactContentApplied",
+          "targetCommit"
+        ],
+        "changedRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaStepId": "deltaStep.p8.44-apply-preflight.apply",
+        "elementId": "proposal.p8.43-preflight",
+        "elementKind": "proposal",
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight",
+          "evidence.p8.44-build"
+        ],
+        "id": "graphNodeDiff.proposal.p8.43-preflight",
+        "removedRefs": []
+      }
+    ],
+    "impactedEdges": [
+      "edge.intent-to-surface"
+    ],
+    "impactedNodes": [
+      "code.surface.windowsutility-shell"
+    ],
+    "nodeStates": {
+      "added": 5,
+      "changed": 1,
+      "impacted": 0,
+      "removed": 0,
+      "unchanged": 4
+    },
+    "removedEdges": [],
+    "removedNodes": [],
+    "steps": [
+      {
+        "affectedEdgeIds": [
+          "edge.proposal-to-code-file",
+          "edge.code-file-to-test",
+          "edge.test-verifies-surface"
+        ],
+        "affectedNodeIds": [
+          "proposal.p8.43-preflight",
+          "code.file.intentgraph-preflight",
+          "test.preflight.intentgraph-shell"
+        ],
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "codeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaId": "delta.p8.44-apply-preflight",
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight",
+          "evidence.p8.44-build"
+        ],
+        "graphEdgeDiffRefs": [
+          "graphEdgeDiff.edge.proposal-to-code-file"
+        ],
+        "graphNodeDiffRefs": [
+          "graphNodeDiff.proposal.p8.43-preflight"
+        ],
+        "id": "deltaStep.p8.44-apply-preflight.apply",
+        "label": "Apply shell/workspace preflight source edit",
+        "status": "applied"
+      },
+      {
+        "affectedEdgeIds": [
+          "edge.package-derived-from-surface"
+        ],
+        "affectedNodeIds": [
+          "package.p8.55-sandbox-artifact",
+          "code.surface.windowsutility-shell"
+        ],
+        "authorityRefs": [
+          "authority.p8.54-package-artifact"
+        ],
+        "codeDiffRefs": [],
+        "deltaId": "delta.p8.55-package-artifact",
+        "evidenceRefs": [
+          "evidence.p8.55-package-validation"
+        ],
+        "graphEdgeDiffRefs": [],
+        "graphNodeDiffRefs": [],
+        "id": "deltaStep.p8.55-package-artifact.create",
+        "label": "Create sandboxed package artifact",
+        "status": "recorded"
+      },
+      {
+        "affectedEdgeIds": [
+          "edge.requirement-drives-boundary",
+          "edge.boundary-requires-code-diff"
+        ],
+        "affectedNodeIds": [
+          "requirement.p8.57-graph-delta-workbench",
+          "boundary.p8.58-graph-delta-workbench"
+        ],
+        "authorityRefs": [
+          "authority.coordinator.p8.57",
+          "authority.roadmap.p8.58"
+        ],
+        "codeDiffRefs": [],
+        "deltaId": "delta.p8.58-boundary-plan",
+        "evidenceRefs": [],
+        "graphEdgeDiffRefs": [],
+        "graphNodeDiffRefs": [],
+        "id": "deltaStep.p8.58-boundary-plan.record",
+        "label": "Record graph delta approval workbench boundary",
+        "status": "recorded"
+      }
+    ]
+  },
+  "graph": {
+    "edges": [
+      {
+        "attributes": {},
+        "authorityRefs": [],
+        "confidence": "extracted",
+        "deltaRefs": [],
+        "evidenceRefs": [
+          "evidence.p8.44-build"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.intent-to-surface",
+        "kind": "targets",
+        "label": "targets",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "intent.shell-workspace",
+        "status": "unchanged",
+        "target": "code.surface.windowsutility-shell"
+      },
+      {
+        "attributes": {
+          "afterRelation": "applied-add",
+          "beforeRelation": "planned-add"
+        },
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": "graphEdgeDiff.edge.proposal-to-code-file",
+        "historyRefs": [
+          "history.p8.44-source-application"
+        ],
+        "id": "edge.proposal-to-code-file",
+        "kind": "proposes",
+        "label": "proposes",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "proposal.p8.43-preflight",
+        "status": "changed",
+        "target": "code.file.intentgraph-preflight"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.code-file-to-test",
+        "kind": "contains",
+        "label": "contains",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "code.file.intentgraph-preflight",
+        "status": "added",
+        "target": "test.preflight.intentgraph-shell"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.test-verifies-surface",
+        "kind": "verifies",
+        "label": "verifies",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "test.preflight.intentgraph-shell",
+        "status": "added",
+        "target": "code.surface.windowsutility-shell"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.p8.54-package-artifact"
+        ],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.55-package-artifact"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.55-package-validation"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.package-derived-from-surface",
+        "kind": "packages",
+        "label": "packages",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "package.p8.55-sandbox-artifact",
+        "status": "added",
+        "target": "code.surface.windowsutility-shell"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.coordinator.p8.57"
+        ],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.58-boundary-plan"
+        ],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.requirement-drives-boundary",
+        "kind": "drives",
+        "label": "drives",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "requirement.p8.57-graph-delta-workbench",
+        "status": "added",
+        "target": "boundary.p8.58-graph-delta-workbench"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.58-boundary-plan"
+        ],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.boundary-requires-code-diff",
+        "kind": "requires",
+        "label": "requires",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "boundary.p8.58-graph-delta-workbench",
+        "status": "added",
+        "target": "code.file.intentgraph-preflight"
+      }
+    ],
+    "nodes": [
+      {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [],
+        "evidenceRefs": [
+          "evidence.p8.44-build",
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.44-source-application"
+        ],
+        "id": "intent.shell-workspace",
+        "kind": "intent",
+        "label": "WindowsUtility shell/workspace review intent",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json",
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"
+        ],
+        "status": "unchanged"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [],
+        "codeDiffRefs": [],
+        "deltaRefs": [],
+        "evidenceRefs": [
+          "evidence.p8.44-build"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "code.surface.windowsutility-shell",
+        "kind": "code-surface",
+        "label": "WindowsUtility shell/workspace code surface",
+        "sourceRefs": [
+          "src/WindowsUtility.App/WindowsUtility.App.csproj",
+          "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+        ],
+        "status": "unchanged"
+      },
+      {
+        "attributes": {
+          "afterStatus": "intentgraph-windowsutility-source-application-applied",
+          "beforeStatus": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed",
+          "previewExactContentApplied": false
+        },
+        "authorityRefs": [
+          "authority.p8.43-preview-only"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.43-validation"
+        ],
+        "graphDiffRef": "graphNodeDiff.proposal.p8.43-preflight",
+        "historyRefs": [
+          "history.p8.43-proposal-preview",
+          "history.p8.44-source-application"
+        ],
+        "id": "proposal.p8.43-preflight",
+        "kind": "proposal",
+        "label": "Minimal source edit proposal",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json"
+        ],
+        "status": "changed"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "codeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.44-source-application"
+        ],
+        "id": "code.file.intentgraph-preflight",
+        "kind": "code-file",
+        "label": "Invoke-IntentGraphShellWorkspacePreflight.ps1",
+        "sourceRefs": [
+          "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/applied-Invoke-IntentGraphShellWorkspacePreflight.ps1"
+        ],
+        "status": "added"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "codeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.44-source-application"
+        ],
+        "id": "test.preflight.intentgraph-shell",
+        "kind": "test",
+        "label": "IntentGraph shell/workspace preflight",
+        "sourceRefs": [
+          "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1"
+        ],
+        "status": "added"
+      },
+      {
+        "attributes": {
+          "result": "pass"
+        },
+        "authorityRefs": [],
+        "codeDiffRefs": [],
+        "deltaRefs": [],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "evidence.p8.44-final-preflight",
+        "kind": "evidence",
+        "label": "Final preflight passed",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"
+        ],
+        "status": "unchanged"
+      },
+      {
+        "attributes": {
+          "result": "pass"
+        },
+        "authorityRefs": [],
+        "codeDiffRefs": [],
+        "deltaRefs": [],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "evidence.p8.44-build",
+        "kind": "evidence",
+        "label": "WindowsUtility build passed",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"
+        ],
+        "status": "unchanged"
+      },
+      {
+        "attributes": {
+          "byteLength": 4072027,
+          "fileCount": 39,
+          "sha256": "sha256:1de950e8f3ed79a2399ffba50e9c1b59d0a4cb92ff1b9b7ee3332e5b15ccc4fe"
+        },
+        "authorityRefs": [
+          "authority.p8.54-package-artifact"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [
+          "delta.p8.55-package-artifact"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.55-package-validation"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.55-package-artifact"
+        ],
+        "id": "package.p8.55-sandbox-artifact",
+        "kind": "package-artifact",
+        "label": "Sandboxed WindowsUtility package artifact",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.55-sandboxed-package-artifact-creation-probe-report.json"
+        ],
+        "status": "added"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.coordinator.p8.57"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [
+          "delta.p8.57-approval-workbench-requirement"
+        ],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.57-requirement-record"
+        ],
+        "id": "requirement.p8.57-graph-delta-workbench",
+        "kind": "requirement",
+        "label": "Approval workbench graph/delta/diff requirement",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.57-approval-workbench-graph-delta-visualization-requirement-report.json"
+        ],
+        "status": "added"
+      },
+      {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.roadmap.p8.58"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [
+          "delta.p8.58-boundary-plan"
+        ],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.58-boundary-plan"
+        ],
+        "id": "boundary.p8.58-graph-delta-workbench",
+        "kind": "boundary",
+        "label": "Graph delta approval workbench boundary",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.58-graph-delta-approval-workbench-boundary-plan-report.json"
+        ],
+        "status": "added"
+      }
+    ]
+  },
+  "indexes": {
+    "codeDiffsById": {
+      "codeDiff.add-intentgraph-preflight": {
+        "affectedEdgeIds": [
+          "edge.proposal-to-code-file",
+          "edge.code-file-to-test",
+          "edge.test-verifies-surface"
+        ],
+        "affectedNodeIds": [
+          "code.file.intentgraph-preflight",
+          "test.preflight.intentgraph-shell"
+        ],
+        "afterRange": {
+          "endLine": 39,
+          "startLine": 1
+        },
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "beforeRange": null,
+        "blockerIfMissing": null,
+        "changeKind": "add-file",
+        "deltaStepId": "deltaStep.p8.44-apply-preflight.add-file",
+        "diffHunks": [
+          "@@ -0,0 +1,39 @@\n+[CmdletBinding()]\n+param(\n+    [string]$RepoRoot = \"\"\n+)\n+\n+Set-StrictMode -Version Latest\n+$ErrorActionPreference = \"Stop\"\n+\n+$scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }\n+if ([string]::IsNullOrWhiteSpace($RepoRoot)) {\n+    $RepoRoot = (Resolve-Path (Join-Path $scriptRoot \"..\\..\")).Path\n+}\n+\n+function Test-RequiredPath {\n+    param(\n+        [Parameter(Mandatory = $true)]\n+        [string]$RelativePath\n+    )\n+\n+    $fullPath = Join-Path $RepoRoot $RelativePath\n+    if (-not (Test-Path -LiteralPath $fullPath)) {\n+        throw \"Required path is missing: $RelativePath\"\n+    }\n+\n+    Write-Host \"[ok] $RelativePath\"\n+}\n+\n+$requiredPaths = @(\n+    \"WindowsUtility.sln\",\n+    \"src\\WindowsUtility.App\\WindowsUtility.App.csproj\",\n+    \"src\\WindowsUtility.Shell\\WindowsUtility.Shell.csproj\",\n+    \"tests\\RegressionSmoke\\Invoke-WindowsUtilityRegressionSmoke.ps1\"\n+)\n+\n+foreach ($path in $requiredPaths) {\n+    Test-RequiredPath -RelativePath $path\n+}\n+\n+Write-Host \"IntentGraph shell/workspace source-application preflight passed.\""
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight",
+          "evidence.p8.44-build"
+        ],
+        "filePath": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+        "id": "codeDiff.add-intentgraph-preflight"
+      }
+    },
+    "deltaStepsById": {
+      "deltaStep.p8.44-apply-preflight.apply": {
+        "affectedEdgeIds": [
+          "edge.proposal-to-code-file",
+          "edge.code-file-to-test",
+          "edge.test-verifies-surface"
+        ],
+        "affectedNodeIds": [
+          "proposal.p8.43-preflight",
+          "code.file.intentgraph-preflight",
+          "test.preflight.intentgraph-shell"
+        ],
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "codeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaId": "delta.p8.44-apply-preflight",
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight",
+          "evidence.p8.44-build"
+        ],
+        "graphEdgeDiffRefs": [
+          "graphEdgeDiff.edge.proposal-to-code-file"
+        ],
+        "graphNodeDiffRefs": [
+          "graphNodeDiff.proposal.p8.43-preflight"
+        ],
+        "id": "deltaStep.p8.44-apply-preflight.apply",
+        "label": "Apply shell/workspace preflight source edit",
+        "status": "applied"
+      },
+      "deltaStep.p8.55-package-artifact.create": {
+        "affectedEdgeIds": [
+          "edge.package-derived-from-surface"
+        ],
+        "affectedNodeIds": [
+          "package.p8.55-sandbox-artifact",
+          "code.surface.windowsutility-shell"
+        ],
+        "authorityRefs": [
+          "authority.p8.54-package-artifact"
+        ],
+        "codeDiffRefs": [],
+        "deltaId": "delta.p8.55-package-artifact",
+        "evidenceRefs": [
+          "evidence.p8.55-package-validation"
+        ],
+        "graphEdgeDiffRefs": [],
+        "graphNodeDiffRefs": [],
+        "id": "deltaStep.p8.55-package-artifact.create",
+        "label": "Create sandboxed package artifact",
+        "status": "recorded"
+      },
+      "deltaStep.p8.58-boundary-plan.record": {
+        "affectedEdgeIds": [
+          "edge.requirement-drives-boundary",
+          "edge.boundary-requires-code-diff"
+        ],
+        "affectedNodeIds": [
+          "requirement.p8.57-graph-delta-workbench",
+          "boundary.p8.58-graph-delta-workbench"
+        ],
+        "authorityRefs": [
+          "authority.coordinator.p8.57",
+          "authority.roadmap.p8.58"
+        ],
+        "codeDiffRefs": [],
+        "deltaId": "delta.p8.58-boundary-plan",
+        "evidenceRefs": [],
+        "graphEdgeDiffRefs": [],
+        "graphNodeDiffRefs": [],
+        "id": "deltaStep.p8.58-boundary-plan.record",
+        "label": "Record graph delta approval workbench boundary",
+        "status": "recorded"
+      }
+    },
+    "edgesById": {
+      "edge.boundary-requires-code-diff": {
+        "attributes": {},
+        "authorityRefs": [],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.58-boundary-plan"
+        ],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.boundary-requires-code-diff",
+        "kind": "requires",
+        "label": "requires",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "boundary.p8.58-graph-delta-workbench",
+        "status": "added",
+        "target": "code.file.intentgraph-preflight"
+      },
+      "edge.code-file-to-test": {
+        "attributes": {},
+        "authorityRefs": [],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.code-file-to-test",
+        "kind": "contains",
+        "label": "contains",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "code.file.intentgraph-preflight",
+        "status": "added",
+        "target": "test.preflight.intentgraph-shell"
+      },
+      "edge.intent-to-surface": {
+        "attributes": {},
+        "authorityRefs": [],
+        "confidence": "extracted",
+        "deltaRefs": [],
+        "evidenceRefs": [
+          "evidence.p8.44-build"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.intent-to-surface",
+        "kind": "targets",
+        "label": "targets",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "intent.shell-workspace",
+        "status": "unchanged",
+        "target": "code.surface.windowsutility-shell"
+      },
+      "edge.package-derived-from-surface": {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.p8.54-package-artifact"
+        ],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.55-package-artifact"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.55-package-validation"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.package-derived-from-surface",
+        "kind": "packages",
+        "label": "packages",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "package.p8.55-sandbox-artifact",
+        "status": "added",
+        "target": "code.surface.windowsutility-shell"
+      },
+      "edge.proposal-to-code-file": {
+        "attributes": {
+          "afterRelation": "applied-add",
+          "beforeRelation": "planned-add"
+        },
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": "graphEdgeDiff.edge.proposal-to-code-file",
+        "historyRefs": [
+          "history.p8.44-source-application"
+        ],
+        "id": "edge.proposal-to-code-file",
+        "kind": "proposes",
+        "label": "proposes",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "proposal.p8.43-preflight",
+        "status": "changed",
+        "target": "code.file.intentgraph-preflight"
+      },
+      "edge.requirement-drives-boundary": {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.coordinator.p8.57"
+        ],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.58-boundary-plan"
+        ],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.requirement-drives-boundary",
+        "kind": "drives",
+        "label": "drives",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "requirement.p8.57-graph-delta-workbench",
+        "status": "added",
+        "target": "boundary.p8.58-graph-delta-workbench"
+      },
+      "edge.test-verifies-surface": {
+        "attributes": {},
+        "authorityRefs": [],
+        "confidence": "extracted",
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "edge.test-verifies-surface",
+        "kind": "verifies",
+        "label": "verifies",
+        "provenance": "generated-from-p8.59-projection-schema",
+        "source": "test.preflight.intentgraph-shell",
+        "status": "added",
+        "target": "code.surface.windowsutility-shell"
+      }
+    },
+    "edgesByKind": {
+      "contains": [
+        "edge.code-file-to-test"
+      ],
+      "drives": [
+        "edge.requirement-drives-boundary"
+      ],
+      "packages": [
+        "edge.package-derived-from-surface"
+      ],
+      "proposes": [
+        "edge.proposal-to-code-file"
+      ],
+      "requires": [
+        "edge.boundary-requires-code-diff"
+      ],
+      "targets": [
+        "edge.intent-to-surface"
+      ],
+      "verifies": [
+        "edge.test-verifies-surface"
+      ]
+    },
+    "graphEdgeDiffsById": {
+      "graphEdgeDiff.edge.proposal-to-code-file": {
+        "addedRefs": [
+          "evidence.p8.44-final-preflight",
+          "authority.p8.44-user-source-edit"
+        ],
+        "affectedCodeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "afterPayload": {
+          "attributes": {
+            "relationState": "applied-add"
+          },
+          "kind": "proposes",
+          "source": "proposal.p8.43-preflight",
+          "status": "changed",
+          "target": "code.file.intentgraph-preflight"
+        },
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "beforePayload": {
+          "attributes": {
+            "relationState": "planned-add"
+          },
+          "kind": "proposes",
+          "source": "proposal.p8.43-preflight",
+          "status": "planned",
+          "target": "code.file.intentgraph-preflight"
+        },
+        "blockerIfMissing": null,
+        "changeKind": "planned-to-applied",
+        "changedFields": [
+          "status",
+          "attributes.relationState"
+        ],
+        "changedRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaStepId": "deltaStep.p8.44-apply-preflight.apply",
+        "elementId": "edge.proposal-to-code-file",
+        "elementKind": "edge",
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "id": "graphEdgeDiff.edge.proposal-to-code-file",
+        "removedRefs": []
+      }
+    },
+    "graphNodeDiffsById": {
+      "graphNodeDiff.proposal.p8.43-preflight": {
+        "addedRefs": [
+          "evidence.p8.44-final-preflight",
+          "evidence.p8.44-build",
+          "history.p8.44-source-application"
+        ],
+        "affectedCodeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "afterPayload": {
+          "applicationStatus": "applied",
+          "previewExactContentApplied": false,
+          "status": "intentgraph-windowsutility-source-application-applied",
+          "targetCommit": "ac5b2204442cde751f625a9979a4fdb437d468a8"
+        },
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "beforePayload": {
+          "applicationStatus": "not-applied",
+          "patchApplied": false,
+          "status": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed"
+        },
+        "blockerIfMissing": null,
+        "changeKind": "status-and-application-result",
+        "changedFields": [
+          "status",
+          "applicationStatus",
+          "previewExactContentApplied",
+          "targetCommit"
+        ],
+        "changedRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaStepId": "deltaStep.p8.44-apply-preflight.apply",
+        "elementId": "proposal.p8.43-preflight",
+        "elementKind": "proposal",
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight",
+          "evidence.p8.44-build"
+        ],
+        "id": "graphNodeDiff.proposal.p8.43-preflight",
+        "removedRefs": []
+      }
+    },
+    "incomingEdgesByNode": {
+      "boundary.p8.58-graph-delta-workbench": [
+        "edge.requirement-drives-boundary"
+      ],
+      "code.file.intentgraph-preflight": [
+        "edge.proposal-to-code-file",
+        "edge.boundary-requires-code-diff"
+      ],
+      "code.surface.windowsutility-shell": [
+        "edge.intent-to-surface",
+        "edge.test-verifies-surface",
+        "edge.package-derived-from-surface"
+      ],
+      "evidence.p8.44-build": [],
+      "evidence.p8.44-final-preflight": [],
+      "intent.shell-workspace": [],
+      "package.p8.55-sandbox-artifact": [],
+      "proposal.p8.43-preflight": [],
+      "requirement.p8.57-graph-delta-workbench": [],
+      "test.preflight.intentgraph-shell": [
+        "edge.code-file-to-test"
+      ]
+    },
+    "nodesById": {
+      "boundary.p8.58-graph-delta-workbench": {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.roadmap.p8.58"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [
+          "delta.p8.58-boundary-plan"
+        ],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.58-boundary-plan"
+        ],
+        "id": "boundary.p8.58-graph-delta-workbench",
+        "kind": "boundary",
+        "label": "Graph delta approval workbench boundary",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.58-graph-delta-approval-workbench-boundary-plan-report.json"
+        ],
+        "status": "added"
+      },
+      "code.file.intentgraph-preflight": {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "codeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.44-source-application"
+        ],
+        "id": "code.file.intentgraph-preflight",
+        "kind": "code-file",
+        "label": "Invoke-IntentGraphShellWorkspacePreflight.ps1",
+        "sourceRefs": [
+          "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/applied-Invoke-IntentGraphShellWorkspacePreflight.ps1"
+        ],
+        "status": "added"
+      },
+      "code.surface.windowsutility-shell": {
+        "attributes": {},
+        "authorityRefs": [],
+        "codeDiffRefs": [],
+        "deltaRefs": [],
+        "evidenceRefs": [
+          "evidence.p8.44-build"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "code.surface.windowsutility-shell",
+        "kind": "code-surface",
+        "label": "WindowsUtility shell/workspace code surface",
+        "sourceRefs": [
+          "src/WindowsUtility.App/WindowsUtility.App.csproj",
+          "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+        ],
+        "status": "unchanged"
+      },
+      "evidence.p8.44-build": {
+        "attributes": {
+          "result": "pass"
+        },
+        "authorityRefs": [],
+        "codeDiffRefs": [],
+        "deltaRefs": [],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "evidence.p8.44-build",
+        "kind": "evidence",
+        "label": "WindowsUtility build passed",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"
+        ],
+        "status": "unchanged"
+      },
+      "evidence.p8.44-final-preflight": {
+        "attributes": {
+          "result": "pass"
+        },
+        "authorityRefs": [],
+        "codeDiffRefs": [],
+        "deltaRefs": [],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [],
+        "id": "evidence.p8.44-final-preflight",
+        "kind": "evidence",
+        "label": "Final preflight passed",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"
+        ],
+        "status": "unchanged"
+      },
+      "intent.shell-workspace": {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [],
+        "evidenceRefs": [
+          "evidence.p8.44-build",
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.44-source-application"
+        ],
+        "id": "intent.shell-workspace",
+        "kind": "intent",
+        "label": "WindowsUtility shell/workspace review intent",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json",
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json"
+        ],
+        "status": "unchanged"
+      },
+      "package.p8.55-sandbox-artifact": {
+        "attributes": {
+          "byteLength": 4072027,
+          "fileCount": 39,
+          "sha256": "sha256:1de950e8f3ed79a2399ffba50e9c1b59d0a4cb92ff1b9b7ee3332e5b15ccc4fe"
+        },
+        "authorityRefs": [
+          "authority.p8.54-package-artifact"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [
+          "delta.p8.55-package-artifact"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.55-package-validation"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.55-package-artifact"
+        ],
+        "id": "package.p8.55-sandbox-artifact",
+        "kind": "package-artifact",
+        "label": "Sandboxed WindowsUtility package artifact",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.55-sandboxed-package-artifact-creation-probe-report.json"
+        ],
+        "status": "added"
+      },
+      "proposal.p8.43-preflight": {
+        "attributes": {
+          "afterStatus": "intentgraph-windowsutility-source-application-applied",
+          "beforeStatus": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed",
+          "previewExactContentApplied": false
+        },
+        "authorityRefs": [
+          "authority.p8.43-preview-only"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.43-validation"
+        ],
+        "graphDiffRef": "graphNodeDiff.proposal.p8.43-preflight",
+        "historyRefs": [
+          "history.p8.43-proposal-preview",
+          "history.p8.44-source-application"
+        ],
+        "id": "proposal.p8.43-preflight",
+        "kind": "proposal",
+        "label": "Minimal source edit proposal",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json"
+        ],
+        "status": "changed"
+      },
+      "requirement.p8.57-graph-delta-workbench": {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.coordinator.p8.57"
+        ],
+        "codeDiffRefs": [],
+        "deltaRefs": [
+          "delta.p8.57-approval-workbench-requirement"
+        ],
+        "evidenceRefs": [],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.57-requirement-record"
+        ],
+        "id": "requirement.p8.57-graph-delta-workbench",
+        "kind": "requirement",
+        "label": "Approval workbench graph/delta/diff requirement",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.57-approval-workbench-graph-delta-visualization-requirement-report.json"
+        ],
+        "status": "added"
+      },
+      "test.preflight.intentgraph-shell": {
+        "attributes": {},
+        "authorityRefs": [
+          "authority.p8.44-user-source-edit"
+        ],
+        "codeDiffRefs": [
+          "codeDiff.add-intentgraph-preflight"
+        ],
+        "deltaRefs": [
+          "delta.p8.44-apply-preflight"
+        ],
+        "evidenceRefs": [
+          "evidence.p8.44-final-preflight"
+        ],
+        "graphDiffRef": null,
+        "historyRefs": [
+          "history.p8.44-source-application"
+        ],
+        "id": "test.preflight.intentgraph-shell",
+        "kind": "test",
+        "label": "IntentGraph shell/workspace preflight",
+        "sourceRefs": [
+          "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1"
+        ],
+        "status": "added"
+      }
+    },
+    "nodesByKind": {
+      "boundary": [
+        "boundary.p8.58-graph-delta-workbench"
+      ],
+      "code-file": [
+        "code.file.intentgraph-preflight"
+      ],
+      "code-surface": [
+        "code.surface.windowsutility-shell"
+      ],
+      "evidence": [
+        "evidence.p8.44-build",
+        "evidence.p8.44-final-preflight"
+      ],
+      "intent": [
+        "intent.shell-workspace"
+      ],
+      "package-artifact": [
+        "package.p8.55-sandbox-artifact"
+      ],
+      "proposal": [
+        "proposal.p8.43-preflight"
+      ],
+      "requirement": [
+        "requirement.p8.57-graph-delta-workbench"
+      ],
+      "test": [
+        "test.preflight.intentgraph-shell"
+      ]
+    },
+    "outgoingEdgesByNode": {
+      "boundary.p8.58-graph-delta-workbench": [
+        "edge.boundary-requires-code-diff"
+      ],
+      "code.file.intentgraph-preflight": [
+        "edge.code-file-to-test"
+      ],
+      "code.surface.windowsutility-shell": [],
+      "evidence.p8.44-build": [],
+      "evidence.p8.44-final-preflight": [],
+      "intent.shell-workspace": [
+        "edge.intent-to-surface"
+      ],
+      "package.p8.55-sandbox-artifact": [
+        "edge.package-derived-from-surface"
+      ],
+      "proposal.p8.43-preflight": [
+        "edge.proposal-to-code-file"
+      ],
+      "requirement.p8.57-graph-delta-workbench": [
+        "edge.requirement-drives-boundary"
+      ],
+      "test.preflight.intentgraph-shell": [
+        "edge.test-verifies-surface"
+      ]
+    }
+  },
+  "recommendedNextSlice": "P8.60 Static Graph Delta Approval Workbench Prototype",
+  "reportVersion": "0.1.0",
+  "scope": "p8.60-static-graph-delta-approval-workbench-prototype",
+  "selectionModel": {
+    "codeDiffPanelRequired": true,
+    "edgeInspectorRequired": true,
+    "evidenceAuthorityPanelRequired": true,
+    "graphElementDiffPanelRequired": true,
+    "nodeInspectorRequired": true
+  },
+  "sourceArtifacts": [
+    {
+      "artifactRole": "intentgraph-approval-workbench-graph-delta-visualization-requirement-report",
+      "byteLength": 4061,
+      "decision": "approval-workbench-must-show-interactive-graph-delta-and-diff-before-further-approval-gates",
+      "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.57-approval-workbench-graph-delta-visualization-requirement-report.json",
+      "scope": "p8.57-approval-workbench-graph-delta-visualization-requirement-report-only",
+      "sha256": "sha256:9b5a53c6263008eb995f2b5822a6a858011ec4eabeea72d3445dd6f1b7d9f0e0",
+      "status": "intentgraph-approval-workbench-graph-delta-visualization-requirement-recorded",
+      "workItem": "P8.57 Approval Workbench Graph Delta Visualization Requirement Record"
+    },
+    {
+      "artifactRole": "intentgraph-graph-delta-approval-workbench-boundary-plan-report",
+      "byteLength": 7177,
+      "decision": "graph-delta-approval-workbench-boundary-ready-for-projection-schema",
+      "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.58-graph-delta-approval-workbench-boundary-plan-report.json",
+      "scope": "p8.58-graph-delta-approval-workbench-boundary-plan-report-only",
+      "sha256": "sha256:4229c8a2d7575ed937cf13780da7585e56bbb81848fcfb28daf5c6ecd7709f93",
+      "status": "intentgraph-graph-delta-approval-workbench-boundary-plan-recorded",
+      "workItem": "P8.58 Graph Delta Approval Workbench Boundary Plan"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-minimal-source-edit-proposal",
+      "byteLength": 2904,
+      "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json",
+      "scope": "p8.43-minimal-windowsutility-source-edit-proposal-and-patch-preview",
+      "sha256": "sha256:2e2829c8b29795d231c7d204adcd066174069f9d229c057c3828a89ed33d6a30",
+      "status": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed",
+      "workItem": "P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-source-application-report",
+      "byteLength": 3590,
+      "decision": "minimal-source-edit-applied-and-validated",
+      "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/application-report.json",
+      "scope": "p8.44-minimal-windowsutility-source-edit-application",
+      "sha256": "sha256:1999d94b913ba07caa4db3f73e2f1ea1db1a92328333bb4dedd2cc2c88884835",
+      "status": "intentgraph-windowsutility-source-application-applied",
+      "workItem": "P8.44 Minimal WindowsUtility Source Edit Application"
+    },
+    {
+      "artifactRole": "intentgraph-sandboxed-package-artifact-creation-probe-summary",
+      "byteLength": 3527,
+      "decision": "sandboxed-package-artifact-created-and-validated-productization-still-blocked",
+      "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/roadmap/p8.55-sandboxed-package-artifact-creation-probe-report.json",
+      "scope": "p8.55-sandboxed-package-artifact-creation-probe-summary",
+      "sha256": "sha256:9829269ef014a3262bca8c8834b3107584cfb350d03a4d96cbf7e9d8506c7cdc",
+      "status": "intentgraph-sandboxed-package-artifact-creation-probe-passed",
+      "workItem": "P8.55 Sandboxed Package Artifact Creation Probe"
+    },
+    {
+      "byteLength": 1057,
+      "path": "C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/windowsutility/source-application-applications/p8.44/applied-Invoke-IntentGraphShellWorkspacePreflight.ps1",
+      "sha256": "sha256:41ea32509a09b388bbc43f9ff4c7e5409ca650017c5088230e9bd4ab7b200a62"
+    }
+  ],
+  "sourceBoundary": {
+    "artifactRole": "intentgraph-graph-delta-approval-workbench-boundary-plan-report",
+    "decision": "graph-delta-approval-workbench-boundary-ready-for-projection-schema",
+    "status": "intentgraph-graph-delta-approval-workbench-boundary-plan-recorded"
+  },
+  "sourceProjection": {
+    "artifactRole": "intentgraph-graph-delta-approval-workbench-projection",
+    "byteLength": 52024,
+    "path": "generated/windowsutility/graph-delta-approval-workbench/p8.59/projection.json",
+    "scope": "p8.59-graph-delta-approval-workbench-projection-schema",
+    "sha256": "sha256:199fd602253dabea8962e7b232d55af9a0aa15098a9cacf77552ff1b2b9f6d60",
+    "status": "intentgraph-graph-delta-approval-workbench-projection-emitted",
+    "workItem": "P8.59 Graph Delta Approval Workbench Projection Schema"
+  },
+  "sourceRequirement": {
+    "artifactRole": "intentgraph-approval-workbench-graph-delta-visualization-requirement-report",
+    "decision": "approval-workbench-must-show-interactive-graph-delta-and-diff-before-further-approval-gates",
+    "status": "intentgraph-approval-workbench-graph-delta-visualization-requirement-recorded"
+  },
+  "status": "intentgraph-static-graph-delta-approval-workbench-projection-emitted",
+  "uiContract": {
+    "approvalControlsPresent": false,
+    "externalRuntimeUrlsAllowed": false,
+    "graphInteractionQuality": {
+      "fitControl": true,
+      "graphifyGradeInspectabilityTarget": true,
+      "semanticZoomKeepsNodesAndEdgesReadable": true,
+      "toolbarZoomControls": true,
+      "userPanningEnabled": true,
+      "wheelZoomEnabled": true
+    },
+    "graphLibrary": "cytoscape",
+    "graphLibraryVersion": "3.34.0",
+    "mode": "static-local-approval-workbench",
+    "mutationControlsPresent": false,
+    "networkRequired": false,
+    "selectionBehaviors": [
+      "node-click-shows-node-inspector",
+      "edge-click-shows-edge-inspector",
+      "delta-step-click-highlights-affected-elements",
+      "code-node-click-shows-code-diff",
+      "changed-node-click-shows-graph-node-before-after-diff",
+      "changed-edge-click-shows-graph-edge-before-after-diff"
+    ]
+  },
+  "workItem": "P8.60 Static Graph Delta Approval Workbench Prototype"
+}
