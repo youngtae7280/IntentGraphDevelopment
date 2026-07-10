@@ -1,0 +1,82 @@
+{
+  "artifactRole": "intentgraph-real-evidence-execution-authority-review-report",
+  "status": "intentgraph-real-evidence-execution-authority-reviewed",
+  "scope": "p8.98-real-evidence-execution-authority-review",
+  "workItem": "P8.98 Real Evidence Execution Authority Review",
+  "date": "2026-07-10",
+  "decision": "real-evidence-execution-still-held-exact-package-extraction-authority-required",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.68-packaged-artifact-verification-authorization-request.json",
+      "role": "intentgraph-packaged-artifact-verification-authorization-request",
+      "status": "intentgraph-packaged-artifact-verification-authorization-requested"
+    },
+    {
+      "path": "generated/roadmap/p8.73-explicit-package-extraction-verification-authorization-follow-up.json",
+      "role": "intentgraph-package-extraction-verification-authorization-follow-up",
+      "status": "intentgraph-package-extraction-verification-authorization-follow-up-recorded"
+    },
+    {
+      "path": "generated/roadmap/p8.74-package-verification-scope-hold-record.json",
+      "role": "intentgraph-package-verification-scope-hold-record",
+      "status": "intentgraph-package-verification-scope-held"
+    },
+    {
+      "path": "generated/roadmap/p8.75-packaged-artifact-verification-future-execution-plan.json",
+      "role": "intentgraph-packaged-artifact-verification-future-execution-plan",
+      "status": "intentgraph-packaged-artifact-verification-future-execution-plan-recorded"
+    },
+    {
+      "path": "generated/roadmap/p8.97-final-productization-readiness-gap-summary-report.json",
+      "role": "intentgraph-productization-readiness-gap-summary-report",
+      "status": "intentgraph-productization-readiness-gap-summary-recorded"
+    }
+  ],
+  "firstExecutableEvidenceCandidate": {
+    "gate": "realPackageExtractionInventoryVerification",
+    "requiredAcceptedResponse": "accept sandboxed package extraction inventory verification",
+    "requiredVerifierToken": "accept-sandboxed-package-extraction-inventory-verification",
+    "priorRequestRecorded": true,
+    "responseRecorded": false,
+    "authorizedNow": false,
+    "reasonNotAuthorized": "The exact accepted response for sandboxed package extraction inventory verification has not been recorded."
+  },
+  "currentGoalResponsePolicyReview": {
+    "ordinaryAcceptReviseBlockedShortcutActiveForReviewGates": true,
+    "ordinaryAcceptReviseBlockedShortcutAuthorizesRealEvidenceExecution": false,
+    "ordinaryAcceptReviseBlockedShortcutAuthorizesProductizationExecution": false,
+    "reason": "The current-goal shortcut avoids ordinary review stalls, but real package extraction, launch, screenshot capture, installer creation, signing, release, and productization require exact authority artifacts."
+  },
+  "readyPrerequisites": {
+    "windowsUtilityCleanAligned": true,
+    "metadataReplayPassed": true,
+    "packageExtractionVerifierPrepared": true,
+    "negativeProbesPassed": true,
+    "authorityChainSummarized": true
+  },
+  "missingPrerequisites": {
+    "exactPackageExtractionAcceptedResponseRecorded": false,
+    "packageExtractionAuthorizationResponseArtifactRecorded": false,
+    "realPackageExtractionInventoryVerificationPassed": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "packagedUiScreenshotAuthorized": false,
+    "productCandidateAccepted": false,
+    "productizationAuthorized": false
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "globalInstallPerformed": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releaseTagCreated": false,
+    "releasePublished": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.99 Real Package Extraction Verification Authorization Refresh"
+}

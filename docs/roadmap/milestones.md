@@ -3289,3 +3289,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.98 Real Evidence Execution Authority Review`.
+
+## P8.98: Real Evidence Execution Authority Review
+
+Goal: review whether the first real executable evidence gate can open after the productization authority chain was summarized.
+
+Status: completed on 2026-07-10. See [P8.98 Real Evidence Execution Authority Review](../reviews/p8.98-real-evidence-execution-authority-review.md).
+
+Decision:
+
+- real evidence execution remains held.
+- the first executable candidate is real package extraction inventory verification.
+- exact package extraction authority is still required.
+- ordinary `accept/revise/blocked` shortcuts remain limited to review gates and do not authorize package extraction or other productization execution.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.98-real-evidence-execution-authority-review-report.json`
+- [P8.98 Real Evidence Execution Authority Review](../reviews/p8.98-real-evidence-execution-authority-review.md)
+
+Next safe work:
+
+- continue to `P8.99 Real Package Extraction Verification Authorization Refresh`.
