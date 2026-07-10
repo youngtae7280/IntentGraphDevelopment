@@ -136,6 +136,20 @@ Validation command:
 python tools/run_b1_intent_mapping_negative_probes.py --out generated/b1-typescript-rest-api/p3.0-intent-mapping-negative-probes-report.json
 ```
 
+## V602: B1 Stale Intent Mapping Probe
+
+Status: added in P3.1.
+
+B1 must prove that accepted mappings fail deterministically when a mapped code fact disappears from the supplied code facts.
+
+The stale probe removes `fact.function.addtodo` from a copied code fact report and verifies that mapping references from `unit.behavior.create-todo` and `unit.route.post-todos` fail.
+
+Validation command:
+
+```bash
+python tools/run_b1_stale_mapping_probe.py --stale-code-facts generated/b1-typescript-rest-api/p3.1-stale-code-facts.json --stale-verifier-report generated/b1-typescript-rest-api/p3.1-stale-mapping-verifier-report.json --out generated/b1-typescript-rest-api/p3.1-stale-mapping-probe-report.json
+```
+
 ## Rule Severity
 
 | Severity | Meaning |

@@ -1,0 +1,36 @@
+{
+  "artifactRole": "intentgraph-b1-stale-mapping-probe-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "aiMappingClaimed": false,
+    "automaticRepairClaimed": false,
+    "sourceEdited": false,
+    "staleFactsOnly": true,
+    "workbenchClaimed": false
+  },
+  "expectedFailures": [
+    {
+      "expectedFailureSubstring": "codeRef.create-todo.addTodo references missing fact fact.function.addtodo",
+      "observed": true
+    },
+    {
+      "expectedFailureSubstring": "codeFactRef.create-todo.addTodo references missing fact fact.function.addtodo",
+      "observed": true
+    },
+    {
+      "expectedFailureSubstring": "codeRef.route.post-todos.handler references missing fact fact.function.addtodo",
+      "observed": true
+    },
+    {
+      "expectedFailureSubstring": "codeFactRef.route.post-todos.handler references missing fact fact.function.addtodo",
+      "observed": true
+    }
+  ],
+  "removedFactId": "fact.function.addtodo",
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-stale-mapping-probe",
+  "staleFactsPath": "generated/b1-typescript-rest-api/p3.1-stale-code-facts.json",
+  "status": "intentgraph-b1-stale-mapping-probe-passed",
+  "verifierReportPath": "generated/b1-typescript-rest-api/p3.1-stale-mapping-verifier-report.json",
+  "verifierReturnCode": 1
+}

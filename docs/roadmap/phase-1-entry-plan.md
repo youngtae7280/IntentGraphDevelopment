@@ -405,3 +405,23 @@ P3.1 B1 Stale Intent Mapping Change Probe
 ```
 
 P3.1 should prove stale mappings fail deterministically when mapped code facts change or disappear. It must not edit product behavior, generate AI mappings, start code planning, build a workbench, or broaden extraction.
+
+## Completed Slice: P3.1 B1 Stale Intent Mapping Change Probe
+
+Goal: prove accepted B1 mappings fail deterministically when a mapped code fact disappears from supplied facts.
+
+Produced artifacts:
+
+- `tools/run_b1_stale_mapping_probe.py`
+- `generated/b1-typescript-rest-api/p3.1-stale-code-facts.json`
+- `generated/b1-typescript-rest-api/p3.1-stale-mapping-verifier-report.json`
+- `generated/b1-typescript-rest-api/p3.1-stale-mapping-probe-report.json`
+- [P3.1 B1 Stale Intent Mapping Change Review](../reviews/p3.1-b1-stale-intent-mapping-change-review.md)
+
+Recommended next slice:
+
+```text
+P3.2 B1 Ambiguous Intent Mapping Candidate Probe
+```
+
+P3.2 should model explicit ambiguity and prove ambiguous mappings remain unresolved until a later authority decision. It must not generate mappings automatically or start code planning.

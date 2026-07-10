@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture
+P3.1 B1 Stale Intent Mapping Change Probe
 ```
 
-This is the first bounded Phase C implementation slice. It maps B1 Intent Units to B1 code facts through code refs, code fact refs, mapping obligations, evidence, authority, and verification. It does not authorize code edits, AI mapping generation, broad planning, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase C slice proves B1 mappings fail deterministically when a mapped code fact disappears from supplied facts. It does not authorize automatic repair, code edits, AI mapping generation, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -558,5 +558,27 @@ Non-goals:
 - no automatic mapping generation
 - no natural-language request interpretation
 - no broad planner
+- no UI/workbench product
+- no productization
+
+## P3.1: B1 Stale Intent Mapping Change Probe
+
+Goal: prove stale mappings fail deterministically when a mapped B1 code fact disappears.
+
+Status: completed on 2026-07-10. See [P3.1 B1 Stale Intent Mapping Change Review](../reviews/p3.1-b1-stale-intent-mapping-change-review.md).
+
+Decision:
+
+- stale code fact report generated
+- verifier fails on missing `fact.function.addtodo`
+- stale mapping probe report passes
+- continue to `P3.2 B1 Ambiguous Intent Mapping Candidate Probe`
+
+Non-goals:
+
+- no source edit
+- no automatic mapping repair
+- no AI mapping generation
+- no code planning
 - no UI/workbench product
 - no productization

@@ -14,7 +14,7 @@ Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](docs/review
 
 No `M8` was opened automatically. P1.R through P1.18 reframed IntentGraph as a semantic overlay and proved the corrected model on a tiny CF0 code-first fixture. CF0 is now treated as saturated proof evidence, not proof of general scalability.
 
-P1.19 selected `B1-typescript-rest-api` as the next benchmark shape. P2.0 created the first bounded B1 fixture, code fact schema, extractor, validator, and negative probes. P2.1 proved a one-file incremental code fact change. P2.2 opened Phase C only for a bounded static B1 mapping slice. P3.0 created the B1 Intent Unit mapping overlay and verifier. The next recommended work is `P3.1 B1 Stale Intent Mapping Change Probe`. It must not become a broad extractor, UI/workbench product, or AI coding runtime. See the [Product Capability Roadmap](docs/roadmap/product-capability-roadmap.md).
+P1.19 selected `B1-typescript-rest-api` as the next benchmark shape. P2.0 created the first bounded B1 fixture, code fact schema, extractor, validator, and negative probes. P2.1 proved a one-file incremental code fact change. P2.2 opened Phase C only for a bounded static B1 mapping slice. P3.0 created the B1 Intent Unit mapping overlay and verifier. P3.1 proved stale mapping failure. The next recommended work is `P3.2 B1 Ambiguous Intent Mapping Candidate Probe`. It must not become a broad extractor, UI/workbench product, or AI coding runtime. See the [Product Capability Roadmap](docs/roadmap/product-capability-roadmap.md).
 
 ## Working Definition
 

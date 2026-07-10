@@ -1,0 +1,741 @@
+{
+  "artifactRole": "intentgraph-code-facts",
+  "benchmarkId": "B1-typescript-rest-api",
+  "codeFactsVersion": "0.1.0",
+  "extractor": {
+    "broadExtractor": false,
+    "deterministic": true,
+    "id": "tools/extract_b1_code_facts.py",
+    "mode": "b1-fixture-bounded-static",
+    "version": "0.1.0"
+  },
+  "facts": [
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "fromSymbol": "addTodo",
+      "id": "fact.call.addtodo.createtodo",
+      "kind": "call",
+      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceFile": "src/service/todoService.ts",
+      "sourceLocation": {
+        "columnEnd": 20,
+        "columnStart": 9,
+        "lineEnd": 6,
+        "lineStart": 6
+      },
+      "toSymbol": "createTodo"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "fromSymbol": "addTodo",
+      "id": "fact.call.addtodo.requiretitle",
+      "kind": "call",
+      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceFile": "src/service/todoService.ts",
+      "sourceLocation": {
+        "columnEnd": 29,
+        "columnStart": 16,
+        "lineEnd": 5,
+        "lineStart": 5
+      },
+      "toSymbol": "requireTitle"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "fromSymbol": "testAddTodoCreatesOpenTodo",
+      "id": "fact.call.testaddtodocreatesopentodo.addtodo",
+      "kind": "call",
+      "sourceDigest": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7",
+      "sourceFile": "tests/todoService.test.ts",
+      "sourceLocation": {
+        "columnEnd": 23,
+        "columnStart": 15,
+        "lineEnd": 4,
+        "lineStart": 4
+      },
+      "toSymbol": "addTodo"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "fromSymbol": "testListTodosStartsEmpty",
+      "id": "fact.call.testlisttodosstartsempty.listtodos",
+      "kind": "call",
+      "sourceDigest": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7",
+      "sourceFile": "tests/todoService.test.ts",
+      "sourceLocation": {
+        "columnEnd": 26,
+        "columnStart": 16,
+        "lineEnd": 11,
+        "lineStart": 11
+      },
+      "toSymbol": "listTodos"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.file.src_model_todo_ts",
+      "kind": "file",
+      "language": "typescript",
+      "lineCount": 13,
+      "sourceDigest": "sha256:6a20738acfe79c9a6fb7a0b2bbd27f0d765eb8341a31e5968e3a75b1742144c2",
+      "sourceFile": "src/model/todo.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.file.src_routes_todos_ts",
+      "kind": "file",
+      "language": "typescript",
+      "lineCount": 14,
+      "sourceDigest": "sha256:68ba339d821c98e2fad5ba1cc670ff5d1736aab05549cd99ea8cdefe763e1cd8",
+      "sourceFile": "src/routes/todos.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.file.src_service_todoservice_ts",
+      "kind": "file",
+      "language": "typescript",
+      "lineCount": 18,
+      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceFile": "src/service/todoService.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.file.src_validation_input_ts",
+      "kind": "file",
+      "language": "typescript",
+      "lineCount": 7,
+      "sourceDigest": "sha256:bff04106a99b45b95e8cb517678446d6068190d00f08491aa30baccaf21984a4",
+      "sourceFile": "src/validation/input.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.file.tests_todoservice_test_ts",
+      "kind": "file",
+      "language": "typescript",
+      "lineCount": 15,
+      "sourceDigest": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7",
+      "sourceFile": "tests/todoService.test.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.function.completetodo",
+      "kind": "function",
+      "module": "fact.module.src_service_todoservice",
+      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceFile": "src/service/todoService.ts",
+      "sourceLocation": {
+        "columnEnd": 29,
+        "columnStart": 0,
+        "lineEnd": 13,
+        "lineStart": 13
+      },
+      "symbol": "completeTodo"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.function.createtodo",
+      "kind": "function",
+      "module": "fact.module.src_model_todo",
+      "sourceDigest": "sha256:6a20738acfe79c9a6fb7a0b2bbd27f0d765eb8341a31e5968e3a75b1742144c2",
+      "sourceFile": "src/model/todo.ts",
+      "sourceLocation": {
+        "columnEnd": 27,
+        "columnStart": 0,
+        "lineEnd": 7,
+        "lineStart": 7
+      },
+      "symbol": "createTodo"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.function.listtodos",
+      "kind": "function",
+      "module": "fact.module.src_service_todoservice",
+      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceFile": "src/service/todoService.ts",
+      "sourceLocation": {
+        "columnEnd": 26,
+        "columnStart": 0,
+        "lineEnd": 9,
+        "lineStart": 9
+      },
+      "symbol": "listTodos"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.function.requiretitle",
+      "kind": "function",
+      "module": "fact.module.src_validation_input",
+      "sourceDigest": "sha256:bff04106a99b45b95e8cb517678446d6068190d00f08491aa30baccaf21984a4",
+      "sourceFile": "src/validation/input.ts",
+      "sourceLocation": {
+        "columnEnd": 29,
+        "columnStart": 0,
+        "lineEnd": 1,
+        "lineStart": 1
+      },
+      "symbol": "requireTitle"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.import.src_routes_todos_ts.addtodo",
+      "importedName": "addTodo",
+      "importedPath": "src/service/todoService.ts",
+      "kind": "import",
+      "module": "fact.module.src_routes_todos",
+      "sourceDigest": "sha256:68ba339d821c98e2fad5ba1cc670ff5d1736aab05549cd99ea8cdefe763e1cd8",
+      "sourceFile": "src/routes/todos.ts",
+      "sourceLocation": {
+        "columnEnd": 60,
+        "columnStart": 0,
+        "lineEnd": 1,
+        "lineStart": 1
+      },
+      "typeOnly": false
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.import.src_routes_todos_ts.listtodos",
+      "importedName": "listTodos",
+      "importedPath": "src/service/todoService.ts",
+      "kind": "import",
+      "module": "fact.module.src_routes_todos",
+      "sourceDigest": "sha256:68ba339d821c98e2fad5ba1cc670ff5d1736aab05549cd99ea8cdefe763e1cd8",
+      "sourceFile": "src/routes/todos.ts",
+      "sourceLocation": {
+        "columnEnd": 60,
+        "columnStart": 0,
+        "lineEnd": 1,
+        "lineStart": 1
+      },
+      "typeOnly": false
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.import.src_service_todoservice_ts.createtodo",
+      "importedName": "createTodo",
+      "importedPath": "src/model/todo.ts",
+      "kind": "import",
+      "module": "fact.module.src_service_todoservice",
+      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceFile": "src/service/todoService.ts",
+      "sourceLocation": {
+        "columnEnd": 54,
+        "columnStart": 0,
+        "lineEnd": 1,
+        "lineStart": 1
+      },
+      "typeOnly": false
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.import.src_service_todoservice_ts.requiretitle",
+      "importedName": "requireTitle",
+      "importedPath": "src/validation/input.ts",
+      "kind": "import",
+      "module": "fact.module.src_service_todoservice",
+      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceFile": "src/service/todoService.ts",
+      "sourceLocation": {
+        "columnEnd": 51,
+        "columnStart": 0,
+        "lineEnd": 2,
+        "lineStart": 2
+      },
+      "typeOnly": false
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.import.src_service_todoservice_ts.todo",
+      "importedName": "Todo",
+      "importedPath": "src/model/todo.ts",
+      "kind": "import",
+      "module": "fact.module.src_service_todoservice",
+      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceFile": "src/service/todoService.ts",
+      "sourceLocation": {
+        "columnEnd": 54,
+        "columnStart": 0,
+        "lineEnd": 1,
+        "lineStart": 1
+      },
+      "typeOnly": true
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.import.tests_todoservice_test_ts.addtodo",
+      "importedName": "addTodo",
+      "importedPath": "src/service/todoService.ts",
+      "kind": "import",
+      "module": "fact.module.tests_todoservice_test",
+      "sourceDigest": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7",
+      "sourceFile": "tests/todoService.test.ts",
+      "sourceLocation": {
+        "columnEnd": 64,
+        "columnStart": 0,
+        "lineEnd": 1,
+        "lineStart": 1
+      },
+      "typeOnly": false
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.import.tests_todoservice_test_ts.listtodos",
+      "importedName": "listTodos",
+      "importedPath": "src/service/todoService.ts",
+      "kind": "import",
+      "module": "fact.module.tests_todoservice_test",
+      "sourceDigest": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7",
+      "sourceFile": "tests/todoService.test.ts",
+      "sourceLocation": {
+        "columnEnd": 64,
+        "columnStart": 0,
+        "lineEnd": 1,
+        "lineStart": 1
+      },
+      "typeOnly": false
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.module.src_model_todo",
+      "kind": "module",
+      "path": "src/model/todo.ts",
+      "sourceDigest": "sha256:6a20738acfe79c9a6fb7a0b2bbd27f0d765eb8341a31e5968e3a75b1742144c2",
+      "sourceFile": "src/model/todo.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.module.src_routes_todos",
+      "kind": "module",
+      "path": "src/routes/todos.ts",
+      "sourceDigest": "sha256:68ba339d821c98e2fad5ba1cc670ff5d1736aab05549cd99ea8cdefe763e1cd8",
+      "sourceFile": "src/routes/todos.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.module.src_service_todoservice",
+      "kind": "module",
+      "path": "src/service/todoService.ts",
+      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceFile": "src/service/todoService.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.module.src_validation_input",
+      "kind": "module",
+      "path": "src/validation/input.ts",
+      "sourceDigest": "sha256:bff04106a99b45b95e8cb517678446d6068190d00f08491aa30baccaf21984a4",
+      "sourceFile": "src/validation/input.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.module.tests_todoservice_test",
+      "kind": "module",
+      "path": "tests/todoService.test.ts",
+      "sourceDigest": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7",
+      "sourceFile": "tests/todoService.test.ts",
+      "sourceLocationStatus": "file-level"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "handler": "listTodos",
+      "id": "fact.route.get.todos",
+      "kind": "route",
+      "method": "GET",
+      "path": "/todos",
+      "sourceDigest": "sha256:68ba339d821c98e2fad5ba1cc670ff5d1736aab05549cd99ea8cdefe763e1cd8",
+      "sourceFile": "src/routes/todos.ts",
+      "sourceLocation": {
+        "columnEnd": 22,
+        "columnStart": 4,
+        "lineEnd": 7,
+        "lineStart": 5
+      }
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "handler": "addTodo",
+      "id": "fact.route.post.todos",
+      "kind": "route",
+      "method": "POST",
+      "path": "/todos",
+      "sourceDigest": "sha256:68ba339d821c98e2fad5ba1cc670ff5d1736aab05549cd99ea8cdefe763e1cd8",
+      "sourceFile": "src/routes/todos.ts",
+      "sourceLocation": {
+        "columnEnd": 20,
+        "columnStart": 4,
+        "lineEnd": 12,
+        "lineStart": 10
+      }
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.test.testaddtodocreatesopentodo",
+      "kind": "test",
+      "module": "fact.module.tests_todoservice_test",
+      "sourceDigest": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7",
+      "sourceFile": "tests/todoService.test.ts",
+      "sourceLocation": {
+        "columnEnd": 43,
+        "columnStart": 0,
+        "lineEnd": 3,
+        "lineStart": 3
+      },
+      "symbol": "testAddTodoCreatesOpenTodo"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.test.testlisttodosstartsempty",
+      "kind": "test",
+      "module": "fact.module.tests_todoservice_test",
+      "sourceDigest": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7",
+      "sourceFile": "tests/todoService.test.ts",
+      "sourceLocation": {
+        "columnEnd": 41,
+        "columnStart": 0,
+        "lineEnd": 10,
+        "lineStart": 10
+      },
+      "symbol": "testListTodosStartsEmpty"
+    },
+    {
+      "benchmarkId": "B1-typescript-rest-api",
+      "confidence": "extracted",
+      "extractor": "tools/extract_b1_code_facts.py",
+      "extractorVersion": "0.1.0",
+      "id": "fact.type.todo",
+      "kind": "type",
+      "module": "fact.module.src_model_todo",
+      "sourceDigest": "sha256:6a20738acfe79c9a6fb7a0b2bbd27f0d765eb8341a31e5968e3a75b1742144c2",
+      "sourceFile": "src/model/todo.ts",
+      "sourceLocation": {
+        "columnEnd": 21,
+        "columnStart": 0,
+        "lineEnd": 1,
+        "lineStart": 1
+      },
+      "symbol": "Todo"
+    }
+  ],
+  "relations": [
+    {
+      "from": "fact.function.addtodo",
+      "id": "rel.calls.addtodo.createtodo",
+      "kind": "calls",
+      "to": "fact.function.createtodo"
+    },
+    {
+      "from": "fact.function.addtodo",
+      "id": "rel.calls.addtodo.requiretitle",
+      "kind": "calls",
+      "to": "fact.function.requiretitle"
+    },
+    {
+      "from": "fact.test.testaddtodocreatesopentodo",
+      "id": "rel.calls.testaddtodocreatesopentodo.addtodo",
+      "kind": "calls",
+      "to": "fact.function.addtodo"
+    },
+    {
+      "from": "fact.test.testlisttodosstartsempty",
+      "id": "rel.calls.testlisttodosstartsempty.listtodos",
+      "kind": "calls",
+      "to": "fact.function.listtodos"
+    },
+    {
+      "from": "fact.file.src_model_todo_ts",
+      "id": "rel.contains.src_model_todo_ts",
+      "kind": "contains",
+      "to": "fact.module.src_model_todo"
+    },
+    {
+      "from": "fact.module.src_model_todo",
+      "id": "rel.contains.src_model_todo_ts.fact_function_createtodo",
+      "kind": "contains",
+      "to": "fact.function.createtodo"
+    },
+    {
+      "from": "fact.module.src_model_todo",
+      "id": "rel.contains.src_model_todo_ts.fact_type_todo",
+      "kind": "contains",
+      "to": "fact.type.todo"
+    },
+    {
+      "from": "fact.file.src_routes_todos_ts",
+      "id": "rel.contains.src_routes_todos_ts",
+      "kind": "contains",
+      "to": "fact.module.src_routes_todos"
+    },
+    {
+      "from": "fact.file.src_service_todoservice_ts",
+      "id": "rel.contains.src_service_todoservice_ts",
+      "kind": "contains",
+      "to": "fact.module.src_service_todoservice"
+    },
+    {
+      "from": "fact.module.src_service_todoservice",
+      "id": "rel.contains.src_service_todoservice_ts.fact_function_addtodo",
+      "kind": "contains",
+      "to": "fact.function.addtodo"
+    },
+    {
+      "from": "fact.module.src_service_todoservice",
+      "id": "rel.contains.src_service_todoservice_ts.fact_function_completetodo",
+      "kind": "contains",
+      "to": "fact.function.completetodo"
+    },
+    {
+      "from": "fact.module.src_service_todoservice",
+      "id": "rel.contains.src_service_todoservice_ts.fact_function_listtodos",
+      "kind": "contains",
+      "to": "fact.function.listtodos"
+    },
+    {
+      "from": "fact.file.src_validation_input_ts",
+      "id": "rel.contains.src_validation_input_ts",
+      "kind": "contains",
+      "to": "fact.module.src_validation_input"
+    },
+    {
+      "from": "fact.module.src_validation_input",
+      "id": "rel.contains.src_validation_input_ts.fact_function_requiretitle",
+      "kind": "contains",
+      "to": "fact.function.requiretitle"
+    },
+    {
+      "from": "fact.file.tests_todoservice_test_ts",
+      "id": "rel.contains.tests_todoservice_test_ts",
+      "kind": "contains",
+      "to": "fact.module.tests_todoservice_test"
+    },
+    {
+      "from": "fact.module.tests_todoservice_test",
+      "id": "rel.contains.tests_todoservice_test_ts.fact_test_testaddtodocreatesopentodo",
+      "kind": "contains",
+      "to": "fact.test.testaddtodocreatesopentodo"
+    },
+    {
+      "from": "fact.module.tests_todoservice_test",
+      "id": "rel.contains.tests_todoservice_test_ts.fact_test_testlisttodosstartsempty",
+      "kind": "contains",
+      "to": "fact.test.testlisttodosstartsempty"
+    },
+    {
+      "from": "fact.route.get.todos",
+      "id": "rel.handles_route.get.todos.listtodos",
+      "kind": "handles_route",
+      "to": "fact.function.listtodos"
+    },
+    {
+      "from": "fact.route.post.todos",
+      "id": "rel.handles_route.post.todos.addtodo",
+      "kind": "handles_route",
+      "to": "fact.function.addtodo"
+    },
+    {
+      "from": "fact.module.src_routes_todos",
+      "id": "rel.imports.src_routes_todos_ts.src_service_todoservice_ts.addtodo",
+      "kind": "imports",
+      "to": "fact.module.src_service_todoservice"
+    },
+    {
+      "from": "fact.module.src_routes_todos",
+      "id": "rel.imports.src_routes_todos_ts.src_service_todoservice_ts.listtodos",
+      "kind": "imports",
+      "to": "fact.module.src_service_todoservice"
+    },
+    {
+      "from": "fact.module.src_service_todoservice",
+      "id": "rel.imports.src_service_todoservice_ts.src_model_todo_ts.createtodo",
+      "kind": "imports",
+      "to": "fact.module.src_model_todo"
+    },
+    {
+      "from": "fact.module.src_service_todoservice",
+      "id": "rel.imports.src_service_todoservice_ts.src_model_todo_ts.todo",
+      "kind": "imports",
+      "to": "fact.module.src_model_todo"
+    },
+    {
+      "from": "fact.module.src_service_todoservice",
+      "id": "rel.imports.src_service_todoservice_ts.src_validation_input_ts.requiretitle",
+      "kind": "imports",
+      "to": "fact.module.src_validation_input"
+    },
+    {
+      "from": "fact.module.tests_todoservice_test",
+      "id": "rel.imports.tests_todoservice_test_ts.src_service_todoservice_ts.addtodo",
+      "kind": "imports",
+      "to": "fact.module.src_service_todoservice"
+    },
+    {
+      "from": "fact.module.tests_todoservice_test",
+      "id": "rel.imports.tests_todoservice_test_ts.src_service_todoservice_ts.listtodos",
+      "kind": "imports",
+      "to": "fact.module.src_service_todoservice"
+    },
+    {
+      "from": "fact.module.src_routes_todos",
+      "id": "rel.references.import.src_routes_todos_ts.addtodo",
+      "kind": "references",
+      "to": "fact.function.addtodo"
+    },
+    {
+      "from": "fact.module.src_routes_todos",
+      "id": "rel.references.import.src_routes_todos_ts.listtodos",
+      "kind": "references",
+      "to": "fact.function.listtodos"
+    },
+    {
+      "from": "fact.module.src_service_todoservice",
+      "id": "rel.references.import.src_service_todoservice_ts.createtodo",
+      "kind": "references",
+      "to": "fact.function.createtodo"
+    },
+    {
+      "from": "fact.module.src_service_todoservice",
+      "id": "rel.references.import.src_service_todoservice_ts.requiretitle",
+      "kind": "references",
+      "to": "fact.function.requiretitle"
+    },
+    {
+      "from": "fact.module.src_service_todoservice",
+      "id": "rel.references.import.src_service_todoservice_ts.todo",
+      "kind": "references",
+      "to": "fact.type.todo"
+    },
+    {
+      "from": "fact.module.tests_todoservice_test",
+      "id": "rel.references.import.tests_todoservice_test_ts.addtodo",
+      "kind": "references",
+      "to": "fact.function.addtodo"
+    },
+    {
+      "from": "fact.module.tests_todoservice_test",
+      "id": "rel.references.import.tests_todoservice_test_ts.listtodos",
+      "kind": "references",
+      "to": "fact.function.listtodos"
+    },
+    {
+      "from": "fact.test.testaddtodocreatesopentodo",
+      "id": "rel.tests.test_add_todo_creates_open_todo.add_todo",
+      "kind": "tests",
+      "to": "fact.function.addtodo"
+    },
+    {
+      "from": "fact.test.testlisttodosstartsempty",
+      "id": "rel.tests.test_list_todos_starts_empty.list_todos",
+      "kind": "tests",
+      "to": "fact.function.listtodos"
+    }
+  ],
+  "scope": "b1-typescript-rest-api-stale-mapping-probe",
+  "sourceDigests": {
+    "src/model/todo.ts": "sha256:6a20738acfe79c9a6fb7a0b2bbd27f0d765eb8341a31e5968e3a75b1742144c2",
+    "src/routes/todos.ts": "sha256:68ba339d821c98e2fad5ba1cc670ff5d1736aab05549cd99ea8cdefe763e1cd8",
+    "src/service/todoService.ts": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+    "src/validation/input.ts": "sha256:bff04106a99b45b95e8cb517678446d6068190d00f08491aa30baccaf21984a4",
+    "tests/todoService.test.ts": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7"
+  },
+  "sourceRoot": "docs/examples/b1-typescript-rest-api/source",
+  "staleProbe": {
+    "purpose": "prove Intent mapping fails when a mapped fact disappears",
+    "removedFactId": "fact.function.addtodo"
+  },
+  "status": "intentgraph-code-facts-stale-probe"
+}

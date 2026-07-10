@@ -7,9 +7,9 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P3.0 completed.
+P3.1 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P3.1 B1 Stale Intent Mapping Change Probe.
+Next recommended slice: P3.2 B1 Ambiguous Intent Mapping Candidate Probe.
 Phase C is open only for bounded B1 mapping validation. Code planning, broad extraction, UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
@@ -82,21 +82,21 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P3.0 completed:
+P3.1 completed:
 
 ```text
-B1 Intent Unit Mapping Schema and Static Overlay Fixture
+B1 Stale Intent Mapping Change Probe
 ```
 
-P3.0 created a static B1 Intent Unit overlay and deterministic mapping verifier with negative probes.
+P3.1 proved stale B1 mappings fail deterministically when a mapped fact disappears.
 
 The next step is:
 
 ```text
-P3.1 B1 Stale Intent Mapping Change Probe
+P3.2 B1 Ambiguous Intent Mapping Candidate Probe
 ```
 
-P3.1 should prove stale mappings fail deterministically when code facts change.
+P3.2 should model ambiguity as an explicit unresolved mapping state that cannot be treated as accepted.
 
 ## Phase Overview
 
@@ -104,7 +104,7 @@ P3.1 should prove stale mappings fail deterministically when code facts change.
 |---|---|---|---|
 | A | Model Correction | Define IntentGraph as semantic overlay and correct the state model. | Mostly complete through P1.18. |
 | B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | P2.0 and P2.1 completed B1 static and incremental fact boundaries. Boundary review still needed. |
-| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static B1 mapping completed. Stale mapping behavior not yet proven. |
+| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static mapping and P3.1 stale mapping failure completed. Ambiguity not yet modeled. |
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Not opened. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | Small fixture proofs only. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | Requirements only; product UI not opened. |
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P3.0 Result And P3.1 Required Scope
+## P3.1 Result And P3.2 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,27 +585,27 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
-P3.0 result:
+P3.1 result:
 
 ```text
-B1 static mapping fixture, verifier, and negative probes pass.
+B1 stale mapping probe passes.
 ```
 
 Recommended next slice:
 
 ```text
-P3.1 B1 Stale Intent Mapping Change Probe
+P3.2 B1 Ambiguous Intent Mapping Candidate Probe
 ```
 
-P3.1 must:
+P3.2 must:
 
-- create a bounded stale mapping scenario
-- prove the mapping verifier fails when a mapped fact disappears or changes kind
-- either update the overlay or record the expected stale state
+- create an explicit ambiguous mapping candidate
+- verify ambiguity remains visible
+- prevent ambiguous mapping from being treated as resolved
 - keep AI mapping generation proposal-only or absent
 - keep code planning and workbench out of scope
 
-P3.1 must not:
+P3.2 must not:
 
 - expand beyond the tiny B1 static fixture and code fact boundary
 - add another CF0 semantic probe

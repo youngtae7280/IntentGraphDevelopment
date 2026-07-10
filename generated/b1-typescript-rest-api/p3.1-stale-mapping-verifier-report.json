@@ -1,0 +1,94 @@
+{
+  "artifactRole": "intentgraph-b1-intent-mapping-verification-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "aiAuthorityClaimed": false,
+    "automaticMappingClaimed": false,
+    "codeEdited": false,
+    "staticB1OverlayOnly": true,
+    "workbenchClaimed": false
+  },
+  "errors": [
+    "unit.behavior.create-todo: codeRef.create-todo.addTodo references missing fact fact.function.addtodo",
+    "unit.behavior.create-todo: codeFactRef.create-todo.addTodo references missing fact fact.function.addtodo",
+    "unit.route.post-todos: codeRef.route.post-todos.handler references missing fact fact.function.addtodo",
+    "unit.route.post-todos: codeFactRef.route.post-todos.handler references missing fact fact.function.addtodo"
+  ],
+  "reportVersion": "0.1.0",
+  "result": "fail",
+  "scope": "b1-typescript-rest-api-intent-mapping-verification",
+  "status": "intentgraph-b1-intent-mapping-verification-failed",
+  "summary": {
+    "authorityCount": 1,
+    "errorCount": 4,
+    "evidenceCount": 2,
+    "historyCount": 1,
+    "unitCount": 7,
+    "verificationCount": 6
+  },
+  "unitReports": [
+    {
+      "codeFactRefCount": 3,
+      "codeRefCount": 3,
+      "errorCount": 2,
+      "kind": "behavior",
+      "mappingObligationCount": 1,
+      "mappingStatus": "resolved",
+      "unitId": "unit.behavior.create-todo"
+    },
+    {
+      "codeFactRefCount": 1,
+      "codeRefCount": 1,
+      "errorCount": 0,
+      "kind": "behavior",
+      "mappingObligationCount": 1,
+      "mappingStatus": "resolved",
+      "unitId": "unit.behavior.list-todos"
+    },
+    {
+      "codeFactRefCount": 1,
+      "codeRefCount": 1,
+      "errorCount": 0,
+      "kind": "behavior",
+      "mappingObligationCount": 1,
+      "mappingStatus": "resolved",
+      "unitId": "unit.behavior.complete-todo"
+    },
+    {
+      "codeFactRefCount": 2,
+      "codeRefCount": 2,
+      "errorCount": 0,
+      "kind": "contract",
+      "mappingObligationCount": 1,
+      "mappingStatus": "resolved",
+      "unitId": "unit.contract.title-required"
+    },
+    {
+      "codeFactRefCount": 2,
+      "codeRefCount": 2,
+      "errorCount": 0,
+      "kind": "route",
+      "mappingObligationCount": 1,
+      "mappingStatus": "resolved",
+      "unitId": "unit.route.get-todos"
+    },
+    {
+      "codeFactRefCount": 2,
+      "codeRefCount": 2,
+      "errorCount": 2,
+      "kind": "route",
+      "mappingObligationCount": 1,
+      "mappingStatus": "resolved",
+      "unitId": "unit.route.post-todos"
+    },
+    {
+      "codeFactRefCount": 2,
+      "codeRefCount": 2,
+      "errorCount": 0,
+      "kind": "verification",
+      "mappingObligationCount": 1,
+      "mappingStatus": "resolved",
+      "unitId": "unit.verification.todo-service-tests"
+    }
+  ]
+}
