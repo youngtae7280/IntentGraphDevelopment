@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.19 completed.
+P8.20 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. P8.14 required future smoke evidence to use a no-target-write sandbox strategy. P8.15 proved sandboxed build smoke evidence while the original target stayed unchanged. P8.16 opened only a sandboxed UI launch feasibility boundary. P8.17 proved sandboxed UI launch/window observation while the original target stayed unchanged. P8.18 opened only a sandboxed screenshot evidence boundary. P8.19 captured validated sandboxed screenshot evidence while the original target stayed unchanged. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. P8.14 required future smoke evidence to use a no-target-write sandbox strategy. P8.15 proved sandboxed build smoke evidence while the original target stayed unchanged. P8.16 opened only a sandboxed UI launch feasibility boundary. P8.17 proved sandboxed UI launch/window observation while the original target stayed unchanged. P8.18 opened only a sandboxed screenshot evidence boundary. P8.19 captured validated sandboxed screenshot evidence while the original target stayed unchanged. P8.20 defined the shell/workspace evidence workbench projection boundary. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -172,7 +172,7 @@ accepted mapping negative probes pass.
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.20 Shell Workspace Evidence Workbench Projection Plan
+P8.21 Shell Workspace Evidence Workbench Projection
 ```
 
 ## Phase Overview
@@ -1041,3 +1041,19 @@ P8.19 produced:
 - `generated/roadmap/p8.19-shell-workspace-sandboxed-screenshot-evidence-probe-report.json`
 
 The screenshot is a valid PNG, 1320 x 820, 38739 bytes, and captures the sandboxed `Card Printer Utility` shell window. The original WindowsUtility target remained `## main...origin/main`.
+
+## P8.20 Result And Workbench Projection Boundary
+
+P8.20 result:
+
+```text
+shell-workspace evidence workbench projection boundary completed.
+Decision: shell-workspace-evidence-workbench-projection-required.
+```
+
+P8.20 produced:
+
+- [P8.20 Shell Workspace Evidence Workbench Projection Plan](../reviews/p8.20-shell-workspace-evidence-workbench-projection-plan-review.md)
+- `generated/roadmap/p8.20-shell-workspace-evidence-workbench-projection-plan-report.json`
+
+The future projection must connect accepted mapping, proposal, build evidence, UI launch evidence, screenshot evidence, artifact links, and authority/safety flags. It must remain report/projection state only. Source edits, target writes, proposal application, new evidence collection, AI authority, hardware authority, and productization remain unauthorized.

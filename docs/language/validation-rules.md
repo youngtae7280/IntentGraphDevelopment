@@ -393,6 +393,14 @@ Status: added in P8.19.
 
 A screenshot evidence probe report must record screenshot path, byte length, dimensions, digest, process/window observation, process termination, and original target before/after state. The probe must fail if the PNG is missing, invalid, unexpectedly small, or if the original target changes.
 
+## V1024: Real-Project Evidence Workbench Projection Needs A Boundary Plan
+
+Status: added in P8.20.
+
+A real-project evidence workbench projection must not be implemented until a boundary plan lists the required input artifacts, visible workflow sections, artifact link fields, safety flags, and future validation criteria. The plan must keep source edits, target writes, proposal application, new evidence collection, app launch, screenshot capture, AI authority, hardware authority, and productization unauthorized unless a later explicit authority artifact grants a narrower permission.
+
+The projection must be report/projection state only. It must not hide missing evidence, convert visualization into accepted graph authority, or claim product readiness.
+
 ## Rule Severity
 
 | Severity | Meaning |

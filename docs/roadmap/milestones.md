@@ -1300,3 +1300,28 @@ Non-goals:
 - no hardware action authority
 - no productization implementation
 - no product readiness claim
+
+## P8.20: Shell Workspace Evidence Workbench Projection Plan
+
+Goal: define the boundary for connecting the accepted shell/workspace mapping, non-applied proposal, build evidence, UI launch evidence, screenshot evidence, and authority flags into an inspectable workbench projection.
+
+Status: completed on 2026-07-10. See [P8.20 Shell Workspace Evidence Workbench Projection Plan](../reviews/p8.20-shell-workspace-evidence-workbench-projection-plan-review.md).
+
+Decision:
+
+- future projection must be report/projection state only.
+- accepted mapping, proposal, build, UI launch, and screenshot evidence must all be visible.
+- source edits, target writes, proposal application, AI authority, hardware authority, and productization remain false.
+- continue to `P8.21 Shell Workspace Evidence Workbench Projection`.
+
+Non-goals:
+
+- no projection JSON or HTML emitted in this slice
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim

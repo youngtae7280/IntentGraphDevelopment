@@ -1,0 +1,83 @@
+{
+  "artifactRole": "intentgraph-workbench-projection-boundary-plan-report",
+  "status": "intentgraph-workbench-projection-boundary-plan-recorded",
+  "scope": "p8.20-shell-workspace-evidence-workbench-projection-plan-report-only",
+  "workItem": "P8.20 Shell Workspace Evidence Workbench Projection Plan",
+  "date": "2026-07-10",
+  "decision": "shell-workspace-evidence-workbench-projection-required",
+  "inputs": [
+    "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+    "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json",
+    "generated/windowsutility/p8.10-shell-workspace-accepted-mapping-negative-probes-report.json",
+    "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+    "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-validation-report.json",
+    "generated/windowsutility/p8.13-shell-workspace-non-applied-proposal-negative-probes-report.json",
+    "generated/windowsutility/p8.15-sandboxed-smoke-evidence-report.json",
+    "generated/windowsutility/p8.17-sandboxed-ui-launch-probe-report.json",
+    "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json",
+    "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png"
+  ],
+  "projectionPlan": {
+    "projectionKind": "real-project-evidence-workbench-projection",
+    "projectionStatus": "planned-only-not-emitted",
+    "requiredSections": [
+      "workflow timeline",
+      "accepted mapping",
+      "non-applied proposal",
+      "build evidence",
+      "ui launch evidence",
+      "screenshot evidence",
+      "authority and safety boundary",
+      "artifact links",
+      "open blockers",
+      "recommended next action"
+    ],
+    "requiredArtifactLinkFields": [
+      "path",
+      "status",
+      "digest",
+      "claimScope"
+    ],
+    "requiredSafetyFlags": {
+      "sourceEditsAuthorized": false,
+      "proposalApplicationAuthorized": false,
+      "targetWritesAuthorized": false,
+      "aiAuthorityPromoted": false,
+      "hardwareActionsAuthorized": false,
+      "productizationAuthorized": false
+    },
+    "futureImplementationAllowed": {
+      "deterministicProjectionJson": true,
+      "staticHtmlPreviewFromExistingEvidence": true,
+      "newEvidenceCollection": false,
+      "appLaunch": false,
+      "screenshotCapture": false,
+      "sourceMutation": false,
+      "targetMutation": false,
+      "proposalApplication": false,
+      "productization": false
+    }
+  },
+  "futureValidation": [
+    "all required input artifacts exist and parse",
+    "projection includes accepted mapping and target baseline",
+    "projection includes non-applied proposal status",
+    "projection includes build, UI launch, and screenshot evidence",
+    "projection links the screenshot PNG path",
+    "projection exposes authority false flags",
+    "projection keeps productization blocked",
+    "original WindowsUtility target remains unchanged"
+  ],
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.21 Shell Workspace Evidence Workbench Projection"
+}

@@ -1173,3 +1173,26 @@ P8.20 Shell Workspace Evidence Workbench Projection Plan
 ```
 
 P8.20 should connect the accepted mapping and collected evidence into a workbench projection without productization claims.
+
+## Completed Slice: P8.20 Shell Workspace Evidence Workbench Projection Plan
+
+Goal: define the boundary for a WindowsUtility shell/workspace evidence workbench projection.
+
+Produced artifacts:
+
+- [P8.20 Shell Workspace Evidence Workbench Projection Plan](../reviews/p8.20-shell-workspace-evidence-workbench-projection-plan-review.md)
+- `generated/roadmap/p8.20-shell-workspace-evidence-workbench-projection-plan-report.json`
+
+Decision:
+
+```text
+shell-workspace-evidence-workbench-projection-required
+```
+
+Next safe work:
+
+```text
+P8.21 Shell Workspace Evidence Workbench Projection
+```
+
+P8.21 may emit deterministic projection JSON and a static local HTML preview from existing evidence. It must not collect new evidence, mutate the WindowsUtility target, apply proposals, grant AI authority, grant hardware authority, or claim productization.
