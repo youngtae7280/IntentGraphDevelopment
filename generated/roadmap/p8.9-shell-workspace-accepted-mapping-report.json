@@ -1,0 +1,33 @@
+{
+  "artifactRole": "intentgraph-shell-workspace-accepted-mapping-report",
+  "status": "intentgraph-shell-workspace-accepted-mapping-recorded",
+  "scope": "p8.9-shell-workspace-accepted-mapping-report-only",
+  "workItem": "P8.9 Shell Workspace Accepted Mapping Record",
+  "date": "2026-07-10",
+  "decision": "shell-workspace-mapping-accepted-no-write-authority",
+  "acceptedMappingArtifact": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+  "verificationReport": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json",
+  "humanAcceptance": {
+    "recorded": true,
+    "accepted": true,
+    "responseText": "accept"
+  },
+  "mapping": {
+    "id": "mapping.windowsutility.shell-workspace.accepted",
+    "intentUnitId": "unit.windowsutility.shell-workspace",
+    "accepted": true
+  },
+  "target": {
+    "cleanAligned": true,
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3"
+  },
+  "authorizations": {
+    "acceptedMappingCreated": true,
+    "targetWritesAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.10 Shell Workspace Accepted Mapping Negative Probes"
+}

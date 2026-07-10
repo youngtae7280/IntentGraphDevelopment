@@ -1,0 +1,30 @@
+{
+  "artifactRole": "intentgraph-windowsutility-accepted-mapping-verification-report",
+  "authorizations": {
+    "acceptedMappingCreated": true,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "errors": [],
+  "mapping": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+  "result": "pass",
+  "scope": "p8.9-shell-workspace-accepted-mapping-verification-report-only",
+  "sourceRefResults": [
+    {
+      "actualByteLength": 1897,
+      "actualDigest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+      "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+      "result": "checked"
+    },
+    {
+      "actualByteLength": 594,
+      "actualDigest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+      "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+      "result": "checked"
+    }
+  ],
+  "status": "intentgraph-windowsutility-accepted-mapping-verification-passed",
+  "targetRoot": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility"
+}

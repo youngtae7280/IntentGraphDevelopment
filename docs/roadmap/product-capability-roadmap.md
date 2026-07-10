@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.8 completed.
+P8.9 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request, but acceptance is not recorded. Mapping acceptance, proposal application, AI authority, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. Proposal application, AI authority, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -157,10 +157,16 @@ P8.8 completed:
 human acceptance requested; not recorded.
 ```
 
+P8.9 completed:
+
+```text
+shell-workspace mapping accepted; write/productization authority still false.
+```
+
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-await explicit human acceptance
+P8.10 Shell Workspace Accepted Mapping Negative Probes
 ```
 
 ## Phase Overview
@@ -833,3 +839,22 @@ P8.8 produced:
 - `generated/roadmap/p8.8-shell-workspace-mapping-human-acceptance-request.json`
 
 The next step requires an explicit user/coordinator decision: accept, reject, or revise the shell-workspace mapping.
+
+## P8.9 Result And Accepted Mapping
+
+P8.9 result:
+
+```text
+shell-workspace mapping accepted.
+Decision: shell-workspace-mapping-accepted-no-write-authority.
+```
+
+P8.9 produced:
+
+- `generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json`
+- `tools/verify_windowsutility_accepted_mapping.py`
+- `generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json`
+- [P8.9 Shell Workspace Accepted Mapping Record Review](../reviews/p8.9-shell-workspace-accepted-mapping-record-review.md)
+- `generated/roadmap/p8.9-shell-workspace-accepted-mapping-report.json`
+
+Accepted mapping does not grant target writes, proposal application, AI authority, or productization.

@@ -327,6 +327,12 @@ Status: added in P8.8.
 
 A human acceptance request may ask the user/coordinator to accept a mapping, but it must keep `recorded:false` and `accepted:false` until the user explicitly answers. Even after acceptance, source edits, proposal application, target writes, AI authority, and productization remain separate authority decisions.
 
+## V1013: Accepted Mappings Do Not Grant Write Authority
+
+Status: added in P8.9.
+
+An accepted real-project mapping may set mapping acceptance true only after explicit human acceptance is recorded. The accepted mapping verifier must re-check selected source refs and target baseline state. Accepted mapping creation must not grant target writes, proposal application, AI authority, or productization.
+
 ## Rule Severity
 
 | Severity | Meaning |

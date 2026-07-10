@@ -900,3 +900,29 @@ revise the mapping draft first
 ```
 
 No accepted mapping artifact should be created before that explicit decision.
+
+## Completed Slice: P8.9 Shell Workspace Accepted Mapping Record
+
+Goal: record the user's explicit `accept` response and create the first accepted WindowsUtility mapping artifact.
+
+Produced artifacts:
+
+- `generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json`
+- `tools/verify_windowsutility_accepted_mapping.py`
+- `generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json`
+- [P8.9 Shell Workspace Accepted Mapping Record Review](../reviews/p8.9-shell-workspace-accepted-mapping-record-review.md)
+- `generated/roadmap/p8.9-shell-workspace-accepted-mapping-report.json`
+
+Decision:
+
+```text
+shell-workspace-mapping-accepted-no-write-authority
+```
+
+Next safe work:
+
+```text
+P8.10 Shell Workspace Accepted Mapping Negative Probes
+```
+
+P8.10 should prove that stale accepted mapping refs, missing human acceptance, and unsafe authority promotion fail deterministically.

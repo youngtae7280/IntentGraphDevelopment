@@ -1050,3 +1050,23 @@ Non-goals:
 - no AI authority promotion
 - no productization implementation
 - no product readiness claim
+
+## P8.9: Shell Workspace Accepted Mapping Record
+
+Goal: record explicit user acceptance and create the first accepted WindowsUtility mapping artifact.
+
+Status: completed on 2026-07-10. See [P8.9 Shell Workspace Accepted Mapping Record Review](../reviews/p8.9-shell-workspace-accepted-mapping-record-review.md).
+
+Decision:
+
+- shell-workspace mapping accepted.
+- accepted mapping artifact created and verified.
+- target writes, proposal application, AI authority, and productization remain blocked.
+
+Non-goals:
+
+- no proposal application
+- no target write authority
+- no AI authority promotion
+- no productization implementation
+- no product readiness claim
