@@ -3159,3 +3159,25 @@ Recommended next slice:
 ```text
 P8.100 Package Extraction Verification Scope Hold Refresh
 ```
+
+## Completed Slice: P8.100 Package Extraction Verification Scope Hold Refresh
+
+Goal: refresh the package extraction verification hold state after the exact authorization request was refreshed.
+
+Result:
+
+```text
+Decision: package-extraction-verification-held-pending-exact-authorization.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.100-package-extraction-verification-scope-hold-refresh.json`
+- `generated/roadmap/p8.100-package-extraction-verification-scope-hold-refresh-report.json`
+- [P8.100 Package Extraction Verification Scope Hold Refresh](../reviews/p8.100-package-extraction-verification-scope-hold-refresh.md)
+
+Recommended next slice:
+
+```text
+P8.101 Real Evidence Readiness Recheck After Authorization Refresh
+```

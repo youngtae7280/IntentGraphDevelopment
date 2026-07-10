@@ -1,0 +1,40 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.100-package-extraction-verification-scope-hold-refresh",
+  "workItem": "P8.100 Package Extraction Verification Scope Hold Refresh",
+  "date": "2026-07-10",
+  "result": "package-extraction-verification-held-pending-exact-authorization",
+  "producedArtifacts": [
+    "generated/roadmap/p8.100-package-extraction-verification-scope-hold-refresh.json",
+    "docs/reviews/p8.100-package-extraction-verification-scope-hold-refresh.md"
+  ],
+  "holdSummary": {
+    "exactAcceptedResponseRecorded": false,
+    "authorizationResponseArtifactRecorded": false,
+    "standingAcceptShortcutApplies": false,
+    "realPackageExtractionAllowed": false
+  },
+  "blockedAuthorizations": {
+    "sandboxedPackageExtractionInventoryVerificationAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "packagedUiScreenshotAuthorized": false,
+    "installerCreationAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.101 Real Evidence Readiness Recheck After Authorization Refresh"
+}

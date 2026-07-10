@@ -1,0 +1,66 @@
+{
+  "artifactRole": "intentgraph-package-extraction-verification-scope-hold-refresh",
+  "status": "intentgraph-package-extraction-verification-scope-held",
+  "scope": "p8.100-package-extraction-verification-scope-hold-refresh",
+  "workItem": "P8.100 Package Extraction Verification Scope Hold Refresh",
+  "date": "2026-07-10",
+  "decision": "package-extraction-verification-held-pending-exact-authorization",
+  "sourceAuthorizationRefresh": {
+    "path": "generated/roadmap/p8.99-real-package-extraction-verification-authorization-refresh.json",
+    "artifactRole": "intentgraph-real-package-extraction-verification-authorization-refresh",
+    "status": "intentgraph-real-package-extraction-verification-authorization-refreshed"
+  },
+  "holdReason": {
+    "explicitAcceptedResponseRequired": "accept sandboxed package extraction inventory verification",
+    "requiredVerifierToken": "accept-sandboxed-package-extraction-inventory-verification",
+    "exactAcceptedResponseRecorded": false,
+    "authorizationResponseArtifactRecorded": false,
+    "standingAcceptShortcutApplies": false,
+    "realPackageExtractionAllowed": false
+  },
+  "safeProgressAllowedWhileHeld": [
+    "refresh readiness reports",
+    "refresh static workbench surfaces from already accepted evidence",
+    "document future package verification execution plan",
+    "document downstream launch/screenshot/installer/signing/release/productization gates without enabling them"
+  ],
+  "unsafeProgressBlockedWhileHeld": [
+    "extract existing WindowsUtility package artifact",
+    "run packaged executable",
+    "launch packaged UI",
+    "capture packaged UI screenshot",
+    "create installer",
+    "sign artifacts",
+    "read credentials",
+    "call provider APIs",
+    "create release tags",
+    "publish releases",
+    "claim productization readiness"
+  ],
+  "authorizations": {
+    "sandboxedPackageExtractionInventoryVerificationAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "packagedUiLaunchAuthorized": false,
+    "packagedUiScreenshotAuthorized": false,
+    "installerCreationAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.101 Real Evidence Readiness Recheck After Authorization Refresh"
+}

@@ -3334,3 +3334,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.100 Package Extraction Verification Scope Hold Refresh`.
+
+## P8.100: Package Extraction Verification Scope Hold Refresh
+
+Goal: refresh the package extraction verification hold state after the exact authorization request was refreshed.
+
+Status: completed on 2026-07-10. See [P8.100 Package Extraction Verification Scope Hold Refresh](../reviews/p8.100-package-extraction-verification-scope-hold-refresh.md).
+
+Decision:
+
+- package extraction verification remains held.
+- exact package extraction accepted response is still required.
+- no package extraction, executable launch, UI screenshot capture, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.100-package-extraction-verification-scope-hold-refresh.json`
+- `generated/roadmap/p8.100-package-extraction-verification-scope-hold-refresh-report.json`
+- [P8.100 Package Extraction Verification Scope Hold Refresh](../reviews/p8.100-package-extraction-verification-scope-hold-refresh.md)
+
+Next safe work:
+
+- continue to `P8.101 Real Evidence Readiness Recheck After Authorization Refresh`.
