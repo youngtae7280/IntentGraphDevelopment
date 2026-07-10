@@ -1,0 +1,45 @@
+{
+  "artifactRole": "intentgraph-windowsutility-packaging-build-test-evidence-plan",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false
+  },
+  "buildCommands": [
+    {
+      "command": "dotnet build .\\WindowsUtility.sln",
+      "executeInDryRun": false,
+      "id": "build.windowsutility.solution",
+      "requiresPackageOutput": false
+    }
+  ],
+  "date": "2026-07-10",
+  "priorEvidence": [
+    "generated/roadmap/p8.44-minimal-windowsutility-source-edit-application-report.json",
+    "generated/roadmap/p8.46-windowsutility-source-application-workbench-refresh-report.json"
+  ],
+  "scope": "p8.49-non-mutating-packaging-release-dry-run-prototype",
+  "status": "intentgraph-windowsutility-packaging-build-test-evidence-plan-recorded",
+  "testEvidencePlan": [
+    {
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\tests\\RegressionSmoke\\Invoke-IntentGraphShellWorkspacePreflight.ps1",
+      "executeInDryRun": false,
+      "id": "test.intentgraph.shell-workspace-preflight"
+    },
+    {
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\tests\\RegressionSmoke\\Invoke-WindowsUtilityRegressionSmoke.ps1",
+      "executeInDryRun": false,
+      "id": "test.windowsutility.regression-smoke"
+    }
+  ],
+  "workItem": "P8.49 Non-Mutating Packaging/Release Dry-Run Prototype"
+}

@@ -1,0 +1,29 @@
+{
+  "artifactRole": "intentgraph-windowsutility-packaging-release-rollback-plan",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false
+  },
+  "date": "2026-07-10",
+  "futureRollbackRequirements": [
+    "Capture clean target baseline before package artifact creation.",
+    "Record exact package artifact identity and checksums before release.",
+    "Stop if credentials, signing, provider APIs, or release publishing are not explicitly approved."
+  ],
+  "packageArtifactCreated": false,
+  "releasePublished": false,
+  "rollbackActionRequiredForThisDryRun": false,
+  "scope": "p8.49-non-mutating-packaging-release-dry-run-prototype",
+  "status": "intentgraph-windowsutility-packaging-release-rollback-plan-recorded",
+  "workItem": "P8.49 Non-Mutating Packaging/Release Dry-Run Prototype"
+}

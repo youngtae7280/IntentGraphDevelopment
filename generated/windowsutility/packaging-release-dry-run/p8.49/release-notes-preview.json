@@ -1,0 +1,28 @@
+{
+  "artifactRole": "intentgraph-windowsutility-release-notes-preview",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false
+  },
+  "changeItems": [
+    "Added IntentGraph shell/workspace source-application preflight script in WindowsUtility.",
+    "Refreshed static IntentGraph workbench evidence for the applied source edit."
+  ],
+  "date": "2026-07-10",
+  "releaseNotesPreviewOnly": true,
+  "releasePublished": false,
+  "scope": "p8.49-non-mutating-packaging-release-dry-run-prototype",
+  "status": "intentgraph-windowsutility-release-notes-preview-recorded",
+  "summary": "Preview only: WindowsUtility shell/workspace IntentGraph preflight evidence became available.",
+  "workItem": "P8.49 Non-Mutating Packaging/Release Dry-Run Prototype"
+}

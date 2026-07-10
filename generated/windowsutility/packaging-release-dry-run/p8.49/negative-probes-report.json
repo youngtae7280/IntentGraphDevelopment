@@ -1,0 +1,154 @@
+{
+  "artifactRole": "intentgraph-windowsutility-packaging-release-dry-run-negative-probes-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false
+  },
+  "positiveBaseline": {
+    "dryRunDir": "generated/windowsutility/packaging-release-dry-run/p8.49",
+    "rerunResult": "pass"
+  },
+  "probeCount": 14,
+  "probes": [
+    {
+      "actualErrors": [
+        "request.claimScope.packageArtifactCreated must be false",
+        "package-manifest.packageArtifactCreationExpected must be false"
+      ],
+      "expectedError": "request.claimScope.packageArtifactCreated must be false",
+      "expectedFailureObserved": true,
+      "id": "package-artifact-created"
+    },
+    {
+      "actualErrors": [
+        "request.claimScope.installerCreated must be false",
+        "package-manifest.installerCreationExpected must be false"
+      ],
+      "expectedError": "request.claimScope.installerCreated must be false",
+      "expectedFailureObserved": true,
+      "id": "installer-created"
+    },
+    {
+      "actualErrors": [
+        "authority-requirement-report.json.authorizations.artifactSigningAuthorized must be false",
+        "request.claimScope.artifactSigned must be false",
+        "authority.dryRunAuthority.artifactSigningAuthorized must be false"
+      ],
+      "expectedError": "request.claimScope.artifactSigned must be false",
+      "expectedFailureObserved": true,
+      "id": "artifact-signed"
+    },
+    {
+      "actualErrors": [
+        "request.claimScope.credentialAccessed must be false",
+        "publish-destination.credentialAccess must be false"
+      ],
+      "expectedError": "request.claimScope.credentialAccessed must be false",
+      "expectedFailureObserved": true,
+      "id": "credential-access"
+    },
+    {
+      "actualErrors": [
+        "request.claimScope.providerApiCalled must be false",
+        "publish-destination.providerApiCalls must be false"
+      ],
+      "expectedError": "request.claimScope.providerApiCalled must be false",
+      "expectedFailureObserved": true,
+      "id": "provider-api-call"
+    },
+    {
+      "actualErrors": [
+        "request.claimScope.releaseTagCreated must be false",
+        "publish-destination.releaseTagCreation must be false"
+      ],
+      "expectedError": "request.claimScope.releaseTagCreated must be false",
+      "expectedFailureObserved": true,
+      "id": "release-tag-created"
+    },
+    {
+      "actualErrors": [
+        "request.claimScope.releasePublished must be false",
+        "release-notes.releasePublished must be false",
+        "publish-destination.releasePublishing must be false"
+      ],
+      "expectedError": "request.claimScope.releasePublished must be false",
+      "expectedFailureObserved": true,
+      "id": "release-published"
+    },
+    {
+      "actualErrors": [
+        "package-manifest.packageScope must declare product and surface"
+      ],
+      "expectedError": "package-manifest.packageScope must declare product and surface",
+      "expectedFailureObserved": true,
+      "id": "missing-package-scope"
+    },
+    {
+      "actualErrors": [
+        "package-manifest.artifactIdentity must declare id and version"
+      ],
+      "expectedError": "package-manifest.artifactIdentity must declare id and version",
+      "expectedFailureObserved": true,
+      "id": "missing-artifact-version"
+    },
+    {
+      "actualErrors": [
+        "build-test.buildCommands executeInDryRun must be false"
+      ],
+      "expectedError": "build-test.buildCommands executeInDryRun must be false",
+      "expectedFailureObserved": true,
+      "id": "build-command-executed"
+    },
+    {
+      "actualErrors": [
+        "build-test.testEvidencePlan must be non-empty"
+      ],
+      "expectedError": "build-test.testEvidencePlan must be non-empty",
+      "expectedFailureObserved": true,
+      "id": "missing-test-plan"
+    },
+    {
+      "actualErrors": [
+        "missing artifact rollback-plan.json",
+        "rollback.packageArtifactCreated must be false",
+        "rollback.releasePublished must be false",
+        "rollback.rollbackActionRequiredForThisDryRun must be false",
+        "rollback.futureRollbackRequirements must be non-empty"
+      ],
+      "expectedError": "missing artifact rollback-plan.json",
+      "expectedFailureObserved": true,
+      "id": "missing-rollback-plan"
+    },
+    {
+      "actualErrors": [
+        "authority-requirement-report.json.authorizations.aiAuthorityPromoted must be false",
+        "authority.dryRunAuthority.aiSelfAuthorizationAllowed must be false"
+      ],
+      "expectedError": "authority-requirement-report.json.authorizations.aiAuthorityPromoted must be false",
+      "expectedFailureObserved": true,
+      "id": "ai-authority"
+    },
+    {
+      "actualErrors": [
+        "request.claimScope.productizationClaimed must be false"
+      ],
+      "expectedError": "request.claimScope.productizationClaimed must be false",
+      "expectedFailureObserved": true,
+      "id": "productization-claim"
+    }
+  ],
+  "result": "pass",
+  "scope": "p8.49-non-mutating-packaging-release-dry-run-negative-probes-report-only",
+  "status": "intentgraph-windowsutility-packaging-release-dry-run-negative-probes-passed",
+  "workItem": "P8.49 Non-Mutating Packaging/Release Dry-Run Prototype"
+}

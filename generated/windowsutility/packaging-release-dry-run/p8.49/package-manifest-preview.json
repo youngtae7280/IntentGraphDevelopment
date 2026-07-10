@@ -1,0 +1,36 @@
+{
+  "artifactIdentity": {
+    "format": "zip-or-installer-preview-only",
+    "id": "windowsutility-shell-workspace-preview",
+    "version": "0.0.0-p8.49-dry-run"
+  },
+  "artifactRole": "intentgraph-windowsutility-package-manifest-preview",
+  "artifactSigningExpected": false,
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false
+  },
+  "date": "2026-07-10",
+  "expectedOutputs": [],
+  "installerCreationExpected": false,
+  "packageApplicationMode": "non-mutating-preview-only",
+  "packageArtifactCreationExpected": false,
+  "packageScope": {
+    "product": "WindowsUtility",
+    "surface": "shell-workspace",
+    "target": "local-windows-desktop-preview"
+  },
+  "scope": "p8.49-non-mutating-packaging-release-dry-run-prototype",
+  "status": "intentgraph-windowsutility-package-manifest-preview-recorded",
+  "workItem": "P8.49 Non-Mutating Packaging/Release Dry-Run Prototype"
+}

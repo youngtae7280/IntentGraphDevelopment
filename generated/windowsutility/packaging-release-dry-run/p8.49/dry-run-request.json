@@ -1,0 +1,83 @@
+{
+  "artifactRole": "intentgraph-windowsutility-packaging-release-dry-run-request",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false
+  },
+  "claimScope": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "dryRunOnly": true,
+    "installerCreated": false,
+    "packageArtifactCreated": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "releaseTagCreated": false,
+    "sourceMutated": false,
+    "targetMutated": false,
+    "windowsUtilityBuildArtifactCreated": false
+  },
+  "date": "2026-07-10",
+  "dryRunPurpose": "Create a deterministic packaging/release rehearsal record before any package artifact or release is created.",
+  "mode": "non-mutating-packaging-release-dry-run",
+  "readOnlyTargetFileChecks": [
+    {
+      "exists": true,
+      "path": "WindowsUtility.sln",
+      "readOnlyCheck": true
+    },
+    {
+      "exists": true,
+      "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+      "readOnlyCheck": true
+    },
+    {
+      "exists": true,
+      "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+      "readOnlyCheck": true
+    },
+    {
+      "exists": true,
+      "path": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+      "readOnlyCheck": true
+    }
+  ],
+  "reportVersion": "0.1.0",
+  "scope": "p8.49-non-mutating-packaging-release-dry-run-prototype",
+  "sourceInputs": {
+    "boundaryReport": {
+      "artifactRole": "intentgraph-non-mutating-packaging-release-dry-run-boundary-report",
+      "digest": "sha256:41713ae8069120c273734772f844f43338a5dbf93ebb5e2ed31c14fb957aa5a3",
+      "path": "generated/roadmap/p8.48-non-mutating-packaging-release-dry-run-boundary-report.json",
+      "status": "intentgraph-non-mutating-packaging-release-dry-run-boundary-recorded"
+    },
+    "sourceApplicationWorkbenchReport": {
+      "artifactRole": "intentgraph-roadmap-slice-completion-report",
+      "decision": "source-application-workbench-refresh-passed",
+      "digest": "sha256:be1ae3905b495dadf63f962fae570854c9b7d0fc553451bc6bc61ab097ea2562",
+      "path": "generated/roadmap/p8.46-windowsutility-source-application-workbench-refresh-report.json",
+      "status": "intentgraph-roadmap-slice-completed"
+    },
+    "targetRoot": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility"
+  },
+  "status": "intentgraph-windowsutility-packaging-release-dry-run-request-recorded",
+  "targetBaseline": {
+    "cleanAligned": true,
+    "gitStatus": "## main...origin/main",
+    "head": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility"
+  },
+  "workItem": "P8.49 Non-Mutating Packaging/Release Dry-Run Prototype"
+}

@@ -1,0 +1,38 @@
+{
+  "artifactRole": "intentgraph-windowsutility-packaging-release-authority-requirement-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false
+  },
+  "date": "2026-07-10",
+  "dryRunAuthority": {
+    "aiSelfAuthorizationAllowed": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "nonMutatingPackagingReleaseDryRunRecorded": true,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false
+  },
+  "nextGate": {
+    "id": "gate.future-packaging-release-authorization",
+    "reason": "A packaging/release slice must use this dry-run plus explicit coordinator/user authority before creating artifacts or publishing.",
+    "requiredBeforePackageOrRelease": true
+  },
+  "scope": "p8.49-non-mutating-packaging-release-dry-run-prototype",
+  "status": "intentgraph-windowsutility-packaging-release-authority-requirements-recorded",
+  "workItem": "P8.49 Non-Mutating Packaging/Release Dry-Run Prototype"
+}

@@ -1,0 +1,40 @@
+{
+  "artifactRole": "intentgraph-windowsutility-packaging-release-dry-run-validation-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false
+  },
+  "date": "2026-07-10",
+  "errors": [],
+  "outputFiles": [
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\packaging-release-dry-run\\p8.49\\dry-run-request.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\packaging-release-dry-run\\p8.49\\package-manifest-preview.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\packaging-release-dry-run\\p8.49\\build-test-evidence-plan.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\packaging-release-dry-run\\p8.49\\release-notes-preview.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\packaging-release-dry-run\\p8.49\\publish-destination-plan.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\packaging-release-dry-run\\p8.49\\rollback-plan.json",
+    "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\packaging-release-dry-run\\p8.49\\authority-requirement-report.json"
+  ],
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "p8.49-non-mutating-packaging-release-dry-run-prototype",
+  "status": "intentgraph-windowsutility-packaging-release-dry-run-validation-passed",
+  "summary": {
+    "artifactCount": 7,
+    "buildCommandCount": 1,
+    "errorCount": 0,
+    "readOnlyTargetFileCheckCount": 4,
+    "testEvidencePlanCount": 2
+  },
+  "workItem": "P8.49 Non-Mutating Packaging/Release Dry-Run Prototype"
+}

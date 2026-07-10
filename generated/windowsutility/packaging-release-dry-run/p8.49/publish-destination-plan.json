@@ -1,0 +1,30 @@
+{
+  "artifactRole": "intentgraph-windowsutility-publish-destination-plan",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "installerCreationAuthorized": false,
+    "packageArtifactCreationAuthorized": false,
+    "productizationAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityBuildArtifactCreationAuthorized": false
+  },
+  "credentialAccess": false,
+  "date": "2026-07-10",
+  "providerApiCalls": false,
+  "publishDestination": {
+    "kind": "future-release-destination-placeholder",
+    "provider": "not-selected",
+    "repository": "not-authorized"
+  },
+  "releasePublishing": false,
+  "releaseTagCreation": false,
+  "scope": "p8.49-non-mutating-packaging-release-dry-run-prototype",
+  "status": "intentgraph-windowsutility-publish-destination-plan-recorded",
+  "workItem": "P8.49 Non-Mutating Packaging/Release Dry-Run Prototype"
+}
