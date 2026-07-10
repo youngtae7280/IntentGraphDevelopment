@@ -706,7 +706,7 @@ Next safe work:
 
 ```text
 P8.1 WindowsUtility Repository State Resolution Plan
-P8.1 WindowsUtility Accepted Mapping Boundary Plan
+P8.2 WindowsUtility Accepted Mapping Boundary Plan
 ```
 
 Both are stabilization work. Neither may mutate WindowsUtility, apply proposals, package the product, or claim readiness unless the Coordinator explicitly opens that scope.
@@ -733,3 +733,26 @@ P8.2 WindowsUtility Accepted Mapping Boundary Plan
 ```
 
 P8.2 may define how hypotheses become accepted mappings, but it must not mutate WindowsUtility or treat the current unresolved repository state as accepted.
+
+## Completed Slice: P8.2 WindowsUtility Accepted Mapping Boundary Plan
+
+Goal: define accepted mapping requirements before accepting any WindowsUtility mapping hypothesis.
+
+Produced artifacts:
+
+- [P8.2 WindowsUtility Accepted Mapping Boundary Plan Review](../reviews/p8.2-windowsutility-accepted-mapping-boundary-plan-review.md)
+- `generated/roadmap/p8.2-windowsutility-accepted-mapping-boundary-report.json`
+
+Decision:
+
+```text
+accepted-mapping-not-created-boundary-defined
+```
+
+Next safe work:
+
+```text
+P8.3 WindowsUtility Accepted Mapping Candidate Selection
+```
+
+P8.3 must still remain outside WindowsUtility unless target writes are explicitly authorized. It may select one candidate and prepare a mapping artifact, but it must not apply proposals or claim productization readiness.

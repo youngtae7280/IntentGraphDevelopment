@@ -82,17 +82,17 @@
     },
     {
       "id": "track.accepted-mapping",
-      "nextSafeSlice": "P8.1 WindowsUtility Accepted Mapping Boundary Plan",
+      "nextSafeSlice": "P8.2 WindowsUtility Accepted Mapping Boundary Plan",
       "implementationAuthorized": false
     },
     {
       "id": "track.real-change-loop",
-      "nextSafeSlice": "P8.2 WindowsUtility Non-Applied Proposal Boundary",
+      "nextSafeSlice": "future WindowsUtility Non-Applied Proposal Boundary",
       "implementationAuthorized": false
     },
     {
       "id": "track.real-project-workbench",
-      "nextSafeSlice": "P8.3 WindowsUtility Workbench Projection Boundary",
+      "nextSafeSlice": "future WindowsUtility Workbench Projection Boundary",
       "implementationAuthorized": false
     },
     {
@@ -113,6 +113,6 @@
   },
   "recommendedNextSlices": [
     "P8.1 WindowsUtility Repository State Resolution Plan",
-    "P8.1 WindowsUtility Accepted Mapping Boundary Plan"
+    "P8.2 WindowsUtility Accepted Mapping Boundary Plan"
   ]
 }

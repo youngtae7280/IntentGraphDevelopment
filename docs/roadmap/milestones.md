@@ -897,3 +897,25 @@ Non-goals:
 - no proposal application
 - no productization implementation
 - no product readiness claim
+
+## P8.2: WindowsUtility Accepted Mapping Boundary Plan
+
+Goal: define how WindowsUtility mapping hypotheses may become accepted mappings.
+
+Status: completed on 2026-07-10. See [P8.2 WindowsUtility Accepted Mapping Boundary Plan Review](../reviews/p8.2-windowsutility-accepted-mapping-boundary-plan-review.md).
+
+Decision:
+
+- accepted mapping requirements are defined.
+- no mapping is accepted in P8.2.
+- target writes, proposal application, AI authority, and productization remain blocked.
+
+Non-goals:
+
+- no writing to WindowsUtility
+- no accepted real-project mappings
+- no proposal application
+- no target write authority
+- no AI authority promotion
+- no productization implementation
+- no product readiness claim

@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.1 completed.
+P8.2 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state is unresolved. P8.2 defined how mappings may be accepted, but did not accept one. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -115,11 +115,17 @@ WindowsUtility repository state remains unresolved.
 
 P8.1 recorded the target status and kept target writes blocked.
 
+P8.2 completed:
+
+```text
+Accepted mapping boundary defined; no mapping accepted.
+```
+
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.1 WindowsUtility Repository State Resolution Plan
-P8.1 WindowsUtility Accepted Mapping Boundary Plan
+P8.3 WindowsUtility Accepted Mapping Candidate Selection
+external target-state resolution
 ```
 
 ## Phase Overview
@@ -677,3 +683,19 @@ P8.1 produced:
 - `generated/roadmap/p8.1-windowsutility-repository-state-resolution-report.json`
 
 Target writes, accepted mappings, proposal application, and productization remain blocked until the target repository state is explicitly resolved or scoped.
+
+## P8.2 Result And Accepted-Mapping Boundary
+
+P8.2 result:
+
+```text
+Accepted mapping boundary completed.
+Decision: accepted-mapping-not-created-boundary-defined.
+```
+
+P8.2 produced:
+
+- [P8.2 WindowsUtility Accepted Mapping Boundary Plan Review](../reviews/p8.2-windowsutility-accepted-mapping-boundary-plan-review.md)
+- `generated/roadmap/p8.2-windowsutility-accepted-mapping-boundary-report.json`
+
+WindowsUtility mappings remain hypotheses until a later slice selects a candidate, records baseline state, resolves ambiguity, defines evidence and authority requirements, and runs stale/missing mapping probes.

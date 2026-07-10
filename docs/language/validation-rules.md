@@ -285,6 +285,12 @@ Status: added in P8.1.
 
 If a selected real-project target is ahead of origin, dirty, or has untracked control artifacts, adoption must remain read-only until the state is explicitly resolved or scoped. The orchestrator must not clean, delete, commit, push, or treat the dirty state as baseline without an explicit resolution record. Accepted mappings, target writes, proposal application, and productization remain blocked until this boundary is satisfied.
 
+## V1006: Accepted Real-Project Mappings Need Evidence And Authority Boundaries
+
+Status: added in P8.2.
+
+A real-project mapping hypothesis may become accepted only when the accepted mapping artifact records selected hypothesis id, Intent Unit id, source refs, source digest baseline, ambiguity disposition, evidence requirements, authority requirements, and deterministic stale/missing mapping failure probes. Accepted mappings must not imply target write authority, proposal application authority, AI authority, productization, source text equality, or hidden generated-code snapshots.
+
 ## Rule Severity
 
 | Severity | Meaning |

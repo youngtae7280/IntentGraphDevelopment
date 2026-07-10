@@ -1,0 +1,60 @@
+{
+  "artifactRole": "intentgraph-windowsutility-accepted-mapping-boundary-report",
+  "status": "intentgraph-windowsutility-accepted-mapping-boundary-planned",
+  "scope": "p8.2-windowsutility-accepted-mapping-boundary-report-only",
+  "workItem": "P8.2 WindowsUtility Accepted Mapping Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "accepted-mapping-not-created-boundary-defined",
+  "inputs": [
+    "generated/windowsutility/p7.1-readonly-inventory.json",
+    "generated/windowsutility/p7.2-mapping-hypothesis.json",
+    "generated/roadmap/p8.1-windowsutility-repository-state-resolution-report.json"
+  ],
+  "acceptedMappingCreated": false,
+  "targetWritesAuthorized": false,
+  "proposalApplicationAuthorized": false,
+  "aiAuthorityPromoted": false,
+  "productizationAuthorized": false,
+  "requirements": {
+    "selectedHypothesisId": true,
+    "acceptedIntentUnitId": true,
+    "sourceRefs": true,
+    "sourceDigestBaseline": true,
+    "ambiguityDisposition": true,
+    "evidenceRequirements": true,
+    "authorityRequirements": true,
+    "staleMissingNegativeProbes": true,
+    "sourceTextEqualityRequired": false,
+    "hiddenGeneratedCodeSnapshotUsed": false,
+    "targetWriteAuthority": false
+  },
+  "candidateHypotheses": [
+    {
+      "id": "unit.windowsutility.shell-workspace",
+      "accepted": false
+    },
+    {
+      "id": "unit.windowsutility.core-services",
+      "accepted": false
+    },
+    {
+      "id": "unit.windowsutility.utility-modules",
+      "accepted": false
+    },
+    {
+      "id": "unit.windowsutility.tests-and-smoke",
+      "accepted": false
+    }
+  ],
+  "blockers": [
+    "target state treated as clean when unresolved",
+    "accepted mapping without source refs or digest baseline",
+    "silent ambiguity removal",
+    "missing evidence requirements",
+    "missing authority requirements",
+    "missing stale/missing mapping negative probes",
+    "artifact written inside WindowsUtility without explicit approval",
+    "mapping grants proposal application, AI authority, or productization"
+  ],
+  "recommendedNextSlice": "P8.3 WindowsUtility Accepted Mapping Candidate Selection"
+}
