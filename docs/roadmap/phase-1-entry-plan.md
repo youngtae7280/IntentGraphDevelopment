@@ -2834,3 +2834,24 @@ Recommended next slice:
 ```text
 P8.85 Productization Readiness Recheck After Installer Boundary Planning
 ```
+
+## Completed Slice: P8.85 Productization Readiness Recheck After Installer Boundary Planning
+
+Goal: recheck productization readiness after installer creation boundary and hold records.
+
+Result:
+
+```text
+Decision: productization-still-blocked-installer-signing-release-authority-required.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.85-productization-readiness-recheck-after-installer-boundary-planning-report.json`
+- [P8.85 Productization Readiness Recheck After Installer Boundary Planning](../reviews/p8.85-productization-readiness-recheck-after-installer-boundary-planning.md)
+
+Recommended next slice:
+
+```text
+P8.86 Artifact Signing Authority Boundary Plan
+```

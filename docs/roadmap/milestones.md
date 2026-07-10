@@ -3004,3 +3004,24 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.85 Productization Readiness Recheck After Installer Boundary Planning`.
+
+## P8.85: Productization Readiness Recheck After Installer Boundary Planning
+
+Goal: recheck productization readiness after installer creation boundary and hold records.
+
+Status: completed on 2026-07-10. See [P8.85 Productization Readiness Recheck After Installer Boundary Planning](../reviews/p8.85-productization-readiness-recheck-after-installer-boundary-planning.md).
+
+Decision:
+
+- readiness improved because installer preconditions and hold state are explicit.
+- productization remains blocked.
+- real package extraction verification, launch smoke, UI evidence, product candidate acceptance, installer creation, signing, release authority, and productization authority remain absent.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.85-productization-readiness-recheck-after-installer-boundary-planning-report.json`
+- [P8.85 Productization Readiness Recheck After Installer Boundary Planning](../reviews/p8.85-productization-readiness-recheck-after-installer-boundary-planning.md)
+
+Next safe work:
+
+- continue to `P8.86 Artifact Signing Authority Boundary Plan`.
