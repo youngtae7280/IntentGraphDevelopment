@@ -852,3 +852,26 @@ P8.7 Shell Workspace Mapping Acceptance Readiness Review
 ```
 
 P8.7 may evaluate whether the shell-workspace draft can request user acceptance. It must not auto-accept the mapping, apply proposals, or claim productization readiness.
+
+## Completed Slice: P8.7 Shell Workspace Mapping Acceptance Readiness Review
+
+Goal: determine whether the shell-workspace draft can be presented for human acceptance.
+
+Produced artifacts:
+
+- [P8.7 Shell Workspace Mapping Acceptance Readiness Review](../reviews/p8.7-shell-workspace-mapping-acceptance-readiness-review.md)
+- `generated/roadmap/p8.7-shell-workspace-mapping-acceptance-readiness-report.json`
+
+Decision:
+
+```text
+ready-to-request-human-acceptance-mapping-not-accepted
+```
+
+Next safe work:
+
+```text
+P8.8 Shell Workspace Mapping Human Acceptance Request
+```
+
+P8.8 should create the acceptance request artifact and wait for explicit user/coordinator acceptance.

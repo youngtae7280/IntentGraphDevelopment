@@ -315,6 +315,12 @@ Status: added in P8.6.
 
 When resolving a dirty real-project target, existing commits may be pushed only when that is the selected resolution path, and untracked control artifacts must be archived or otherwise preserved before removal. The final report must record final `HEAD`, `origin/main`, clean/aligned status, archive location or equivalent preservation record, and must not auto-create accepted mappings, proposal application authority, AI authority, or productization authority.
 
+## V1011: Readiness To Request Acceptance Is Not Acceptance
+
+Status: added in P8.7.
+
+A mapping acceptance readiness report may state that a mapping is ready for human acceptance request only if the target baseline is clean/aligned or explicitly scoped, selected refs resolve, positive verification passes, negative probes pass, and evidence/authority requirements are declared. It must keep the mapping unaccepted and keep target writes, proposal application, AI authority, and productization false until explicit human acceptance is recorded in a later artifact.
+
 ## Rule Severity
 
 | Severity | Meaning |

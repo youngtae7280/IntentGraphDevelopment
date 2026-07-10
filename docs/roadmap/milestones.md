@@ -1008,3 +1008,24 @@ Non-goals:
 - no AI authority promotion
 - no productization implementation
 - no product readiness claim
+
+## P8.7: Shell Workspace Mapping Acceptance Readiness Review
+
+Goal: determine whether the shell-workspace mapping draft is ready for human acceptance request.
+
+Status: completed on 2026-07-10. See [P8.7 Shell Workspace Mapping Acceptance Readiness Review](../reviews/p8.7-shell-workspace-mapping-acceptance-readiness-review.md).
+
+Decision:
+
+- mapping is ready for human acceptance request.
+- mapping remains unaccepted.
+- target writes, proposal application, AI authority, and productization remain blocked.
+
+Non-goals:
+
+- no accepted real-project mapping
+- no proposal application
+- no target write authority
+- no AI authority promotion
+- no productization implementation
+- no product readiness claim

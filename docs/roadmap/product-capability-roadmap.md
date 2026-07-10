@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.6 completed.
+P8.7 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. Mapping acceptance, proposal application, AI authority, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance, but still unaccepted. Mapping acceptance, proposal application, AI authority, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -145,10 +145,16 @@ P8.6 completed:
 WindowsUtility target state clean/aligned.
 ```
 
+P8.7 completed:
+
+```text
+shell-workspace mapping ready for human acceptance request; not accepted.
+```
+
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.7 Shell Workspace Mapping Acceptance Readiness Review
+P8.8 Shell Workspace Mapping Human Acceptance Request
 ```
 
 ## Phase Overview
@@ -789,3 +795,19 @@ P8.6 produced:
 - `generated/roadmap/p8.6-windowsutility-target-state-resolution-report.json`
 
 The prior untracked `.devview/` directory was archived outside the target repository before removal. Clean/aligned target state does not automatically authorize accepted mappings or productization.
+
+## P8.7 Result And Acceptance Readiness
+
+P8.7 result:
+
+```text
+shell-workspace mapping ready for human acceptance request.
+Decision: ready-to-request-human-acceptance-mapping-not-accepted.
+```
+
+P8.7 produced:
+
+- [P8.7 Shell Workspace Mapping Acceptance Readiness Review](../reviews/p8.7-shell-workspace-mapping-acceptance-readiness-review.md)
+- `generated/roadmap/p8.7-shell-workspace-mapping-acceptance-readiness-report.json`
+
+The mapping remains unaccepted until explicit human acceptance is recorded.

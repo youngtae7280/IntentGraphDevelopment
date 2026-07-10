@@ -1,0 +1,63 @@
+{
+  "artifactRole": "intentgraph-shell-workspace-mapping-acceptance-readiness-report",
+  "status": "intentgraph-shell-workspace-mapping-ready-for-human-acceptance-request",
+  "scope": "p8.7-shell-workspace-mapping-acceptance-readiness-report-only",
+  "workItem": "P8.7 Shell Workspace Mapping Acceptance Readiness Review",
+  "date": "2026-07-10",
+  "decision": "ready-to-request-human-acceptance-mapping-not-accepted",
+  "sourceReports": [
+    {
+      "path": "generated/windowsutility/p8.4-shell-workspace-accepted-mapping-draft.json",
+      "artifactRole": "intentgraph-windowsutility-accepted-mapping-draft",
+      "status": "intentgraph-windowsutility-accepted-mapping-draft-created"
+    },
+    {
+      "path": "generated/windowsutility/p8.5-shell-workspace-mapping-draft-verification-report.json",
+      "artifactRole": "intentgraph-windowsutility-mapping-draft-verification-report",
+      "status": "intentgraph-windowsutility-mapping-draft-verification-passed"
+    },
+    {
+      "path": "generated/windowsutility/p8.5-shell-workspace-mapping-draft-negative-probes-report.json",
+      "artifactRole": "intentgraph-windowsutility-mapping-draft-negative-probes-report",
+      "status": "intentgraph-windowsutility-mapping-draft-negative-probes-passed"
+    },
+    {
+      "path": "generated/roadmap/p8.6-windowsutility-target-state-resolution-report.json",
+      "artifactRole": "intentgraph-windowsutility-target-state-resolution-report",
+      "status": "intentgraph-windowsutility-target-state-clean-aligned"
+    }
+  ],
+  "readiness": {
+    "targetCleanAligned": true,
+    "draftExists": true,
+    "selectedRefsResolve": true,
+    "sourceDigestsRecorded": true,
+    "positiveVerificationPassed": true,
+    "negativeProbesPassed": true,
+    "evidenceRequirementsDeclared": true,
+    "authorityRequirementsDeclared": true,
+    "readyForHumanAcceptanceRequest": true
+  },
+  "selectedMapping": {
+    "candidateId": "unit.windowsutility.shell-workspace",
+    "draftMappingId": "mapping.windowsutility.shell-workspace.draft",
+    "accepted": false,
+    "sourceRefs": [
+      "src/WindowsUtility.App/WindowsUtility.App.csproj",
+      "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+    ]
+  },
+  "humanAcceptance": {
+    "required": true,
+    "recorded": false,
+    "requestText": "Accept this shell-workspace mapping as the first real-project Intent Unit mapping?"
+  },
+  "authorizations": {
+    "acceptedMappingCreated": false,
+    "targetWritesAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.8 Shell Workspace Mapping Human Acceptance Request"
+}
