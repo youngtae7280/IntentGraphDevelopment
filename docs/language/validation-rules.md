@@ -474,6 +474,14 @@ A usage/arity overlay-only contract delta must preserve source bytes, increase o
 
 Before the current overlay changes, the prior P1.11 after-state must be captured as historical source, code facts, and overlay artifacts. The P1.12 negative harness must use those historical artifacts and must not silently use mutable current facts, overlays, or source roots from P1.14 or later slices.
 
+### V419 - Usage Arity Contract Negative Probes Are Repeatable
+
+Severity: P0 in P1.15
+
+Usage/arity overlay-only contract deltas must have a committed negative-probe harness that reruns the unmutated positive baseline before bad cases. The harness must prove deterministic failure for incorrect source/overlay change flags, missing contract coverage increase, missing added unit, missing usage/arity code fact or mapping resolution, missing verification, missing or wrong stderr expectations, wrong exit code, missing evidence/authority/history records, source-text equality claims, and hidden generated-code snapshot claims.
+
+The harness must exit successfully only when every bad case fails for the expected reason and must not pass because the positive baseline is broken.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

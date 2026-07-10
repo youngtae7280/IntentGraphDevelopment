@@ -367,7 +367,7 @@ Non-goals:
 
 Goal: model CF0's existing usage/arity handling as an explicit overlay-only contract with code facts, verification, evidence, authority, and history while preserving source bytes and historical baselines.
 
-Status: current authorized slice. See [P1.14 Usage Arity Overlay Contract Review](../reviews/p1.14-usage-arity-overlay-contract-review.md).
+Status: completed on 2026-07-10. See [P1.14 Usage Arity Overlay Contract Review](../reviews/p1.14-usage-arity-overlay-contract-review.md).
 
 Non-goals:
 
@@ -377,3 +377,16 @@ Non-goals:
 - no B0 generated-code pipeline changes
 - no dependency addition
 - no P1.14 negative harness yet
+
+## P1.15: Repeatable Usage-Arity Overlay Contract Negative Probe Harness
+
+Goal: add a deterministic CF0-specific harness proving P1.14 usage/arity overlay-only contract delta failures are rejected for intended reasons.
+
+Status: current authorized slice. See [P1.15 Usage Arity Negative Probes Review](../reviews/p1.15-usage-arity-negative-probes-review.md).
+
+Non-goals:
+
+- no new behavior or contract unit
+- no CF0 source behavior changes
+- no B0 generated-code pipeline changes
+- no dependency addition

@@ -184,7 +184,7 @@ def verify_delta(
         }
         for check_id in expected_behavior_checks:
             check_text = str(check_id)
-            requires_stderr = "unsupported" in check_text or "invalid" in check_text
+            requires_stderr = "unsupported" in check_text or "invalid" in check_text or "usage" in check_text
             if requires_stderr and "expectedStderr" not in verification_by_id.get(check_id, {}):
                 errors.append(f"stderr contract missing for behavior check {check_id}")
     for remap in remapped_units:
