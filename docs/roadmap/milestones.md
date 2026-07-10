@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview
+P8.44 Minimal WindowsUtility Source Edit Application
 ```
 
-This Phase G stabilization slice selected one low-risk WindowsUtility test-automation source edit and emitted a patch preview without writing to WindowsUtility. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice applied the first low-risk WindowsUtility test-automation source edit, validated it with preflight and build, and committed/pushed WindowsUtility. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1944,6 +1944,33 @@ Non-goals:
 - no product runtime change
 - no Utility_Windows reference source mutation
 - no hardware action authority
+- no AI authority promotion
+- no packaging
+- no release
+- no productization implementation
+- no product readiness claim
+
+## P8.44: Minimal WindowsUtility Source Edit Application
+
+Goal: apply the P8.43 low-risk WindowsUtility test-automation source edit and validate it.
+
+Status: completed on 2026-07-10. See [P8.44 Minimal WindowsUtility Source Edit Application](../reviews/p8.44-minimal-windowsutility-source-edit-application.md).
+
+Decision:
+
+- added `tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1`.
+- corrected the script inside the same selected file after initial preflight validation failed.
+- final preflight passed.
+- `dotnet build .\WindowsUtility.sln` passed with 0 warnings and 0 errors.
+- WindowsUtility commit `ac5b2204442cde751f625a9979a4fdb437d468a8` was pushed to `origin/main`.
+- continue to `P8.45 Source Application Result Review / Next Productization Gate`.
+
+Non-goals:
+
+- no product runtime behavior change
+- no Native interop change
+- no Utility_Windows mutation
+- no hardware action
 - no AI authority promotion
 - no packaging
 - no release

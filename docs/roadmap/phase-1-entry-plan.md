@@ -1770,3 +1770,26 @@ Recommended next slice:
 ```text
 P8.44 Minimal WindowsUtility Source Edit Application
 ```
+
+## Completed Slice: P8.44 Minimal WindowsUtility Source Edit Application
+
+Goal: apply the P8.43 low-risk source edit, validate it, and record the result.
+
+Produced artifacts:
+
+- `generated/windowsutility/source-application-applications/p8.44/application-report.json`
+- `generated/windowsutility/source-application-applications/p8.44/applied-Invoke-IntentGraphShellWorkspacePreflight.ps1`
+- `generated/roadmap/p8.44-minimal-windowsutility-source-edit-application-report.json`
+- [P8.44 Minimal WindowsUtility Source Edit Application](../reviews/p8.44-minimal-windowsutility-source-edit-application.md)
+
+Decision:
+
+```text
+minimal-source-edit-applied-and-validated
+```
+
+Recommended next slice:
+
+```text
+P8.45 Source Application Result Review / Next Productization Gate
+```

@@ -472,3 +472,33 @@ The next safe stabilization slice is:
 ```text
 P8.44 Minimal WindowsUtility Source Edit Application
 ```
+
+## P8.44 Minimal WindowsUtility Source Edit Application
+
+P8.44 applied the first real WindowsUtility source edit:
+
+```text
+tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1
+```
+
+The first preflight run exposed a default-path bug in the previewed script. The correction stayed inside the same selected file, then final preflight and `dotnet build .\WindowsUtility.sln` passed.
+
+WindowsUtility was committed and pushed at:
+
+```text
+ac5b2204442cde751f625a9979a4fdb437d468a8
+```
+
+Still blocked:
+
+- AI authority promotion
+- hardware actions
+- packaging
+- release
+- productization
+
+The next safe stabilization slice is:
+
+```text
+P8.45 Source Application Result Review / Next Productization Gate
+```

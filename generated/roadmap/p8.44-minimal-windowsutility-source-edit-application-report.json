@@ -1,0 +1,71 @@
+{
+  "applicationReport": {
+    "digest": "sha256:cc8fe9f3d11f1e58b722b2d0195454a1d059c706d6a77d7b3d6dacfd2f00f97d",
+    "path": "generated/windowsutility/source-application-applications/p8.44/application-report.json"
+  },
+  "appliedChange": {
+    "byteLength": 1057,
+    "changeType": "add-file",
+    "digest": "sha256:41ea32509a09b388bbc43f9ff4c7e5409ca650017c5088230e9bd4ab7b200a62",
+    "path": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+    "snapshotPath": "generated/windowsutility/source-application-applications/p8.44/applied-Invoke-IntentGraphShellWorkspacePreflight.ps1",
+    "touchesHardwarePath": false,
+    "touchesNativePath": false,
+    "touchesPackagingOrRelease": false,
+    "touchesProductRuntime": false,
+    "touchesUtilityWindowsReferenceSource": false
+  },
+  "artifactRole": "intentgraph-roadmap-slice-completion-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "hardwareActionsPerformed": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorizedByUser": true,
+    "sourceEditsExercised": true,
+    "targetWritesPerformed": true,
+    "windowsUtilityCommitCreated": true,
+    "windowsUtilityPushPerformed": true
+  },
+  "date": "2026-07-10",
+  "decision": "minimal-source-edit-applied-and-validated",
+  "recommendedNextSlice": "P8.45 Source Application Result Review / Next Productization Gate",
+  "scope": "p8.44-minimal-windowsutility-source-edit-application-report-only",
+  "status": "intentgraph-roadmap-slice-completed",
+  "summary": "Applied the previewed low-risk WindowsUtility test-automation source edit, corrected a preflight default-path defect discovered during validation, ran preflight/build, and committed/pushed WindowsUtility.",
+  "targetRepository": {
+    "afterHead": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "beforeHead": "07cbe76368e8857ad198438707f1d52301925da3",
+    "cleanAligned": true,
+    "commitCreated": true,
+    "commitMessage": "Add IntentGraph shell workspace preflight",
+    "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "pushPerformed": true,
+    "status": "## main...origin/main"
+  },
+  "validationResults": [
+    {
+      "acceptedFailure": true,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\tests\\RegressionSmoke\\Invoke-IntentGraphShellWorkspacePreflight.ps1",
+      "id": "validate.p8.44-initial-preflight",
+      "result": "fail",
+      "summary": "Initial preview script failed before correction because Join-Path received an empty $PSScriptRoot."
+    },
+    {
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\tests\\RegressionSmoke\\Invoke-IntentGraphShellWorkspacePreflight.ps1",
+      "id": "validate.p8.44-final-preflight",
+      "result": "pass",
+      "summary": "All required shell/workspace paths were found."
+    },
+    {
+      "command": "dotnet build .\\WindowsUtility.sln",
+      "id": "validate.p8.44-build",
+      "result": "pass",
+      "summary": "Build passed with 0 warnings and 0 errors."
+    }
+  ],
+  "workItem": "P8.44 Minimal WindowsUtility Source Edit Application"
+}
