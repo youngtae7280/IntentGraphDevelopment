@@ -81,9 +81,12 @@ def build_index() -> dict[str, Any]:
     p13_after_source = (CF0 / "p1.3-after-source/calc.py").as_posix()
     p13_after_facts = (CF0 / "p1.3-after-code-facts.json").as_posix()
     p13_after_overlay = (CF0 / "p1.3-after-overlay.json").as_posix()
-    p17_after_source = (CF0 / "p1.9-before-source/calc.py").as_posix()
-    p17_after_facts = (CF0 / "p1.9-before-code-facts.json").as_posix()
-    p17_after_overlay = (CF0 / "p1.9-before-overlay.json").as_posix()
+    p17_after_source = (CF0 / "p1.7-after-source/calc.py").as_posix()
+    p17_after_facts = (CF0 / "p1.7-after-code-facts.json").as_posix()
+    p17_after_overlay = (CF0 / "p1.7-after-overlay.json").as_posix()
+    p19_after_source = (CF0 / "p1.9-after-source/calc.py").as_posix()
+    p19_after_facts = (CF0 / "p1.9-after-code-facts.json").as_posix()
+    p19_after_overlay = (CF0 / "p1.9-after-overlay.json").as_posix()
     current_source = (DOCS_CF0 / "source/calc.py").as_posix()
     current_facts = (CF0 / "code-facts.json").as_posix()
     current_overlay = (DOCS_CF0 / "intentgraph.overlay.json").as_posix()
@@ -114,9 +117,17 @@ def build_index() -> dict[str, Any]:
             "overlay": artifact(p17_after_overlay),
         },
         {
-            "id": "cf0.state.p1.9.current-overlay-unsupported-operation",
+            "id": "cf0.state.p1.9.after-overlay-unsupported-operation",
+            "kind": "historical",
+            "description": "CF0 after adding overlay-only unsupported-operation contract coverage, before P1.11 invalid-integer coverage.",
+            "source": artifact(p19_after_source, "hand-written-historical-copy"),
+            "codeFacts": artifact(p19_after_facts),
+            "overlay": artifact(p19_after_overlay),
+        },
+        {
+            "id": "cf0.state.p1.11.current-overlay-invalid-integer",
             "kind": "current",
-            "description": "CF0 current state after adding overlay-only unsupported-operation contract coverage without source behavior changes.",
+            "description": "CF0 current state after adding overlay-only invalid-integer input contract coverage without source behavior changes.",
             "source": artifact(current_source, "hand-written-current"),
             "codeFacts": artifact(current_facts),
             "overlay": artifact(current_overlay),
@@ -146,10 +157,20 @@ def build_index() -> dict[str, Any]:
         {
             "id": "cf0.transition.p1.9.overlay-unsupported-operation",
             "fromStateId": "cf0.state.p1.7.after-refactor-multiply",
-            "toStateId": "cf0.state.p1.9.current-overlay-unsupported-operation",
+            "toStateId": "cf0.state.p1.9.after-overlay-unsupported-operation",
             "delta": artifact((DOCS_CF0 / "deltas/p1.9-overlay-unsupported-operation.delta.json").as_posix()),
             "verificationReport": {
                 **artifact((CF0 / "p1.9-overlay-contract-delta-report.json").as_posix()),
+                "historical": True,
+            },
+        },
+        {
+            "id": "cf0.transition.p1.11.overlay-invalid-integer",
+            "fromStateId": "cf0.state.p1.9.after-overlay-unsupported-operation",
+            "toStateId": "cf0.state.p1.11.current-overlay-invalid-integer",
+            "delta": artifact((DOCS_CF0 / "deltas/p1.11-overlay-invalid-integer.delta.json").as_posix()),
+            "verificationReport": {
+                **artifact((CF0 / "p1.11-overlay-invalid-integer-delta-report.json").as_posix()),
                 "historical": False,
             },
         },
@@ -159,7 +180,7 @@ def build_index() -> dict[str, Any]:
         "status": "generated",
         "reportVersion": REPORT_VERSION,
         "scope": "cf0-code-first-overlay-history-index",
-        "currentStateId": "cf0.state.p1.9.current-overlay-unsupported-operation",
+        "currentStateId": "cf0.state.p1.11.current-overlay-invalid-integer",
         "states": states,
         "transitions": transitions,
         "invariants": {
@@ -184,7 +205,8 @@ def build_index() -> dict[str, Any]:
         "P1.3 after-state contains old mul implementation facts",
         "P1.7 current state contains multiply facts and not old mul implementation facts",
         "P1.7 transition preserves unit.behavior.mul while remapping facts",
-        "P1.9 current state contains unsupported-operation overlay contract coverage",
+        "P1.9 historical state contains unsupported-operation overlay contract coverage",
+        "P1.11 current state contains invalid-integer overlay contract coverage",
     ]
     return index
 
@@ -249,7 +271,7 @@ def validate_index(index: dict[str, Any]) -> None:
     if old_mul.intersection(current_ids):
         raise StateIndexError("P1.7 current state must not contain old mul implementation facts")
 
-    p17_historical_ids = fact_ids((CF0 / "p1.9-before-code-facts.json").as_posix())
+    p17_historical_ids = fact_ids((CF0 / "p1.7-after-code-facts.json").as_posix())
     if not new_multiply.issubset(p17_historical_ids):
         raise StateIndexError("P1.7 historical state must contain multiply implementation facts")
     if old_mul.intersection(p17_historical_ids):
@@ -271,9 +293,26 @@ def validate_index(index: dict[str, Any]) -> None:
         if isinstance(unit, dict) and isinstance(unit.get("id"), str)
     }
     if "unit.behavior.unsupported-operation" not in current_unit_ids:
-        raise StateIndexError("P1.9 current state must include unit.behavior.unsupported-operation")
+        raise StateIndexError("current state must include unit.behavior.unsupported-operation")
     if "fact.function.main.stderr.unsupported_operation" not in current_ids:
-        raise StateIndexError("P1.9 current state must include unsupported-operation code fact")
+        raise StateIndexError("current state must include unsupported-operation code fact")
+    p19_historical_ids = fact_ids((CF0 / "p1.9-after-code-facts.json").as_posix())
+    if "fact.function.main.stderr.unsupported_operation" not in p19_historical_ids:
+        raise StateIndexError("P1.9 historical state must include unsupported-operation code fact")
+    p19_overlay = read_json(ROOT / CF0 / "p1.9-after-overlay.json")
+    p19_unit_ids = {
+        unit["id"]
+        for unit in p19_overlay.get("intentUnits", [])
+        if isinstance(unit, dict) and isinstance(unit.get("id"), str)
+    }
+    if "unit.behavior.unsupported-operation" not in p19_unit_ids:
+        raise StateIndexError("P1.9 historical state must include unit.behavior.unsupported-operation")
+    if "unit.behavior.invalid-integer-input" in p19_unit_ids:
+        raise StateIndexError("P1.9 historical state must not include P1.11 invalid-integer unit")
+    if "fact.function.main.stderr.left_and_right_must_be_integers" not in current_ids:
+        raise StateIndexError("P1.11 current state must include invalid-integer code fact")
+    if "unit.behavior.invalid-integer-input" not in current_unit_ids:
+        raise StateIndexError("P1.11 current state must include unit.behavior.invalid-integer-input")
 
 
 def write_json(path: Path, data: dict[str, Any]) -> None:

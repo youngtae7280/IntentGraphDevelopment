@@ -444,6 +444,14 @@ Overlay-only contract deltas must have a committed negative-probe harness that r
 
 The harness must exit successfully only when every bad case fails for the expected reason and must not pass because the positive baseline is broken.
 
+### V415 - Overlay-Only Input Validation Contract Delta
+
+Severity: P0 in P1.11
+
+An overlay-only input-validation contract delta must preserve source bytes, increase overlay contract coverage, preserve existing accepted behavior units, and add explicit code refs, code fact refs, mapping obligations, verification, evidence, authority, and history for the newly accepted input-validation behavior.
+
+Historical harnesses for earlier overlay-only deltas must use named historical after-state artifacts before the current overlay changes. They must not silently use mutable current facts, overlays, or source roots from later contract-coverage slices.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

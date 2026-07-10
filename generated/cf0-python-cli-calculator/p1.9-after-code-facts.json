@@ -1,0 +1,308 @@
+{
+  "benchmarkId": "CF0-python-cli-calculator",
+  "codeFactsVersion": "0.2.0",
+  "extractor": {
+    "deterministic": true,
+    "externalExtractor": false,
+    "mode": "tiny-cf0-ast-static",
+    "name": "tools/extract_code_facts.py"
+  },
+  "facts": [
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "id": "fact.file.calc.py",
+      "kind": "file",
+      "language": "python",
+      "lineCount": 47,
+      "sha256": "60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524",
+      "sourceMode": "filesystem-source"
+    },
+    {
+      "arguments": [
+        "left",
+        "right"
+      ],
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "id": "fact.function.add",
+      "kind": "function",
+      "location": {
+        "columnEnd": 23,
+        "columnStart": 0,
+        "lineEnd": 9,
+        "lineStart": 8
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "add"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "expression": "left + right",
+      "id": "fact.function.add.return.left_plus_right",
+      "kind": "return-expression",
+      "location": {
+        "columnEnd": 23,
+        "columnStart": 0,
+        "lineEnd": 9,
+        "lineStart": 8
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "add"
+    },
+    {
+      "arguments": [
+        "argv"
+      ],
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "id": "fact.function.main",
+      "kind": "function",
+      "location": {
+        "columnEnd": 12,
+        "columnStart": 0,
+        "lineEnd": 43,
+        "lineStart": 20
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "main"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "fromSymbol": "main",
+      "id": "fact.function.main.calls.add",
+      "kind": "call",
+      "location": {
+        "columnEnd": 12,
+        "columnStart": 0,
+        "lineEnd": 43,
+        "lineStart": 20
+      },
+      "sourceMode": "ast-extracted",
+      "toSymbol": "add"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "fromSymbol": "main",
+      "id": "fact.function.main.calls.int",
+      "kind": "call",
+      "location": {
+        "columnEnd": 12,
+        "columnStart": 0,
+        "lineEnd": 43,
+        "lineStart": 20
+      },
+      "sourceMode": "ast-extracted",
+      "toSymbol": "int"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "fromSymbol": "main",
+      "id": "fact.function.main.calls.len",
+      "kind": "call",
+      "location": {
+        "columnEnd": 12,
+        "columnStart": 0,
+        "lineEnd": 43,
+        "lineStart": 20
+      },
+      "sourceMode": "ast-extracted",
+      "toSymbol": "len"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "fromSymbol": "main",
+      "id": "fact.function.main.calls.multiply",
+      "kind": "call",
+      "location": {
+        "columnEnd": 12,
+        "columnStart": 0,
+        "lineEnd": 43,
+        "lineStart": 20
+      },
+      "sourceMode": "ast-extracted",
+      "toSymbol": "multiply"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "fromSymbol": "main",
+      "id": "fact.function.main.calls.print",
+      "kind": "call",
+      "location": {
+        "columnEnd": 12,
+        "columnStart": 0,
+        "lineEnd": 43,
+        "lineStart": 20
+      },
+      "sourceMode": "ast-extracted",
+      "toSymbol": "print"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "fromSymbol": "main",
+      "id": "fact.function.main.calls.sub",
+      "kind": "call",
+      "location": {
+        "columnEnd": 12,
+        "columnStart": 0,
+        "lineEnd": 43,
+        "lineStart": 20
+      },
+      "sourceMode": "ast-extracted",
+      "toSymbol": "sub"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "expression": "0",
+      "id": "fact.function.main.return.0",
+      "kind": "return-expression",
+      "location": {
+        "columnEnd": 12,
+        "columnStart": 0,
+        "lineEnd": 43,
+        "lineStart": 20
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "main"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "expression": "2",
+      "id": "fact.function.main.return.2",
+      "kind": "return-expression",
+      "location": {
+        "columnEnd": 12,
+        "columnStart": 0,
+        "lineEnd": 43,
+        "lineStart": 20
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "main"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "id": "fact.function.main.stderr.left_and_right_must_be_integers",
+      "kind": "stderr-output",
+      "literal": "LEFT and RIGHT must be integers",
+      "location": {
+        "columnEnd": 65,
+        "columnStart": 8,
+        "lineEnd": 31,
+        "lineStart": 31
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "main"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "id": "fact.function.main.stderr.unsupported_operation",
+      "kind": "stderr-output",
+      "literal": "unsupported operation: ",
+      "location": {
+        "columnEnd": 65,
+        "columnStart": 4,
+        "lineEnd": 42,
+        "lineStart": 42
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "main"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "id": "fact.function.main.stderr.usage_calc_add_sub_mul_left_right",
+      "kind": "stderr-output",
+      "literal": "usage: calc {add|sub|mul} LEFT RIGHT",
+      "location": {
+        "columnEnd": 70,
+        "columnStart": 8,
+        "lineEnd": 24,
+        "lineStart": 24
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "main"
+    },
+    {
+      "arguments": [
+        "left",
+        "right"
+      ],
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "id": "fact.function.multiply",
+      "kind": "function",
+      "location": {
+        "columnEnd": 23,
+        "columnStart": 0,
+        "lineEnd": 17,
+        "lineStart": 16
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "multiply"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "expression": "left * right",
+      "id": "fact.function.multiply.return.left_times_right",
+      "kind": "return-expression",
+      "location": {
+        "columnEnd": 23,
+        "columnStart": 0,
+        "lineEnd": 17,
+        "lineStart": 16
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "multiply"
+    },
+    {
+      "arguments": [
+        "left",
+        "right"
+      ],
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "id": "fact.function.sub",
+      "kind": "function",
+      "location": {
+        "columnEnd": 23,
+        "columnStart": 0,
+        "lineEnd": 13,
+        "lineStart": 12
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "sub"
+    },
+    {
+      "artifactPath": "calc.py",
+      "confidence": "deterministic",
+      "expression": "left - right",
+      "id": "fact.function.sub.return.left_minus_right",
+      "kind": "return-expression",
+      "location": {
+        "columnEnd": 23,
+        "columnStart": 0,
+        "lineEnd": 13,
+        "lineStart": 12
+      },
+      "sourceMode": "ast-extracted",
+      "symbol": "sub"
+    }
+  ],
+  "source": {
+    "path": "docs/examples/cf0-python-cli-calculator/source/calc.py",
+    "role": "hand-written",
+    "sha256": "60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+  }
+}

@@ -18,9 +18,9 @@ ROOT = Path(__file__).resolve().parents[1]
 GOOD_DELTA = ROOT / "docs/examples/cf0-python-cli-calculator/deltas/p1.9-overlay-unsupported-operation.delta.json"
 BEFORE_FACTS = ROOT / "generated/cf0-python-cli-calculator/p1.9-before-code-facts.json"
 BEFORE_OVERLAY = ROOT / "generated/cf0-python-cli-calculator/p1.9-before-overlay.json"
-AFTER_FACTS = ROOT / "generated/cf0-python-cli-calculator/code-facts.json"
-AFTER_OVERLAY = ROOT / "docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json"
-SOURCE_ROOT = ROOT / "docs/examples/cf0-python-cli-calculator/source"
+AFTER_FACTS = ROOT / "generated/cf0-python-cli-calculator/p1.9-after-code-facts.json"
+AFTER_OVERLAY = ROOT / "generated/cf0-python-cli-calculator/p1.9-after-overlay.json"
+SOURCE_ROOT = ROOT / "generated/cf0-python-cli-calculator/p1.9-after-source"
 VERIFIER = ROOT / "tools/verify_code_first_delta.py"
 
 Mutation = Callable[[dict[str, Any], dict[str, Any], dict[str, Any], Path], dict[str, Path]]
@@ -311,7 +311,10 @@ def build_report() -> dict[str, Any]:
         "status": "pass" if all_passed else "fail",
         "result": "pass" if all_passed else "fail",
         "scope": "cf0-p1.9-overlay-contract-negative-probes",
-        "baselineScope": "current-p1.9-overlay-only-contract-delta",
+        "baselineScope": "historical-p1.9-overlay-only-contract-delta",
+        "currentCodeFactsUsed": False,
+        "currentOverlayUsed": False,
+        "historicalSourceUsed": True,
         "baselineDelta": GOOD_DELTA.relative_to(ROOT).as_posix(),
         "positiveBaseline": {
             "rerunResult": baseline.get("rerunResult"),
@@ -332,6 +335,15 @@ def build_report() -> dict[str, Any]:
             "aiAuthorityPromoted": False,
             "productBehaviorAdded": False,
             "generalNegativeProbeFrameworkClaimed": False,
+            "currentP1_11ArtifactsUsed": False,
+        },
+        "historicalInputs": {
+            "delta": GOOD_DELTA.relative_to(ROOT).as_posix(),
+            "beforeCodeFacts": BEFORE_FACTS.relative_to(ROOT).as_posix(),
+            "beforeOverlay": BEFORE_OVERLAY.relative_to(ROOT).as_posix(),
+            "afterCodeFacts": AFTER_FACTS.relative_to(ROOT).as_posix(),
+            "afterOverlay": AFTER_OVERLAY.relative_to(ROOT).as_posix(),
+            "sourceRoot": SOURCE_ROOT.relative_to(ROOT).as_posix(),
         },
     }
 

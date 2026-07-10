@@ -9,9 +9,10 @@
     "P1.3 after-state contains old mul implementation facts",
     "P1.7 current state contains multiply facts and not old mul implementation facts",
     "P1.7 transition preserves unit.behavior.mul while remapping facts",
-    "P1.9 current state contains unsupported-operation overlay contract coverage"
+    "P1.9 historical state contains unsupported-operation overlay contract coverage",
+    "P1.11 current state contains invalid-integer overlay contract coverage"
   ],
-  "currentStateId": "cf0.state.p1.9.current-overlay-unsupported-operation",
+  "currentStateId": "cf0.state.p1.11.current-overlay-invalid-integer",
   "errors": [],
   "invariants": {
     "cf0SpecificIndexOnly": true,
@@ -69,7 +70,7 @@
     {
       "codeFacts": {
         "digestMode": "canonical-json",
-        "path": "generated/cf0-python-cli-calculator/p1.9-before-code-facts.json",
+        "path": "generated/cf0-python-cli-calculator/p1.7-after-code-facts.json",
         "sha256": "sha256:ff80d8f654e3752bfb446a6100d493df452386ab98724ae36e0c4f46f742131c"
       },
       "description": "CF0 after preserving unit.behavior.mul while refactoring its implementation to multiply, before P1.9 overlay-only contract coverage.",
@@ -77,12 +78,33 @@
       "kind": "historical",
       "overlay": {
         "digestMode": "canonical-json",
-        "path": "generated/cf0-python-cli-calculator/p1.9-before-overlay.json",
+        "path": "generated/cf0-python-cli-calculator/p1.7-after-overlay.json",
         "sha256": "sha256:dbb203a083e39cb085f9f0f746b0db308b5382c2de3de0ea79d19804334ac37b"
       },
       "source": {
         "digestMode": "file-bytes",
-        "path": "generated/cf0-python-cli-calculator/p1.9-before-source/calc.py",
+        "path": "generated/cf0-python-cli-calculator/p1.7-after-source/calc.py",
+        "role": "hand-written-historical-copy",
+        "sha256": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+      }
+    },
+    {
+      "codeFacts": {
+        "digestMode": "canonical-json",
+        "path": "generated/cf0-python-cli-calculator/p1.9-after-code-facts.json",
+        "sha256": "sha256:1a3f50c0593d614da6df13354c2a643346b6a65a6f5bd20e7b3d90e23fddd971"
+      },
+      "description": "CF0 after adding overlay-only unsupported-operation contract coverage, before P1.11 invalid-integer coverage.",
+      "id": "cf0.state.p1.9.after-overlay-unsupported-operation",
+      "kind": "historical",
+      "overlay": {
+        "digestMode": "canonical-json",
+        "path": "generated/cf0-python-cli-calculator/p1.9-after-overlay.json",
+        "sha256": "sha256:ebf558b2ef036ea350eb46ba81137365ce1e12af1118b96c77e02a4470f5b59e"
+      },
+      "source": {
+        "digestMode": "file-bytes",
+        "path": "generated/cf0-python-cli-calculator/p1.9-after-source/calc.py",
         "role": "hand-written-historical-copy",
         "sha256": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
       }
@@ -93,13 +115,13 @@
         "path": "generated/cf0-python-cli-calculator/code-facts.json",
         "sha256": "sha256:1a3f50c0593d614da6df13354c2a643346b6a65a6f5bd20e7b3d90e23fddd971"
       },
-      "description": "CF0 current state after adding overlay-only unsupported-operation contract coverage without source behavior changes.",
-      "id": "cf0.state.p1.9.current-overlay-unsupported-operation",
+      "description": "CF0 current state after adding overlay-only invalid-integer input contract coverage without source behavior changes.",
+      "id": "cf0.state.p1.11.current-overlay-invalid-integer",
       "kind": "current",
       "overlay": {
         "digestMode": "canonical-json",
         "path": "docs/examples/cf0-python-cli-calculator/intentgraph.overlay.json",
-        "sha256": "sha256:ebf558b2ef036ea350eb46ba81137365ce1e12af1118b96c77e02a4470f5b59e"
+        "sha256": "sha256:f6b569617b57deb9061a959313594e95120cbc21a8e8879d3de7b5945fa3aab0"
       },
       "source": {
         "digestMode": "file-bytes",
@@ -140,7 +162,7 @@
         "digestMode": "canonical-json",
         "historical": true,
         "path": "generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json",
-        "sha256": "sha256:681cd0cd5060033599104b6c2c4edf27ee93b3abdf0568c283acb6f058beea12"
+        "sha256": "sha256:f89d9498ae3c37f954b5414484c616aa3ea906e88b9633ebf2f9023c4438c7f7"
       }
     },
     {
@@ -151,12 +173,28 @@
       },
       "fromStateId": "cf0.state.p1.7.after-refactor-multiply",
       "id": "cf0.transition.p1.9.overlay-unsupported-operation",
-      "toStateId": "cf0.state.p1.9.current-overlay-unsupported-operation",
+      "toStateId": "cf0.state.p1.9.after-overlay-unsupported-operation",
+      "verificationReport": {
+        "digestMode": "canonical-json",
+        "historical": true,
+        "path": "generated/cf0-python-cli-calculator/p1.9-overlay-contract-delta-report.json",
+        "sha256": "sha256:5d7bc50533fdc0e16accd4f755a0065fdd30a16d9ed90f5f8894c5e0809dce40"
+      }
+    },
+    {
+      "delta": {
+        "digestMode": "canonical-json",
+        "path": "docs/examples/cf0-python-cli-calculator/deltas/p1.11-overlay-invalid-integer.delta.json",
+        "sha256": "sha256:bbd6586fe923b44419acf60f22b19a668d50c072dff743fa757fd8ebd0823f1e"
+      },
+      "fromStateId": "cf0.state.p1.9.after-overlay-unsupported-operation",
+      "id": "cf0.transition.p1.11.overlay-invalid-integer",
+      "toStateId": "cf0.state.p1.11.current-overlay-invalid-integer",
       "verificationReport": {
         "digestMode": "canonical-json",
         "historical": false,
-        "path": "generated/cf0-python-cli-calculator/p1.9-overlay-contract-delta-report.json",
-        "sha256": "sha256:5bea363a7bf2c7cedfda4fd42b69aa1e49d7d6e47e57f940358280a80362b013"
+        "path": "generated/cf0-python-cli-calculator/p1.11-overlay-invalid-integer-delta-report.json",
+        "sha256": "sha256:2e9602299bccfe330aa96cf8578a72c697c57d124f7880b5c937e104a0d2e1f5"
       }
     }
   ]

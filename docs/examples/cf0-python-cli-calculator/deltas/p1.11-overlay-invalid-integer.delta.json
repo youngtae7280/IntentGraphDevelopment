@@ -1,0 +1,47 @@
+{
+  "authorityIds": [
+    "authority.record.p1.11-human"
+  ],
+  "before": {
+    "codeFactCount": 19,
+    "codeFactsDigest": "sha256:1a3f50c0593d614da6df13354c2a643346b6a65a6f5bd20e7b3d90e23fddd971",
+    "mappingObligationCount": 5,
+    "overlayDigest": "sha256:ebf558b2ef036ea350eb46ba81137365ce1e12af1118b96c77e02a4470f5b59e",
+    "sourceDigest": "sha256:60496eba9d033ee08084086221f8c442481d8fc9f3e20ecb569b88e9d09d9524"
+  },
+  "benchmarkId": "CF0-python-cli-calculator",
+  "deltaId": "p1.11-overlay-invalid-integer",
+  "deltaVersion": "0.1.0",
+  "evidenceIds": [
+    "evidence.p1.11-overlay-invalid-integer-delta"
+  ],
+  "expectedAfter": {
+    "addedBehaviorUnits": [
+      "unit.behavior.invalid-integer-input"
+    ],
+    "addedCodeFactIds": [],
+    "behaviorChecks": [
+      "test.case.add",
+      "test.case.sub",
+      "test.case.mul",
+      "test.case.unsupported-operation",
+      "test.case.invalid-integer"
+    ],
+    "contractCoverageIncreased": true,
+    "overlayChanged": true,
+    "preservedBehaviorUnits": [
+      "unit.behavior.add",
+      "unit.behavior.mul",
+      "unit.behavior.sub",
+      "unit.behavior.unsupported-operation"
+    ],
+    "sourceChanged": false
+  },
+  "hiddenGeneratedCodeSnapshotUsed": false,
+  "historyIds": [
+    "history.delta.p1.11-overlay-invalid-integer"
+  ],
+  "mode": "code-first-overlay-only-contract-delta",
+  "sourceTextEqualityRequired": false,
+  "summary": "Model existing invalid-integer input behavior as an explicit overlay contract without changing CF0 source behavior."
+}

@@ -72,6 +72,24 @@
         "result": "pass",
         "stderr": "unsupported operation: div\n",
         "stdout": ""
+      },
+      {
+        "command": [
+          "python",
+          "calc.py",
+          "add",
+          "two",
+          "3"
+        ],
+        "errors": [],
+        "exitCode": 2,
+        "expectedExitCode": 2,
+        "expectedStderr": "LEFT and RIGHT must be integers\n",
+        "expectedStdout": "",
+        "id": "test.case.invalid-integer",
+        "result": "pass",
+        "stderr": "LEFT and RIGHT must be integers\n",
+        "stdout": ""
       }
     ],
     "result": "pass"
@@ -92,9 +110,9 @@
   },
   "mappingVerification": {
     "errors": [],
-    "mappingObligationCount": 5,
+    "mappingObligationCount": 6,
     "result": "pass",
-    "unitCount": 5,
+    "unitCount": 6,
     "units": [
       {
         "codeFactRefCount": 2,
@@ -121,7 +139,7 @@
         "unitId": "unit.behavior.sub"
       },
       {
-        "codeFactRefCount": 6,
+        "codeFactRefCount": 7,
         "codeRefCount": 2,
         "errors": [],
         "mappingObligationCount": 1,
@@ -135,6 +153,14 @@
         "mappingObligationCount": 1,
         "result": "pass",
         "unitId": "unit.behavior.unsupported-operation"
+      },
+      {
+        "codeFactRefCount": 2,
+        "codeRefCount": 2,
+        "errors": [],
+        "mappingObligationCount": 1,
+        "result": "pass",
+        "unitId": "unit.behavior.invalid-integer-input"
       }
     ]
   },

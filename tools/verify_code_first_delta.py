@@ -183,7 +183,9 @@ def verify_delta(
             if isinstance(item, dict)
         }
         for check_id in expected_behavior_checks:
-            if "unsupported" in str(check_id) and "expectedStderr" not in verification_by_id.get(check_id, {}):
+            check_text = str(check_id)
+            requires_stderr = "unsupported" in check_text or "invalid" in check_text
+            if requires_stderr and "expectedStderr" not in verification_by_id.get(check_id, {}):
                 errors.append(f"stderr contract missing for behavior check {check_id}")
     for remap in remapped_units:
         unit_id = remap.get("unitId")

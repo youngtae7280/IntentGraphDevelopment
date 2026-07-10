@@ -327,7 +327,7 @@
       "kind": "product",
       "status": "accepted",
       "contract": {
-        "summary": "Maintain a hand-written Python CLI calculator with add, subtract, multiply, unsupported-operation, and invalid-integer input behavior.",
+        "summary": "Maintain a hand-written Python CLI calculator with add, subtract, and multiply behavior.",
         "acceptedDevelopmentCommitment": "The calculator product unit is accepted as the parent code-first overlay unit."
       },
       "codeRefs": [
@@ -377,11 +377,6 @@
           "id": "codeFactRef.product.main.stderr-unsupported",
           "factId": "fact.function.main.stderr.unsupported_operation",
           "expectedFactKind": "stderr-output"
-        },
-        {
-          "id": "codeFactRef.product.main.stderr-invalid-integer",
-          "factId": "fact.function.main.stderr.left_and_right_must_be_integers",
-          "expectedFactKind": "stderr-output"
         }
       ],
       "mappingObligations": [
@@ -402,15 +397,13 @@
             "codeFactRef.product.main.calls-add",
             "codeFactRef.product.main.calls-mul",
             "codeFactRef.product.main.calls-sub",
-            "codeFactRef.product.main.stderr-unsupported",
-            "codeFactRef.product.main.stderr-invalid-integer"
+            "codeFactRef.product.main.stderr-unsupported"
           ],
           "verificationIds": [
             "test.case.add",
             "test.case.mul",
             "test.case.sub",
-            "test.case.unsupported-operation",
-            "test.case.invalid-integer"
+            "test.case.unsupported-operation"
           ],
           "evidenceIds": [
             "evidence.behavior-smoke",
@@ -418,15 +411,13 @@
             "evidence.overlay-verifier",
             "evidence.p1.3-maintenance-delta",
             "evidence.p1.7-refactor-delta",
-            "evidence.p1.9-overlay-contract-delta",
-            "evidence.p1.11-overlay-invalid-integer-delta"
+            "evidence.p1.9-overlay-contract-delta"
           ],
           "authorityIds": [
             "authority.record.p1.2-human",
             "authority.record.p1.3-human",
             "authority.record.p1.7-human",
-            "authority.record.p1.9-human",
-            "authority.record.p1.11-human"
+            "authority.record.p1.9-human"
           ],
           "sourceTextEqualityRequired": false
         }
@@ -436,8 +427,7 @@
           "test.case.add",
           "test.case.sub",
           "test.case.mul",
-          "test.case.unsupported-operation",
-          "test.case.invalid-integer"
+          "test.case.unsupported-operation"
         ]
       },
       "evidence": [
@@ -446,22 +436,19 @@
         "evidence.overlay-verifier",
         "evidence.p1.3-maintenance-delta",
         "evidence.p1.7-refactor-delta",
-        "evidence.p1.9-overlay-contract-delta",
-        "evidence.p1.11-overlay-invalid-integer-delta"
+        "evidence.p1.9-overlay-contract-delta"
       ],
       "authority": [
         "authority.record.p1.2-human",
         "authority.record.p1.3-human",
         "authority.record.p1.7-human",
-        "authority.record.p1.9-human",
-        "authority.record.p1.11-human"
+        "authority.record.p1.9-human"
       ],
       "history": [
         "history.delta.p1.2-code-first-overlay",
         "history.delta.p1.3-add-mul",
         "history.delta.p1.7-refactor-mul-to-multiply",
-        "history.delta.p1.9-overlay-unsupported-operation",
-        "history.delta.p1.11-overlay-invalid-integer"
+        "history.delta.p1.9-overlay-unsupported-operation"
       ],
       "admission": {
         "stableId": true,
@@ -579,109 +566,6 @@
         "rawUtterance": false,
         "hypothesisOnly": false
       }
-    },
-    {
-      "id": "unit.behavior.invalid-integer-input",
-      "kind": "behavior",
-      "status": "accepted",
-      "contract": {
-        "summary": "python calc.py OP NON_INTEGER RIGHT writes LEFT and RIGHT must be integers to stderr and exits 2.",
-        "acceptedDevelopmentCommitment": "The invalid-integer behavior is accepted as an overlay-only contract for behavior already present in source."
-      },
-      "codeRefs": [
-        {
-          "id": "codeRef.invalid-integer.main-stderr",
-          "artifactId": "source.calc.py",
-          "factId": "fact.function.main.stderr.left_and_right_must_be_integers",
-          "refKind": "exception-output",
-          "symbol": "main",
-          "ownership": "reference-only"
-        },
-        {
-          "id": "codeRef.invalid-integer.main-return-2",
-          "artifactId": "source.calc.py",
-          "factId": "fact.function.main.return.2",
-          "refKind": "return-code",
-          "symbol": "main",
-          "ownership": "reference-only"
-        }
-      ],
-      "codeFactRefs": [
-        {
-          "id": "codeFactRef.invalid-integer.stderr",
-          "factId": "fact.function.main.stderr.left_and_right_must_be_integers",
-          "expectedFactKind": "stderr-output"
-        },
-        {
-          "id": "codeFactRef.invalid-integer.return-2",
-          "factId": "fact.function.main.return.2",
-          "expectedFactKind": "return-expression"
-        }
-      ],
-      "mappingObligations": [
-        {
-          "id": "mapping.invalid-integer.behavior-to-code",
-          "obligationKind": "behavior-to-code-fact",
-          "mode": "code-first-maintenance-overlay",
-          "intentIds": [
-            "intent.behavior.invalid-integer-input"
-          ],
-          "codeRefIds": [
-            "codeRef.invalid-integer.main-stderr",
-            "codeRef.invalid-integer.main-return-2"
-          ],
-          "codeFactRefIds": [
-            "codeFactRef.invalid-integer.stderr",
-            "codeFactRef.invalid-integer.return-2"
-          ],
-          "verificationIds": [
-            "test.case.invalid-integer"
-          ],
-          "evidenceIds": [
-            "evidence.extractor-output",
-            "evidence.behavior-smoke",
-            "evidence.overlay-verifier",
-            "evidence.p1.11-overlay-invalid-integer-delta"
-          ],
-          "authorityIds": [
-            "authority.record.p1.11-human"
-          ],
-          "sourceTextEqualityRequired": false
-        }
-      ],
-      "verification": {
-        "behaviorSmoke": {
-          "command": "python calc.py add two 3",
-          "expectedStdout": "",
-          "expectedStderr": "LEFT and RIGHT must be integers\n",
-          "expectedExitCode": 2
-        }
-      },
-      "evidence": [
-        "evidence.extractor-output",
-        "evidence.behavior-smoke",
-        "evidence.overlay-verifier",
-        "evidence.p1.11-overlay-invalid-integer-delta"
-      ],
-      "authority": [
-        "authority.record.p1.11-human"
-      ],
-      "history": [
-        "history.delta.p1.11-overlay-invalid-integer"
-      ],
-      "admission": {
-        "stableId": true,
-        "acceptedCommitment": true,
-        "mappingBoundary": true,
-        "codeRefBoundary": true,
-        "codeFactBoundary": true,
-        "verificationObligation": true,
-        "evidenceBoundary": true,
-        "authorityBoundary": true,
-        "codeTextContained": false,
-        "rawUtterance": false,
-        "hypothesisOnly": false
-      }
     }
   ],
   "unitEdges": [
@@ -708,12 +592,6 @@
       "kind": "refines",
       "from": "unit.product.calculator",
       "to": "unit.behavior.unsupported-operation"
-    },
-    {
-      "id": "unit-edge.product-refines-invalid-integer",
-      "kind": "refines",
-      "from": "unit.product.calculator",
-      "to": "unit.behavior.invalid-integer-input"
     }
   ],
   "verification": [
@@ -769,20 +647,6 @@
       "expectedStdout": "",
       "expectedStderr": "unsupported operation: div\n",
       "expectedExitCode": 2
-    },
-    {
-      "id": "test.case.invalid-integer",
-      "kind": "behavior-smoke",
-      "command": [
-        "python",
-        "calc.py",
-        "add",
-        "two",
-        "3"
-      ],
-      "expectedStdout": "",
-      "expectedStderr": "LEFT and RIGHT must be integers\n",
-      "expectedExitCode": 2
     }
   ],
   "evidence": [
@@ -821,12 +685,6 @@
       "kind": "overlay-only-contract-delta-report",
       "status": "planned",
       "artifactRef": "generated/cf0-python-cli-calculator/p1.9-overlay-contract-delta-report.json"
-    },
-    {
-      "id": "evidence.p1.11-overlay-invalid-integer-delta",
-      "kind": "overlay-only-contract-delta-report",
-      "status": "planned",
-      "artifactRef": "generated/cf0-python-cli-calculator/p1.11-overlay-invalid-integer-delta-report.json"
     }
   ],
   "authority": [
@@ -873,17 +731,6 @@
       "decidedByType": "human",
       "decision": "accepted-overlay-only-unsupported-operation-contract",
       "decisionStatus": "accepted"
-    },
-    {
-      "id": "authority.record.p1.11-human",
-      "proposer": "IntentGraphDevelopment Roadmap Orchestrator",
-      "proposerType": "human",
-      "requiredAuthority": "roadmap-orchestrator",
-      "validator": "p1.11-overlay-only-contract-delta-verifier",
-      "decidedBy": "IntentGraphDevelopment Roadmap Orchestrator",
-      "decidedByType": "human",
-      "decision": "accepted-overlay-only-invalid-integer-contract",
-      "decisionStatus": "accepted"
     }
   ],
   "history": [
@@ -920,15 +767,6 @@
       "changeType": "overlay-only-contract-coverage",
       "status": "accepted",
       "summary": "Model existing unsupported-operation fallback behavior as an explicit overlay contract without changing source behavior.",
-      "gitCommit": null,
-      "gitCommitBoundary": "pending-current-milestone"
-    },
-    {
-      "id": "history.delta.p1.11-overlay-invalid-integer",
-      "sequence": 5,
-      "changeType": "overlay-only-contract-coverage",
-      "status": "accepted",
-      "summary": "Model existing invalid-integer input behavior as an explicit overlay contract without changing source behavior.",
       "gitCommit": null,
       "gitCommitBoundary": "pending-current-milestone"
     }
