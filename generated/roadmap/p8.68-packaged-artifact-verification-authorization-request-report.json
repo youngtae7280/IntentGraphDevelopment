@@ -1,0 +1,32 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.68-packaged-artifact-verification-authorization-request-only",
+  "workItem": "P8.68 Packaged Artifact Verification Authorization Request",
+  "date": "2026-07-10",
+  "result": "request-created-authorization-not-recorded",
+  "producedArtifacts": [
+    "generated/roadmap/p8.68-packaged-artifact-verification-authorization-request.json",
+    "docs/reviews/p8.68-packaged-artifact-verification-authorization-request.md"
+  ],
+  "authorizationRequest": {
+    "requestedAuthority": "sandboxed-local-package-extraction-inventory-verification-only",
+    "recommendedResponse": "accept sandboxed package extraction inventory verification",
+    "standingAcceptPolicyApplied": false,
+    "standingAcceptPolicyReason": "Package extraction verification is a distinct authority boundary and is not covered by the current-goal accept/revise/blocked shortcut."
+  },
+  "nonGoals": {
+    "packageExtractionPerformed": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSliceIfAccepted": "P8.69 Sandboxed Package Extraction Inventory Verification",
+  "recommendedNextSliceIfNotAccepted": "P8.69 Package Verification Scope Revision"
+}

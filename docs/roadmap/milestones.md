@@ -2621,3 +2621,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.68 Packaged Artifact Verification Authorization Request`.
+
+## P8.68: Packaged Artifact Verification Authorization Request
+
+Goal: request explicit user/coordinator authorization for bounded sandboxed package extraction inventory verification.
+
+Status: completed on 2026-07-10. See [P8.68 Packaged Artifact Verification Authorization Request](../reviews/p8.68-packaged-artifact-verification-authorization-request.md).
+
+Decision:
+
+- authorization request created.
+- sandboxed package extraction inventory verification is not yet authorized.
+- the current-goal `accept/revise/blocked` shortcut does not authorize package extraction, packaged executable launch, packaged UI launch, signing, release, or productization authority.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.68-packaged-artifact-verification-authorization-request.json`
+- `generated/roadmap/p8.68-packaged-artifact-verification-authorization-request-report.json`
+- [P8.68 Packaged Artifact Verification Authorization Request](../reviews/p8.68-packaged-artifact-verification-authorization-request.md)
+
+Next safe work if accepted:
+
+- continue to `P8.69 Sandboxed Package Extraction Inventory Verification`.
