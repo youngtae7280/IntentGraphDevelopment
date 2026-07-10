@@ -1,0 +1,207 @@
+{
+  "artifactRole": "intentgraph-cf0-input-validation-negative-probes-report",
+  "baselineDelta": "docs/examples/cf0-python-cli-calculator/deltas/p1.11-overlay-invalid-integer.delta.json",
+  "baselineScope": "current-p1.11-overlay-only-input-validation-delta",
+  "boundaries": {
+    "aiAuthorityPromoted": false,
+    "generalNegativeProbeFrameworkClaimed": false,
+    "hiddenGeneratedCodeSnapshotUsed": false,
+    "productBehaviorAdded": false,
+    "sourceBytesUnchanged": true,
+    "sourceTextEqualityRequired": false
+  },
+  "positiveBaseline": {
+    "contractCoverageIncreased": true,
+    "errors": [],
+    "exitCode": 0,
+    "hiddenGeneratedCodeSnapshotUsed": false,
+    "overlayChanged": true,
+    "rerunResult": "pass",
+    "sourceChanged": false,
+    "sourceTextEqualityRequired": false
+  },
+  "probeCount": 14,
+  "probes": [
+    {
+      "actualErrors": [
+        "sourceChanged expectation does not match before/after source digests"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "sourceChanged expectation does not match before/after source digests",
+      "expectedFailureObserved": true,
+      "id": "source-changed-true-for-unchanged-source",
+      "mutation": "Set expectedAfter.sourceChanged to true while source digests are unchanged."
+    },
+    {
+      "actualErrors": [
+        "overlayChanged expectation does not match before/after overlay digests"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "overlayChanged expectation does not match before/after overlay digests",
+      "expectedFailureObserved": true,
+      "id": "overlay-changed-false-for-overlay-change",
+      "mutation": "Set expectedAfter.overlayChanged to false while overlay digest changes."
+    },
+    {
+      "actualErrors": [
+        "overlay-only contract delta must declare increased contract coverage"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "overlay-only contract delta must declare increased contract coverage",
+      "expectedFailureObserved": true,
+      "id": "contract-coverage-not-increased",
+      "mutation": "Set expectedAfter.contractCoverageIncreased to false."
+    },
+    {
+      "actualErrors": [
+        "missing added behavior units: ['unit.behavior.invalid-integer-input.missing']"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "missing added behavior units",
+      "expectedFailureObserved": true,
+      "id": "missing-invalid-integer-added-unit",
+      "mutation": "Replace expected added behavior unit with a missing invalid-integer unit id."
+    },
+    {
+      "actualErrors": [
+        "after overlay verification failed",
+        "unit.product.calculator: codeFactRef codeFactRef.product.main.stderr-invalid-integer references missing fact fact.function.main.stderr.left_and_right_must_be_integers",
+        "unit.behavior.invalid-integer-input: codeRef codeRef.invalid-integer.main-stderr references missing fact fact.function.main.stderr.left_and_right_must_be_integers",
+        "unit.behavior.invalid-integer-input: codeFactRef codeFactRef.invalid-integer.stderr references missing fact fact.function.main.stderr.left_and_right_must_be_integers"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "references missing fact fact.function.main.stderr.left_and_right_must_be_integers",
+      "expectedFailureObserved": true,
+      "id": "missing-invalid-integer-code-fact",
+      "mutation": "Remove fact.function.main.stderr.left_and_right_must_be_integers from after facts."
+    },
+    {
+      "actualErrors": [
+        "missing expected behavior checks: ['test.case.invalid-integer']",
+        "stderr contract missing for behavior check test.case.invalid-integer",
+        "after overlay verification failed",
+        "unit.product.calculator: mapping.product.cli-to-main missing verification test.case.invalid-integer",
+        "unit.behavior.invalid-integer-input: mapping.invalid-integer.behavior-to-code missing verification test.case.invalid-integer"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "missing expected behavior checks",
+      "expectedFailureObserved": true,
+      "id": "missing-invalid-integer-verification",
+      "mutation": "Remove test.case.invalid-integer from after overlay verification records."
+    },
+    {
+      "actualErrors": [
+        "stderr contract missing for behavior check test.case.invalid-integer"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "stderr contract missing",
+      "expectedFailureObserved": true,
+      "id": "missing-expected-stderr",
+      "mutation": "Remove expectedStderr from invalid-integer verification."
+    },
+    {
+      "actualErrors": [
+        "after overlay verification failed",
+        "behavior check test.case.invalid-integer: stderr mismatch"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "stderr mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-expected-stderr",
+      "mutation": "Set invalid-integer expectedStderr to the wrong value."
+    },
+    {
+      "actualErrors": [
+        "after overlay verification failed",
+        "behavior check test.case.invalid-integer: exit code mismatch: expected 0 got 2"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "exit code mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-expected-exit-code",
+      "mutation": "Set invalid-integer expectedExitCode to 0."
+    },
+    {
+      "actualErrors": [
+        "missing delta evidence records: ['evidence.p1.11-missing']"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "missing delta evidence records",
+      "expectedFailureObserved": true,
+      "id": "missing-p1.11-evidence-id",
+      "mutation": "Replace P1.11 evidence ids with a missing id."
+    },
+    {
+      "actualErrors": [
+        "missing delta authority records: ['authority.record.p1.11-missing']"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "missing delta authority records",
+      "expectedFailureObserved": true,
+      "id": "missing-p1.11-authority-id",
+      "mutation": "Replace P1.11 authority ids with a missing id."
+    },
+    {
+      "actualErrors": [
+        "missing delta history records: ['history.delta.p1.11-missing']"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "missing delta history records",
+      "expectedFailureObserved": true,
+      "id": "missing-p1.11-history-id",
+      "mutation": "Replace P1.11 history ids with a missing id."
+    },
+    {
+      "actualErrors": [
+        "delta must not require source text equality"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "delta must not require source text equality",
+      "expectedFailureObserved": true,
+      "id": "source-text-equality-true",
+      "mutation": "Set sourceTextEqualityRequired to true."
+    },
+    {
+      "actualErrors": [
+        "delta must not use hidden generated-code snapshots"
+      ],
+      "actualExitCode": 1,
+      "actualMessage": "",
+      "actualVerifierResult": "fail",
+      "expectedErrorSubstring": "delta must not use hidden generated-code snapshots",
+      "expectedFailureObserved": true,
+      "id": "hidden-generated-code-snapshot-true",
+      "mutation": "Set hiddenGeneratedCodeSnapshotUsed to true."
+    }
+  ],
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "cf0-p1.11-input-validation-negative-probes",
+  "status": "pass"
+}

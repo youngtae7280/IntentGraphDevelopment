@@ -452,6 +452,12 @@ An overlay-only input-validation contract delta must preserve source bytes, incr
 
 Historical harnesses for earlier overlay-only deltas must use named historical after-state artifacts before the current overlay changes. They must not silently use mutable current facts, overlays, or source roots from later contract-coverage slices.
 
+### V416 - Input Validation Contract Negative Probes Are Repeatable
+
+Severity: P0 in P1.12
+
+Input-validation overlay-only contract deltas must have a committed negative-probe harness that reruns the unmutated positive baseline before bad cases. The harness must prove deterministic failure for incorrect source/overlay change flags, missing contract coverage increase, missing added unit, missing required code fact or mapping resolution, missing verification, missing or wrong stderr expectations, wrong exit code, missing evidence/authority/history records, source-text equality claims, and hidden generated-code snapshot claims.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

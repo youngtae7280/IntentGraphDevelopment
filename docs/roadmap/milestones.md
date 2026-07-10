@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Current authorized work:
 
 ```text
-P1.11 Tiny Code-First Overlay-Only Input Validation Contract Delta Probe
+P1.12 Repeatable Input-Validation Overlay Contract Negative Probe Harness
 ```
 
-This is a focused CF0 semantic-overlay slice that models already-existing invalid-integer source behavior as an explicit overlay contract while preserving historical P1.9/P1.10 baselines. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
+This is a focused CF0 hardening slice that proves bad P1.11 input-validation overlay deltas fail deterministically. It is not broad Phase 1 authorization. See [Phase 1 Entry Plan](phase-1-entry-plan.md).
 
 ## M0: Research and Thesis Foundation
 
@@ -324,7 +324,7 @@ Non-goals:
 
 Goal: model CF0's existing invalid-integer input handling as an explicit IntentGraph contract, verification obligation, evidence record, authority record, and history transition without changing source behavior.
 
-Status: current authorized slice. See [P1.11 Overlay-Only Invalid Integer Contract Review](../reviews/p1.11-overlay-invalid-integer-contract-review.md).
+Status: completed on 2026-07-10. See [P1.11 Overlay-Only Invalid Integer Contract Review](../reviews/p1.11-overlay-invalid-integer-contract-review.md).
 
 Non-goals:
 
@@ -333,3 +333,17 @@ Non-goals:
 - no UI/workbench visualization
 - no B0 generated-code pipeline changes
 - no P1.11 negative harness yet
+
+## P1.12: Repeatable Input-Validation Overlay Contract Negative Probe Harness
+
+Goal: add a deterministic CF0-specific harness proving P1.11 invalid-integer overlay-only contract delta failures are rejected for the intended reasons.
+
+Status: current authorized slice. See [P1.12 Input Validation Negative Probes Review](../reviews/p1.12-input-validation-negative-probes-review.md).
+
+Non-goals:
+
+- no new behavior or contract unit
+- no CF0 source behavior changes
+- no generic negative-probe framework
+- no B0 generated-code pipeline changes
+- no dependency addition
