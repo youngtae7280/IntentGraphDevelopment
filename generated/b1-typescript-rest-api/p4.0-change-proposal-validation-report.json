@@ -1,0 +1,35 @@
+{
+  "artifactRole": "intentgraph-b1-change-proposal-validation-report",
+  "baseline": {
+    "allowedSourceFiles": [
+      "src/routes/todos.ts",
+      "tests/todoService.test.ts"
+    ],
+    "codeFactsDigestMatched": true,
+    "sourceDigestsMatched": true
+  },
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "aiAuthorityGranted": false,
+    "automaticAcceptanceClaimed": false,
+    "patchApplied": false,
+    "proposalOnly": true,
+    "selfAuthorized": false,
+    "sourceMutated": false
+  },
+  "errors": [],
+  "proposalId": "proposal.p4.0-complete-todo-route",
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-change-proposal-validation",
+  "status": "intentgraph-b1-change-proposal-validation-passed",
+  "summary": {
+    "errorCount": 0,
+    "mappingUpdateCount": 1,
+    "plannedSourceChangeCount": 3,
+    "proposedIntentUnitCount": 1,
+    "requiredAuthorityCount": 1,
+    "requiredEvidenceCount": 2,
+    "requiredTestCount": 1
+  }
+}

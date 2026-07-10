@@ -1,0 +1,129 @@
+{
+  "artifactRole": "intentgraph-b1-change-proposal-negative-probes-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "aiAuthorityGranted": false,
+    "patchApplied": false,
+    "proposalOnly": true,
+    "selfAuthorized": false,
+    "sourceMutated": false
+  },
+  "positiveBaseline": {
+    "result": "pass",
+    "returnCode": 0
+  },
+  "probeCount": 12,
+  "probes": [
+    {
+      "errors": [
+        "baseline codeFactsDigest does not match supplied code facts"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "baseline codeFactsDigest does not match supplied code facts",
+      "id": "stale-code-facts-digest",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "baseline sourceDigests do not match supplied code facts"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "baseline sourceDigests do not match supplied code facts",
+      "id": "stale-source-digest",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "change.import-completeTodo targets file outside impact scope: src/model/todo.ts"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "targets file outside impact scope",
+      "id": "overbroad-scope",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "deltaM.mappingUpdates must be non-empty"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "deltaM.mappingUpdates must be non-empty",
+      "id": "missing-mapping-update",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "requiredTests must be non-empty"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "requiredTests must be non-empty",
+      "id": "missing-tests",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "requiredEvidence must be non-empty"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "requiredEvidence must be non-empty",
+      "id": "missing-evidence",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "requiredAuthority must be non-empty"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "requiredAuthority must be non-empty",
+      "id": "missing-authority",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "authority authority.requirement.p4.0-human-review must not be self-authorized"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "must not be self-authorized",
+      "id": "self-authorized",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "claimScope.aiAuthorityGranted must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.aiAuthorityGranted must be false",
+      "id": "ai-authority",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "claimScope.sourceMutated must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.sourceMutated must be false",
+      "id": "source-mutated",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "claimScope.patchApplied must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.patchApplied must be false",
+      "id": "patch-applied",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "change.import-completeTodo must not contain sourceText"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "must not contain sourceText",
+      "id": "source-text-contained",
+      "returnCode": 1
+    }
+  ],
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-change-proposal-negative-probes",
+  "status": "intentgraph-b1-change-proposal-negative-probes-passed"
+}

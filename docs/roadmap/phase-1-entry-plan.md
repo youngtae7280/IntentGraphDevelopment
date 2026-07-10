@@ -470,3 +470,25 @@ P4.0 B1 Change Proposal Schema and Non-Applied Plan
 ```
 
 P4.0 may define a proposal schema, a non-applied change proposal artifact, a proposal validator, and negative probes for unsafe proposals. It must not mutate source, apply patches, accept AI authority, resolve ambiguity automatically, build a broad planner, build UI/workbench, broaden extraction, or productize the workflow.
+
+## Completed Slice: P4.0 B1 Change Proposal Schema and Non-Applied Plan
+
+Goal: define and validate the first B1 proposal-only change-planning artifact.
+
+Produced artifacts:
+
+- [Change Proposal Schema v0](../language/change-proposal-schema-v0.md)
+- `docs/examples/b1-typescript-rest-api/proposals/p4.0-complete-todo-route.proposal.json`
+- `tools/validate_b1_change_proposal.py`
+- `tools/run_b1_change_proposal_negative_probes.py`
+- `generated/b1-typescript-rest-api/p4.0-change-proposal-validation-report.json`
+- `generated/b1-typescript-rest-api/p4.0-change-proposal-negative-probes-report.json`
+- [P4.0 B1 Change Proposal Non-Applied Plan Review](../reviews/p4.0-b1-change-proposal-non-applied-plan-review.md)
+
+Recommended next slice:
+
+```text
+P4.1 Phase D Change Proposal Boundary Review and Phase E Entry Plan
+```
+
+P4.1 should review P4.0 and decide whether Phase E can open for deterministic consistency verification over proposal, source baseline, code facts, overlay mappings, tests, evidence, authority, and history. It must not apply the proposal yet.

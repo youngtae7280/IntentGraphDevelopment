@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan
+P4.0 B1 Change Proposal Schema and Non-Applied Plan
 ```
 
-This boundary slice reviewed the B1 Phase C evidence and opened Phase D only for a proposal-only B1 change-planning slice. It does not authorize source mutation, patch application, AI proposal authority, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase D slice created the first B1 non-applied proposal schema, proposal artifact, validator, and negative probes. It does not authorize source mutation, patch application, AI proposal authority, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -618,6 +618,31 @@ Decision:
 - Phase C is sufficient to open the first bounded Phase D slice.
 - Continue to `P4.0 B1 Change Proposal Schema and Non-Applied Plan`.
 - Phase D starts proposal-only and non-applied.
+
+Non-goals:
+
+- no source mutation
+- no patch application
+- no automatic proposal acceptance
+- no AI authority
+- no automatic ambiguity resolution
+- no broad planner
+- no UI/workbench product
+- no broadened extraction
+- no productization
+
+## P4.0: B1 Change Proposal Schema and Non-Applied Plan
+
+Goal: define and validate the first B1 proposal-only change-planning artifact.
+
+Status: completed on 2026-07-10. See [P4.0 B1 Change Proposal Non-Applied Plan Review](../reviews/p4.0-b1-change-proposal-non-applied-plan-review.md).
+
+Decision:
+
+- B1 change proposal schema exists.
+- non-applied `complete todo route` proposal exists.
+- proposal validator and negative probes pass.
+- continue to `P4.1 Phase D Change Proposal Boundary Review and Phase E Entry Plan`.
 
 Non-goals:
 

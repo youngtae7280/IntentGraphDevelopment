@@ -181,6 +181,27 @@ Phase D change planning must not open until Phase C evidence has been reviewed i
 
 The first Phase D slice must be proposal-only. It must define a change proposal schema, exact baseline binding, required tests, evidence, and authority, and negative probes for unsafe proposals before any source mutation or patch application is allowed.
 
+## V700: B1 Non-Applied Change Proposal Validation
+
+Status: added in P4.0.
+
+B1 change proposals must use exact role/status/scope values:
+
+- `artifactRole: intentgraph-b1-change-proposal`
+- `status: intentgraph-b1-change-proposal-proposed`
+- `scope: b1-typescript-rest-api-change-proposal-non-applied`
+- `proposalMode: non-applied-plan`
+- `applicationStatus: not-applied`
+
+The proposal must bind to exact code fact and source baselines, keep planned source changes inside declared impact scope, declare planned `DeltaC`, `DeltaI`, and `DeltaM`, require tests/evidence/authority before acceptance, and keep source mutation, patch application, AI authority, self-authorization, broad planner, workbench, and productization claims false.
+
+Validation commands:
+
+```bash
+python tools/validate_b1_change_proposal.py --proposal docs/examples/b1-typescript-rest-api/proposals/p4.0-complete-todo-route.proposal.json --code-facts generated/b1-typescript-rest-api/code-facts.json --overlay docs/examples/b1-typescript-rest-api/intentgraph.overlay.json --out generated/b1-typescript-rest-api/p4.0-change-proposal-validation-report.json
+python tools/run_b1_change_proposal_negative_probes.py --out generated/b1-typescript-rest-api/p4.0-change-proposal-negative-probes-report.json
+```
+
 ## Rule Severity
 
 | Severity | Meaning |

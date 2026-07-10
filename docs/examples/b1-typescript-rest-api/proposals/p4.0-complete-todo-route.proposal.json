@@ -1,0 +1,148 @@
+{
+  "artifactRole": "intentgraph-b1-change-proposal",
+  "status": "intentgraph-b1-change-proposal-proposed",
+  "scope": "b1-typescript-rest-api-change-proposal-non-applied",
+  "benchmarkId": "B1-typescript-rest-api",
+  "proposalId": "proposal.p4.0-complete-todo-route",
+  "proposalMode": "non-applied-plan",
+  "applicationStatus": "not-applied",
+  "summary": "Plan a PATCH /todos/:id/complete route that would expose existing completeTodo behavior.",
+  "baseline": {
+    "codeFactsPath": "generated/b1-typescript-rest-api/code-facts.json",
+    "codeFactsDigest": "sha256:996c4b2324a261540847a4b0efc4f99ddff24f83e294174f6bc561b5fa9d00c9",
+    "overlayPath": "docs/examples/b1-typescript-rest-api/intentgraph.overlay.json",
+    "sourceDigests": {
+      "src/model/todo.ts": "sha256:6a20738acfe79c9a6fb7a0b2bbd27f0d765eb8341a31e5968e3a75b1742144c2",
+      "src/routes/todos.ts": "sha256:68ba339d821c98e2fad5ba1cc670ff5d1736aab05549cd99ea8cdefe763e1cd8",
+      "src/service/todoService.ts": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "src/validation/input.ts": "sha256:bff04106a99b45b95e8cb517678446d6068190d00f08491aa30baccaf21984a4",
+      "tests/todoService.test.ts": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7"
+    }
+  },
+  "impactScope": {
+    "allowedSourceFiles": [
+      "src/routes/todos.ts",
+      "tests/todoService.test.ts"
+    ],
+    "existingIntentUnitIds": [
+      "unit.behavior.complete-todo"
+    ],
+    "reason": "completeTodo behavior already exists; exposing it requires a route and test proposal only."
+  },
+  "deltaC": {
+    "plannedSourceChanges": [
+      {
+        "id": "change.import-completeTodo",
+        "operation": "add-import-symbol",
+        "targetFile": "src/routes/todos.ts",
+        "symbol": "completeTodo",
+        "fromModule": "../service/todoService",
+        "applied": false
+      },
+      {
+        "id": "change.add-patch-complete-route",
+        "operation": "add-route",
+        "targetFile": "src/routes/todos.ts",
+        "method": "PATCH",
+        "path": "/todos/:id/complete",
+        "handlerSymbol": "completeTodo",
+        "applied": false
+      },
+      {
+        "id": "change.add-route-test",
+        "operation": "add-test-case",
+        "targetFile": "tests/todoService.test.ts",
+        "testIntent": "complete todo route delegates to completeTodo behavior",
+        "applied": false
+      }
+    ],
+    "sourceTextIncluded": false,
+    "patchIncluded": false
+  },
+  "deltaI": {
+    "proposedIntentUnits": [
+      {
+        "id": "unit.route.patch-todo-complete",
+        "kind": "route",
+        "title": "PATCH /todos/:id/complete maps to completeTodo",
+        "mappingStatus": "planned",
+        "accepted": false
+      }
+    ],
+    "modifiedIntentUnitIds": [
+      "unit.behavior.complete-todo"
+    ]
+  },
+  "deltaM": {
+    "mappingUpdates": [
+      {
+        "id": "mapping-update.patch-todo-complete",
+        "intentUnitId": "unit.route.patch-todo-complete",
+        "existingCodeFactIds": [
+          "fact.function.completetodo"
+        ],
+        "futureCodeFacts": [
+          {
+            "id": "future.fact.route.patch.todos.complete",
+            "kind": "route",
+            "sourceFile": "src/routes/todos.ts",
+            "sourceLocationStatus": "future-not-applied"
+          },
+          {
+            "id": "future.fact.test.completeTodoRoute",
+            "kind": "test",
+            "sourceFile": "tests/todoService.test.ts",
+            "sourceLocationStatus": "future-not-applied"
+          }
+        ],
+        "mappingObligationRequired": true,
+        "accepted": false
+      }
+    ]
+  },
+  "requiredTests": [
+    {
+      "id": "test.requirement.complete-todo-route",
+      "kind": "route-behavior-test",
+      "targetIntentUnitId": "unit.route.patch-todo-complete",
+      "requiredBeforeAcceptance": true
+    }
+  ],
+  "requiredEvidence": [
+    {
+      "id": "evidence.requirement.p4.0-proposal-validation",
+      "kind": "proposal-validation-report",
+      "requiredBeforeAcceptance": true
+    },
+    {
+      "id": "evidence.requirement.complete-todo-route-test",
+      "kind": "test-result",
+      "requiredBeforeAcceptance": true
+    }
+  ],
+  "requiredAuthority": [
+    {
+      "id": "authority.requirement.p4.0-human-review",
+      "kind": "human-review-required",
+      "actor": "Coordinator",
+      "requiredBeforeAcceptance": true,
+      "aiAuthority": false,
+      "selfAuthorized": false
+    }
+  ],
+  "ambiguityBoundary": {
+    "usesAmbiguousCandidateIds": [],
+    "ambiguousCandidateResolved": false,
+    "automaticAmbiguityResolutionClaimed": false
+  },
+  "claimScope": {
+    "sourceMutated": false,
+    "patchApplied": false,
+    "automaticAcceptanceClaimed": false,
+    "aiAuthorityGranted": false,
+    "selfAuthorized": false,
+    "broadPlannerClaimed": false,
+    "workbenchClaimed": false,
+    "productizationClaimed": false
+  }
+}
