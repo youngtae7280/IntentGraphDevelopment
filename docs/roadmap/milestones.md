@@ -3092,3 +3092,24 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.89 Productization Readiness Recheck After Signing Boundary Planning`.
+
+## P8.89: Productization Readiness Recheck After Signing Boundary Planning
+
+Goal: recheck productization readiness after artifact signing boundary and hold records.
+
+Status: completed on 2026-07-10. See [P8.89 Productization Readiness Recheck After Signing Boundary Planning](../reviews/p8.89-productization-readiness-recheck-after-signing-boundary-planning.md).
+
+Decision:
+
+- readiness improved because signing preconditions and hold state are explicit.
+- productization remains blocked.
+- real package verification, launch smoke, UI evidence, product candidate acceptance, installer creation, signing policy, key/certificate authority, artifact signing, release authority, and productization authority remain absent.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.89-productization-readiness-recheck-after-signing-boundary-planning-report.json`
+- [P8.89 Productization Readiness Recheck After Signing Boundary Planning](../reviews/p8.89-productization-readiness-recheck-after-signing-boundary-planning.md)
+
+Next safe work:
+
+- continue to `P8.90 Release Authority Boundary Plan`.
