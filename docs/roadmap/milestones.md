@@ -3378,3 +3378,30 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.102 Productization Authority Chain Workbench Refresh`.
+
+## P8.102: Productization Authority Chain Workbench Refresh
+
+Goal: refresh the user-visible workbench so the full productization authority chain is inspectable before any real package extraction or productization execution.
+
+Status: completed on 2026-07-10. See [P8.102 Productization Authority Chain Workbench Refresh](../reviews/p8.102-productization-authority-chain-workbench-refresh.md).
+
+Decision:
+
+- productization authority chain workbench was refreshed as a static local HTML artifact.
+- package, extraction, launch, screenshot, installer, signing, release, and productization gates are visible together.
+- graph nodes and edges are selectable, panels are resizable, and gate/graph/source-diff panels update from the selected item.
+- no package extraction, executable launch, UI screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was added.
+
+Produced artifacts:
+
+- `tools/emit_productization_authority_chain_workbench.py`
+- `generated/product-surfaces/productization-authority-chain-workbench/p8.102/index.html`
+- `generated/product-surfaces/productization-authority-chain-workbench/p8.102/projection.json`
+- `generated/product-surfaces/productization-authority-chain-workbench/p8.102/manifest.json`
+- `generated/product-surfaces/productization-authority-chain-workbench/p8.102/validation-report.json`
+- `generated/roadmap/p8.102-productization-authority-chain-workbench-refresh-report.json`
+- [P8.102 Productization Authority Chain Workbench Refresh](../reviews/p8.102-productization-authority-chain-workbench-refresh.md)
+
+Next safe work:
+
+- user review of the P8.102 workbench, or a separate exact package extraction authorization response artifact.

@@ -1,0 +1,65 @@
+{
+  "artifactRole": "intentgraph-productization-authority-chain-workbench-manifest",
+  "claimScope": {
+    "approvalAutomation": false,
+    "artifactSigned": false,
+    "existingPackageExtractionPerformed": false,
+    "graphMutationFromUi": false,
+    "graphUiImplemented": true,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "productizationClaimed": false,
+    "releasePublished": false,
+    "staticHtmlImplemented": true,
+    "windowsUtilitySourceMutated": false
+  },
+  "date": "2026-07-10",
+  "files": [
+    {
+      "byteLength": 75465,
+      "path": "index.html",
+      "sha256": "sha256:cc0e7b2b9d5a8101291ff91523895c1ab6ff42f3578718f0e37b3513b8d9c894"
+    },
+    {
+      "artifactRole": "intentgraph-productization-authority-chain-workbench-projection",
+      "byteLength": 56513,
+      "path": "projection.json",
+      "scope": "p8.102-productization-authority-chain-workbench-refresh",
+      "sha256": "sha256:2a65b50edb2b8c2e5499be8a93b20e95e5a23e8bd468fa3036e0a6eb49993c18",
+      "status": "intentgraph-productization-authority-chain-workbench-projection-emitted",
+      "workItem": "P8.102 Productization Authority Chain Workbench Refresh"
+    },
+    {
+      "byteLength": 435328,
+      "path": "assets/cytoscape.min.js",
+      "sha256": "sha256:9c2a3bf2592e0b14a1f7bec07c03a54f16dedf32af9cd0af155c716aa6c87bc3"
+    },
+    {
+      "byteLength": 1082,
+      "path": "assets/cytoscape-license.txt",
+      "sha256": "sha256:eb319c6e6f233607f71e8e2f450391751883cfc0eeb3ca7ef574c13d1d9c2203"
+    }
+  ],
+  "projection": {
+    "artifactRole": "intentgraph-productization-authority-chain-workbench-projection",
+    "byteLength": 56513,
+    "path": "generated/product-surfaces/productization-authority-chain-workbench/p8.102/projection.json",
+    "scope": "p8.102-productization-authority-chain-workbench-refresh",
+    "sha256": "sha256:2a65b50edb2b8c2e5499be8a93b20e95e5a23e8bd468fa3036e0a6eb49993c18",
+    "status": "intentgraph-productization-authority-chain-workbench-projection-emitted",
+    "workItem": "P8.102 Productization Authority Chain Workbench Refresh"
+  },
+  "runtime": {
+    "assetPath": "assets/cytoscape.min.js",
+    "cdnRequired": false,
+    "darkThemeRequired": true,
+    "graphLibrary": "cytoscape",
+    "graphLibraryVersion": "3.34.0",
+    "networkRequired": false,
+    "panZoomRequired": true,
+    "resizablePanelsRequired": true
+  },
+  "scope": "p8.102-productization-authority-chain-workbench-refresh",
+  "status": "intentgraph-productization-authority-chain-workbench-manifest-emitted",
+  "workItem": "P8.102 Productization Authority Chain Workbench Refresh"
+}

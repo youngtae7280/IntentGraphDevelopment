@@ -1,0 +1,1498 @@
+{
+  "artifactRole": "intentgraph-productization-authority-chain-workbench-projection",
+  "claimScope": {
+    "approvalAutomation": false,
+    "artifactSigned": false,
+    "changedEdgeDiffImplemented": true,
+    "changedNodeDiffImplemented": true,
+    "credentialAccessed": false,
+    "existingPackageExtractionPerformed": false,
+    "gateInspectorImplemented": true,
+    "graphDeltaVisualizationImplemented": true,
+    "graphMutationFromUi": false,
+    "graphPanZoomImplemented": true,
+    "graphUiImplemented": true,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationAuthorityChainVisible": true,
+    "productizationAuthorized": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "resizablePanelsImplemented": true,
+    "sourceCodeDiffForCodeNodesImplemented": true,
+    "staticHtmlImplemented": true,
+    "windowsUtilitySourceMutated": false
+  },
+  "date": "2026-07-10",
+  "delta": {
+    "codeDiffs": [],
+    "graphEdgeDiffs": [
+      {
+        "afterPayload": {
+          "id": "edge.package-to-metadata",
+          "source": "gate.package-artifact-created",
+          "status": "ready",
+          "target": "gate.metadata-replay",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.package-to-metadata",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.package-to-metadata",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.package-to-metadata"
+      },
+      {
+        "afterPayload": {
+          "id": "edge.package-to-extraction-auth",
+          "source": "gate.package-artifact-created",
+          "status": "held",
+          "target": "gate.extraction-authorization",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.package-to-extraction-auth",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.package-to-extraction-auth",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.package-to-extraction-auth"
+      },
+      {
+        "afterPayload": {
+          "id": "edge.extraction-auth-to-real-extraction",
+          "source": "gate.extraction-authorization",
+          "status": "blocked",
+          "target": "gate.real-extraction-verification",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.extraction-auth-to-real-extraction",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.extraction-auth-to-real-extraction",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.extraction-auth-to-real-extraction"
+      },
+      {
+        "afterPayload": {
+          "id": "edge.real-extraction-to-launch",
+          "source": "gate.real-extraction-verification",
+          "status": "blocked",
+          "target": "gate.launch-smoke",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.real-extraction-to-launch",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.real-extraction-to-launch",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.real-extraction-to-launch"
+      },
+      {
+        "afterPayload": {
+          "id": "edge.launch-to-screenshot",
+          "source": "gate.launch-smoke",
+          "status": "blocked",
+          "target": "gate.ui-screenshot",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.launch-to-screenshot",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.launch-to-screenshot",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.launch-to-screenshot"
+      },
+      {
+        "afterPayload": {
+          "id": "edge.real-extraction-to-installer",
+          "source": "gate.real-extraction-verification",
+          "status": "blocked",
+          "target": "gate.installer",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.real-extraction-to-installer",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.real-extraction-to-installer",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.real-extraction-to-installer"
+      },
+      {
+        "afterPayload": {
+          "id": "edge.installer-to-signing",
+          "source": "gate.installer",
+          "status": "blocked",
+          "target": "gate.signing",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.installer-to-signing",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.installer-to-signing",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.installer-to-signing"
+      },
+      {
+        "afterPayload": {
+          "id": "edge.signing-to-release",
+          "source": "gate.signing",
+          "status": "blocked",
+          "target": "gate.release",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.signing-to-release",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.signing-to-release",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.signing-to-release"
+      },
+      {
+        "afterPayload": {
+          "id": "edge.release-to-productization",
+          "source": "gate.release",
+          "status": "blocked",
+          "target": "gate.productization",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.release-to-productization",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.release-to-productization",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.release-to-productization"
+      },
+      {
+        "afterPayload": {
+          "id": "edge.screenshot-to-productization",
+          "source": "gate.ui-screenshot",
+          "status": "blocked",
+          "target": "gate.productization",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "edge.screenshot-to-productization",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "dependencyVisibility",
+          "status"
+        ],
+        "elementId": "edge.screenshot-to-productization",
+        "elementKind": "edge",
+        "evidenceRefs": [],
+        "id": "diff.edge.screenshot-to-productization"
+      }
+    ],
+    "graphNodeDiffs": [
+      {
+        "afterPayload": {
+          "id": "gate.package-artifact-created",
+          "missing": [],
+          "nextAction": "Use only as an input to future extraction verification after that specific authority is granted.",
+          "status": "ready",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [
+          "p8.54.accept-sandboxed-package-artifact-creation"
+        ],
+        "beforePayload": {
+          "id": "gate.package-artifact-created",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.package-artifact-created",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.55.package-artifact-probe",
+          "p8.55.validation-report"
+        ],
+        "id": "diff.gate.package-artifact-created"
+      },
+      {
+        "afterPayload": {
+          "id": "gate.metadata-replay",
+          "missing": [],
+          "nextAction": "Keep as non-execution evidence until real extraction verification is authorized.",
+          "status": "ready",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "gate.metadata-replay",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.metadata-replay",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.66.metadata-replay",
+          "p8.67.negative-probes"
+        ],
+        "id": "diff.gate.metadata-replay"
+      },
+      {
+        "afterPayload": {
+          "id": "gate.extraction-authorization",
+          "missing": [
+            "exact response: accept sandboxed package extraction inventory verification",
+            "authorization response artifact"
+          ],
+          "nextAction": "Record the exact response before any existing package extraction is attempted.",
+          "status": "held",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "gate.extraction-authorization",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.extraction-authorization",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.98.authority-review",
+          "p8.99.authorization-refresh",
+          "p8.100.hold-state",
+          "p8.101.readiness-recheck"
+        ],
+        "id": "diff.gate.extraction-authorization"
+      },
+      {
+        "afterPayload": {
+          "id": "gate.real-extraction-verification",
+          "missing": [
+            "exact extraction authorization",
+            "sandboxed extraction inventory report for the existing package"
+          ],
+          "nextAction": "After exact authority exists, run only the bounded extraction inventory verifier.",
+          "status": "blocked",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [
+          "gate.extraction-authorization"
+        ],
+        "beforePayload": {
+          "id": "gate.real-extraction-verification",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.real-extraction-verification",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.69.synthetic-verifier-ready",
+          "p8.70.extraction-negative-probes",
+          "p8.75.future-execution-plan"
+        ],
+        "id": "diff.gate.real-extraction-verification"
+      },
+      {
+        "afterPayload": {
+          "id": "gate.launch-smoke",
+          "missing": [
+            "real extraction inventory verification",
+            "accepted launch smoke authority if launch is still needed",
+            "launch smoke report"
+          ],
+          "nextAction": "Do not launch the packaged executable before package verification passes.",
+          "status": "blocked",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "gate.launch-smoke",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.launch-smoke",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.76.launch-boundary",
+          "p8.77.launch-authorization-request"
+        ],
+        "id": "diff.gate.launch-smoke"
+      },
+      {
+        "afterPayload": {
+          "id": "gate.ui-screenshot",
+          "missing": [
+            "real extraction inventory verification",
+            "launch smoke evidence",
+            "accepted screenshot capture authority",
+            "non-empty screenshot evidence"
+          ],
+          "nextAction": "Capture only the bounded packaged UI window after all preconditions pass.",
+          "status": "blocked",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "gate.ui-screenshot",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.ui-screenshot",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.78.screenshot-boundary",
+          "p8.79.screenshot-authorization-request",
+          "p8.80.screenshot-hold"
+        ],
+        "id": "diff.gate.ui-screenshot"
+      },
+      {
+        "afterPayload": {
+          "id": "gate.installer",
+          "missing": [
+            "real package verification",
+            "product candidate acceptance",
+            "bounded installer creation authority"
+          ],
+          "nextAction": "Do not create an installer until upstream artifact and candidate gates are satisfied.",
+          "status": "blocked",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "gate.installer",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.installer",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.82.installer-boundary",
+          "p8.83.installer-request",
+          "p8.84.installer-hold"
+        ],
+        "id": "diff.gate.installer"
+      },
+      {
+        "afterPayload": {
+          "id": "gate.signing",
+          "missing": [
+            "verified artifact evidence",
+            "signing policy",
+            "key/certificate authority boundary",
+            "accepted signing authority"
+          ],
+          "nextAction": "Do not sign artifacts or access credentials.",
+          "status": "blocked",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "gate.signing",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.signing",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.86.signing-boundary",
+          "p8.87.signing-request",
+          "p8.88.signing-hold"
+        ],
+        "id": "diff.gate.signing"
+      },
+      {
+        "afterPayload": {
+          "id": "gate.release",
+          "missing": [
+            "product candidate acceptance",
+            "verified release artifacts",
+            "release notes",
+            "provider credential authority",
+            "accepted release authority"
+          ],
+          "nextAction": "Do not publish a release or call provider APIs.",
+          "status": "blocked",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "gate.release",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.release",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.90.release-boundary",
+          "p8.91.release-request",
+          "p8.92.release-hold",
+          "p8.93.release-recheck"
+        ],
+        "id": "diff.gate.release"
+      },
+      {
+        "afterPayload": {
+          "id": "gate.productization",
+          "missing": [
+            "real package extraction inventory verification",
+            "launch or UI evidence if required",
+            "installer/signing/release decisions",
+            "product candidate acceptance",
+            "final productization authority"
+          ],
+          "nextAction": "Keep productization readiness false until all upstream gates pass.",
+          "status": "blocked",
+          "visibleInSingleAuthorityChainWorkbench": true
+        },
+        "authorityRefs": [],
+        "beforePayload": {
+          "id": "gate.productization",
+          "status": "scattered-in-source-reports",
+          "visibleInSingleAuthorityChainWorkbench": false
+        },
+        "changeKind": "visibility-refresh",
+        "changedFields": [
+          "workbenchVisibility",
+          "missing",
+          "nextAction",
+          "status"
+        ],
+        "elementId": "gate.productization",
+        "elementKind": "node",
+        "evidenceRefs": [
+          "p8.94.productization-boundary",
+          "p8.95.productization-request",
+          "p8.96.productization-hold",
+          "p8.97.gap-summary",
+          "p8.101.readiness-recheck"
+        ],
+        "id": "diff.gate.productization"
+      }
+    ],
+    "steps": [
+      {
+        "affectedEdgeIds": [
+          "edge.package-to-metadata",
+          "edge.package-to-extraction-auth",
+          "edge.extraction-auth-to-real-extraction",
+          "edge.real-extraction-to-launch",
+          "edge.launch-to-screenshot",
+          "edge.real-extraction-to-installer",
+          "edge.installer-to-signing",
+          "edge.signing-to-release",
+          "edge.release-to-productization",
+          "edge.screenshot-to-productization"
+        ],
+        "affectedNodeIds": [
+          "gate.package-artifact-created",
+          "gate.metadata-replay",
+          "gate.extraction-authorization",
+          "gate.real-extraction-verification",
+          "gate.launch-smoke",
+          "gate.ui-screenshot",
+          "gate.installer",
+          "gate.signing",
+          "gate.release",
+          "gate.productization"
+        ],
+        "authorityRefs": [],
+        "codeDiffRefs": [],
+        "evidenceRefs": [
+          "p8.101.readiness-recheck"
+        ],
+        "graphEdgeDiffRefs": [
+          "diff.edge.package-to-metadata",
+          "diff.edge.package-to-extraction-auth",
+          "diff.edge.extraction-auth-to-real-extraction",
+          "diff.edge.real-extraction-to-launch",
+          "diff.edge.launch-to-screenshot",
+          "diff.edge.real-extraction-to-installer",
+          "diff.edge.installer-to-signing",
+          "diff.edge.signing-to-release",
+          "diff.edge.release-to-productization",
+          "diff.edge.screenshot-to-productization"
+        ],
+        "graphNodeDiffRefs": [
+          "diff.gate.package-artifact-created",
+          "diff.gate.metadata-replay",
+          "diff.gate.extraction-authorization",
+          "diff.gate.real-extraction-verification",
+          "diff.gate.launch-smoke",
+          "diff.gate.ui-screenshot",
+          "diff.gate.installer",
+          "diff.gate.signing",
+          "diff.gate.release",
+          "diff.gate.productization"
+        ],
+        "historyRefs": [
+          "p8.102.visibility-refresh"
+        ],
+        "id": "step.p8.102-chain-visibility-refresh",
+        "label": "Refresh productization authority chain visibility",
+        "status": "changed"
+      }
+    ]
+  },
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "existingPackageExtractionPerformed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationAuthorized": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "gateTable": [
+    {
+      "authorityRefs": [
+        "p8.54.accept-sandboxed-package-artifact-creation"
+      ],
+      "evidenceRefs": [
+        "p8.55.package-artifact-probe",
+        "p8.55.validation-report"
+      ],
+      "id": "gate.package-artifact-created",
+      "kind": "package-artifact",
+      "label": "Sandbox package artifact",
+      "missing": [],
+      "nextAction": "Use only as an input to future extraction verification after that specific authority is granted.",
+      "stage": "artifact",
+      "status": "ready",
+      "summary": "A bounded sandbox package artifact exists under generated output."
+    },
+    {
+      "authorityRefs": [],
+      "evidenceRefs": [
+        "p8.66.metadata-replay",
+        "p8.67.negative-probes"
+      ],
+      "id": "gate.metadata-replay",
+      "kind": "evidence",
+      "label": "Metadata replay",
+      "missing": [],
+      "nextAction": "Keep as non-execution evidence until real extraction verification is authorized.",
+      "stage": "verification",
+      "status": "ready",
+      "summary": "Package metadata and zip inventory were replayed without extraction."
+    },
+    {
+      "authorityRefs": [],
+      "evidenceRefs": [
+        "p8.98.authority-review",
+        "p8.99.authorization-refresh",
+        "p8.100.hold-state",
+        "p8.101.readiness-recheck"
+      ],
+      "id": "gate.extraction-authorization",
+      "kind": "authority",
+      "label": "Extraction authorization",
+      "missing": [
+        "exact response: accept sandboxed package extraction inventory verification",
+        "authorization response artifact"
+      ],
+      "nextAction": "Record the exact response before any existing package extraction is attempted.",
+      "requiredAcceptedResponse": "accept sandboxed package extraction inventory verification",
+      "requiredVerifierToken": "accept-sandboxed-package-extraction-inventory-verification",
+      "stage": "authority",
+      "status": "held",
+      "summary": "The exact accepted response has been requested but not recorded."
+    },
+    {
+      "authorityRefs": [
+        "gate.extraction-authorization"
+      ],
+      "evidenceRefs": [
+        "p8.69.synthetic-verifier-ready",
+        "p8.70.extraction-negative-probes",
+        "p8.75.future-execution-plan"
+      ],
+      "id": "gate.real-extraction-verification",
+      "kind": "execution-gate",
+      "label": "Real extraction inventory",
+      "missing": [
+        "exact extraction authorization",
+        "sandboxed extraction inventory report for the existing package"
+      ],
+      "nextAction": "After exact authority exists, run only the bounded extraction inventory verifier.",
+      "stage": "verification",
+      "status": "blocked",
+      "summary": "Existing package extraction inventory verification has not run."
+    },
+    {
+      "authorityRefs": [],
+      "evidenceRefs": [
+        "p8.76.launch-boundary",
+        "p8.77.launch-authorization-request"
+      ],
+      "id": "gate.launch-smoke",
+      "kind": "execution-gate",
+      "label": "Packaged launch smoke",
+      "missing": [
+        "real extraction inventory verification",
+        "accepted launch smoke authority if launch is still needed",
+        "launch smoke report"
+      ],
+      "nextAction": "Do not launch the packaged executable before package verification passes.",
+      "stage": "runtime",
+      "status": "blocked",
+      "summary": "Launch smoke remains future-only until extraction inventory verification passes."
+    },
+    {
+      "authorityRefs": [],
+      "evidenceRefs": [
+        "p8.78.screenshot-boundary",
+        "p8.79.screenshot-authorization-request",
+        "p8.80.screenshot-hold"
+      ],
+      "id": "gate.ui-screenshot",
+      "kind": "evidence",
+      "label": "Packaged UI screenshot",
+      "missing": [
+        "real extraction inventory verification",
+        "launch smoke evidence",
+        "accepted screenshot capture authority",
+        "non-empty screenshot evidence"
+      ],
+      "nextAction": "Capture only the bounded packaged UI window after all preconditions pass.",
+      "stage": "runtime",
+      "status": "blocked",
+      "summary": "Screenshot capture remains future-only until extraction and launch gates pass."
+    },
+    {
+      "authorityRefs": [],
+      "evidenceRefs": [
+        "p8.82.installer-boundary",
+        "p8.83.installer-request",
+        "p8.84.installer-hold"
+      ],
+      "id": "gate.installer",
+      "kind": "artifact",
+      "label": "Installer creation",
+      "missing": [
+        "real package verification",
+        "product candidate acceptance",
+        "bounded installer creation authority"
+      ],
+      "nextAction": "Do not create an installer until upstream artifact and candidate gates are satisfied.",
+      "stage": "distribution",
+      "status": "blocked",
+      "summary": "Installer creation is planned and held; no installer exists."
+    },
+    {
+      "authorityRefs": [],
+      "evidenceRefs": [
+        "p8.86.signing-boundary",
+        "p8.87.signing-request",
+        "p8.88.signing-hold"
+      ],
+      "id": "gate.signing",
+      "kind": "authority",
+      "label": "Artifact signing",
+      "missing": [
+        "verified artifact evidence",
+        "signing policy",
+        "key/certificate authority boundary",
+        "accepted signing authority"
+      ],
+      "nextAction": "Do not sign artifacts or access credentials.",
+      "stage": "trust",
+      "status": "blocked",
+      "summary": "Signing is planned and held; no certificate, key, token, or timestamp authority is accessed."
+    },
+    {
+      "authorityRefs": [],
+      "evidenceRefs": [
+        "p8.90.release-boundary",
+        "p8.91.release-request",
+        "p8.92.release-hold",
+        "p8.93.release-recheck"
+      ],
+      "id": "gate.release",
+      "kind": "authority",
+      "label": "Release publishing",
+      "missing": [
+        "product candidate acceptance",
+        "verified release artifacts",
+        "release notes",
+        "provider credential authority",
+        "accepted release authority"
+      ],
+      "nextAction": "Do not publish a release or call provider APIs.",
+      "stage": "release",
+      "status": "blocked",
+      "summary": "Release publishing is planned and held; no tag, provider call, or release is created."
+    },
+    {
+      "authorityRefs": [],
+      "evidenceRefs": [
+        "p8.94.productization-boundary",
+        "p8.95.productization-request",
+        "p8.96.productization-hold",
+        "p8.97.gap-summary",
+        "p8.101.readiness-recheck"
+      ],
+      "id": "gate.productization",
+      "kind": "productization",
+      "label": "Productization readiness",
+      "missing": [
+        "real package extraction inventory verification",
+        "launch or UI evidence if required",
+        "installer/signing/release decisions",
+        "product candidate acceptance",
+        "final productization authority"
+      ],
+      "nextAction": "Keep productization readiness false until all upstream gates pass.",
+      "stage": "product",
+      "status": "blocked",
+      "summary": "Productization is not ready because real evidence and final authority gates are absent."
+    }
+  ],
+  "graph": {
+    "edges": [
+      {
+        "id": "edge.source-to-package",
+        "kind": "builds",
+        "label": "sandbox build",
+        "source": "code.windowsutility-target",
+        "status": "ready",
+        "target": "gate.package-artifact-created"
+      },
+      {
+        "id": "edge.package-to-metadata",
+        "kind": "evidences",
+        "label": "metadata replay",
+        "source": "gate.package-artifact-created",
+        "status": "ready",
+        "target": "gate.metadata-replay"
+      },
+      {
+        "id": "edge.package-to-extraction-auth",
+        "kind": "requires-authority",
+        "label": "requires authority",
+        "source": "gate.package-artifact-created",
+        "status": "held",
+        "target": "gate.extraction-authorization"
+      },
+      {
+        "id": "edge.extraction-auth-to-real-extraction",
+        "kind": "unblocks",
+        "label": "unblocks",
+        "source": "gate.extraction-authorization",
+        "status": "blocked",
+        "target": "gate.real-extraction-verification"
+      },
+      {
+        "id": "edge.real-extraction-to-launch",
+        "kind": "precondition",
+        "label": "precondition",
+        "source": "gate.real-extraction-verification",
+        "status": "blocked",
+        "target": "gate.launch-smoke"
+      },
+      {
+        "id": "edge.launch-to-screenshot",
+        "kind": "precondition",
+        "label": "precondition",
+        "source": "gate.launch-smoke",
+        "status": "blocked",
+        "target": "gate.ui-screenshot"
+      },
+      {
+        "id": "edge.real-extraction-to-installer",
+        "kind": "precondition",
+        "label": "precondition",
+        "source": "gate.real-extraction-verification",
+        "status": "blocked",
+        "target": "gate.installer"
+      },
+      {
+        "id": "edge.installer-to-signing",
+        "kind": "candidate-artifact",
+        "label": "artifact",
+        "source": "gate.installer",
+        "status": "blocked",
+        "target": "gate.signing"
+      },
+      {
+        "id": "edge.signing-to-release",
+        "kind": "release-input",
+        "label": "release input",
+        "source": "gate.signing",
+        "status": "blocked",
+        "target": "gate.release"
+      },
+      {
+        "id": "edge.release-to-productization",
+        "kind": "final-gate",
+        "label": "final gate",
+        "source": "gate.release",
+        "status": "blocked",
+        "target": "gate.productization"
+      },
+      {
+        "id": "edge.screenshot-to-productization",
+        "kind": "evidence",
+        "label": "UI evidence",
+        "source": "gate.ui-screenshot",
+        "status": "blocked",
+        "target": "gate.productization"
+      }
+    ],
+    "nodes": [
+      {
+        "authorityRefs": [],
+        "evidenceRefs": [
+          "p8.101.windowsUtilityCleanAligned"
+        ],
+        "gateStatus": "stable",
+        "id": "code.windowsutility-target",
+        "kind": "code",
+        "label": "WindowsUtility source",
+        "missing": [],
+        "nextAction": "No source diff is expected for this visibility refresh.",
+        "sourceRefs": [
+          "C:/Users/ytkim/Desktop/kyt_work/WindowsUtility"
+        ],
+        "stage": "source",
+        "status": "unchanged",
+        "summary": "Target repository remains clean/aligned; P8.102 does not change source code."
+      },
+      {
+        "authorityRefs": [
+          "p8.54.accept-sandboxed-package-artifact-creation"
+        ],
+        "evidenceRefs": [
+          "p8.55.package-artifact-probe",
+          "p8.55.validation-report"
+        ],
+        "gateStatus": "ready",
+        "id": "gate.package-artifact-created",
+        "kind": "package-artifact",
+        "label": "Sandbox package artifact",
+        "missing": [],
+        "nextAction": "Use only as an input to future extraction verification after that specific authority is granted.",
+        "requiredAcceptedResponse": null,
+        "requiredVerifierToken": null,
+        "sourceRefs": [
+          "p8.55.package-artifact-probe",
+          "p8.55.validation-report"
+        ],
+        "stage": "artifact",
+        "status": "ready",
+        "summary": "A bounded sandbox package artifact exists under generated output."
+      },
+      {
+        "authorityRefs": [],
+        "evidenceRefs": [
+          "p8.66.metadata-replay",
+          "p8.67.negative-probes"
+        ],
+        "gateStatus": "ready",
+        "id": "gate.metadata-replay",
+        "kind": "evidence",
+        "label": "Metadata replay",
+        "missing": [],
+        "nextAction": "Keep as non-execution evidence until real extraction verification is authorized.",
+        "requiredAcceptedResponse": null,
+        "requiredVerifierToken": null,
+        "sourceRefs": [
+          "p8.66.metadata-replay",
+          "p8.67.negative-probes"
+        ],
+        "stage": "verification",
+        "status": "ready",
+        "summary": "Package metadata and zip inventory were replayed without extraction."
+      },
+      {
+        "authorityRefs": [],
+        "evidenceRefs": [
+          "p8.98.authority-review",
+          "p8.99.authorization-refresh",
+          "p8.100.hold-state",
+          "p8.101.readiness-recheck"
+        ],
+        "gateStatus": "held",
+        "id": "gate.extraction-authorization",
+        "kind": "authority",
+        "label": "Extraction authorization",
+        "missing": [
+          "exact response: accept sandboxed package extraction inventory verification",
+          "authorization response artifact"
+        ],
+        "nextAction": "Record the exact response before any existing package extraction is attempted.",
+        "requiredAcceptedResponse": "accept sandboxed package extraction inventory verification",
+        "requiredVerifierToken": "accept-sandboxed-package-extraction-inventory-verification",
+        "sourceRefs": [
+          "p8.98.authority-review",
+          "p8.99.authorization-refresh",
+          "p8.100.hold-state",
+          "p8.101.readiness-recheck"
+        ],
+        "stage": "authority",
+        "status": "held",
+        "summary": "The exact accepted response has been requested but not recorded."
+      },
+      {
+        "authorityRefs": [
+          "gate.extraction-authorization"
+        ],
+        "evidenceRefs": [
+          "p8.69.synthetic-verifier-ready",
+          "p8.70.extraction-negative-probes",
+          "p8.75.future-execution-plan"
+        ],
+        "gateStatus": "blocked",
+        "id": "gate.real-extraction-verification",
+        "kind": "execution-gate",
+        "label": "Real extraction inventory",
+        "missing": [
+          "exact extraction authorization",
+          "sandboxed extraction inventory report for the existing package"
+        ],
+        "nextAction": "After exact authority exists, run only the bounded extraction inventory verifier.",
+        "requiredAcceptedResponse": null,
+        "requiredVerifierToken": null,
+        "sourceRefs": [
+          "p8.69.synthetic-verifier-ready",
+          "p8.70.extraction-negative-probes",
+          "p8.75.future-execution-plan"
+        ],
+        "stage": "verification",
+        "status": "blocked",
+        "summary": "Existing package extraction inventory verification has not run."
+      },
+      {
+        "authorityRefs": [],
+        "evidenceRefs": [
+          "p8.76.launch-boundary",
+          "p8.77.launch-authorization-request"
+        ],
+        "gateStatus": "blocked",
+        "id": "gate.launch-smoke",
+        "kind": "execution-gate",
+        "label": "Packaged launch smoke",
+        "missing": [
+          "real extraction inventory verification",
+          "accepted launch smoke authority if launch is still needed",
+          "launch smoke report"
+        ],
+        "nextAction": "Do not launch the packaged executable before package verification passes.",
+        "requiredAcceptedResponse": null,
+        "requiredVerifierToken": null,
+        "sourceRefs": [
+          "p8.76.launch-boundary",
+          "p8.77.launch-authorization-request"
+        ],
+        "stage": "runtime",
+        "status": "blocked",
+        "summary": "Launch smoke remains future-only until extraction inventory verification passes."
+      },
+      {
+        "authorityRefs": [],
+        "evidenceRefs": [
+          "p8.78.screenshot-boundary",
+          "p8.79.screenshot-authorization-request",
+          "p8.80.screenshot-hold"
+        ],
+        "gateStatus": "blocked",
+        "id": "gate.ui-screenshot",
+        "kind": "evidence",
+        "label": "Packaged UI screenshot",
+        "missing": [
+          "real extraction inventory verification",
+          "launch smoke evidence",
+          "accepted screenshot capture authority",
+          "non-empty screenshot evidence"
+        ],
+        "nextAction": "Capture only the bounded packaged UI window after all preconditions pass.",
+        "requiredAcceptedResponse": null,
+        "requiredVerifierToken": null,
+        "sourceRefs": [
+          "p8.78.screenshot-boundary",
+          "p8.79.screenshot-authorization-request",
+          "p8.80.screenshot-hold"
+        ],
+        "stage": "runtime",
+        "status": "blocked",
+        "summary": "Screenshot capture remains future-only until extraction and launch gates pass."
+      },
+      {
+        "authorityRefs": [],
+        "evidenceRefs": [
+          "p8.82.installer-boundary",
+          "p8.83.installer-request",
+          "p8.84.installer-hold"
+        ],
+        "gateStatus": "blocked",
+        "id": "gate.installer",
+        "kind": "artifact",
+        "label": "Installer creation",
+        "missing": [
+          "real package verification",
+          "product candidate acceptance",
+          "bounded installer creation authority"
+        ],
+        "nextAction": "Do not create an installer until upstream artifact and candidate gates are satisfied.",
+        "requiredAcceptedResponse": null,
+        "requiredVerifierToken": null,
+        "sourceRefs": [
+          "p8.82.installer-boundary",
+          "p8.83.installer-request",
+          "p8.84.installer-hold"
+        ],
+        "stage": "distribution",
+        "status": "blocked",
+        "summary": "Installer creation is planned and held; no installer exists."
+      },
+      {
+        "authorityRefs": [],
+        "evidenceRefs": [
+          "p8.86.signing-boundary",
+          "p8.87.signing-request",
+          "p8.88.signing-hold"
+        ],
+        "gateStatus": "blocked",
+        "id": "gate.signing",
+        "kind": "authority",
+        "label": "Artifact signing",
+        "missing": [
+          "verified artifact evidence",
+          "signing policy",
+          "key/certificate authority boundary",
+          "accepted signing authority"
+        ],
+        "nextAction": "Do not sign artifacts or access credentials.",
+        "requiredAcceptedResponse": null,
+        "requiredVerifierToken": null,
+        "sourceRefs": [
+          "p8.86.signing-boundary",
+          "p8.87.signing-request",
+          "p8.88.signing-hold"
+        ],
+        "stage": "trust",
+        "status": "blocked",
+        "summary": "Signing is planned and held; no certificate, key, token, or timestamp authority is accessed."
+      },
+      {
+        "authorityRefs": [],
+        "evidenceRefs": [
+          "p8.90.release-boundary",
+          "p8.91.release-request",
+          "p8.92.release-hold",
+          "p8.93.release-recheck"
+        ],
+        "gateStatus": "blocked",
+        "id": "gate.release",
+        "kind": "authority",
+        "label": "Release publishing",
+        "missing": [
+          "product candidate acceptance",
+          "verified release artifacts",
+          "release notes",
+          "provider credential authority",
+          "accepted release authority"
+        ],
+        "nextAction": "Do not publish a release or call provider APIs.",
+        "requiredAcceptedResponse": null,
+        "requiredVerifierToken": null,
+        "sourceRefs": [
+          "p8.90.release-boundary",
+          "p8.91.release-request",
+          "p8.92.release-hold",
+          "p8.93.release-recheck"
+        ],
+        "stage": "release",
+        "status": "blocked",
+        "summary": "Release publishing is planned and held; no tag, provider call, or release is created."
+      },
+      {
+        "authorityRefs": [],
+        "evidenceRefs": [
+          "p8.94.productization-boundary",
+          "p8.95.productization-request",
+          "p8.96.productization-hold",
+          "p8.97.gap-summary",
+          "p8.101.readiness-recheck"
+        ],
+        "gateStatus": "blocked",
+        "id": "gate.productization",
+        "kind": "productization",
+        "label": "Productization readiness",
+        "missing": [
+          "real package extraction inventory verification",
+          "launch or UI evidence if required",
+          "installer/signing/release decisions",
+          "product candidate acceptance",
+          "final productization authority"
+        ],
+        "nextAction": "Keep productization readiness false until all upstream gates pass.",
+        "requiredAcceptedResponse": null,
+        "requiredVerifierToken": null,
+        "sourceRefs": [
+          "p8.94.productization-boundary",
+          "p8.95.productization-request",
+          "p8.96.productization-hold",
+          "p8.97.gap-summary",
+          "p8.101.readiness-recheck"
+        ],
+        "stage": "product",
+        "status": "blocked",
+        "summary": "Productization is not ready because real evidence and final authority gates are absent."
+      }
+    ]
+  },
+  "reportVersion": "0.1.0",
+  "scope": "p8.102-productization-authority-chain-workbench-refresh",
+  "sourceReports": [
+    {
+      "artifactRole": "intentgraph-sandboxed-package-artifact-creation-probe-summary",
+      "byteLength": 3527,
+      "decision": "sandboxed-package-artifact-created-and-validated-productization-still-blocked",
+      "path": "generated/roadmap/p8.55-sandboxed-package-artifact-creation-probe-report.json",
+      "scope": "p8.55-sandboxed-package-artifact-creation-probe-summary",
+      "sha256": "sha256:9829269ef014a3262bca8c8834b3107584cfb350d03a4d96cbf7e9d8506c7cdc",
+      "status": "intentgraph-sandboxed-package-artifact-creation-probe-passed",
+      "workItem": "P8.55 Sandboxed Package Artifact Creation Probe"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-sandboxed-package-artifact-probe-report",
+      "byteLength": 9140,
+      "path": "generated/windowsutility/package-artifact/p8.55/package-artifact-probe-report.json",
+      "scope": "p8.55-sandboxed-package-artifact-creation-probe",
+      "sha256": "sha256:5fe66252dc8c3a185dccf3b7232c9fa5f675aa37b453c648a11c856ef7dc2093",
+      "status": "intentgraph-windowsutility-sandboxed-package-artifact-probe-passed",
+      "workItem": "P8.55 Sandboxed Package Artifact Creation Probe"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1372,
+      "path": "generated/roadmap/p8.66-packaged-artifact-metadata-replay-verification-report.json",
+      "result": "pass",
+      "scope": "p8.66-packaged-artifact-metadata-replay-verification",
+      "sha256": "sha256:61c8b739e4e46c69563ca674954f717bb442f0defa85d0dc88b749ee2bb46e6e",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.66 Packaged Artifact Metadata Replay Verification"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1309,
+      "path": "generated/roadmap/p8.67-packaged-artifact-metadata-replay-negative-probes-report.json",
+      "result": "pass",
+      "scope": "p8.67-packaged-artifact-metadata-replay-negative-probes",
+      "sha256": "sha256:d94632c21a54fbcb2f0f7d5d318454f46a1306ecc9f084908b83636178c4fb2d",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.67 Packaged Artifact Metadata Replay Negative Probes"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1433,
+      "path": "generated/roadmap/p8.69-sandboxed-package-extraction-inventory-verifier-readiness-report.json",
+      "result": "pass",
+      "scope": "p8.69-sandboxed-package-extraction-inventory-verifier-readiness",
+      "sha256": "sha256:524716242b87c8507f93507c10c710e0d770fb49222b28f3b9714172fda0384a",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.69 Sandboxed Package Extraction Inventory Verifier Readiness"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1440,
+      "path": "generated/roadmap/p8.70-packaged-artifact-extraction-inventory-negative-probes-report.json",
+      "result": "pass",
+      "scope": "p8.70-packaged-artifact-extraction-inventory-negative-probes",
+      "sha256": "sha256:611190607e5b3d5ea7cc894a4637496d3aac902c6d82531bcd2c344b4355f188",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.70 Packaged Artifact Extraction Inventory Negative Probes"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1184,
+      "path": "generated/roadmap/p8.75-packaged-artifact-verification-future-execution-plan-report.json",
+      "result": "future-execution-plan-recorded-no-execution",
+      "scope": "p8.75-packaged-artifact-verification-future-execution-plan-report-only",
+      "sha256": "sha256:386f7f706be6bfd45278e7b43631578dae15a1c82e74a9278fd8f0e3a3867241",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.75 Packaged Artifact Verification Future Execution Plan"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1168,
+      "path": "generated/roadmap/p8.76-packaged-executable-launch-smoke-boundary-plan-report.json",
+      "result": "launch-smoke-boundary-recorded-no-execution",
+      "scope": "p8.76-packaged-executable-launch-smoke-boundary-plan-report-only",
+      "sha256": "sha256:0d835c830d02ce85b74714f9efa7db2e9a698593b126dc7972f3df39e27b88d1",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.76 Packaged Executable Launch Smoke Boundary Plan"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1157,
+      "path": "generated/roadmap/p8.78-packaged-ui-screenshot-boundary-plan-report.json",
+      "result": "ui-screenshot-boundary-recorded-no-execution",
+      "scope": "p8.78-packaged-ui-screenshot-boundary-plan-report-only",
+      "sha256": "sha256:bbbd54f997860446cc2e1937f4e269408edc0d8af96e5802dc410aacc8f631b7",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.78 Packaged UI Screenshot Boundary Plan"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1159,
+      "path": "generated/roadmap/p8.82-installer-creation-boundary-plan-report.json",
+      "result": "installer-creation-boundary-recorded-no-installer-created",
+      "scope": "p8.82-installer-creation-boundary-plan-report-only",
+      "sha256": "sha256:8e72d238387ca4693b6c15358f329ed3fa9f36cf8400404b1e81278841476837",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.82 Installer Creation Boundary Plan"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1391,
+      "path": "generated/roadmap/p8.86-artifact-signing-authority-boundary-plan-report.json",
+      "result": "artifact-signing-authority-boundary-recorded-no-signing-performed",
+      "scope": "p8.86-artifact-signing-authority-boundary-plan-report-only",
+      "sha256": "sha256:e40cd6c79ed8018c1a828800bc158a2c81cdd5074bfe05e97d7d6dfe6cdb7957",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.86 Artifact Signing Authority Boundary Plan"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1301,
+      "path": "generated/roadmap/p8.90-release-authority-boundary-plan-report.json",
+      "result": "release-authority-boundary-recorded-no-release-created",
+      "scope": "p8.90-release-authority-boundary-plan-report-only",
+      "sha256": "sha256:b1bc520f6fb2c93595ef4236ed52ed36c6907e6eda6fe0f2ea182ec28bb0fe14",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.90 Release Authority Boundary Plan"
+    },
+    {
+      "artifactRole": "intentgraph-roadmap-phase-report",
+      "byteLength": 1368,
+      "path": "generated/roadmap/p8.94-productization-authority-boundary-plan-report.json",
+      "result": "productization-authority-boundary-recorded-no-productization-claimed",
+      "scope": "p8.94-productization-authority-boundary-plan-report-only",
+      "sha256": "sha256:24498ef4c5584dd8ce24b224478008f765249a99e6ffa9ca4df482389089196f",
+      "status": "intentgraph-roadmap-phase-completed",
+      "workItem": "P8.94 Productization Authority Boundary Plan"
+    },
+    {
+      "artifactRole": "intentgraph-productization-readiness-gap-summary-report",
+      "byteLength": 3311,
+      "decision": "productization-chain-boundaries-complete-readiness-still-not-ready",
+      "path": "generated/roadmap/p8.97-final-productization-readiness-gap-summary-report.json",
+      "scope": "p8.97-final-productization-readiness-gap-summary",
+      "sha256": "sha256:1a4f005f4e16ba1679fa55086251f2293e12b72722d8ac0dcb12b9729342caa5",
+      "status": "intentgraph-productization-readiness-gap-summary-recorded",
+      "workItem": "P8.97 Final Productization Readiness Gap Summary"
+    },
+    {
+      "artifactRole": "intentgraph-real-evidence-execution-authority-review-report",
+      "byteLength": 4004,
+      "decision": "real-evidence-execution-still-held-exact-package-extraction-authority-required",
+      "path": "generated/roadmap/p8.98-real-evidence-execution-authority-review-report.json",
+      "scope": "p8.98-real-evidence-execution-authority-review",
+      "sha256": "sha256:69ddb1ade7de8aebd988bf50737071befb942be5b5b31b8ee1e105c6061d7476",
+      "status": "intentgraph-real-evidence-execution-authority-reviewed",
+      "workItem": "P8.98 Real Evidence Execution Authority Review"
+    },
+    {
+      "artifactRole": "intentgraph-real-package-extraction-verification-authorization-refresh",
+      "byteLength": 4349,
+      "decision": "package-extraction-authorization-refresh-recorded-authorization-not-granted",
+      "path": "generated/roadmap/p8.99-real-package-extraction-verification-authorization-refresh.json",
+      "scope": "p8.99-real-package-extraction-verification-authorization-refresh",
+      "sha256": "sha256:2f06a1cbec270a1ff1444aaae08cfca9fcec0a7eb1116d16190f834a18e499e7",
+      "status": "intentgraph-real-package-extraction-verification-authorization-refreshed",
+      "workItem": "P8.99 Real Package Extraction Verification Authorization Refresh"
+    },
+    {
+      "artifactRole": "intentgraph-package-extraction-verification-scope-hold-refresh",
+      "byteLength": 2833,
+      "decision": "package-extraction-verification-held-pending-exact-authorization",
+      "path": "generated/roadmap/p8.100-package-extraction-verification-scope-hold-refresh.json",
+      "scope": "p8.100-package-extraction-verification-scope-hold-refresh",
+      "sha256": "sha256:b2f07b3127919a5673ccc7aaa0089894df4b5a6e6eeccd439703cd5ace9c9724",
+      "status": "intentgraph-package-extraction-verification-scope-held",
+      "workItem": "P8.100 Package Extraction Verification Scope Hold Refresh"
+    },
+    {
+      "artifactRole": "intentgraph-real-evidence-readiness-recheck-report",
+      "byteLength": 2936,
+      "decision": "real-evidence-readiness-still-held-workbench-visibility-refresh-recommended",
+      "path": "generated/roadmap/p8.101-real-evidence-readiness-recheck-after-authorization-refresh-report.json",
+      "scope": "p8.101-real-evidence-readiness-recheck-after-authorization-refresh",
+      "sha256": "sha256:93698ddb2a82fa36d3f84220f0be2b75242b180b5b3797a8620b61e21e22f9ef",
+      "status": "intentgraph-real-evidence-readiness-rechecked",
+      "workItem": "P8.101 Real Evidence Readiness Recheck After Authorization Refresh"
+    }
+  ],
+  "status": "intentgraph-productization-authority-chain-workbench-projection-emitted",
+  "summary": {
+    "decision": "workbench-visibility-refresh-only",
+    "nextRequiredAcceptedResponse": "accept sandboxed package extraction inventory verification",
+    "nextSafeSliceAfterWorkbench": "user may review gate chain; real extraction still requires exact authority artifact",
+    "readinessStatus": "not-ready"
+  },
+  "uiContract": {
+    "externalRuntimeUrlsAllowed": false,
+    "graphInteractionQuality": {
+      "fitControl": true,
+      "graphifyGradeInspectabilityTarget": true,
+      "semanticZoomKeepsNodesAndEdgesReadable": true,
+      "toolbarZoomControls": true,
+      "userPanningEnabled": true,
+      "wheelZoomEnabled": true
+    },
+    "graphLibrary": "cytoscape",
+    "graphLibraryVersion": "3.34.0",
+    "graphPresentation": "graphify-inspired-authority-chain",
+    "mode": "static-local-productization-authority-chain-workbench",
+    "networkRequired": false,
+    "panelResizing": {
+      "bottomDock": true,
+      "inspector": true,
+      "leftRail": true
+    },
+    "theme": "dark-graph-console"
+  },
+  "workItem": "P8.102 Productization Authority Chain Workbench Refresh"
+}

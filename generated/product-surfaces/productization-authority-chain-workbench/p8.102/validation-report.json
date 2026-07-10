@@ -1,0 +1,46 @@
+{
+  "artifactRole": "intentgraph-productization-authority-chain-workbench-validation-report",
+  "counts": {
+    "blockedOrHeldGates": 8,
+    "edges": 11,
+    "gates": 10,
+    "graphEdgeDiffs": 10,
+    "graphNodeDiffs": 10,
+    "nodes": 11
+  },
+  "date": "2026-07-10",
+  "errors": [],
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "existingPackageExtractionPerformed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationAuthorized": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "result": "pass",
+  "scope": "p8.102-productization-authority-chain-workbench-refresh",
+  "status": "intentgraph-productization-authority-chain-workbench-validation-passed",
+  "uiChecks": {
+    "approvalAutomationPresent": false,
+    "darkTheme": true,
+    "gateDiffPanel": true,
+    "graphCanvas": true,
+    "graphifyInspiredDarkGraphTheme": true,
+    "mutationControlsPresent": false,
+    "networkDependency": false,
+    "nodeEdgeInspector": true,
+    "panZoomControls": true,
+    "resizablePanels": true,
+    "semanticZoom": true,
+    "sourceDiffPanelForCodeNodes": true,
+    "sourceEvidencePanel": true
+  },
+  "workItem": "P8.102 Productization Authority Chain Workbench Refresh"
+}
