@@ -171,9 +171,11 @@ def validate(
     authority = proposal.get("requiredAuthority", [])
     stops = proposal.get("rollbackStopConditions", [])
     plan = proposal.get("deterministicVerificationPlan", [])
-    if not isinstance(evidence, list) or len(evidence) < 4:
-        errors.append("requiredEvidence must include at least four evidence requirements")
+    if not isinstance(evidence, list):
+        errors.append("requiredEvidence must be a list")
         evidence = []
+    elif len(evidence) < 4:
+        errors.append("requiredEvidence must include at least four evidence requirements")
     if not isinstance(authority, list) or len(authority) < 2:
         errors.append("requiredAuthority must include at least two authority requirements")
         authority = []

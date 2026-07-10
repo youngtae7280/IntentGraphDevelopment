@@ -1000,3 +1000,28 @@ P8.13 Shell Workspace Non-Applied Proposal Negative Probes
 ```
 
 P8.13 should prove stale mapping, stale target baseline, non-empty source delta, target write authority, AI authority, hardware authority, and productization claims fail deterministically.
+
+## Completed Slice: P8.13 Shell Workspace Non-Applied Proposal Negative Probes
+
+Goal: add repeatable negative probes for the P8.12 shell/workspace smoke evidence proposal.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_non_applied_proposal_negative_probes.py`
+- `generated/windowsutility/p8.13-shell-workspace-non-applied-proposal-negative-probes-report.json`
+- [P8.13 Shell Workspace Non-Applied Proposal Negative Probes Review](../reviews/p8.13-shell-workspace-non-applied-proposal-negative-probes-review.md)
+- `generated/roadmap/p8.13-shell-workspace-non-applied-proposal-negative-probes-report.json`
+
+Decision:
+
+```text
+non-applied-proposal-negative-probes-pass
+```
+
+Next safe work:
+
+```text
+P8.14 Shell Workspace Smoke Evidence Collection Plan
+```
+
+P8.14 should plan evidence collection without source edits, hardware actions, proposal application, or productization.

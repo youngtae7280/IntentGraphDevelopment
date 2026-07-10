@@ -1,0 +1,165 @@
+{
+  "artifactRole": "intentgraph-windowsutility-non-applied-proposal-negative-probes-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "positiveBaseline": {
+    "proposal": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+    "rerunResult": "pass"
+  },
+  "probeCount": 15,
+  "probes": [
+    {
+      "actualErrors": [
+        "accepted mapping digest mismatch"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "accepted mapping digest mismatch",
+      "expectedFailureObserved": true,
+      "id": "stale-accepted-mapping-digest"
+    },
+    {
+      "actualErrors": [
+        "accepted mapping verification digest mismatch"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "accepted mapping verification digest mismatch",
+      "expectedFailureObserved": true,
+      "id": "stale-verification-digest"
+    },
+    {
+      "actualErrors": [
+        "accepted mapping id mismatch",
+        "impactScope.mappingIds must contain the accepted mapping id"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "accepted mapping id mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-mapping-id"
+    },
+    {
+      "actualErrors": [
+        "target baseline must match accepted mapping target",
+        "target baseline head must equal originMain",
+        "target HEAD does not match proposal baseline"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "target baseline must match accepted mapping target",
+      "expectedFailureObserved": true,
+      "id": "stale-target-head"
+    },
+    {
+      "actualErrors": [
+        "proposedCodeDelta.plannedSourceChanges must be empty"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "proposedCodeDelta.plannedSourceChanges must be empty",
+      "expectedFailureObserved": true,
+      "id": "non-empty-source-delta"
+    },
+    {
+      "actualErrors": [
+        "proposedCodeDelta.sourcePatchExpected must be false"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "proposedCodeDelta.sourcePatchExpected must be false",
+      "expectedFailureObserved": true,
+      "id": "source-patch-expected-true"
+    },
+    {
+      "actualErrors": [
+        "proposedCodeDelta.sourceTextIncluded must be false"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "proposedCodeDelta.sourceTextIncluded must be false",
+      "expectedFailureObserved": true,
+      "id": "source-text-included-true"
+    },
+    {
+      "actualErrors": [
+        "requiredEvidence must include at least four evidence requirements",
+        "missing required evidence evidence.requirement.p8.12-shell-workspace-screenshot"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "missing required evidence evidence.requirement.p8.12-shell-workspace-screenshot",
+      "expectedFailureObserved": true,
+      "id": "missing-screenshot-evidence"
+    },
+    {
+      "actualErrors": [
+        "requiredAuthority must include at least two authority requirements"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "requiredAuthority must include at least two authority requirements",
+      "expectedFailureObserved": true,
+      "id": "missing-authority"
+    },
+    {
+      "actualErrors": [
+        "verification step verify.p8.12-accepted-mapping must not mutate target"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "verification step verify.p8.12-accepted-mapping must not mutate target",
+      "expectedFailureObserved": true,
+      "id": "verification-mutates-target"
+    },
+    {
+      "actualErrors": [
+        "authorizations.targetWritesAuthorized must be false"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "authorizations.targetWritesAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "target-write-authority-true"
+    },
+    {
+      "actualErrors": [
+        "authority authority.requirement.p8.12-coordinator-review must not grant AI authority",
+        "claimScope.aiAuthorityGranted must be false"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "claimScope.aiAuthorityGranted must be false",
+      "expectedFailureObserved": true,
+      "id": "ai-authority-true"
+    },
+    {
+      "actualErrors": [
+        "authorizations.hardwareActionsAuthorized must be false",
+        "claimScope.hardwareActionClaimed must be false"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "authorizations.hardwareActionsAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "hardware-authority-true"
+    },
+    {
+      "actualErrors": [
+        "authorizations.productizationAuthorized must be false",
+        "claimScope.productizationClaimed must be false"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "authorizations.productizationAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "productization-true"
+    },
+    {
+      "actualErrors": [
+        "authority authority.requirement.p8.12-coordinator-review must not be self-authorized",
+        "claimScope.selfAuthorized must be false"
+      ],
+      "actualReturnCode": 1,
+      "expectedError": "claimScope.selfAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "self-authorized-true"
+    }
+  ],
+  "result": "pass",
+  "scope": "p8.13-shell-workspace-non-applied-proposal-negative-probes-report-only",
+  "status": "intentgraph-windowsutility-non-applied-proposal-negative-probes-passed",
+  "workItem": "P8.13 Shell Workspace Non-Applied Proposal Negative Probes"
+}

@@ -351,6 +351,12 @@ Status: added in P8.12.
 
 A real-project non-applied proposal must bind to an accepted mapping artifact, the accepted mapping verification report, the target baseline HEAD/origin, and the accepted code-surface refs. It must keep planned source changes empty when the proposal class is evidence-only, declare required evidence and required authority, and fail if it claims source mutation, target writes, AI authority, hardware action authority, or productization.
 
+## V1017: Non-Applied Proposal Validators Need Repeatable Negative Probes
+
+Status: added in P8.13.
+
+Before a real-project non-applied proposal can be used for evidence collection planning, a repeatable negative-probe harness must prove deterministic rejection for stale accepted mapping bindings, stale target baselines, non-empty source deltas, missing evidence, missing authority, target-mutating verification steps, target write authority, AI authority, hardware authority, productization authority, and self-authorization.
+
 ## Rule Severity
 
 | Severity | Meaning |

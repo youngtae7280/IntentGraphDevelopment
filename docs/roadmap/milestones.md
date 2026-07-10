@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal
+P8.13 Shell Workspace Non-Applied Proposal Negative Probes
 ```
 
-This Phase G stabilization slice created the first concrete non-applied smoke evidence proposal over an accepted WindowsUtility shell/workspace mapping. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice proved the P8.12 non-applied proposal validator rejects unsafe proposal states. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1126,6 +1126,28 @@ Decision:
 - proposal validator confirms accepted mapping and target baseline binding.
 - planned source changes are empty.
 - continue to `P8.13 Shell Workspace Non-Applied Proposal Negative Probes`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim
+
+## P8.13: Shell Workspace Non-Applied Proposal Negative Probes
+
+Goal: prove unsafe P8.12 non-applied proposal states fail deterministically before evidence collection planning.
+
+Status: completed on 2026-07-10. See [P8.13 Shell Workspace Non-Applied Proposal Negative Probes Review](../reviews/p8.13-shell-workspace-non-applied-proposal-negative-probes-review.md).
+
+Decision:
+
+- positive P8.12 proposal baseline reruns.
+- stale mapping, stale target baseline, non-empty source delta, missing evidence, missing authority, target-mutating verification, target write, AI authority, hardware authority, productization, and self-authorization probes fail.
+- continue to `P8.14 Shell Workspace Smoke Evidence Collection Plan`.
 
 Non-goals:
 
