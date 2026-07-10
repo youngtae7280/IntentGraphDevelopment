@@ -346,3 +346,32 @@ P1.19 opens only a plan for Phase B. The next implementation slice may create B1
 
 Review trigger:
 If the implementation needs broad language support, semantic type resolution, static analysis, code navigation UI, or repository-scale graph querying, rerun this decision against Tree-sitter, SCIP, Kythe, Glean, CodeQL, Joern, Graphify, and Sourcegraph before building.
+
+### 012 - First Product Surface
+
+Capability: first user-facing product surface for IntentGraph real-project review
+Date: 2026-07-10
+Status: accepted for P8.29 planning; implementation not yet opened
+
+Problem:
+P8.28 shows that real-project readiness has improved, but productization remains blocked until the first product surface is selected. The surface must preserve the semantic-overlay model and must not imply source write authority, proposal application authority, AI authority, hardware authority, packaging, release, or broad product readiness.
+
+Strongest known existing systems:
+Static documentation/site generators, local HTML reports, Graphviz, D3, Cytoscape.js, IDE/editor extensions, GitHub Checks, GitHub Actions, CI dashboards, CodeQL/Sonar dashboards, and CLI report frameworks.
+
+Comparison:
+Editor, GitHub, CI, and team workflow surfaces are stronger as mature product distribution channels, but they introduce installation, permissions, remote execution, and release semantics too early. CLI report commands are small and useful, but still create an executable product surface and command contract. The static local workbench export is closest to the evidence already proven in P8.21-P8.24: local file output, browser inspection, deterministic artifact linkage, no target writes, and visible authority boundaries.
+
+Decision: build minimal static local workbench export first; defer CLI/app/editor/GitHub/team workflow surfaces.
+
+Reason:
+IntentGraph's unique early value is not packaging. It is making intent, mappings, proposal state, evidence, authority, and history inspectable without silently granting action authority. A static local workbench export can prove that value with the lowest permission and distribution risk.
+
+Benchmark required:
+The WindowsUtility shell/workspace workbench must be emitted from existing artifacts, opened locally, and validated for evidence visibility, selection/detail behavior, screenshot rendering, authority false flags, source artifact links, and absence of productization or write claims.
+
+Impact on roadmap:
+P8.29 selects the first surface but does not implement productization. The next safe slice may define or prototype a static local workbench export boundary only if it keeps source writes, proposal application, packaging, release, remote execution, AI authority, and hardware authority false.
+
+Review trigger:
+If the next slice requires installation, persistent local services, editor integration, GitHub permissions, release packaging, or remote execution, rerun the product surface decision and create a separate permission/release boundary first.

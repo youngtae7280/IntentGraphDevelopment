@@ -1,0 +1,120 @@
+{
+  "artifactRole": "intentgraph-first-product-surface-decision-boundary-plan-report",
+  "status": "intentgraph-first-product-surface-decision-boundary-recorded",
+  "scope": "p8.29-first-product-surface-decision-boundary-plan-report-only",
+  "workItem": "P8.29 First Product Surface Decision Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "select-static-local-workbench-export-first",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.28-windowsutility-productization-readiness-recheck-report.json",
+      "artifactRole": "intentgraph-productization-readiness-recheck-report",
+      "status": "intentgraph-productization-readiness-still-blocked"
+    },
+    {
+      "path": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-validation-report.json",
+      "artifactRole": "intentgraph-windowsutility-workbench-validation-report",
+      "status": "intentgraph-windowsutility-workbench-validation-passed"
+    },
+    {
+      "path": "generated/windowsutility/workbench/p8.24-shell-workspace-workbench-usability-dry-run-report.json",
+      "artifactRole": "intentgraph-windowsutility-workbench-usability-dry-run-report",
+      "status": "intentgraph-windowsutility-workbench-usability-dry-run-passed"
+    },
+    {
+      "path": "docs/decisions/build-borrow-integrate-decisions.md",
+      "decisionId": "012-first-product-surface",
+      "status": "accepted-for-p8.29-planning"
+    }
+  ],
+  "candidateSurfaces": [
+    {
+      "id": "surface.static-local-workbench-export",
+      "label": "Static local workbench export",
+      "decision": "selected-first",
+      "reason": "Closest to proven P8.21-P8.24 evidence, browser-inspectable, local-file only, no install or remote permissions required.",
+      "implementationAuthorizedNow": false
+    },
+    {
+      "id": "surface.cli-report-commands",
+      "label": "CLI report commands",
+      "decision": "defer-after-static-export-boundary",
+      "reason": "Useful and small, but creates an executable command contract and distribution surface.",
+      "implementationAuthorizedNow": false
+    },
+    {
+      "id": "surface.local-app",
+      "label": "Local app",
+      "decision": "defer",
+      "reason": "Requires app shell, persistence, navigation, and richer UI product boundaries.",
+      "implementationAuthorizedNow": false
+    },
+    {
+      "id": "surface.editor-integration",
+      "label": "Editor integration",
+      "decision": "defer",
+      "reason": "Requires editor permissions, install/update semantics, and stronger source-write boundaries.",
+      "implementationAuthorizedNow": false
+    },
+    {
+      "id": "surface.github-workflow-integration",
+      "label": "GitHub workflow integration",
+      "decision": "defer",
+      "reason": "Requires remote execution, repository permissions, checks, secrets, and branch policy boundaries.",
+      "implementationAuthorizedNow": false
+    },
+    {
+      "id": "surface.team-workflow-automation",
+      "label": "Team workflow automation",
+      "decision": "defer",
+      "reason": "Requires multi-user authority, RBAC, audit, notification, and lifecycle governance.",
+      "implementationAuthorizedNow": false
+    }
+  ],
+  "selectedSurface": {
+    "id": "surface.static-local-workbench-export",
+    "surfaceScope": "local-static-html-and-json-export",
+    "firstSupportedWorkflow": "WindowsUtility shell/workspace evidence review",
+    "allowedCapabilitiesForNextSlice": [
+      "emit deterministic local HTML/JSON export from existing artifacts",
+      "validate local browser readability",
+      "show accepted mapping, non-applied proposal, evidence, screenshot, source artifact links, authority false flags, and history timeline",
+      "write only under IntentGraphDevelopment generated output paths"
+    ],
+    "blockedCapabilities": [
+      "WindowsUtility source edits",
+      "proposal application",
+      "target writes",
+      "new sandbox run unless separately authorized",
+      "new UI launch unless separately authorized",
+      "new screenshot capture unless separately authorized",
+      "AI authority promotion",
+      "hardware actions",
+      "packaging",
+      "release",
+      "installer generation",
+      "editor integration",
+      "GitHub workflow integration",
+      "remote execution",
+      "team workflow automation"
+    ]
+  },
+  "authorizations": {
+    "staticWorkbenchExportBoundarySelected": true,
+    "staticWorkbenchImplementationAuthorized": false,
+    "cliProductSurfaceAuthorized": false,
+    "localAppAuthorized": false,
+    "editorIntegrationAuthorized": false,
+    "githubWorkflowIntegrationAuthorized": false,
+    "teamWorkflowAutomationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.30 Static Local Workbench Export Boundary"
+}

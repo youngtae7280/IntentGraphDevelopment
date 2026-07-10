@@ -125,3 +125,19 @@ The next safe stabilization slice is:
 ```text
 P8.29 First Product Surface Decision Boundary Plan
 ```
+
+## P8.29 Surface Decision
+
+P8.29 selected the first product surface boundary:
+
+```text
+surface.static-local-workbench-export
+```
+
+This is selected before CLI/app/editor/GitHub/team workflow surfaces because it is local, browser-inspectable, already supported by P8.21-P8.24 evidence, and does not require install, remote execution, target writes, proposal application, AI authority, hardware authority, packaging, or release.
+
+The next safe stabilization slice is:
+
+```text
+P8.30 Static Local Workbench Export Boundary
+```

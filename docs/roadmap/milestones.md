@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.28 WindowsUtility Productization Readiness Recheck
+P8.29 First Product Surface Decision Boundary Plan
 ```
 
-This Phase G stabilization slice rechecked productization readiness after the user workflow benchmark response. Productization remains blocked; the next safe work is a first product surface decision boundary plan. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice selected static local workbench export as the first product surface boundary while keeping productization, packaging, release, source writes, proposal application, AI authority, and hardware authority blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1526,5 +1526,31 @@ Non-goals:
 - no hardware action authority
 - no packaging
 - no release
+- no productization implementation
+- no product readiness claim
+
+## P8.29: First Product Surface Decision Boundary Plan
+
+Goal: choose the first product surface boundary after the WindowsUtility productization readiness recheck.
+
+Status: completed on 2026-07-10. See [P8.29 First Product Surface Decision Boundary Plan](../reviews/p8.29-first-product-surface-decision-boundary-plan-review.md).
+
+Decision:
+
+- static local workbench export is selected as the first product surface candidate.
+- CLI report commands, local app, editor integration, GitHub workflow integration, and team workflow automation are deferred.
+- implementation is not authorized in this slice.
+- continue to `P8.30 Static Local Workbench Export Boundary`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
+- no editor or GitHub integration
 - no productization implementation
 - no product readiness claim

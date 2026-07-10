@@ -1411,3 +1411,27 @@ Recommended next slice:
 ```text
 P8.29 First Product Surface Decision Boundary Plan
 ```
+
+## Completed Slice: P8.29 First Product Surface Decision Boundary Plan
+
+Goal: select the first safe product surface boundary after P8.28.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.29-first-product-surface-decision-boundary-plan-report.json`
+- [P8.29 First Product Surface Decision Boundary Plan](../reviews/p8.29-first-product-surface-decision-boundary-plan-review.md)
+- Decision 012 in [Build / Borrow / Integrate Decisions](../decisions/build-borrow-integrate-decisions.md)
+
+Decision:
+
+```text
+select-static-local-workbench-export-first
+```
+
+Static local workbench export is selected because it is local, browser-inspectable, already supported by P8.21-P8.24 evidence, and does not require install, remote execution, source writes, proposal application, AI authority, hardware authority, packaging, or release.
+
+Recommended next slice:
+
+```text
+P8.30 Static Local Workbench Export Boundary
+```
