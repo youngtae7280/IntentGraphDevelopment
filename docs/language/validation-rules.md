@@ -363,6 +363,12 @@ Status: added in P8.14.
 
 Real-project smoke evidence collection must not run build, launch, or screenshot workflows in a way that writes generated files to the original target repo unless a later explicit authority artifact grants that narrow permission. When build/runtime output is needed, the preferred path is a disposable copy or equivalent sandbox outside the target repo, followed by a post-check proving the original target remains clean and aligned.
 
+## V1019: Sandboxed Evidence Runs Must Prove Target Unchanged
+
+Status: added in P8.15.
+
+A sandboxed real-project evidence run must record target status, HEAD, and origin/main before and after the run, verify accepted source refs inside the sandbox, keep writes confined to the sandbox, and emit command logs. The run must fail if the original target status or refs change, if accepted refs do not match the baseline, or if the sandbox command fails.
+
 ## Rule Severity
 
 | Severity | Meaning |

@@ -7,11 +7,11 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.14 completed.
+P8.15 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
-Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. P8.14 required future smoke evidence to use a no-target-write sandbox strategy. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0 converted the productization blockers into a checklist and stabilization plan. P8.1 recorded that the WindowsUtility target state was unresolved. P8.2 defined how mappings may be accepted. P8.3 selected shell-workspace as the first candidate. P8.4 created a draft mapping outside WindowsUtility without accepting it. P8.5 added repeatable mapping draft negative probes. P8.6 resolved WindowsUtility target state to clean/aligned. P8.7 says the mapping is ready to request human acceptance. P8.8 created the human acceptance request. P8.9 recorded the user's `accept` response and created the first accepted mapping. P8.10 added accepted mapping negative probes. P8.11 opened the non-applied proposal boundary. P8.12 created the first shell/workspace smoke evidence proposal. P8.13 added proposal negative probes. P8.14 required future smoke evidence to use a no-target-write sandbox strategy. P8.15 proved sandboxed build smoke evidence while the original target stayed unchanged. Proposal application, source writes, AI authority, hardware authority, packaging, release, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -172,7 +172,7 @@ accepted mapping negative probes pass.
 The next safe work must resolve or plan real-project adoption blockers before product implementation. Reasonable next slices are:
 
 ```text
-P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run
+P8.16 Shell Workspace UI Evidence Boundary Plan
 ```
 
 ## Phase Overview
@@ -951,3 +951,22 @@ P8.14 produced:
 - `generated/roadmap/p8.14-shell-workspace-smoke-evidence-collection-plan-report.json`
 
 Future smoke evidence should run only in a disposable copy or equivalent sandbox outside the original WindowsUtility target repo unless a later authority artifact grants a narrower target-write permission.
+
+## P8.15 Result And Sandboxed Smoke Evidence
+
+P8.15 result:
+
+```text
+sandboxed build smoke evidence passed and original target stayed unchanged.
+Decision: sandboxed-build-smoke-evidence-pass-target-unchanged.
+```
+
+P8.15 produced:
+
+- `tools/run_windowsutility_sandboxed_smoke_evidence.py`
+- `generated/windowsutility/p8.15-sandboxed-smoke-evidence-report.json`
+- `generated/windowsutility/p8.15-sandboxed-smoke-evidence-build.log`
+- [P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run Review](../reviews/p8.15-shell-workspace-sandboxed-smoke-evidence-dry-run-review.md)
+- `generated/roadmap/p8.15-shell-workspace-sandboxed-smoke-evidence-dry-run-report.json`
+
+The sandbox build passed with exit code 0, warning count 0, and error count 0. The original WindowsUtility target remained `## main...origin/main` before and after the run.

@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.14 Shell Workspace Smoke Evidence Collection Plan
+P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run
 ```
 
-This Phase G stabilization slice selected a no-target-write smoke evidence strategy for WindowsUtility. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice proved build-only smoke evidence in a disposable WindowsUtility sandbox while the original target stayed unchanged. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1179,5 +1179,29 @@ Non-goals:
 - no proposal application
 - no AI authority promotion
 - no hardware action authority
+- no productization implementation
+- no product readiness claim
+
+## P8.15: Shell Workspace Sandboxed Smoke Evidence Dry Run
+
+Goal: collect build-only smoke evidence from a disposable WindowsUtility sandbox and prove the original target remains unchanged.
+
+Status: completed on 2026-07-10. See [P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run Review](../reviews/p8.15-shell-workspace-sandboxed-smoke-evidence-dry-run-review.md).
+
+Decision:
+
+- sandbox build passed with exit code 0.
+- accepted shell/workspace source refs matched in the sandbox.
+- original WindowsUtility stayed `## main...origin/main` before and after the run.
+- continue to `P8.16 Shell Workspace UI Evidence Boundary Plan`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
+- no UI launch or screenshot evidence yet
 - no productization implementation
 - no product readiness claim

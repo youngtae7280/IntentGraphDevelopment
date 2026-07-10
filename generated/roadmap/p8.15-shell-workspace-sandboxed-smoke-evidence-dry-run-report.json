@@ -1,0 +1,32 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-report",
+  "status": "intentgraph-roadmap-slice-completed",
+  "scope": "p8.15-shell-workspace-sandboxed-smoke-evidence-dry-run",
+  "workItem": "P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run",
+  "date": "2026-07-10",
+  "decision": "sandboxed-build-smoke-evidence-pass-target-unchanged",
+  "producedArtifacts": [
+    "tools/run_windowsutility_sandboxed_smoke_evidence.py",
+    "generated/windowsutility/p8.15-sandboxed-smoke-evidence-report.json",
+    "generated/windowsutility/p8.15-sandboxed-smoke-evidence-build.log",
+    "docs/reviews/p8.15-shell-workspace-sandboxed-smoke-evidence-dry-run-review.md"
+  ],
+  "evidenceResult": {
+    "sandboxBuildExitCode": 0,
+    "originalTargetBefore": "## main...origin/main",
+    "originalTargetAfter": "## main...origin/main",
+    "sandboxRemovedAfterRun": true,
+    "uiLaunchAttempted": false,
+    "screenshotCaptured": false
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "sandboxWritesAuthorizedForThisDryRun": true,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.16 Shell Workspace UI Evidence Boundary Plan"
+}

@@ -1048,3 +1048,29 @@ P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run
 ```
 
 P8.15 may run evidence commands only in a disposable copy or equivalent sandbox outside the original target repo, then prove the original target repo stayed clean/aligned.
+
+## Completed Slice: P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run
+
+Goal: run build-only smoke evidence in a disposable WindowsUtility sandbox and prove the original target stays unchanged.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_sandboxed_smoke_evidence.py`
+- `generated/windowsutility/p8.15-sandboxed-smoke-evidence-report.json`
+- `generated/windowsutility/p8.15-sandboxed-smoke-evidence-build.log`
+- [P8.15 Shell Workspace Sandboxed Smoke Evidence Dry Run Review](../reviews/p8.15-shell-workspace-sandboxed-smoke-evidence-dry-run-review.md)
+- `generated/roadmap/p8.15-shell-workspace-sandboxed-smoke-evidence-dry-run-report.json`
+
+Decision:
+
+```text
+sandboxed-build-smoke-evidence-pass-target-unchanged
+```
+
+Next safe work:
+
+```text
+P8.16 Shell Workspace UI Evidence Boundary Plan
+```
+
+P8.16 should decide whether UI launch/screenshot evidence can be captured safely without hardware actions or writes to the original target repo.
