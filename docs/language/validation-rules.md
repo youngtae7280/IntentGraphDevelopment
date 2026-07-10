@@ -409,6 +409,14 @@ A real-project evidence workbench projection must link accepted mapping, proposa
 
 The projection and preview must keep visualization/report state separate from correctness, acceptance, source mutation, target mutation, proposal application, AI authority, hardware authority, new evidence collection, and productization. Browser validation must prove the static preview is nonblank, has navigation and selectable records, exposes authority flags, and renders the screenshot path when screenshot evidence is present.
 
+## V1026: Workbench Projection Negative Probes Are Required Before Expansion
+
+Status: added in P8.22.
+
+A real-project workbench projection must have repeatable negative probes before the workbench expands to richer UI, new accepted mappings, productization, or user workflow benchmarks. The harness must rerun the positive projection baseline and then prove deterministic failures for unsafe authority flags, productization claims, source mutation claims, applied proposal claims, failed evidence, missing screenshot linkage, invalid screenshot evidence, dirty or stale target state, missing selection records, missing source artifacts, missing artifact digests, missing critical HTML markers, and missing screenshot files.
+
+The harness must keep bad fixtures temporary and must not mutate the real-project target.
+
 ## Rule Severity
 
 | Severity | Meaning |

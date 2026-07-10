@@ -1,0 +1,161 @@
+{
+  "artifactRole": "intentgraph-windowsutility-workbench-negative-probes-report",
+  "claimScope": {
+    "aiAuthorityGranted": false,
+    "badFixturesCommitted": false,
+    "hardwareActionClaimed": false,
+    "productizationClaimed": false,
+    "proposalApplied": false,
+    "sourceMutated": false,
+    "targetMutated": false
+  },
+  "positiveBaseline": {
+    "errors": [],
+    "html": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench.html",
+    "projection": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json",
+    "rerunResult": "pass",
+    "screenshot": "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png"
+  },
+  "probeCount": 15,
+  "probes": [
+    {
+      "actualErrors": [
+        "authorityBoundary.targetWritesAuthorized must be false"
+      ],
+      "expectedErrorSubstring": "authorityBoundary.targetWritesAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "target-write-authority-true",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "claimScope.productizationClaimed must be false"
+      ],
+      "expectedErrorSubstring": "claimScope.productizationClaimed must be false",
+      "expectedFailureObserved": true,
+      "id": "productization-claim-true",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "claimScope.sourceMutated must be false"
+      ],
+      "expectedErrorSubstring": "claimScope.sourceMutated must be false",
+      "expectedFailureObserved": true,
+      "id": "source-mutated-claim-true",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "proposal must remain not-applied"
+      ],
+      "expectedErrorSubstring": "proposal must remain not-applied",
+      "expectedFailureObserved": true,
+      "id": "proposal-applied",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "all evidence cards must pass"
+      ],
+      "expectedErrorSubstring": "all evidence cards must pass",
+      "expectedFailureObserved": true,
+      "id": "evidence-card-failed",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "all linked evidence cards must pass"
+      ],
+      "expectedErrorSubstring": "all linked evidence cards must pass",
+      "expectedFailureObserved": true,
+      "id": "summary-evidence-false",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "screenshot evidence must include screenshotPath"
+      ],
+      "expectedErrorSubstring": "screenshot evidence must include screenshotPath",
+      "expectedFailureObserved": true,
+      "id": "missing-screenshot-path",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "screenshot evidence must validate PNG"
+      ],
+      "expectedErrorSubstring": "screenshot evidence must validate PNG",
+      "expectedFailureObserved": true,
+      "id": "invalid-screenshot-png-flag",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "current WindowsUtility target must be clean/aligned"
+      ],
+      "expectedErrorSubstring": "current WindowsUtility target must be clean/aligned",
+      "expectedFailureObserved": true,
+      "id": "target-dirty",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "current WindowsUtility HEAD must match origin/main"
+      ],
+      "expectedErrorSubstring": "current WindowsUtility HEAD must match origin/main",
+      "expectedFailureObserved": true,
+      "id": "target-head-mismatch",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "projection must expose at least five selection records"
+      ],
+      "expectedErrorSubstring": "projection must expose at least five selection records",
+      "expectedFailureObserved": true,
+      "id": "missing-selection-records",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "source artifact missing: generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json"
+      ],
+      "expectedErrorSubstring": "source artifact missing",
+      "expectedFailureObserved": true,
+      "id": "missing-source-artifact",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "source artifact digest missing: generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json"
+      ],
+      "expectedErrorSubstring": "source artifact digest missing",
+      "expectedFailureObserved": true,
+      "id": "missing-source-artifact-digest",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "html preview missing marker Authority and safety boundary"
+      ],
+      "expectedErrorSubstring": "html preview missing marker Authority and safety boundary",
+      "expectedFailureObserved": true,
+      "id": "html-missing-authority-marker",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "screenshot PNG missing"
+      ],
+      "expectedErrorSubstring": "screenshot PNG missing",
+      "expectedFailureObserved": true,
+      "id": "screenshot-file-missing",
+      "result": "fail"
+    }
+  ],
+  "result": "pass",
+  "scope": "p8.22-shell-workspace-workbench-projection-negative-probes",
+  "status": "intentgraph-windowsutility-workbench-negative-probes-passed",
+  "workItem": "P8.22 Shell Workspace Workbench Projection Negative Probes"
+}

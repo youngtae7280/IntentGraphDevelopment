@@ -1350,3 +1350,27 @@ Non-goals:
 - no hardware action authority
 - no productization implementation
 - no product readiness claim
+
+## P8.22: Shell Workspace Workbench Projection Negative Probes
+
+Goal: prove unsafe or incomplete WindowsUtility workbench projection states fail deterministically.
+
+Status: completed on 2026-07-10. See [P8.22 Shell Workspace Workbench Projection Negative Probes Review](../reviews/p8.22-shell-workspace-workbench-projection-negative-probes-review.md).
+
+Decision:
+
+- positive P8.21 projection baseline reruns.
+- 15 negative probes fail for expected reasons.
+- no bad fixtures are committed.
+- continue to `P8.23 Shell Workspace Workbench Usability Boundary Plan`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or WindowsUtility screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim

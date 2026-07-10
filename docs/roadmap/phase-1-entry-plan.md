@@ -1223,3 +1223,28 @@ P8.22 Shell Workspace Workbench Projection Negative Probes
 ```
 
 P8.22 should prove deterministic failures for unsafe or incomplete workbench projection states before any richer UI or productization work.
+
+## Completed Slice: P8.22 Shell Workspace Workbench Projection Negative Probes
+
+Goal: add repeatable negative probes for unsafe or incomplete WindowsUtility workbench projection states.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_workbench_projection_negative_probes.py`
+- `generated/windowsutility/workbench/p8.22-shell-workspace-workbench-negative-probes-report.json`
+- [P8.22 Shell Workspace Workbench Projection Negative Probes Review](../reviews/p8.22-shell-workspace-workbench-projection-negative-probes-review.md)
+- `generated/roadmap/p8.22-shell-workspace-workbench-negative-probes-report.json`
+
+Decision:
+
+```text
+shell-workspace-workbench-negative-probes-pass
+```
+
+Next safe work:
+
+```text
+P8.23 Shell Workspace Workbench Usability Boundary Plan
+```
+
+P8.23 should define how to evaluate whether the workbench improves review over raw JSON before productization or broader UI work.

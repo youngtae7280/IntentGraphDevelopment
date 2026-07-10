@@ -1,0 +1,31 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-report",
+  "status": "intentgraph-roadmap-slice-completed",
+  "scope": "p8.22-shell-workspace-workbench-projection-negative-probes",
+  "workItem": "P8.22 Shell Workspace Workbench Projection Negative Probes",
+  "date": "2026-07-10",
+  "decision": "shell-workspace-workbench-negative-probes-pass",
+  "producedArtifacts": [
+    "tools/run_windowsutility_workbench_projection_negative_probes.py",
+    "generated/windowsutility/workbench/p8.22-shell-workspace-workbench-negative-probes-report.json",
+    "docs/reviews/p8.22-shell-workspace-workbench-projection-negative-probes-review.md"
+  ],
+  "probeResult": {
+    "positiveBaselineResult": "pass",
+    "probeCount": 15,
+    "expectedFailuresObserved": 15,
+    "badFixturesCommitted": false
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.23 Shell Workspace Workbench Usability Boundary Plan"
+}

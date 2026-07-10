@@ -621,10 +621,37 @@ def validate_projection(projection: dict[str, Any], html_path: Path, screenshot_
         errors.append("accepted mapping must be visible and accepted")
     if projection.get("proposal", {}).get("applicationStatus") != "not-applied":
         errors.append("proposal must remain not-applied")
+    evidence = projection.get("evidence", [])
+    if not isinstance(evidence, list) or not evidence:
+        errors.append("projection must include evidence cards")
+    if not all(isinstance(card, dict) and card.get("result") == "pass" for card in evidence):
+        errors.append("all evidence cards must pass")
     if not projection.get("summary", {}).get("allEvidencePassed"):
         errors.append("all linked evidence cards must pass")
     if not projection.get("summary", {}).get("targetUnchangedInEvidence"):
         errors.append("target evidence before/after must match")
+    source_artifacts = projection.get("sourceArtifacts", [])
+    if not isinstance(source_artifacts, list) or not source_artifacts:
+        errors.append("projection must include source artifacts")
+    for index, artifact in enumerate(source_artifacts):
+        if not isinstance(artifact, dict):
+            errors.append(f"sourceArtifacts[{index}] must be an object")
+            continue
+        if artifact.get("exists") is not True:
+            errors.append(f"source artifact missing: {artifact.get('path', index)}")
+        if not str(artifact.get("sha256", "")).startswith("sha256:"):
+            errors.append(f"source artifact digest missing: {artifact.get('path', index)}")
+    screenshot_cards = [card for card in evidence if isinstance(card, dict) and card.get("kind") == "sandboxed-screenshot"]
+    if len(screenshot_cards) != 1:
+        errors.append("projection must include exactly one sandboxed screenshot evidence card")
+    else:
+        screenshot_card = screenshot_cards[0]
+        if not screenshot_card.get("screenshotPath"):
+            errors.append("screenshot evidence must include screenshotPath")
+        if screenshot_card.get("validPng") is not True:
+            errors.append("screenshot evidence must validate PNG")
+        if int(screenshot_card.get("width") or 0) <= 0 or int(screenshot_card.get("height") or 0) <= 0:
+            errors.append("screenshot evidence must include positive dimensions")
     current = projection.get("target", {}).get("current", {})
     if current.get("status") != "## main...origin/main":
         errors.append("current WindowsUtility target must be clean/aligned")
