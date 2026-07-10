@@ -1,0 +1,160 @@
+{
+  "artifactRole": "intentgraph-windowsutility-non-applied-proposal",
+  "status": "intentgraph-windowsutility-non-applied-proposal-proposed",
+  "scope": "p8.12-shell-workspace-smoke-evidence-non-applied-proposal",
+  "workItem": "P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal",
+  "date": "2026-07-10",
+  "proposalId": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+  "proposalClass": "shell-workspace-smoke-evidence-non-applied-proposal",
+  "proposalMode": "non-applied-evidence-plan",
+  "applicationStatus": "not-applied",
+  "summary": "Plan the first shell/workspace smoke evidence loop for the accepted WindowsUtility shell-workspace mapping without proposing or applying source changes.",
+  "acceptedMappingBinding": {
+    "path": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json",
+    "digest": "sha256:7d9ffea6e82f563246176b77f3790831fe32f28ed5a67b79130bee8239e44ee4",
+    "verificationReportPath": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json",
+    "verificationReportDigest": "sha256:1184127a67f2bdeb45d395858c2344f58131125914d601ae0ea47266eaf04147",
+    "mappingId": "mapping.windowsutility.shell-workspace.accepted",
+    "intentUnitId": "unit.windowsutility.shell-workspace",
+    "accepted": true
+  },
+  "targetBaseline": {
+    "id": "WindowsUtility",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "status": "clean-aligned",
+    "targetWritesAuthorized": false
+  },
+  "impactScope": {
+    "intentUnitIds": [
+      "unit.windowsutility.shell-workspace"
+    ],
+    "mappingIds": [
+      "mapping.windowsutility.shell-workspace.accepted"
+    ],
+    "codeSurfaceRefs": [
+      {
+        "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "digest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+        "byteLength": 1897
+      },
+      {
+        "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+        "digest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+        "byteLength": 594
+      }
+    ],
+    "scopeReason": "The accepted mapping covers project-level shell/workspace refs only; this proposal asks for smoke evidence over that mapping, not source mutation."
+  },
+  "proposedCodeDelta": {
+    "sourcePatchExpected": false,
+    "plannedSourceChanges": [],
+    "sourceTextIncluded": false,
+    "patchIncluded": false,
+    "diffIncluded": false,
+    "replacementTextIncluded": false,
+    "sourceMutated": false
+  },
+  "requiredEvidence": [
+    {
+      "id": "evidence.requirement.p8.12-accepted-mapping-verification",
+      "kind": "accepted-mapping-verification-report",
+      "source": "generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json",
+      "requiredBeforeAcceptance": true,
+      "alreadySatisfied": true
+    },
+    {
+      "id": "evidence.requirement.p8.12-source-digest-recheck",
+      "kind": "source-ref-digest-recheck",
+      "requiredBeforeAcceptance": true,
+      "status": "future-required-not-collected",
+      "targetRefs": [
+        "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+      ]
+    },
+    {
+      "id": "evidence.requirement.p8.12-shell-navigation-smoke",
+      "kind": "shell-navigation-smoke-result",
+      "requiredBeforeAcceptance": true,
+      "status": "future-required-not-collected",
+      "hardwareRequired": false,
+      "targetSurface": "WindowsUtility shell/workspace"
+    },
+    {
+      "id": "evidence.requirement.p8.12-shell-workspace-screenshot",
+      "kind": "screenshot-or-ui-surface-evidence",
+      "requiredBeforeAcceptance": true,
+      "status": "future-required-not-collected",
+      "targetSurface": "WindowsUtility shell/workspace"
+    }
+  ],
+  "requiredAuthority": [
+    {
+      "id": "authority.requirement.p8.12-coordinator-review",
+      "kind": "coordinator-review-required",
+      "actor": "Coordinator",
+      "requiredBeforeAcceptance": true,
+      "aiAuthority": false,
+      "selfAuthorized": false,
+      "targetWritesAuthorized": false
+    },
+    {
+      "id": "authority.requirement.p8.12-user-evidence-acceptance",
+      "kind": "human-evidence-acceptance-required",
+      "actor": "User",
+      "requiredBeforeAcceptance": true,
+      "aiAuthority": false,
+      "selfAuthorized": false,
+      "targetWritesAuthorized": false
+    }
+  ],
+  "rollbackStopConditions": [
+    {
+      "id": "stop.p8.12-target-dirty-or-stale",
+      "condition": "WindowsUtility target is dirty or no longer matches the accepted mapping baseline.",
+      "action": "stop and re-run target-state or mapping acceptance boundary"
+    },
+    {
+      "id": "stop.p8.12-source-edit-needed",
+      "condition": "Collecting smoke evidence appears to require source edits.",
+      "action": "stop; open a separate source-edit proposal boundary before any target write"
+    },
+    {
+      "id": "stop.p8.12-hardware-required",
+      "condition": "Evidence collection would trigger hardware/device actions.",
+      "action": "stop and request explicit hardware/action approval"
+    }
+  ],
+  "deterministicVerificationPlan": [
+    {
+      "id": "verify.p8.12-accepted-mapping",
+      "command": "python tools/verify_windowsutility_accepted_mapping.py --mapping generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json --target-root C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility --out generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json",
+      "mutatesTarget": false
+    },
+    {
+      "id": "verify.p8.12-non-applied-proposal",
+      "command": "python tools/validate_windowsutility_non_applied_proposal.py --proposal generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json --accepted-mapping generated/windowsutility/p8.9-shell-workspace-accepted-mapping.json --accepted-mapping-verification generated/windowsutility/p8.9-shell-workspace-accepted-mapping-verification-report.json --target-root C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility --out generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-validation-report.json",
+      "mutatesTarget": false
+    }
+  ],
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false,
+    "hardwareActionsAuthorized": false
+  },
+  "claimScope": {
+    "proposalOnly": true,
+    "sourceMutated": false,
+    "patchApplied": false,
+    "automaticAcceptanceClaimed": false,
+    "aiAuthorityGranted": false,
+    "selfAuthorized": false,
+    "productizationClaimed": false,
+    "hardwareActionClaimed": false
+  }
+}

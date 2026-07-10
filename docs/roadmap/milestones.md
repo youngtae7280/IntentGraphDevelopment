@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis
+P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal
 ```
 
-This Phase G slice emitted read-only WindowsUtility mapping hypotheses outside the target repo. It does not authorize accepted mappings, source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice created the first concrete non-applied smoke evidence proposal over an accepted WindowsUtility shell/workspace mapping. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1089,5 +1089,50 @@ Non-goals:
 - no source edits
 - no target write authority
 - no AI authority promotion
+- no productization implementation
+- no product readiness claim
+
+## P8.11: Shell Workspace Non-Applied Proposal Boundary Plan
+
+Goal: define the first non-applied proposal boundary for the accepted shell-workspace mapping.
+
+Status: completed on 2026-07-10. See [P8.11 Shell Workspace Non-Applied Proposal Boundary Plan](../reviews/p8.11-shell-workspace-non-applied-proposal-boundary-plan-review.md).
+
+Decision:
+
+- non-applied proposal boundaries may start from the accepted mapping.
+- source edits, target writes, proposal application, AI authority, hardware authority, and productization remain blocked.
+- continue to `P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim
+
+## P8.12: Shell Workspace Smoke Evidence Non-Applied Proposal
+
+Goal: create and validate a concrete shell/workspace smoke evidence proposal over the accepted mapping without applying it.
+
+Status: completed on 2026-07-10. See [P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal Review](../reviews/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-review.md).
+
+Decision:
+
+- non-applied smoke evidence proposal exists.
+- proposal validator confirms accepted mapping and target baseline binding.
+- planned source changes are empty.
+- continue to `P8.13 Shell Workspace Non-Applied Proposal Negative Probes`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
 - no productization implementation
 - no product readiness claim

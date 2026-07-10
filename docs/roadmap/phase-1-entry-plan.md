@@ -951,3 +951,52 @@ P8.11 Shell Workspace Non-Applied Proposal Boundary Plan
 ```
 
 P8.11 may define proposal boundaries for the accepted mapping, but it must not edit WindowsUtility source.
+
+## Completed Slice: P8.11 Shell Workspace Non-Applied Proposal Boundary Plan
+
+Goal: define the first non-applied proposal boundary for the accepted shell-workspace mapping.
+
+Produced artifacts:
+
+- [P8.11 Shell Workspace Non-Applied Proposal Boundary Plan](../reviews/p8.11-shell-workspace-non-applied-proposal-boundary-plan-review.md)
+- `generated/roadmap/p8.11-shell-workspace-non-applied-proposal-boundary-report.json`
+
+Decision:
+
+```text
+non-applied-proposal-boundary-open-source-edits-blocked
+```
+
+Next safe work:
+
+```text
+P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal
+```
+
+P8.12 should create a concrete proposal artifact for smoke evidence only. It must not modify WindowsUtility or grant application authority.
+
+## Completed Slice: P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal
+
+Goal: create and validate the first shell/workspace smoke evidence proposal over the accepted mapping.
+
+Produced artifacts:
+
+- `generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json`
+- `tools/validate_windowsutility_non_applied_proposal.py`
+- `generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-validation-report.json`
+- [P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal Review](../reviews/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-review.md)
+- `generated/roadmap/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-report.json`
+
+Decision:
+
+```text
+non-applied-smoke-evidence-proposal-created
+```
+
+Next safe work:
+
+```text
+P8.13 Shell Workspace Non-Applied Proposal Negative Probes
+```
+
+P8.13 should prove stale mapping, stale target baseline, non-empty source delta, target write authority, AI authority, hardware authority, and productization claims fail deterministically.

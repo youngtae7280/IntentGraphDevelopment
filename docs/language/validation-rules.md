@@ -345,6 +345,12 @@ Status: added in P8.11.
 
 A real-project non-applied proposal boundary may define proposal shape, evidence requirements, authority requirements, rollback/stop conditions, and deterministic verification plans. It must keep source edits, target writes, apply authority, AI authority, and productization false unless a later explicit authority artifact grants a narrower permission.
 
+## V1016: Real-Project Non-Applied Proposals Must Bind To Accepted Mapping Baselines
+
+Status: added in P8.12.
+
+A real-project non-applied proposal must bind to an accepted mapping artifact, the accepted mapping verification report, the target baseline HEAD/origin, and the accepted code-surface refs. It must keep planned source changes empty when the proposal class is evidence-only, declare required evidence and required authority, and fail if it claims source mutation, target writes, AI authority, hardware action authority, or productization.
+
 ## Rule Severity
 
 | Severity | Meaning |

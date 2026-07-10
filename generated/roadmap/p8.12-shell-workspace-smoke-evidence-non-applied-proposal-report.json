@@ -1,0 +1,23 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-report",
+  "status": "intentgraph-roadmap-slice-completed",
+  "scope": "p8.12-shell-workspace-smoke-evidence-non-applied-proposal",
+  "workItem": "P8.12 Shell Workspace Smoke Evidence Non-Applied Proposal",
+  "date": "2026-07-10",
+  "decision": "non-applied-smoke-evidence-proposal-created",
+  "producedArtifacts": [
+    "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+    "tools/validate_windowsutility_non_applied_proposal.py",
+    "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-validation-report.json",
+    "docs/reviews/p8.12-shell-workspace-smoke-evidence-non-applied-proposal-review.md"
+  ],
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.13 Shell Workspace Non-Applied Proposal Negative Probes"
+}

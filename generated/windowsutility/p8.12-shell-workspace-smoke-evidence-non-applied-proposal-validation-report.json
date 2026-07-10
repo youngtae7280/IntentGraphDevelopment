@@ -1,0 +1,35 @@
+{
+  "artifactRole": "intentgraph-windowsutility-non-applied-proposal-validation-report",
+  "baseline": {
+    "acceptedMappingDigestMatched": true,
+    "acceptedMappingVerificationDigestMatched": true,
+    "targetHeadMatched": true,
+    "targetOriginMainMatched": true,
+    "targetStatus": "## main...origin/main"
+  },
+  "claimScope": {
+    "aiAuthorityGranted": false,
+    "hardwareActionClaimed": false,
+    "patchApplied": false,
+    "productizationClaimed": false,
+    "proposalOnly": true,
+    "selfAuthorized": false,
+    "sourceMutated": false,
+    "targetWritesAuthorized": false
+  },
+  "errors": [],
+  "proposalId": "proposal.windowsutility.p8.12-shell-workspace-smoke-evidence",
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "p8.12-shell-workspace-smoke-evidence-non-applied-proposal-validation-report",
+  "status": "intentgraph-windowsutility-non-applied-proposal-validation-passed",
+  "summary": {
+    "codeSurfaceRefCount": 2,
+    "errorCount": 0,
+    "plannedSourceChangeCount": 0,
+    "requiredAuthorityCount": 2,
+    "requiredEvidenceCount": 4,
+    "rollbackStopConditionCount": 3,
+    "verificationStepCount": 2
+  }
+}
