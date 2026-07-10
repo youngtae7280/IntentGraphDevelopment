@@ -1,0 +1,73 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-user-review-result",
+  "status": "intentgraph-static-local-workbench-export-user-review-result-recorded",
+  "scope": "p8.34-static-local-workbench-export-user-review-result-record",
+  "workItem": "P8.34 Static Local Workbench Export User Review Result Record",
+  "date": "2026-07-10",
+  "sourceRequest": {
+    "path": "generated/roadmap/p8.33-static-local-workbench-export-user-review-request.json",
+    "artifactRole": "intentgraph-static-local-workbench-export-user-review-request",
+    "status": "intentgraph-static-local-workbench-export-user-review-requested",
+    "decision": "static-export-user-review-response-required"
+  },
+  "userResponse": {
+    "raw": "revise: 일단 이게 뭔지 잘 모르겠어. 뭘 나타내는거야? 내가 뭘 봐야해?",
+    "normalized": "revise",
+    "language": "ko",
+    "responseRecorded": true
+  },
+  "reviewFindings": [
+    {
+      "id": "finding.static-export-purpose-unclear",
+      "severity": "p0",
+      "summary": "The static workbench export does not explain its own purpose clearly enough.",
+      "evidence": "User asked what the export is and what it represents."
+    },
+    {
+      "id": "finding.review-task-unclear",
+      "severity": "p0",
+      "summary": "The export does not make the review task obvious.",
+      "evidence": "User asked what they should look at."
+    },
+    {
+      "id": "finding.intentgraph-vocabulary-too-internal",
+      "severity": "p1",
+      "summary": "The export relies on internal roadmap vocabulary before grounding the reader in plain language.",
+      "evidence": "The P8.31 first screen describes a projection-only workbench but does not translate mapping, proposal, evidence, and authority into reviewer-facing meaning."
+    }
+  ],
+  "revisionRequirements": [
+    {
+      "id": "requirement.explain-what-this-is",
+      "summary": "The first screen must explain that this is a static review dashboard for a proposed WindowsUtility shell/workspace IntentGraph workflow, not the WindowsUtility product itself."
+    },
+    {
+      "id": "requirement.explain-what-it-represents",
+      "summary": "The first screen must explain that it represents mapping, covered code surface, non-applied proposal, evidence, and authority boundaries."
+    },
+    {
+      "id": "requirement.explain-what-to-review",
+      "summary": "The first screen must give a short review checklist in plain language."
+    },
+    {
+      "id": "requirement.explain-what-it-is-not",
+      "summary": "The export must clearly state that it is not source modification, proposal application, productization, packaging, release, or hardware authority."
+    }
+  ],
+  "decision": "revise-static-export-orientation-before-next-review",
+  "authorizations": {
+    "staticExportRevisionAuthorized": true,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.35 Static Local Workbench Export Reviewer Orientation Revision"
+}
