@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.42 Source Application Authorization Review / Minimal Source Application Gate
+P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview
 ```
 
-This Phase G stabilization slice reviewed the user's source-modification permission against the P8.41 dry-run evidence. It found that the current P8.12 proposal has no source patch, so a minimal source edit proposal and patch preview are required before any WindowsUtility source write. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice selected one low-risk WindowsUtility test-automation source edit and emitted a patch preview without writing to WindowsUtility. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1916,6 +1916,33 @@ Non-goals:
 - no proposal application
 - no target writes
 - no WindowsUtility commit or push
+- no hardware action authority
+- no AI authority promotion
+- no packaging
+- no release
+- no productization implementation
+- no product readiness claim
+
+## P8.43: Minimal WindowsUtility Source Edit Proposal and Patch Preview
+
+Goal: select exactly one low-risk WindowsUtility source edit and emit a patch preview before target writes.
+
+Status: completed on 2026-07-10. See [P8.43 Minimal WindowsUtility Source Edit Proposal](../reviews/p8.43-minimal-windowsutility-source-edit-proposal.md).
+
+Decision:
+
+- selected `tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1`.
+- emitted a patch preview and validation report.
+- validation passed with one operation.
+- the patch was not applied in P8.43.
+- continue to `P8.44 Minimal WindowsUtility Source Edit Application`.
+
+Non-goals:
+
+- no source edits in this slice
+- no target writes in this slice
+- no product runtime change
+- no Utility_Windows reference source mutation
 - no hardware action authority
 - no AI authority promotion
 - no packaging

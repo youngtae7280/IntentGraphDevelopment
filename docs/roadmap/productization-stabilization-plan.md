@@ -456,3 +456,19 @@ The next safe stabilization slice is:
 ```text
 P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview
 ```
+
+## P8.43 Minimal WindowsUtility Source Edit Proposal
+
+P8.43 selected one low-risk test-automation source edit and emitted a patch preview:
+
+```text
+tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1
+```
+
+The patch was not applied in P8.43. The selected file avoids product runtime paths, Utility_Windows reference source, Native interop, hardware paths, firmware/printer writes, packaging, and release paths.
+
+The next safe stabilization slice is:
+
+```text
+P8.44 Minimal WindowsUtility Source Edit Application
+```

@@ -1,0 +1,67 @@
+{
+  "artifactRole": "intentgraph-windowsutility-minimal-source-edit-proposal",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "mayApplyInNextSliceIfPreflightStillClean": true,
+    "packagingAuthorized": false,
+    "patchApplicationAuthorizedInThisSlice": false,
+    "productizationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorizedInThisSlice": false,
+    "targetWritesAuthorizedInThisSlice": false
+  },
+  "date": "2026-07-10",
+  "patchPreview": {
+    "digest": "sha256:35054ab0074fcc58fcbaf5bb0800988079063256b5e8cb62732f588789d31fd1",
+    "lineCount": 40,
+    "operationCount": 1,
+    "patchApplied": false,
+    "path": "generated/windowsutility/source-application-proposals/p8.43/patch-preview.diff",
+    "sourceTextIncluded": true
+  },
+  "proposalId": "proposal.windowsutility.p8.43-intentgraph-shell-workspace-preflight",
+  "rollbackPlan": {
+    "ifApplied": "remove tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1 and rerun git status/build validation",
+    "requiresGitReset": false
+  },
+  "scope": "p8.43-minimal-windowsutility-source-edit-proposal-and-patch-preview",
+  "selectedSourceEdit": {
+    "alreadyExists": false,
+    "changeType": "add-file",
+    "path": "tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1",
+    "purpose": "Add a deterministic no-hardware preflight script for the shell/workspace source-application evidence loop.",
+    "risk": "low-no-product-runtime-path",
+    "touchesHardwarePath": false,
+    "touchesNativePath": false,
+    "touchesPackagingOrRelease": false,
+    "touchesProductRuntime": false,
+    "touchesUtilityWindowsReferenceSource": false
+  },
+  "sourceGateBinding": {
+    "decision": "minimal-source-edit-proposal-required-before-application",
+    "digest": "sha256:41231652389012acf5281e5ecc1bd47f0d1fb635fb2810163b62cb56226e0953",
+    "path": "generated/roadmap/p8.42-source-application-authorization-review-report.json"
+  },
+  "status": "intentgraph-windowsutility-minimal-source-edit-proposal-previewed",
+  "targetBaseline": {
+    "cleanAligned": true,
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "status": "## main...origin/main"
+  },
+  "validationPlan": [
+    {
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\tests\\RegressionSmoke\\Invoke-IntentGraphShellWorkspacePreflight.ps1",
+      "id": "validate.p8.43-preflight-script",
+      "requiresHardware": false
+    },
+    {
+      "command": "dotnet build .\\WindowsUtility.sln",
+      "id": "validate.p8.43-build",
+      "requiresHardware": false
+    }
+  ],
+  "workItem": "P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview"
+}

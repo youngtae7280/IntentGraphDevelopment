@@ -1,0 +1,40 @@
+diff --git a/tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1 b/tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tests/RegressionSmoke/Invoke-IntentGraphShellWorkspacePreflight.ps1
+@@ -0,0 +1,34 @@
++[CmdletBinding()]
++param(
++    [string]$RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
++)
++
++Set-StrictMode -Version Latest
++$ErrorActionPreference = "Stop"
++
++function Test-RequiredPath {
++    param(
++        [Parameter(Mandatory = $true)]
++        [string]$RelativePath
++    )
++
++    $fullPath = Join-Path $RepoRoot $RelativePath
++    if (-not (Test-Path -LiteralPath $fullPath)) {
++        throw "Required path is missing: $RelativePath"
++    }
++
++    Write-Host "[ok] $RelativePath"
++}
++
++$requiredPaths = @(
++    "WindowsUtility.sln",
++    "src\WindowsUtility.App\WindowsUtility.App.csproj",
++    "src\WindowsUtility.Shell\WindowsUtility.Shell.csproj",
++    "tests\RegressionSmoke\Invoke-WindowsUtilityRegressionSmoke.ps1"
++)
++
++foreach ($path in $requiredPaths) {
++    Test-RequiredPath -RelativePath $path
++}
++
++Write-Host "IntentGraph shell/workspace source-application preflight passed."

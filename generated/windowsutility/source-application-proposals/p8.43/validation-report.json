@@ -1,0 +1,14 @@
+{
+  "artifactRole": "intentgraph-windowsutility-minimal-source-edit-proposal-validation-report",
+  "date": "2026-07-10",
+  "errors": [],
+  "result": "pass",
+  "scope": "p8.43-minimal-windowsutility-source-edit-proposal-validation-report-only",
+  "status": "intentgraph-windowsutility-minimal-source-edit-proposal-validation-passed",
+  "summary": {
+    "errorCount": 0,
+    "operationCount": 1,
+    "validationCommandCount": 2
+  },
+  "workItem": "P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview"
+}

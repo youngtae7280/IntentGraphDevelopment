@@ -1746,3 +1746,27 @@ Recommended next slice:
 ```text
 P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview
 ```
+
+## Completed Slice: P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview
+
+Goal: select exactly one low-risk WindowsUtility source edit and preview it before application.
+
+Produced artifacts:
+
+- `generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json`
+- `generated/windowsutility/source-application-proposals/p8.43/patch-preview.diff`
+- `generated/windowsutility/source-application-proposals/p8.43/validation-report.json`
+- `generated/roadmap/p8.43-minimal-windowsutility-source-edit-proposal-report.json`
+- [P8.43 Minimal WindowsUtility Source Edit Proposal](../reviews/p8.43-minimal-windowsutility-source-edit-proposal.md)
+
+Decision:
+
+```text
+minimal-source-edit-proposal-previewed-not-applied
+```
+
+Recommended next slice:
+
+```text
+P8.44 Minimal WindowsUtility Source Edit Application
+```

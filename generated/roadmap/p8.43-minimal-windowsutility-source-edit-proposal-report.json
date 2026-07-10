@@ -1,0 +1,36 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-completion-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "mayApplyInNextSliceIfPreflightStillClean": true,
+    "packagingAuthorized": false,
+    "patchApplicationAuthorizedInThisSlice": false,
+    "productizationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorizedInThisSlice": false,
+    "targetWritesAuthorizedInThisSlice": false
+  },
+  "date": "2026-07-10",
+  "decision": "minimal-source-edit-proposal-previewed-not-applied",
+  "proposal": {
+    "digest": "sha256:9f7f74d056bd4c2e6c63cfa401d0f89476a27a4ca4ff422d5655f07c7e06d522",
+    "path": "generated/windowsutility/source-application-proposals/p8.43/minimal-source-edit-proposal.json"
+  },
+  "recommendedNextSlice": "P8.44 Minimal WindowsUtility Source Edit Application",
+  "scope": "p8.43-minimal-windowsutility-source-edit-proposal-and-patch-preview-report-only",
+  "status": "intentgraph-roadmap-slice-completed",
+  "summary": "Selected one low-risk WindowsUtility test-automation source edit and emitted a patch preview without writing to WindowsUtility.",
+  "targetState": {
+    "cleanAligned": true,
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "status": "## main...origin/main"
+  },
+  "validation": {
+    "path": "generated/windowsutility/source-application-proposals/p8.43/validation-report.json",
+    "result": "pass"
+  },
+  "workItem": "P8.43 Minimal WindowsUtility Source Edit Proposal and Patch Preview"
+}
