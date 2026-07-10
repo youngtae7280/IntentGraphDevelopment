@@ -1,0 +1,37 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.90-release-authority-boundary-plan-report-only",
+  "workItem": "P8.90 Release Authority Boundary Plan",
+  "date": "2026-07-10",
+  "result": "release-authority-boundary-recorded-no-release-created",
+  "producedArtifacts": [
+    "generated/roadmap/p8.90-release-authority-boundary-plan.json",
+    "docs/reviews/p8.90-release-authority-boundary-plan.md"
+  ],
+  "boundarySummary": {
+    "releaseAuthorityRecorded": false,
+    "productCandidateAccepted": false,
+    "verifiedReleaseArtifactPresent": false,
+    "releaseNotesRecorded": false,
+    "providerCredentialAuthorityRecorded": false,
+    "releaseTagCreated": false,
+    "releasePublished": false,
+    "futurePreconditionCount": 6
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "globalInstall": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releaseTagCreation": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.91 Release Authorization Request"
+}

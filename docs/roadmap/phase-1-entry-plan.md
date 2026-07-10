@@ -2942,3 +2942,25 @@ Recommended next slice:
 ```text
 P8.90 Release Authority Boundary Plan
 ```
+
+## Completed Slice: P8.90 Release Authority Boundary Plan
+
+Goal: define the future release authority boundary without creating tags or publishing releases.
+
+Result:
+
+```text
+Decision: release-authority-boundary-recorded-no-release-created.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.90-release-authority-boundary-plan.json`
+- `generated/roadmap/p8.90-release-authority-boundary-plan-report.json`
+- [P8.90 Release Authority Boundary Plan](../reviews/p8.90-release-authority-boundary-plan.md)
+
+Recommended next slice:
+
+```text
+P8.91 Release Authorization Request
+```

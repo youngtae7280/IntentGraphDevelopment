@@ -3113,3 +3113,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.90 Release Authority Boundary Plan`.
+
+## P8.90: Release Authority Boundary Plan
+
+Goal: define the future release authority boundary without creating tags or publishing releases.
+
+Status: completed on 2026-07-10. See [P8.90 Release Authority Boundary Plan](../reviews/p8.90-release-authority-boundary-plan.md).
+
+Decision:
+
+- release authority boundary recorded.
+- product candidate acceptance, verified release artifact, release notes, provider/credential authority, and release authorization are absent.
+- no package extraction, executable launch, UI screenshot capture, installer creation, global install, signing, credential access, provider API call, release tag creation, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.90-release-authority-boundary-plan.json`
+- `generated/roadmap/p8.90-release-authority-boundary-plan-report.json`
+- [P8.90 Release Authority Boundary Plan](../reviews/p8.90-release-authority-boundary-plan.md)
+
+Next safe work:
+
+- continue to `P8.91 Release Authorization Request`.

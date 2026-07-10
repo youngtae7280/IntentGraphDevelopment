@@ -1,0 +1,94 @@
+{
+  "artifactRole": "intentgraph-release-authority-boundary-plan",
+  "status": "intentgraph-release-authority-boundary-plan-recorded",
+  "scope": "p8.90-release-authority-boundary-plan-report-only",
+  "workItem": "P8.90 Release Authority Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "release-authority-boundary-recorded-no-release-created",
+  "purpose": "Define the future boundary for creating release tags, publishing release artifacts, and recording productization release evidence only after product candidate acceptance, verified artifacts, signing policy, and explicit release authority exist.",
+  "preconditions": [
+    {
+      "id": "precondition.product-candidate-accepted",
+      "required": true,
+      "description": "The user/coordinator must accept the product candidate before release authority can be requested as actionable.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.verified-release-artifact-present",
+      "required": true,
+      "description": "A release artifact must be verified by manifest, byte length, sha256, and expected inventory.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.signing-status-recorded",
+      "required": true,
+      "description": "The release must record whether artifacts are unsigned, signed, or signing-deferred and why.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.release-notes-recorded",
+      "required": true,
+      "description": "Release notes, artifact manifest, known limitations, and rollback guidance must be recorded before publishing.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.release-authority",
+      "required": true,
+      "description": "The user/coordinator must explicitly authorize bounded release tag creation and release publishing.",
+      "requiredAcceptedResponse": "accept sandboxed release authority",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.provider-credential-authority",
+      "required": true,
+      "description": "Any provider API call, repository release operation, or credential access requires a separate provider/credential authority boundary.",
+      "currentlySatisfied": false
+    }
+  ],
+  "futureReleaseBoundary": {
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayUploadReleaseArtifacts": false,
+    "mayCallProviderApis": false,
+    "mayReadCredentials": false,
+    "mayReadProviderTokens": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false,
+    "mayInstallGlobally": false,
+    "mayClaimProductizationReady": false
+  },
+  "futureAllowedIfAuthorizedLater": [
+    "create a release candidate manifest under generated/",
+    "record release notes and artifact hashes",
+    "record release tag proposal without creating the tag unless release authority is explicitly accepted",
+    "publish release artifacts only if provider/credential authority is separately satisfied"
+  ],
+  "futureStillForbiddenIfReleaseAuthorized": [
+    "WindowsUtility source edits",
+    "global installation",
+    "artifact signing unless separately authorized",
+    "credential access without provider/credential authority",
+    "provider API calls without provider/credential authority",
+    "productization claim without final productization authority"
+  ],
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "globalInstallPerformed": false,
+    "artifactSigned": false,
+    "privateKeyAccessed": false,
+    "certificateStoreAccessed": false,
+    "signingTokenAccessed": false,
+    "timestampAuthorityCalled": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releaseTagCreated": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.91 Release Authorization Request"
+}
