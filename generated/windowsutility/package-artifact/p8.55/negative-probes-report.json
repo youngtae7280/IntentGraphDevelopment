@@ -1,0 +1,124 @@
+{
+  "artifactRole": "intentgraph-windowsutility-sandboxed-package-artifact-negative-probes-report",
+  "boundary": {
+    "artifactSigningAllowed": false,
+    "credentialAccessAllowed": false,
+    "productizationClaimAllowed": false,
+    "providerApiCallsAllowed": false,
+    "releasePublishingAllowed": false,
+    "sourceMutationsAllowed": false,
+    "targetWritesAllowed": false
+  },
+  "positiveBaseline": {
+    "report": "generated/windowsutility/package-artifact/p8.55/package-artifact-probe-report.json",
+    "rerunResult": "pass"
+  },
+  "probeCount": 12,
+  "probes": [
+    {
+      "actualErrors": [
+        "claimScope.sourceMutated must be false"
+      ],
+      "expectedError": "claimScope.sourceMutated must be false",
+      "expectedFailureObserved": true,
+      "id": "source-mutated"
+    },
+    {
+      "actualErrors": [
+        "claimScope.targetMutated must be false"
+      ],
+      "expectedError": "claimScope.targetMutated must be false",
+      "expectedFailureObserved": true,
+      "id": "target-mutated"
+    },
+    {
+      "actualErrors": [
+        "report.authorizations.artifactSigningAuthorized must be false",
+        "claimScope.artifactSigned must be false"
+      ],
+      "expectedError": "report.authorizations.artifactSigningAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "artifact-signed"
+    },
+    {
+      "actualErrors": [
+        "report.authorizations.credentialAccessAuthorized must be false",
+        "claimScope.credentialAccessed must be false"
+      ],
+      "expectedError": "report.authorizations.credentialAccessAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "credential-access"
+    },
+    {
+      "actualErrors": [
+        "report.authorizations.providerApiCallsAuthorized must be false",
+        "claimScope.providerApiCalled must be false"
+      ],
+      "expectedError": "report.authorizations.providerApiCallsAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "provider-api-call"
+    },
+    {
+      "actualErrors": [
+        "report.authorizations.releasePublishingAuthorized must be false",
+        "claimScope.releasePublished must be false"
+      ],
+      "expectedError": "report.authorizations.releasePublishingAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "release-published"
+    },
+    {
+      "actualErrors": [
+        "report.authorizations.productizationAuthorized must be false",
+        "claimScope.productizationClaimed must be false"
+      ],
+      "expectedError": "report.authorizations.productizationAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "productization-claim"
+    },
+    {
+      "actualErrors": [
+        "packageArtifact.sha256 does not match artifact bytes"
+      ],
+      "expectedError": "packageArtifact.sha256 does not match artifact bytes",
+      "expectedFailureObserved": true,
+      "id": "stale-checksum"
+    },
+    {
+      "actualErrors": [
+        "packageArtifact.path must exist"
+      ],
+      "expectedError": "packageArtifact.path must exist",
+      "expectedFailureObserved": true,
+      "id": "missing-package-path"
+    },
+    {
+      "actualErrors": [
+        "packageArtifact.zipReadable must be true"
+      ],
+      "expectedError": "packageArtifact.zipReadable must be true",
+      "expectedFailureObserved": true,
+      "id": "unreadable-zip-claim"
+    },
+    {
+      "actualErrors": [
+        "publish.exitCode must be 0"
+      ],
+      "expectedError": "publish.exitCode must be 0",
+      "expectedFailureObserved": true,
+      "id": "publish-failed"
+    },
+    {
+      "actualErrors": [
+        "targetFinalState.cleanAligned must be true"
+      ],
+      "expectedError": "targetFinalState.cleanAligned must be true",
+      "expectedFailureObserved": true,
+      "id": "target-final-dirty"
+    }
+  ],
+  "result": "pass",
+  "scope": "p8.55-sandboxed-package-artifact-negative-probes-report-only",
+  "status": "intentgraph-windowsutility-sandboxed-package-artifact-negative-probes-passed",
+  "workItem": "P8.55 Sandboxed Package Artifact Creation Probe"
+}

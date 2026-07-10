@@ -1,0 +1,12 @@
+{
+  "artifactRole": "intentgraph-windowsutility-sandboxed-package-artifact-validation-report",
+  "date": "2026-07-10",
+  "errorCount": 0,
+  "errors": [],
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "p8.55-sandboxed-package-artifact-creation-probe",
+  "status": "intentgraph-windowsutility-sandboxed-package-artifact-validation-passed",
+  "validatedReport": "generated/windowsutility/package-artifact/p8.55/package-artifact-probe-report.json",
+  "workItem": "P8.55 Sandboxed Package Artifact Creation Probe"
+}

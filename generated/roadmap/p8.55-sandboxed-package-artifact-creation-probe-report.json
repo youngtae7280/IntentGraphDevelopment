@@ -1,0 +1,76 @@
+{
+  "artifactRole": "intentgraph-sandboxed-package-artifact-creation-probe-summary",
+  "status": "intentgraph-sandboxed-package-artifact-creation-probe-passed",
+  "scope": "p8.55-sandboxed-package-artifact-creation-probe-summary",
+  "workItem": "P8.55 Sandboxed Package Artifact Creation Probe",
+  "date": "2026-07-10",
+  "decision": "sandboxed-package-artifact-created-and-validated-productization-still-blocked",
+  "sourceAuthorization": {
+    "path": "generated/roadmap/p8.54-package-artifact-creation-authorization-result.json",
+    "artifactRole": "intentgraph-package-artifact-creation-authorization-result",
+    "status": "intentgraph-package-artifact-creation-authorization-result-recorded",
+    "decision": "sandboxed-package-artifact-creation-authorized-for-local-validation-only"
+  },
+  "probeArtifacts": {
+    "probeReport": "generated/windowsutility/package-artifact/p8.55/package-artifact-probe-report.json",
+    "validationReport": "generated/windowsutility/package-artifact/p8.55/validation-report.json",
+    "negativeProbesReport": "generated/windowsutility/package-artifact/p8.55/negative-probes-report.json",
+    "manifest": "generated/windowsutility/package-artifact/p8.55/package-manifest.json",
+    "packageArtifact": "generated/windowsutility/package-artifact/p8.55/windowsutility-shell-workspace-p8.55-sandbox-package.zip",
+    "publishStdout": "generated/windowsutility/package-artifact/p8.55/publish-stdout.txt",
+    "publishStderr": "generated/windowsutility/package-artifact/p8.55/publish-stderr.txt"
+  },
+  "packageArtifact": {
+    "sha256": "sha256:1de950e8f3ed79a2399ffba50e9c1b59d0a4cb92ff1b9b7ee3332e5b15ccc4fe",
+    "byteLength": 4072027,
+    "fileCount": 39,
+    "zipReadable": true,
+    "containsWindowsUtilityAppExe": true,
+    "containsSmartComm2Dll": true
+  },
+  "publishResult": {
+    "command": "dotnet publish src/WindowsUtility.App/WindowsUtility.App.csproj -c Release -o <sandbox-publish-dir> --no-self-contained",
+    "exitCode": 0,
+    "sandboxedBuildOrPublishPerformed": true
+  },
+  "targetState": {
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "head": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "cleanAlignedBeforeAndAfter": true,
+    "sourceMutated": false,
+    "targetMutated": false
+  },
+  "validation": {
+    "positiveValidationPassed": true,
+    "negativeProbeCount": 12,
+    "negativeProbesPassed": true
+  },
+  "authorizations": {
+    "packageArtifactCreationAuthorized": true,
+    "sandboxedPackageArtifactCreationAuthorized": true,
+    "sandboxedBuildOrPublishAuthorized": true,
+    "packageManifestAuthorized": true,
+    "artifactReadabilityVerificationAuthorized": true,
+    "installerCreationAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "credentialAccessAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "windowsUtilityCommitAuthorized": false,
+    "windowsUtilityPushAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "remainingGates": [
+    "packaged artifact verification beyond zip readability",
+    "installer/signing/release authority",
+    "user acceptance of package candidate",
+    "release publishing authority",
+    "productization authority"
+  ],
+  "recommendedNextSlice": "P8.56 Packaged Artifact Verification Boundary"
+}
