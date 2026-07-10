@@ -1553,3 +1553,33 @@ Recommended next slice:
 ```text
 P8.35 Static Local Workbench Export Reviewer Orientation Revision
 ```
+
+## Completed Slice: P8.35 Static Local Workbench Export Reviewer Orientation Revision
+
+Goal: revise the static local export so it answers what the page is, what it represents, and what the reviewer should inspect.
+
+Produced artifacts:
+
+- `tools/emit_windowsutility_static_workbench_export.py`
+- `tools/run_windowsutility_static_workbench_export_negative_probes.py`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/index.html`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/projection.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/manifest.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/assets/screenshot.png`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/validation-report.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/negative-probes-report.json`
+- `generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/browser-validation-report.json`
+- `generated/roadmap/p8.35-static-local-workbench-export-reviewer-orientation-revision-report.json`
+- [P8.35 Static Local Workbench Export Reviewer Orientation Revision](../reviews/p8.35-static-local-workbench-export-reviewer-orientation-revision.md)
+
+Decision:
+
+```text
+static-export-reviewer-orientation-revised
+```
+
+Recommended next slice:
+
+```text
+P8.36 Static Local Workbench Export Orientation Review Request
+```

@@ -1,0 +1,96 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "date": "2026-07-10",
+  "decision": "static-export-reviewer-orientation-revised",
+  "exportDir": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35",
+  "exportedFileDigests": [
+    {
+      "byteLength": 27954,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/index.html",
+      "sha256": "sha256:ca043638d1ff2ced9a1a1255e35e60f0fbe1b81b3837fc35823a66271de873bf"
+    },
+    {
+      "byteLength": 21751,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/projection.json",
+      "sha256": "sha256:a5f10f75377eb180b6d0a30877dd5a4b6c9520d88b8bb3a0e2d476ee5111b8a7"
+    },
+    {
+      "byteLength": 5184,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/manifest.json",
+      "sha256": "sha256:f2d28b37b2adfd7711eca7bcf02e1e64c3688616ef4e5d7b9863bca4e808d7ee"
+    },
+    {
+      "byteLength": 38739,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/assets/screenshot.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+    },
+    {
+      "byteLength": 1052,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/validation-report.json",
+      "sha256": "sha256:c1011ebfa0f8a47d404aad28d67ec174f3e60c6943add1e3b25e197df0dee165"
+    },
+    {
+      "byteLength": 3998,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/negative-probes-report.json",
+      "sha256": "sha256:c894eff63db75d86376224ef4d54d35221630852a61e418c5b92b3ed9390c2cb"
+    },
+    {
+      "byteLength": 1270,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/browser-validation-report.json",
+      "sha256": "sha256:4159f7fc11e7036ca71489622d49ba5de2706980f6e7ade23f7c2b70ceb9c152"
+    }
+  ],
+  "orientationImprovements": {
+    "reviewGuideEmbeddedInProjection": true,
+    "startHereSectionAdded": true,
+    "whatItRepresentsExplained": true,
+    "whatThisIsExplained": true,
+    "whatThisIsNotExplained": true,
+    "whatToInspectChecklistAdded": true
+  },
+  "producedArtifacts": [
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/index.html",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/projection.json",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/manifest.json",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/assets/screenshot.png",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/validation-report.json",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/negative-probes-report.json",
+    "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/browser-validation-report.json",
+    "docs/reviews/p8.35-static-local-workbench-export-reviewer-orientation-revision.md"
+  ],
+  "recommendedNextSlice": "P8.36 Static Local Workbench Export Orientation Review Request",
+  "scope": "p8.35-static-local-workbench-export-reviewer-orientation-revision",
+  "sourceUserReviewResult": {
+    "decision": "revise-static-export-orientation-before-next-review",
+    "path": "generated/roadmap/p8.34-static-local-workbench-export-user-review-result.json"
+  },
+  "status": "intentgraph-roadmap-slice-completed",
+  "validation": {
+    "browserOrientationAssertions": {
+      "beforeVisible": true,
+      "localReviewSurfaceVisible": true,
+      "lookAtVisible": true,
+      "notAppVisible": true,
+      "representsVisible": true,
+      "whatReviewingVisible": true
+    },
+    "browserValidationResult": "pass",
+    "exportValidationResult": "pass",
+    "negativeProbeCount": 10,
+    "negativeProbeResult": "pass"
+  },
+  "workItem": "P8.35 Static Local Workbench Export Reviewer Orientation Revision"
+}

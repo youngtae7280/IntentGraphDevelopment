@@ -1,0 +1,107 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-manifest",
+  "authorityBoundary": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "boundaryReport": {
+    "artifactRole": "intentgraph-static-local-workbench-export-user-review-result",
+    "byteLength": 3334,
+    "decision": "revise-static-export-orientation-before-next-review",
+    "path": "generated/roadmap/p8.34-static-local-workbench-export-user-review-result.json",
+    "scope": "p8.34-static-local-workbench-export-user-review-result-record",
+    "sha256": "sha256:14f12dd415d619f89f5fe5571ee43a761692e5014f2f8a98373a0e19adde7356",
+    "status": "intentgraph-static-local-workbench-export-user-review-result-recorded",
+    "workItem": "P8.34 Static Local Workbench Export User Review Result Record"
+  },
+  "determinism": {
+    "localFilesOnly": true,
+    "networkRequired": false,
+    "noNondeterministicTimestamp": true,
+    "sourceDigestBound": true
+  },
+  "exportVersion": "0.2.0",
+  "exportedFiles": [
+    {
+      "byteLength": 27954,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/index.html",
+      "sha256": "sha256:ca043638d1ff2ced9a1a1255e35e60f0fbe1b81b3837fc35823a66271de873bf"
+    },
+    {
+      "artifactRole": "intentgraph-static-local-workbench-export-projection",
+      "byteLength": 21751,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/projection.json",
+      "scope": "p8.35-static-local-workbench-export-reviewer-orientation-revision",
+      "sha256": "sha256:a5f10f75377eb180b6d0a30877dd5a4b6c9520d88b8bb3a0e2d476ee5111b8a7",
+      "status": "intentgraph-static-local-workbench-export-projection-emitted",
+      "workItem": "P8.35 Static Local Workbench Export Reviewer Orientation Revision"
+    },
+    {
+      "byteLength": 38739,
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/assets/screenshot.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+    }
+  ],
+  "generatedAtPolicy": "deterministic-no-runtime-timestamp",
+  "integrity": {
+    "indexPath": "index.html",
+    "projectionPath": "projection.json",
+    "screenshotPath": "assets/screenshot.png"
+  },
+  "outputRoot": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35",
+  "scope": "p8.35-static-local-workbench-export-reviewer-orientation-revision",
+  "sourceArtifacts": [
+    {
+      "artifactRole": "intentgraph-static-local-workbench-export-user-review-result",
+      "byteLength": 3334,
+      "decision": "revise-static-export-orientation-before-next-review",
+      "path": "generated/roadmap/p8.34-static-local-workbench-export-user-review-result.json",
+      "scope": "p8.34-static-local-workbench-export-user-review-result-record",
+      "sha256": "sha256:14f12dd415d619f89f5fe5571ee43a761692e5014f2f8a98373a0e19adde7356",
+      "status": "intentgraph-static-local-workbench-export-user-review-result-recorded",
+      "workItem": "P8.34 Static Local Workbench Export User Review Result Record"
+    },
+    {
+      "artifactRole": "intentgraph-windowsutility-workbench-projection",
+      "byteLength": 19444,
+      "path": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json",
+      "scope": "p8.21-shell-workspace-evidence-workbench-static-preview",
+      "sha256": "sha256:74aab20e8d7634ccc2543288c4cf0c88ebff37ce49f460f94b9f034deb9ba72a",
+      "status": "intentgraph-windowsutility-workbench-projection-emitted",
+      "workItem": "P8.21 Shell Workspace Evidence Workbench Projection"
+    },
+    {
+      "byteLength": 26117,
+      "path": "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench.html",
+      "sha256": "sha256:6c46a482a46309e9958d6197c653971064b0a6f90b6db7e302c607e491e0874b"
+    },
+    {
+      "byteLength": 38739,
+      "path": "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png",
+      "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b"
+    }
+  ],
+  "status": "intentgraph-static-local-workbench-export-manifest-emitted",
+  "targetBaseline": {
+    "baselineHead": "07cbe76368e8857ad198438707f1d52301925da3",
+    "baselineOriginMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "baselineStatus": "clean-aligned",
+    "current": {
+      "head": "07cbe76368e8857ad198438707f1d52301925da3",
+      "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+      "status": "## main...origin/main"
+    },
+    "id": "WindowsUtility",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility"
+  },
+  "workItem": "P8.35 Static Local Workbench Export Reviewer Orientation Revision"
+}

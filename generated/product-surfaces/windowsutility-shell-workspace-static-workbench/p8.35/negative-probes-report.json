@@ -1,0 +1,116 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-negative-probes-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "badFixturesCommitted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "releaseAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false
+  },
+  "positiveBaseline": {
+    "errors": [],
+    "exportDir": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35",
+    "rerunResult": "pass"
+  },
+  "probeCount": 10,
+  "probes": [
+    {
+      "actualErrors": [
+        "missing required file: manifest.json"
+      ],
+      "expectedErrorSubstring": "missing required file: manifest.json",
+      "expectedFailureObserved": true,
+      "id": "missing-manifest",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "manifest source digest mismatch: generated/roadmap/p8.34-static-local-workbench-export-user-review-result.json"
+      ],
+      "expectedErrorSubstring": "manifest source digest mismatch",
+      "expectedFailureObserved": true,
+      "id": "stale-source-digest",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "missing required file: assets/screenshot.png"
+      ],
+      "expectedErrorSubstring": "missing required file: assets/screenshot.png",
+      "expectedFailureObserved": true,
+      "id": "missing-screenshot-asset",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "projection claimScope.productizationClaimed must be false"
+      ],
+      "expectedErrorSubstring": "projection claimScope.productizationClaimed must be false",
+      "expectedFailureObserved": true,
+      "id": "productization-authority-true",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "projection authorityBoundary.targetWritesAuthorized must be false"
+      ],
+      "expectedErrorSubstring": "projection authorityBoundary.targetWritesAuthorized must be false",
+      "expectedFailureObserved": true,
+      "id": "target-write-authority-true",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "projection proposal must remain not-applied"
+      ],
+      "expectedErrorSubstring": "projection proposal must remain not-applied",
+      "expectedFailureObserved": true,
+      "id": "proposal-applied-true",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "projection claimScope.aiAuthorityGranted must be false"
+      ],
+      "expectedErrorSubstring": "projection claimScope.aiAuthorityGranted must be false",
+      "expectedFailureObserved": true,
+      "id": "ai-authority-true",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "index must not require network or dynamic imports: https://"
+      ],
+      "expectedErrorSubstring": "index must not require network or dynamic imports",
+      "expectedFailureObserved": true,
+      "id": "network-dependency-required",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "projection target current status must be clean/aligned"
+      ],
+      "expectedErrorSubstring": "projection target current status must be clean/aligned",
+      "expectedFailureObserved": true,
+      "id": "target-dirty",
+      "result": "fail"
+    },
+    {
+      "actualErrors": [
+        "projection selection records missing"
+      ],
+      "expectedErrorSubstring": "projection selection records missing",
+      "expectedFailureObserved": true,
+      "id": "selection-records-missing",
+      "result": "fail"
+    }
+  ],
+  "result": "pass",
+  "scope": "p8.35-static-local-workbench-export-reviewer-orientation-negative-probes",
+  "status": "intentgraph-static-local-workbench-export-negative-probes-passed",
+  "workItem": "P8.35 Static Local Workbench Export Reviewer Orientation Revision"
+}

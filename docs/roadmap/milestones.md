@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.34 Static Local Workbench Export User Review Result Record
+P8.35 Static Local Workbench Export Reviewer Orientation Revision
 ```
 
-This Phase G stabilization slice recorded the user's `revise` response: the static export does not explain what it is, what it represents, or what to inspect. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice revised the static export so the first screen explains what it is, what it represents, what to inspect, and what remains unauthorized. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1679,6 +1679,35 @@ Decision:
 - the export does not explain what it represents.
 - the export does not explain what the reviewer should inspect.
 - continue to `P8.35 Static Local Workbench Export Reviewer Orientation Revision`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
+- no editor or GitHub integration
+- no productization implementation
+- no product readiness claim
+
+## P8.35: Static Local Workbench Export Reviewer Orientation Revision
+
+Goal: revise the static export so the user can understand what it is, what it represents, and what to inspect.
+
+Status: completed on 2026-07-10. See [P8.35 Static Local Workbench Export Reviewer Orientation Revision](../reviews/p8.35-static-local-workbench-export-reviewer-orientation-revision.md).
+
+Decision:
+
+- revised p8.35 static export emitted.
+- first screen now explains the page before showing internal records.
+- review checklist added.
+- what-this-is-not list added.
+- validation, negative probes, browser validation, and p8.31 compatibility check passed.
+- continue to `P8.36 Static Local Workbench Export Orientation Review Request`.
 
 Non-goals:
 

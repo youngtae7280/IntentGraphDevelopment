@@ -13,6 +13,8 @@ from typing import Any
 
 EXPORT_VERSION = "0.1.0"
 WORK_ITEM = "P8.31 Static Local Workbench Export Prototype"
+EXPORT_SCOPE = "p8.31-static-local-workbench-export-prototype"
+VALIDATION_SCOPE = "p8.31-static-local-workbench-export-validation"
 
 
 def canonical_pretty(data: Any) -> str:
@@ -83,15 +85,69 @@ def rewrite_screenshot_path(value: Any) -> Any:
     return value
 
 
-def build_projection(source_projection: dict[str, Any]) -> dict[str, Any]:
+def build_review_guide() -> dict[str, Any]:
+    return {
+        "title": "What this page is",
+        "oneLine": "A static review dashboard for one proposed IntentGraph workflow over WindowsUtility shell/workspace code.",
+        "plainLanguageSummary": (
+            "This is not the WindowsUtility application. It is a local review surface that lets a human inspect "
+            "whether IntentGraph has correctly gathered the mapping, evidence, and safety boundaries for one small "
+            "WindowsUtility workflow before any source changes are allowed."
+        ),
+        "represents": [
+            {
+                "id": "represents.accepted-mapping",
+                "label": "Accepted mapping",
+                "meaning": "Which WindowsUtility shell/workspace area this IntentGraph slice is currently about.",
+            },
+            {
+                "id": "represents.code-surface",
+                "label": "Covered code surface",
+                "meaning": "The files and workflow records that the slice claims to understand.",
+            },
+            {
+                "id": "represents.non-applied-proposal",
+                "label": "Non-applied proposal",
+                "meaning": "A smoke-evidence proposal that has been described but not applied to WindowsUtility source.",
+            },
+            {
+                "id": "represents.evidence",
+                "label": "Evidence",
+                "meaning": "Build, launch, screenshot, and browser checks collected from sandboxed/generated artifacts.",
+            },
+            {
+                "id": "represents.authority-boundary",
+                "label": "Authority boundary",
+                "meaning": "Flags proving this page does not grant source-write, hardware, packaging, release, or productization authority.",
+            },
+        ],
+        "reviewChecklist": [
+            "Can you tell what WindowsUtility area this slice is about?",
+            "Can you see what evidence exists and where it came from?",
+            "Can you see that the proposal is not applied to source code?",
+            "Can you see what remains blocked and unauthorized?",
+            "Is this review surface clear enough to guide the next IntentGraph iteration?",
+        ],
+        "notThis": [
+            "Not the WindowsUtility product UI.",
+            "Not a source-code change.",
+            "Not a proposal application.",
+            "Not a packaging or release artifact.",
+            "Not proof that IntentGraph is productized.",
+        ],
+    }
+
+
+def build_projection(source_projection: dict[str, Any], scope: str, work_item: str, export_version: str) -> dict[str, Any]:
     projection = rewrite_screenshot_path(source_projection)
     if not isinstance(projection, dict):
         raise ValueError("projection must be an object")
     projection["artifactRole"] = "intentgraph-static-local-workbench-export-projection"
     projection["status"] = "intentgraph-static-local-workbench-export-projection-emitted"
-    projection["scope"] = "p8.31-static-local-workbench-export-prototype"
-    projection["exportVersion"] = EXPORT_VERSION
-    projection["workItem"] = WORK_ITEM
+    projection["scope"] = scope
+    projection["exportVersion"] = export_version
+    projection["workItem"] = work_item
+    projection["reviewGuide"] = build_review_guide()
     projection.setdefault("claimScope", {})
     projection["claimScope"]["staticLocalExport"] = True
     projection["claimScope"]["networkRequired"] = False
@@ -127,6 +183,7 @@ def render_html(projection: dict[str, Any]) -> str:
       --wash: #f4f6f9;
       --line: #d8dee8;
       --accent: #285ac8;
+      --accent-soft: #edf3ff;
       --ok: #14724f;
       --warn: #8b6100;
       --blocked: #8b2b22;
@@ -139,7 +196,7 @@ def render_html(projection: dict[str, Any]) -> str:
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       letter-spacing: 0;
     }}
-    .layout {{ display: grid; grid-template-columns: 260px minmax(0, 1fr) 360px; min-height: 100vh; }}
+    .layout {{ display: grid; grid-template-columns: 280px minmax(0, 1fr) 370px; min-height: 100vh; }}
     nav, aside {{ background: #fbfcfe; padding: 18px; border-color: var(--line); }}
     nav {{ border-right: 1px solid var(--line); }}
     aside {{ border-left: 1px solid var(--line); overflow: auto; }}
@@ -147,6 +204,7 @@ def render_html(projection: dict[str, Any]) -> str:
     h1 {{ font-size: 19px; line-height: 1.2; margin: 0 0 6px; }}
     h2 {{ font-size: 12px; text-transform: uppercase; color: var(--muted); margin: 22px 0 8px; }}
     h3 {{ font-size: 15px; margin: 0 0 10px; }}
+    h4 {{ font-size: 13px; margin: 0 0 6px; }}
     p {{ color: var(--muted); line-height: 1.45; margin: 0 0 12px; }}
     button {{ font: inherit; }}
     .nav, .record {{
@@ -162,8 +220,15 @@ def render_html(projection: dict[str, Any]) -> str:
     }}
     .nav.active, .record.active {{ border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }}
     .panel {{ background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 14px; min-width: 0; }}
+    .brief {{ background: var(--paper); border: 1px solid #b8caf0; border-radius: 8px; padding: 18px; min-width: 0; }}
+    .brief-title {{ font-size: 26px; line-height: 1.15; margin: 0 0 8px; }}
+    .brief-lede {{ color: #33425b; font-size: 15px; max-width: 820px; }}
+    .note {{ background: var(--accent-soft); border: 1px solid #c7d7fb; border-radius: 8px; padding: 12px; color: #24395f; }}
     .grid {{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }}
     .two {{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }}
+    .stack {{ display: grid; gap: 12px; }}
+    .list {{ margin: 0; padding-left: 18px; color: #33425b; line-height: 1.5; }}
+    .list li {{ margin-bottom: 6px; }}
     .step {{ display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }}
     .status {{ display: inline-flex; min-height: 22px; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; font-size: 12px; color: var(--muted); }}
     .status.pass, .status.accepted, .status.emitted {{ color: var(--ok); border-color: #afd8c4; background: #effaf5; }}
@@ -184,9 +249,10 @@ def render_html(projection: dict[str, Any]) -> str:
   <div class="layout">
     <nav>
       <h1>Static Workbench Export</h1>
-      <p>Local, projection-only review surface for WindowsUtility shell/workspace evidence.</p>
+      <p>Review dashboard for one proposed WindowsUtility IntentGraph workflow. It is not the WindowsUtility app.</p>
       <h2>Sections</h2>
-      <button class="nav active" data-section="overview">Overview</button>
+      <button class="nav active" data-section="start">Start Here</button>
+      <button class="nav" data-section="overview">Overview</button>
       <button class="nav" data-section="timeline">Timeline</button>
       <button class="nav" data-section="evidence">Evidence</button>
       <button class="nav" data-section="screenshot">Screenshot</button>
@@ -210,6 +276,10 @@ def render_html(projection: dict[str, Any]) -> str:
     function html(value) {{ return String(value ?? '').replace(/[&<>"']/g, ch => ({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}}[ch])); }}
     function badge(value) {{ const text = String(value ?? 'unknown'); return `<span class="status ${{html(text)}}">${{html(text)}}</span>`; }}
     function metric(label, value) {{ return `<div class="panel"><div class="metric">${{html(value)}}</div><p>${{html(label)}}</p></div>`; }}
+    function start() {{
+      const guide = projection.reviewGuide || {{}};
+      section.innerHTML = `<div class="brief"><h3 class="brief-title">Before reading the records</h3><p class="brief-lede">${{html(guide.plainLanguageSummary || guide.oneLine || '')}}</p><div class="note"><strong>What you are reviewing:</strong> whether this static IntentGraph workbench clearly explains the WindowsUtility shell/workspace mapping, evidence, and blocked authority boundaries.</div></div><h2>What This Represents</h2><div class="grid">${{(guide.represents || []).map(item => `<div class="panel"><h4>${{html(item.label)}}</h4><p>${{html(item.meaning)}}</p></div>`).join('')}}</div><h2>What To Look At</h2><div class="two"><div class="panel"><h3>Review checklist</h3><ol class="list">${{(guide.reviewChecklist || []).map(item => `<li>${{html(item)}}</li>`).join('')}}</ol></div><div class="panel"><h3>What this is not</h3><ul class="list">${{(guide.notThis || []).map(item => `<li>${{html(item)}}</li>`).join('')}}</ul></div></div>`;
+    }}
     function overview() {{
       section.innerHTML = `<div class="panel"><h3>${{html(projection.workItem)}}</h3><p>${{html(projection.proposal.summary)}}</p><div class="grid">${{metric('Timeline', projection.summary.timelineStepCount)}}${{metric('Evidence', projection.summary.evidenceCardCount)}}${{metric('Artifacts', projection.summary.sourceArtifactCount)}}</div></div><h2>Target and Claims</h2><div class="two"><div class="panel"><h3>Target</h3><pre>${{html(JSON.stringify(projection.target, null, 2))}}</pre></div><div class="panel"><h3>Claim scope</h3><pre>${{html(JSON.stringify(projection.claimScope, null, 2))}}</pre></div></div>`;
     }}
@@ -218,10 +288,10 @@ def render_html(projection: dict[str, Any]) -> str:
     function screenshot() {{ const shot = projection.evidence.find(card => card.kind === 'sandboxed-screenshot') || {{}}; section.innerHTML = `<div class="panel"><h3>Sandboxed Screenshot</h3><p>${{html(shot.width)}} x ${{html(shot.height)}} / ${{html(shot.byteLength)}} bytes</p><img src="assets/screenshot.png" alt="WindowsUtility sandboxed shell screenshot"><h2>Evidence</h2><pre>${{html(JSON.stringify(shot, null, 2))}}</pre></div>`; }}
     function authority() {{ section.innerHTML = `<div class="panel"><h3>Authority False Flags</h3><p>This export is not proposal application, source write authority, hardware authority, packaging, release, or productization.</p><pre>${{html(JSON.stringify(projection.authorityBoundary, null, 2))}}</pre></div>`; }}
     function artifacts() {{ section.innerHTML = `<div class="panel"><h3>Source Artifact Links</h3>${{projection.sourceArtifacts.map(item => `<div class="step"><div><strong>${{html(item.path)}}</strong><br><code>${{html(item.sha256)}}</code></div>${{badge(item.status || item.result || 'recorded')}}</div>`).join('')}}</div>`; }}
-    const render = {{ overview, timeline, evidence, screenshot, authority, artifacts }};
+    const render = {{ start, overview, timeline, evidence, screenshot, authority, artifacts }};
     document.querySelectorAll('.nav').forEach(button => button.addEventListener('click', () => {{ document.querySelectorAll('.nav').forEach(item => item.classList.remove('active')); button.classList.add('active'); render[button.dataset.section](); }}));
     projection.selectionRecords.forEach((record, index) => {{ const button = document.createElement('button'); button.className = 'record' + (index === 0 ? ' active' : ''); button.textContent = `${{record.kind}} - ${{record.id}}`; button.addEventListener('click', () => {{ document.querySelectorAll('.record').forEach(item => item.classList.remove('active')); button.classList.add('active'); details.textContent = JSON.stringify(record, null, 2); }}); records.appendChild(button); }});
-    overview();
+    start();
     details.textContent = JSON.stringify(projection.selectionRecords[0] || projection, null, 2);
   </script>
 </body>
@@ -235,15 +305,16 @@ def build_manifest(
     exported_files: list[Path],
     out_dir: Path,
     boundary_report: Path,
+    export_version: str,
 ) -> dict[str, Any]:
     source_artifacts = [file_summary(path) for path in source_paths]
     exported = [file_summary(path) for path in exported_files]
     return {
         "artifactRole": "intentgraph-static-local-workbench-export-manifest",
         "status": "intentgraph-static-local-workbench-export-manifest-emitted",
-        "scope": "p8.31-static-local-workbench-export-prototype",
-        "workItem": WORK_ITEM,
-        "exportVersion": EXPORT_VERSION,
+        "scope": projection["scope"],
+        "workItem": projection["workItem"],
+        "exportVersion": export_version,
         "outputRoot": out_dir.as_posix(),
         "sourceArtifacts": source_artifacts,
         "exportedFiles": exported,
@@ -277,7 +348,13 @@ def build_manifest(
     }
 
 
-def validate_export(export_dir: Path, target_root: Path) -> dict[str, Any]:
+def validate_export(
+    export_dir: Path,
+    target_root: Path,
+    scope: str = VALIDATION_SCOPE,
+    work_item: str = WORK_ITEM,
+    require_orientation_markers: bool = False,
+) -> dict[str, Any]:
     errors: list[str] = []
     index_path = export_dir / "index.html"
     projection_path = export_dir / "projection.json"
@@ -381,6 +458,15 @@ def validate_export(export_dir: Path, target_root: Path) -> dict[str, Any]:
         ]:
             if marker not in html:
                 errors.append(f"index missing marker: {marker}")
+        if require_orientation_markers:
+            for marker in [
+                "Before reading the records",
+                "What This Represents",
+                "What To Look At",
+                "What this is not",
+            ]:
+                if marker not in html:
+                    errors.append(f"index missing orientation marker: {marker}")
         for forbidden in ["https://", "http://", "fetch(", "XMLHttpRequest", "import("]:
             if forbidden in html:
                 errors.append(f"index must not require network or dynamic imports: {forbidden}")
@@ -402,8 +488,8 @@ def validate_export(export_dir: Path, target_root: Path) -> dict[str, Any]:
     return {
         "artifactRole": "intentgraph-static-local-workbench-export-validation-report",
         "status": "intentgraph-static-local-workbench-export-validation-passed" if not errors else "intentgraph-static-local-workbench-export-validation-failed",
-        "scope": "p8.31-static-local-workbench-export-validation",
-        "workItem": WORK_ITEM,
+        "scope": scope,
+        "workItem": work_item,
         "result": "pass" if not errors else "fail",
         "exportDir": export_dir.as_posix(),
         "summary": {
@@ -432,7 +518,7 @@ def validate_export(export_dir: Path, target_root: Path) -> dict[str, Any]:
 
 def emit_export(args: argparse.Namespace) -> dict[str, Any]:
     source_projection = read_json(args.projection)
-    projection = build_projection(source_projection)
+    projection = build_projection(source_projection, args.scope, args.work_item, args.export_version)
     current_target = git_state(args.target_root)
     projection.setdefault("target", {})["current"] = current_target
 
@@ -451,11 +537,17 @@ def emit_export(args: argparse.Namespace) -> dict[str, Any]:
 
     source_paths = [args.boundary_report, args.projection, args.source_html, args.screenshot]
     exported_paths = [index_out, projection_out, screenshot_out]
-    manifest = build_manifest(projection, source_paths, exported_paths, args.out_dir, args.boundary_report)
+    manifest = build_manifest(projection, source_paths, exported_paths, args.out_dir, args.boundary_report, args.export_version)
     manifest_out = args.out_dir / "manifest.json"
     write_json(manifest_out, manifest)
 
-    validation = validate_export(args.out_dir, args.target_root)
+    validation = validate_export(
+        args.out_dir,
+        args.target_root,
+        args.validation_scope,
+        args.work_item,
+        args.require_orientation_markers,
+    )
     write_json(args.validation_out, validation)
     return validation
 
@@ -469,6 +561,11 @@ def main() -> int:
     parser.add_argument("--target-root", required=True, type=Path)
     parser.add_argument("--out-dir", required=True, type=Path)
     parser.add_argument("--validation-out", required=True, type=Path)
+    parser.add_argument("--scope", default=EXPORT_SCOPE)
+    parser.add_argument("--validation-scope", default=VALIDATION_SCOPE)
+    parser.add_argument("--work-item", default=WORK_ITEM)
+    parser.add_argument("--export-version", default=EXPORT_VERSION)
+    parser.add_argument("--require-orientation-markers", action="store_true")
     args = parser.parse_args()
 
     validation = emit_export(args)

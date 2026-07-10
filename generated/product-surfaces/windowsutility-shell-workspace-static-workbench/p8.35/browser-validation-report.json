@@ -1,0 +1,38 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-browser-validation-report",
+  "status": "intentgraph-static-local-workbench-export-browser-validation-passed",
+  "scope": "p8.35-static-local-workbench-export-reviewer-orientation-browser-validation",
+  "workItem": "P8.35 Static Local Workbench Export Reviewer Orientation Revision",
+  "result": "pass",
+  "browser": "chromium-headless",
+  "viewport": {
+    "width": 1365,
+    "height": 900
+  },
+  "assertions": {
+    "title": "IntentGraph WindowsUtility Static Workbench Export",
+    "titleMatched": true,
+    "navCount": 7,
+    "recordCount": 6,
+    "beforeVisible": true,
+    "representsVisible": true,
+    "lookAtVisible": true,
+    "notAppVisible": true,
+    "localReviewSurfaceVisible": true,
+    "whatReviewingVisible": true,
+    "screenshotRendered": true,
+    "screenshotNaturalWidth": 1320,
+    "screenshotNaturalHeight": 820,
+    "recordSelectionUpdatesDetails": true
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  }
+}

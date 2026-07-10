@@ -247,3 +247,37 @@ The next safe stabilization slice is:
 ```text
 P8.35 Static Local Workbench Export Reviewer Orientation Revision
 ```
+
+## P8.35 Static Export Reviewer Orientation Revision
+
+P8.35 created a revised static local workbench export under:
+
+```text
+generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35
+```
+
+The first screen now explains:
+
+- what the page is
+- what it represents
+- what the user should inspect
+- what it is not
+
+The revised export passed validation, negative probes, and headless browser validation.
+
+Still blocked:
+
+- packaging
+- release
+- editor integration
+- GitHub workflow integration
+- team workflow automation
+- source writes
+- proposal application
+- product readiness claims
+
+The next safe stabilization slice is:
+
+```text
+P8.36 Static Local Workbench Export Orientation Review Request
+```

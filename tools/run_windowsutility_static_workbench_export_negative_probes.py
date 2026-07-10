@@ -14,6 +14,9 @@ from emit_windowsutility_static_workbench_export import canonical_pretty, valida
 
 GOOD_EXPORT = Path("generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31")
 TARGET_ROOT = Path("C:/Users/ytkim/Desktop/kyt_work/WindowsUtility")
+DEFAULT_SCOPE = "p8.31-static-local-workbench-export-negative-probes"
+DEFAULT_VALIDATION_SCOPE = "p8.31-static-local-workbench-export-validation"
+DEFAULT_WORK_ITEM = "P8.31 Static Local Workbench Export Prototype"
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -105,18 +108,36 @@ def main() -> int:
 
     parser = argparse.ArgumentParser(description="Run static WindowsUtility workbench export negative probes.")
     parser.add_argument("--out", required=True, type=Path)
+    parser.add_argument("--export-dir", default=GOOD_EXPORT, type=Path)
+    parser.add_argument("--target-root", default=TARGET_ROOT, type=Path)
+    parser.add_argument("--scope", default=DEFAULT_SCOPE)
+    parser.add_argument("--validation-scope", default=DEFAULT_VALIDATION_SCOPE)
+    parser.add_argument("--work-item", default=DEFAULT_WORK_ITEM)
+    parser.add_argument("--require-orientation-markers", action="store_true")
     args = parser.parse_args()
 
-    positive = validate_export(GOOD_EXPORT, TARGET_ROOT)
+    positive = validate_export(
+        args.export_dir,
+        args.target_root,
+        args.validation_scope,
+        args.work_item,
+        args.require_orientation_markers,
+    )
     probes: list[dict[str, Any]] = []
 
     with TemporaryDirectory(prefix="intentgraph-static-workbench-export-probes-") as tmp:
         tmp_root = Path(tmp)
         for probe_id, mutate, expected in PROBES:
             candidate = tmp_root / probe_id
-            copy_export(GOOD_EXPORT, candidate)
+            copy_export(args.export_dir, candidate)
             mutate(candidate)
-            report = validate_export(candidate, TARGET_ROOT)
+            report = validate_export(
+                candidate,
+                args.target_root,
+                args.validation_scope,
+                args.work_item,
+                args.require_orientation_markers,
+            )
             errors = report.get("errors", [])
             expected_observed = report.get("result") == "fail" and any(expected in error for error in errors)
             probes.append(
@@ -133,11 +154,11 @@ def main() -> int:
     report = {
         "artifactRole": "intentgraph-static-local-workbench-export-negative-probes-report",
         "status": "intentgraph-static-local-workbench-export-negative-probes-passed" if all_passed else "intentgraph-static-local-workbench-export-negative-probes-failed",
-        "scope": "p8.31-static-local-workbench-export-negative-probes",
-        "workItem": "P8.31 Static Local Workbench Export Prototype",
+        "scope": args.scope,
+        "workItem": args.work_item,
         "result": "pass" if all_passed else "fail",
         "positiveBaseline": {
-            "exportDir": GOOD_EXPORT.as_posix(),
+            "exportDir": args.export_dir.as_posix(),
             "rerunResult": positive.get("result"),
             "errors": positive.get("errors", []),
         },
