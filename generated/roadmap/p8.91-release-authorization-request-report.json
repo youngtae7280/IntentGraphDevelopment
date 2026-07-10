@@ -1,0 +1,37 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.91-release-authorization-request-only",
+  "workItem": "P8.91 Release Authorization Request",
+  "date": "2026-07-10",
+  "result": "release-authorization-requested-not-recorded-and-not-actionable-yet",
+  "producedArtifacts": [
+    "generated/roadmap/p8.91-release-authorization-request.json",
+    "docs/reviews/p8.91-release-authorization-request.md"
+  ],
+  "requestSummary": {
+    "requiredAcceptedResponse": "accept sandboxed release authority",
+    "standingAcceptShortcutApplies": false,
+    "productCandidateAccepted": false,
+    "verifiedReleaseArtifactPresent": false,
+    "releaseNotesRecorded": false,
+    "providerCredentialAuthorityRecorded": false,
+    "releaseAuthorizationActionableNow": false,
+    "releaseAllowedNow": false
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "globalInstall": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releaseTagCreation": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.92 Release Scope Hold Record"
+}

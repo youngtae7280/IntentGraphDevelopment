@@ -2964,3 +2964,25 @@ Recommended next slice:
 ```text
 P8.91 Release Authorization Request
 ```
+
+## Completed Slice: P8.91 Release Authorization Request
+
+Goal: request future release authority without recording authority, creating tags, or publishing releases.
+
+Result:
+
+```text
+Decision: release-authorization-requested-not-recorded-and-not-actionable-yet.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.91-release-authorization-request.json`
+- `generated/roadmap/p8.91-release-authorization-request-report.json`
+- [P8.91 Release Authorization Request](../reviews/p8.91-release-authorization-request.md)
+
+Recommended next slice:
+
+```text
+P8.92 Release Scope Hold Record
+```

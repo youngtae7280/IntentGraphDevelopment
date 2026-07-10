@@ -1,0 +1,73 @@
+{
+  "artifactRole": "intentgraph-release-authorization-request",
+  "status": "intentgraph-release-authorization-requested",
+  "scope": "p8.91-release-authorization-request-only",
+  "workItem": "P8.91 Release Authorization Request",
+  "date": "2026-07-10",
+  "decision": "release-authorization-requested-not-recorded-and-not-actionable-yet",
+  "sourceBoundaryPlan": {
+    "path": "generated/roadmap/p8.90-release-authority-boundary-plan.json",
+    "artifactRole": "intentgraph-release-authority-boundary-plan",
+    "status": "intentgraph-release-authority-boundary-plan-recorded"
+  },
+  "request": {
+    "question": "After product candidate acceptance, verified release artifacts, release notes, and provider/credential authority exist, authorize bounded release tag creation and release publishing?",
+    "requiredAcceptedResponse": "accept sandboxed release authority",
+    "allowedResponses": [
+      "accept sandboxed release authority",
+      "reject release authority",
+      "revise release scope first"
+    ],
+    "standingAcceptShortcutApplies": false,
+    "standingAcceptShortcutReason": "The current-goal accept/revise/blocked shortcut handles ordinary review gates, but it does not authorize release tags, release publishing, provider API calls, credential access, or productization authority."
+  },
+  "preconditionGate": {
+    "productCandidateAcceptanceRequired": true,
+    "productCandidateAccepted": false,
+    "verifiedReleaseArtifactRequired": true,
+    "verifiedReleaseArtifactPresent": false,
+    "releaseNotesRequired": true,
+    "releaseNotesRecorded": false,
+    "providerCredentialAuthorityRequired": true,
+    "providerCredentialAuthorityRecorded": false,
+    "releaseAuthorizationActionableNow": false,
+    "reasonNotActionable": "Product candidate acceptance, verified release artifact evidence, release notes, and provider/credential authority are absent."
+  },
+  "requestedAuthorityIfPreconditionsLaterPass": {
+    "mayCreateReleaseTags": true,
+    "mayPublishReleases": true,
+    "mayUploadReleaseArtifacts": true,
+    "mayRecordReleaseEvidence": true,
+    "mayCallProviderApis": false,
+    "mayReadCredentials": false,
+    "mayReadProviderTokens": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false,
+    "mayInstallGlobally": false,
+    "mayClaimProductizationReady": false
+  },
+  "authorizationState": {
+    "responseRecorded": false,
+    "accepted": false,
+    "rejected": false,
+    "reviseRequested": false,
+    "releaseAllowedNow": false,
+    "requiredNextArtifactIfUserResponds": "P8.92 Release Authorization Response Record"
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "globalInstallPerformed": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releaseTagCreated": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "nextAllowedWithoutAcceptance": "P8.92 Release Scope Hold Record"
+}

@@ -3135,3 +3135,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.91 Release Authorization Request`.
+
+## P8.91: Release Authorization Request
+
+Goal: request future release authority without recording authority, creating tags, or publishing releases.
+
+Status: completed on 2026-07-10. See [P8.91 Release Authorization Request](../reviews/p8.91-release-authorization-request.md).
+
+Decision:
+
+- release authorization request recorded.
+- authorization is not recorded.
+- request is not actionable until product candidate acceptance, verified release artifacts, release notes, and provider/credential authority exist.
+- no package extraction, executable launch, UI screenshot capture, installer creation, global install, signing, credential access, provider API call, release tag creation, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.91-release-authorization-request.json`
+- `generated/roadmap/p8.91-release-authorization-request-report.json`
+- [P8.91 Release Authorization Request](../reviews/p8.91-release-authorization-request.md)
+
+Next safe work:
+
+- continue to `P8.92 Release Scope Hold Record`.
