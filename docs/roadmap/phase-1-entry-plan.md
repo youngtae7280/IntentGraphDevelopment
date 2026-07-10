@@ -2877,3 +2877,25 @@ Recommended next slice:
 ```text
 P8.87 Artifact Signing Authorization Request
 ```
+
+## Completed Slice: P8.87 Artifact Signing Authorization Request
+
+Goal: request future sandboxed artifact signing authority without recording authority or signing artifacts.
+
+Result:
+
+```text
+Decision: artifact-signing-authorization-requested-not-recorded-and-not-actionable-yet.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.87-artifact-signing-authorization-request.json`
+- `generated/roadmap/p8.87-artifact-signing-authorization-request-report.json`
+- [P8.87 Artifact Signing Authorization Request](../reviews/p8.87-artifact-signing-authorization-request.md)
+
+Recommended next slice:
+
+```text
+P8.88 Artifact Signing Scope Hold Record
+```

@@ -1,0 +1,80 @@
+{
+  "artifactRole": "intentgraph-artifact-signing-authorization-request",
+  "status": "intentgraph-artifact-signing-authorization-requested",
+  "scope": "p8.87-artifact-signing-authorization-request-only",
+  "workItem": "P8.87 Artifact Signing Authorization Request",
+  "date": "2026-07-10",
+  "decision": "artifact-signing-authorization-requested-not-recorded-and-not-actionable-yet",
+  "sourceBoundaryPlan": {
+    "path": "generated/roadmap/p8.86-artifact-signing-authority-boundary-plan.json",
+    "artifactRole": "intentgraph-artifact-signing-authority-boundary-plan",
+    "status": "intentgraph-artifact-signing-authority-boundary-plan-recorded"
+  },
+  "request": {
+    "question": "After verified artifact evidence, signing policy, and key/certificate authority boundary exist, authorize bounded sandboxed artifact signing under generated/ only?",
+    "requiredAcceptedResponse": "accept sandboxed artifact signing",
+    "allowedResponses": [
+      "accept sandboxed artifact signing",
+      "reject artifact signing",
+      "revise signing scope first"
+    ],
+    "standingAcceptShortcutApplies": false,
+    "standingAcceptShortcutReason": "The current-goal accept/revise/blocked shortcut handles ordinary review gates, but it does not authorize signing, key access, credential access, timestamp authority calls, or release authority."
+  },
+  "preconditionGate": {
+    "verifiedArtifactRequired": true,
+    "verifiedArtifactCurrentlyPresent": false,
+    "signingPolicyRequired": true,
+    "signingPolicyCurrentlyRecorded": false,
+    "keyCertificateAuthorityBoundaryRequired": true,
+    "keyCertificateAuthorityBoundaryCurrentlyRecorded": false,
+    "artifactSigningAuthorizationActionableNow": false,
+    "reasonNotActionable": "Verified artifact evidence, signing policy, and key/certificate authority boundary are absent."
+  },
+  "requestedAuthorityIfPreconditionsLaterPass": {
+    "maySignArtifactsInSandbox": true,
+    "mayWriteSignedArtifactUnderGenerated": true,
+    "mayRecordSignatureMetadata": true,
+    "mayRecordCertificateFingerprint": true,
+    "mayRecordArtifactHash": true,
+    "mayReadPrivateKeys": false,
+    "mayAccessCertificateStore": false,
+    "mayAccessSigningToken": false,
+    "mayCallTimestampAuthority": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false,
+    "mayCreateInstaller": false,
+    "mayInstallGlobally": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "authorizationState": {
+    "responseRecorded": false,
+    "accepted": false,
+    "rejected": false,
+    "reviseRequested": false,
+    "artifactSigningAllowedNow": false,
+    "requiredNextArtifactIfUserResponds": "P8.88 Artifact Signing Authorization Response Record"
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "globalInstallPerformed": false,
+    "artifactSigned": false,
+    "privateKeyAccessed": false,
+    "certificateStoreAccessed": false,
+    "signingTokenAccessed": false,
+    "timestampAuthorityCalled": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "nextAllowedWithoutAcceptance": "P8.88 Artifact Signing Scope Hold Record"
+}
