@@ -3268,3 +3268,24 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.97 Final Productization Readiness Gap Summary`.
+
+## P8.97: Final Productization Readiness Gap Summary
+
+Goal: summarize the completed productization authority boundary chain and the remaining executable evidence gaps.
+
+Status: completed on 2026-07-10. See [P8.97 Final Productization Readiness Gap Summary](../reviews/p8.97-final-productization-readiness-gap-summary.md).
+
+Decision:
+
+- productization authority boundaries are complete enough for review.
+- productization remains not ready.
+- ordinary `accept/revise/blocked` shortcuts remain limited to review gates and do not authorize package extraction, launch, screenshots, installer creation, signing, release publishing, or productization claims.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.97-final-productization-readiness-gap-summary-report.json`
+- [P8.97 Final Productization Readiness Gap Summary](../reviews/p8.97-final-productization-readiness-gap-summary.md)
+
+Next safe work:
+
+- continue to `P8.98 Real Evidence Execution Authority Review`.
