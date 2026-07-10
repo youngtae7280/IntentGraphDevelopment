@@ -1,0 +1,112 @@
+{
+  "artifactRole": "intentgraph-b1-intent-mapping-negative-probes-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "aiAuthorityClaimed": false,
+    "automaticMappingClaimed": false,
+    "codeEdited": false,
+    "staticB1OverlayOnly": true,
+    "workbenchClaimed": false
+  },
+  "positiveBaseline": {
+    "result": "pass",
+    "returnCode": 0
+  },
+  "probeCount": 10,
+  "probes": [
+    {
+      "errors": [
+        "unit.behavior.create-todo: codeFactRef.create-todo.addTodo references missing fact fact.function.missing"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "references missing fact",
+      "id": "missing-code-fact",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "unit.behavior.create-todo: codeFactRef.create-todo.addTodo expected route got function"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "expected route got function",
+      "id": "wrong-expected-kind",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "unit.behavior.create-todo: mapping.create-todo.core missing codeFactRef codeFactRef.missing"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "missing codeFactRef",
+      "id": "missing-obligation-ref",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "unit.behavior.create-todo: mapping.create-todo.core missing evidence evidence.missing"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "missing evidence",
+      "id": "missing-evidence",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "unit.behavior.create-todo: mapping.create-todo.core missing authority authority.missing"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "missing authority",
+      "id": "missing-authority",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "unit.behavior.create-todo: mapping.create-todo.core must not require source text equality"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "must not require source text equality",
+      "id": "source-text-equality",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "unit.behavior.create-todo: codeTextContained must be false",
+        "unit.behavior.create-todo: unit must not contain codeText"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "codeTextContained must be false",
+      "id": "code-text-contained",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "unit.behavior.create-todo: resolved unit must not declare ambiguity"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "resolved unit must not declare ambiguity",
+      "id": "ambiguous-resolved",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "authority authority.b1-human-review must not grant AI authority"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "must not grant AI authority",
+      "id": "ai-authority",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "claimScope.automaticMappingClaimed must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.automaticMappingClaimed must be false",
+      "id": "automatic-mapping-claim",
+      "returnCode": 1
+    }
+  ],
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-intent-mapping-negative-probes",
+  "status": "intentgraph-b1-intent-mapping-negative-probes-passed"
+}

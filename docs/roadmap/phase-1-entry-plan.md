@@ -383,3 +383,25 @@ P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture
 ```
 
 P3.0 may create a static B1 overlay mapping fixture and deterministic mapping verifier. It must not edit B1 source, generate AI mappings, build a broad planner, create a UI/workbench product, or broaden extraction.
+
+## Completed Slice: P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture
+
+Goal: create a static B1 Intent Unit overlay and deterministic mapping verifier over B1 code facts.
+
+Produced artifacts:
+
+- [Intent Mapping Schema v0](../language/intent-mapping-schema-v0.md)
+- `docs/examples/b1-typescript-rest-api/intentgraph.overlay.json`
+- `tools/verify_b1_intent_mapping.py`
+- `tools/run_b1_intent_mapping_negative_probes.py`
+- `generated/b1-typescript-rest-api/p3.0-intent-mapping-report.json`
+- `generated/b1-typescript-rest-api/p3.0-intent-mapping-negative-probes-report.json`
+- [P3.0 B1 Intent Unit Mapping Review](../reviews/p3.0-b1-intent-unit-mapping-review.md)
+
+Recommended next slice:
+
+```text
+P3.1 B1 Stale Intent Mapping Change Probe
+```
+
+P3.1 should prove stale mappings fail deterministically when mapped code facts change or disappear. It must not edit product behavior, generate AI mappings, start code planning, build a workbench, or broaden extraction.

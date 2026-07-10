@@ -94,6 +94,48 @@ Validation command:
 python tools/run_b1_incremental_negative_probes.py --out generated/b1-typescript-rest-api/p2.1-incremental-negative-probes-report.json
 ```
 
+## V600: B1 Intent Mapping Verification
+
+Status: added in P3.0.
+
+B1 Intent mapping overlays must use exact role/status/scope values:
+
+- `artifactRole: intentgraph-b1-overlay`
+- `status: intentgraph-b1-overlay-declared`
+- `scope: b1-typescript-rest-api-intent-mapping`
+
+Every resolved Intent Unit must include non-empty `codeRefs`, `codeFactRefs`, and `mappingObligations`. Code refs must be `reference-only`. Code fact refs must point to existing B1 code facts and match `expectedFactKind`. Mapping obligations must resolve code ref ids, code fact ref ids, verification ids, evidence ids, and authority ids.
+
+The verifier must reject:
+
+- source text contained in a unit
+- source text equality requirements
+- missing code facts
+- wrong expected fact kind
+- missing mapping obligation refs
+- missing evidence, authority, or verification refs
+- resolved units with ambiguity
+- AI authority claims
+- automatic mapping claims
+
+Validation command:
+
+```bash
+python tools/verify_b1_intent_mapping.py --overlay docs/examples/b1-typescript-rest-api/intentgraph.overlay.json --code-facts generated/b1-typescript-rest-api/code-facts.json --out generated/b1-typescript-rest-api/p3.0-intent-mapping-report.json
+```
+
+## V601: B1 Intent Mapping Negative Probes
+
+Status: added in P3.0.
+
+B1 must maintain repeatable negative probes for missing code fact, wrong expected fact kind, missing obligation ref, missing evidence, missing authority, source text equality, code text containment, ambiguous resolved mapping, AI authority, and automatic mapping claims.
+
+Validation command:
+
+```bash
+python tools/run_b1_intent_mapping_negative_probes.py --out generated/b1-typescript-rest-api/p3.0-intent-mapping-negative-probes-report.json
+```
+
 ## Rule Severity
 
 | Severity | Meaning |

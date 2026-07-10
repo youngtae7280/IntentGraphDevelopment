@@ -1,0 +1,450 @@
+{
+  "artifactRole": "intentgraph-b1-overlay",
+  "status": "intentgraph-b1-overlay-declared",
+  "scope": "b1-typescript-rest-api-intent-mapping",
+  "benchmarkId": "B1-typescript-rest-api",
+  "overlayVersion": "0.1.0",
+  "intentUnits": [
+    {
+      "id": "unit.behavior.create-todo",
+      "kind": "behavior",
+      "title": "Create a todo from validated input",
+      "mappingStatus": "resolved",
+      "codeTextContained": false,
+      "codeRefs": [
+        {
+          "id": "codeRef.create-todo.addTodo",
+          "factId": "fact.function.addtodo",
+          "ownership": "reference-only"
+        },
+        {
+          "id": "codeRef.create-todo.createTodo",
+          "factId": "fact.function.createtodo",
+          "ownership": "reference-only"
+        },
+        {
+          "id": "codeRef.create-todo.call-createTodo",
+          "factId": "fact.call.addtodo.createtodo",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.create-todo.addTodo",
+          "factId": "fact.function.addtodo",
+          "expectedFactKind": "function"
+        },
+        {
+          "id": "codeFactRef.create-todo.createTodo",
+          "factId": "fact.function.createtodo",
+          "expectedFactKind": "function"
+        },
+        {
+          "id": "codeFactRef.create-todo.call-createTodo",
+          "factId": "fact.call.addtodo.createtodo",
+          "expectedFactKind": "call"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.create-todo.core",
+          "codeRefIds": [
+            "codeRef.create-todo.addTodo",
+            "codeRef.create-todo.createTodo",
+            "codeRef.create-todo.call-createTodo"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.create-todo.addTodo",
+            "codeFactRef.create-todo.createTodo",
+            "codeFactRef.create-todo.call-createTodo"
+          ],
+          "verificationIds": [
+            "verification.test-add-todo"
+          ],
+          "evidenceIds": [
+            "evidence.b1-code-facts-validation",
+            "evidence.b1-mapping-review"
+          ],
+          "authorityIds": [
+            "authority.b1-human-review"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ]
+    },
+    {
+      "id": "unit.behavior.list-todos",
+      "kind": "behavior",
+      "title": "List current todos",
+      "mappingStatus": "resolved",
+      "codeTextContained": false,
+      "codeRefs": [
+        {
+          "id": "codeRef.list-todos.listTodos",
+          "factId": "fact.function.listtodos",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.list-todos.listTodos",
+          "factId": "fact.function.listtodos",
+          "expectedFactKind": "function"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.list-todos.core",
+          "codeRefIds": [
+            "codeRef.list-todos.listTodos"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.list-todos.listTodos"
+          ],
+          "verificationIds": [
+            "verification.test-list-todos"
+          ],
+          "evidenceIds": [
+            "evidence.b1-code-facts-validation",
+            "evidence.b1-mapping-review"
+          ],
+          "authorityIds": [
+            "authority.b1-human-review"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ]
+    },
+    {
+      "id": "unit.behavior.complete-todo",
+      "kind": "behavior",
+      "title": "Mark an existing todo as completed",
+      "mappingStatus": "resolved",
+      "codeTextContained": false,
+      "codeRefs": [
+        {
+          "id": "codeRef.complete-todo.completeTodo",
+          "factId": "fact.function.completetodo",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.complete-todo.completeTodo",
+          "factId": "fact.function.completetodo",
+          "expectedFactKind": "function"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.complete-todo.core",
+          "codeRefIds": [
+            "codeRef.complete-todo.completeTodo"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.complete-todo.completeTodo"
+          ],
+          "verificationIds": [
+            "verification.static-complete-todo"
+          ],
+          "evidenceIds": [
+            "evidence.b1-code-facts-validation",
+            "evidence.b1-mapping-review"
+          ],
+          "authorityIds": [
+            "authority.b1-human-review"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ]
+    },
+    {
+      "id": "unit.contract.title-required",
+      "kind": "contract",
+      "title": "Todo creation requires a non-empty title",
+      "mappingStatus": "resolved",
+      "codeTextContained": false,
+      "codeRefs": [
+        {
+          "id": "codeRef.title-required.requireTitle",
+          "factId": "fact.function.requiretitle",
+          "ownership": "reference-only"
+        },
+        {
+          "id": "codeRef.title-required.call-requireTitle",
+          "factId": "fact.call.addtodo.requiretitle",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.title-required.requireTitle",
+          "factId": "fact.function.requiretitle",
+          "expectedFactKind": "function"
+        },
+        {
+          "id": "codeFactRef.title-required.call-requireTitle",
+          "factId": "fact.call.addtodo.requiretitle",
+          "expectedFactKind": "call"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.title-required.core",
+          "codeRefIds": [
+            "codeRef.title-required.requireTitle",
+            "codeRef.title-required.call-requireTitle"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.title-required.requireTitle",
+            "codeFactRef.title-required.call-requireTitle"
+          ],
+          "verificationIds": [
+            "verification.static-title-required"
+          ],
+          "evidenceIds": [
+            "evidence.b1-code-facts-validation",
+            "evidence.b1-mapping-review"
+          ],
+          "authorityIds": [
+            "authority.b1-human-review"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ]
+    },
+    {
+      "id": "unit.route.get-todos",
+      "kind": "route",
+      "title": "GET /todos maps to listTodos",
+      "mappingStatus": "resolved",
+      "codeTextContained": false,
+      "codeRefs": [
+        {
+          "id": "codeRef.route.get-todos.route",
+          "factId": "fact.route.get.todos",
+          "ownership": "reference-only"
+        },
+        {
+          "id": "codeRef.route.get-todos.handler",
+          "factId": "fact.function.listtodos",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.route.get-todos.route",
+          "factId": "fact.route.get.todos",
+          "expectedFactKind": "route"
+        },
+        {
+          "id": "codeFactRef.route.get-todos.handler",
+          "factId": "fact.function.listtodos",
+          "expectedFactKind": "function"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.route.get-todos.core",
+          "codeRefIds": [
+            "codeRef.route.get-todos.route",
+            "codeRef.route.get-todos.handler"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.route.get-todos.route",
+            "codeFactRef.route.get-todos.handler"
+          ],
+          "verificationIds": [
+            "verification.route-get-todos"
+          ],
+          "evidenceIds": [
+            "evidence.b1-code-facts-validation",
+            "evidence.b1-mapping-review"
+          ],
+          "authorityIds": [
+            "authority.b1-human-review"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ]
+    },
+    {
+      "id": "unit.route.post-todos",
+      "kind": "route",
+      "title": "POST /todos maps to addTodo",
+      "mappingStatus": "resolved",
+      "codeTextContained": false,
+      "codeRefs": [
+        {
+          "id": "codeRef.route.post-todos.route",
+          "factId": "fact.route.post.todos",
+          "ownership": "reference-only"
+        },
+        {
+          "id": "codeRef.route.post-todos.handler",
+          "factId": "fact.function.addtodo",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.route.post-todos.route",
+          "factId": "fact.route.post.todos",
+          "expectedFactKind": "route"
+        },
+        {
+          "id": "codeFactRef.route.post-todos.handler",
+          "factId": "fact.function.addtodo",
+          "expectedFactKind": "function"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.route.post-todos.core",
+          "codeRefIds": [
+            "codeRef.route.post-todos.route",
+            "codeRef.route.post-todos.handler"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.route.post-todos.route",
+            "codeFactRef.route.post-todos.handler"
+          ],
+          "verificationIds": [
+            "verification.route-post-todos"
+          ],
+          "evidenceIds": [
+            "evidence.b1-code-facts-validation",
+            "evidence.b1-mapping-review"
+          ],
+          "authorityIds": [
+            "authority.b1-human-review"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ]
+    },
+    {
+      "id": "unit.verification.todo-service-tests",
+      "kind": "verification",
+      "title": "Todo service smoke tests cover add and list behavior",
+      "mappingStatus": "resolved",
+      "codeTextContained": false,
+      "codeRefs": [
+        {
+          "id": "codeRef.tests.add",
+          "factId": "fact.test.testaddtodocreatesopentodo",
+          "ownership": "reference-only"
+        },
+        {
+          "id": "codeRef.tests.list",
+          "factId": "fact.test.testlisttodosstartsempty",
+          "ownership": "reference-only"
+        }
+      ],
+      "codeFactRefs": [
+        {
+          "id": "codeFactRef.tests.add",
+          "factId": "fact.test.testaddtodocreatesopentodo",
+          "expectedFactKind": "test"
+        },
+        {
+          "id": "codeFactRef.tests.list",
+          "factId": "fact.test.testlisttodosstartsempty",
+          "expectedFactKind": "test"
+        }
+      ],
+      "mappingObligations": [
+        {
+          "id": "mapping.tests.core",
+          "codeRefIds": [
+            "codeRef.tests.add",
+            "codeRef.tests.list"
+          ],
+          "codeFactRefIds": [
+            "codeFactRef.tests.add",
+            "codeFactRef.tests.list"
+          ],
+          "verificationIds": [
+            "verification.test-add-todo",
+            "verification.test-list-todos"
+          ],
+          "evidenceIds": [
+            "evidence.b1-code-facts-validation",
+            "evidence.b1-mapping-review"
+          ],
+          "authorityIds": [
+            "authority.b1-human-review"
+          ],
+          "sourceTextEqualityRequired": false
+        }
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "id": "verification.test-add-todo",
+      "kind": "test-fact",
+      "codeFactId": "fact.test.testaddtodocreatesopentodo"
+    },
+    {
+      "id": "verification.test-list-todos",
+      "kind": "test-fact",
+      "codeFactId": "fact.test.testlisttodosstartsempty"
+    },
+    {
+      "id": "verification.static-complete-todo",
+      "kind": "static-fact",
+      "codeFactId": "fact.function.completetodo"
+    },
+    {
+      "id": "verification.static-title-required",
+      "kind": "static-fact",
+      "codeFactId": "fact.function.requiretitle"
+    },
+    {
+      "id": "verification.route-get-todos",
+      "kind": "route-fact",
+      "codeFactId": "fact.route.get.todos"
+    },
+    {
+      "id": "verification.route-post-todos",
+      "kind": "route-fact",
+      "codeFactId": "fact.route.post.todos"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence.b1-code-facts-validation",
+      "kind": "validation-report",
+      "path": "generated/b1-typescript-rest-api/code-facts-validation-report.json"
+    },
+    {
+      "id": "evidence.b1-mapping-review",
+      "kind": "mapping-review",
+      "path": "docs/reviews/p3.0-b1-intent-unit-mapping-review.md"
+    }
+  ],
+  "authority": [
+    {
+      "id": "authority.b1-human-review",
+      "kind": "human-review-required",
+      "actor": "Coordinator",
+      "aiAuthority": false
+    }
+  ],
+  "history": [
+    {
+      "id": "history.p3.0-b1-static-overlay",
+      "kind": "semantic-overlay-added",
+      "summary": "Declared static B1 Intent Unit mapping overlay over P2.1 code facts."
+    }
+  ],
+  "claimScope": {
+    "sourceTextContained": false,
+    "sourceTextEqualityRequired": false,
+    "aiAuthorityClaimed": false,
+    "automaticMappingClaimed": false,
+    "codeEdited": false,
+    "workbenchClaimed": false
+  }
+}

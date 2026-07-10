@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P2.2 completed.
+P3.0 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture.
-Phase C is open only for a bounded static B1 mapping slice. Code edits, broad extraction, UI/workbench product, AI coding runtime, and productization remain unauthorized.
+Next recommended slice: P3.1 B1 Stale Intent Mapping Change Probe.
+Phase C is open only for bounded B1 mapping validation. Code planning, broad extraction, UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -82,21 +82,21 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P2.2 completed:
+P3.0 completed:
 
 ```text
-B1 Code Fact Boundary Review and Phase C Entry Plan
+B1 Intent Unit Mapping Schema and Static Overlay Fixture
 ```
 
-P2.2 reviewed P2.0 and P2.1 and allowed the first bounded Phase C mapping slice.
+P3.0 created a static B1 Intent Unit overlay and deterministic mapping verifier with negative probes.
 
 The next step is:
 
 ```text
-P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture
+P3.1 B1 Stale Intent Mapping Change Probe
 ```
 
-P3.0 should create a static B1 overlay mapping fixture and deterministic mapping verifier without editing B1 source or generating AI mappings.
+P3.1 should prove stale mappings fail deterministically when code facts change.
 
 ## Phase Overview
 
@@ -104,7 +104,7 @@ P3.0 should create a static B1 overlay mapping fixture and deterministic mapping
 |---|---|---|---|
 | A | Model Correction | Define IntentGraph as semantic overlay and correct the state model. | Mostly complete through P1.18. |
 | B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | P2.0 and P2.1 completed B1 static and incremental fact boundaries. Boundary review still needed. |
-| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | Open only for P3.0 bounded static B1 mapping fixture. |
+| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static B1 mapping completed. Stale mapping behavior not yet proven. |
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Not opened. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | Small fixture proofs only. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | Requirements only; product UI not opened. |
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P2.2 Result And P3.0 Required Scope
+## P3.0 Result And P3.1 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,28 +585,27 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
-P2.2 result:
+P3.0 result:
 
 ```text
-Phase C may open for bounded static B1 mapping only.
+B1 static mapping fixture, verifier, and negative probes pass.
 ```
 
 Recommended next slice:
 
 ```text
-P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture
+P3.1 B1 Stale Intent Mapping Change Probe
 ```
 
-P3.0 must:
+P3.1 must:
 
-- define B1 Intent Unit mapping schema
-- create a small B1 overlay fixture
-- map behavior, route, and contract units to existing B1 code facts
-- require codeRefs, codeFactRefs, and mappingObligations
-- verify all mapping refs resolve against B1 code facts
-- add negative probes for bad mappings
+- create a bounded stale mapping scenario
+- prove the mapping verifier fails when a mapped fact disappears or changes kind
+- either update the overlay or record the expected stale state
+- keep AI mapping generation proposal-only or absent
+- keep code planning and workbench out of scope
 
-P3.0 must not:
+P3.1 must not:
 
 - expand beyond the tiny B1 static fixture and code fact boundary
 - add another CF0 semantic probe

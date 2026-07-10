@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan
+P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture
 ```
 
-This is a Phase B boundary review that permits opening the first bounded Phase C mapping slice. It recommends `P3.0 B1 Intent Unit Mapping Schema and Static Overlay Fixture`. It does not authorize code edits, broad extraction, UI, AI planning, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This is the first bounded Phase C implementation slice. It maps B1 Intent Units to B1 code facts through code refs, code fact refs, mapping obligations, evidence, authority, and verification. It does not authorize code edits, AI mapping generation, broad planning, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -537,4 +537,26 @@ Non-goals:
 - no broad extractor
 - no UI/workbench product
 - no AI proposal generation
+- no productization
+
+## P3.0: B1 Intent Unit Mapping Schema and Static Overlay Fixture
+
+Goal: create the first static B1 Intent Unit overlay and deterministic mapping verifier over B1 code facts.
+
+Status: completed on 2026-07-10. See [P3.0 B1 Intent Unit Mapping Review](../reviews/p3.0-b1-intent-unit-mapping-review.md).
+
+Decision:
+
+- B1 mapping schema v0 exists
+- B1 static overlay exists
+- mapping verifier and negative probes pass
+- continue to `P3.1 B1 Stale Intent Mapping Change Probe`
+
+Non-goals:
+
+- no code edits
+- no automatic mapping generation
+- no natural-language request interpretation
+- no broad planner
+- no UI/workbench product
 - no productization
