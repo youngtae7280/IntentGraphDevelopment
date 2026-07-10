@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P7.1 completed.
+P7.2 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis.
-Phase G is open only for read-only WindowsUtility mapping hypothesis inside this repository. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, and productization remain unauthorized.
+Next recommended slice: P7.3 Real Project Adoption Boundary Review and Productization Readiness Gate.
+Phase G has only read-only WindowsUtility inventory and mapping hypotheses. Source mutation, patch application, broad extraction, production UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -82,21 +82,21 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P7.1 completed:
+P7.2 completed:
 
 ```text
-WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot
+WindowsUtility Read-Only Intent Mapping Hypothesis
 ```
 
-P7.1 emitted a read-only WindowsUtility inventory and verified target git status/file digests stayed unchanged.
+P7.2 emitted read-only WindowsUtility Intent Unit hypotheses, evidence gaps, authority gaps, and ambiguity records.
 
 The next step is:
 
 ```text
-P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis
+P7.3 Real Project Adoption Boundary Review and Productization Readiness Gate
 ```
 
-P7.2 should create candidate adoption Intent Units and mapping hypotheses from inventory without touching WindowsUtility.
+P7.3 should decide whether Phase H can open or must remain blocked.
 
 ## Phase Overview
 
@@ -108,7 +108,7 @@ P7.2 should create candidate adoption Intent Units and mapping hypotheses from i
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | P4.0 proposal validation and P4.1 boundary review completed for B1. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | P5.0 verifier and P5.1 boundary review completed for B1. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | P6.0 preview and P6.1 boundary review completed for B1. |
-| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Open only for P7.2 read-only WindowsUtility mapping hypothesis. |
+| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | P7.1/P7.2 read-only WindowsUtility adoption evidence completed; boundary review needed before H. |
 | H | Productization | Package CLI/local app/editor/GitHub/team workflow surfaces. | Not opened. |
 
 ## Phase A: Model Correction
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P7.1 Result And P7.2 Required Scope
+## P7.2 Result And P7.3 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,28 +585,27 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
-P7.1 result:
+P7.2 result:
 
 ```text
-WindowsUtility read-only inventory passes.
+WindowsUtility read-only mapping hypothesis passes.
 ```
 
 Recommended next slice:
 
 ```text
-P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis
+P7.3 Real Project Adoption Boundary Review and Productization Readiness Gate
 ```
 
-P7.2 must:
+P7.3 must:
 
-- derive candidate Intent Units from WindowsUtility inventory
-- map candidates to project/source surfaces
-- identify ambiguity, evidence gaps, and authority gaps
-- emit adoption planning artifacts inside IntentGraphDevelopment
-- verify WindowsUtility source bytes and git status are unchanged
-- recommend a bounded adoption slice or stop
+- review P7.0 through P7.2 real-project adoption evidence
+- decide whether Phase H can open
+- state productization readiness gaps
+- define any allowed productization-readiness work
+- keep source mutation, patch application, AI generation, and productization out of scope unless readiness is justified
 
-P7.2 must not:
+P7.3 must not:
 
 - mutate real-project source code
 - run broad unbounded retrofit

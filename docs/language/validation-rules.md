@@ -261,6 +261,12 @@ Status: added in P7.1.
 
 WindowsUtility inventory must write artifacts outside the WindowsUtility target repository unless target writes are explicitly authorized. The inventory report must record target git status before and after, selected file digest stability, write authorization, whether artifacts were written inside the target, and whether target source mutation occurred.
 
+## V1002: Read-Only Mapping Hypotheses Are Not Accepted Mappings
+
+Status: added in P7.2.
+
+WindowsUtility read-only mapping hypotheses must remain explicitly unaccepted. The report must include candidate units, ambiguity records, evidence gaps, authority gaps, target git status stability, and false claims for target mutation, AI authority, and product readiness.
+
 ## Rule Severity
 
 | Severity | Meaning |

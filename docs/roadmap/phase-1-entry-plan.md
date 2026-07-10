@@ -643,3 +643,22 @@ P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis
 ```
 
 P7.2 should derive candidate Intent Units, code-surface mappings, evidence gaps, authority gaps, and ambiguity records from the read-only inventory. It must keep artifacts in IntentGraphDevelopment and must not write to WindowsUtility.
+
+## Completed Slice: P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis
+
+Goal: derive candidate Intent Units, code-surface mappings, evidence gaps, authority gaps, and ambiguity records from the read-only inventory.
+
+Produced artifacts:
+
+- `tools/emit_windowsutility_mapping_hypothesis.py`
+- `generated/windowsutility/p7.2-mapping-hypothesis.json`
+- `generated/windowsutility/p7.2-mapping-hypothesis.md`
+- [P7.2 WindowsUtility Read-Only Mapping Hypothesis Review](../reviews/p7.2-windowsutility-readonly-mapping-hypothesis-review.md)
+
+Recommended next slice:
+
+```text
+P7.3 Real Project Adoption Boundary Review and Productization Readiness Gate
+```
+
+P7.3 should decide whether Phase H can open. Given current evidence, productization should remain blocked unless the review can justify that real-project adoption is sufficient despite read-only-only status.

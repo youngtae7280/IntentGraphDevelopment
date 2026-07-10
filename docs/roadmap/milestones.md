@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P7.1 WindowsUtility Read-Only Retrofit Inventory Plan and Source Snapshot
+P7.2 WindowsUtility Read-Only Intent Mapping Hypothesis
 ```
 
-This Phase G slice emitted a read-only WindowsUtility inventory outside the target repo and verified the target status/digests were unchanged. It does not authorize source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G slice emitted read-only WindowsUtility mapping hypotheses outside the target repo. It does not authorize accepted mappings, source mutation, patch application, AI proposal authority, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -802,6 +802,29 @@ Decision:
 Non-goals:
 
 - no writing to WindowsUtility
+- no real-project source mutation
+- no unbounded retrofit
+- no AI-generated code application
+- no product readiness claim
+- no productization
+
+## P7.2: WindowsUtility Read-Only Intent Mapping Hypothesis
+
+Goal: derive candidate Intent Units, code-surface mappings, evidence gaps, authority gaps, and ambiguity records from the WindowsUtility inventory without touching the target.
+
+Status: completed on 2026-07-10. See [P7.2 WindowsUtility Read-Only Mapping Hypothesis Review](../reviews/p7.2-windowsutility-readonly-mapping-hypothesis-review.md).
+
+Decision:
+
+- read-only mapping hypothesis artifacts exist in this repository.
+- WindowsUtility git status stayed unchanged.
+- mappings remain hypotheses, not accepted mappings.
+- continue to `P7.3 Real Project Adoption Boundary Review and Productization Readiness Gate`.
+
+Non-goals:
+
+- no writing to WindowsUtility
+- no accepted mappings
 - no real-project source mutation
 - no unbounded retrofit
 - no AI-generated code application

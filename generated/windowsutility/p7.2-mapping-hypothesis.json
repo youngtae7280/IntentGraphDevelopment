@@ -1,0 +1,145 @@
+{
+  "ambiguityRecords": [
+    {
+      "id": "ambiguity.windowsutility.module-boundaries",
+      "resolutionRequiredBeforeMutation": true,
+      "summary": "Project names reveal module families but do not prove runtime ownership or user-facing feature boundaries."
+    },
+    {
+      "id": "ambiguity.windowsutility.hardware-coupling",
+      "resolutionRequiredBeforeMutation": true,
+      "summary": "Hardware-aware modules may require real devices, mocks, or explicit unavailable-hardware evidence."
+    }
+  ],
+  "artifactRole": "intentgraph-windowsutility-mapping-hypothesis",
+  "authorityGapSummary": {
+    "gapCount": 5,
+    "requiresHardwareAwareApproval": true,
+    "requiresHumanReview": true
+  },
+  "claimScope": {
+    "aiAuthorityGranted": false,
+    "artifactsWrittenInsideTarget": false,
+    "intentMappingsAccepted": false,
+    "productReadinessClaimed": false,
+    "readOnlyTarget": true,
+    "targetSourceMutated": false
+  },
+  "errors": [],
+  "evidenceGapSummary": {
+    "gapCount": 8,
+    "requiresBuildTestEvidence": true,
+    "requiresHardwareAwareEvidence": true,
+    "requiresUiOrScreenshotEvidence": true
+  },
+  "intentUnitHypotheses": [
+    {
+      "authorityGaps": [
+        "user acceptance for shell/workspace mapping"
+      ],
+      "codeSurfaceRefs": [
+        "src/WindowsUtility.App/WindowsUtility.App.csproj",
+        "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj"
+      ],
+      "confidence": "inferred-from-project-structure",
+      "evidenceGaps": [
+        "screenshot evidence",
+        "shell navigation smoke test"
+      ],
+      "id": "unit.windowsutility.shell-workspace",
+      "kind": "application-shell",
+      "mappingStatus": "hypothesis",
+      "title": "WindowsUtility WPF shell and workspace"
+    },
+    {
+      "authorityGaps": [
+        "maintainer review for native boundary risk"
+      ],
+      "codeSurfaceRefs": [
+        "src/WindowsUtility.Core.Abstractions/WindowsUtility.Core.Abstractions.csproj",
+        "src/WindowsUtility.Core.Native/WindowsUtility.Core.Native.csproj",
+        "src/WindowsUtility.Core.Services/WindowsUtility.Core.Services.csproj"
+      ],
+      "confidence": "inferred-from-project-structure",
+      "evidenceGaps": [
+        "service contract tests",
+        "native boundary smoke evidence"
+      ],
+      "id": "unit.windowsutility.core-services",
+      "kind": "core-service-boundary",
+      "mappingStatus": "hypothesis",
+      "title": "Core abstractions, services, and native boundary"
+    },
+    {
+      "authorityGaps": [
+        "module owner review",
+        "hardware-aware test approval"
+      ],
+      "codeSurfaceRefs": [
+        "src/WindowsUtility.Modules.Config/WindowsUtility.Modules.Config.csproj",
+        "src/WindowsUtility.Modules.Diagnostics/WindowsUtility.Modules.Diagnostics.csproj",
+        "src/WindowsUtility.Modules.Dump/WindowsUtility.Modules.Dump.csproj",
+        "src/WindowsUtility.Modules.DumpView/WindowsUtility.Modules.DumpView.csproj",
+        "src/WindowsUtility.Modules.Firmware/WindowsUtility.Modules.Firmware.csproj",
+        "src/WindowsUtility.Modules.Model/WindowsUtility.Modules.Model.csproj",
+        "src/WindowsUtility.Modules.NetAdmin/WindowsUtility.Modules.NetAdmin.csproj",
+        "src/WindowsUtility.Modules.PrinterInfo/WindowsUtility.Modules.PrinterInfo.csproj",
+        "src/WindowsUtility.Modules.Serial/WindowsUtility.Modules.Serial.csproj",
+        "src/WindowsUtility.Modules.SimpleInfo/WindowsUtility.Modules.SimpleInfo.csproj",
+        "src/WindowsUtility.Modules.Test/WindowsUtility.Modules.Test.csproj"
+      ],
+      "confidence": "inferred-from-project-structure",
+      "evidenceGaps": [
+        "module-level smoke tests",
+        "legacy parity evidence"
+      ],
+      "id": "unit.windowsutility.utility-modules",
+      "kind": "feature-module-family",
+      "mappingStatus": "hypothesis",
+      "title": "Feature modules for printer, diagnostics, dump, firmware, network, serial, and config utilities"
+    },
+    {
+      "authorityGaps": [
+        "test maintainer acceptance"
+      ],
+      "codeSurfaceRefs": [
+        "artifacts/HardwareSmoke/WindowsUtility.HardwareSmoke.csproj",
+        "src/WindowsUtility.Diagnostics/WindowsUtility.Diagnostics.csproj",
+        "src/WindowsUtility.Modules.Diagnostics/WindowsUtility.Modules.Diagnostics.csproj",
+        "src/WindowsUtility.Modules.Test/WindowsUtility.Modules.Test.csproj"
+      ],
+      "confidence": "inferred-from-project-structure",
+      "evidenceGaps": [
+        "repeatable build/test log",
+        "hardware unavailable fallback evidence"
+      ],
+      "id": "unit.windowsutility.tests-and-smoke",
+      "kind": "verification-surface",
+      "mappingStatus": "hypothesis",
+      "title": "Tests, diagnostics, and hardware smoke surfaces"
+    }
+  ],
+  "recommendedBoundedAdoptionSlice": {
+    "id": "P7.3",
+    "name": "WindowsUtility Read-Only Adoption Boundary Review and Productization Gate",
+    "reason": "target remains read-only until repo state is reconciled; productization should stay blocked"
+  },
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "p7.2-windowsutility-readonly-intent-mapping-hypothesis",
+  "sourceInventory": {
+    "docFileCount": 22,
+    "projectFileCount": 19,
+    "selectedFileCount": 263,
+    "sourceFileCount": 222
+  },
+  "status": "intentgraph-windowsutility-mapping-hypothesis-passed",
+  "target": {
+    "gitStatusAfter": "## main...origin/main [ahead 4]\n?? .devview/",
+    "gitStatusBefore": "## main...origin/main [ahead 4]\n?? .devview/",
+    "gitStatusUnchanged": true,
+    "id": "WindowsUtility",
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility",
+    "writeAuthorized": false
+  }
+}
