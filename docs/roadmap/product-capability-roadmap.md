@@ -7,9 +7,9 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P3.1 completed.
+P3.2 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P3.2 B1 Ambiguous Intent Mapping Candidate Probe.
+Next recommended slice: P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan.
 Phase C is open only for bounded B1 mapping validation. Code planning, broad extraction, UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
@@ -82,21 +82,21 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P3.1 completed:
+P3.2 completed:
 
 ```text
-B1 Stale Intent Mapping Change Probe
+B1 Ambiguous Intent Mapping Candidate Probe
 ```
 
-P3.1 proved stale B1 mappings fail deterministically when a mapped fact disappears.
+P3.2 proved ambiguous mapping candidates remain explicit and unaccepted.
 
 The next step is:
 
 ```text
-P3.2 B1 Ambiguous Intent Mapping Candidate Probe
+P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan
 ```
 
-P3.2 should model ambiguity as an explicit unresolved mapping state that cannot be treated as accepted.
+P3.3 should decide whether Phase C is sufficient to open bounded Phase D change planning.
 
 ## Phase Overview
 
@@ -104,8 +104,8 @@ P3.2 should model ambiguity as an explicit unresolved mapping state that cannot 
 |---|---|---|---|
 | A | Model Correction | Define IntentGraph as semantic overlay and correct the state model. | Mostly complete through P1.18. |
 | B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | P2.0 and P2.1 completed B1 static and incremental fact boundaries. Boundary review still needed. |
-| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static mapping and P3.1 stale mapping failure completed. Ambiguity not yet modeled. |
-| D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Not opened. |
+| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static mapping, P3.1 stale failure, and P3.2 ambiguity candidate completed. Boundary review needed. |
+| D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Not opened. P3.3 should plan entry criteria. |
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | Small fixture proofs only. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | Requirements only; product UI not opened. |
 | G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Not opened. |
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P3.1 Result And P3.2 Required Scope
+## P3.2 Result And P3.3 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,27 +585,27 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
-P3.1 result:
+P3.2 result:
 
 ```text
-B1 stale mapping probe passes.
+B1 ambiguous mapping candidate probe passes.
 ```
 
 Recommended next slice:
 
 ```text
-P3.2 B1 Ambiguous Intent Mapping Candidate Probe
+P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan
 ```
 
-P3.2 must:
+P3.3 must:
 
-- create an explicit ambiguous mapping candidate
-- verify ambiguity remains visible
-- prevent ambiguous mapping from being treated as resolved
-- keep AI mapping generation proposal-only or absent
-- keep code planning and workbench out of scope
+- review P3.0 through P3.2
+- decide whether Phase C is sufficient to open Phase D
+- define first bounded change-planning slice
+- define proposal pass/fail criteria before implementation
+- keep code edits, AI generation, and workbench out of scope unless explicitly opened later
 
-P3.2 must not:
+P3.3 must not:
 
 - expand beyond the tiny B1 static fixture and code fact boundary
 - add another CF0 semantic probe

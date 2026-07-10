@@ -1,0 +1,83 @@
+{
+  "artifactRole": "intentgraph-b1-mapping-candidate-negative-probes-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "acceptedIntoOverlay": false,
+    "aiAuthorityClaimed": false,
+    "ambiguousCandidatesVisible": true,
+    "automaticResolutionClaimed": false
+  },
+  "positiveBaseline": {
+    "result": "pass",
+    "returnCode": 0
+  },
+  "probeCount": 7,
+  "probes": [
+    {
+      "errors": [
+        "candidate.mutate-todo.add-or-complete: candidate.accepted must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "candidate.accepted must be false",
+      "id": "accepted-true",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "candidate.mutate-todo.add-or-complete: accepted-by-authority is forbidden in P3.2"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "accepted-by-authority is forbidden in P3.2",
+      "id": "accepted-by-authority",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "candidate.mutate-todo.add-or-complete: candidate must declare ambiguity"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "candidate must declare ambiguity",
+      "id": "missing-ambiguity",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "candidate.mutate-todo.add-or-complete: candidate fact does not exist: fact.function.missing"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "candidate fact does not exist",
+      "id": "missing-candidate-fact",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "candidate.mutate-todo.add-or-complete: claimScope.aiGenerated must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.aiGenerated must be false",
+      "id": "ai-generated",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "candidate.mutate-todo.add-or-complete: claimScope.authorityGranted must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.authorityGranted must be false",
+      "id": "authority-granted",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "candidate.mutate-todo.add-or-complete: claimScope.acceptedIntoOverlay must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.acceptedIntoOverlay must be false",
+      "id": "accepted-into-overlay",
+      "returnCode": 1
+    }
+  ],
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-mapping-candidate-negative-probes",
+  "status": "intentgraph-b1-mapping-candidate-negative-probes-passed"
+}

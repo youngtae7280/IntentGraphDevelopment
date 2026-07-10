@@ -1,0 +1,29 @@
+{
+  "artifactRole": "intentgraph-b1-mapping-candidates",
+  "status": "intentgraph-b1-mapping-candidates-declared",
+  "scope": "b1-typescript-rest-api-ambiguous-mapping-candidates",
+  "benchmarkId": "B1-typescript-rest-api",
+  "candidateSetId": "p3.2-ambiguous-mutate-todo",
+  "candidates": [
+    {
+      "id": "candidate.mutate-todo.add-or-complete",
+      "intentUnitId": "unit.behavior.mutate-todo",
+      "status": "ambiguous-unresolved",
+      "accepted": false,
+      "ambiguity": {
+        "kind": "multiple-code-fact-candidates",
+        "summary": "A broad mutate-todo request could refer to creating a todo or completing a todo."
+      },
+      "candidateFactIds": [
+        "fact.function.addtodo",
+        "fact.function.completetodo"
+      ],
+      "reason": "Both functions mutate todo state in different ways; a later request or authority decision must narrow the intent before mapping is accepted.",
+      "claimScope": {
+        "aiGenerated": false,
+        "authorityGranted": false,
+        "acceptedIntoOverlay": false
+      }
+    }
+  ]
+}

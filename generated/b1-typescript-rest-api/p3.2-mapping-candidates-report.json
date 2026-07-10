@@ -1,0 +1,28 @@
+{
+  "artifactRole": "intentgraph-b1-mapping-candidates-verification-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "candidateReports": [
+    {
+      "accepted": false,
+      "candidateFactCount": 2,
+      "candidateId": "candidate.mutate-todo.add-or-complete",
+      "errorCount": 0,
+      "status": "ambiguous-unresolved"
+    }
+  ],
+  "claimScope": {
+    "acceptedIntoOverlay": false,
+    "aiAuthorityClaimed": false,
+    "ambiguousCandidatesVisible": true,
+    "automaticResolutionClaimed": false
+  },
+  "errors": [],
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-mapping-candidates-verification",
+  "status": "intentgraph-b1-mapping-candidates-verification-passed",
+  "summary": {
+    "candidateCount": 1,
+    "errorCount": 0
+  }
+}

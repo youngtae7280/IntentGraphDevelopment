@@ -150,6 +150,29 @@ Validation command:
 python tools/run_b1_stale_mapping_probe.py --stale-code-facts generated/b1-typescript-rest-api/p3.1-stale-code-facts.json --stale-verifier-report generated/b1-typescript-rest-api/p3.1-stale-mapping-verifier-report.json --out generated/b1-typescript-rest-api/p3.1-stale-mapping-probe-report.json
 ```
 
+## V603: B1 Ambiguous Mapping Candidate Verification
+
+Status: added in P3.2.
+
+B1 mapping candidates must remain separate from accepted overlay mappings until a later authority flow accepts or rejects them. In P3.2, ambiguous candidates must be visible and unresolved.
+
+The verifier rejects:
+
+- accepted candidates
+- `accepted-by-authority` status
+- missing ambiguity
+- missing candidate facts
+- AI-generated claims
+- authority-granted claims
+- accepted-into-overlay claims
+
+Validation commands:
+
+```bash
+python tools/verify_b1_mapping_candidates.py --candidates docs/examples/b1-typescript-rest-api/mapping-candidates/p3.2-ambiguous-mutate-todo.candidates.json --code-facts generated/b1-typescript-rest-api/code-facts.json --out generated/b1-typescript-rest-api/p3.2-mapping-candidates-report.json
+python tools/run_b1_mapping_candidate_negative_probes.py --out generated/b1-typescript-rest-api/p3.2-mapping-candidate-negative-probes-report.json
+```
+
 ## Rule Severity
 
 | Severity | Meaning |

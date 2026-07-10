@@ -425,3 +425,25 @@ P3.2 B1 Ambiguous Intent Mapping Candidate Probe
 ```
 
 P3.2 should model explicit ambiguity and prove ambiguous mappings remain unresolved until a later authority decision. It must not generate mappings automatically or start code planning.
+
+## Completed Slice: P3.2 B1 Ambiguous Intent Mapping Candidate Probe
+
+Goal: model explicit ambiguity as a visible unresolved mapping candidate.
+
+Produced artifacts:
+
+- [Mapping Candidate Schema v0](../language/mapping-candidate-schema-v0.md)
+- `docs/examples/b1-typescript-rest-api/mapping-candidates/p3.2-ambiguous-mutate-todo.candidates.json`
+- `tools/verify_b1_mapping_candidates.py`
+- `tools/run_b1_mapping_candidate_negative_probes.py`
+- `generated/b1-typescript-rest-api/p3.2-mapping-candidates-report.json`
+- `generated/b1-typescript-rest-api/p3.2-mapping-candidate-negative-probes-report.json`
+- [P3.2 B1 Ambiguous Mapping Candidate Review](../reviews/p3.2-b1-ambiguous-mapping-candidate-review.md)
+
+Recommended next slice:
+
+```text
+P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan
+```
+
+P3.3 should review P3.0 through P3.2 and decide whether Phase D change planning can open. It should not implement code planning yet.

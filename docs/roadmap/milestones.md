@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P3.1 B1 Stale Intent Mapping Change Probe
+P3.2 B1 Ambiguous Intent Mapping Candidate Probe
 ```
 
-This Phase C slice proves B1 mappings fail deterministically when a mapped code fact disappears from supplied facts. It does not authorize automatic repair, code edits, AI mapping generation, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase C slice models explicit unresolved ambiguity and proves ambiguous candidates cannot be treated as accepted overlay mappings. It does not authorize ambiguity resolution, code edits, AI mapping generation, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -579,6 +579,30 @@ Non-goals:
 - no source edit
 - no automatic mapping repair
 - no AI mapping generation
+- no code planning
+- no UI/workbench product
+- no productization
+
+## P3.2: B1 Ambiguous Intent Mapping Candidate Probe
+
+Goal: model an explicit ambiguous mapping candidate and verify it remains unresolved and outside the accepted overlay.
+
+Status: completed on 2026-07-10. See [P3.2 B1 Ambiguous Mapping Candidate Review](../reviews/p3.2-b1-ambiguous-mapping-candidate-review.md).
+
+Decision:
+
+- ambiguous mapping candidate artifact exists
+- candidate facts resolve
+- candidate is not accepted
+- negative probes pass
+- continue to `P3.3 Phase C Mapping Boundary Review and Phase D Entry Plan`
+
+Non-goals:
+
+- no ambiguity resolution
+- no code edit
+- no automatic mapping generation
+- no authority grant
 - no code planning
 - no UI/workbench product
 - no productization
