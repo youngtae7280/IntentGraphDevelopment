@@ -2790,3 +2790,25 @@ Recommended next slice:
 ```text
 P8.83 Installer Creation Authorization Request
 ```
+
+## Completed Slice: P8.83 Installer Creation Authorization Request
+
+Goal: request future sandboxed installer creation authority without recording authority or creating an installer.
+
+Result:
+
+```text
+Decision: installer-creation-authorization-requested-not-recorded-and-not-actionable-yet.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.83-installer-creation-authorization-request.json`
+- `generated/roadmap/p8.83-installer-creation-authorization-request-report.json`
+- [P8.83 Installer Creation Authorization Request](../reviews/p8.83-installer-creation-authorization-request.md)
+
+Recommended next slice:
+
+```text
+P8.84 Installer Creation Scope Hold Record
+```

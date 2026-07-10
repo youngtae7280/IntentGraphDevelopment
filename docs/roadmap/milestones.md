@@ -2959,3 +2959,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.83 Installer Creation Authorization Request`.
+
+## P8.83: Installer Creation Authorization Request
+
+Goal: request future sandboxed installer creation authority without recording authority or creating an installer.
+
+Status: completed on 2026-07-10. See [P8.83 Installer Creation Authorization Request](../reviews/p8.83-installer-creation-authorization-request.md).
+
+Decision:
+
+- installer creation authorization request recorded.
+- authorization is not recorded.
+- request is not actionable until package extraction inventory verification, launch smoke evidence if needed, and product candidate acceptance pass.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.83-installer-creation-authorization-request.json`
+- `generated/roadmap/p8.83-installer-creation-authorization-request-report.json`
+- [P8.83 Installer Creation Authorization Request](../reviews/p8.83-installer-creation-authorization-request.md)
+
+Next safe work:
+
+- continue to `P8.84 Installer Creation Scope Hold Record`.

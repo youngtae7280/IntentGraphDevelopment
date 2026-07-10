@@ -1,0 +1,72 @@
+{
+  "artifactRole": "intentgraph-installer-creation-authorization-request",
+  "status": "intentgraph-installer-creation-authorization-requested",
+  "scope": "p8.83-installer-creation-authorization-request-only",
+  "workItem": "P8.83 Installer Creation Authorization Request",
+  "date": "2026-07-10",
+  "decision": "installer-creation-authorization-requested-not-recorded-and-not-actionable-yet",
+  "sourceBoundaryPlan": {
+    "path": "generated/roadmap/p8.82-installer-creation-boundary-plan.json",
+    "artifactRole": "intentgraph-installer-creation-boundary-plan",
+    "status": "intentgraph-installer-creation-boundary-plan-recorded"
+  },
+  "request": {
+    "question": "After package extraction inventory verification, launch smoke if needed, and product candidate acceptance pass, authorize bounded sandboxed installer creation under generated/ only?",
+    "requiredAcceptedResponse": "accept sandboxed installer creation",
+    "allowedResponses": [
+      "accept sandboxed installer creation",
+      "reject installer creation",
+      "revise installer scope first"
+    ],
+    "standingAcceptShortcutApplies": false,
+    "standingAcceptShortcutReason": "The current-goal accept/revise/blocked shortcut handles ordinary review gates, but it does not authorize installer creation or other productization authority."
+  },
+  "preconditionGate": {
+    "packageExtractionInventoryVerificationRequired": true,
+    "packageExtractionInventoryVerificationCurrentlyPassed": false,
+    "launchSmokeRequiredIfProductAcceptanceDependsOnRunnablePackage": true,
+    "launchSmokeCurrentlyPassed": false,
+    "productCandidateAcceptanceRequired": true,
+    "productCandidateAccepted": false,
+    "installerCreationAuthorizationActionableNow": false,
+    "reasonNotActionable": "Real package extraction inventory verification, launch smoke evidence, and product candidate acceptance are absent."
+  },
+  "requestedAuthorityIfPreconditionsLaterPass": {
+    "mayCreateInstallerInSandbox": true,
+    "mayPackageVerifiedArtifactIntoInstaller": true,
+    "mayWriteInstallerUnderGenerated": true,
+    "mayRecordInstallerManifest": true,
+    "mayRecordInstallerHashAndInventory": true,
+    "mayInstallGlobally": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false,
+    "maySignArtifacts": false,
+    "mayReadCredentials": false,
+    "mayCallProviderApis": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayClaimProductizationReady": false
+  },
+  "authorizationState": {
+    "responseRecorded": false,
+    "accepted": false,
+    "rejected": false,
+    "reviseRequested": false,
+    "installerCreationAllowedNow": false,
+    "requiredNextArtifactIfUserResponds": "P8.84 Installer Creation Authorization Response Record"
+  },
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "productizationClaimed": false
+  },
+  "nextAllowedWithoutAcceptance": "P8.84 Installer Creation Scope Hold Record"
+}
