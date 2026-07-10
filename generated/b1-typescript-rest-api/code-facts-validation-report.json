@@ -12,7 +12,7 @@
   "factKindCounts": {
     "call": 4,
     "file": 5,
-    "function": 4,
+    "function": 5,
     "import": 7,
     "module": 5,
     "route": 2,
@@ -21,7 +21,7 @@
   },
   "relationKindCounts": {
     "calls": 4,
-    "contains": 12,
+    "contains": 13,
     "handles_route": 2,
     "imports": 7,
     "references": 7,
@@ -32,10 +32,10 @@
   "scope": "b1-typescript-rest-api-code-facts-validation",
   "status": "intentgraph-code-facts-validation-passed",
   "summary": {
-    "endpointFactCount": 19,
+    "endpointFactCount": 20,
     "errorCount": 0,
-    "factCount": 30,
-    "relationCount": 34,
+    "factCount": 31,
+    "relationCount": 35,
     "sourceFileCount": 5,
     "warningCount": 0
   },

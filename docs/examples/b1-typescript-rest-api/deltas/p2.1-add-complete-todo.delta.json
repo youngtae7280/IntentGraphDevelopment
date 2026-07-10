@@ -1,0 +1,51 @@
+{
+  "artifactRole": "intentgraph-code-fact-incremental-delta",
+  "status": "intentgraph-code-fact-incremental-delta-declared",
+  "scope": "b1-typescript-rest-api-incremental-change",
+  "benchmarkId": "B1-typescript-rest-api",
+  "changeId": "p2.1-add-complete-todo",
+  "sourceChangePolicy": {
+    "exactlyOneSourceFileChanged": true,
+    "changedSourceFiles": [
+      "src/service/todoService.ts"
+    ],
+    "unchangedSourceFiles": [
+      "src/model/todo.ts",
+      "src/routes/todos.ts",
+      "src/validation/input.ts",
+      "tests/todoService.test.ts"
+    ]
+  },
+  "expectedFactDelta": {
+    "addedFactIds": [
+      "fact.function.completetodo"
+    ],
+    "removedFactIds": [],
+    "changedFactIds": [
+      "fact.call.addtodo.createtodo",
+      "fact.call.addtodo.requiretitle",
+      "fact.file.src_service_todoservice_ts",
+      "fact.function.addtodo",
+      "fact.function.listtodos",
+      "fact.import.src_service_todoservice_ts.createtodo",
+      "fact.import.src_service_todoservice_ts.requiretitle",
+      "fact.import.src_service_todoservice_ts.todo",
+      "fact.module.src_service_todoservice"
+    ]
+  },
+  "expectedRelationDelta": {
+    "addedRelationIds": [
+      "rel.contains.src_service_todoservice_ts.fact_function_completetodo"
+    ],
+    "removedRelationIds": [],
+    "changedRelationIds": []
+  },
+  "claimScope": {
+    "b1FixtureBounded": true,
+    "incrementalBehaviorMeasured": true,
+    "broadExtractorClaimed": false,
+    "intentMappingClaimed": false,
+    "workbenchClaimed": false,
+    "aiAuthorityClaimed": false
+  }
+}

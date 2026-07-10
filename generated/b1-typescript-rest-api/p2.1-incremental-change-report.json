@@ -1,0 +1,54 @@
+{
+  "artifactRole": "intentgraph-code-fact-incremental-verification-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "changeId": "p2.1-add-complete-todo",
+  "claimScope": {
+    "aiAuthorityClaimed": false,
+    "b1FixtureBounded": true,
+    "broadExtractorClaimed": false,
+    "incrementalBehaviorMeasured": true,
+    "intentMappingClaimed": false,
+    "workbenchClaimed": false
+  },
+  "errors": [],
+  "factDelta": {
+    "added": [
+      "fact.function.completetodo"
+    ],
+    "changed": [
+      "fact.call.addtodo.createtodo",
+      "fact.call.addtodo.requiretitle",
+      "fact.file.src_service_todoservice_ts",
+      "fact.function.addtodo",
+      "fact.function.listtodos",
+      "fact.import.src_service_todoservice_ts.createtodo",
+      "fact.import.src_service_todoservice_ts.requiretitle",
+      "fact.import.src_service_todoservice_ts.todo",
+      "fact.module.src_service_todoservice"
+    ],
+    "removed": []
+  },
+  "relationDelta": {
+    "added": [
+      "rel.contains.src_service_todoservice_ts.fact_function_completetodo"
+    ],
+    "changed": [],
+    "removed": []
+  },
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-incremental-change-verification",
+  "status": "intentgraph-code-fact-incremental-verification-passed",
+  "summary": {
+    "addedFactCount": 1,
+    "addedRelationCount": 1,
+    "changedFactCount": 9,
+    "changedRelationCount": 0,
+    "changedSourceFiles": [
+      "src/service/todoService.ts"
+    ],
+    "errorCount": 0,
+    "removedFactCount": 0,
+    "removedRelationCount": 0
+  }
+}

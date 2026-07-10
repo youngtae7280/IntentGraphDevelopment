@@ -18,7 +18,7 @@
       "fromSymbol": "addTodo",
       "id": "fact.call.addtodo.createtodo",
       "kind": "call",
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceDigest": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
       "sourceFile": "src/service/todoService.ts",
       "sourceLocation": {
         "columnEnd": 20,
@@ -36,7 +36,7 @@
       "fromSymbol": "addTodo",
       "id": "fact.call.addtodo.requiretitle",
       "kind": "call",
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceDigest": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
       "sourceFile": "src/service/todoService.ts",
       "sourceLocation": {
         "columnEnd": 29,
@@ -116,8 +116,8 @@
       "id": "fact.file.src_service_todoservice_ts",
       "kind": "file",
       "language": "typescript",
-      "lineCount": 18,
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "lineCount": 11,
+      "sourceDigest": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
       "sourceFile": "src/service/todoService.ts",
       "sourceLocationStatus": "file-level"
     },
@@ -155,7 +155,7 @@
       "id": "fact.function.addtodo",
       "kind": "function",
       "module": "fact.module.src_service_todoservice",
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceDigest": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
       "sourceFile": "src/service/todoService.ts",
       "sourceLocation": {
         "columnEnd": 24,
@@ -164,24 +164,6 @@
         "lineStart": 4
       },
       "symbol": "addTodo"
-    },
-    {
-      "benchmarkId": "B1-typescript-rest-api",
-      "confidence": "extracted",
-      "extractor": "tools/extract_b1_code_facts.py",
-      "extractorVersion": "0.1.0",
-      "id": "fact.function.completetodo",
-      "kind": "function",
-      "module": "fact.module.src_service_todoservice",
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
-      "sourceFile": "src/service/todoService.ts",
-      "sourceLocation": {
-        "columnEnd": 29,
-        "columnStart": 0,
-        "lineEnd": 13,
-        "lineStart": 13
-      },
-      "symbol": "completeTodo"
     },
     {
       "benchmarkId": "B1-typescript-rest-api",
@@ -209,7 +191,7 @@
       "id": "fact.function.listtodos",
       "kind": "function",
       "module": "fact.module.src_service_todoservice",
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceDigest": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
       "sourceFile": "src/service/todoService.ts",
       "sourceLocation": {
         "columnEnd": 26,
@@ -287,7 +269,7 @@
       "importedPath": "src/model/todo.ts",
       "kind": "import",
       "module": "fact.module.src_service_todoservice",
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceDigest": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
       "sourceFile": "src/service/todoService.ts",
       "sourceLocation": {
         "columnEnd": 54,
@@ -307,7 +289,7 @@
       "importedPath": "src/validation/input.ts",
       "kind": "import",
       "module": "fact.module.src_service_todoservice",
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceDigest": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
       "sourceFile": "src/service/todoService.ts",
       "sourceLocation": {
         "columnEnd": 51,
@@ -327,7 +309,7 @@
       "importedPath": "src/model/todo.ts",
       "kind": "import",
       "module": "fact.module.src_service_todoservice",
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceDigest": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
       "sourceFile": "src/service/todoService.ts",
       "sourceLocation": {
         "columnEnd": 54,
@@ -409,7 +391,7 @@
       "id": "fact.module.src_service_todoservice",
       "kind": "module",
       "path": "src/service/todoService.ts",
-      "sourceDigest": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+      "sourceDigest": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
       "sourceFile": "src/service/todoService.ts",
       "sourceLocationStatus": "file-level"
     },
@@ -593,12 +575,6 @@
     },
     {
       "from": "fact.module.src_service_todoservice",
-      "id": "rel.contains.src_service_todoservice_ts.fact_function_completetodo",
-      "kind": "contains",
-      "to": "fact.function.completetodo"
-    },
-    {
-      "from": "fact.module.src_service_todoservice",
       "id": "rel.contains.src_service_todoservice_ts.fact_function_listtodos",
       "kind": "contains",
       "to": "fact.function.listtodos"
@@ -746,7 +722,7 @@
   "sourceDigests": {
     "src/model/todo.ts": "sha256:6a20738acfe79c9a6fb7a0b2bbd27f0d765eb8341a31e5968e3a75b1742144c2",
     "src/routes/todos.ts": "sha256:68ba339d821c98e2fad5ba1cc670ff5d1736aab05549cd99ea8cdefe763e1cd8",
-    "src/service/todoService.ts": "sha256:1c427dd6a4a85e7c380babb538ba7b05a97023edf2d8f4e5f4ac829250f537ea",
+    "src/service/todoService.ts": "sha256:b4f0e86d2924d8d41e4d373e11b2421876e057b92852c3a3327f538e820be319",
     "src/validation/input.ts": "sha256:bff04106a99b45b95e8cb517678446d6068190d00f08491aa30baccaf21984a4",
     "tests/todoService.test.ts": "sha256:eeda89856db429e190bca7f0560c1cc0ce127593f2d468217b46044b173ec5b7"
   },

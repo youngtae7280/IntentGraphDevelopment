@@ -9,10 +9,3 @@ export function addTodo(input: { title?: string }): Todo {
 export function listTodos(): Todo[] {
   return [];
 }
-
-export function completeTodo(todo: Todo): Todo {
-  return {
-    ...todo,
-    completed: true,
-  };
-}

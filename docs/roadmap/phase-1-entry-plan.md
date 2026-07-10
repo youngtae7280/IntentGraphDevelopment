@@ -336,3 +336,27 @@ P2.1 B1 Incremental Code Fact Change Probe
 ```
 
 P2.1 should mutate exactly one B1 source file, compare before/after code facts, and verify expected fact changes without broad extraction, Intent mapping, UI/workbench, AI planning, or productization.
+
+## Completed Slice: P2.1 B1 Incremental Code Fact Change Probe
+
+Goal: prove that a one-file B1 source change creates a deterministic expected code fact and relation delta.
+
+Produced artifacts:
+
+- `generated/b1-typescript-rest-api/p2.1-before-code-facts.json`
+- `generated/b1-typescript-rest-api/p2.1-before-source/src/service/todoService.ts`
+- `generated/b1-typescript-rest-api/p2.1-after-code-facts.json`
+- `docs/examples/b1-typescript-rest-api/deltas/p2.1-add-complete-todo.delta.json`
+- `tools/verify_b1_incremental_change.py`
+- `tools/run_b1_incremental_negative_probes.py`
+- `generated/b1-typescript-rest-api/p2.1-incremental-change-report.json`
+- `generated/b1-typescript-rest-api/p2.1-incremental-negative-probes-report.json`
+- [P2.1 B1 Incremental Code Fact Change Review](../reviews/p2.1-b1-incremental-code-fact-change-review.md)
+
+Recommended next slice:
+
+```text
+P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan
+```
+
+P2.2 should review whether P2.0 and P2.1 are sufficient to begin Phase C Intent Mapping. It should define the first B1 mapping slice and pass/fail criteria before mapping implementation begins.

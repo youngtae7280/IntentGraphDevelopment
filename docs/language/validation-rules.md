@@ -55,6 +55,45 @@ Validation command:
 python tools/run_b1_code_fact_negative_probes.py --out generated/b1-typescript-rest-api/p2.0-code-fact-negative-probes-report.json
 ```
 
+## V502: B1 Incremental Code Fact Change Verification
+
+Status: added in P2.1.
+
+B1 incremental code fact changes must declare:
+
+- exact changed source files
+- exact unchanged source files
+- expected added/removed/changed fact ids
+- expected added/removed/changed relation ids
+- claim-scope flags proving no broad extractor, Intent mapping, workbench, or AI authority claim
+
+The verifier must compare before/after code facts and fail if:
+
+- the changed source file set differs
+- more than one source file changes when exactly one is declared
+- unchanged source file digests or file-local facts change
+- added/removed/changed facts differ from the declaration
+- added/removed/changed relations differ from the declaration
+- forbidden claim-scope flags are true
+
+Validation command:
+
+```bash
+python tools/verify_b1_incremental_change.py --delta docs/examples/b1-typescript-rest-api/deltas/p2.1-add-complete-todo.delta.json --before-code-facts generated/b1-typescript-rest-api/p2.1-before-code-facts.json --after-code-facts generated/b1-typescript-rest-api/p2.1-after-code-facts.json --out generated/b1-typescript-rest-api/p2.1-incremental-change-report.json
+```
+
+## V503: B1 Incremental Negative Probes
+
+Status: added in P2.1.
+
+B1 must maintain repeatable negative probes for wrong changed-source declaration, missing added fact, missing changed fact, unexpected removed fact, missing added relation, Intent mapping claim, and workbench claim.
+
+Validation command:
+
+```bash
+python tools/run_b1_incremental_negative_probes.py --out generated/b1-typescript-rest-api/p2.1-incremental-negative-probes-report.json
+```
+
 ## Rule Severity
 
 | Severity | Meaning |

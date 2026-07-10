@@ -1,0 +1,85 @@
+{
+  "artifactRole": "intentgraph-code-fact-incremental-negative-probes-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "changeId": "p2.1-add-complete-todo",
+  "claimScope": {
+    "aiAuthorityClaimed": false,
+    "b1FixtureBounded": true,
+    "broadExtractorClaimed": false,
+    "intentMappingClaimed": false,
+    "workbenchClaimed": false
+  },
+  "positiveBaseline": {
+    "result": "pass",
+    "returnCode": 0
+  },
+  "probeCount": 7,
+  "probes": [
+    {
+      "errors": [
+        "changed source files mismatch: actual=['src/service/todoService.ts'] expected=['src/model/todo.ts']"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "changed source files mismatch",
+      "id": "wrong-changed-file",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "added facts mismatch: actual=['fact.function.completetodo'] expected=[]"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "added facts mismatch",
+      "id": "missing-added-fact",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "changed facts mismatch: actual=['fact.call.addtodo.createtodo', 'fact.call.addtodo.requiretitle', 'fact.file.src_service_todoservice_ts', 'fact.function.addtodo', 'fact.function.listtodos', 'fact.import.src_service_todoservice_ts.createtodo', 'fact.import.src_service_todoservice_ts.requiretitle', 'fact.import.src_service_todoservice_ts.todo', 'fact.module.src_service_todoservice'] expected=['fact.call.addtodo.requiretitle', 'fact.file.src_service_todoservice_ts', 'fact.function.addtodo', 'fact.function.listtodos', 'fact.import.src_service_todoservice_ts.createtodo', 'fact.import.src_service_todoservice_ts.requiretitle', 'fact.import.src_service_todoservice_ts.todo', 'fact.module.src_service_todoservice']"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "changed facts mismatch",
+      "id": "missing-changed-fact",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "removed facts mismatch: actual=[] expected=['fact.function.addtodo']"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "removed facts mismatch",
+      "id": "unexpected-removed-fact",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "added relations mismatch: actual=['rel.contains.src_service_todoservice_ts.fact_function_completetodo'] expected=[]"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "added relations mismatch",
+      "id": "missing-added-relation",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "claimScope.intentMappingClaimed must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.intentMappingClaimed must be false",
+      "id": "intent-mapping-claim",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "claimScope.workbenchClaimed must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.workbenchClaimed must be false",
+      "id": "workbench-claim",
+      "returnCode": 1
+    }
+  ],
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-incremental-negative-probes",
+  "status": "intentgraph-code-fact-incremental-negative-probes-passed"
+}

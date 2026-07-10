@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P2.0 B1 TypeScript REST Code Fact Schema and Static Fixture
+P2.1 B1 Incremental Code Fact Change Probe
 ```
 
-This is the first bounded Phase B implementation slice. It creates a tiny B1 TypeScript REST fixture, B1 code fact schema, deterministic extraction report, validator, and negative probes. It does not authorize a broad extractor/UI/productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This is the second bounded Phase B implementation slice. It proves a one-file B1 source change produces a deterministic expected code fact/relation delta and repeatable negative probe failures. It does not authorize Intent mapping, broad extraction, UI, AI planning, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -493,4 +493,28 @@ Non-goals:
 - no Intent Unit mapping
 - no AI proposal generation
 - no UI/workbench product
+- no real-project adoption
+
+## P2.1: B1 Incremental Code Fact Change Probe
+
+Goal: prove that a bounded one-file B1 source change produces expected added/changed facts and relations while unchanged files remain stable.
+
+Status: completed on 2026-07-10. See [P2.1 B1 Incremental Code Fact Change Review](../reviews/p2.1-b1-incremental-code-fact-change-review.md).
+
+Decision:
+
+- before-state B1 facts and source captured
+- one source file changed: `src/service/todoService.ts`
+- `completeTodo` fact added
+- expected relation delta verified
+- negative probes pass
+- continue to `P2.2 B1 Code Fact Boundary Review and Phase C Entry Plan`
+
+Non-goals:
+
+- no Intent Unit mapping
+- no broad extractor
+- no performance benchmark
+- no UI/workbench product
+- no AI proposal generation
 - no real-project adoption
