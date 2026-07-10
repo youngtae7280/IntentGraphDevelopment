@@ -926,3 +926,28 @@ P8.10 Shell Workspace Accepted Mapping Negative Probes
 ```
 
 P8.10 should prove that stale accepted mapping refs, missing human acceptance, and unsafe authority promotion fail deterministically.
+
+## Completed Slice: P8.10 Shell Workspace Accepted Mapping Negative Probes
+
+Goal: add repeatable negative probes for the accepted shell-workspace mapping.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_accepted_mapping_negative_probes.py`
+- `generated/windowsutility/p8.10-shell-workspace-accepted-mapping-negative-probes-report.json`
+- [P8.10 Shell Workspace Accepted Mapping Negative Probes Review](../reviews/p8.10-shell-workspace-accepted-mapping-negative-probes-review.md)
+- `generated/roadmap/p8.10-shell-workspace-accepted-mapping-negative-probes-report.json`
+
+Decision:
+
+```text
+accepted-mapping-negative-probes-pass
+```
+
+Next safe work:
+
+```text
+P8.11 Shell Workspace Non-Applied Proposal Boundary Plan
+```
+
+P8.11 may define proposal boundaries for the accepted mapping, but it must not edit WindowsUtility source.

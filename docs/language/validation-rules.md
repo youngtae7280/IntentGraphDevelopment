@@ -333,6 +333,12 @@ Status: added in P8.9.
 
 An accepted real-project mapping may set mapping acceptance true only after explicit human acceptance is recorded. The accepted mapping verifier must re-check selected source refs and target baseline state. Accepted mapping creation must not grant target writes, proposal application, AI authority, or productization.
 
+## V1014: Accepted Mapping Negative Probes Are Required Before Proposals
+
+Status: added in P8.10.
+
+Before an accepted real-project mapping can be used as the basis for non-applied proposal work, a repeatable negative-probe harness must prove deterministic failure for stale source digest, missing source ref, missing or rejected human acceptance, accidental unacceptance, target write authority, and productization authority. The harness must keep proposal application and AI authority false.
+
 ## Rule Severity
 
 | Severity | Meaning |

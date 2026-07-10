@@ -1,0 +1,20 @@
+{
+  "artifactRole": "intentgraph-shell-workspace-accepted-mapping-negative-probes-summary",
+  "status": "intentgraph-shell-workspace-accepted-mapping-negative-probes-passed",
+  "scope": "p8.10-shell-workspace-accepted-mapping-negative-probes-summary",
+  "workItem": "P8.10 Shell Workspace Accepted Mapping Negative Probes",
+  "date": "2026-07-10",
+  "decision": "accepted-mapping-negative-probes-pass",
+  "sourceReport": "generated/windowsutility/p8.10-shell-workspace-accepted-mapping-negative-probes-report.json",
+  "probeCount": 7,
+  "positiveBaselinePassed": true,
+  "allExpectedFailuresObserved": true,
+  "authorizations": {
+    "acceptedMappingCreated": true,
+    "targetWritesAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.11 Shell Workspace Non-Applied Proposal Boundary Plan"
+}

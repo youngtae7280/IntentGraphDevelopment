@@ -1070,3 +1070,24 @@ Non-goals:
 - no AI authority promotion
 - no productization implementation
 - no product readiness claim
+
+## P8.10: Shell Workspace Accepted Mapping Negative Probes
+
+Goal: prove unsafe accepted mapping states fail deterministically before non-applied proposal work.
+
+Status: completed on 2026-07-10. See [P8.10 Shell Workspace Accepted Mapping Negative Probes Review](../reviews/p8.10-shell-workspace-accepted-mapping-negative-probes-review.md).
+
+Decision:
+
+- positive accepted mapping baseline passes.
+- stale digest, missing ref, missing/rejected acceptance, unaccepted mapping, target write, and productization probes fail deterministically.
+- proposal application remains blocked.
+
+Non-goals:
+
+- no proposal application
+- no source edits
+- no target write authority
+- no AI authority promotion
+- no productization implementation
+- no product readiness claim
