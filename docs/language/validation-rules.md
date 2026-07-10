@@ -210,6 +210,19 @@ Phase E consistency verification must not open until Phase D proposal evidence h
 
 The first Phase E slice must be deterministic and non-applied. It may verify consistency of proposal artifacts, code facts, overlay mappings, evidence requirements, and authority requirements, but it must not mutate source, apply patches, accept proposals, or use AI judgment as verifier.
 
+## V800: B1 Proposal Consistency Verification
+
+Status: added in P5.0.
+
+B1 proposal consistency reports must consume the non-applied proposal, the proposal validation report, B1 code facts, and B1 overlay. They must pass only when the proposal validation report passes, proposal ids match, baselines match current code facts, impacted existing Intent Units are resolved, planned changes stay non-applied and inside scope, mapping updates are declared, required tests/evidence/authority exist, and forbidden authority/application claims remain false.
+
+Validation commands:
+
+```bash
+python tools/verify_b1_proposal_consistency.py --proposal docs/examples/b1-typescript-rest-api/proposals/p4.0-complete-todo-route.proposal.json --proposal-validation generated/b1-typescript-rest-api/p4.0-change-proposal-validation-report.json --code-facts generated/b1-typescript-rest-api/code-facts.json --overlay docs/examples/b1-typescript-rest-api/intentgraph.overlay.json --out generated/b1-typescript-rest-api/p5.0-proposal-consistency-report.json
+python tools/run_b1_proposal_consistency_negative_probes.py --out generated/b1-typescript-rest-api/p5.0-proposal-consistency-negative-probes-report.json
+```
+
 ## Rule Severity
 
 | Severity | Meaning |

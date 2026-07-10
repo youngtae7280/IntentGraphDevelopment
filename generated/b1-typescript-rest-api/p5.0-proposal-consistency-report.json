@@ -1,0 +1,32 @@
+{
+  "artifactRole": "intentgraph-b1-proposal-consistency-report",
+  "baseline": {
+    "codeFactsDigestMatched": true,
+    "proposalValidationPassed": true,
+    "sourceDigestsMatched": true
+  },
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "aiJudgmentUsed": false,
+    "deterministicVerifier": true,
+    "fullSemanticEquivalenceClaimed": false,
+    "patchApplied": false,
+    "proposalOnly": true,
+    "sourceMutated": false
+  },
+  "errors": [],
+  "proposalId": "proposal.p4.0-complete-todo-route",
+  "reportVersion": "0.1.0",
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-proposal-consistency-verification",
+  "status": "intentgraph-b1-proposal-consistency-passed",
+  "summary": {
+    "errorCount": 0,
+    "mappingUpdateCount": 1,
+    "plannedSourceChangeCount": 3,
+    "proposedIntentUnitCount": 1,
+    "requiredAuthorityCount": 1,
+    "requiredEvidenceCount": 2,
+    "requiredTestCount": 1
+  }
+}

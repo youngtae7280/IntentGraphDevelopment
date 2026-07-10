@@ -7,10 +7,10 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P4.1 completed.
+P5.0 completed.
 Selected next benchmark: B1-typescript-rest-api.
-Next recommended slice: P5.0 B1 Proposal Consistency Verifier.
-Phase E is open only for deterministic, non-applied B1 consistency verification. Source mutation, patch application, broad extraction, UI/workbench product, AI coding runtime, and productization remain unauthorized.
+Next recommended slice: P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan.
+Phase E has a deterministic, non-applied B1 proposal consistency proof. Source mutation, patch application, broad extraction, UI/workbench product, AI coding runtime, and productization remain unauthorized.
 ```
 
 ## Core Definition
@@ -82,21 +82,21 @@ P2.0 completed the first bounded Phase B implementation slice:
 B1 TypeScript REST Code Fact Schema and Static Fixture
 ```
 
-P4.1 completed:
+P5.0 completed:
 
 ```text
-Phase D Change Proposal Boundary Review and Phase E Entry Plan
+B1 Proposal Consistency Verifier
 ```
 
-P4.1 reviewed the B1 non-applied proposal evidence and opened Phase E only for deterministic consistency verification.
+P5.0 verified consistency between the B1 proposal, proposal validation report, code facts, overlay, tests, evidence, authority, and non-applied claim scope.
 
 The next step is:
 
 ```text
-P5.0 B1 Proposal Consistency Verifier
+P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan
 ```
 
-P5.0 should validate consistency between the B1 proposal, code facts, overlay, tests, evidence, authority, and non-applied claim scope.
+P5.1 should decide whether the B1 reports are meaningful enough to open a bounded workbench projection slice.
 
 ## Phase Overview
 
@@ -106,8 +106,8 @@ P5.0 should validate consistency between the B1 proposal, code facts, overlay, t
 | B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | P2.0 static facts, P2.1 incremental facts, and P2.2 boundary review completed for B1. |
 | C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static mapping, P3.1 stale failure, P3.2 ambiguity candidate, and P3.3 boundary review completed. |
 | D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | P4.0 proposal validation and P4.1 boundary review completed for B1. |
-| E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | Open only for P5.0 deterministic B1 proposal consistency verification. |
-| F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | Requirements only; product UI not opened. |
+| E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | P5.0 B1 proposal consistency verification completed. Boundary review needed before F. |
+| F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | Requirements only; P5.1 should plan entry criteria. |
 | G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Not opened. |
 | H | Productization | Package CLI/local app/editor/GitHub/team workflow surfaces. | Not opened. |
 
@@ -558,7 +558,7 @@ Every phase review must answer:
 - What user-facing value has been demonstrated?
 - Should the next phase open, pause, or improve the current phase?
 
-## P4.1 Result And P5.0 Required Scope
+## P5.0 Result And P5.1 Required Scope
 
 P1.19 completed the plan-only generalization gate.
 
@@ -585,29 +585,27 @@ P2.0 result:
 B1 static fixture, schema, extractor, validator, and negative probes pass.
 ```
 
-P4.1 result:
+P5.0 result:
 
 ```text
-Phase D proposal boundary review passes and opens Phase E only for deterministic consistency verification.
+B1 proposal consistency verifier passes.
 ```
 
 Recommended next slice:
 
 ```text
-P5.0 B1 Proposal Consistency Verifier
+P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan
 ```
 
-P5.0 must:
+P5.1 must:
 
-- define a B1 consistency verifier report
-- consume the P4.0 proposal validation report
-- consume B1 code facts and B1 overlay mappings
-- verify proposal baseline consistency
-- verify impact scope, planned mappings, required tests, evidence, and authority
-- verify non-applied claim scope
-- add negative probes for missing inputs, stale baseline, missing mapping, missing tests/evidence/authority, and source mutation claims
+- review P5.0 consistency verifier and negative probes
+- decide whether Phase F can open
+- define first bounded workbench projection slice
+- define projection inputs, visible states, selection behavior, and screenshot validation
+- keep source mutation, patch application, AI generation, and productization out of scope unless explicitly opened later
 
-P5.0 must not:
+P5.1 must not:
 
 - expand beyond the tiny B1 static fixture and code fact boundary
 - add another CF0 semantic probe
@@ -615,9 +613,7 @@ P5.0 must not:
 - apply patches
 - grant AI authority
 - resolve ambiguity automatically
-- use AI judgment as verifier
-- claim full semantic equivalence
+- build UI before projection criteria are written
 - build a broad extractor
-- build a UI/workbench product
 - add dependencies without decision record
 - claim general scalability

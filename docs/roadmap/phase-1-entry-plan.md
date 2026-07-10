@@ -515,3 +515,23 @@ P5.0 B1 Proposal Consistency Verifier
 ```
 
 P5.0 may define a deterministic consistency verifier over the P4.0 proposal, B1 code facts, B1 overlay, proposal validation report, tests, evidence, authority, and non-applied claim scope. It must not mutate source, apply patches, accept the proposal, use AI judgment as verifier, build UI/workbench, or productize the workflow.
+
+## Completed Slice: P5.0 B1 Proposal Consistency Verifier
+
+Goal: verify consistency between the P4.0 non-applied proposal, proposal validation report, B1 code facts, and B1 overlay mappings.
+
+Produced artifacts:
+
+- `tools/verify_b1_proposal_consistency.py`
+- `tools/run_b1_proposal_consistency_negative_probes.py`
+- `generated/b1-typescript-rest-api/p5.0-proposal-consistency-report.json`
+- `generated/b1-typescript-rest-api/p5.0-proposal-consistency-negative-probes-report.json`
+- [P5.0 B1 Proposal Consistency Verifier Review](../reviews/p5.0-b1-proposal-consistency-verifier-review.md)
+
+Recommended next slice:
+
+```text
+P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan
+```
+
+P5.1 should review whether B1 proposal consistency reports are meaningful enough for a bounded workbench projection. It must define projection inputs, visible states, selection behavior, and screenshot validation before any UI implementation.

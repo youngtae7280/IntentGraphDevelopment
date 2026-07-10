@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P4.1 Phase D Change Proposal Boundary Review and Phase E Entry Plan
+P5.0 B1 Proposal Consistency Verifier
 ```
 
-This boundary slice reviewed the B1 Phase D proposal evidence and opened Phase E only for deterministic, non-applied consistency verification. It does not authorize source mutation, patch application, AI proposal authority, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase E slice added deterministic B1 proposal consistency verification and negative probes. It does not authorize source mutation, patch application, AI proposal authority, UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -667,6 +667,29 @@ Decision:
 - Phase D is sufficient to open the first bounded Phase E slice.
 - Continue to `P5.0 B1 Proposal Consistency Verifier`.
 - Phase E starts deterministic and non-applied.
+
+Non-goals:
+
+- no source mutation
+- no patch application
+- no proposal acceptance
+- no AI judgment as verifier
+- no full semantic equivalence claim
+- no UI/workbench product
+- no productization
+
+## P5.0: B1 Proposal Consistency Verifier
+
+Goal: verify consistency between the P4.0 non-applied proposal, proposal validation report, B1 code facts, and B1 overlay mappings.
+
+Status: completed on 2026-07-10. See [P5.0 B1 Proposal Consistency Verifier Review](../reviews/p5.0-b1-proposal-consistency-verifier-review.md).
+
+Decision:
+
+- B1 proposal consistency verifier exists.
+- positive consistency report passes.
+- negative probes pass.
+- continue to `P5.1 Phase E Consistency Verifier Boundary Review and Phase F Entry Plan`.
 
 Non-goals:
 

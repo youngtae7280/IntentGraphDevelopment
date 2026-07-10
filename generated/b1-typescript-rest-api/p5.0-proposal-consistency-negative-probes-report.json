@@ -1,0 +1,120 @@
+{
+  "artifactRole": "intentgraph-b1-proposal-consistency-negative-probes-report",
+  "benchmarkId": "B1-typescript-rest-api",
+  "claimScope": {
+    "aiJudgmentUsed": false,
+    "deterministicVerifier": true,
+    "patchApplied": false,
+    "proposalOnly": true,
+    "sourceMutated": false
+  },
+  "positiveBaseline": {
+    "result": "pass",
+    "returnCode": 0
+  },
+  "probeCount": 11,
+  "probes": [
+    {
+      "errors": [
+        "proposal validation report must pass"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "proposal validation report must pass",
+      "id": "validation-failed",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "proposal validation report proposalId must match proposal"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "proposal validation report proposalId must match proposal",
+      "id": "validation-proposal-mismatch",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "proposal baseline codeFactsDigest is stale"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "proposal baseline codeFactsDigest is stale",
+      "id": "stale-code-digest",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "impact scope references missing Intent Unit unit.behavior.missing"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "impact scope references missing Intent Unit",
+      "id": "missing-existing-unit",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "proposal must declare mapping updates"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "proposal must declare mapping updates",
+      "id": "missing-mapping-update",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "proposal consistency requires tests"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "proposal consistency requires tests",
+      "id": "missing-test",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "proposal consistency requires evidence"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "proposal consistency requires evidence",
+      "id": "missing-evidence",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "proposal consistency requires authority"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "proposal consistency requires authority",
+      "id": "missing-authority",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "claimScope.sourceMutated must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.sourceMutated must be false",
+      "id": "source-mutated",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "claimScope.patchApplied must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.patchApplied must be false",
+      "id": "patch-applied",
+      "returnCode": 1
+    },
+    {
+      "errors": [
+        "claimScope.aiAuthorityGranted must be false"
+      ],
+      "expectedFailureObserved": true,
+      "expectedFailureSubstring": "claimScope.aiAuthorityGranted must be false",
+      "id": "ai-authority",
+      "returnCode": 1
+    }
+  ],
+  "result": "pass",
+  "scope": "b1-typescript-rest-api-proposal-consistency-negative-probes",
+  "status": "intentgraph-b1-proposal-consistency-negative-probes-passed"
+}
