@@ -1,0 +1,104 @@
+{
+  "artifactRole": "intentgraph-packaged-artifact-verification-future-execution-plan",
+  "status": "intentgraph-packaged-artifact-verification-future-execution-plan-recorded",
+  "scope": "p8.75-packaged-artifact-verification-future-execution-plan-report-only",
+  "workItem": "P8.75 Packaged Artifact Verification Future Execution Plan",
+  "date": "2026-07-10",
+  "decision": "future-execution-plan-recorded-no-execution",
+  "preconditions": [
+    {
+      "id": "precondition.explicit-authorization",
+      "required": true,
+      "expectedArtifact": "P8.74 Package Extraction Verification Authorization Response Record",
+      "acceptedResponse": "accept sandboxed package extraction inventory verification",
+      "verifierToken": "accept-sandboxed-package-extraction-inventory-verification",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.clean-target-repo",
+      "required": true,
+      "expectedState": "WindowsUtility HEAD == origin/main and worktree clean",
+      "currentlySatisfied": true
+    },
+    {
+      "id": "precondition.metadata-replay-pass",
+      "required": true,
+      "expectedArtifact": "generated/windowsutility/package-artifact/p8.66/metadata-replay-report.json",
+      "currentlySatisfied": true
+    },
+    {
+      "id": "precondition.negative-probes-pass",
+      "required": true,
+      "expectedArtifact": "generated/windowsutility/package-artifact/p8.70/negative-probes-report.json",
+      "currentlySatisfied": true
+    }
+  ],
+  "futureExecutionSteps": [
+    {
+      "order": 1,
+      "id": "step.copy-package-to-temp-sandbox",
+      "description": "Copy the existing WindowsUtility package artifact to a temporary sandbox directory.",
+      "executionMode": "future-only-after-explicit-authorization",
+      "mutatesWindowsUtility": false
+    },
+    {
+      "order": 2,
+      "id": "step.verify-package-digest-before-extraction",
+      "description": "Recompute package sha256 and byte length before extraction and compare to P8.55/P8.66 facts.",
+      "executionMode": "future-only-after-explicit-authorization",
+      "mutatesWindowsUtility": false
+    },
+    {
+      "order": 3,
+      "id": "step.extract-sandbox-package-copy",
+      "description": "Extract only the sandbox package copy into an empty sandbox extraction root.",
+      "executionMode": "future-only-after-explicit-authorization",
+      "mutatesWindowsUtility": false
+    },
+    {
+      "order": 4,
+      "id": "step.hash-extracted-files",
+      "description": "List and hash extracted files.",
+      "executionMode": "future-only-after-explicit-authorization",
+      "mutatesWindowsUtility": false
+    },
+    {
+      "order": 5,
+      "id": "step.compare-inventory",
+      "description": "Compare extracted inventory with zip inventory, manifest, and metadata replay facts.",
+      "executionMode": "future-only-after-explicit-authorization",
+      "mutatesWindowsUtility": false
+    },
+    {
+      "order": 6,
+      "id": "step.write-report",
+      "description": "Write generated/windowsutility/package-artifact/p8.75/extraction-inventory-report.json.",
+      "executionMode": "future-only-after-explicit-authorization",
+      "mutatesWindowsUtility": false
+    }
+  ],
+  "futureCommandTemplate": {
+    "command": "python tools/verify_windowsutility_package_extraction_inventory.py --authorization-token accept-sandboxed-package-extraction-inventory-verification --out generated/windowsutility/package-artifact/p8.75/extraction-inventory-report.json",
+    "mayRunNow": false,
+    "reasonMayNotRunNow": "Explicit accepted response has not been recorded."
+  },
+  "blockers": [
+    "explicit accepted response is absent",
+    "real package extraction has not been authorized",
+    "packaged executable launch is not authorized",
+    "release/productization authority is absent"
+  ],
+  "nonGoals": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerApiCalls": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.76 Packaged Executable Launch Smoke Boundary Plan"
+}

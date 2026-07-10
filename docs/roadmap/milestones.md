@@ -2781,3 +2781,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.75 Packaged Artifact Verification Future Execution Plan`.
+
+## P8.75: Packaged Artifact Verification Future Execution Plan
+
+Goal: record the future package extraction inventory verification sequence without executing it.
+
+Status: completed on 2026-07-10. See [P8.75 Packaged Artifact Verification Future Execution Plan](../reviews/p8.75-packaged-artifact-verification-future-execution-plan.md).
+
+Decision:
+
+- future execution plan recorded.
+- explicit accepted response is still absent.
+- planned command may not run now.
+- no existing WindowsUtility package extraction, packaged executable launch, packaged UI launch, installer creation, signing, credential access, provider API call, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.75-packaged-artifact-verification-future-execution-plan.json`
+- `generated/roadmap/p8.75-packaged-artifact-verification-future-execution-plan-report.json`
+- [P8.75 Packaged Artifact Verification Future Execution Plan](../reviews/p8.75-packaged-artifact-verification-future-execution-plan.md)
+
+Next safe work:
+
+- continue to `P8.76 Packaged Executable Launch Smoke Boundary Plan`.
