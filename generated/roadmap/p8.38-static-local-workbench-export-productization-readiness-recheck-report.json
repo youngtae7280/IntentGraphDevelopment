@@ -1,0 +1,137 @@
+{
+  "artifactRole": "intentgraph-productization-readiness-recheck-report",
+  "status": "intentgraph-productization-readiness-still-blocked",
+  "scope": "p8.38-static-local-workbench-export-productization-readiness-recheck-report-only",
+  "workItem": "P8.38 Static Local Workbench Export Productization Readiness Recheck",
+  "date": "2026-07-10",
+  "decision": "productization-still-blocked-source-application-packaging-release-gates-required",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.28-windowsutility-productization-readiness-recheck-report.json",
+      "artifactRole": "intentgraph-productization-readiness-recheck-report",
+      "status": "intentgraph-productization-readiness-still-blocked"
+    },
+    {
+      "path": "generated/roadmap/p8.29-first-product-surface-decision-boundary-plan-report.json",
+      "artifactRole": "intentgraph-first-product-surface-decision-boundary-plan-report",
+      "decision": "static-local-workbench-export-selected"
+    },
+    {
+      "path": "generated/roadmap/p8.35-static-local-workbench-export-reviewer-orientation-revision-report.json",
+      "artifactRole": "intentgraph-roadmap-slice-report",
+      "status": "intentgraph-roadmap-slice-completed"
+    },
+    {
+      "path": "generated/roadmap/p8.37-static-local-workbench-export-orientation-review-result.json",
+      "artifactRole": "intentgraph-static-local-workbench-export-orientation-review-result",
+      "status": "intentgraph-static-local-workbench-export-orientation-review-result-recorded"
+    }
+  ],
+  "readinessChecklist": {
+    "targetRepositoryStateAcceptable": true,
+    "realProjectInventoryPresent": true,
+    "acceptedRealProjectMappingPresent": true,
+    "acceptedMappingNegativeProbesPresent": true,
+    "nonAppliedProposalValidationPresent": true,
+    "sandboxedEvidencePresent": true,
+    "realEvidenceAuthorityWorkflowPassedForNonAppliedLoop": true,
+    "realProposalApplicationLoopPassed": false,
+    "realProjectWorkbenchPresent": true,
+    "staticLocalProductSurfaceSelected": true,
+    "staticLocalProductSurfaceImplemented": true,
+    "staticLocalProductSurfaceUserReviewed": true,
+    "staticLocalProductSurfaceAcceptedForNextIteration": true,
+    "packagingReleaseBoundaryPresent": false,
+    "installUpdateRollbackBoundaryPresent": false,
+    "editorIntegrationBoundaryPresent": false,
+    "githubWorkflowBoundaryPresent": false,
+    "teamWorkflowBoundaryPresent": false,
+    "aiAuthorityPromoted": false,
+    "sourceMutationAuthorized": false,
+    "productizationAuthorized": false,
+    "productizationReady": false
+  },
+  "p8_28BlockerDisposition": [
+    {
+      "id": "blocker.product-surface-decision",
+      "previousStatus": "blocked",
+      "currentStatus": "resolved-for-static-local-workbench",
+      "evidence": "P8.29 selected static local workbench export, P8.35 emitted the revised export, and P8.37 recorded user proceed."
+    },
+    {
+      "id": "blocker.real-proposal-application-loop",
+      "previousStatus": "blocked",
+      "currentStatus": "blocked",
+      "evidence": "The current WindowsUtility loop remains non-applied only; no source change has been applied through evidence, authority, and review."
+    },
+    {
+      "id": "blocker.packaging-release-boundary",
+      "previousStatus": "blocked",
+      "currentStatus": "blocked",
+      "evidence": "No install, package, release, update, or rollback boundary exists."
+    },
+    {
+      "id": "blocker.workflow-benchmark-detail",
+      "previousStatus": "partial",
+      "currentStatus": "improved-static-surface-reviewed",
+      "evidence": "P8.34 captured a concrete confusion report and P8.37 accepted the revised p8.35 orientation."
+    },
+    {
+      "id": "blocker.mapping-breadth",
+      "previousStatus": "partial",
+      "currentStatus": "partial-shell-workspace-only",
+      "evidence": "Only shell/workspace is accepted and reviewed; broader WindowsUtility module coverage is not claimed."
+    }
+  ],
+  "remainingBlockers": [
+    {
+      "id": "blocker.source-application-loop",
+      "severity": "p0",
+      "summary": "No WindowsUtility source change has passed through proposal, application, evidence, authority, review, and history.",
+      "requiredResolution": "Define a source application authority boundary before any real target writes are allowed."
+    },
+    {
+      "id": "blocker.packaging-release-boundary",
+      "severity": "p0",
+      "summary": "No packaging, install, update, rollback, or release boundary exists.",
+      "requiredResolution": "Keep packaging and release blocked until a separate boundary and validation harness exist."
+    },
+    {
+      "id": "blocker.product-scope-breadth",
+      "severity": "p1",
+      "summary": "The reviewed product surface covers only the WindowsUtility shell/workspace slice.",
+      "requiredResolution": "Either explicitly keep the first product scoped to shell/workspace review, or add additional module mappings before broad product claims."
+    }
+  ],
+  "allowedNextWork": [
+    "source application authority boundary plan",
+    "non-mutating source application dry-run boundary",
+    "packaging/release boundary plan",
+    "additional WindowsUtility module mapping plan"
+  ],
+  "blockedWork": [
+    "source edits",
+    "proposal application",
+    "target writes",
+    "AI authority promotion",
+    "hardware actions",
+    "packaging",
+    "release",
+    "editor integration",
+    "GitHub workflow integration",
+    "team workflow automation",
+    "product readiness claim"
+  ],
+  "authorizations": {
+    "staticExportReviewedSurfaceAccepted": true,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.39 Source Application Authority Boundary Plan"
+}

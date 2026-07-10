@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.37 Static Local Workbench Export Orientation Review Result Record
+P8.38 Static Local Workbench Export Productization Readiness Recheck
 ```
 
-This Phase G stabilization slice recorded the user's `proceed` response for the revised p8.35 static export orientation. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice rechecked productization after the reviewed static export and kept productization blocked pending source application, packaging, and release gates. Source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1763,6 +1763,34 @@ Decision:
 - static export may be treated as a reviewed product surface candidate.
 - source edits, proposal application, packaging, release, and productization remain unauthorized.
 - continue to `P8.38 Static Local Workbench Export Productization Readiness Recheck`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
+- no editor or GitHub integration
+- no productization implementation
+- no product readiness claim
+
+## P8.38: Static Local Workbench Export Productization Readiness Recheck
+
+Goal: recheck productization readiness after the p8.35 static export was accepted for the next iteration.
+
+Status: completed on 2026-07-10. See [P8.38 Static Local Workbench Export Productization Readiness Recheck](../reviews/p8.38-static-local-workbench-export-productization-readiness-recheck.md).
+
+Decision:
+
+- product surface blocker is resolved for static local shell/workspace review.
+- productization remains blocked.
+- source application loop is absent.
+- packaging/release boundary is absent.
+- continue to `P8.39 Source Application Authority Boundary Plan`.
 
 Non-goals:
 

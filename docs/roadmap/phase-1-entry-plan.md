@@ -1627,3 +1627,24 @@ Recommended next slice:
 ```text
 P8.38 Static Local Workbench Export Productization Readiness Recheck
 ```
+
+## Completed Slice: P8.38 Static Local Workbench Export Productization Readiness Recheck
+
+Goal: recheck productization readiness after the reviewed p8.35 static local workbench export.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.38-static-local-workbench-export-productization-readiness-recheck-report.json`
+- [P8.38 Static Local Workbench Export Productization Readiness Recheck](../reviews/p8.38-static-local-workbench-export-productization-readiness-recheck.md)
+
+Decision:
+
+```text
+productization-still-blocked-source-application-packaging-release-gates-required
+```
+
+Recommended next slice:
+
+```text
+P8.39 Source Application Authority Boundary Plan
+```
