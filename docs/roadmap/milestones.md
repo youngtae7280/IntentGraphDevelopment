@@ -1374,3 +1374,27 @@ Non-goals:
 - no hardware action authority
 - no productization implementation
 - no product readiness claim
+
+## P8.23: Shell Workspace Workbench Usability Boundary Plan
+
+Goal: define how to evaluate whether the shell/workspace evidence workbench improves review over raw JSON.
+
+Status: completed on 2026-07-10. See [P8.23 Shell Workspace Workbench Usability Boundary Plan](../reviews/p8.23-shell-workspace-workbench-usability-boundary-plan-review.md).
+
+Decision:
+
+- usability dry run is required before richer UI or productization.
+- review tasks, comparison baseline, metrics, pass criteria, and blockers are defined.
+- continue to `P8.24 Shell Workspace Workbench Usability Dry Run`.
+
+Non-goals:
+
+- no workbench UI changes
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or WindowsUtility screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no productization implementation
+- no product readiness claim

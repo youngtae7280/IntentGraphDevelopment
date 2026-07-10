@@ -1,0 +1,61 @@
+{
+  "artifactRole": "intentgraph-workbench-usability-boundary-plan-report",
+  "status": "intentgraph-workbench-usability-boundary-plan-recorded",
+  "scope": "p8.23-shell-workspace-workbench-usability-boundary-plan-report-only",
+  "workItem": "P8.23 Shell Workspace Workbench Usability Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "shell-workspace-workbench-usability-dry-run-required",
+  "inputs": [
+    "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-projection.json",
+    "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench.html",
+    "generated/windowsutility/workbench/p8.21-shell-workspace-evidence-workbench-validation-report.json",
+    "generated/windowsutility/workbench/p8.22-shell-workspace-workbench-negative-probes-report.json"
+  ],
+  "reviewTasks": [
+    "identify accepted shell/workspace mapping",
+    "identify accepted source refs",
+    "identify proposal application status",
+    "identify build, UI launch, and screenshot evidence",
+    "identify original target unchanged state",
+    "identify false safety flags",
+    "identify screenshot artifact and digest",
+    "identify next recommended action"
+  ],
+  "comparisonBaseline": {
+    "workbenchPath": "static HTML projection first",
+    "rawPath": "underlying JSON artifacts directly",
+    "humanStudyClaimed": false
+  },
+  "requiredMetrics": [
+    "task count",
+    "answer correctness count",
+    "missed safety-boundary count",
+    "artifact lookup count",
+    "time-to-answer estimate or measured duration",
+    "screenshot evidence found",
+    "authority false flags found",
+    "raw JSON file hop count"
+  ],
+  "passCriteria": {
+    "allReviewTasksAnswered": true,
+    "noSafetyFalseFlagMissed": true,
+    "screenshotArtifactFound": true,
+    "targetUnchangedStateFound": true,
+    "proposalNonAppliedStateFound": true,
+    "workbenchUsesFewerArtifactLookupsThanRawJson": true,
+    "sourceMutationClaimIntroduced": false,
+    "productizationClaimIntroduced": false
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.24 Shell Workspace Workbench Usability Dry Run"
+}

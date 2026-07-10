@@ -1248,3 +1248,26 @@ P8.23 Shell Workspace Workbench Usability Boundary Plan
 ```
 
 P8.23 should define how to evaluate whether the workbench improves review over raw JSON before productization or broader UI work.
+
+## Completed Slice: P8.23 Shell Workspace Workbench Usability Boundary Plan
+
+Goal: define the usability dry-run boundary for the WindowsUtility shell/workspace evidence workbench.
+
+Produced artifacts:
+
+- [P8.23 Shell Workspace Workbench Usability Boundary Plan](../reviews/p8.23-shell-workspace-workbench-usability-boundary-plan-review.md)
+- `generated/roadmap/p8.23-shell-workspace-workbench-usability-boundary-plan-report.json`
+
+Decision:
+
+```text
+shell-workspace-workbench-usability-dry-run-required
+```
+
+Next safe work:
+
+```text
+P8.24 Shell Workspace Workbench Usability Dry Run
+```
+
+P8.24 should execute the bounded workbench-vs-raw-JSON comparison and report whether the workbench improves review.

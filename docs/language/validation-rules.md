@@ -417,6 +417,14 @@ A real-project workbench projection must have repeatable negative probes before 
 
 The harness must keep bad fixtures temporary and must not mutate the real-project target.
 
+## V1027: Workbench Usability Needs A Review Boundary
+
+Status: added in P8.23.
+
+Before a real-project workbench expands into richer UI or productization, a usability boundary must define the review tasks, comparison baseline, metrics, pass criteria, and blockers. The evaluation must compare the workbench path against direct raw JSON inspection for the same questions and must not claim a human usability study unless a human reviewer actually participates.
+
+The workbench may not pass this boundary if reviewers cannot find proposal application status, target unchanged state, screenshot evidence, safety false flags, artifact links, and recommended next action without falling back to the full raw artifact set.
+
 ## Rule Severity
 
 | Severity | Meaning |
