@@ -3029,3 +3029,25 @@ Recommended next slice:
 ```text
 P8.94 Productization Authority Boundary Plan
 ```
+
+## Completed Slice: P8.94 Productization Authority Boundary Plan
+
+Goal: define the final productization authority boundary without claiming productization readiness.
+
+Result:
+
+```text
+Decision: productization-authority-boundary-recorded-no-productization-claimed.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.94-productization-authority-boundary-plan.json`
+- `generated/roadmap/p8.94-productization-authority-boundary-plan-report.json`
+- [P8.94 Productization Authority Boundary Plan](../reviews/p8.94-productization-authority-boundary-plan.md)
+
+Recommended next slice:
+
+```text
+P8.95 Productization Authorization Request
+```

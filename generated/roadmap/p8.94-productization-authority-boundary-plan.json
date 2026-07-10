@@ -1,0 +1,91 @@
+{
+  "artifactRole": "intentgraph-productization-authority-boundary-plan",
+  "status": "intentgraph-productization-authority-boundary-plan-recorded",
+  "scope": "p8.94-productization-authority-boundary-plan-report-only",
+  "workItem": "P8.94 Productization Authority Boundary Plan",
+  "date": "2026-07-10",
+  "decision": "productization-authority-boundary-recorded-no-productization-claimed",
+  "purpose": "Define the final future boundary for claiming WindowsUtility productization readiness only after all upstream evidence, artifact, release, acceptance, and authority gates pass.",
+  "preconditions": [
+    {
+      "id": "precondition.real-package-verification-passed",
+      "required": true,
+      "description": "The real WindowsUtility package artifact must pass extraction inventory verification.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.launch-and-ui-evidence-passed",
+      "required": true,
+      "description": "Packaged executable launch smoke and packaged UI screenshot evidence must pass if product acceptance depends on runnable packaged behavior.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.product-candidate-accepted",
+      "required": true,
+      "description": "The user/coordinator must accept the product candidate.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.installer-signing-release-status-recorded",
+      "required": true,
+      "description": "Installer, signing, and release status must be recorded as completed, intentionally deferred, or not applicable with evidence.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.release-authority-resolved",
+      "required": true,
+      "description": "Release authority must be resolved as completed, deferred, or not applicable before productization can be claimed.",
+      "currentlySatisfied": false
+    },
+    {
+      "id": "precondition.productization-authorization",
+      "required": true,
+      "description": "The user/coordinator must explicitly authorize the final productization readiness claim.",
+      "requiredAcceptedResponse": "accept productization readiness claim",
+      "currentlySatisfied": false
+    }
+  ],
+  "futureProductizationBoundary": {
+    "mayClaimProductizationReady": false,
+    "mayMarkProductCandidateAccepted": false,
+    "mayRecordFinalReadinessReport": false,
+    "mayCreateReleaseTags": false,
+    "mayPublishReleases": false,
+    "mayCallProviderApis": false,
+    "mayReadCredentials": false,
+    "mayModifyWindowsUtilitySource": false,
+    "mayCommitWindowsUtility": false,
+    "mayPushWindowsUtility": false,
+    "mayInstallGlobally": false
+  },
+  "futureAllowedIfAuthorizedLater": [
+    "record final productization readiness report under generated/",
+    "link all upstream verification, product candidate, installer, signing, and release evidence",
+    "record known limitations and intentionally deferred gates",
+    "mark productization ready only if final authority is explicitly accepted"
+  ],
+  "futureStillForbiddenIfProductizationAuthorized": [
+    "WindowsUtility source edits unless separately authorized",
+    "global installation unless separately authorized",
+    "artifact signing unless separately authorized",
+    "credential access unless separately authorized",
+    "provider API calls unless separately authorized",
+    "release publishing unless separately authorized"
+  ],
+  "executionBoundary": {
+    "existingPackageExtractionPerformed": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "installerCreated": false,
+    "globalInstallPerformed": false,
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "providerApiCalled": false,
+    "releaseTagCreated": false,
+    "releasePublished": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.95 Productization Authorization Request"
+}

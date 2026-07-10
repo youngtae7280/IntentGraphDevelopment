@@ -3201,3 +3201,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.94 Productization Authority Boundary Plan`.
+
+## P8.94: Productization Authority Boundary Plan
+
+Goal: define the final productization authority boundary without claiming productization readiness.
+
+Status: completed on 2026-07-10. See [P8.94 Productization Authority Boundary Plan](../reviews/p8.94-productization-authority-boundary-plan.md).
+
+Decision:
+
+- productization authority boundary recorded.
+- real package verification, launch/UI evidence, product candidate acceptance, installer/signing/release status, release authority resolution, and productization authorization are absent.
+- no package extraction, executable launch, UI screenshot capture, installer creation, global install, signing, credential access, provider API call, release tag creation, release publishing, product candidate acceptance, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.94-productization-authority-boundary-plan.json`
+- `generated/roadmap/p8.94-productization-authority-boundary-plan-report.json`
+- [P8.94 Productization Authority Boundary Plan](../reviews/p8.94-productization-authority-boundary-plan.md)
+
+Next safe work:
+
+- continue to `P8.95 Productization Authorization Request`.
