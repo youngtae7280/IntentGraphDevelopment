@@ -1146,3 +1146,30 @@ P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe
 ```
 
 P8.19 may capture a PNG of the sandboxed app window and must validate that the screenshot is non-empty and the original target remains unchanged.
+
+## Completed Slice: P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe
+
+Goal: capture and validate a screenshot of the sandboxed WindowsUtility app window.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_sandboxed_screenshot_probe.py`
+- `generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json`
+- `generated/windowsutility/p8.19-sandboxed-screenshot-build.log`
+- `generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png`
+- [P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe Review](../reviews/p8.19-shell-workspace-sandboxed-screenshot-evidence-probe-review.md)
+- `generated/roadmap/p8.19-shell-workspace-sandboxed-screenshot-evidence-probe-report.json`
+
+Decision:
+
+```text
+sandboxed-screenshot-evidence-pass-target-unchanged
+```
+
+Next safe work:
+
+```text
+P8.20 Shell Workspace Evidence Workbench Projection Plan
+```
+
+P8.20 should connect the accepted mapping and collected evidence into a workbench projection without productization claims.

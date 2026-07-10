@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.18 Shell Workspace Screenshot Evidence Boundary Plan
+P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe
 ```
 
-This Phase G stabilization slice defined the safety boundary for sandboxed screenshot evidence. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice captured validated sandboxed WindowsUtility screenshot evidence while the original target stayed unchanged. It does not authorize source mutation, proposal application, target writes, AI proposal authority, hardware actions, production UI, or productization. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1274,5 +1274,29 @@ Non-goals:
 - no AI authority promotion
 - no hardware action authority
 - no screenshot capture in this slice
+- no productization implementation
+- no product readiness claim
+
+## P8.19: Shell Workspace Sandboxed Screenshot Evidence Probe
+
+Goal: capture a validated screenshot of the sandboxed WindowsUtility shell/workspace window.
+
+Status: completed on 2026-07-10. See [P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe Review](../reviews/p8.19-shell-workspace-sandboxed-screenshot-evidence-probe-review.md).
+
+Decision:
+
+- sandbox build passed.
+- sandbox app launched and exposed `Card Printer Utility`.
+- screenshot PNG was captured and validated as 1320 x 820.
+- original target stayed `## main...origin/main`.
+- continue to `P8.20 Shell Workspace Evidence Workbench Projection Plan`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no AI authority promotion
+- no hardware action authority
 - no productization implementation
 - no product readiness claim

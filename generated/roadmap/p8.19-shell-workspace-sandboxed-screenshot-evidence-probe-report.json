@@ -1,0 +1,43 @@
+{
+  "artifactRole": "intentgraph-roadmap-slice-report",
+  "status": "intentgraph-roadmap-slice-completed",
+  "scope": "p8.19-shell-workspace-sandboxed-screenshot-evidence-probe",
+  "workItem": "P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe",
+  "date": "2026-07-10",
+  "decision": "sandboxed-screenshot-evidence-pass-target-unchanged",
+  "producedArtifacts": [
+    "tools/run_windowsutility_sandboxed_screenshot_probe.py",
+    "generated/windowsutility/p8.19-sandboxed-screenshot-probe-report.json",
+    "generated/windowsutility/p8.19-sandboxed-screenshot-build.log",
+    "generated/windowsutility/p8.19-shell-workspace-sandboxed-window.png",
+    "docs/reviews/p8.19-shell-workspace-sandboxed-screenshot-evidence-probe-review.md"
+  ],
+  "evidenceResult": {
+    "sandboxBuildExitCode": 0,
+    "uiLaunchAttempted": true,
+    "uiProcessObserved": true,
+    "mainWindowTitle": "Card Printer Utility",
+    "processResponding": true,
+    "screenshotCaptured": true,
+    "screenshotWidth": 1320,
+    "screenshotHeight": 820,
+    "screenshotByteLength": 38739,
+    "screenshotSha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b",
+    "terminationMethod": "close-main-window",
+    "originalTargetBefore": "## main...origin/main",
+    "originalTargetAfter": "## main...origin/main",
+    "sandboxRemovedAfterRun": true
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "sandboxWritesAuthorizedForThisProbe": true,
+    "uiLaunchAuthorizedForThisProbe": true,
+    "screenshotCaptureAuthorizedForThisProbe": true,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.20 Shell Workspace Evidence Workbench Projection Plan"
+}

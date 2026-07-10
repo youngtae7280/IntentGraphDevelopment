@@ -387,6 +387,12 @@ Status: added in P8.18.
 
 Screenshot evidence for a real-project UI must capture only the sandboxed app window, write artifacts outside the original target repo, validate that the screenshot is non-empty, terminate the app, and prove the original target repo is unchanged. If a screenshot cannot be captured safely, the report must record an explicit unavailable reason instead of silently passing.
 
+## V1023: Screenshot Probe Reports Must Validate PNG Artifacts
+
+Status: added in P8.19.
+
+A screenshot evidence probe report must record screenshot path, byte length, dimensions, digest, process/window observation, process termination, and original target before/after state. The probe must fail if the PNG is missing, invalid, unexpectedly small, or if the original target changes.
+
 ## Rule Severity
 
 | Severity | Meaning |

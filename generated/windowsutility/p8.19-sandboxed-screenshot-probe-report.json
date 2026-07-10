@@ -1,0 +1,97 @@
+{
+  "artifactRole": "intentgraph-windowsutility-sandboxed-screenshot-probe-report",
+  "authorizations": {
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "productizationAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "sandboxWritesAuthorizedForThisProbe": true,
+    "screenshotCaptureAuthorizedForThisProbe": true,
+    "sourceEditsAuthorized": false,
+    "targetWritesAuthorized": false,
+    "uiLaunchAuthorizedForThisProbe": true
+  },
+  "build": {
+    "command": "dotnet build WindowsUtility.sln --nologo",
+    "exitCode": 0,
+    "log": "generated/windowsutility/p8.19-sandboxed-screenshot-build.log",
+    "stderrLineCount": 0,
+    "stdoutLineCount": 41
+  },
+  "errors": [],
+  "proposal": "generated/windowsutility/p8.12-shell-workspace-smoke-evidence-non-applied-proposal.json",
+  "result": "pass",
+  "sandbox": {
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility-p8.19-screenshot",
+    "removedAfterRun": true,
+    "retained": false,
+    "writesConfinedToSandbox": true
+  },
+  "scope": "p8.19-shell-workspace-sandboxed-screenshot-evidence-probe",
+  "screenshotEvidence": {
+    "byteLength": 38739,
+    "exists": true,
+    "height": 820,
+    "sha256": "sha256:13858ce2d17f9a7eddd303a3fd0362368a372631d8219c078e388bdd2cf3966b",
+    "validPng": true,
+    "width": 1320
+  },
+  "sourceRefResults": [
+    {
+      "actualByteLength": 1897,
+      "actualDigest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+      "expectedByteLength": 1897,
+      "expectedDigest": "sha256:45246fa2c409e2abf8a15405f119f1078812512382718a8b82d001a9c63881ec",
+      "path": "src/WindowsUtility.App/WindowsUtility.App.csproj",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 594,
+      "actualDigest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+      "expectedByteLength": 594,
+      "expectedDigest": "sha256:5d0b511b10f380b2151fdc3d8e559d860e1db5fd97a2cf286fa71875d11ee147",
+      "path": "src/WindowsUtility.Shell/WindowsUtility.Shell.csproj",
+      "result": "pass"
+    }
+  ],
+  "status": "intentgraph-windowsutility-sandboxed-screenshot-probe-passed",
+  "targetAfter": {
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "status": "## main...origin/main"
+  },
+  "targetBefore": {
+    "head": "07cbe76368e8857ad198438707f1d52301925da3",
+    "originMain": "07cbe76368e8857ad198438707f1d52301925da3",
+    "status": "## main...origin/main"
+  },
+  "uiLaunch": {
+    "attempted": true,
+    "initialExitCode": null,
+    "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\WindowsUtility-p8.19-screenshot\\src\\WindowsUtility.App\\bin\\Debug\\net9.0-windows\\WindowsUtility.App.exe",
+    "pid": 2920,
+    "processObservation": {
+      "found": true,
+      "id": 2920,
+      "mainWindowTitle": "Card Printer Utility",
+      "processName": "WindowsUtility.App",
+      "responding": true
+    },
+    "screenshotCapture": {
+      "captured": true,
+      "height": 820,
+      "left": 182,
+      "path": "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\windowsutility\\p8.19-shell-workspace-sandboxed-window.png",
+      "top": 182,
+      "width": 1320
+    },
+    "started": true,
+    "termination": {
+      "closeMainWindowReturned": true,
+      "exited": true,
+      "found": true,
+      "method": "close-main-window"
+    }
+  },
+  "workItem": "P8.19 Shell Workspace Sandboxed Screenshot Evidence Probe"
+}
