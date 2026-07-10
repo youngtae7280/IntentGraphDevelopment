@@ -2986,3 +2986,25 @@ Recommended next slice:
 ```text
 P8.92 Release Scope Hold Record
 ```
+
+## Completed Slice: P8.92 Release Scope Hold Record
+
+Goal: record that release work is held while preconditions and explicit release authority remain absent.
+
+Result:
+
+```text
+Decision: release-held-pending-preconditions-and-explicit-authorization.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.92-release-scope-hold-record.json`
+- `generated/roadmap/p8.92-release-scope-hold-record-report.json`
+- [P8.92 Release Scope Hold Record](../reviews/p8.92-release-scope-hold-record.md)
+
+Recommended next slice:
+
+```text
+P8.93 Productization Readiness Recheck After Release Boundary Planning
+```

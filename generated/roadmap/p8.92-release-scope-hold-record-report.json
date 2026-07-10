@@ -1,0 +1,44 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "scope": "p8.92-release-scope-hold-record",
+  "workItem": "P8.92 Release Scope Hold Record",
+  "date": "2026-07-10",
+  "result": "release-held-pending-preconditions-and-explicit-authorization",
+  "producedArtifacts": [
+    "generated/roadmap/p8.92-release-scope-hold-record.json",
+    "docs/reviews/p8.92-release-scope-hold-record.md"
+  ],
+  "holdSummary": {
+    "productCandidateAccepted": false,
+    "verifiedReleaseArtifactPresent": false,
+    "releaseNotesRecorded": false,
+    "providerCredentialAuthorityRecorded": false,
+    "explicitAcceptedResponseRecorded": false,
+    "standingAcceptShortcutApplies": false,
+    "releaseAllowed": false
+  },
+  "blockedAuthorizations": {
+    "credentialAccessAuthorized": false,
+    "providerApiCallsAuthorized": false,
+    "releaseTagCreationAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "nonGoals": {
+    "existingPackageExtraction": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "installerCreation": false,
+    "globalInstall": false,
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "providerTokenRead": false,
+    "providerApiCalls": false,
+    "releaseTagCreation": false,
+    "releasePublishing": false,
+    "productizationClaimed": false
+  },
+  "recommendedNextSlice": "P8.93 Productization Readiness Recheck After Release Boundary Planning"
+}

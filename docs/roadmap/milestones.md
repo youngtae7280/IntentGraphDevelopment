@@ -3158,3 +3158,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.92 Release Scope Hold Record`.
+
+## P8.92: Release Scope Hold Record
+
+Goal: record that release work is held while preconditions and explicit release authority remain absent.
+
+Status: completed on 2026-07-10. See [P8.92 Release Scope Hold Record](../reviews/p8.92-release-scope-hold-record.md).
+
+Decision:
+
+- release work remains held.
+- safe report-only productization authority planning can continue.
+- no package extraction, executable launch, UI screenshot capture, installer creation, global install, signing, credential access, provider token read, provider API call, release tag creation, release publishing, or productization claim was added.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.92-release-scope-hold-record.json`
+- `generated/roadmap/p8.92-release-scope-hold-record-report.json`
+- [P8.92 Release Scope Hold Record](../reviews/p8.92-release-scope-hold-record.md)
+
+Next safe work:
+
+- continue to `P8.93 Productization Readiness Recheck After Release Boundary Planning`.
