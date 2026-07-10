@@ -338,12 +338,27 @@ Non-goals:
 
 Goal: add a deterministic CF0-specific harness proving P1.11 invalid-integer overlay-only contract delta failures are rejected for the intended reasons.
 
-Status: current authorized slice. See [P1.12 Input Validation Negative Probes Review](../reviews/p1.12-input-validation-negative-probes-review.md).
+Status: completed on 2026-07-10. See [P1.12 Input Validation Negative Probes Review](../reviews/p1.12-input-validation-negative-probes-review.md).
 
 Non-goals:
 
 - no new behavior or contract unit
 - no CF0 source behavior changes
+- no generic negative-probe framework
+- no B0 generated-code pipeline changes
+- no dependency addition
+
+## P1.13: Focused CF0 Negative Harness Pattern Consolidation
+
+Goal: consolidate repeated CF0 negative-harness mechanics into a small CF0-local helper while preserving existing probe ids, counts, positive baselines, reports, and source behavior.
+
+Status: current authorized slice. See [P1.13 CF0 Negative Harness Consolidation Review](../reviews/p1.13-cf0-negative-harness-consolidation-review.md).
+
+Non-goals:
+
+- no new behavior or contract unit
+- no CF0 source behavior changes
+- no overlay semantics changes
 - no generic negative-probe framework
 - no B0 generated-code pipeline changes
 - no dependency addition

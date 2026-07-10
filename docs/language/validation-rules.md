@@ -458,6 +458,14 @@ Severity: P0 in P1.12
 
 Input-validation overlay-only contract deltas must have a committed negative-probe harness that reruns the unmutated positive baseline before bad cases. The harness must prove deterministic failure for incorrect source/overlay change flags, missing contract coverage increase, missing added unit, missing required code fact or mapping resolution, missing verification, missing or wrong stderr expectations, wrong exit code, missing evidence/authority/history records, source-text equality claims, and hidden generated-code snapshot claims.
 
+### V417 - CF0 Negative Harness Consolidation Preserves Boundaries
+
+Severity: P1 in P1.13
+
+Shared support code for CF0 negative probes must remain CF0-specific and must not become a broad framework claim. Consolidation may move common mechanics such as JSON I/O, temporary probe setup, verifier invocation, positive baseline reruns, and expected-failure matching into a helper module, but the harnesses must continue to own their probe lists, baseline scopes, report boundaries, and semantic claims.
+
+P1.4, P1.10, and P1.12 harnesses must still pass after consolidation. Probe ids/counts must remain stable unless a documented quality fix requires a change. Positive baseline reruns must remain visible, source text equality and hidden generated-code snapshot claims must remain rejected, and CF0 source bytes must remain unchanged.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

@@ -71,20 +71,30 @@ Goal: add a tiny hand-written Python calculator source fixture, extract determin
 
 P1.2 is the first code-first maintenance proof. It must not generate source code from the graph and must not rely on a hidden generated-code snapshot.
 
-## Current Slice: P1.12 Repeatable Input-Validation Overlay Contract Negative Probe Harness
+## Completed Slice: P1.12 Repeatable Input-Validation Overlay Contract Negative Probe Harness
 
 Goal: harden the P1.11 invalid-integer overlay-only contract delta with repeatable negative probes.
 
 After P1.11, CF0 can model existing invalid-integer behavior as an overlay-only input-validation contract delta. P1.12 proves the verifier rejects bad input-validation deltas for source/overlay flag errors, missing contract coverage, missing stderr/exit-code verification, missing fact mappings, and missing evidence/authority/history records.
 
-Do not open a larger benchmark, UI, AI runtime, broader compiler slice, or broad extractor automatically.
+Status: completed on 2026-07-10. See [P1.12 Input Validation Negative Probes Review](../reviews/p1.12-input-validation-negative-probes-review.md).
+
+## Current Slice: P1.13 Focused CF0 Negative Harness Pattern Consolidation
+
+Goal: reduce repeated CF0 negative-harness mechanics without changing CF0 behavior, overlay semantics, or probe expectations.
+
+P1.13 is a quality cleanup slice. CF0 now has repeatable negative harnesses for the P1.4 additive delta, P1.10 unsupported-operation overlay contract, and P1.12 invalid-integer overlay contract. The harnesses should share small support code for path handling, JSON I/O, positive baseline reruns, verifier invocation, temporary probe setup, and expected-failure matching.
+
+Do not open a larger benchmark, UI, AI runtime, broader compiler slice, broad extractor, or another semantic contract automatically.
 
 Expected changes:
 
-- add `tools/run_cf0_input_validation_negative_probes.py`
-- emit `generated/cf0-python-cli-calculator/p1.12-input-validation-negative-probes-report.json`
-- keep P1.11 positive baseline passing before negative probes
-- keep P1.4, P1.7, P1.9, P1.10, and state-index regressions passing
+- add a small CF0-local helper such as `tools/cf0_probe_support.py`
+- update `tools/run_cf0_delta_negative_probes.py`
+- update `tools/run_cf0_overlay_contract_negative_probes.py`
+- update `tools/run_cf0_input_validation_negative_probes.py`
+- keep P1.4, P1.10, and P1.12 probe ids/counts stable unless a quality fix is documented
+- keep P1.7, P1.9, P1.11, and state-index regressions passing
 
 Non-goals:
 
@@ -102,35 +112,41 @@ Non-goals:
 - no source behavior change
 - no general negative-probe framework
 - no new behavior unit
+- no new semantic coverage
+- no CF0 source behavior change
+- no overlay semantics change unless a bug is found and documented
 
-## Required Output For P1.12
+## Required Output For P1.13
 
-P1.12 should produce:
+P1.13 should produce:
 
-- `tools/run_cf0_input_validation_negative_probes.py`
-- `generated/cf0-python-cli-calculator/p1.12-input-validation-negative-probes-report.json`
-- P1.12 review notes
-- updated validation rule for repeatable input-validation negative probes
+- `tools/cf0_probe_support.py`
+- updated CF0 negative harness scripts
+- regenerated harness reports if deterministic formatting or mechanics change
+- P1.13 review notes
+- updated validation rule for CF0-local harness consolidation
 
 ## Acceptance Criteria
 
-P1.12 passes only if:
+P1.13 passes only if:
 
-1. The P1.11 positive baseline reruns and passes before probes.
-2. Every declared negative probe fails for its intended reason.
-3. The harness report records baseline scope, probe ids, expected errors, actual errors, and boundary flags.
-4. P1.4, P1.7, P1.9, P1.10, P1.11, and state-index regressions still pass.
+1. P1.4, P1.10, and P1.12 harnesses still pass.
+2. Probe ids and counts remain stable, or any change is documented as a quality fix.
+3. Positive baseline reruns are still explicit and are not weakened.
+4. P1.7, P1.9, P1.11, and state-index regressions still pass.
 5. CF0 source bytes remain unchanged.
+6. The helper remains CF0-specific and does not claim to be a general framework.
 
 ## Stop Conditions
 
 Stop and report before broadening scope if:
 
-- the P1.11 positive baseline fails.
+- any harness positive baseline fails.
 - a required bad case passes unexpectedly.
 - a required bad case fails only because of an unrelated baseline problem.
+- probe ids/counts drift without an explicit quality reason.
 - P1.4 positive historical baseline does not pass.
-- P1.7 historical refactor report stops passing.
+- P1.7, P1.9, or P1.11 report stops passing.
 - IntentGraph is described again as a universal source-code replacement.
 - The project starts duplicating mature language workbench, code graph, or provenance systems without a build/borrow/integrate decision.
 
@@ -139,7 +155,7 @@ Stop and report before broadening scope if:
 Task name:
 
 ```text
-P1.12 Repeatable Input-Validation Overlay Contract Negative Probe Harness
+P1.13 Focused CF0 Negative Harness Pattern Consolidation
 ```
 
 Worker should start from:
@@ -151,8 +167,9 @@ Worker should start from:
 - `tools/emit_cf0_historical_state_index.py`
 - `docs/examples/cf0-python-cli-calculator/deltas/p1.9-overlay-unsupported-operation.delta.json`
 - `tools/run_cf0_overlay_contract_negative_probes.py`
+- `tools/run_cf0_input_validation_negative_probes.py`
 - `docs/examples/cf0-python-cli-calculator/deltas/p1.11-overlay-invalid-integer.delta.json`
 - `generated/cf0-python-cli-calculator/p1.7-refactor-delta-report.json`
 - `generated/cf0-python-cli-calculator/cf0-historical-state-index.json`
 
-Worker should not start the next phase or a larger benchmark until P1.12 review passes and the Coordinator explicitly authorizes the next phase.
+Worker should not start the next phase or a larger benchmark until P1.13 review passes and the Coordinator explicitly authorizes the next phase.
