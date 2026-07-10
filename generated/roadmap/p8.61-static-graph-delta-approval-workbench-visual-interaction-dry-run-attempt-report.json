@@ -1,0 +1,74 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "status": "intentgraph-roadmap-phase-blocked-by-browser-policy",
+  "scope": "p8.61-static-graph-delta-approval-workbench-visual-interaction-dry-run-attempt",
+  "workItem": "P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run Attempt",
+  "date": "2026-07-10",
+  "result": "blocked",
+  "sourceWorkbench": {
+    "path": "generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html",
+    "validationReport": "generated/product-surfaces/graph-delta-approval-workbench/p8.60/validation-report.json",
+    "status": "p8.60-static-workbench-structural-validation-passed"
+  },
+  "attemptedApproach": {
+    "localHttpServer": true,
+    "serverHost": "127.0.0.1",
+    "externalNetworkRequired": false,
+    "inAppBrowserAutomationAttempted": true,
+    "alternateBrowserAutomationAttempted": false,
+    "policyWorkaroundAttempted": false
+  },
+  "partialObservationsBeforeBlock": {
+    "pageTitle": "IntentGraph Graph Delta Approval Workbench",
+    "graphCanvasPresent": true,
+    "graphCanvasObservedWidth": 630,
+    "graphCanvasObservedHeight": 360,
+    "nodeCountText": "10",
+    "edgeCountText": "7",
+    "initialInspectorPresent": true
+  },
+  "blockedReason": {
+    "summary": "The in-app browser allowed the local page to load but blocked further automated interaction with the page. Policy requires not using alternate browser-control workarounds for the same blocked action.",
+    "rawBrowserPolicyTextRecorded": false
+  },
+  "notVerified": {
+    "graphCanvasNodeClickSelection": true,
+    "graphCanvasEdgeClickSelection": true,
+    "graphPanByDrag": true,
+    "graphWheelZoom": true,
+    "toolbarZoomIn": true,
+    "toolbarZoomOut": true,
+    "fitControl": true,
+    "semanticZoomReadability": true,
+    "deltaStepHighlighting": true,
+    "codeDiffVisibilityFromCodeNode": true,
+    "changedNodeGraphDiffVisibility": true,
+    "changedEdgeGraphDiffVisibility": true,
+    "graphifyGradeInspectability": true
+  },
+  "requiredNextReviewChecklist": [
+    "Open generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html in an allowed browser surface.",
+    "Confirm the graph is visible and visually usable, not merely present.",
+    "Drag the graph canvas and confirm the graph moves.",
+    "Zoom in and zoom out with controls or wheel input and confirm the graph remains readable.",
+    "Use Fit to recover the whole graph.",
+    "Select a graph node and confirm the inspector panel updates.",
+    "Select a graph edge and confirm the inspector panel updates.",
+    "Select deltaStep.p8.44-apply-preflight.apply and confirm affected nodes and edges are highlighted.",
+    "Select code.file.intentgraph-preflight and confirm the code diff is visible.",
+    "Select proposal.p8.43-preflight and confirm before/after graph node diff is visible.",
+    "Select edge.proposal-to-code-file and confirm before/after graph edge diff is visible.",
+    "Reject the phase if the graph is materially below Graphify-grade inspectability."
+  ],
+  "authorizations": {
+    "windowsUtilitySourceMutationAuthorized": false,
+    "graphMutationFromUiAuthorized": false,
+    "approvalAutomationAuthorized": false,
+    "packageExtractionAuthorized": false,
+    "packagedExecutableLaunchAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "decision": "visual-interaction-dry-run-not-complete-user-observed-or-allowed-browser-review-required",
+  "recommendedNextSlice": "P8.62 User-Observed Graph Delta Approval Workbench Review Request"
+}

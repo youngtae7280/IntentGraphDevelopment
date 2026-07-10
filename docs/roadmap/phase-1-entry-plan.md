@@ -2248,3 +2248,42 @@ P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run
 ```
 
 P8.61 acceptance must include Graphify-grade inspectability checks: the graph must be movable, zoomable in and out, recoverable with fit, readable after zoom, and useful for inspecting selected nodes, selected edges, delta steps, code diffs, and changed graph element diffs.
+
+## Attempted Slice: P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run
+
+Goal: visually and interactively verify the P8.60 graph delta approval workbench.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.61-static-graph-delta-approval-workbench-visual-interaction-dry-run-attempt-report.json`
+- [P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run Attempt](../reviews/p8.61-static-graph-delta-approval-workbench-visual-interaction-dry-run-attempt.md)
+
+Decision:
+
+```text
+visual-interaction-dry-run-not-complete-user-observed-or-allowed-browser-review-required
+```
+
+Partial observation:
+
+- local HTTP page loaded.
+- graph canvas was present.
+- node count text was `10`.
+- edge count text was `7`.
+- initial inspector was present.
+
+Not verified:
+
+- graph pan/zoom/fit.
+- node and edge selection from the graph.
+- delta step highlighting.
+- code diff visibility from selected code node.
+- changed node graph diff visibility.
+- changed edge graph diff visibility.
+- Graphify-grade inspectability.
+
+Recommended next slice:
+
+```text
+P8.62 User-Observed Graph Delta Approval Workbench Review Request
+```

@@ -1966,3 +1966,24 @@ Next safe work:
 ```text
 P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run
 ```
+
+## P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run Attempt
+
+P8.61 result:
+
+```text
+Decision: visual-interaction-dry-run-not-complete-user-observed-or-allowed-browser-review-required.
+```
+
+P8.61 produced:
+
+- `generated/roadmap/p8.61-static-graph-delta-approval-workbench-visual-interaction-dry-run-attempt-report.json`
+- [P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run Attempt](../reviews/p8.61-static-graph-delta-approval-workbench-visual-interaction-dry-run-attempt.md)
+
+The graph page loaded through local HTTP, but browser policy blocked automated interaction before pan, zoom, selected node/edge inspector, code diff, changed graph diff, and Graphify-grade inspectability could be verified.
+
+Next safe work:
+
+```text
+P8.62 User-Observed Graph Delta Approval Workbench Review Request
+```

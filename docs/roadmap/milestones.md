@@ -2415,3 +2415,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run`.
+
+## P8.61: Static Graph Delta Approval Workbench Visual/Interaction Dry Run Attempt
+
+Goal: verify the P8.60 static graph delta approval workbench in a real browser surface.
+
+Status: blocked on 2026-07-10. See [P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run Attempt](../reviews/p8.61-static-graph-delta-approval-workbench-visual-interaction-dry-run-attempt.md).
+
+Decision:
+
+- the local page loaded through `127.0.0.1`.
+- the page title, graph canvas, node count, edge count, and initial inspector were partially observed.
+- automated interaction was blocked by browser policy.
+- no alternate browser-control workaround was used.
+- graph pan, zoom, selected node inspector, selected edge inspector, code diff, changed node diff, changed edge diff, and Graphify-grade inspectability remain unverified.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.61-static-graph-delta-approval-workbench-visual-interaction-dry-run-attempt-report.json`
+- [P8.61 Static Graph Delta Approval Workbench Visual/Interaction Dry Run Attempt](../reviews/p8.61-static-graph-delta-approval-workbench-visual-interaction-dry-run-attempt.md)
+
+Next safe work:
+
+- continue to `P8.62 User-Observed Graph Delta Approval Workbench Review Request`.
