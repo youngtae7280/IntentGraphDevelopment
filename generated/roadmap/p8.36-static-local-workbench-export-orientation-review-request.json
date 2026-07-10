@@ -1,0 +1,52 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-orientation-review-request",
+  "status": "intentgraph-static-local-workbench-export-orientation-review-requested",
+  "scope": "p8.36-static-local-workbench-export-orientation-review-request",
+  "workItem": "P8.36 Static Local Workbench Export Orientation Review Request",
+  "date": "2026-07-10",
+  "decision": "static-export-orientation-review-response-required",
+  "participant": "user/coordinator",
+  "sourceRevision": {
+    "path": "generated/roadmap/p8.35-static-local-workbench-export-reviewer-orientation-revision-report.json",
+    "decision": "static-export-reviewer-orientation-revised"
+  },
+  "reviewTarget": {
+    "id": "windowsutility-shell-workspace-static-local-workbench-export-p8.35",
+    "kind": "static-local-html-workbench-export",
+    "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/index.html",
+    "absolutePath": "C:\\Users\\ytkim\\Desktop\\kyt_work\\IntentGraphDevelopment\\generated\\product-surfaces\\windowsutility-shell-workspace-static-workbench\\p8.35\\index.html",
+    "fileUrl": "file:///C:/Users/ytkim/Desktop/kyt_work/IntentGraphDevelopment/generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/index.html"
+  },
+  "questions": [
+    "Does the first screen now explain what this page is?",
+    "Does it explain that this is not the WindowsUtility app or a source-code change?",
+    "Does it explain what the page represents: mapping, code surface, proposal, evidence, and authority boundaries?",
+    "Does the review checklist make it clear what you should inspect?",
+    "Can you now tell why this page exists in the IntentGraphDevelopment roadmap?",
+    "What is still confusing, missing, ugly, or misleading?",
+    "Should the roadmap proceed, revise again, or pause?"
+  ],
+  "allowedResponses": [
+    "proceed",
+    "revise",
+    "pause"
+  ],
+  "responseRecording": {
+    "responseRecorded": false,
+    "resultArtifactCreated": false,
+    "requiredNextArtifact": "P8.37 Static Local Workbench Export Orientation Review Result Record"
+  },
+  "authorizations": {
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  }
+}

@@ -281,3 +281,32 @@ The next safe stabilization slice is:
 ```text
 P8.36 Static Local Workbench Export Orientation Review Request
 ```
+
+## P8.36 Static Export Orientation Review Request
+
+P8.36 created the explicit user/coordinator review request for the revised p8.35 static local workbench export.
+
+Review target:
+
+```text
+generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.35/index.html
+```
+
+No result is recorded yet. Continue only after the user/coordinator answers whether to proceed, revise again, or pause.
+
+Still blocked:
+
+- packaging
+- release
+- editor integration
+- GitHub workflow integration
+- team workflow automation
+- source writes
+- proposal application
+- product readiness claims
+
+The next safe stabilization slice is:
+
+```text
+P8.37 Static Local Workbench Export Orientation Review Result Record
+```

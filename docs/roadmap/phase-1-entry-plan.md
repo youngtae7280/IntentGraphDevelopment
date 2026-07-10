@@ -1583,3 +1583,26 @@ Recommended next slice:
 ```text
 P8.36 Static Local Workbench Export Orientation Review Request
 ```
+
+## Completed Slice: P8.36 Static Local Workbench Export Orientation Review Request
+
+Goal: create the explicit user/coordinator request for reviewing the revised p8.35 static export orientation.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.36-static-local-workbench-export-orientation-review-request.json`
+- [P8.36 Static Local Workbench Export Orientation Review Request](../reviews/p8.36-static-local-workbench-export-orientation-review-request.md)
+
+Decision:
+
+```text
+static-export-orientation-review-response-required
+```
+
+Recommended next slice:
+
+```text
+P8.37 Static Local Workbench Export Orientation Review Result Record
+```
+
+only after an explicit user/coordinator response is received.
