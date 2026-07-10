@@ -1488,3 +1488,24 @@ Recommended next slice:
 ```text
 P8.32 Static Local Workbench Export Productization Gate Review
 ```
+
+## Completed Slice: P8.32 Static Local Workbench Export Productization Gate Review
+
+Goal: review whether P8.31 can advance from prototype evidence toward product-surface review.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.32-static-local-workbench-export-productization-gate-review-report.json`
+- [P8.32 Static Local Workbench Export Productization Gate Review](../reviews/p8.32-static-local-workbench-export-productization-gate-review.md)
+
+Decision:
+
+```text
+static-export-ready-for-user-review-not-productized
+```
+
+Recommended next slice:
+
+```text
+P8.33 Static Local Workbench Export User Review Request
+```

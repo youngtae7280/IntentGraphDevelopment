@@ -11,10 +11,10 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.31 Static Local Workbench Export Prototype
+P8.32 Static Local Workbench Export Productization Gate Review
 ```
 
-This Phase G stabilization slice emitted and validated the first static local WindowsUtility workbench export prototype. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
+This Phase G stabilization slice reviewed the static export prototype and found it ready for user review but not productized. Productization, packaging, release, source writes, proposal application, AI authority, and hardware authority remain blocked. See [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -1597,6 +1597,33 @@ Decision:
 - 10 negative probes passed.
 - WindowsUtility source remains untouched.
 - continue to `P8.32 Static Local Workbench Export Productization Gate Review`.
+
+Non-goals:
+
+- no source edits
+- no target write authority
+- no proposal application
+- no new sandbox run, UI launch, or screenshot capture
+- no AI authority promotion
+- no hardware action authority
+- no packaging
+- no release
+- no editor or GitHub integration
+- no productization implementation
+- no product readiness claim
+
+## P8.32: Static Local Workbench Export Productization Gate Review
+
+Goal: decide whether the P8.31 static export prototype can advance toward product-surface review.
+
+Status: completed on 2026-07-10. See [P8.32 Static Local Workbench Export Productization Gate Review](../reviews/p8.32-static-local-workbench-export-productization-gate-review.md).
+
+Decision:
+
+- static export prototype is ready for user/coordinator review.
+- static export is not ready for packaging or release.
+- productization remains blocked.
+- continue to `P8.33 Static Local Workbench Export User Review Request`.
 
 Non-goals:
 

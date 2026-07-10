@@ -1,0 +1,93 @@
+{
+  "artifactRole": "intentgraph-static-local-workbench-export-productization-gate-review-report",
+  "status": "intentgraph-static-local-workbench-export-productization-gate-reviewed",
+  "scope": "p8.32-static-local-workbench-export-productization-gate-review-report-only",
+  "workItem": "P8.32 Static Local Workbench Export Productization Gate Review",
+  "date": "2026-07-10",
+  "decision": "static-export-ready-for-user-review-not-productized",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.31-static-local-workbench-export-prototype-report.json",
+      "artifactRole": "intentgraph-roadmap-slice-report",
+      "status": "intentgraph-roadmap-slice-completed"
+    },
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/validation-report.json",
+      "artifactRole": "intentgraph-static-local-workbench-export-validation-report",
+      "status": "intentgraph-static-local-workbench-export-validation-passed"
+    },
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/negative-probes-report.json",
+      "artifactRole": "intentgraph-static-local-workbench-export-negative-probes-report",
+      "status": "intentgraph-static-local-workbench-export-negative-probes-passed"
+    },
+    {
+      "path": "generated/product-surfaces/windowsutility-shell-workspace-static-workbench/p8.31/browser-validation-report.json",
+      "artifactRole": "intentgraph-static-local-workbench-export-browser-validation-report",
+      "status": "intentgraph-static-local-workbench-export-browser-validation-passed"
+    }
+  ],
+  "gateAssessment": {
+    "staticExportPrototypeExists": true,
+    "manifestValidationPassed": true,
+    "negativeProbesPassed": true,
+    "browserValidationPassed": true,
+    "windowsUtilityTargetUnchanged": true,
+    "localFileSurfaceDemonstrated": true,
+    "readyForUserReview": true,
+    "readyForPackaging": false,
+    "readyForRelease": false,
+    "readyForEditorIntegration": false,
+    "readyForGithubIntegration": false,
+    "productizationReady": false
+  },
+  "promotionAllowed": {
+    "requestUserReview": true,
+    "iterateStaticExport": true,
+    "createPackagingPlan": false,
+    "createReleasePlan": false,
+    "shipProduct": false
+  },
+  "remainingGaps": [
+    {
+      "id": "gap.user-review-of-static-export",
+      "severity": "p0",
+      "summary": "The P8.31 static export has not been reviewed by the user/coordinator.",
+      "requiredResolution": "Create a user review request for the static local export and record response before claiming product-surface acceptance."
+    },
+    {
+      "id": "gap.product-surface-polish",
+      "severity": "p1",
+      "summary": "The export is functional but not yet reviewed for visual quality, wording clarity, navigation, or reviewer ergonomics.",
+      "requiredResolution": "Use user review and browser evidence to decide whether polish is needed."
+    },
+    {
+      "id": "gap.packaging-release",
+      "severity": "p0",
+      "summary": "No packaging, install, update, rollback, or release boundary exists.",
+      "requiredResolution": "Keep packaging/release blocked until a separate gate exists."
+    },
+    {
+      "id": "gap.source-application-loop",
+      "severity": "p0",
+      "summary": "No source application loop has passed on WindowsUtility.",
+      "requiredResolution": "Do not imply the static export can apply changes."
+    }
+  ],
+  "authorizations": {
+    "userReviewRequestAuthorizedNextSlice": true,
+    "staticExportIterationAuthorized": false,
+    "sourceEditsAuthorized": false,
+    "proposalApplicationAuthorized": false,
+    "targetWritesAuthorized": false,
+    "newSandboxRunAuthorized": false,
+    "newUiLaunchAuthorized": false,
+    "newScreenshotCaptureAuthorized": false,
+    "aiAuthorityPromoted": false,
+    "hardwareActionsAuthorized": false,
+    "packagingAuthorized": false,
+    "releaseAuthorized": false,
+    "productizationAuthorized": false
+  },
+  "recommendedNextSlice": "P8.33 Static Local Workbench Export User Review Request"
+}
