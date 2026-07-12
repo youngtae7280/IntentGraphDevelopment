@@ -1,0 +1,66 @@
+{
+  "acceptedResponse": "accept sandboxed package extraction inventory verification",
+  "artifactRole": "intentgraph-package-extraction-verification-authorization-response-record",
+  "authorizationState": {
+    "accepted": true,
+    "exactAcceptedResponseRecorded": true,
+    "realPackageExtractionAllowedForNextVerifierRun": true,
+    "rejected": false,
+    "responseRecorded": true,
+    "reviseRequested": false
+  },
+  "date": "2026-07-13",
+  "decision": "exact-package-extraction-verification-authorization-recorded",
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "existingPackageExtractionPerformedByThisRecord": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationAuthorized": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "requestedAuthority": {
+    "mayCompareExtractedInventoryToManifest": true,
+    "mayCopyExistingPackageArtifactToSandbox": true,
+    "mayCreateVerificationReportInGeneratedOutput": true,
+    "mayExtractSandboxPackageCopy": true,
+    "mayHashExtractedFiles": true,
+    "mayListExtractedFiles": true,
+    "mayUseTemporarySandboxDirectory": true
+  },
+  "scope": "p8.106-package-extraction-verification-authorization-response-record",
+  "sourceRequest": {
+    "path": "generated/roadmap/p8.99-real-package-extraction-verification-authorization-refresh.json",
+    "requiredAcceptedResponse": "accept sandboxed package extraction inventory verification"
+  },
+  "status": "intentgraph-package-extraction-verification-authorization-accepted",
+  "toolAuthorizationContract": {
+    "requiredVerifierToken": "accept-sandboxed-package-extraction-inventory-verification",
+    "tokenAuthorizedForNextVerifierRun": true,
+    "tokenDoesNotAuthorize": [
+      "packaged executable launch",
+      "packaged UI launch",
+      "packaged UI screenshot capture",
+      "installer creation",
+      "artifact signing",
+      "credential access",
+      "provider API calls",
+      "release tag creation",
+      "release publishing",
+      "product candidate acceptance",
+      "productization claim"
+    ]
+  },
+  "userResponse": {
+    "exactText": "accept sandboxed package extraction inventory verification",
+    "recordedBy": "Coordinator",
+    "responseDate": "2026-07-13"
+  },
+  "workItem": "P8.106 Package Extraction Verification Authorization Response Record"
+}

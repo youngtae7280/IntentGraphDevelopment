@@ -3471,3 +3471,25 @@ Produced artifacts:
 Next safe work:
 
 - blocked pending exact package extraction authorization artifact.
+
+## P8.106: Package Extraction Verification Authorization Response Record
+
+Goal: record the Coordinator's exact accepted response for sandboxed package extraction inventory verification.
+
+Status: completed on 2026-07-13. See [P8.106 Package Extraction Verification Authorization Response Record](../reviews/p8.106-package-extraction-verification-authorization-response-record.md).
+
+Decision:
+
+- exact package extraction verification authorization was recorded.
+- the next verifier run may use `accept-sandboxed-package-extraction-inventory-verification`.
+- the authorization is limited to sandboxed extraction inventory verification.
+- no package extraction, executable launch, UI screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed by this record.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.106-package-extraction-verification-authorization-response-record.json`
+- [P8.106 Package Extraction Verification Authorization Response Record](../reviews/p8.106-package-extraction-verification-authorization-response-record.md)
+
+Next safe work:
+
+- continue to `P8.107 Real Package Extraction Inventory Verification`.
