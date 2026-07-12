@@ -1,0 +1,61 @@
+{
+  "acceptedResponse": "accept sandboxed packaged executable launch smoke",
+  "artifactRole": "intentgraph-packaged-executable-launch-smoke-authorization-response-record",
+  "authorizationState": {
+    "accepted": true,
+    "exactAcceptedResponseRecorded": true,
+    "packagedExecutableLaunchAllowedForNextVerifierRun": true,
+    "rejected": false,
+    "responseRecorded": true,
+    "reviseRequested": false
+  },
+  "date": "2026-07-13",
+  "decision": "exact-packaged-executable-launch-smoke-authorization-recorded",
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunchedByThisRecord": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationAuthorized": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "requestedAuthority": {
+    "mayCreateLaunchSmokeReportInGeneratedOutput": true,
+    "mayLaunchPackagedExecutableFromSandbox": true,
+    "mayObserveProcessHealth": true,
+    "mayRecordSandboxStdoutStderrLogs": true,
+    "mayTerminateLaunchedProcessAfterObservation": true,
+    "mayUseTemporarySandboxDirectory": true
+  },
+  "scope": "p8.113-packaged-executable-launch-smoke-authorization-response-record",
+  "sourceRequest": {
+    "path": "generated/roadmap/p8.110-packaged-executable-launch-smoke-authorization-refresh.json",
+    "requiredAcceptedResponse": "accept sandboxed packaged executable launch smoke"
+  },
+  "status": "intentgraph-packaged-executable-launch-smoke-authorization-accepted",
+  "toolAuthorizationContract": {
+    "requiredVerifierToken": "accept-sandboxed-packaged-executable-launch-smoke",
+    "tokenAuthorizedForNextVerifierRun": true,
+    "tokenDoesNotAuthorize": [
+      "packaged UI screenshot capture",
+      "installer creation",
+      "artifact signing",
+      "credential access",
+      "provider API calls",
+      "release tag creation",
+      "release publishing",
+      "product candidate acceptance",
+      "productization claim"
+    ]
+  },
+  "userResponse": {
+    "exactText": "accept sandboxed packaged executable launch smoke",
+    "recordedBy": "Coordinator",
+    "responseDate": "2026-07-13"
+  },
+  "workItem": "P8.113 Packaged Executable Launch Smoke Authorization Response Record"
+}

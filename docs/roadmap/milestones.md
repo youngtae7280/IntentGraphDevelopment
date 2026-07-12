@@ -3585,6 +3585,28 @@ Next safe work:
 
 - wait for exact packaged executable launch smoke authorization response.
 
+## P8.113: Packaged Executable Launch Smoke Authorization Response Record
+
+Goal: record the Coordinator's exact accepted response for sandboxed packaged executable launch smoke.
+
+Status: completed on 2026-07-13. See [P8.113 Packaged Executable Launch Smoke Authorization Response Record](../reviews/p8.113-packaged-executable-launch-smoke-authorization-response-record.md).
+
+Decision:
+
+- exact launch smoke authorization was recorded.
+- the next verifier run may use `accept-sandboxed-packaged-executable-launch-smoke`.
+- the authorization is limited to sandboxed packaged executable launch smoke.
+- no packaged executable launch, UI screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed by this record.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.113-packaged-executable-launch-smoke-authorization-response-record.json`
+- [P8.113 Packaged Executable Launch Smoke Authorization Response Record](../reviews/p8.113-packaged-executable-launch-smoke-authorization-response-record.md)
+
+Next safe work:
+
+- continue to `P8.114 Packaged Executable Launch Smoke Verification`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

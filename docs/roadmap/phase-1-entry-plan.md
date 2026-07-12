@@ -3399,6 +3399,27 @@ Recommended next slice:
 Wait for exact packaged executable launch smoke authorization response.
 ```
 
+## Completed Slice: P8.113 Packaged Executable Launch Smoke Authorization Response Record
+
+Goal: record the exact packaged executable launch smoke authorization response.
+
+Result:
+
+```text
+Decision: exact-packaged-executable-launch-smoke-authorization-recorded.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.113-packaged-executable-launch-smoke-authorization-response-record.json`
+- [P8.113 Packaged Executable Launch Smoke Authorization Response Record](../reviews/p8.113-packaged-executable-launch-smoke-authorization-response-record.md)
+
+Recommended next slice:
+
+```text
+P8.114 Packaged Executable Launch Smoke Verification
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.
