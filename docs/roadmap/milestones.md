@@ -3493,3 +3493,27 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.107 Real Package Extraction Inventory Verification`.
+
+## P8.107: Real Package Extraction Inventory Verification
+
+Goal: perform the authorized sandboxed extraction inventory verification against the existing WindowsUtility package artifact.
+
+Status: completed on 2026-07-13. See [P8.107 Real Package Extraction Inventory Verification](../reviews/p8.107-real-package-extraction-inventory-verification.md).
+
+Decision:
+
+- sandboxed extraction inventory verification passed.
+- the existing package artifact was extracted only under `.tmp/p8.107-windowsutility-package-extraction`.
+- ZIP inventory and extracted inventory both contain 39 files.
+- `WindowsUtility.App.exe`, `WindowsUtility.App.dll`, and `SmartComm2.dll` are present in both the ZIP inventory and extracted inventory.
+- no executable launch, UI launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `generated/windowsutility/package-artifact/p8.107/extraction-inventory-report.json`
+- `generated/roadmap/p8.107-real-package-extraction-inventory-verification-report.json`
+- [P8.107 Real Package Extraction Inventory Verification](../reviews/p8.107-real-package-extraction-inventory-verification.md)
+
+Next safe work:
+
+- continue to `P8.108 Productization Readiness Recheck After Real Package Verification`.

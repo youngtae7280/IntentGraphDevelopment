@@ -1,0 +1,314 @@
+{
+  "artifactRole": "intentgraph-packaged-artifact-extraction-inventory-report",
+  "authorizations": {
+    "mayCallProviderApis": false,
+    "mayCapturePackagedUiScreenshot": false,
+    "mayClaimProductizationReady": false,
+    "mayCompareExtractedInventoryToManifest": true,
+    "mayCopyExistingPackageArtifactToSandbox": true,
+    "mayCreateInstaller": false,
+    "mayCreateReleaseTags": false,
+    "mayExtractSandboxPackageCopy": true,
+    "mayHashExtractedFiles": true,
+    "mayLaunchPackagedUi": false,
+    "mayListExtractedFiles": true,
+    "mayPublishReleases": false,
+    "mayReadCredentials": false,
+    "mayRunPackagedExecutable": false,
+    "maySignArtifacts": false,
+    "mayUseTemporarySandboxDirectory": true
+  },
+  "boundary": {
+    "artifactSigned": false,
+    "authorizationTokenAccepted": true,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packageExtractionPerformed": true,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "date": "2026-07-13",
+  "errors": [],
+  "extractionInventory": {
+    "extractRoot": ".tmp/p8.107-windowsutility-package-extraction",
+    "fileCount": 39,
+    "requiredEntries": {
+      "SmartComm2.dll": true,
+      "WindowsUtility.App.dll": true,
+      "WindowsUtility.App.exe": true
+    },
+    "sampleEntries": [
+      {
+        "byteLength": 65264,
+        "path": "CardPrinterConfig.ini",
+        "sha256": "sha256:5d325305df8148afa9eaae82228a98c97b5a0568cc3a6b4d5c44bc10d6f3deaf"
+      },
+      {
+        "byteLength": 6619136,
+        "path": "SmartComm2.dll",
+        "sha256": "sha256:88dfb98ec3c9438baa49b42e2d5411b56f62ba08915b9e2139a2f3990ae25a74"
+      },
+      {
+        "byteLength": 9028,
+        "path": "WindowsUtility.App.deps.json",
+        "sha256": "sha256:97b470f74025ebe5867d75b4653826e1a1268ee69bd2a5c9b3979826fe9c900c"
+      },
+      {
+        "byteLength": 116736,
+        "path": "WindowsUtility.App.dll",
+        "sha256": "sha256:6b2a3199943e3e80490d3a0c41b649fd0254e0c7adea0dcffb895fd3a90813f8"
+      },
+      {
+        "byteLength": 145920,
+        "path": "WindowsUtility.App.exe",
+        "sha256": "sha256:36b28b3c0811f49df4aa243d93ee81ba1e5109a90fa6859a5c8213a3488942e7"
+      },
+      {
+        "byteLength": 70260,
+        "path": "WindowsUtility.App.pdb",
+        "sha256": "sha256:12279d98ed4e4d6e486602c205ba80ad6dfaae9e120b61d5061b26b10db55951"
+      },
+      {
+        "byteLength": 516,
+        "path": "WindowsUtility.App.runtimeconfig.json",
+        "sha256": "sha256:05917b409d59af31bc8d3021bc06302a0c21c7d05b449603d6cc9f0301a2b66c"
+      },
+      {
+        "byteLength": 64000,
+        "path": "WindowsUtility.Core.Abstractions.dll",
+        "sha256": "sha256:70708df23480aecc0b7a6b3990292a86743785212262ed8059371cf8a52e0c61"
+      },
+      {
+        "byteLength": 32704,
+        "path": "WindowsUtility.Core.Abstractions.pdb",
+        "sha256": "sha256:02bdb348188bdffb41fd53b045eb9747c72c7090fd7546e40d52c73ff50d153e"
+      },
+      {
+        "byteLength": 161280,
+        "path": "WindowsUtility.Core.Native.dll",
+        "sha256": "sha256:cecd6871c170ca4e1a90d29677a56533b3b3562cc88892e4a9a853a78307fb1a"
+      },
+      {
+        "byteLength": 81756,
+        "path": "WindowsUtility.Core.Native.pdb",
+        "sha256": "sha256:a43741a38955f60db53e3fd29cdcdab337ad5e3ec5f5919748c085d2df132831"
+      },
+      {
+        "byteLength": 47104,
+        "path": "WindowsUtility.Core.Services.dll",
+        "sha256": "sha256:78a2ad3a0a3e2604f2fc293ff48bd3734b016dfa7e486170ce6512e1cd71d260"
+      },
+      {
+        "byteLength": 29624,
+        "path": "WindowsUtility.Core.Services.pdb",
+        "sha256": "sha256:4dc673209bd257db4c4e6346abf031425f8b0cf8aa4c242ade16775702a867e8"
+      },
+      {
+        "byteLength": 11264,
+        "path": "WindowsUtility.Diagnostics.dll",
+        "sha256": "sha256:2306897827b606285777e3b44b68416d7ebd3558db6a8afdefeb72622085d0bc"
+      },
+      {
+        "byteLength": 13564,
+        "path": "WindowsUtility.Diagnostics.pdb",
+        "sha256": "sha256:990f21f1fb38b0fb9553c9cfe8ef08c58e1c8d6717cadeae1944c2f56b5323b4"
+      },
+      {
+        "byteLength": 4203008,
+        "path": "WindowsUtility.Modules.Config.dll",
+        "sha256": "sha256:e72e750ffd1efa1760cb46d746114f2b877b5633707b6377f414a5b2a87737e3"
+      },
+      {
+        "byteLength": 147824,
+        "path": "WindowsUtility.Modules.Config.pdb",
+        "sha256": "sha256:03e38fc7838a6dc9da242c56478cce3f0bd926e2b0ada8502b134f7456319d67"
+      },
+      {
+        "byteLength": 33280,
+        "path": "WindowsUtility.Modules.Diagnostics.dll",
+        "sha256": "sha256:5ecfe770002b2eb884e0bdd25d1f11de065d3fd124e4cde1cec537f9e813b0ba"
+      },
+      {
+        "byteLength": 25736,
+        "path": "WindowsUtility.Modules.Diagnostics.pdb",
+        "sha256": "sha256:5780b9eceaa15804b33da310109137d1cdb3419556835888a3ab89d8973a6bad"
+      },
+      {
+        "byteLength": 27136,
+        "path": "WindowsUtility.Modules.Dump.dll",
+        "sha256": "sha256:d81da08f01213e6a5e9537c1d7d227b18c2388ad5b147e8f4f4158cf0059850d"
+      },
+      {
+        "byteLength": 25004,
+        "path": "WindowsUtility.Modules.Dump.pdb",
+        "sha256": "sha256:caa738da8646af1a9d794d74bfcbd7bed46aabe1a2d084e3204e51a07626a981"
+      },
+      {
+        "byteLength": 48128,
+        "path": "WindowsUtility.Modules.DumpView.dll",
+        "sha256": "sha256:540215ff2a4721901f9a66aebff96b2e356f0687449c2fb8a128225fa6fe9d52"
+      },
+      {
+        "byteLength": 32672,
+        "path": "WindowsUtility.Modules.DumpView.pdb",
+        "sha256": "sha256:190a2c873bfe71371a04e06b7104f739bc647060a24a12290cede570420ba80f"
+      },
+      {
+        "byteLength": 18432,
+        "path": "WindowsUtility.Modules.Firmware.dll",
+        "sha256": "sha256:78c39ad2fd169d25f26898f2bedd153c429a29b145225150ac2336eca0d71d33"
+      },
+      {
+        "byteLength": 21344,
+        "path": "WindowsUtility.Modules.Firmware.pdb",
+        "sha256": "sha256:b97fc6c83aa23da17f8cabf5e5b71a8962cc52a53b2fa5613de4fdb118082567"
+      },
+      {
+        "byteLength": 17920,
+        "path": "WindowsUtility.Modules.Model.dll",
+        "sha256": "sha256:1429b658e717bcb6a356dbaf2598d83350d2eaec48fce5a1abecb1a6fbc5849e"
+      },
+      {
+        "byteLength": 21076,
+        "path": "WindowsUtility.Modules.Model.pdb",
+        "sha256": "sha256:c948bf0559a2ee535eb5a43b46c411738344d21db148a26de8c54586903e34db"
+      },
+      {
+        "byteLength": 26112,
+        "path": "WindowsUtility.Modules.NetAdmin.dll",
+        "sha256": "sha256:a8f9d613d17702f51df91ef47975187f5e76fe2e1ec0e550e1632addb4e5b2af"
+      },
+      {
+        "byteLength": 24476,
+        "path": "WindowsUtility.Modules.NetAdmin.pdb",
+        "sha256": "sha256:43f47286c927e79d4216cb78adf557fe6f15cc21ef5d495ef8e503059fb1a7ba"
+      },
+      {
+        "byteLength": 17408,
+        "path": "WindowsUtility.Modules.PrinterInfo.dll",
+        "sha256": "sha256:be80a1a7b19adf436475daf69741da1408d1ad3d6edbb224b8bf0e7380a4d72b"
+      },
+      {
+        "byteLength": 20776,
+        "path": "WindowsUtility.Modules.PrinterInfo.pdb",
+        "sha256": "sha256:407a0b2561bd90aae6fdf20de0763a8c0ccb22d04996d9a37d283d274c669bbd"
+      },
+      {
+        "byteLength": 25600,
+        "path": "WindowsUtility.Modules.Serial.dll",
+        "sha256": "sha256:22d432ca661fcba7142a82484e0d5e6caab3b3bbcfe2e4662ecb982e2f93a465"
+      },
+      {
+        "byteLength": 24116,
+        "path": "WindowsUtility.Modules.Serial.pdb",
+        "sha256": "sha256:b3e4c2c54b759c2c788140fcd88a6dc7caf4593a5a159a3869d8f10dd0ac2314"
+      },
+      {
+        "byteLength": 39424,
+        "path": "WindowsUtility.Modules.SimpleInfo.dll",
+        "sha256": "sha256:34d382a0c112098c95111f79e9bc7adf85e43f4a9871e2aac86027547c843e8b"
+      },
+      {
+        "byteLength": 33680,
+        "path": "WindowsUtility.Modules.SimpleInfo.pdb",
+        "sha256": "sha256:99fbc4c912ef3af0381ac4abbaeb801b3829e944bf0b27ac6a3216fcb616e0b0"
+      },
+      {
+        "byteLength": 25600,
+        "path": "WindowsUtility.Modules.Test.dll",
+        "sha256": "sha256:75cbb0f8f14f7d1d67dc298d82e71872f887e6882ea411076863d04893124bd2"
+      },
+      {
+        "byteLength": 24072,
+        "path": "WindowsUtility.Modules.Test.pdb",
+        "sha256": "sha256:28b95811ff6a8a4c40fb07c6a16073b54f453bf22057ba5a6d48bfbc8447e362"
+      },
+      {
+        "byteLength": 75264,
+        "path": "WindowsUtility.Shell.dll",
+        "sha256": "sha256:b4f5b0f32012d47dc1f026e9ef9c79f3b907f2ccdb33e951fc24ec5792427212"
+      },
+      {
+        "byteLength": 48580,
+        "path": "WindowsUtility.Shell.pdb",
+        "sha256": "sha256:d4e82fbc942fa76603a318526a135db078e462c2a260a0a9ccc9b7b2abfa4d9f"
+      }
+    ]
+  },
+  "recommendedNextSlice": "P8.70 Packaged Artifact Extraction Inventory Negative Probes",
+  "result": "pass",
+  "scope": "p8.107-real-package-extraction-inventory-verification",
+  "sourceReports": {
+    "metadataReplay": {
+      "byteLength": 4041,
+      "path": "generated/windowsutility/package-artifact/p8.66/metadata-replay-report.json",
+      "sha256": "sha256:b97d352642ca8f9ccfd9681e71c7db0e7d3e3688e971796d42011fb8c70ea307"
+    },
+    "packageArtifact": {
+      "byteLength": 4072027,
+      "path": "generated/windowsutility/package-artifact/p8.55/windowsutility-shell-workspace-p8.55-sandbox-package.zip",
+      "sha256": "sha256:1de950e8f3ed79a2399ffba50e9c1b59d0a4cb92ff1b9b7ee3332e5b15ccc4fe"
+    },
+    "packageManifest": {
+      "byteLength": 2827,
+      "path": "generated/windowsutility/package-artifact/p8.55/package-manifest.json",
+      "sha256": "sha256:8270b67d85fb13bd26d5e3f0470ff316c1a3e0dfe2b0aa34d3b75d4fcb592818"
+    }
+  },
+  "status": "intentgraph-packaged-artifact-extraction-inventory-passed",
+  "verificationMode": "sandboxed-existing-package-extraction-inventory-verification",
+  "workItem": "Packaged Artifact Extraction Inventory Verification",
+  "zipInventory": {
+    "fileCount": 39,
+    "requiredEntries": {
+      "SmartComm2.dll": true,
+      "WindowsUtility.App.dll": true,
+      "WindowsUtility.App.exe": true
+    },
+    "sampleEntries": [
+      "CardPrinterConfig.ini",
+      "SmartComm2.dll",
+      "WindowsUtility.App.deps.json",
+      "WindowsUtility.App.dll",
+      "WindowsUtility.App.exe",
+      "WindowsUtility.App.pdb",
+      "WindowsUtility.App.runtimeconfig.json",
+      "WindowsUtility.Core.Abstractions.dll",
+      "WindowsUtility.Core.Abstractions.pdb",
+      "WindowsUtility.Core.Native.dll",
+      "WindowsUtility.Core.Native.pdb",
+      "WindowsUtility.Core.Services.dll",
+      "WindowsUtility.Core.Services.pdb",
+      "WindowsUtility.Diagnostics.dll",
+      "WindowsUtility.Diagnostics.pdb",
+      "WindowsUtility.Modules.Config.dll",
+      "WindowsUtility.Modules.Config.pdb",
+      "WindowsUtility.Modules.Diagnostics.dll",
+      "WindowsUtility.Modules.Diagnostics.pdb",
+      "WindowsUtility.Modules.Dump.dll",
+      "WindowsUtility.Modules.Dump.pdb",
+      "WindowsUtility.Modules.DumpView.dll",
+      "WindowsUtility.Modules.DumpView.pdb",
+      "WindowsUtility.Modules.Firmware.dll",
+      "WindowsUtility.Modules.Firmware.pdb",
+      "WindowsUtility.Modules.Model.dll",
+      "WindowsUtility.Modules.Model.pdb",
+      "WindowsUtility.Modules.NetAdmin.dll",
+      "WindowsUtility.Modules.NetAdmin.pdb",
+      "WindowsUtility.Modules.PrinterInfo.dll",
+      "WindowsUtility.Modules.PrinterInfo.pdb",
+      "WindowsUtility.Modules.Serial.dll",
+      "WindowsUtility.Modules.Serial.pdb",
+      "WindowsUtility.Modules.SimpleInfo.dll",
+      "WindowsUtility.Modules.SimpleInfo.pdb",
+      "WindowsUtility.Modules.Test.dll",
+      "WindowsUtility.Modules.Test.pdb",
+      "WindowsUtility.Shell.dll",
+      "WindowsUtility.Shell.pdb"
+    ]
+  }
+}

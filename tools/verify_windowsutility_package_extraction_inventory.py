@@ -12,7 +12,7 @@ from typing import Any
 
 
 WORK_ITEM = "Packaged Artifact Extraction Inventory Verification"
-DATE = "2026-07-10"
+DATE = "2026-07-13"
 AUTHORIZATION_TOKEN = "accept-sandboxed-package-extraction-inventory-verification"
 DEFAULT_PACKAGE = Path(
     "generated/windowsutility/package-artifact/p8.55/windowsutility-shell-workspace-p8.55-sandbox-package.zip"
@@ -93,6 +93,7 @@ def read_zip_inventory(package_path: Path) -> tuple[list[str], list[str]]:
 
 
 def extract_safely(package_path: Path, extract_root: Path) -> list[dict[str, Any]]:
+    extract_root = extract_root.resolve()
     ensure_empty_extract_root(extract_root)
     extracted: list[dict[str, Any]] = []
     with zipfile.ZipFile(package_path, "r") as archive:

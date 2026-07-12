@@ -1,0 +1,65 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "date": "2026-07-13",
+  "decision": "real-package-extraction-inventory-verification-passed-productization-still-not-ready",
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationAuthorized": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false,
+    "sandboxedExistingPackageExtractionPerformed": true
+  },
+  "inputAuthorization": {
+    "acceptedResponse": "accept sandboxed package extraction inventory verification",
+    "path": "generated/roadmap/p8.106-package-extraction-verification-authorization-response-record.json",
+    "sha256": "sha256:f3b0679e917376a6a76c3a1ca231f70c7398d97f5445967d3abdaf9a14ea11b9",
+    "toolAuthorizationToken": "accept-sandboxed-package-extraction-inventory-verification"
+  },
+  "readinessEffect": {
+    "packageExtractionInventoryEvidencePresent": true,
+    "packagedExecutableLaunchEvidencePresent": false,
+    "packagedUiScreenshotEvidencePresent": false,
+    "productCandidateAccepted": false,
+    "productizationReady": false,
+    "releaseAuthorityPresent": false
+  },
+  "recommendedNextSlice": "P8.108 Productization Readiness Recheck After Real Package Verification",
+  "result": "pass",
+  "scope": "p8.107-real-package-extraction-inventory-verification",
+  "sourceVerificationReport": {
+    "artifactRole": "intentgraph-packaged-artifact-extraction-inventory-report",
+    "path": "generated/windowsutility/package-artifact/p8.107/extraction-inventory-report.json",
+    "sha256": "sha256:03ad58d4957a2f8bd6cbd5a5ed3500f233a16c556a7645d4d56e42ef55ed99c3",
+    "status": "intentgraph-packaged-artifact-extraction-inventory-passed"
+  },
+  "status": "intentgraph-roadmap-phase-completed",
+  "verificationSummary": {
+    "errors": [],
+    "extractedInventoryFileCount": 39,
+    "extractRoot": ".tmp/p8.107-windowsutility-package-extraction",
+    "metadataReplayMatched": true,
+    "packageArtifactPath": "generated/windowsutility/package-artifact/p8.55/windowsutility-shell-workspace-p8.55-sandbox-package.zip",
+    "packageArtifactSha256": "sha256:1de950e8f3ed79a2399ffba50e9c1b59d0a4cb92ff1b9b7ee3332e5b15ccc4fe",
+    "requiredEntriesPresentInExtraction": {
+      "SmartComm2.dll": true,
+      "WindowsUtility.App.dll": true,
+      "WindowsUtility.App.exe": true
+    },
+    "requiredEntriesPresentInZip": {
+      "SmartComm2.dll": true,
+      "WindowsUtility.App.dll": true,
+      "WindowsUtility.App.exe": true
+    },
+    "sandboxedExistingPackageExtractionPerformed": true,
+    "verificationMode": "sandboxed-existing-package-extraction-inventory-verification",
+    "zipInventoryFileCount": 39
+  },
+  "workItem": "P8.107 Real Package Extraction Inventory Verification"
+}
