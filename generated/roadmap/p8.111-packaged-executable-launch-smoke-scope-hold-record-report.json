@@ -1,0 +1,35 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "date": "2026-07-13",
+  "decision": "launch-smoke-held-pending-exact-authorization-response",
+  "nonGoals": {
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "installerCreation": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "productizationClaimed": false,
+    "providerApiCalls": false,
+    "releasePublishing": false
+  },
+  "recommendedNextSlice": "Wait for exact packaged executable launch smoke authorization response",
+  "result": "launch-smoke-held-no-execution",
+  "scope": "p8.111-packaged-executable-launch-smoke-scope-hold-record-report",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.110-packaged-executable-launch-smoke-authorization-refresh.json",
+      "role": "intentgraph-packaged-executable-launch-smoke-authorization-request",
+      "sha256": "sha256:51571505c0b393913d44e717a70173c20310bda727baecd440b3aab3e5df0228",
+      "status": "intentgraph-packaged-executable-launch-smoke-authorization-requested"
+    },
+    {
+      "path": "generated/roadmap/p8.110-packaged-executable-launch-smoke-authorization-refresh-report.json",
+      "role": "intentgraph-roadmap-phase-report",
+      "sha256": "sha256:0100f7915241af6b63d2f88ee413c7508fe31ae18f11b5749aed22ea3bb82821",
+      "status": "intentgraph-roadmap-phase-completed"
+    }
+  ],
+  "status": "intentgraph-roadmap-phase-completed",
+  "workItem": "P8.111 Packaged Executable Launch Smoke Scope Hold Record"
+}

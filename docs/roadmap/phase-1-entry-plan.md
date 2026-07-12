@@ -3398,3 +3398,25 @@ Recommended next slice:
 ```text
 Wait for exact packaged executable launch smoke authorization response.
 ```
+
+## Completed Slice: P8.111 Packaged Executable Launch Smoke Scope Hold Record
+
+Goal: record the launch smoke hold state while exact launch smoke authorization remains absent.
+
+Result:
+
+```text
+Decision: launch-smoke-held-pending-exact-authorization-response.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.111-packaged-executable-launch-smoke-scope-hold-record.json`
+- `generated/roadmap/p8.111-packaged-executable-launch-smoke-scope-hold-record-report.json`
+- [P8.111 Packaged Executable Launch Smoke Scope Hold Record](../reviews/p8.111-packaged-executable-launch-smoke-scope-hold-record.md)
+
+Recommended next slice:
+
+```text
+Wait for exact packaged executable launch smoke authorization response.
+```

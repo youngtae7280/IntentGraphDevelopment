@@ -3584,3 +3584,26 @@ Produced artifacts:
 Next safe work:
 
 - wait for exact packaged executable launch smoke authorization response.
+
+## P8.111: Packaged Executable Launch Smoke Scope Hold Record
+
+Goal: record the launch smoke hold state while exact launch smoke authorization remains absent.
+
+Status: completed on 2026-07-13. See [P8.111 Packaged Executable Launch Smoke Scope Hold Record](../reviews/p8.111-packaged-executable-launch-smoke-scope-hold-record.md).
+
+Decision:
+
+- launch smoke remains held.
+- package extraction inventory verification has passed.
+- exact accepted response `accept sandboxed packaged executable launch smoke` has not been recorded.
+- no packaged executable launch, UI launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.111-packaged-executable-launch-smoke-scope-hold-record.json`
+- `generated/roadmap/p8.111-packaged-executable-launch-smoke-scope-hold-record-report.json`
+- [P8.111 Packaged Executable Launch Smoke Scope Hold Record](../reviews/p8.111-packaged-executable-launch-smoke-scope-hold-record.md)
+
+Next safe work:
+
+- wait for exact packaged executable launch smoke authorization response.

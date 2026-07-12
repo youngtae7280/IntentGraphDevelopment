@@ -1,0 +1,33 @@
+{
+  "artifactRole": "intentgraph-packaged-executable-launch-smoke-scope-hold-record",
+  "date": "2026-07-13",
+  "decision": "launch-smoke-held-pending-exact-authorization-response",
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "holdState": {
+    "currentGoalAcceptShortcutApplies": false,
+    "exactLaunchSmokeAcceptedResponseRecorded": false,
+    "launchSmokeHeld": true,
+    "packageExtractionInventoryVerificationPassed": true,
+    "packagedExecutableLaunchAllowedNow": false,
+    "requiredAcceptedResponse": "accept sandboxed packaged executable launch smoke"
+  },
+  "scope": "p8.111-packaged-executable-launch-smoke-scope-hold-record",
+  "sourceRequest": {
+    "path": "generated/roadmap/p8.110-packaged-executable-launch-smoke-authorization-refresh.json",
+    "requiredAcceptedResponse": "accept sandboxed packaged executable launch smoke",
+    "sha256": "sha256:51571505c0b393913d44e717a70173c20310bda727baecd440b3aab3e5df0228"
+  },
+  "status": "intentgraph-packaged-executable-launch-smoke-held",
+  "workItem": "P8.111 Packaged Executable Launch Smoke Scope Hold Record"
+}
