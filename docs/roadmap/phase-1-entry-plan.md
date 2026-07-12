@@ -3355,3 +3355,24 @@ Recommended next slice:
 ```text
 P8.109 Packaged Executable Launch Smoke Authorization Recheck
 ```
+
+## Completed Slice: P8.109 Packaged Executable Launch Smoke Authorization Recheck
+
+Goal: recheck whether packaged executable launch smoke is authorized after real package extraction inventory verification passed.
+
+Result:
+
+```text
+Decision: launch-smoke-precondition-now-satisfied-but-exact-launch-authorization-absent.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.109-packaged-executable-launch-smoke-authorization-recheck-report.json`
+- [P8.109 Packaged Executable Launch Smoke Authorization Recheck](../reviews/p8.109-packaged-executable-launch-smoke-authorization-recheck.md)
+
+Recommended next slice:
+
+```text
+P8.110 Packaged Executable Launch Smoke Authorization Request Refresh
+```

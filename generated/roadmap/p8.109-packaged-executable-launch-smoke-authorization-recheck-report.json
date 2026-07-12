@@ -1,0 +1,48 @@
+{
+  "artifactRole": "intentgraph-packaged-executable-launch-smoke-authorization-recheck-report",
+  "date": "2026-07-13",
+  "decision": "launch-smoke-precondition-now-satisfied-but-exact-launch-authorization-absent",
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "launchAuthorizationState": {
+    "currentGoalAcceptShortcutApplies": false,
+    "exactAcceptedResponseRecorded": false,
+    "extractionInventoryVerificationPassed": true,
+    "launchAuthorizationActionableNow": false,
+    "packagedExecutableLaunchAllowedNow": false,
+    "requiredAcceptedResponse": "accept sandboxed packaged executable launch smoke",
+    "responseRecorded": false
+  },
+  "recommendedNextSlice": "P8.110 Packaged Executable Launch Smoke Authorization Request Refresh",
+  "scope": "p8.109-packaged-executable-launch-smoke-authorization-recheck",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.77-packaged-executable-launch-smoke-authorization-request-report.json",
+      "role": "intentgraph-roadmap-phase-report",
+      "status": "intentgraph-roadmap-phase-completed"
+    },
+    {
+      "path": "generated/windowsutility/package-artifact/p8.107/extraction-inventory-report.json",
+      "role": "intentgraph-packaged-artifact-extraction-inventory-report",
+      "sha256": "sha256:03ad58d4957a2f8bd6cbd5a5ed3500f233a16c556a7645d4d56e42ef55ed99c3",
+      "status": "intentgraph-packaged-artifact-extraction-inventory-passed"
+    },
+    {
+      "path": "generated/roadmap/p8.108-productization-readiness-recheck-after-real-package-verification-report.json",
+      "role": "intentgraph-productization-readiness-recheck-report",
+      "status": "intentgraph-productization-readiness-recheck-completed"
+    }
+  ],
+  "status": "intentgraph-packaged-executable-launch-smoke-authorization-rechecked",
+  "workItem": "P8.109 Packaged Executable Launch Smoke Authorization Recheck"
+}

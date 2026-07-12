@@ -3539,3 +3539,25 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.109 Packaged Executable Launch Smoke Authorization Recheck`.
+
+## P8.109: Packaged Executable Launch Smoke Authorization Recheck
+
+Goal: recheck whether packaged executable launch smoke is authorized after real package extraction inventory verification passed.
+
+Status: completed on 2026-07-13. See [P8.109 Packaged Executable Launch Smoke Authorization Recheck](../reviews/p8.109-packaged-executable-launch-smoke-authorization-recheck.md).
+
+Decision:
+
+- extraction inventory verification precondition is now satisfied.
+- exact packaged executable launch smoke authorization is still absent.
+- packaged executable launch is not allowed now.
+- no packaged executable launch, UI launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.109-packaged-executable-launch-smoke-authorization-recheck-report.json`
+- [P8.109 Packaged Executable Launch Smoke Authorization Recheck](../reviews/p8.109-packaged-executable-launch-smoke-authorization-recheck.md)
+
+Next safe work:
+
+- continue to `P8.110 Packaged Executable Launch Smoke Authorization Request Refresh`.
