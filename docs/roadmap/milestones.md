@@ -3656,6 +3656,28 @@ Next safe work:
 
 - continue to `P8.116 Packaged UI Screenshot Authorization Recheck`.
 
+## P8.116: Packaged UI Screenshot Authorization Recheck
+
+Goal: recheck whether packaged UI screenshot capture is authorized after extraction verification and launch smoke passed.
+
+Status: completed on 2026-07-13. See [P8.116 Packaged UI Screenshot Authorization Recheck](../reviews/p8.116-packaged-ui-screenshot-authorization-recheck.md).
+
+Decision:
+
+- extraction verification and launch smoke preconditions are now satisfied.
+- exact packaged UI screenshot capture authorization is still absent.
+- packaged UI screenshot capture is not allowed now.
+- no packaged executable launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed by this recheck.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.116-packaged-ui-screenshot-authorization-recheck-report.json`
+- [P8.116 Packaged UI Screenshot Authorization Recheck](../reviews/p8.116-packaged-ui-screenshot-authorization-recheck.md)
+
+Next safe work:
+
+- continue to `P8.117 Packaged UI Screenshot Authorization Request Refresh`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

@@ -3466,6 +3466,27 @@ Recommended next slice:
 P8.116 Packaged UI Screenshot Authorization Recheck
 ```
 
+## Completed Slice: P8.116 Packaged UI Screenshot Authorization Recheck
+
+Goal: recheck whether packaged UI screenshot capture is authorized after extraction verification and launch smoke passed.
+
+Result:
+
+```text
+Decision: screenshot-preconditions-now-satisfied-but-exact-screenshot-authorization-absent.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.116-packaged-ui-screenshot-authorization-recheck-report.json`
+- [P8.116 Packaged UI Screenshot Authorization Recheck](../reviews/p8.116-packaged-ui-screenshot-authorization-recheck.md)
+
+Recommended next slice:
+
+```text
+P8.117 Packaged UI Screenshot Authorization Request Refresh
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

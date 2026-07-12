@@ -1,0 +1,47 @@
+{
+  "artifactRole": "intentgraph-packaged-ui-screenshot-authorization-recheck-report",
+  "date": "2026-07-13",
+  "decision": "screenshot-preconditions-now-satisfied-but-exact-screenshot-authorization-absent",
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunchedByThisRecheck": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "recommendedNextSlice": "P8.117 Packaged UI Screenshot Authorization Request Refresh",
+  "screenshotAuthorizationState": {
+    "currentGoalAcceptShortcutApplies": false,
+    "exactAcceptedResponseRecorded": false,
+    "extractionInventoryVerificationPassed": true,
+    "launchSmokePassed": true,
+    "packagedUiScreenshotAllowedNow": false,
+    "requiredAcceptedResponse": "accept sandboxed packaged UI screenshot capture",
+    "responseRecorded": false,
+    "screenshotAuthorizationActionableNow": false
+  },
+  "scope": "p8.116-packaged-ui-screenshot-authorization-recheck",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.79-packaged-ui-screenshot-authorization-request-report.json",
+      "role": "intentgraph-roadmap-phase-report",
+      "status": "intentgraph-roadmap-phase-completed"
+    },
+    {
+      "path": "generated/windowsutility/package-artifact/p8.107/extraction-inventory-report.json",
+      "role": "intentgraph-packaged-artifact-extraction-inventory-report",
+      "status": "intentgraph-packaged-artifact-extraction-inventory-passed"
+    },
+    {
+      "path": "generated/windowsutility/package-artifact/p8.114/launch-smoke-report.json",
+      "role": "intentgraph-packaged-executable-launch-smoke-report",
+      "status": "intentgraph-packaged-executable-launch-smoke-passed"
+    }
+  ],
+  "status": "intentgraph-packaged-ui-screenshot-authorization-rechecked",
+  "workItem": "P8.116 Packaged UI Screenshot Authorization Recheck"
+}
