@@ -7,7 +7,7 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.109 completed.
+P8.110 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
@@ -172,13 +172,13 @@ accepted mapping negative probes pass.
 The next safe work must continue bounded product-surface stabilization before product implementation. Reasonable next slices are:
 
 ```text
-P8.110 Packaged Executable Launch Smoke Authorization Request Refresh
+Wait for exact packaged executable launch smoke authorization response.
 ```
 
 Latest readiness note:
 
 ```text
-P8.109 rechecked packaged executable launch smoke authorization. Real package extraction inventory verification is now present, but exact launch smoke authorization is still absent; no packaged executable was launched.
+P8.110 refreshed the exact packaged executable launch smoke authorization request. Required response is `accept sandboxed packaged executable launch smoke`; no packaged executable was launched.
 ```
 
 ## Phase Overview

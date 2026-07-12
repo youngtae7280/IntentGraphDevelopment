@@ -3376,3 +3376,25 @@ Recommended next slice:
 ```text
 P8.110 Packaged Executable Launch Smoke Authorization Request Refresh
 ```
+
+## Completed Slice: P8.110 Packaged Executable Launch Smoke Authorization Request Refresh
+
+Goal: refresh the exact packaged executable launch smoke authorization request now that package extraction inventory verification has passed.
+
+Result:
+
+```text
+Decision: packaged-executable-launch-smoke-authorization-request-refreshed-not-recorded.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.110-packaged-executable-launch-smoke-authorization-refresh.json`
+- `generated/roadmap/p8.110-packaged-executable-launch-smoke-authorization-refresh-report.json`
+- [P8.110 Packaged Executable Launch Smoke Authorization Request Refresh](../reviews/p8.110-packaged-executable-launch-smoke-authorization-refresh.md)
+
+Recommended next slice:
+
+```text
+Wait for exact packaged executable launch smoke authorization response.
+```

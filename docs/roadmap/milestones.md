@@ -3561,3 +3561,26 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P8.110 Packaged Executable Launch Smoke Authorization Request Refresh`.
+
+## P8.110: Packaged Executable Launch Smoke Authorization Request Refresh
+
+Goal: refresh the exact packaged executable launch smoke authorization request now that package extraction inventory verification has passed.
+
+Status: completed on 2026-07-13. See [P8.110 Packaged Executable Launch Smoke Authorization Request Refresh](../reviews/p8.110-packaged-executable-launch-smoke-authorization-refresh.md).
+
+Decision:
+
+- launch smoke authorization was requested.
+- required accepted response is `accept sandboxed packaged executable launch smoke`.
+- the current-goal ordinary `accept/revise/blocked` shortcut does not authorize packaged executable launch.
+- no packaged executable launch, UI launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.110-packaged-executable-launch-smoke-authorization-refresh.json`
+- `generated/roadmap/p8.110-packaged-executable-launch-smoke-authorization-refresh-report.json`
+- [P8.110 Packaged Executable Launch Smoke Authorization Request Refresh](../reviews/p8.110-packaged-executable-launch-smoke-authorization-refresh.md)
+
+Next safe work:
+
+- wait for exact packaged executable launch smoke authorization response.

@@ -1,0 +1,30 @@
+{
+  "allowedResponses": [
+    "accept sandboxed packaged executable launch smoke",
+    "reject packaged executable launch smoke",
+    "revise launch smoke scope first"
+  ],
+  "artifactRole": "intentgraph-packaged-executable-launch-smoke-authorization-request",
+  "date": "2026-07-13",
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunchedByThisRequest": false,
+    "packagedUiLaunchedByThisRequest": false,
+    "packagedUiScreenshotCapturedByThisRequest": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "preconditions": {
+    "exactLaunchSmokeAcceptedResponseRecorded": false,
+    "packageExtractionInventoryVerificationPassed": true,
+    "windowsUtilityCleanAligned": true
+  },
+  "requiredAcceptedResponse": "accept sandboxed packaged executable launch smoke",
+  "scope": "p8.110-packaged-executable-launch-smoke-authorization-refresh",
+  "status": "intentgraph-packaged-executable-launch-smoke-authorization-requested",
+  "workItem": "P8.110 Packaged Executable Launch Smoke Authorization Request Refresh"
+}

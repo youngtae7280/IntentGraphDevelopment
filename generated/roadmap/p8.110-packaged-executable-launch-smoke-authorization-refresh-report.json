@@ -1,0 +1,28 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "date": "2026-07-13",
+  "decision": "packaged-executable-launch-smoke-authorization-request-refreshed-not-recorded",
+  "nonGoals": {
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "installerCreation": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "productizationClaimed": false,
+    "providerApiCalls": false,
+    "releasePublishing": false
+  },
+  "recommendedNextSlice": "Wait for exact packaged executable launch smoke authorization response",
+  "requestSummary": {
+    "currentGoalAcceptShortcutApplies": false,
+    "exactAcceptedResponseRecorded": false,
+    "packageExtractionInventoryVerificationPassed": true,
+    "packagedExecutableLaunchAllowedNow": false,
+    "requiredAcceptedResponse": "accept sandboxed packaged executable launch smoke"
+  },
+  "result": "launch-smoke-authorization-requested-not-recorded",
+  "scope": "p8.110-packaged-executable-launch-smoke-authorization-refresh-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "workItem": "P8.110 Packaged Executable Launch Smoke Authorization Request Refresh"
+}
