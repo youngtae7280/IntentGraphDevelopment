@@ -3420,6 +3420,31 @@ Recommended next slice:
 P8.114 Packaged Executable Launch Smoke Verification
 ```
 
+## Completed Slice: P8.114 Packaged Executable Launch Smoke Verification
+
+Goal: run the authorized packaged executable launch smoke from a sandbox.
+
+Result:
+
+```text
+Decision: packaged-executable-launch-smoke-passed-productization-still-not-claimed.
+```
+
+Produced artifacts:
+
+- `tools/run_windowsutility_packaged_executable_launch_smoke.py`
+- `generated/windowsutility/package-artifact/p8.114/launch-smoke-report.json`
+- `generated/windowsutility/package-artifact/p8.114/launch-stdout.log`
+- `generated/windowsutility/package-artifact/p8.114/launch-stderr.log`
+- `generated/roadmap/p8.114-packaged-executable-launch-smoke-verification-report.json`
+- [P8.114 Packaged Executable Launch Smoke Verification](../reviews/p8.114-packaged-executable-launch-smoke-verification.md)
+
+Recommended next slice:
+
+```text
+P8.115 Productization Readiness Recheck After Packaged Launch Smoke
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

@@ -3607,6 +3607,33 @@ Next safe work:
 
 - continue to `P8.114 Packaged Executable Launch Smoke Verification`.
 
+## P8.114: Packaged Executable Launch Smoke Verification
+
+Goal: run the authorized packaged executable launch smoke from a sandbox.
+
+Status: completed on 2026-07-13. See [P8.114 Packaged Executable Launch Smoke Verification](../reviews/p8.114-packaged-executable-launch-smoke-verification.md).
+
+Decision:
+
+- packaged executable launch smoke passed.
+- `WindowsUtility.App.exe` launched from a sandboxed copy of the verified extraction.
+- process `WindowsUtility.App` was observed with main window title `Card Printer Utility`.
+- the process was responding during the 5-second observation window and terminated by `close-main-window`.
+- no screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_packaged_executable_launch_smoke.py`
+- `generated/windowsutility/package-artifact/p8.114/launch-smoke-report.json`
+- `generated/windowsutility/package-artifact/p8.114/launch-stdout.log`
+- `generated/windowsutility/package-artifact/p8.114/launch-stderr.log`
+- `generated/roadmap/p8.114-packaged-executable-launch-smoke-verification-report.json`
+- [P8.114 Packaged Executable Launch Smoke Verification](../reviews/p8.114-packaged-executable-launch-smoke-verification.md)
+
+Next safe work:
+
+- continue to `P8.115 Productization Readiness Recheck After Packaged Launch Smoke`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

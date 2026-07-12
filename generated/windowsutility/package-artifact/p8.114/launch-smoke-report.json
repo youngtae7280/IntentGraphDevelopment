@@ -1,0 +1,698 @@
+{
+  "artifactRole": "intentgraph-packaged-executable-launch-smoke-report",
+  "boundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": true,
+    "packagedUiScreenshotCaptured": false,
+    "packagedUiWindowObserved": true,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "date": "2026-07-13",
+  "errors": [],
+  "launchSandboxFileResults": [
+    {
+      "actualByteLength": 65264,
+      "actualSha256": "sha256:5d325305df8148afa9eaae82228a98c97b5a0568cc3a6b4d5c44bc10d6f3deaf",
+      "expectedByteLength": 65264,
+      "expectedSha256": "sha256:5d325305df8148afa9eaae82228a98c97b5a0568cc3a6b4d5c44bc10d6f3deaf",
+      "path": "CardPrinterConfig.ini",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 6619136,
+      "actualSha256": "sha256:88dfb98ec3c9438baa49b42e2d5411b56f62ba08915b9e2139a2f3990ae25a74",
+      "expectedByteLength": 6619136,
+      "expectedSha256": "sha256:88dfb98ec3c9438baa49b42e2d5411b56f62ba08915b9e2139a2f3990ae25a74",
+      "path": "SmartComm2.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 9028,
+      "actualSha256": "sha256:97b470f74025ebe5867d75b4653826e1a1268ee69bd2a5c9b3979826fe9c900c",
+      "expectedByteLength": 9028,
+      "expectedSha256": "sha256:97b470f74025ebe5867d75b4653826e1a1268ee69bd2a5c9b3979826fe9c900c",
+      "path": "WindowsUtility.App.deps.json",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 116736,
+      "actualSha256": "sha256:6b2a3199943e3e80490d3a0c41b649fd0254e0c7adea0dcffb895fd3a90813f8",
+      "expectedByteLength": 116736,
+      "expectedSha256": "sha256:6b2a3199943e3e80490d3a0c41b649fd0254e0c7adea0dcffb895fd3a90813f8",
+      "path": "WindowsUtility.App.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 145920,
+      "actualSha256": "sha256:36b28b3c0811f49df4aa243d93ee81ba1e5109a90fa6859a5c8213a3488942e7",
+      "expectedByteLength": 145920,
+      "expectedSha256": "sha256:36b28b3c0811f49df4aa243d93ee81ba1e5109a90fa6859a5c8213a3488942e7",
+      "path": "WindowsUtility.App.exe",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 70260,
+      "actualSha256": "sha256:12279d98ed4e4d6e486602c205ba80ad6dfaae9e120b61d5061b26b10db55951",
+      "expectedByteLength": 70260,
+      "expectedSha256": "sha256:12279d98ed4e4d6e486602c205ba80ad6dfaae9e120b61d5061b26b10db55951",
+      "path": "WindowsUtility.App.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 516,
+      "actualSha256": "sha256:05917b409d59af31bc8d3021bc06302a0c21c7d05b449603d6cc9f0301a2b66c",
+      "expectedByteLength": 516,
+      "expectedSha256": "sha256:05917b409d59af31bc8d3021bc06302a0c21c7d05b449603d6cc9f0301a2b66c",
+      "path": "WindowsUtility.App.runtimeconfig.json",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 64000,
+      "actualSha256": "sha256:70708df23480aecc0b7a6b3990292a86743785212262ed8059371cf8a52e0c61",
+      "expectedByteLength": 64000,
+      "expectedSha256": "sha256:70708df23480aecc0b7a6b3990292a86743785212262ed8059371cf8a52e0c61",
+      "path": "WindowsUtility.Core.Abstractions.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 32704,
+      "actualSha256": "sha256:02bdb348188bdffb41fd53b045eb9747c72c7090fd7546e40d52c73ff50d153e",
+      "expectedByteLength": 32704,
+      "expectedSha256": "sha256:02bdb348188bdffb41fd53b045eb9747c72c7090fd7546e40d52c73ff50d153e",
+      "path": "WindowsUtility.Core.Abstractions.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 161280,
+      "actualSha256": "sha256:cecd6871c170ca4e1a90d29677a56533b3b3562cc88892e4a9a853a78307fb1a",
+      "expectedByteLength": 161280,
+      "expectedSha256": "sha256:cecd6871c170ca4e1a90d29677a56533b3b3562cc88892e4a9a853a78307fb1a",
+      "path": "WindowsUtility.Core.Native.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 81756,
+      "actualSha256": "sha256:a43741a38955f60db53e3fd29cdcdab337ad5e3ec5f5919748c085d2df132831",
+      "expectedByteLength": 81756,
+      "expectedSha256": "sha256:a43741a38955f60db53e3fd29cdcdab337ad5e3ec5f5919748c085d2df132831",
+      "path": "WindowsUtility.Core.Native.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 47104,
+      "actualSha256": "sha256:78a2ad3a0a3e2604f2fc293ff48bd3734b016dfa7e486170ce6512e1cd71d260",
+      "expectedByteLength": 47104,
+      "expectedSha256": "sha256:78a2ad3a0a3e2604f2fc293ff48bd3734b016dfa7e486170ce6512e1cd71d260",
+      "path": "WindowsUtility.Core.Services.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 29624,
+      "actualSha256": "sha256:4dc673209bd257db4c4e6346abf031425f8b0cf8aa4c242ade16775702a867e8",
+      "expectedByteLength": 29624,
+      "expectedSha256": "sha256:4dc673209bd257db4c4e6346abf031425f8b0cf8aa4c242ade16775702a867e8",
+      "path": "WindowsUtility.Core.Services.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 11264,
+      "actualSha256": "sha256:2306897827b606285777e3b44b68416d7ebd3558db6a8afdefeb72622085d0bc",
+      "expectedByteLength": 11264,
+      "expectedSha256": "sha256:2306897827b606285777e3b44b68416d7ebd3558db6a8afdefeb72622085d0bc",
+      "path": "WindowsUtility.Diagnostics.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 13564,
+      "actualSha256": "sha256:990f21f1fb38b0fb9553c9cfe8ef08c58e1c8d6717cadeae1944c2f56b5323b4",
+      "expectedByteLength": 13564,
+      "expectedSha256": "sha256:990f21f1fb38b0fb9553c9cfe8ef08c58e1c8d6717cadeae1944c2f56b5323b4",
+      "path": "WindowsUtility.Diagnostics.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 4203008,
+      "actualSha256": "sha256:e72e750ffd1efa1760cb46d746114f2b877b5633707b6377f414a5b2a87737e3",
+      "expectedByteLength": 4203008,
+      "expectedSha256": "sha256:e72e750ffd1efa1760cb46d746114f2b877b5633707b6377f414a5b2a87737e3",
+      "path": "WindowsUtility.Modules.Config.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 147824,
+      "actualSha256": "sha256:03e38fc7838a6dc9da242c56478cce3f0bd926e2b0ada8502b134f7456319d67",
+      "expectedByteLength": 147824,
+      "expectedSha256": "sha256:03e38fc7838a6dc9da242c56478cce3f0bd926e2b0ada8502b134f7456319d67",
+      "path": "WindowsUtility.Modules.Config.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 33280,
+      "actualSha256": "sha256:5ecfe770002b2eb884e0bdd25d1f11de065d3fd124e4cde1cec537f9e813b0ba",
+      "expectedByteLength": 33280,
+      "expectedSha256": "sha256:5ecfe770002b2eb884e0bdd25d1f11de065d3fd124e4cde1cec537f9e813b0ba",
+      "path": "WindowsUtility.Modules.Diagnostics.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 25736,
+      "actualSha256": "sha256:5780b9eceaa15804b33da310109137d1cdb3419556835888a3ab89d8973a6bad",
+      "expectedByteLength": 25736,
+      "expectedSha256": "sha256:5780b9eceaa15804b33da310109137d1cdb3419556835888a3ab89d8973a6bad",
+      "path": "WindowsUtility.Modules.Diagnostics.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 27136,
+      "actualSha256": "sha256:d81da08f01213e6a5e9537c1d7d227b18c2388ad5b147e8f4f4158cf0059850d",
+      "expectedByteLength": 27136,
+      "expectedSha256": "sha256:d81da08f01213e6a5e9537c1d7d227b18c2388ad5b147e8f4f4158cf0059850d",
+      "path": "WindowsUtility.Modules.Dump.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 25004,
+      "actualSha256": "sha256:caa738da8646af1a9d794d74bfcbd7bed46aabe1a2d084e3204e51a07626a981",
+      "expectedByteLength": 25004,
+      "expectedSha256": "sha256:caa738da8646af1a9d794d74bfcbd7bed46aabe1a2d084e3204e51a07626a981",
+      "path": "WindowsUtility.Modules.Dump.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 48128,
+      "actualSha256": "sha256:540215ff2a4721901f9a66aebff96b2e356f0687449c2fb8a128225fa6fe9d52",
+      "expectedByteLength": 48128,
+      "expectedSha256": "sha256:540215ff2a4721901f9a66aebff96b2e356f0687449c2fb8a128225fa6fe9d52",
+      "path": "WindowsUtility.Modules.DumpView.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 32672,
+      "actualSha256": "sha256:190a2c873bfe71371a04e06b7104f739bc647060a24a12290cede570420ba80f",
+      "expectedByteLength": 32672,
+      "expectedSha256": "sha256:190a2c873bfe71371a04e06b7104f739bc647060a24a12290cede570420ba80f",
+      "path": "WindowsUtility.Modules.DumpView.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 18432,
+      "actualSha256": "sha256:78c39ad2fd169d25f26898f2bedd153c429a29b145225150ac2336eca0d71d33",
+      "expectedByteLength": 18432,
+      "expectedSha256": "sha256:78c39ad2fd169d25f26898f2bedd153c429a29b145225150ac2336eca0d71d33",
+      "path": "WindowsUtility.Modules.Firmware.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 21344,
+      "actualSha256": "sha256:b97fc6c83aa23da17f8cabf5e5b71a8962cc52a53b2fa5613de4fdb118082567",
+      "expectedByteLength": 21344,
+      "expectedSha256": "sha256:b97fc6c83aa23da17f8cabf5e5b71a8962cc52a53b2fa5613de4fdb118082567",
+      "path": "WindowsUtility.Modules.Firmware.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 17920,
+      "actualSha256": "sha256:1429b658e717bcb6a356dbaf2598d83350d2eaec48fce5a1abecb1a6fbc5849e",
+      "expectedByteLength": 17920,
+      "expectedSha256": "sha256:1429b658e717bcb6a356dbaf2598d83350d2eaec48fce5a1abecb1a6fbc5849e",
+      "path": "WindowsUtility.Modules.Model.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 21076,
+      "actualSha256": "sha256:c948bf0559a2ee535eb5a43b46c411738344d21db148a26de8c54586903e34db",
+      "expectedByteLength": 21076,
+      "expectedSha256": "sha256:c948bf0559a2ee535eb5a43b46c411738344d21db148a26de8c54586903e34db",
+      "path": "WindowsUtility.Modules.Model.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 26112,
+      "actualSha256": "sha256:a8f9d613d17702f51df91ef47975187f5e76fe2e1ec0e550e1632addb4e5b2af",
+      "expectedByteLength": 26112,
+      "expectedSha256": "sha256:a8f9d613d17702f51df91ef47975187f5e76fe2e1ec0e550e1632addb4e5b2af",
+      "path": "WindowsUtility.Modules.NetAdmin.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 24476,
+      "actualSha256": "sha256:43f47286c927e79d4216cb78adf557fe6f15cc21ef5d495ef8e503059fb1a7ba",
+      "expectedByteLength": 24476,
+      "expectedSha256": "sha256:43f47286c927e79d4216cb78adf557fe6f15cc21ef5d495ef8e503059fb1a7ba",
+      "path": "WindowsUtility.Modules.NetAdmin.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 17408,
+      "actualSha256": "sha256:be80a1a7b19adf436475daf69741da1408d1ad3d6edbb224b8bf0e7380a4d72b",
+      "expectedByteLength": 17408,
+      "expectedSha256": "sha256:be80a1a7b19adf436475daf69741da1408d1ad3d6edbb224b8bf0e7380a4d72b",
+      "path": "WindowsUtility.Modules.PrinterInfo.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 20776,
+      "actualSha256": "sha256:407a0b2561bd90aae6fdf20de0763a8c0ccb22d04996d9a37d283d274c669bbd",
+      "expectedByteLength": 20776,
+      "expectedSha256": "sha256:407a0b2561bd90aae6fdf20de0763a8c0ccb22d04996d9a37d283d274c669bbd",
+      "path": "WindowsUtility.Modules.PrinterInfo.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 25600,
+      "actualSha256": "sha256:22d432ca661fcba7142a82484e0d5e6caab3b3bbcfe2e4662ecb982e2f93a465",
+      "expectedByteLength": 25600,
+      "expectedSha256": "sha256:22d432ca661fcba7142a82484e0d5e6caab3b3bbcfe2e4662ecb982e2f93a465",
+      "path": "WindowsUtility.Modules.Serial.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 24116,
+      "actualSha256": "sha256:b3e4c2c54b759c2c788140fcd88a6dc7caf4593a5a159a3869d8f10dd0ac2314",
+      "expectedByteLength": 24116,
+      "expectedSha256": "sha256:b3e4c2c54b759c2c788140fcd88a6dc7caf4593a5a159a3869d8f10dd0ac2314",
+      "path": "WindowsUtility.Modules.Serial.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 39424,
+      "actualSha256": "sha256:34d382a0c112098c95111f79e9bc7adf85e43f4a9871e2aac86027547c843e8b",
+      "expectedByteLength": 39424,
+      "expectedSha256": "sha256:34d382a0c112098c95111f79e9bc7adf85e43f4a9871e2aac86027547c843e8b",
+      "path": "WindowsUtility.Modules.SimpleInfo.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 33680,
+      "actualSha256": "sha256:99fbc4c912ef3af0381ac4abbaeb801b3829e944bf0b27ac6a3216fcb616e0b0",
+      "expectedByteLength": 33680,
+      "expectedSha256": "sha256:99fbc4c912ef3af0381ac4abbaeb801b3829e944bf0b27ac6a3216fcb616e0b0",
+      "path": "WindowsUtility.Modules.SimpleInfo.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 25600,
+      "actualSha256": "sha256:75cbb0f8f14f7d1d67dc298d82e71872f887e6882ea411076863d04893124bd2",
+      "expectedByteLength": 25600,
+      "expectedSha256": "sha256:75cbb0f8f14f7d1d67dc298d82e71872f887e6882ea411076863d04893124bd2",
+      "path": "WindowsUtility.Modules.Test.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 24072,
+      "actualSha256": "sha256:28b95811ff6a8a4c40fb07c6a16073b54f453bf22057ba5a6d48bfbc8447e362",
+      "expectedByteLength": 24072,
+      "expectedSha256": "sha256:28b95811ff6a8a4c40fb07c6a16073b54f453bf22057ba5a6d48bfbc8447e362",
+      "path": "WindowsUtility.Modules.Test.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 75264,
+      "actualSha256": "sha256:b4f5b0f32012d47dc1f026e9ef9c79f3b907f2ccdb33e951fc24ec5792427212",
+      "expectedByteLength": 75264,
+      "expectedSha256": "sha256:b4f5b0f32012d47dc1f026e9ef9c79f3b907f2ccdb33e951fc24ec5792427212",
+      "path": "WindowsUtility.Shell.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 48580,
+      "actualSha256": "sha256:d4e82fbc942fa76603a318526a135db078e462c2a260a0a9ccc9b7b2abfa4d9f",
+      "expectedByteLength": 48580,
+      "expectedSha256": "sha256:d4e82fbc942fa76603a318526a135db078e462c2a260a0a9ccc9b7b2abfa4d9f",
+      "path": "WindowsUtility.Shell.pdb",
+      "result": "pass"
+    }
+  ],
+  "launchSmoke": {
+    "attempted": true,
+    "initialExitCode": null,
+    "observationSeconds": 5,
+    "pid": 58936,
+    "processObservation": {
+      "found": true,
+      "id": 58936,
+      "mainWindowTitle": "Card Printer Utility",
+      "processName": "WindowsUtility.App",
+      "responding": true
+    },
+    "started": true,
+    "stderrLog": "generated/windowsutility/package-artifact/p8.114/launch-stderr.log",
+    "stderrLogByteLength": 0,
+    "stderrLogSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdoutLog": "generated/windowsutility/package-artifact/p8.114/launch-stdout.log",
+    "stdoutLogByteLength": 0,
+    "stdoutLogSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "termination": {
+      "closeMainWindowReturned": true,
+      "exited": true,
+      "found": true,
+      "method": "close-main-window"
+    }
+  },
+  "result": "pass",
+  "sandbox": {
+    "copiedVerifiedExtractionToLaunchSandbox": true,
+    "launchSandboxRoot": ".tmp/p8.114-windowsutility-packaged-launch-smoke",
+    "packageExtractionPerformedByThisRun": false,
+    "removedAfterRun": true,
+    "retained": false,
+    "sourceExtractionRoot": ".tmp/p8.107-windowsutility-package-extraction",
+    "writesConfinedToSandbox": true
+  },
+  "scope": "p8.114-packaged-executable-launch-smoke-verification",
+  "sourceExtractionFileResults": [
+    {
+      "actualByteLength": 65264,
+      "actualSha256": "sha256:5d325305df8148afa9eaae82228a98c97b5a0568cc3a6b4d5c44bc10d6f3deaf",
+      "expectedByteLength": 65264,
+      "expectedSha256": "sha256:5d325305df8148afa9eaae82228a98c97b5a0568cc3a6b4d5c44bc10d6f3deaf",
+      "path": "CardPrinterConfig.ini",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 6619136,
+      "actualSha256": "sha256:88dfb98ec3c9438baa49b42e2d5411b56f62ba08915b9e2139a2f3990ae25a74",
+      "expectedByteLength": 6619136,
+      "expectedSha256": "sha256:88dfb98ec3c9438baa49b42e2d5411b56f62ba08915b9e2139a2f3990ae25a74",
+      "path": "SmartComm2.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 9028,
+      "actualSha256": "sha256:97b470f74025ebe5867d75b4653826e1a1268ee69bd2a5c9b3979826fe9c900c",
+      "expectedByteLength": 9028,
+      "expectedSha256": "sha256:97b470f74025ebe5867d75b4653826e1a1268ee69bd2a5c9b3979826fe9c900c",
+      "path": "WindowsUtility.App.deps.json",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 116736,
+      "actualSha256": "sha256:6b2a3199943e3e80490d3a0c41b649fd0254e0c7adea0dcffb895fd3a90813f8",
+      "expectedByteLength": 116736,
+      "expectedSha256": "sha256:6b2a3199943e3e80490d3a0c41b649fd0254e0c7adea0dcffb895fd3a90813f8",
+      "path": "WindowsUtility.App.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 145920,
+      "actualSha256": "sha256:36b28b3c0811f49df4aa243d93ee81ba1e5109a90fa6859a5c8213a3488942e7",
+      "expectedByteLength": 145920,
+      "expectedSha256": "sha256:36b28b3c0811f49df4aa243d93ee81ba1e5109a90fa6859a5c8213a3488942e7",
+      "path": "WindowsUtility.App.exe",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 70260,
+      "actualSha256": "sha256:12279d98ed4e4d6e486602c205ba80ad6dfaae9e120b61d5061b26b10db55951",
+      "expectedByteLength": 70260,
+      "expectedSha256": "sha256:12279d98ed4e4d6e486602c205ba80ad6dfaae9e120b61d5061b26b10db55951",
+      "path": "WindowsUtility.App.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 516,
+      "actualSha256": "sha256:05917b409d59af31bc8d3021bc06302a0c21c7d05b449603d6cc9f0301a2b66c",
+      "expectedByteLength": 516,
+      "expectedSha256": "sha256:05917b409d59af31bc8d3021bc06302a0c21c7d05b449603d6cc9f0301a2b66c",
+      "path": "WindowsUtility.App.runtimeconfig.json",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 64000,
+      "actualSha256": "sha256:70708df23480aecc0b7a6b3990292a86743785212262ed8059371cf8a52e0c61",
+      "expectedByteLength": 64000,
+      "expectedSha256": "sha256:70708df23480aecc0b7a6b3990292a86743785212262ed8059371cf8a52e0c61",
+      "path": "WindowsUtility.Core.Abstractions.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 32704,
+      "actualSha256": "sha256:02bdb348188bdffb41fd53b045eb9747c72c7090fd7546e40d52c73ff50d153e",
+      "expectedByteLength": 32704,
+      "expectedSha256": "sha256:02bdb348188bdffb41fd53b045eb9747c72c7090fd7546e40d52c73ff50d153e",
+      "path": "WindowsUtility.Core.Abstractions.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 161280,
+      "actualSha256": "sha256:cecd6871c170ca4e1a90d29677a56533b3b3562cc88892e4a9a853a78307fb1a",
+      "expectedByteLength": 161280,
+      "expectedSha256": "sha256:cecd6871c170ca4e1a90d29677a56533b3b3562cc88892e4a9a853a78307fb1a",
+      "path": "WindowsUtility.Core.Native.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 81756,
+      "actualSha256": "sha256:a43741a38955f60db53e3fd29cdcdab337ad5e3ec5f5919748c085d2df132831",
+      "expectedByteLength": 81756,
+      "expectedSha256": "sha256:a43741a38955f60db53e3fd29cdcdab337ad5e3ec5f5919748c085d2df132831",
+      "path": "WindowsUtility.Core.Native.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 47104,
+      "actualSha256": "sha256:78a2ad3a0a3e2604f2fc293ff48bd3734b016dfa7e486170ce6512e1cd71d260",
+      "expectedByteLength": 47104,
+      "expectedSha256": "sha256:78a2ad3a0a3e2604f2fc293ff48bd3734b016dfa7e486170ce6512e1cd71d260",
+      "path": "WindowsUtility.Core.Services.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 29624,
+      "actualSha256": "sha256:4dc673209bd257db4c4e6346abf031425f8b0cf8aa4c242ade16775702a867e8",
+      "expectedByteLength": 29624,
+      "expectedSha256": "sha256:4dc673209bd257db4c4e6346abf031425f8b0cf8aa4c242ade16775702a867e8",
+      "path": "WindowsUtility.Core.Services.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 11264,
+      "actualSha256": "sha256:2306897827b606285777e3b44b68416d7ebd3558db6a8afdefeb72622085d0bc",
+      "expectedByteLength": 11264,
+      "expectedSha256": "sha256:2306897827b606285777e3b44b68416d7ebd3558db6a8afdefeb72622085d0bc",
+      "path": "WindowsUtility.Diagnostics.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 13564,
+      "actualSha256": "sha256:990f21f1fb38b0fb9553c9cfe8ef08c58e1c8d6717cadeae1944c2f56b5323b4",
+      "expectedByteLength": 13564,
+      "expectedSha256": "sha256:990f21f1fb38b0fb9553c9cfe8ef08c58e1c8d6717cadeae1944c2f56b5323b4",
+      "path": "WindowsUtility.Diagnostics.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 4203008,
+      "actualSha256": "sha256:e72e750ffd1efa1760cb46d746114f2b877b5633707b6377f414a5b2a87737e3",
+      "expectedByteLength": 4203008,
+      "expectedSha256": "sha256:e72e750ffd1efa1760cb46d746114f2b877b5633707b6377f414a5b2a87737e3",
+      "path": "WindowsUtility.Modules.Config.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 147824,
+      "actualSha256": "sha256:03e38fc7838a6dc9da242c56478cce3f0bd926e2b0ada8502b134f7456319d67",
+      "expectedByteLength": 147824,
+      "expectedSha256": "sha256:03e38fc7838a6dc9da242c56478cce3f0bd926e2b0ada8502b134f7456319d67",
+      "path": "WindowsUtility.Modules.Config.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 33280,
+      "actualSha256": "sha256:5ecfe770002b2eb884e0bdd25d1f11de065d3fd124e4cde1cec537f9e813b0ba",
+      "expectedByteLength": 33280,
+      "expectedSha256": "sha256:5ecfe770002b2eb884e0bdd25d1f11de065d3fd124e4cde1cec537f9e813b0ba",
+      "path": "WindowsUtility.Modules.Diagnostics.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 25736,
+      "actualSha256": "sha256:5780b9eceaa15804b33da310109137d1cdb3419556835888a3ab89d8973a6bad",
+      "expectedByteLength": 25736,
+      "expectedSha256": "sha256:5780b9eceaa15804b33da310109137d1cdb3419556835888a3ab89d8973a6bad",
+      "path": "WindowsUtility.Modules.Diagnostics.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 27136,
+      "actualSha256": "sha256:d81da08f01213e6a5e9537c1d7d227b18c2388ad5b147e8f4f4158cf0059850d",
+      "expectedByteLength": 27136,
+      "expectedSha256": "sha256:d81da08f01213e6a5e9537c1d7d227b18c2388ad5b147e8f4f4158cf0059850d",
+      "path": "WindowsUtility.Modules.Dump.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 25004,
+      "actualSha256": "sha256:caa738da8646af1a9d794d74bfcbd7bed46aabe1a2d084e3204e51a07626a981",
+      "expectedByteLength": 25004,
+      "expectedSha256": "sha256:caa738da8646af1a9d794d74bfcbd7bed46aabe1a2d084e3204e51a07626a981",
+      "path": "WindowsUtility.Modules.Dump.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 48128,
+      "actualSha256": "sha256:540215ff2a4721901f9a66aebff96b2e356f0687449c2fb8a128225fa6fe9d52",
+      "expectedByteLength": 48128,
+      "expectedSha256": "sha256:540215ff2a4721901f9a66aebff96b2e356f0687449c2fb8a128225fa6fe9d52",
+      "path": "WindowsUtility.Modules.DumpView.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 32672,
+      "actualSha256": "sha256:190a2c873bfe71371a04e06b7104f739bc647060a24a12290cede570420ba80f",
+      "expectedByteLength": 32672,
+      "expectedSha256": "sha256:190a2c873bfe71371a04e06b7104f739bc647060a24a12290cede570420ba80f",
+      "path": "WindowsUtility.Modules.DumpView.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 18432,
+      "actualSha256": "sha256:78c39ad2fd169d25f26898f2bedd153c429a29b145225150ac2336eca0d71d33",
+      "expectedByteLength": 18432,
+      "expectedSha256": "sha256:78c39ad2fd169d25f26898f2bedd153c429a29b145225150ac2336eca0d71d33",
+      "path": "WindowsUtility.Modules.Firmware.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 21344,
+      "actualSha256": "sha256:b97fc6c83aa23da17f8cabf5e5b71a8962cc52a53b2fa5613de4fdb118082567",
+      "expectedByteLength": 21344,
+      "expectedSha256": "sha256:b97fc6c83aa23da17f8cabf5e5b71a8962cc52a53b2fa5613de4fdb118082567",
+      "path": "WindowsUtility.Modules.Firmware.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 17920,
+      "actualSha256": "sha256:1429b658e717bcb6a356dbaf2598d83350d2eaec48fce5a1abecb1a6fbc5849e",
+      "expectedByteLength": 17920,
+      "expectedSha256": "sha256:1429b658e717bcb6a356dbaf2598d83350d2eaec48fce5a1abecb1a6fbc5849e",
+      "path": "WindowsUtility.Modules.Model.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 21076,
+      "actualSha256": "sha256:c948bf0559a2ee535eb5a43b46c411738344d21db148a26de8c54586903e34db",
+      "expectedByteLength": 21076,
+      "expectedSha256": "sha256:c948bf0559a2ee535eb5a43b46c411738344d21db148a26de8c54586903e34db",
+      "path": "WindowsUtility.Modules.Model.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 26112,
+      "actualSha256": "sha256:a8f9d613d17702f51df91ef47975187f5e76fe2e1ec0e550e1632addb4e5b2af",
+      "expectedByteLength": 26112,
+      "expectedSha256": "sha256:a8f9d613d17702f51df91ef47975187f5e76fe2e1ec0e550e1632addb4e5b2af",
+      "path": "WindowsUtility.Modules.NetAdmin.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 24476,
+      "actualSha256": "sha256:43f47286c927e79d4216cb78adf557fe6f15cc21ef5d495ef8e503059fb1a7ba",
+      "expectedByteLength": 24476,
+      "expectedSha256": "sha256:43f47286c927e79d4216cb78adf557fe6f15cc21ef5d495ef8e503059fb1a7ba",
+      "path": "WindowsUtility.Modules.NetAdmin.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 17408,
+      "actualSha256": "sha256:be80a1a7b19adf436475daf69741da1408d1ad3d6edbb224b8bf0e7380a4d72b",
+      "expectedByteLength": 17408,
+      "expectedSha256": "sha256:be80a1a7b19adf436475daf69741da1408d1ad3d6edbb224b8bf0e7380a4d72b",
+      "path": "WindowsUtility.Modules.PrinterInfo.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 20776,
+      "actualSha256": "sha256:407a0b2561bd90aae6fdf20de0763a8c0ccb22d04996d9a37d283d274c669bbd",
+      "expectedByteLength": 20776,
+      "expectedSha256": "sha256:407a0b2561bd90aae6fdf20de0763a8c0ccb22d04996d9a37d283d274c669bbd",
+      "path": "WindowsUtility.Modules.PrinterInfo.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 25600,
+      "actualSha256": "sha256:22d432ca661fcba7142a82484e0d5e6caab3b3bbcfe2e4662ecb982e2f93a465",
+      "expectedByteLength": 25600,
+      "expectedSha256": "sha256:22d432ca661fcba7142a82484e0d5e6caab3b3bbcfe2e4662ecb982e2f93a465",
+      "path": "WindowsUtility.Modules.Serial.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 24116,
+      "actualSha256": "sha256:b3e4c2c54b759c2c788140fcd88a6dc7caf4593a5a159a3869d8f10dd0ac2314",
+      "expectedByteLength": 24116,
+      "expectedSha256": "sha256:b3e4c2c54b759c2c788140fcd88a6dc7caf4593a5a159a3869d8f10dd0ac2314",
+      "path": "WindowsUtility.Modules.Serial.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 39424,
+      "actualSha256": "sha256:34d382a0c112098c95111f79e9bc7adf85e43f4a9871e2aac86027547c843e8b",
+      "expectedByteLength": 39424,
+      "expectedSha256": "sha256:34d382a0c112098c95111f79e9bc7adf85e43f4a9871e2aac86027547c843e8b",
+      "path": "WindowsUtility.Modules.SimpleInfo.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 33680,
+      "actualSha256": "sha256:99fbc4c912ef3af0381ac4abbaeb801b3829e944bf0b27ac6a3216fcb616e0b0",
+      "expectedByteLength": 33680,
+      "expectedSha256": "sha256:99fbc4c912ef3af0381ac4abbaeb801b3829e944bf0b27ac6a3216fcb616e0b0",
+      "path": "WindowsUtility.Modules.SimpleInfo.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 25600,
+      "actualSha256": "sha256:75cbb0f8f14f7d1d67dc298d82e71872f887e6882ea411076863d04893124bd2",
+      "expectedByteLength": 25600,
+      "expectedSha256": "sha256:75cbb0f8f14f7d1d67dc298d82e71872f887e6882ea411076863d04893124bd2",
+      "path": "WindowsUtility.Modules.Test.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 24072,
+      "actualSha256": "sha256:28b95811ff6a8a4c40fb07c6a16073b54f453bf22057ba5a6d48bfbc8447e362",
+      "expectedByteLength": 24072,
+      "expectedSha256": "sha256:28b95811ff6a8a4c40fb07c6a16073b54f453bf22057ba5a6d48bfbc8447e362",
+      "path": "WindowsUtility.Modules.Test.pdb",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 75264,
+      "actualSha256": "sha256:b4f5b0f32012d47dc1f026e9ef9c79f3b907f2ccdb33e951fc24ec5792427212",
+      "expectedByteLength": 75264,
+      "expectedSha256": "sha256:b4f5b0f32012d47dc1f026e9ef9c79f3b907f2ccdb33e951fc24ec5792427212",
+      "path": "WindowsUtility.Shell.dll",
+      "result": "pass"
+    },
+    {
+      "actualByteLength": 48580,
+      "actualSha256": "sha256:d4e82fbc942fa76603a318526a135db078e462c2a260a0a9ccc9b7b2abfa4d9f",
+      "expectedByteLength": 48580,
+      "expectedSha256": "sha256:d4e82fbc942fa76603a318526a135db078e462c2a260a0a9ccc9b7b2abfa4d9f",
+      "path": "WindowsUtility.Shell.pdb",
+      "result": "pass"
+    }
+  ],
+  "sourceReports": {
+    "authorization": "generated/roadmap/p8.113-packaged-executable-launch-smoke-authorization-response-record.json",
+    "extractionInventory": "generated/windowsutility/package-artifact/p8.107/extraction-inventory-report.json"
+  },
+  "status": "intentgraph-packaged-executable-launch-smoke-passed",
+  "targetAfter": {
+    "head": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "status": "## main...origin/main"
+  },
+  "targetBefore": {
+    "head": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "originMain": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "status": "## main...origin/main"
+  },
+  "workItem": "P8.114 Packaged Executable Launch Smoke Verification"
+}
