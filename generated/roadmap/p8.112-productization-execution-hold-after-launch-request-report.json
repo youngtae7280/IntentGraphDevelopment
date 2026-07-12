@@ -1,0 +1,43 @@
+{
+  "artifactRole": "intentgraph-productization-execution-hold-summary-report",
+  "date": "2026-07-13",
+  "decision": "productization-execution-held-pending-exact-launch-smoke-authorization",
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunched": false,
+    "packagedUiLaunched": false,
+    "packagedUiScreenshotCaptured": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "holdSummary": {
+    "exactAcceptedResponseRequired": "accept sandboxed packaged executable launch smoke",
+    "launchSmokeAuthorizationMissing": true,
+    "meaningfulNonExecutionProductizationSliceAvailable": false,
+    "packageExtractionInventoryVerificationPassed": true,
+    "productizationExecutionHeld": true,
+    "why": "The next productization evidence gate requires launching the packaged executable from a sandbox. P8.110 requested the exact authority and P8.111 recorded the hold state, but no exact accepted response has been recorded."
+  },
+  "recommendedNextSlice": "Wait for exact packaged executable launch smoke authorization response",
+  "scope": "p8.112-productization-execution-hold-after-launch-request",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.110-packaged-executable-launch-smoke-authorization-refresh.json",
+      "role": "intentgraph-packaged-executable-launch-smoke-authorization-request",
+      "sha256": "sha256:51571505c0b393913d44e717a70173c20310bda727baecd440b3aab3e5df0228",
+      "status": "intentgraph-packaged-executable-launch-smoke-authorization-requested"
+    },
+    {
+      "path": "generated/roadmap/p8.111-packaged-executable-launch-smoke-scope-hold-record.json",
+      "role": "intentgraph-packaged-executable-launch-smoke-scope-hold-record",
+      "sha256": "sha256:ba2e8ea7d2863e585bc3e7f8e34e2670e58c90afc7013ccfcd27451e73b6c047",
+      "status": "intentgraph-packaged-executable-launch-smoke-held"
+    }
+  ],
+  "status": "intentgraph-productization-execution-held",
+  "workItem": "P8.112 Productization Execution Hold After Launch Request"
+}
