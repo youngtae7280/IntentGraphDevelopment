@@ -25,6 +25,7 @@ from experimental_csharp_project import (
     ProjectWorkspaceError,
     add_change_proposal as add_experimental_csharp_change_proposal,
     add_mapping_candidate as add_experimental_csharp_mapping_candidate,
+    add_review_receipt as add_experimental_csharp_review_receipt,
     add_work_request as add_experimental_csharp_work_request,
     emit_project_workbench as emit_experimental_csharp_project_workbench,
     initialize_project as initialize_experimental_csharp_project,
@@ -663,6 +664,12 @@ def parse_args() -> argparse.Namespace:
     )
     csharp_project_proposal.add_argument("--workspace", required=True, type=Path)
     csharp_project_proposal.add_argument("--proposal", required=True, type=Path)
+    csharp_project_receipt = subparsers.add_parser(
+        "add-experimental-csharp-review-receipt",
+        help="Record a non-executing review receipt for one proposal verification/evidence requirement pair.",
+    )
+    csharp_project_receipt.add_argument("--workspace", required=True, type=Path)
+    csharp_project_receipt.add_argument("--receipt", required=True, type=Path)
     csharp_project_workbench = subparsers.add_parser(
         "emit-experimental-csharp-project-workbench",
         help="Emit a unified project workbench from a local C# semantic-overlay project workspace.",
@@ -722,6 +729,9 @@ def main() -> int:
             return 0
         if args.command == "add-experimental-csharp-change-proposal":
             emit_status(add_experimental_csharp_change_proposal(args.workspace, args.proposal))
+            return 0
+        if args.command == "add-experimental-csharp-review-receipt":
+            emit_status(add_experimental_csharp_review_receipt(args.workspace, args.receipt))
             return 0
         if args.command == "emit-experimental-csharp-project-workbench":
             emit_status(emit_experimental_csharp_project_workbench(args.workspace, args.out))

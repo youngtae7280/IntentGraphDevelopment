@@ -45,6 +45,11 @@ WORKBENCH_VERSION = "0.1.0"
 PROPOSAL_ROLE = "intentgraph-experimental-csharp-change-proposal"
 PROPOSAL_SCOPE = "experimental-csharp-semantic-overlay-change-proposal"
 PROPOSAL_STATUS = "not-applied-review-required"
+REVIEW_RECEIPT_ROLE = "intentgraph-experimental-csharp-review-receipt"
+REVIEW_RECEIPT_SCOPE = "experimental-csharp-semantic-overlay-review-receipt"
+REVIEW_RECEIPT_STATUS = "review-only-receipt-recorded"
+REVIEW_RECEIPT_RESULTS = {"reviewed-pass", "reviewed-fail", "review-blocked"}
+REVIEW_RECEIPT_SCOPES = {"proposal", "code-diff", "graph-delta", "verification-requirement", "evidence-requirement"}
 FOUNDATION_ROLE = "intentgraph-semantic-foundation"
 FOUNDATION_STATUS = "intentgraph-semantic-foundation-declared"
 FOUNDATION_SCOPE = "experimental-csharp-semantic-foundation-declared-only"
@@ -66,6 +71,16 @@ PROPOSAL_AUTHORITY = {
     "credentialAccessAllowed": False,
     "graphMutationApplied": False,
     "approvalRecorded": False,
+}
+REVIEW_RECEIPT_AUTHORITY = {
+    "targetRepositoryMutation": False,
+    "automaticCodeApplication": False,
+    "verificationExecution": False,
+    "evidenceExecution": False,
+    "selfAuthorized": False,
+    "approvalRecorded": False,
+    "networkRequired": False,
+    "credentialAccessAllowed": False,
 }
 SEMANTIC_DELTA_CATEGORIES = {"verification", "evidence"}
 
@@ -359,6 +374,7 @@ def state_for(project_id: str, title: str, snapshot_manifest: dict[str, Any], su
         "workItems": [],
         "mappings": [],
         "changeProposals": [],
+        "reviewReceipts": [],
         "verification": [
             {
                 "id": "verification.snapshot-integrity",
@@ -554,6 +570,82 @@ def proposal_artifacts(
     return proposals
 
 
+def validate_review_receipt_document(
+    receipt: dict[str, Any],
+    *,
+    proposal_by_id: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    assert_no_unsafe_state(receipt)
+    expected = {
+        "artifactRole",
+        "schemaVersion",
+        "scope",
+        "id",
+        "proposalId",
+        "verificationRequirementId",
+        "evidenceRequirementId",
+        "result",
+        "reviewScope",
+        "summary",
+        "authority",
+    }
+    if set(receipt) != expected:
+        raise ProjectWorkspaceError("review receipt fields are invalid")
+    if receipt["artifactRole"] != REVIEW_RECEIPT_ROLE or receipt["schemaVersion"] != PROJECT_SCHEMA_VERSION or receipt["scope"] != REVIEW_RECEIPT_SCOPE:
+        raise ProjectWorkspaceError("review receipt role, schema version, or scope is invalid")
+    safe_id(str(receipt["id"]), "review receipt id")
+    proposal = proposal_by_id.get(receipt["proposalId"])
+    if proposal is None:
+        raise ProjectWorkspaceError("review receipt must reference a known change proposal")
+    verification_ids = {record["id"] for record in proposal["verificationRequirements"]}
+    evidence_ids = {record["id"] for record in proposal["evidenceRequirements"]}
+    if receipt["verificationRequirementId"] not in verification_ids or receipt["evidenceRequirementId"] not in evidence_ids:
+        raise ProjectWorkspaceError("review receipt requirement references are invalid")
+    if receipt["result"] not in REVIEW_RECEIPT_RESULTS:
+        raise ProjectWorkspaceError("review receipt result is invalid")
+    review_scope = receipt["reviewScope"]
+    if not isinstance(review_scope, list) or not review_scope or review_scope != sorted(set(review_scope)) or "proposal" not in review_scope or any(item not in REVIEW_RECEIPT_SCOPES for item in review_scope):
+        raise ProjectWorkspaceError("review receipt scope is invalid")
+    if not isinstance(receipt["summary"], str) or not receipt["summary"].strip():
+        raise ProjectWorkspaceError("review receipt summary is required")
+    if receipt["authority"] != REVIEW_RECEIPT_AUTHORITY:
+        raise ProjectWorkspaceError("review receipt authority must remain non-executing and non-approving")
+    return receipt
+
+
+def review_receipt_artifacts(
+    project_workspace: Path,
+    state: dict[str, Any],
+    *,
+    proposals: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    records = state.get("reviewReceipts", [])
+    if not isinstance(records, list):
+        raise ProjectWorkspaceError("project state reviewReceipts must be a list")
+    receipt_ids = validate_record_ids(records, "review receipt")
+    proposal_by_id = {proposal["id"]: proposal for proposal in proposals}
+    receipts: list[dict[str, Any]] = []
+    seen_requirement_pairs: set[tuple[str, str, str]] = set()
+    for record in records:
+        expected = {"id", "artifact", "proposalId", "verificationRequirementId", "evidenceRequirementId", "status"}
+        if set(record) != expected:
+            raise ProjectWorkspaceError("review receipt index record fields are invalid")
+        if record["id"] not in receipt_ids or record["proposalId"] not in proposal_by_id or record["status"] != REVIEW_RECEIPT_STATUS:
+            raise ProjectWorkspaceError("review receipt index record is invalid")
+        artifact = contained_project_path(project_workspace, str(record["artifact"]), required_directory="receipts")
+        if not artifact.is_file():
+            raise ProjectWorkspaceError("review receipt artifact is missing")
+        receipt = validate_review_receipt_document(read_json(artifact), proposal_by_id=proposal_by_id)
+        if any(receipt[key] != record[key] for key in ("id", "proposalId", "verificationRequirementId", "evidenceRequirementId")):
+            raise ProjectWorkspaceError("review receipt index record does not match its artifact")
+        requirement_pair = (receipt["proposalId"], receipt["verificationRequirementId"], receipt["evidenceRequirementId"])
+        if requirement_pair in seen_requirement_pairs:
+            raise ProjectWorkspaceError("review receipt already exists for the proposal requirement pair")
+        seen_requirement_pairs.add(requirement_pair)
+        receipts.append(receipt)
+    return receipts
+
+
 def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Path], dict[str, Any]]:
     project_workspace = project_workspace.resolve()
     project_file, snapshot = snapshot_paths(project_workspace)
@@ -580,7 +672,9 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         raise ProjectWorkspaceError("project state does not match nested snapshot provenance")
     if state.get("authority") != PROJECT_AUTHORITY:
         raise ProjectWorkspaceError("project authority boundary is invalid")
-    for key in ("workItems", "mappings", "changeProposals", "verification", "evidence", "history"):
+    if "reviewReceipts" not in state:
+        state["reviewReceipts"] = []
+    for key in ("workItems", "mappings", "changeProposals", "reviewReceipts", "verification", "evidence", "history"):
         if not isinstance(state.get(key), list):
             raise ProjectWorkspaceError(f"project state {key} must be a list")
     work_ids = validate_record_ids(state["workItems"], "work item")
@@ -598,7 +692,7 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
             raise ProjectWorkspaceError(f"work item {item['id']} title and request are required")
         if item["status"] not in WORK_STATUSES or item["mappingStatus"] not in MAPPING_STATUSES:
             raise ProjectWorkspaceError(f"work item {item['id']} lifecycle state is invalid")
-        if item["changeStatus"] not in {"not-proposed", "proposal-review-required"} or item["verificationStatus"] not in {"not-required", "snapshot-only", "requirements-recorded"}:
+        if item["changeStatus"] not in {"not-proposed", "proposal-review-required"} or item["verificationStatus"] not in {"not-required", "snapshot-only", "requirements-recorded", "review-receipt-recorded"}:
             raise ProjectWorkspaceError(f"work item {item['id']} claims an unsupported change or verification state")
     fact_by_id = {fact.get("id"): fact for fact in facts.get("facts", []) if isinstance(fact, dict) and isinstance(fact.get("id"), str)}
     fact_ids = set(fact_by_id)
@@ -647,10 +741,14 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
     semantic_ids.update(f"evidence.{record['id']}" for record in state["evidence"])
     semantic_ids.update(f"history.{record['id']}" for record in state["history"])
     proposals = proposal_artifacts(project_workspace, state, work_ids=work_ids, mapping_ids=mapping_ids, fact_by_id=fact_by_id, known_node_ids=semantic_ids)
+    review_receipts = review_receipt_artifacts(project_workspace, state, proposals=proposals)
+    reviewed_proposal_ids = {receipt["proposalId"] for receipt in review_receipts}
     proposed_work_ids = {proposal["workItemId"] for proposal in proposals}
     for item in state["workItems"]:
         if item["id"] in proposed_work_ids:
-            if item["changeStatus"] != "proposal-review-required" or item["verificationStatus"] != "requirements-recorded":
+            proposal = next(proposal for proposal in proposals if proposal["workItemId"] == item["id"])
+            expected_verification_status = "review-receipt-recorded" if proposal["id"] in reviewed_proposal_ids else "requirements-recorded"
+            if item["changeStatus"] != "proposal-review-required" or item["verificationStatus"] != expected_verification_status:
                 raise ProjectWorkspaceError("work item proposal status must agree with its change proposal")
         elif item["changeStatus"] != "not-proposed":
             raise ProjectWorkspaceError("work item without a proposal must remain not-proposed")
@@ -663,6 +761,7 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         "facts": facts,
         "mappingIds": mapping_ids,
         "proposals": proposals,
+        "reviewReceipts": review_receipts,
         "semanticFoundation": foundation,
     }
 
@@ -875,6 +974,82 @@ def add_change_proposal_document(project_workspace: Path, proposal: dict[str, An
 def add_change_proposal(project_workspace: Path, proposal_path: Path) -> dict[str, Any]:
     proposal_path = proposal_path.resolve()
     return add_change_proposal_document(project_workspace, read_json(proposal_path))
+
+
+def add_review_receipt_document(project_workspace: Path, receipt: dict[str, Any]) -> dict[str, Any]:
+    project_workspace = project_workspace.resolve()
+    if not isinstance(receipt, dict):
+        raise ProjectWorkspaceError("review receipt document must be a JSON object")
+    state, _, _, data = validate_project_workspace(project_workspace)
+    proposals = data["proposals"]
+    proposal_by_id = {proposal["id"]: proposal for proposal in proposals}
+    receipt = validate_review_receipt_document(receipt, proposal_by_id=proposal_by_id)
+    if any(record["id"] == receipt["id"] for record in state["reviewReceipts"]):
+        raise ProjectWorkspaceError("review receipt identifier already exists")
+    if any(
+        record["proposalId"] == receipt["proposalId"]
+        and record["verificationRequirementId"] == receipt["verificationRequirementId"]
+        and record["evidenceRequirementId"] == receipt["evidenceRequirementId"]
+        for record in state["reviewReceipts"]
+    ):
+        raise ProjectWorkspaceError("review receipt already exists for the proposal requirement pair")
+    destination_relative = f"receipts/{receipt['id']}.json"
+    destination = contained_project_path(project_workspace, destination_relative, required_directory="receipts")
+    if destination.exists():
+        raise ProjectWorkspaceError("review receipt artifact path already exists")
+    write_json(destination, receipt)
+    state["reviewReceipts"].append(
+        {
+            "id": receipt["id"],
+            "artifact": destination_relative,
+            "proposalId": receipt["proposalId"],
+            "verificationRequirementId": receipt["verificationRequirementId"],
+            "evidenceRequirementId": receipt["evidenceRequirementId"],
+            "status": REVIEW_RECEIPT_STATUS,
+        }
+    )
+    proposal = proposal_by_id[receipt["proposalId"]]
+    work = next(item for item in state["workItems"] if item["id"] == proposal["workItemId"])
+    work["verificationStatus"] = "review-receipt-recorded"
+    state["verification"].append(
+        {
+            "id": f"verification.review-receipt.{receipt['id']}",
+            "kind": "review-receipt",
+            "result": receipt["result"],
+            "summary": f"Recorded a non-executing review receipt for {receipt['verificationRequirementId']}.",
+        }
+    )
+    state["evidence"].append(
+        {
+            "id": f"evidence.review-receipt.{receipt['id']}",
+            "kind": "review-receipt",
+            "result": receipt["result"],
+            "summary": f"Recorded a non-executing review receipt for {receipt['evidenceRequirementId']}.",
+        }
+    )
+    state["history"].append(
+        {
+            "id": f"history.review-receipt.{receipt['id']}",
+            "kind": "review-receipt-recorded",
+            "summary": f"Recorded review receipt {receipt['id']} without executing verification, collecting runtime evidence, applying a graph delta, or changing source code.",
+        }
+    )
+    write_json(project_workspace / PROJECT_FILE, state)
+    validate_project_workspace(project_workspace)
+    return {
+        "result": "pass",
+        "command": "add-experimental-csharp-review-receipt",
+        "receiptId": receipt["id"],
+        "proposalId": receipt["proposalId"],
+        "resultStatus": receipt["result"],
+        "targetRepositoryMutation": False,
+        "authority": PROJECT_AUTHORITY,
+    }
+
+
+def add_review_receipt(project_workspace: Path, receipt_path: Path) -> dict[str, Any]:
+    receipt_path = receipt_path.resolve()
+    return add_review_receipt_document(project_workspace, read_json(receipt_path))
 
 
 def code_node(fact: dict[str, Any]) -> dict[str, Any]:
@@ -1128,6 +1303,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
         },
         "workflow": {
             **{key: state[key] for key in ("workItems", "mappings", "verification", "evidence", "history")},
+            "reviewReceipts": data["reviewReceipts"],
             "semanticFoundation": semantic_foundation,
             "changeProposals": proposals,
             "proposalDeltas": sorted(proposal_deltas, key=lambda item: item["id"]),
@@ -1178,6 +1354,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "staticGraphMutationFromUi": False,
             "loopbackProjectStateMutationFromUi": True,
             "loopbackReviewProposalIntakeFromUi": True,
+            "loopbackReviewReceiptIntakeFromUi": True,
             "targetRepositoryMutationFromUi": False,
             "approvalControlsPresent": False,
             "fullGraphDefault": True,
@@ -1214,13 +1391,13 @@ HTML_TEMPLATE = r'''<!doctype html>
   <title>IntentGraph Project Workbench</title>
   <script src="assets/cytoscape.min.js"></script>
   <style>
-    :root { --left: 286px; --right: 356px; --bg:#0a1016; --panel:#111923; --panel2:#0e151d; --line:#263544; --text:#e1e9f1; --muted:#8d9cac; --accent:#4ec6ba; --warn:#deb96f; --danger:#e47f76; --code:#8fa9c3; --intent:#da9f66; --work:#72b790; --evidence:#b68ee0; --history:#8f9bb2; --proposal:#e47f76; }
-    * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--text); font:13px/1.45 Inter,Segoe UI,Arial,sans-serif; letter-spacing:0; overflow:hidden; }
-    button,input,select { font:inherit; } button { color:var(--text); background:#172331; border:1px solid #314556; border-radius:4px; padding:6px 9px; cursor:pointer; } button:hover,button.active { border-color:var(--accent); background:#19343a; } input,select { width:100%; color:var(--text); background:#0b1219; border:1px solid #314556; border-radius:4px; padding:7px 8px; }
-    .app { height:100vh; display:grid; grid-template-rows:54px 1fr; } .topbar { display:flex; align-items:center; justify-content:space-between; padding:0 16px; border-bottom:1px solid var(--line); background:#0d151e; } .brand { display:flex; align-items:baseline; gap:9px; } .brand strong { font-size:15px; letter-spacing:.2px; } .brand span { color:var(--muted); } .badges { display:flex; gap:6px; } .badge { color:#aebccb; border:1px solid #314556; padding:3px 7px; border-radius:99px; font-size:11px; } .badge.accent { color:#9ee8df; border-color:#266a63; }
-    .workspace { min-height:0; display:grid; grid-template-columns:var(--left) 7px minmax(440px,1fr) 7px var(--right); } .rail,.inspector { overflow:auto; background:var(--panel2); } .rail { border-right:1px solid var(--line); } .inspector { border-left:1px solid var(--line); } .resizer { background:#101a24; cursor:col-resize; position:relative; } .resizer:hover,.resizer.active { background:var(--accent); } .section { padding:14px; border-bottom:1px solid var(--line); } h2 { margin:0 0 9px; font-size:11px; text-transform:uppercase; color:#97aabb; letter-spacing:.7px; } h3 { margin:0 0 7px; font-size:15px; } p { margin:5px 0; color:#b8c5d0; } label { display:block; margin:8px 0 4px; color:var(--muted); font-size:11px; } .modes { display:grid; grid-template-columns:1fr 1fr; gap:5px; } .modes button:last-child { grid-column:span 2; }
-    .work-list { display:grid; gap:7px; } .work-card { text-align:left; padding:9px; background:#111c25; } .work-card small { display:block; color:var(--muted); margin-top:3px; } .work-card .state { color:#9ee8df; text-transform:uppercase; font-size:10px; letter-spacing:.5px; } .work-card.unmapped .state { color:var(--warn); } .empty { color:var(--muted); font-style:italic; padding:7px 0; } .metrics { display:grid; grid-template-columns:1fr 1fr; gap:7px; } .metric { padding:8px; border:1px solid var(--line); background:#0c141c; } .metric strong { display:block; font-size:16px; } .metric span { color:var(--muted); font-size:11px; }
-    .canvas { min-width:0; min-height:0; display:grid; grid-template-rows:68px minmax(0,1fr) 174px; background:#0b1219; } .canvasbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); } h1 { margin:0; font-size:16px; } .canvasbar p { font-size:11px; margin:2px 0 0; color:var(--muted); } .tools { display:flex; gap:5px; } .icon { min-width:32px; } #projectGraph { min-height:0; } .review-tray { border-top:1px solid var(--line); display:grid; grid-template-columns:1.2fr 1fr 1fr; overflow:auto; } .tray-section { padding:12px; border-right:1px solid var(--line); } .tray-section:last-child { border-right:0; } .tray-title { color:#9aacbb; text-transform:uppercase; font-size:10px; letter-spacing:.65px; margin-bottom:6px; } .state-line { color:#b6c4d1; } .state-line strong { color:var(--warn); } .detail { padding:8px; background:#0d151e; border:1px solid #2a3a49; border-radius:4px; } .detail + .detail { margin-top:8px; } .kv { display:grid; grid-template-columns:112px 1fr; gap:4px 8px; margin:8px 0 0; } .kv dt { color:var(--muted); } .kv dd { margin:0; overflow-wrap:anywhere; } .status-list { display:grid; gap:6px; } .status-row { display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid #1e2a35; } .status-row:last-child { border-bottom:0; } .status-row span:last-child { color:var(--warn); text-align:right; } .boundary { color:#b7c7d5; } .boundary strong { color:#9ee8df; } .legend { display:grid; grid-template-columns:1fr 1fr; gap:6px; color:#c4d0db; } .legend i { width:10px; height:10px; display:inline-block; border-radius:50%; margin-right:5px; } .delta-list { display:grid; gap:4px; margin-top:8px; } .delta-step { width:100%; text-align:left; font-size:11px; padding:5px 7px; } .diff { margin:9px 0 0; padding:9px; overflow:auto; white-space:pre; background:#071018; border:1px solid #2a3d4e; color:#c9d8e5; font:11px/1.45 Consolas,monospace; }
+    :root { --left:286px; --right:356px; --void:#05050a; --panel:#0d0d16; --panel2:#100e1a; --line:#302b45; --text:#f2efff; --muted:#aaa4bd; --accent:#45f2dc; --pink:#ff67c7; --violet:#ad91ff; --warn:#ffd166; --danger:#ff8a79; --code:#57778d; --intent:#ffb35c; --work:#65d6a2; --evidence:#c0a0ff; --history:#94a9d6; --proposal:#ff8a79; }
+    * { box-sizing:border-box; } body { margin:0; background:var(--void); color:var(--text); font:13px/1.45 Inter,Segoe UI,Arial,sans-serif; letter-spacing:0; overflow:hidden; }
+    button,input,select { font:inherit; } button { color:var(--text); background:#171321; border:1px solid #40395c; border-radius:4px; padding:6px 9px; cursor:pointer; transition:border-color 120ms ease,background 120ms ease,box-shadow 120ms ease; } button:hover,button.active { border-color:var(--accent); background:#171a26; box-shadow:0 0 0 1px rgba(69,242,220,.15),0 0 16px rgba(69,242,220,.09); } input,select { width:100%; color:var(--text); background:#090810; border:1px solid #40395c; border-radius:4px; padding:7px 8px; }
+    .app { height:100vh; display:grid; grid-template-rows:54px 1fr; } .topbar { display:flex; align-items:center; justify-content:space-between; padding:0 16px; border-bottom:1px solid var(--line); background:#0a0910; box-shadow:0 1px 18px rgba(173,145,255,.08); } .brand { display:flex; align-items:baseline; gap:9px; } .brand strong { color:#fbf9ff; font-size:15px; letter-spacing:.4px; } .brand span { color:var(--muted); } .badges { display:flex; gap:6px; } .badge { color:#c7bfdf; border:1px solid #4a4264; padding:3px 7px; border-radius:99px; font-size:11px; } .badge.accent { color:#92fff0; border-color:#278c84; }
+    .workspace { min-height:0; display:grid; grid-template-columns:var(--left) 7px minmax(440px,1fr) 7px var(--right); } .rail,.inspector { overflow:auto; background:var(--panel2); } .rail { border-right:1px solid var(--line); } .inspector { border-left:1px solid var(--line); } .resizer { background:#171321; cursor:col-resize; position:relative; } .resizer:hover,.resizer.active { background:var(--accent); box-shadow:0 0 14px rgba(69,242,220,.3); } .section { padding:14px; border-bottom:1px solid var(--line); } h2 { margin:0 0 9px; font-size:11px; text-transform:uppercase; color:#c2b9da; letter-spacing:.8px; } h3 { margin:0 0 7px; font-size:15px; } p { margin:5px 0; color:#cbc5d9; } label { display:block; margin:8px 0 4px; color:var(--muted); font-size:11px; } .modes { display:grid; grid-template-columns:1fr 1fr; gap:5px; } .modes button:last-child { grid-column:span 2; }
+    .work-list { display:grid; gap:7px; } .work-card { text-align:left; padding:9px; background:#151320; } .work-card small { display:block; color:var(--muted); margin-top:3px; } .work-card .state { color:#92fff0; text-transform:uppercase; font-size:10px; letter-spacing:.5px; } .work-card.unmapped .state { color:var(--warn); } .empty { color:var(--muted); font-style:italic; padding:7px 0; } .metrics { display:grid; grid-template-columns:1fr 1fr; gap:7px; } .metric { padding:8px; border:1px solid var(--line); background:#0a0910; } .metric strong { color:#fff; display:block; font-size:16px; } .metric span { color:var(--muted); font-size:11px; }
+    .canvas { min-width:0; min-height:0; display:grid; grid-template-rows:68px minmax(0,1fr) 174px; background:#07060d; } .canvasbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); background:#0b0a12; } h1 { margin:0; font-size:16px; } .canvasbar p { font-size:11px; margin:2px 0 0; color:var(--muted); } .tools { display:flex; gap:5px; } .icon { min-width:32px; } #projectGraph { min-height:0; background:#07060d; } .review-tray { border-top:1px solid var(--line); display:grid; grid-template-columns:1.2fr 1fr 1fr; overflow:auto; background:#0b0a12; } .tray-section { padding:12px; border-right:1px solid var(--line); } .tray-section:last-child { border-right:0; } .tray-title { color:#c9bfff; text-transform:uppercase; font-size:10px; letter-spacing:.65px; margin-bottom:6px; } .state-line { color:#d3ccdf; } .state-line strong { color:var(--warn); } .detail { padding:8px; background:#12101a; border:1px solid #443d60; border-radius:4px; } .detail + .detail { margin-top:8px; } .kv { display:grid; grid-template-columns:112px 1fr; gap:4px 8px; margin:8px 0 0; } .kv dt { color:var(--muted); } .kv dd { margin:0; overflow-wrap:anywhere; } .status-list { display:grid; gap:6px; } .status-row { display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid #28243a; } .status-row:last-child { border-bottom:0; } .status-row span:last-child { color:var(--warn); text-align:right; } .boundary { color:#d0c9df; } .boundary strong { color:#92fff0; } .legend { display:grid; grid-template-columns:1fr 1fr; gap:6px; color:#d8d1e4; } .legend i { width:10px; height:10px; display:inline-block; border-radius:50%; margin-right:5px; } .delta-list { display:grid; gap:4px; margin-top:8px; } .delta-step { width:100%; text-align:left; font-size:11px; padding:5px 7px; } .diff { margin:9px 0 0; padding:9px; overflow:auto; white-space:pre; background:#07060d; border:1px solid #443d60; color:#d9f7f2; font:11px/1.45 Consolas,monospace; }
     @media (max-width: 980px) { :root { --left:240px; --right:300px; } .review-tray { grid-template-columns:1fr; } .canvas { grid-template-rows:68px minmax(0,1fr) 220px; } } @media (max-width: 760px) { body { overflow:auto; } .app { height:auto; min-height:100vh; } .workspace { grid-template-columns:1fr; } .resizer { display:none; } .rail,.inspector { border:0; } .canvas { min-height:560px; } }
   </style>
 </head>
@@ -1255,9 +1432,10 @@ HTML_TEMPLATE = r'''<!doctype html>
     const completeGraph = {nodes:allNodes,edges:allEdges,nodeIds:allNodeIds,edgeIds:allEdgeIds};
     const semanticNodeIds = new Set(model.graph.views.overview.nodeIds);
     const semanticEdgeIds = new Set(allEdges.filter(edge=>semanticNodeIds.has(edge.source)&&semanticNodeIds.has(edge.target)).map(edge=>edge.id));
+    const importantCodeLabelIds = new Set(allNodes.filter(node=>node.category==='code'&&(node.codeDiffs||[]).length>0).map(node=>node.id));
     const emptyIds = new Set();
     const state = { mode:model.graph.defaultView?.id || 'all', selected:null, cy:null, renderTimer:null, detailLevel:null, positions:null, visibleNodeIds:null, visibleEdgeIds:null, highlighted:null, emphasizedNodeIds:new Set(), emphasizedEdgeIds:new Set(), searchMatchNodeIds:new Set(), resizeQueued:false, graphInstanceCount:0, visibilityUpdates:0 };
-    const colors = { code:'#8fa9c3', project:'#4ec6ba', 'source-document':'#7993a8', goal:'#d6a762', capability:'#5fb8a5', constraint:'#dfaa69', 'verification-requirement':'#b68ee0', work:'#72b790', intent:'#da9f66', mapping:'#efc66d', proposal:'#e47f76', verification:'#b68ee0', evidence:'#b68ee0', authority:'#8f9bb2', history:'#8f9bb2' };
+    const colors = { code:'#57778d', project:'#45f2dc', 'source-document':'#7791b5', goal:'#ffd166', capability:'#65d6a2', constraint:'#ffb35c', 'verification-requirement':'#c0a0ff', work:'#65d6a2', intent:'#ff9fca', mapping:'#ffd166', proposal:'#ff8a79', verification:'#c0a0ff', evidence:'#c0a0ff', authority:'#94a9d6', history:'#94a9d6' };
     const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     const short = value => String(value || '').replace('sha256:','').slice(0,12);
     const rows = entries => `<dl class="kv">${entries.map(([key,value])=>`<dt>${safe(key)}</dt><dd>${safe(value)}</dd>`).join('')}</dl>`;
@@ -1333,29 +1511,29 @@ HTML_TEMPLATE = r'''<!doctype html>
       return {nodes,edges,nodeIds:ids,edgeIds:new Set(edges.map(edge=>edge.id))};
     }
     function graphStyle(){return [
-      {selector:'node',style:{'background-color':'data(color)','label':'data(label)','color':'#d8e2eb','font-size':10,'text-wrap':'ellipsis','text-max-width':126,'text-valign':'bottom','text-margin-y':6,'width':19,'height':19,'border-width':1,'border-color':'#172531'}},
-      {selector:'node[category = "code"]',style:{'label':'','background-color':'#6e8498','width':5,'height':5,'opacity':.78,'border-width':0}},
-      {selector:'node[category = "code"][kind = "file"]',style:{'background-color':'#9bb5c8','width':12,'height':9,'shape':'round-rectangle'}},
-      {selector:'node[category = "code"][kind = "namespace"]',style:{'background-color':'#839bb0','width':9,'height':9,'shape':'diamond'}},
-      {selector:'node[category = "code"][kind = "type"]',style:{'background-color':'#b1c6d5','width':10,'height':10}},
-      {selector:'node[category = "code-capsule"]',style:{'background-color':'#31566e','shape':'round-rectangle','border-width':2,'border-color':'#6f9ab5','font-size':11,'text-max-width':155,'width':46,'height':28}},
-      {selector:'node.show-code-label',style:{'label':'data(label)','font-size':9,'text-max-width':120,'text-outline-color':'#0b1219','text-outline-width':2}},
+      {selector:'node',style:{'background-color':'data(color)','label':'data(label)','color':'#f4f0ff','font-size':10,'text-wrap':'ellipsis','text-max-width':126,'text-valign':'bottom','text-margin-y':6,'width':19,'height':19,'border-width':1,'border-color':'#27223a','text-outline-color':'#07060d','text-outline-width':2}},
+      {selector:'node[category = "code"]',style:{'label':'','background-color':'#31495b','width':5,'height':5,'opacity':.8,'border-width':0}},
+      {selector:'node[category = "code"][kind = "file"]',style:{'background-color':'#607f95','width':12,'height':9,'shape':'round-rectangle'}},
+      {selector:'node[category = "code"][kind = "namespace"]',style:{'background-color':'#58718a','width':9,'height':9,'shape':'diamond'}},
+      {selector:'node[category = "code"][kind = "type"]',style:{'background-color':'#7e9eb6','width':10,'height':10}},
+      {selector:'node[category = "code-capsule"]',style:{'background-color':'#155c63','shape':'round-rectangle','border-width':2,'border-color':'#45f2dc','font-size':11,'text-max-width':155,'width':46,'height':28,'shadow-color':'#45f2dc','shadow-opacity':.22,'shadow-blur':10}},
+      {selector:'node.show-code-label',style:{'label':'data(label)','font-size':9,'text-max-width':120,'text-outline-color':'#07060d','text-outline-width':2}},
       {selector:'node.low-detail',style:{'opacity':.62}},
       {selector:'node[deltaState = "proposed-change"]',style:{'border-width':3,'border-color':'#e47f76'}},
-      {selector:'edge',style:{'width':.7,'line-color':'#405262','curve-style':'bezier','opacity':.34}},
-      {selector:'edge[category = "code-relation"]',style:{'width':.45,'line-color':'#486172','opacity':.11}},
+      {selector:'edge',style:{'width':.7,'line-color':'#524766','curve-style':'bezier','opacity':.34}},
+      {selector:'edge[category = "code-relation"]',style:{'width':.45,'line-color':'#385160','opacity':.11}},
       {selector:'edge.low-detail',style:{'display':'none'}},
       {selector:'edge.detail-edge',style:{'width':.85,'opacity':.36}},
-      {selector:'edge[category = "capsule-relation"]',style:{'line-color':'#54788f','width':2,'opacity':.8}},
-      {selector:'edge[category = "mapping-relation"]',style:{'line-color':'#efc66d','line-style':'dashed','width':2,'opacity':.9}},
-      {selector:'edge[category = "delta-relation"]',style:{'line-color':'#e47f76','line-style':'dashed','width':2,'opacity':.9}},
-      {selector:'edge[kind = "invokes-syntax"]',style:{'line-color':'#8573a3','line-style':'dashed'}},
+      {selector:'edge[category = "capsule-relation"]',style:{'line-color':'#45f2dc','width':2,'opacity':.76}},
+      {selector:'edge[category = "mapping-relation"]',style:{'line-color':'#ffd166','line-style':'dashed','width':2,'opacity':.9}},
+      {selector:'edge[category = "delta-relation"]',style:{'line-color':'#ff8a79','line-style':'dashed','width':2,'opacity':.9}},
+      {selector:'edge[kind = "invokes-syntax"]',style:{'line-color':'#896fd1','line-style':'dashed'}},
       {selector:'.filtered-out',style:{'display':'none'}},
-      {selector:'node.semantic-emphasis',style:{'border-width':3,'border-color':'#e4c276','width':25,'height':25,'z-index':97}},
-      {selector:'edge.semantic-emphasis',style:{'line-color':'#d5a86a','width':2,'opacity':.92,'z-index':96}},
-      {selector:'node.search-match',style:{'border-width':3,'border-color':'#7bd4cb','width':18,'height':18,'z-index':98}},
-      {selector:':selected',style:{'border-width':3,'border-color':'#4ec6ba','line-color':'#4ec6ba','z-index':99}},
-      {selector:'edge.selection-neighbor',style:{'line-color':'#4ec6ba','width':2,'opacity':.95,'z-index':98}}
+      {selector:'node.semantic-emphasis',style:{'border-width':3,'border-color':'#ffd166','width':25,'height':25,'z-index':97,'shadow-color':'#ffd166','shadow-opacity':.2,'shadow-blur':8}},
+      {selector:'edge.semantic-emphasis',style:{'line-color':'#ffb35c','width':2,'opacity':.92,'z-index':96}},
+      {selector:'node.search-match',style:{'border-width':3,'border-color':'#45f2dc','width':18,'height':18,'z-index':98,'shadow-color':'#45f2dc','shadow-opacity':.25,'shadow-blur':9}},
+      {selector:':selected',style:{'border-width':3,'border-color':'#45f2dc','line-color':'#45f2dc','z-index':99,'shadow-color':'#45f2dc','shadow-opacity':.35,'shadow-blur':12}},
+      {selector:'edge.selection-neighbor',style:{'line-color':'#45f2dc','width':2,'opacity':.95,'z-index':98}}
     ];}
     function setDifference(left,right){const values=[];left.forEach(value=>{if(!right.has(value))values.push(value);});return values;}
     function updateSemanticEmphasis() {
@@ -1371,6 +1549,15 @@ HTML_TEMPLATE = r'''<!doctype html>
       const removeNodes=setDifference(state.searchMatchNodeIds,nextNodes),addNodes=setDifference(nextNodes,state.searchMatchNodeIds);
       state.cy.batch(()=>{removeNodes.forEach(id=>state.cy.$id(id).removeClass('search-match'));addNodes.forEach(id=>state.cy.$id(id).addClass('search-match'));});
       state.searchMatchNodeIds=nextNodes;
+      updateCodeLabels();
+    }
+    function updateCodeLabels() {
+      if(!state.cy)return;
+      const labels=new Set(importantCodeLabelIds);
+      state.searchMatchNodeIds.forEach(id=>{if(nodeById.get(id)?.category==='code')labels.add(id);});
+      if(state.selected?.type==='node'&&nodeById.get(state.selected.id)?.category==='code')labels.add(state.selected.id);
+      const current=state.cy.nodes('[category = "code"].show-code-label');
+      state.cy.batch(()=>{current.removeClass('show-code-label');labels.forEach(id=>state.cy.$id(id).addClass('show-code-label'));});
     }
     function fitNodes(nodes) {
       if(!nodes.length)return;
@@ -1431,24 +1618,25 @@ HTML_TEMPLATE = r'''<!doctype html>
       state.detailLevel=level;
       const codeNodes=state.cy.nodes('[category = "code"]'),codeEdges=state.cy.edges('[category = "code-relation"]');
       state.cy.batch(()=>{
-        codeNodes.removeClass('show-code-label low-detail');
+        codeNodes.removeClass('low-detail');
         codeEdges.removeClass('low-detail detail-edge');
         if(level==='overview'){codeNodes.addClass('low-detail');codeEdges.addClass('low-detail');}
-        if(level==='detail'){codeNodes.addClass('show-code-label');codeEdges.addClass('detail-edge');}
+        if(level==='detail'){codeEdges.addClass('detail-edge');}
       });
+      updateCodeLabels();
     }
     function highlight(){
       if(!state.cy)return;
       if(state.highlighted){const previous=state.cy.$id(state.highlighted);previous.unselect();previous.connectedEdges().removeClass('selection-neighbor');}
       state.highlighted=null;
-      if(!state.selected)return;
+      if(!state.selected){updateCodeLabels();return;}
       const item=state.cy.$id(state.selected.id);if(!item.length)return;
-      item.select();item.connectedEdges().addClass('selection-neighbor');state.highlighted=state.selected.id;
+      item.select();item.connectedEdges().addClass('selection-neighbor');state.highlighted=state.selected.id;updateCodeLabels();
     }
     function renderSelection(){const panel=document.getElementById('selectionInspector');if(!state.selected){panel.className='empty';panel.textContent='Select a graph node or relation to inspect its semantic and source provenance.';return;}if(state.selected.type==='node'){const node=nodeById.get(state.selected.id);if(!node)return;const base=[['category',node.category],['kind',node.kind],['identifier',node.id]];let diffHtml='';if(node.category==='code'){const diffs=node.codeDiffs||[];base.push(['source file',node.source.file],['range',`${node.source.location?.lineStart||'file'}:${node.source.location?.columnStart||''} - ${node.source.location?.lineEnd||''}:${node.source.location?.columnEnd||''}`],['source digest',short(node.source.digest)],['confidence',node.provenance.confidence],['delta state',node.deltaState||'unchanged'],['interpretation',node.details.interpretation],['code diff',diffs.length?`${diffs.length} proposed diff(s) below`:'No change proposal recorded']);diffHtml=diffs.map(diff=>`<h3 style="margin-top:12px">${safe(diff.proposalTitle)}</h3><p>${safe(diff.sourceFile)}</p><pre class="diff">${safe(diff.unifiedDiff)}</pre>`).join('');}else base.push(...Object.entries(node.details).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value]));panel.className='detail';panel.innerHTML=`<h3>${safe(node.label)}</h3>${rows(base)}${diffHtml}`; }else{const edge=allEdges.find(item=>item.id===state.selected.id);if(!edge)return;panel.className='detail';panel.innerHTML=`<h3>${safe(edge.kind)}</h3>${rows([['category',edge.category],['source',edge.source],['target',edge.target],...Object.entries(edge.details||{}).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value])])}`;}}
     function focusWork(workId){state.selected={type:'node',id:`work.${workId}`};state.mode='impact';document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item.dataset.mode==='impact'));renderGraph({fit:true});renderSelection();}
     function focusDelta(nodeId){state.selected={type:'node',id:nodeId};state.mode='impact';document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item.dataset.mode==='impact'));renderGraph({fit:true});renderSelection();}
-    function staticPanels(){document.getElementById('projectBadge').textContent=model.project.id;document.getElementById('snapshotBadge').textContent=`snapshot ${short(model.snapshot.sourceDigest)}`;const metrics=[['files',model.snapshot.sourceFileCount],['facts',model.snapshot.factCount],['relations',model.snapshot.relationCount],['work items',model.workflow.workItems.length]];document.getElementById('metrics').innerHTML=metrics.map(([label,value])=>`<div class="metric"><strong>${Number(value).toLocaleString()}</strong><span>${safe(label)}</span></div>`).join('');const works=model.workflow.workItems;document.getElementById('workList').innerHTML=works.length?works.map(work=>`<button class="work-card ${work.mappingStatus==='unmapped'?'unmapped':''}" data-work="${safe(work.id)}"><span class="state">${safe(work.status)} / ${safe(work.mappingStatus)}</span><strong>${safe(work.title)}</strong><small>${safe(work.request)}</small></button>`).join(''):'<div class="empty">No work request has been recorded. Use the project workspace command to add one.</div>';document.querySelectorAll('[data-work]').forEach(button=>button.addEventListener('click',()=>focusWork(button.dataset.work)));const c=model.changeReview;document.getElementById('changePanel').innerHTML=`<div class="state-line"><strong>${safe(c.status)}</strong><br>${safe(c.summary)}<br><small>${safe(c.reason)}</small></div>`;const deltas=model.workflow.proposalDeltas||[];document.getElementById('deltaList').innerHTML=deltas.length?deltas.map(delta=>`<button class="delta-step" data-delta="${safe(delta.targetNodeId)}">${safe(delta.kind)}: ${safe(delta.label)}</button>`).join(''):'<div class="empty">No graph delta is recorded.</div>';document.querySelectorAll('[data-delta]').forEach(button=>button.addEventListener('click',()=>focusDelta(button.dataset.delta)));document.getElementById('evidencePanel').innerHTML=`<div class="state-line">${model.workflow.verification.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br>${model.workflow.evidence.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}</div>`;document.getElementById('authorityPanel').innerHTML=`<div class="state-line"><strong>read-only boundary</strong><br>Target edits: ${safe(model.authority.targetRepositoryMutation)}<br>Automatic application: ${safe(model.authority.automaticCodeApplication)}<br>History records: ${model.workflow.history.length}</div>`;document.getElementById('boundaryPanel').innerHTML='<strong>This page is a project-state projection.</strong><br>It can show recorded requests, candidate mappings, review-required proposals, graph delta, code diff, verification, evidence, authority, and history alongside C# syntax facts. It does not resolve calls, apply changes, or approve work.';}
+    function staticPanels(){document.getElementById('projectBadge').textContent=model.project.id;document.getElementById('snapshotBadge').textContent=`snapshot ${short(model.snapshot.sourceDigest)}`;const metrics=[['files',model.snapshot.sourceFileCount],['facts',model.snapshot.factCount],['relations',model.snapshot.relationCount],['work items',model.workflow.workItems.length]];document.getElementById('metrics').innerHTML=metrics.map(([label,value])=>`<div class="metric"><strong>${Number(value).toLocaleString()}</strong><span>${safe(label)}</span></div>`).join('');const works=model.workflow.workItems;document.getElementById('workList').innerHTML=works.length?works.map(work=>`<button class="work-card ${work.mappingStatus==='unmapped'?'unmapped':''}" data-work="${safe(work.id)}"><span class="state">${safe(work.status)} / ${safe(work.mappingStatus)}</span><strong>${safe(work.title)}</strong><small>${safe(work.request)}</small></button>`).join(''):'<div class="empty">No work request has been recorded. Use the project workspace command to add one.</div>';document.querySelectorAll('[data-work]').forEach(button=>button.addEventListener('click',()=>focusWork(button.dataset.work)));const c=model.changeReview;document.getElementById('changePanel').innerHTML=`<div class="state-line"><strong>${safe(c.status)}</strong><br>${safe(c.summary)}<br><small>${safe(c.reason)}</small></div>`;const deltas=model.workflow.proposalDeltas||[];document.getElementById('deltaList').innerHTML=deltas.length?deltas.map(delta=>`<button class="delta-step" data-delta="${safe(delta.targetNodeId)}">${safe(delta.kind)}: ${safe(delta.label)}</button>`).join(''):'<div class="empty">No graph delta is recorded.</div>';document.querySelectorAll('[data-delta]').forEach(button=>button.addEventListener('click',()=>focusDelta(button.dataset.delta)));const receipts=model.workflow.reviewReceipts||[];document.getElementById('evidencePanel').innerHTML=`<div class="state-line">${model.workflow.verification.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br>${model.workflow.evidence.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br><strong>Review receipts:</strong> ${receipts.length?receipts.map(item=>safe(item.status)).join(', '):'none recorded'}</div>`;document.getElementById('authorityPanel').innerHTML=`<div class="state-line"><strong>read-only boundary</strong><br>Target edits: ${safe(model.authority.targetRepositoryMutation)}<br>Automatic application: ${safe(model.authority.automaticCodeApplication)}<br>History records: ${model.workflow.history.length}</div>`;document.getElementById('boundaryPanel').innerHTML='<strong>This page is a project-state projection.</strong><br>It can show recorded requests, candidate mappings, review-required proposals, graph delta, code diff, non-executing review receipts, verification, evidence, authority, and history alongside C# syntax facts. It does not resolve calls, apply changes, execute verification, collect runtime evidence, or approve work.';}
     function resize(){document.querySelectorAll('.resizer').forEach(handle=>handle.addEventListener('pointerdown',event=>{event.preventDefault();handle.classList.add('active');const side=handle.dataset.side,start=event.clientX,variable=side==='left'?'--left':'--right',initial=parseInt(getComputedStyle(document.documentElement).getPropertyValue(variable));const move=e=>{const delta=e.clientX-start;const next=side==='left'?initial+delta:initial-delta;document.documentElement.style.setProperty(variable,`${Math.max(230,Math.min(560,next))}px`);if(!state.resizeQueued){state.resizeQueued=true;window.requestAnimationFrame(()=>{state.resizeQueued=false;state.cy?.resize();});}};const up=()=>{handle.classList.remove('active');window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);state.cy?.resize();};window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);}));}
     window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},workItems:()=>model.workflow.workItems.slice(),metrics:()=>({graphInstanceCount:state.graphInstanceCount,visibilityUpdates:state.visibilityUpdates,visibleNodeCount:state.visibleNodeIds?.size||0,visibleEdgeCount:state.visibleEdgeIds?.size||0,totalNodeCount:allNodes.length,totalEdgeCount:allEdges.length})};
     document.getElementById('zoomIn').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()*1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('zoomOut').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()/1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('fitGraph').addEventListener('click',()=>{const graph=visibleGraphData(),semanticFocus=state.mode==='overview'&&!filters().search&&!filters().category&&!filters().relation?model.graph.views.overview.nodeIds.map(id=>nodeById.get(id)).filter(Boolean):graph.nodes;fitNodes(semanticFocus);});init();staticPanels();renderGraph({fit:true});renderSelection();resize();window.dispatchEvent(new Event('intentgraph-ready'));
@@ -1468,17 +1656,20 @@ def render_html(projection: dict[str, Any]) -> str:
 
 
 SERVER_UI_EXTENSION = r'''<style>
-  .new-work-trigger { position:fixed; right:18px; bottom:18px; z-index:30; background:#16413f; border-color:#3b9c94; color:#d9fffa; box-shadow:0 10px 30px rgba(0,0,0,.35); }
-  .new-work-dialog { width:min(520px,calc(100vw - 32px)); color:#e1e9f1; background:#111923; border:1px solid #355061; border-radius:6px; padding:0; box-shadow:0 20px 60px rgba(0,0,0,.55); }
-  .new-work-dialog::backdrop { background:rgba(0,0,0,.66); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#c8d7e5; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form textarea { min-height:110px; resize:vertical; color:#e1e9f1; background:#0b1219; border:1px solid #314556; border-radius:4px; padding:8px; font:inherit; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#deb96f; font-size:12px; } .map-code-trigger { position:fixed; right:18px; bottom:62px; z-index:30; background:#293550; border-color:#536d9a; color:#e0e9ff; box-shadow:0 10px 30px rgba(0,0,0,.35); } .selected-code-fact { padding:8px; overflow-wrap:anywhere; color:#b8cce4; background:#0b1219; border:1px solid #314556; border-radius:4px; font:11px/1.4 Consolas,monospace; }
-  .proposal-trigger { position:fixed; right:18px; bottom:106px; z-index:30; background:#513d24; border-color:#b99756; color:#fff2cc; box-shadow:0 10px 30px rgba(0,0,0,.35); } .proposal-dialog { width:min(760px,calc(100vw - 32px)); } .proposal-input { min-height:300px !important; font:12px/1.45 Consolas,monospace !important; tab-size:2; }
+  .new-work-trigger { position:fixed; right:18px; bottom:18px; z-index:30; background:#133f3e; border-color:#45f2dc; color:#d9fffa; box-shadow:0 0 18px rgba(69,242,220,.16); }
+  .new-work-dialog { width:min(520px,calc(100vw - 32px)); color:#f2efff; background:#100e1a; border:1px solid #50466d; border-radius:6px; padding:0; box-shadow:0 20px 60px rgba(0,0,0,.6); }
+  .new-work-dialog::backdrop { background:rgba(2,1,8,.78); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#e8e1ff; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form textarea { min-height:110px; resize:vertical; color:#f2efff; background:#07060d; border:1px solid #443d60; border-radius:4px; padding:8px; font:inherit; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#ffd166; font-size:12px; } .map-code-trigger { position:fixed; right:18px; bottom:62px; z-index:30; background:#221e3a; border-color:#ad91ff; color:#efe8ff; box-shadow:0 0 18px rgba(173,145,255,.13); } .selected-code-fact { padding:8px; overflow-wrap:anywhere; color:#d4cceb; background:#07060d; border:1px solid #443d60; border-radius:4px; font:11px/1.4 Consolas,monospace; }
+  .proposal-trigger { position:fixed; right:18px; bottom:106px; z-index:30; background:#422718; border-color:#ffd166; color:#fff2cc; box-shadow:0 0 18px rgba(255,209,102,.12); } .proposal-dialog { width:min(760px,calc(100vw - 32px)); } .proposal-input { min-height:300px !important; font:12px/1.45 Consolas,monospace !important; tab-size:2; }
+  .receipt-trigger { position:fixed; right:18px; bottom:150px; z-index:30; background:#35244e; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); }
 </style>
 <button id="newWorkTrigger" class="new-work-trigger" type="button">New work request</button>
 <button id="mapCodeTrigger" class="map-code-trigger" type="button">Map selected code</button>
 <button id="importProposalTrigger" class="proposal-trigger" type="button" disabled>Import review proposal</button>
+<button id="importReceiptTrigger" class="receipt-trigger" type="button" disabled>Import review receipt</button>
 <dialog id="newWorkDialog" class="new-work-dialog"><form id="newWorkForm" class="new-work-form" method="dialog"><h2>Record a work request</h2><p>This records a request in the local IntentGraph project workspace. It does not edit the source project.</p><label for="newWorkId">Stable work id</label><input id="newWorkId" name="workId" required pattern="[a-z][a-z0-9.-]{2,100}" placeholder="example-work-item"><label for="newWorkTitle">Title</label><input id="newWorkTitle" name="title" required maxlength="180" placeholder="Short work title"><label for="newWorkRequest">Request</label><textarea id="newWorkRequest" name="request" required maxlength="12000" placeholder="Describe the desired behavior or change."></textarea><div id="newWorkMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelNewWork" type="button">Cancel</button><button type="submit">Record request</button></div></form></dialog>
 <dialog id="mapCodeDialog" class="new-work-dialog"><form id="mapCodeForm" class="new-work-form" method="dialog"><h2>Record a code mapping candidate</h2><p>This connects the selected code fact to a local work request as a declared candidate. It does not approve the mapping or edit the source project.</p><label>Selected code fact</label><div id="selectedCodeFact" class="selected-code-fact"></div><label for="mapWorkId">Work request</label><select id="mapWorkId" name="workId" required></select><label for="mapRationale">Why this code is relevant</label><textarea id="mapRationale" name="rationale" required maxlength="12000" placeholder="Describe the relationship between this request and the selected code."></textarea><div id="mapCodeMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelMapCode" type="button">Cancel</button><button id="submitMapCode" type="submit">Record mapping candidate</button></div></form></dialog>
 <dialog id="importProposalDialog" class="new-work-dialog proposal-dialog"><form id="importProposalForm" class="new-work-form" method="dialog"><h2>Import a review-only change proposal</h2><p>Paste a deterministic proposal document for an existing work request and mapping candidate. The local server validates it before recording any project-state artifact. It does not edit the C# source project, apply a graph delta, or approve the proposal.</p><label for="proposalDocument">Proposal JSON</label><textarea id="proposalDocument" class="proposal-input" name="proposalDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-change-proposal document."></textarea><div id="importProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportProposal" type="button">Cancel</button><button type="submit">Validate and record proposal</button></div></form></dialog>
+<dialog id="importReceiptDialog" class="new-work-dialog proposal-dialog"><form id="importReceiptForm" class="new-work-form" method="dialog"><h2>Import a non-executing review receipt</h2><p>Paste one deterministic receipt for a proposal verification/evidence requirement pair. It records what was reviewed as pass, fail, or blocked. It does not run verification, collect runtime evidence, apply a graph delta, approve the proposal, or edit C# source.</p><label for="receiptDocument">Review receipt JSON</label><textarea id="receiptDocument" class="proposal-input" name="receiptDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-review-receipt document."></textarea><div id="importReceiptMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportReceipt" type="button">Cancel</button><button type="submit">Validate and record receipt</button></div></form></dialog>
 <script>
   (() => { const dialog=document.getElementById('newWorkDialog'), trigger=document.getElementById('newWorkTrigger'), form=document.getElementById('newWorkForm'), message=document.getElementById('newWorkMessage'); trigger.addEventListener('click',()=>dialog.showModal()); document.getElementById('cancelNewWork').addEventListener('click',()=>dialog.close()); form.addEventListener('submit',async event=>{event.preventDefault();message.textContent='Recording request...';const body={workId:form.workId.value.trim(),title:form.title.value.trim(),request:form.request.value.trim()};try{const response=await fetch('/api/work-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const result=await response.json();if(!response.ok){throw new Error(result.error||'Request could not be recorded.');}message.textContent='Recorded. Reloading workbench...';window.setTimeout(()=>window.location.reload(),250);}catch(error){message.textContent=error.message||'Request could not be recorded.';}}); })();
 </script>
@@ -1539,6 +1730,29 @@ SERVER_UI_EXTENSION = r'''<style>
       }catch(error){message.textContent=error.message||'Proposal could not be recorded.';}
     });
   })();
+</script>
+<script>
+  (() => {
+    const dialog=document.getElementById('importReceiptDialog'),trigger=document.getElementById('importReceiptTrigger'),form=document.getElementById('importReceiptForm'),documentField=document.getElementById('receiptDocument'),message=document.getElementById('importReceiptMessage');
+    trigger.disabled=true;
+    window.addEventListener('intentgraph-ready',()=>{trigger.disabled=false;});
+    trigger.addEventListener('click',()=>dialog.showModal());
+    document.getElementById('cancelImportReceipt').addEventListener('click',()=>dialog.close());
+    form.addEventListener('submit',async event=>{
+      event.preventDefault();
+      let receipt;
+      try { receipt=JSON.parse(documentField.value); } catch (_error) { message.textContent='Review receipt JSON is not valid.'; return; }
+      if(!receipt || Array.isArray(receipt) || typeof receipt!=='object'){ message.textContent='Review receipt JSON must be an object.'; return; }
+      message.textContent='Validating non-executing review receipt...';
+      try {
+        const response=await fetch('/api/review-receipts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({receipt})});
+        const result=await response.json();
+        if(!response.ok)throw new Error(result.error||'Review receipt could not be recorded.');
+        message.textContent='Receipt recorded. Reloading workbench...';
+        window.setTimeout(()=>window.location.reload(),250);
+      }catch(error){message.textContent=error.message||'Review receipt could not be recorded.';}
+    });
+  })();
 </script>'''
 
 
@@ -1564,6 +1778,9 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
         errors.append("project workbench no-proposal boundary is invalid")
     if change_review.get("status") == "review-required" and change_review.get("graphDeltaShown") is not True:
         errors.append("project workbench proposal graph delta is not visible")
+    workflow = projection.get("workflow")
+    if not isinstance(workflow, dict) or not isinstance(workflow.get("reviewReceipts"), list):
+        errors.append("project workbench review receipt state is invalid")
     graph = projection.get("graph")
     if not isinstance(graph, dict) or not isinstance(graph.get("nodes"), list) or not isinstance(graph.get("edges"), list):
         return errors + ["project workbench graph is missing"]
@@ -1596,7 +1813,7 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not isinstance(default_view, dict) or default_view.get("id") != "all" or default_view.get("rendering") != "full-graph-progressive-detail" or default_view.get("layout") != "deterministic-source-grouped-preset" or default_view.get("physicsLayoutOnLoad") is not False:
         errors.append("project workbench full graph rendering contract is invalid")
     ui_contract = projection.get("uiContract")
-    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi")) or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
+    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi", "loopbackReviewReceiptIntakeFromUi")) or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
         errors.append("project workbench progressive full graph UI contract is invalid")
     try:
         assert_no_unsafe_state(projection)
@@ -1744,6 +1961,9 @@ def parse_args() -> argparse.Namespace:
     proposal = sub.add_parser("add-change-proposal")
     proposal.add_argument("--workspace", required=True, type=Path)
     proposal.add_argument("--proposal", required=True, type=Path)
+    receipt = sub.add_parser("add-review-receipt")
+    receipt.add_argument("--workspace", required=True, type=Path)
+    receipt.add_argument("--receipt", required=True, type=Path)
     emit = sub.add_parser("emit-workbench")
     emit.add_argument("--workspace", required=True, type=Path)
     emit.add_argument("--out", required=True, type=Path)
@@ -1766,6 +1986,8 @@ def main() -> int:
             result = record_semantic_foundation(args.workspace, args.foundation)
         elif args.command == "add-change-proposal":
             result = add_change_proposal(args.workspace, args.proposal)
+        elif args.command == "add-review-receipt":
+            result = add_review_receipt(args.workspace, args.receipt)
         elif args.command == "emit-workbench":
             result = emit_project_workbench(args.workspace, args.out)
         else:

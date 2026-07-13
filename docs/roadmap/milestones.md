@@ -4287,6 +4287,30 @@ Non-goals:
 
 - no automatic proposal generation, source mutation, graph-delta application, mapping/proposal approval, build, evidence execution, external service, or productization claim
 
+## P9.20: Local Review Receipt Intake
+
+Goal: make a review-only proposal's verification/evidence requirements actionable as typed local review records without claiming that execution evidence, source application, or approval occurred.
+
+Status: implementation and local validation completed on 2026-07-13. See [P9.20 Local Review Receipts Review](../reviews/p9.20-local-review-receipts-review.md).
+
+Delivered boundary:
+
+- the loopback Workbench exposes a user-initiated `Import review receipt` dialog
+- `POST /api/review-receipts` accepts exactly one typed, non-executing receipt for one existing proposal requirement pair
+- receipt records allow only `reviewed-pass`, `reviewed-fail`, or `review-blocked`; they are visible with the workbench verification/evidence/history state
+- static exports remain read-only and do not contain receipt intake clients
+- P9.18 visual refinement keeps ordinary code labels hidden while zoomed: semantic core, capsules, changed facts, search matches, and a selected code fact are the only direct label candidates
+
+Verification:
+
+- loopback server smoke records request, mapping, proposal, and receipt in a temporary project workspace; it rejects an executing receipt authority claim and preserves snapshot provenance
+- repeatable receipt negative probes reject malformed role, unknown requirement, invalid scope/result, unsafe authority, source text, and duplicate requirement-pair states
+- static WindowsUtility workbench generation/validation, JavaScript parsing, and browser visual inspection pass
+
+Non-goals:
+
+- no build, test, launch, runtime evidence collection, source mutation, graph-delta application, mapping/proposal approval, external service, or packaged product claim
+
 ## P9.18: Large-Graph Navigation and Performance Workbench
 
 Goal: retain a complete project graph while making community layout and ordinary Workbench interactions usable on the measured WindowsUtility projection.
