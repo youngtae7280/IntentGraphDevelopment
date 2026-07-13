@@ -3953,6 +3953,30 @@ Recommended next slice:
 P9.12 Experimental C# Fact-Only Workbench
 ```
 
+## Implemented Slice: P9.12 Experimental C# Fact-Only Workbench
+
+Goal: produce a separate local C# code-fact graph explorer from a validated snapshot without promoting absent semantic/change records.
+
+Result:
+
+```text
+Decision: implementation-passed; visual-interaction-review-pending.
+```
+
+Produced artifacts:
+
+- `tools/emit_experimental_csharp_fact_workbench.py`
+- `tools/run_experimental_csharp_fact_workbench_negative_probes.py`
+- `generated/windowsutility/experimental-csharp-fact-workbench/p9.12/index.html`
+- `generated/roadmap/p9.12-experimental-csharp-fact-workbench-report.json`
+- [P9.12 Experimental C# Fact-Only Workbench Review](../reviews/p9.12-experimental-csharp-fact-workbench-review.md)
+
+Next gate:
+
+```text
+P9.12 local HTML visual and interaction review
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

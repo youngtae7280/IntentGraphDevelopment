@@ -1,0 +1,75 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-fact-workbench",
+  "assets": {
+    "cytoscape": {
+      "path": "assets/cytoscape.min.js",
+      "sha256": "sha256:9c2a3bf2592e0b14a1f7bec07c03a54f16dedf32af9cd0af155c716aa6c87bc3",
+      "version": "3.34.0"
+    },
+    "license": {
+      "path": "assets/cytoscape-license.txt",
+      "sha256": "sha256:eb319c6e6f233607f71e8e2f450391751883cfc0eeb3ca7ef574c13d1d9c2203"
+    }
+  },
+  "authority": {
+    "approvalAutomation": false,
+    "automaticCodeApplication": false,
+    "credentialAccessAllowed": false,
+    "externalPackageRestoreExecuted": false,
+    "graphMutationFromUi": false,
+    "igdProductizationClaimed": false,
+    "networkRequired": false,
+    "packageDependencyAdded": false,
+    "providerApiAllowed": false,
+    "targetBuildExecuted": false,
+    "targetLaunchExecuted": false,
+    "targetRepositoryMutation": false,
+    "targetRestoreExecuted": false,
+    "workspaceMutation": false,
+    "workspaceSnapshotRead": true
+  },
+  "input": {
+    "artifacts": {
+      "codeFacts": {
+        "path": "artifacts/code-facts.json",
+        "sha256": "sha256:4b077901821d4e97de4f3dce253d6605f22886f4bbd1c790c8254a5bc0b76e66"
+      },
+      "extractionReport": {
+        "path": "artifacts/csharp-extraction-report.json",
+        "sha256": "sha256:074075019822dad227e6cce506dc19c1f99e238dda48d8685971bab9e739ee6a"
+      },
+      "intakeReceipt": {
+        "path": "artifacts/external-source-intake-receipt.json",
+        "sha256": "sha256:88b87daab0aff0a09eb18aa968ae8e646e0eadd636dbe4a54f9512ba56080aa4"
+      },
+      "preflight": {
+        "path": "artifacts/host-sdk-preflight.json",
+        "sha256": "sha256:c38343fa6ed6f0273efaf0359d0c97e1874e2c3b2a2aa78119713f335ad9df56"
+      },
+      "workspaceValidation": {
+        "path": "artifacts/fact-workspace-validation.json",
+        "sha256": "sha256:8874ed37039fce01c3e3ea61b012aab120e958b20d7c7f00892ea79f2576511c"
+      }
+    },
+    "logicalSourceRoot": "intentgraph://profiles/experimental-csharp-host-sdk-syntax-only/source",
+    "profileDigest": "sha256:16c195c2b78f6b4f47e8868242db7ed1aaff661946a16eb5205dbf01a86de6ed",
+    "profileId": "experimental-csharp-host-sdk-syntax-only",
+    "sourceDigest": "sha256:5b1969fdb13bd9d2d02e9332295a1ea84357cd496b629b7b5882573a10e35194",
+    "workspaceRole": "intentgraph-experimental-csharp-fact-workspace",
+    "workspaceSchemaVersion": "0.1.0"
+  },
+  "outputs": {
+    "html": {
+      "path": "index.html",
+      "sha256": "sha256:0e98896bc3de027d9535f04db8860f0a8c9bc5142512a4d9dda9ef68eb239ee3"
+    },
+    "projection": {
+      "path": "projection.json",
+      "sha256": "sha256:0cc446a9074dd10c3fb882f3627da26d06cb287226003a5cb26d36d152473259"
+    }
+  },
+  "scope": "p9.12-experimental-csharp-fact-only-workbench",
+  "status": "intentgraph-experimental-csharp-fact-workbench-emitted",
+  "version": "0.1.0",
+  "workspaceMutation": false
+}

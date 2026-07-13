@@ -1,0 +1,30 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-fact-workbench-validation-report",
+  "authority": {
+    "approvalAutomation": false,
+    "automaticCodeApplication": false,
+    "credentialAccessAllowed": false,
+    "externalPackageRestoreExecuted": false,
+    "graphMutationFromUi": false,
+    "igdProductizationClaimed": false,
+    "networkRequired": false,
+    "packageDependencyAdded": false,
+    "providerApiAllowed": false,
+    "targetBuildExecuted": false,
+    "targetLaunchExecuted": false,
+    "targetRepositoryMutation": false,
+    "targetRestoreExecuted": false,
+    "workspaceMutation": false,
+    "workspaceSnapshotRead": true
+  },
+  "errors": [],
+  "externalSourcePathPersisted": false,
+  "graphNavigationContract": true,
+  "networkRequired": false,
+  "result": "pass",
+  "scope": "p9.12-experimental-csharp-fact-only-workbench",
+  "sourceTextPersisted": false,
+  "status": "intentgraph-experimental-csharp-fact-workbench-validation-pass",
+  "unavailableStateExplicit": true,
+  "workspaceMutation": false
+}

@@ -16,6 +16,11 @@ from experimental_csharp_workspace import (
     initialize_workspace as initialize_experimental_csharp_workspace,
     validate_command as validate_experimental_csharp_workspace,
 )
+from emit_experimental_csharp_fact_workbench import (
+    FactWorkbenchError,
+    emit_workbench as emit_experimental_csharp_fact_workbench,
+    validate_emitted_workbench as validate_experimental_csharp_fact_workbench,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE_FILE = "intentgraph.workspace.json"
@@ -599,6 +604,18 @@ def parse_args() -> argparse.Namespace:
         help="Validate an existing fact-only experimental C# snapshot workspace.",
     )
     csharp_validate.add_argument("--workspace", required=True, type=Path)
+    csharp_workbench = subparsers.add_parser(
+        "emit-experimental-csharp-fact-workbench",
+        help="Emit a separate local HTML inspector from a validated fact-only experimental C# workspace.",
+    )
+    csharp_workbench.add_argument("--workspace", required=True, type=Path)
+    csharp_workbench.add_argument("--out", required=True, type=Path)
+    csharp_workbench_validate = subparsers.add_parser(
+        "validate-experimental-csharp-fact-workbench",
+        help="Validate a separate local HTML inspector emitted from a fact-only experimental C# workspace.",
+    )
+    csharp_workbench_validate.add_argument("--workspace", required=True, type=Path)
+    csharp_workbench_validate.add_argument("--out", required=True, type=Path)
     return parser.parse_args()
 
 
@@ -619,8 +636,14 @@ def main() -> int:
         if args.command == "validate-experimental-csharp":
             emit_status(validate_experimental_csharp_workspace(args.workspace))
             return 0
+        if args.command == "emit-experimental-csharp-fact-workbench":
+            emit_status(emit_experimental_csharp_fact_workbench(args.workspace, args.out))
+            return 0
+        if args.command == "validate-experimental-csharp-fact-workbench":
+            emit_status(validate_experimental_csharp_fact_workbench(args.workspace, args.out))
+            return 0
         raise WorkspaceError(f"unsupported command: {args.command}")
-    except (WorkspaceError, ExperimentalWorkspaceError) as exc:
+    except (WorkspaceError, ExperimentalWorkspaceError, FactWorkbenchError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 

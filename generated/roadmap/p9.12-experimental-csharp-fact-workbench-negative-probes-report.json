@@ -1,0 +1,89 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-fact-workbench-negative-probes-report",
+  "inputWorkspaceMutated": false,
+  "positiveBaselinePassed": true,
+  "probeCount": 11,
+  "probes": [
+    {
+      "actualError": "validated experimental C# workspace required: workspace profile identity or digest is invalid",
+      "expectedError": "validated experimental C# workspace required",
+      "expectedFailureObserved": true,
+      "id": "wrong-workspace-profile",
+      "outputAbsentAfterFailure": true
+    },
+    {
+      "actualError": "validated experimental C# workspace required: workspace code facts are invalid: fact csharp.constructor.sample_cs.137.27.sample must not persist source text",
+      "expectedError": "validated experimental C# workspace required",
+      "expectedFailureObserved": true,
+      "id": "persisted-source-text",
+      "outputAbsentAfterFailure": true
+    },
+    {
+      "actualError": "validated experimental C# workspace required: workspace code facts are invalid: extractor.semanticResolution must be False",
+      "expectedError": "validated experimental C# workspace required",
+      "expectedFailureObserved": true,
+      "id": "semantic-resolution-promoted",
+      "outputAbsentAfterFailure": true
+    },
+    {
+      "actualError": "validated experimental C# workspace required: workspace code facts are invalid: unsupported syntax fact kind: unknown",
+      "expectedError": "validated experimental C# workspace required",
+      "expectedFailureObserved": true,
+      "id": "unknown-fact-kind",
+      "outputAbsentAfterFailure": true
+    },
+    {
+      "actualError": "validated experimental C# workspace required: workspace code facts are invalid: relation rel.contains.csharp_file_sample_cs_0_0_sample_cs.csharp_namespace_sample_cs_15_222_probe has an unresolved endpoint",
+      "expectedError": "validated experimental C# workspace required",
+      "expectedFailureObserved": true,
+      "id": "unresolved-edge-endpoint",
+      "outputAbsentAfterFailure": true
+    },
+    {
+      "actualError": "validated experimental C# workspace required: workspace code facts are invalid: fact csharp.constructor.sample_cs.137.27.sample has an unsafe or unknown sourceFile",
+      "expectedError": "validated experimental C# workspace required",
+      "expectedFailureObserved": true,
+      "id": "physical-source-path",
+      "outputAbsentAfterFailure": true
+    },
+    {
+      "actualError": "workbench output directory must not exist",
+      "expectedError": "workbench output directory must not exist",
+      "expectedFailureObserved": true,
+      "id": "output-already-exists",
+      "outputAbsentAfterFailure": false
+    },
+    {
+      "actualError": "workbench output directory must not overlap the input workspace",
+      "expectedError": "workbench output directory must not overlap the input workspace",
+      "expectedFailureObserved": true,
+      "id": "output-overlaps-workspace",
+      "outputAbsentAfterFailure": true
+    },
+    {
+      "actualError": "HTML contains forbidden token: https://; workbench manifest is invalid",
+      "expectedError": "HTML contains forbidden token: https://",
+      "expectedFailureObserved": true,
+      "id": "external-runtime-url",
+      "outputAbsentAfterFailure": null
+    },
+    {
+      "actualError": "unavailable semantic/change state is incomplete",
+      "expectedError": "unavailable semantic/change state is incomplete",
+      "expectedFailureObserved": true,
+      "id": "missing-unavailable-state",
+      "outputAbsentAfterFailure": null
+    },
+    {
+      "actualError": "workbench authority must remain fact-only and read-only",
+      "expectedError": "workbench authority must remain fact-only and read-only",
+      "expectedFailureObserved": true,
+      "id": "graph-mutation-authority-promoted",
+      "outputAbsentAfterFailure": null
+    }
+  ],
+  "repeatOutputsByteIdentical": true,
+  "result": "pass",
+  "scope": "p9.12-experimental-csharp-fact-only-workbench-negative-probes",
+  "status": "intentgraph-experimental-csharp-fact-workbench-negative-probes-passed"
+}

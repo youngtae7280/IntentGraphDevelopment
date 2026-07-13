@@ -1,0 +1,68 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-fact-workbench-roadmap-report",
+  "status": "intentgraph-experimental-csharp-fact-workbench-implementation-passed-visual-review-pending",
+  "scope": "p9.12-experimental-csharp-fact-only-workbench",
+  "result": "implementation-pass-visual-review-pending",
+  "reproduction": {
+    "target": "WindowsUtility",
+    "logicalSourceRoot": "intentgraph://profiles/experimental-csharp-host-sdk-syntax-only/source",
+    "sourceDigest": "sha256:5b1969fdb13bd9d2d02e9332295a1ea84357cd496b629b7b5882573a10e35194",
+    "sourceFileCount": 206,
+    "factCount": 8137,
+    "relationCount": 7931,
+    "inputWorkspaceMutated": false,
+    "targetRepositoryMutated": false
+  },
+  "output": {
+    "path": "generated/windowsutility/experimental-csharp-fact-workbench/p9.12",
+    "projectionDigest": "sha256:0cc446a9074dd10c3fb882f3627da26d06cb287226003a5cb26d36d152473259",
+    "htmlDigest": "sha256:0e98896bc3de027d9535f04db8860f0a8c9bc5142512a4d9dda9ef68eb239ee3",
+    "manifestDigest": "sha256:15893b04e10803dabcc4e2ffb09df5a59c0ce50c501c449bf0b0473d0887e479",
+    "validationDigest": "sha256:5b9ae8defcde5d5ddfd30ff3a9a4ff6effc8ba4e6ff00eca17287aa38bd0fb98",
+    "cytoscapeDigest": "sha256:9c2a3bf2592e0b14a1f7bec07c03a54f16dedf32af9cd0af155c716aa6c87bc3",
+    "localRuntimeOnly": true,
+    "repeatedOutputByteIdentical": true
+  },
+  "features": {
+    "darkGraphExplorer": true,
+    "structuralDefaultView": true,
+    "searchAndFilters": true,
+    "nodeAndEdgeInspection": true,
+    "panZoomFit": true,
+    "resizablePanels": true,
+    "explicitUnavailableState": true,
+    "codeDiffFabricated": false,
+    "resolvedCallGraphClaimed": false
+  },
+  "negativeProbes": {
+    "path": "generated/roadmap/p9.12-experimental-csharp-fact-workbench-negative-probes-report.json",
+    "digest": "sha256:13000167312f4ff686e63400df906194be36b80047d77bd13c3577f0543b49f6",
+    "probeCount": 11,
+    "allExpectedFailuresObserved": true
+  },
+  "visualGate": {
+    "automatedBrowserResult": "blocked-by-local-file-url-policy",
+    "nonblankGraphConfirmed": false,
+    "panZoomConfirmed": false,
+    "nodeSelectionConfirmed": false,
+    "edgeSelectionConfirmed": false,
+    "unavailableCodeDiffConfirmed": false,
+    "manualReviewRequired": true
+  },
+  "authority": {
+    "targetRepositoryMutation": false,
+    "targetBuildExecuted": false,
+    "targetRestoreExecuted": false,
+    "targetLaunchExecuted": false,
+    "externalPackageRestoreExecuted": false,
+    "packageDependencyAdded": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "automaticCodeApplication": false,
+    "approvalAutomation": false,
+    "graphMutationFromUi": false,
+    "igdProductizationClaimed": false
+  },
+  "nextGate": "P9.12 visual and interaction review of the local HTML output"
+}

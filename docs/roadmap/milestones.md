@@ -4151,6 +4151,23 @@ Next safe work:
 
 - continue to `P9.12 Experimental C# Fact-Only Workbench`.
 
+## P9.12: Experimental C# Fact-Only Workbench
+
+Goal: render a validated experimental C# snapshot as a local graph inspection surface without fabricating Intent mapping, change, diff, evidence, or authority state.
+
+Status: implementation and deterministic validation completed on 2026-07-13; visual interaction review remains pending. See [P9.12 Experimental C# Fact-Only Workbench Review](../reviews/p9.12-experimental-csharp-fact-workbench-review.md).
+
+Result:
+
+- `intentgraph emit-experimental-csharp-fact-workbench` creates a separate local HTML output and never changes the input workspace or external project.
+- the WindowsUtility reproduction output contains 8,137 code facts and 7,931 syntax relations in a dark graph explorer with filters, selection inspectors, panel resizing, and pan/zoom/fit controls.
+- semantic/change records are explicitly rendered as not recorded rather than inferred or fabricated.
+- deterministic, facade, B1, and negative-probe checks pass; browser interaction confirmation is still required before visual acceptance.
+
+Next gate:
+
+- inspect the local P9.12 HTML output and record graph visibility, pan/zoom, node selection, edge selection, and unavailable code-diff feedback.
+
 ## P9.11: Experimental C# Fact Workspace Scope Review
 
 Goal: determine whether a C# fact-only workspace can have a local HTML inspection surface without misrepresenting absent mappings, proposals, deltas, diffs, evidence, or authority.
