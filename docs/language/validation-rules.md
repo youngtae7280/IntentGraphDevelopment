@@ -971,6 +971,14 @@ When a code-fact report declares `sourceRootKind: logical-id`, its `sourceRoot` 
 
 The same profile and source bytes in two different workspace directories must produce byte-identical review artifacts. Existing physical-path B1 extraction without `sourceRootKind` must remain byte-identical. Invalid logical extractor inputs, invalid logical code-fact reports, wrong workspace logical IDs, and stale profile proposal baselines must fail deterministically.
 
+### V425 - External Source Intake Is Read-Only and Profile-Bounded
+
+Severity: P0 in P9.4
+
+An external source intake command must create a new workspace from a declared profile and must not analyze or modify the external source in place. For the bounded B1 profile, the external tree must have the exact allowed TypeScript file set and digests before it may be copied.
+
+The intake receipt must omit the external absolute path while recording the profile, logical source root, before/after/copy tree digests, sorted copied-file digests, and false mutation/network/code-application authority flags. The command must fail closed for missing or file source roots, workspace overlap, pre-existing workspaces, symlinks, unsupported files, source mismatch, source change during intake, and tampered receipts. A positive baseline must prove that the external source digest stays unchanged through import and review.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

@@ -3967,6 +3967,31 @@ Next safe work:
 
 - continue to `P9.4 B1-Equivalent External Source Snapshot Import`.
 
+## P9.4: B1-Equivalent External Source Snapshot Import
+
+Goal: prove that a declared external B1-equivalent source tree can enter an IGD workspace without source mutation or persistent absolute-path leakage.
+
+Status: completed on 2026-07-13. See [P9.4 B1-Equivalent External Source Snapshot Import Review](../reviews/p9.4-b1-equivalent-external-source-snapshot-import-review.md).
+
+Decision:
+
+- `import-b1-equivalent` accepts only the exact B1 TypeScript file set and source digests.
+- it copies the external source into a new workspace and records a path-free intake receipt.
+- the imported workspace review passes while the external source digest remains unchanged.
+- seven invalid intake/receipt cases fail deterministically.
+- arbitrary project/C#/WindowsUtility support, target mutation, code application, network, provider, credential, hook, package, signing, release, and productization authority remain absent.
+
+Produced artifacts:
+
+- `tools/run_igd_external_import_negative_probes.py`
+- `generated/roadmap/p9.4-b1-equivalent-external-source-snapshot-import-report.json`
+- `generated/roadmap/p9.4-external-source-intake-negative-probes-report.json`
+- [P9.4 B1-Equivalent External Source Snapshot Import Review](../reviews/p9.4-b1-equivalent-external-source-snapshot-import-review.md)
+
+Next safe work:
+
+- continue to `P9.5 Project Profile Authoring and Language Expansion Gate - Plan Only`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

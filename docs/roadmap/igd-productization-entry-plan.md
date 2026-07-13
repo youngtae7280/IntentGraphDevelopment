@@ -1,6 +1,6 @@
 # IntentGraphDevelopment Productization Entry Plan
 
-Status: P9.0 plan, P9.1 bounded implementation, P9.2 logical source identity, and P9.3 external intake planning completed; P9.4 bounded import implementation is next.
+Status: P9.0 plan, P9.1 bounded implementation, P9.2 logical source identity, P9.3 external intake planning, and P9.4 bounded import completed; P9.5 language/profile expansion planning is next.
 
 ## Purpose
 
@@ -113,3 +113,9 @@ The next slice is `P9.3 External Project Profile Intake and Workspace Import Bou
 P9.3 defines a read-only external source intake boundary. P9.4 may import only a TypeScript source tree that is byte-equivalent to the bounded B1 profile, snapshot it into a new workspace, and prove the external tree did not change. It must not claim arbitrary project, C#, or WindowsUtility support.
 
 The next slice is `P9.4 B1-Equivalent External Source Snapshot Import`.
+
+## P9.4 Result
+
+P9.4 snapshots an external B1-equivalent source copy into a new workspace. It records only profile and source-digest evidence, not the external absolute path, and proves that the external tree stays unchanged through import and review. It remains a single-profile safety proof, not generic project support.
+
+The next slice is `P9.5 Project Profile Authoring and Language Expansion Gate - Plan Only`.

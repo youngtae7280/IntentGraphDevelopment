@@ -70,10 +70,28 @@ def digest_json(value: Any) -> str:
 
 
 def digest_tree(root: Path) -> str:
+    return digest_records(source_tree_records(root))
+
+
+def digest_records(records: list[dict[str, str]]) -> str:
+    if not records:
+        raise WorkspaceError("source root must contain at least one file")
+    return digest_json(records)
+
+
+def source_tree_records(root: Path, *, require_typescript_only: bool = False) -> list[dict[str, str]]:
     if not root.is_dir():
         raise WorkspaceError(f"source root is not a directory: {root}")
+    if root.is_symlink():
+        raise WorkspaceError("source root must not be a symlink")
     records: list[dict[str, str]] = []
-    for path in sorted(item for item in root.rglob("*") if item.is_file()):
+    for path in sorted(root.rglob("*")):
+        if path.is_symlink():
+            raise WorkspaceError(f"source tree must not contain symlinks: {path.name}")
+        if not path.is_file():
+            continue
+        if require_typescript_only and path.suffix != ".ts":
+            raise WorkspaceError(f"unsupported source extension for B1 profile: {path.suffix or '<none>'}")
         records.append(
             {
                 "path": path.relative_to(root).as_posix(),
@@ -82,7 +100,7 @@ def digest_tree(root: Path) -> str:
         )
     if not records:
         raise WorkspaceError("source root must contain at least one file")
-    return digest_json(records)
+    return records
 
 
 def write_json(path: Path, value: Any) -> None:
@@ -140,6 +158,38 @@ def sample_manifest() -> dict[str, Any]:
         },
         "outputs": REQUIRED_OUTPUTS,
         "authority": REQUIRED_AUTHORITY,
+    }
+
+
+def profile_source_records() -> list[dict[str, str]]:
+    return source_tree_records(SAMPLE_SOURCE, require_typescript_only=True)
+
+
+def is_within(path: Path, parent: Path) -> bool:
+    try:
+        path.resolve().relative_to(parent.resolve())
+        return True
+    except ValueError:
+        return False
+
+
+def external_source_receipt(records: list[dict[str, str]]) -> dict[str, Any]:
+    source_digest = digest_records(records)
+    return {
+        "artifactRole": "intentgraph-external-source-intake-receipt",
+        "status": "intentgraph-external-source-intake-recorded",
+        "profileId": PROFILE,
+        "logicalSourceRoot": LOGICAL_SOURCE_ROOT_ID,
+        "sourceTreeDigestBefore": source_digest,
+        "sourceTreeDigestAfter": source_digest,
+        "copiedSourceTreeDigest": source_digest,
+        "sourceFileCount": len(records),
+        "sourceFileDigests": records,
+        "externalSourceMutated": False,
+        "sourcePathPersisted": False,
+        "networkRequired": False,
+        "automaticCodeApplication": False,
+        "targetRepositoryMutation": False,
     }
 
 
@@ -209,6 +259,23 @@ def validate_workspace(workspace: Path) -> tuple[dict[str, Any], dict[str, Path]
     if authority != REQUIRED_AUTHORITY:
         raise WorkspaceError("workspace authority must equal the local review-only authority boundary")
 
+    intake = manifest.get("externalSourceIntake")
+    if intake is not None:
+        if intake != {
+            "mode": "read-only-snapshot-copy",
+            "receipt": "artifacts/external-source-intake-receipt.json",
+            "sourcePathPersisted": False,
+        }:
+            raise WorkspaceError("workspace external source intake boundary is invalid")
+        receipt_path = contained_path(workspace, str(intake["receipt"]), artifact=True)
+        receipt = read_json(receipt_path)
+        records = source_tree_records(source_root, require_typescript_only=True)
+        source_digest = digest_records(records)
+        expected_receipt = external_source_receipt(records)
+        if receipt != expected_receipt or receipt["copiedSourceTreeDigest"] != source_digest:
+            raise WorkspaceError("external source intake receipt does not match copied source evidence")
+        input_paths["externalSourceIntakeReceipt"] = receipt_path
+
     return manifest, input_paths
 
 
@@ -242,6 +309,68 @@ def initialize_sample(workspace: Path) -> int:
             "proposal": paths["proposal"].relative_to(workspace).as_posix(),
             "logicalSourceRoot": LOGICAL_SOURCE_ROOT_ID,
             "proposalProfileTemplate": True,
+            "authority": REQUIRED_AUTHORITY,
+        }
+    )
+    return 0
+
+
+def initialize_b1_equivalent_import(workspace: Path, external_source_root: Path) -> int:
+    workspace = workspace.resolve()
+    if external_source_root.is_symlink():
+        raise WorkspaceError("external source root must be a non-symlink directory")
+    external_source_root = external_source_root.resolve()
+    if workspace.exists():
+        raise WorkspaceError("workspace must not exist for external import")
+    if not external_source_root.is_dir():
+        raise WorkspaceError("external source root must be a non-symlink directory")
+    if is_within(workspace, external_source_root) or is_within(external_source_root, workspace):
+        raise WorkspaceError("external source root and workspace must not overlap")
+
+    before_records = source_tree_records(external_source_root, require_typescript_only=True)
+    if before_records != profile_source_records():
+        raise WorkspaceError("external source is not B1-equivalent to the bounded profile")
+
+    try:
+        workspace.mkdir(parents=True, exist_ok=False)
+        shutil.copytree(external_source_root, workspace / "source", dirs_exist_ok=False)
+        after_records = source_tree_records(external_source_root, require_typescript_only=True)
+        copied_records = source_tree_records(workspace / "source", require_typescript_only=True)
+        if after_records != before_records:
+            raise WorkspaceError("external source digest changed during intake")
+        if copied_records != before_records:
+            raise WorkspaceError("copied source evidence does not match external source")
+
+        (workspace / "overlay").mkdir(parents=True, exist_ok=True)
+        (workspace / "proposals").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(SAMPLE_OVERLAY, workspace / "overlay" / "intentgraph.overlay.json")
+        shutil.copy2(SAMPLE_WORKSPACE_PROPOSAL, workspace / "proposals" / "p4.0-complete-todo-route.proposal.json")
+        manifest = sample_manifest()
+        manifest["externalSourceIntake"] = {
+            "mode": "read-only-snapshot-copy",
+            "receipt": "artifacts/external-source-intake-receipt.json",
+            "sourcePathPersisted": False,
+        }
+        write_json(workspace / WORKSPACE_FILE, manifest)
+        write_json(workspace / "artifacts" / "external-source-intake-receipt.json", external_source_receipt(before_records))
+        _, paths = validate_workspace(workspace)
+    except Exception:
+        if workspace.exists():
+            shutil.rmtree(workspace)
+        raise
+
+    emit_status(
+        {
+            "result": "pass",
+            "command": "import-b1-equivalent",
+            "workspaceRole": WORKSPACE_ROLE,
+            "profile": PROFILE,
+            "logicalSourceRoot": LOGICAL_SOURCE_ROOT_ID,
+            "sourceDigest": manifest["source"]["digest"],
+            "sourceFileCount": len(before_records),
+            "externalSourceMutated": False,
+            "sourcePathPersisted": False,
+            "receipt": paths["externalSourceIntakeReceipt"].relative_to(workspace).as_posix(),
             "authority": REQUIRED_AUTHORITY,
         }
     )
@@ -447,6 +576,12 @@ def parse_args() -> argparse.Namespace:
     ):
         command = subparsers.add_parser(name, help=help_text)
         command.add_argument("--workspace", required=True, type=Path)
+    external_import = subparsers.add_parser(
+        "import-b1-equivalent",
+        help="Snapshot a B1-equivalent external TypeScript source tree into a new local-review workspace.",
+    )
+    external_import.add_argument("--workspace", required=True, type=Path)
+    external_import.add_argument("--source-root", required=True, type=Path)
     return parser.parse_args()
 
 
@@ -459,6 +594,8 @@ def main() -> int:
             return validate_command(args.workspace)
         if args.command == "review":
             return review_workspace(args.workspace)
+        if args.command == "import-b1-equivalent":
+            return initialize_b1_equivalent_import(args.workspace, args.source_root)
         raise WorkspaceError(f"unsupported command: {args.command}")
     except WorkspaceError as exc:
         print(f"error: {exc}", file=sys.stderr)

@@ -1,6 +1,6 @@
 # IGD External Project Profile Intake: P9.3 Boundary
 
-P9.3 defines how the IntentGraph Local Review Kit may later read an external project without turning the review tool into a target-mutation tool.
+P9.3 defines how the IntentGraph Local Review Kit may read an external project without turning the review tool into a target-mutation tool. P9.4 implements the first bounded B1-equivalent snapshot/import proof.
 
 ## Purpose
 
@@ -8,7 +8,7 @@ The bundled B1 sample proves a coherent local workflow, but it does not prove th
 
 ## P9.4 Initial Scope
 
-P9.4 may support only an external directory whose TypeScript source tree is byte-equivalent to the bounded B1 profile. It is a read-only snapshot/import proof, not arbitrary TypeScript or WindowsUtility support.
+P9.4 supports only an external directory whose TypeScript source tree is byte-equivalent to the bounded B1 profile. It is a read-only snapshot/import proof, not arbitrary TypeScript or WindowsUtility support.
 
 The command shape under consideration is:
 
@@ -56,6 +56,12 @@ P9.4 must fail closed when:
 - no provider API, credentials, hooks, package creation, signing, or release
 - no persistent external absolute paths in IntentGraph artifacts
 
+## P9.4 Evidence
+
+`import-b1-equivalent` creates an intake receipt and a new local-review workspace. The imported workspace passes the existing review workflow, while the external source tree remains digest-identical before and after intake/review. The receipt stores no external absolute path.
+
+The repeatable P9.4 negative harness rejects invalid source roots, unsupported extensions, non-equivalent source content, workspace overlap, pre-existing workspaces, and tampered receipts.
+
 ## Next Gates
 
-P9.4 may implement this B1-equivalent external snapshot/import proof. P9.5 must then plan a separate profile-authoring and language-expansion gate before a different source shape can be accepted.
+P9.5 must plan a separate profile-authoring and language-expansion gate before a different source shape can be accepted.

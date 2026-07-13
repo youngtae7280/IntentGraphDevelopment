@@ -1,0 +1,44 @@
+{
+  "artifactRole": "intentgraph-b1-equivalent-external-source-snapshot-import-report",
+  "status": "intentgraph-b1-equivalent-external-source-snapshot-import-passed",
+  "scope": "p9.4-b1-equivalent-external-readonly-source-import",
+  "decision": "import-b1-equivalent-source-only-through-a-new-readonly-snapshot-workspace",
+  "command": {
+    "entrypoint": "python tools/intentgraph.py import-b1-equivalent --workspace <new-workspace> --source-root <external-b1-equivalent-source>",
+    "profile": "b1-typescript-rest-api-sample",
+    "logicalSourceRoot": "intentgraph://profiles/b1-typescript-rest-api-sample/source",
+    "arbitraryProjectSupported": false
+  },
+  "receipt": {
+    "artifactRole": "intentgraph-external-source-intake-receipt",
+    "sourcePathPersisted": false,
+    "externalSourceMutated": false,
+    "sourceDigestBeforeEqualsAfter": true,
+    "copiedSourceMatchesExternal": true
+  },
+  "verification": {
+    "freshExternalB1ImportPassed": true,
+    "importedWorkspaceReviewPassed": true,
+    "importedWorkbenchProduced": true,
+    "negativeProbeReport": "generated/roadmap/p9.4-external-source-intake-negative-probes-report.json",
+    "negativeProbeCount": 7,
+    "allExpectedFailuresObserved": true
+  },
+  "authority": {
+    "externalSourceMutation": false,
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "hookInstallationAllowed": false,
+    "releasePublishingAllowed": false,
+    "igdProductizationClaimed": false
+  },
+  "knownLimitations": [
+    "The external source must be byte-equivalent to the B1 TypeScript profile.",
+    "WindowsUtility and C# intake are not supported by this profile.",
+    "No user-authored profile, package manifest, installer, editor integration, or release exists."
+  ],
+  "nextSlice": "P9.5 Project Profile Authoring and Language Expansion Gate - Plan Only"
+}

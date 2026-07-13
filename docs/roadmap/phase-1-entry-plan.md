@@ -3763,6 +3763,29 @@ Recommended next slice:
 P9.4 B1-Equivalent External Source Snapshot Import
 ```
 
+## Completed Slice: P9.4 B1-Equivalent External Source Snapshot Import
+
+Goal: prove a read-only external B1-equivalent source snapshot/import loop.
+
+Result:
+
+```text
+Decision: import-b1-equivalent-source-only-through-a-new-readonly-snapshot-workspace.
+```
+
+Produced artifacts:
+
+- `tools/run_igd_external_import_negative_probes.py`
+- `generated/roadmap/p9.4-b1-equivalent-external-source-snapshot-import-report.json`
+- `generated/roadmap/p9.4-external-source-intake-negative-probes-report.json`
+- [P9.4 B1-Equivalent External Source Snapshot Import Review](../reviews/p9.4-b1-equivalent-external-source-snapshot-import-review.md)
+
+Recommended next slice:
+
+```text
+P9.5 Project Profile Authoring and Language Expansion Gate - Plan Only
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

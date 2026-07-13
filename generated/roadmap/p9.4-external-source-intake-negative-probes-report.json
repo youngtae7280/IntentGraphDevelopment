@@ -1,0 +1,89 @@
+{
+  "artifactRole": "intentgraph-external-source-intake-negative-probes-report",
+  "status": "intentgraph-external-source-intake-negative-probes-passed",
+  "result": "pass",
+  "profile": "b1-typescript-rest-api-sample",
+  "baselineImportPassed": true,
+  "baselineReviewPassed": true,
+  "externalSourceDigestStable": true,
+  "sourcePathPersisted": false,
+  "probeCount": 7,
+  "probes": [
+    {
+      "id": "missing-source-root",
+      "kind": "import",
+      "expectedError": "external source root must be a non-symlink directory",
+      "exitCode": 2,
+      "stderr": "error: external source root must be a non-symlink directory",
+      "workspaceAbsentAfterFailure": true,
+      "workspaceAbsenceRequired": true,
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "source-root-is-file",
+      "kind": "import",
+      "expectedError": "external source root must be a non-symlink directory",
+      "exitCode": 2,
+      "stderr": "error: external source root must be a non-symlink directory",
+      "workspaceAbsentAfterFailure": true,
+      "workspaceAbsenceRequired": true,
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "unsupported-source-extension",
+      "kind": "import",
+      "expectedError": "unsupported source extension for B1 profile",
+      "exitCode": 2,
+      "stderr": "error: unsupported source extension for B1 profile: .md",
+      "workspaceAbsentAfterFailure": true,
+      "workspaceAbsenceRequired": true,
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "source-not-b1-equivalent",
+      "kind": "import",
+      "expectedError": "external source is not B1-equivalent to the bounded profile",
+      "exitCode": 2,
+      "stderr": "error: external source is not B1-equivalent to the bounded profile",
+      "workspaceAbsentAfterFailure": true,
+      "workspaceAbsenceRequired": true,
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "workspace-overlaps-source",
+      "kind": "import",
+      "expectedError": "external source root and workspace must not overlap",
+      "exitCode": 2,
+      "stderr": "error: external source root and workspace must not overlap",
+      "workspaceAbsentAfterFailure": true,
+      "workspaceAbsenceRequired": true,
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "workspace-already-exists",
+      "kind": "import",
+      "expectedError": "workspace must not exist for external import",
+      "exitCode": 2,
+      "stderr": "error: workspace must not exist for external import",
+      "workspaceAbsentAfterFailure": false,
+      "workspaceAbsenceRequired": false,
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "tampered-intake-receipt",
+      "kind": "workspace-validation",
+      "expectedError": "external source intake receipt does not match copied source evidence",
+      "exitCode": 2,
+      "stderr": "error: external source intake receipt does not match copied source evidence",
+      "workspaceAbsentAfterFailure": false,
+      "workspaceAbsenceRequired": false,
+      "expectedFailureObserved": true
+    }
+  ],
+  "authority": {
+    "externalSourceMutation": false,
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "networkRequired": false
+  }
+}

@@ -14,6 +14,8 @@ IntentGraph is not ready for productization. The current evidence proves a seman
 
 > **P9.3 external intake boundary:** P9.4 may read and snapshot only a B1-equivalent external TypeScript source copy. It must prove before/after source equality and must not claim arbitrary project or WindowsUtility support.
 
+> **P9.4 external intake proof:** an external B1-equivalent source copy now imports into a new workspace with an absolute-path-free receipt and unchanged external source digest. Profile authoring and language expansion remain gated.
+
 ## Non-Negotiable Boundary
 
 Productization must remain blocked until real-project adoption evidence exists.
