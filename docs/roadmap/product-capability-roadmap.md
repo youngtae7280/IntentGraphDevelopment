@@ -7,7 +7,7 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P9.28 completed.
+P9.28.R completed.
 Selected next benchmark: B1-typescript-rest-api.
 IntentGraphDevelopment has a defined-but-not-built product candidate: IntentGraph Local Review Kit.
 The experimental C# fact-only inspector is complete. P9.13 adds a separate local semantic-overlay project workspace and unified project workbench. P9.14 adds review-only change proposals with graph delta and code-diff fragments to that same C# project route. P9.15 corrects the raw-code-heavy default graph and adds a loopback-only interactive work-request intake surface. Visual interaction review remains a required user-facing quality gate.
@@ -18,6 +18,8 @@ Phase G has only read-only WindowsUtility inventory and mapping hypotheses. P8.0
 P9.27 adds the first normal-form path from a mapped work item to an actual code-bearing proposal. The Workbench derives diff provenance from the immutable snapshot, rejects stale or out-of-range hunks, and immediately exposes the resulting graph and code delta without applying it.
 
 P9.28 corrects the visual inspection boundary without changing the graph. The unified Workbench now has a direct 100x precision lens, constant-screen selected relation emphasis, bounded node and border sizes, viewport-local precision updates, and one shared desaturated spectral-obsidian material. Typed verifier-result intake remains the next highest-value normal-workflow gap.
+
+P9.28.R corrects the remaining maximum-zoom and material defects without changing the graph. Logical `100x` now maps to a renderer-safe internal `24x` ceiling, selected relations taper to `0.24` rendered pixels, and important semantic/structural landmarks use a near-black optical core with restrained category rims instead of colored plastic bodies. The precision renderer also avoids unstable bitmap, gradient, and tiny polygon paths. Typed verifier-result intake remains the next highest-value normal-workflow gap.
 ```
 
 > **Scope correction, P8.124:** the WindowsUtility package and its verification artifacts are Phase G adoption evidence. WindowsUtility is not an IntentGraphDevelopment product candidate, and the historical P8.121-P8.123 candidate-acceptance gate does not block this roadmap. IntentGraphDevelopment productization begins only after its own product surface and distribution boundary are defined. See [P8.124 WindowsUtility Adoption / IGD Productization Scope Correction](../reviews/p8.124-windowsutility-adoption-igd-productization-scope-correction.md).

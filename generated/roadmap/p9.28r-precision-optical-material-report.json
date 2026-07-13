@@ -1,0 +1,50 @@
+{
+  "artifactRole": "intentgraph-p9.28r-precision-optical-material-report",
+  "status": "intentgraph-p9.28r-precision-optical-material-pass",
+  "scope": "p9.28r-workbench-rendering-only",
+  "result": "pass",
+  "renderingContract": {
+    "logicalMaximumZoom": 100,
+    "rendererMaximumZoom": 24,
+    "virtualPrecisionZoom": true,
+    "precisionPivotZoom": 18,
+    "selectedEdgeRenderedWidthPixelsAtMaximumZoom": 0.24,
+    "neighborEdgeRenderedWidthPixelsAtMaximumZoom": 0.14,
+    "selectedEdgeScreenSpaceTaper": true,
+    "rendererSafeOpticalMaterial": true,
+    "bitmapMaterialUsed": false,
+    "nativeGradientMaterialUsed": false,
+    "precisionEllipseGeometry": true,
+    "graphStructureChanged": false
+  },
+  "browserVerification": {
+    "logicalZoomReached": 100,
+    "rendererZoomReached": 24.0,
+    "selectedEdgeRenderedWidthPixels": 0.24,
+    "sourceNodeRenderedWidthPixels": 15.216,
+    "targetNodeRenderedWidthPixels": 18.864,
+    "fitReturnZoom": 0.22,
+    "fullCanvasColorDefectObserved": false,
+    "browserVisualInspection": "pass"
+  },
+  "verification": {
+    "staticWorkbenchEmission": "pass",
+    "staticWorkbenchValidation": "pass",
+    "staticInlineJavaScriptParse": "pass",
+    "liveInlineJavaScriptParse": "pass",
+    "loopbackServerProbeCount": 21,
+    "loopbackServerResult": "pass",
+    "affectedRegressionProbeCount": 80,
+    "affectedRegressionResult": "pass"
+  },
+  "authority": {
+    "graphMutationApplied": false,
+    "sourceMutation": false,
+    "snapshotWorkspaceMutation": false,
+    "targetRepositoryMutation": false,
+    "verificationExecution": false,
+    "evidenceExecution": false,
+    "automaticCodeApplication": false,
+    "approvalAutomation": false
+  }
+}
