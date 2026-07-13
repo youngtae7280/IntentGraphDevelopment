@@ -375,3 +375,32 @@ P8.29 selects the first surface but does not implement productization. The next 
 
 Review trigger:
 If the next slice requires installation, persistent local services, editor integration, GitHub permissions, release packaging, or remote execution, rerun the product surface decision and create a separate permission/release boundary first.
+
+### 013 - C# Syntax Adapter Reuse and Dependency Boundary
+
+Capability: turning a successful local Roslyn syntax-only feasibility probe into a reusable C# profile.
+Date: 2026-07-13
+Status: accepted for P9.7 planning; reusable profile implementation not yet opened.
+
+Problem:
+P9.6 proves local syntax extraction against WindowsUtility, but its Roslyn assemblies are resolved through the active installed .NET SDK. Host availability does not define a portable package, a pin, a clean-install contract, or a security-update owner.
+
+Existing systems:
+Roslyn packages/SDK tooling, Tree-sitter C# bindings, compiler front ends, language servers, SCIP/LSIF indexers, and CodeQL/C# analysis infrastructure.
+
+Comparison:
+Roslyn is appropriate for compiler-grade C# syntax in the bounded probe. Tree-sitter and indexers may be better future integrations for broader parsing/indexing, but no P9.6 defect requires a replacement. A pinned Roslyn package would be more portable than an SDK path, but introduces explicit dependency, license, security, restore, offline, and release obligations.
+
+Decision: borrow host-SDK Roslyn only for an experimental local availability preflight. Defer both a pinned Roslyn package and alternative parser integration.
+
+Reason:
+The next useful evidence is whether an environmental requirement can be made explicit and fail closed without silently turning into a product dependency. This preserves the semantic-overlay focus and avoids claiming broad code intelligence support.
+
+Benchmark required:
+P9.8 must produce a deterministic report from local SDK/binary discovery only. It must not read a target, build a target, restore/install packages, or claim a reusable C# profile.
+
+Impact on roadmap:
+P9.8 may implement a host-SDK availability preflight. P9.9 or later must not execute reusable C# extraction until the preflight passes and an explicit profile integration boundary is reviewed.
+
+Review trigger:
+Before adding a package reference, installer, lockfile, bundled binary, alternate parser, semantic binding, or broad C# profile, rerun prior-art and make a dependency/security/release decision.

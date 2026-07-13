@@ -989,6 +989,14 @@ The probe must parse syntax only: semantic resolution and source build flags rem
 
 Repeatable negative probes must fail for bad logical roots, unsafe output location, malformed/empty/missing C# source, unsupported arguments, persisted source text, and missing parser assembly. The probe must not build, restore, launch, mutate, package, or access hardware in the target repository, nor claim reusable profile, dependency packaging, or productization authority.
 
+### V427 - Experimental Host-SDK C# Availability Is Not Product Support
+
+Severity: P0 in P9.7/P9.8
+
+A host-SDK C# profile availability result must be explicitly experimental and environment-specific. It may establish only that a declared local SDK exposes the required Roslyn binaries. It must not claim portable dependency packaging, broad C# support, semantic resolution, target extraction, target mutation, package restore/install, or IGD product readiness.
+
+Before any reusable C# extraction or package dependency work, the project must record an explicit dependency decision covering versioning, compatibility, licensing, security updates, offline/clean-install behavior, upgrade/rollback, and release authority.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

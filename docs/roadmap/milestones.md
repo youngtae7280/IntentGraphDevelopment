@@ -4046,6 +4046,30 @@ Next safe work:
 
 - continue to `P9.7 C# Profile Reuse and Dependency Boundary Gate - Plan Only`.
 
+## P9.7: C# Profile Reuse and Dependency Boundary Gate
+
+Goal: decide whether the P9.6 host-SDK parser mechanism may become reusable without treating local SDK paths as a product dependency.
+
+Status: completed on 2026-07-13. See [P9.7 C# Profile Reuse and Dependency Boundary Gate Review](../reviews/p9.7-csharp-profile-reuse-dependency-boundary-review.md).
+
+Decision:
+
+- select only an experimental host-SDK availability preflight for P9.8.
+- defer pinned Roslyn packages pending dependency, licensing, security, offline, clean-install, and release evidence.
+- defer alternative parser integration pending a new prior-art and extraction-quality comparison.
+- no target source read/mutation, target build/launch, package restore/install, network, provider, credential, hook, code application, release, or productization authority was added.
+
+Produced artifacts:
+
+- `docs/product/igd-csharp-profile-reuse-p9.7.md`
+- `generated/roadmap/p9.7-csharp-profile-reuse-dependency-boundary-gate-report.json`
+- [P9.7 C# Profile Reuse and Dependency Boundary Gate Review](../reviews/p9.7-csharp-profile-reuse-dependency-boundary-review.md)
+- build/borrow/integrate decision 013
+
+Next safe work:
+
+- continue to `P9.8 Experimental Host-SDK C# Profile Availability Preflight`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

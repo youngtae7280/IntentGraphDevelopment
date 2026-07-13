@@ -18,6 +18,8 @@ IntentGraph is not ready for productization. The current evidence proves a seman
 
 > **P9.5 language gate:** WindowsUtility C# is selected only for a Roslyn syntax-only, read-only feasibility probe. A reusable C# profile, semantic binding, dependency packaging, and target mutation remain gated.
 
+> **P9.6/P9.7 C# boundary:** the read-only feasibility probe passed, but host-SDK Roslyn remains an environmental dependency rather than a product dependency. P9.8 may only preflight local availability; package pinning, reusable extraction, semantic binding, and target mutation remain gated.
+
 ## Non-Negotiable Boundary
 
 Productization must remain blocked until real-project adoption evidence exists.

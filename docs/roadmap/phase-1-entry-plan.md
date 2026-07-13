@@ -3835,6 +3835,29 @@ Recommended next slice:
 P9.7 C# Profile Reuse and Dependency Boundary Gate - Plan Only
 ```
 
+## Completed Slice: P9.7 C# Profile Reuse and Dependency Boundary Gate
+
+Goal: decide the adapter/dependency boundary before reusable C# profile work.
+
+Result:
+
+```text
+Decision: select-experimental-host-sdk-preflight-only.
+```
+
+Produced artifacts:
+
+- `docs/product/igd-csharp-profile-reuse-p9.7.md`
+- `generated/roadmap/p9.7-csharp-profile-reuse-dependency-boundary-gate-report.json`
+- [P9.7 C# Profile Reuse and Dependency Boundary Gate Review](../reviews/p9.7-csharp-profile-reuse-dependency-boundary-review.md)
+- build/borrow/integrate decision 013
+
+Recommended next slice:
+
+```text
+P9.8 Experimental Host-SDK C# Profile Availability Preflight
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

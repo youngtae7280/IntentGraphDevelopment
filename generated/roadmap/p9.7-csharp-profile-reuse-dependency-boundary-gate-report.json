@@ -1,0 +1,51 @@
+{
+  "artifactRole": "intentgraph-csharp-profile-reuse-dependency-boundary-gate-report",
+  "status": "intentgraph-csharp-profile-reuse-dependency-boundary-gate-planned",
+  "scope": "p9.7-plan-only-csharp-profile-reuse-and-dependency-boundary",
+  "decision": "select-experimental-host-sdk-preflight-only",
+  "evidence": {
+    "p9_6": {
+      "result": "pass",
+      "adapter": "roslyn-syntax-only",
+      "targetSourceFiles": 206,
+      "factCount": 8137,
+      "relationCount": 7931,
+      "semanticResolution": false,
+      "targetMutation": false
+    },
+    "localSdk": {
+      "installedVersions": ["8.0.100", "8.0.404", "9.0.100"],
+      "globalJsonPresent": false,
+      "hostSdkDependencyIsPortable": false
+    }
+  },
+  "options": {
+    "experimentalHostSdkPreflight": "selected-for-p9.8-only",
+    "pinnedRoslynPackage": "deferred-pending-dependency-and-release-gate",
+    "alternativeParser": "deferred-pending-prior-art-and-quality-comparison",
+    "benchmarkOnly": "rejected-for-the-next-narrow-preflight"
+  },
+  "p9_8": {
+    "name": "Experimental Host-SDK CSharp Profile Availability Preflight",
+    "readsTargetSource": false,
+    "targetBuildAllowed": false,
+    "packageRestoreAllowed": false,
+    "packageInstallAllowed": false,
+    "networkRequired": false,
+    "outputs": ["deterministic-local-availability-report"],
+    "mustLabel": ["experimental", "host-sdk-specific", "not-portable", "not-product-ready"]
+  },
+  "authority": {
+    "targetRepositoryRead": false,
+    "targetRepositoryMutation": false,
+    "targetBuildExecuted": false,
+    "packageDependencyAdded": false,
+    "packageRestoreExecuted": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "automaticCodeApplication": false,
+    "igdProductizationClaimed": false
+  },
+  "nextSlice": "P9.8 Experimental Host-SDK CSharp Profile Availability Preflight"
+}
