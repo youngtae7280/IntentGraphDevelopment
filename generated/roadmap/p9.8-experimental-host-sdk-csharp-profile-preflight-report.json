@@ -1,0 +1,52 @@
+{
+  "adapter": {
+    "id": "roslyn-syntax-only-host-sdk",
+    "semanticResolution": false,
+    "sourceBuildAllowed": false,
+    "sourceExtractionAllowed": false
+  },
+  "artifactRole": "intentgraph-experimental-csharp-host-sdk-preflight-report",
+  "authority": {
+    "automaticCodeApplication": false,
+    "credentialAccessAllowed": false,
+    "igdProductizationClaimed": false,
+    "networkRequired": false,
+    "packageDependencyAdded": false,
+    "packageInstallExecuted": false,
+    "packageRestoreExecuted": false,
+    "providerApiAllowed": false,
+    "targetBuildExecuted": false,
+    "targetLaunchExecuted": false,
+    "targetRepositoryMutation": false,
+    "targetRepositoryRead": false,
+    "targetRestoreExecuted": false
+  },
+  "profile": {
+    "experimental": true,
+    "hostSdkSpecific": true,
+    "id": "experimental-csharp-host-sdk-syntax-only",
+    "portable": false,
+    "productReady": false,
+    "version": "0.1.0"
+  },
+  "result": "pass",
+  "scope": "experimental-host-sdk-csharp-availability-preflight",
+  "selectedSdk": {
+    "major": 9,
+    "pathPersisted": false,
+    "requiredAssemblies": [
+      {
+        "byteLength": 8128824,
+        "name": "Microsoft.CodeAnalysis.dll",
+        "sha256": "sha256:36495aa170bc307d2722f376b48690f151e1298940d2843d15173fb6cd2ac65e"
+      },
+      {
+        "byteLength": 17983784,
+        "name": "Microsoft.CodeAnalysis.CSharp.dll",
+        "sha256": "sha256:1ab1c8bff5ef193d2114cf51ee52d752e2693b9a940a82e62e8f3791306d5758"
+      }
+    ],
+    "version": "9.0.100"
+  },
+  "status": "intentgraph-experimental-csharp-host-sdk-preflight-passed"
+}

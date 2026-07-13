@@ -20,6 +20,8 @@ IntentGraph is not ready for productization. The current evidence proves a seman
 
 > **P9.6/P9.7 C# boundary:** the read-only feasibility probe passed, but host-SDK Roslyn remains an environmental dependency rather than a product dependency. P9.8 may only preflight local availability; package pinning, reusable extraction, semantic binding, and target mutation remain gated.
 
+> **P9.8 host-SDK preflight:** the local requirement is now explicit and fail-closed without target source access. It is still experimental and non-portable; workspace integration, reusable extraction, dependency packaging, semantic binding, and target mutation remain gated.
+
 ## Non-Negotiable Boundary
 
 Productization must remain blocked until real-project adoption evidence exists.

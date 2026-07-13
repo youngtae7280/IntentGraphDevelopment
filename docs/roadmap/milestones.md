@@ -4070,6 +4070,35 @@ Next safe work:
 
 - continue to `P9.8 Experimental Host-SDK C# Profile Availability Preflight`.
 
+## P9.8: Experimental Host-SDK C# Profile Availability Preflight
+
+Goal: make the local Roslyn prerequisite explicit and fail closed without reading any target source or declaring product support.
+
+Status: completed on 2026-07-13. See [P9.8 Experimental Host-SDK C# Profile Availability Preflight Review](../reviews/p9.8-experimental-host-sdk-csharp-profile-preflight-review.md).
+
+Decision:
+
+- the experimental host-SDK profile and preflight pass on the local SDK environment.
+- the report records selected SDK and required binary digests without persisting host paths.
+- two preflight runs are byte-identical and nine invalid profile/environment/output cases fail deterministically.
+- target repository read/mutation/build/launch, package dependency/restore/install, network, provider, credential, code application, release, and productization authority remain false.
+- the result remains experimental, host-specific, non-portable, and not product-ready.
+
+Produced artifacts:
+
+- `docs/examples/profiles/experimental-host-sdk-csharp-syntax.profile.json`
+- `tools/preflight_csharp_host_sdk_profile.py`
+- `tools/run_csharp_host_sdk_preflight_negative_probes.py`
+- `generated/roadmap/p9.8-experimental-host-sdk-csharp-profile-preflight-report.json`
+- `generated/roadmap/p9.8-experimental-host-sdk-csharp-profile-preflight-negative-probes-report.json`
+- `generated/roadmap/p9.8-experimental-host-sdk-csharp-profile-preflight-roadmap-report.json`
+- [P9.8 Experimental Host-SDK C# Profile Availability Preflight](../product/igd-experimental-host-sdk-csharp-preflight-p9.8.md)
+- [P9.8 Experimental Host-SDK C# Profile Availability Preflight Review](../reviews/p9.8-experimental-host-sdk-csharp-profile-preflight-review.md)
+
+Next safe work:
+
+- continue to `P9.9 Experimental C# Local Workspace Integration Boundary Plan - Plan Only`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

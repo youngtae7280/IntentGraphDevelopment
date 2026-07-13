@@ -1,0 +1,49 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-host-sdk-profile",
+  "status": "intentgraph-experimental-csharp-host-sdk-profile-declared",
+  "scope": "experimental-host-sdk-csharp-availability-preflight",
+  "profileVersion": "0.1.0",
+  "profileId": "experimental-csharp-host-sdk-syntax-only",
+  "language": "csharp",
+  "availability": {
+    "experimental": true,
+    "hostSdkSpecific": true,
+    "portable": false,
+    "productReady": false
+  },
+  "adapter": {
+    "id": "roslyn-syntax-only-host-sdk",
+    "semanticResolution": false,
+    "sourceBuildAllowed": false,
+    "sourceExtractionAllowed": false,
+    "packageRestoreAllowed": false,
+    "packageInstallAllowed": false,
+    "networkRequired": false
+  },
+  "hostSdk": {
+    "selection": "latest-supported-installed",
+    "supportedMajorVersions": [
+      8,
+      9
+    ],
+    "requiredAssemblies": [
+      "Microsoft.CodeAnalysis.dll",
+      "Microsoft.CodeAnalysis.CSharp.dll"
+    ]
+  },
+  "authority": {
+    "targetRepositoryRead": false,
+    "targetRepositoryMutation": false,
+    "targetBuildExecuted": false,
+    "targetRestoreExecuted": false,
+    "targetLaunchExecuted": false,
+    "packageDependencyAdded": false,
+    "packageRestoreExecuted": false,
+    "packageInstallExecuted": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "automaticCodeApplication": false,
+    "igdProductizationClaimed": false
+  }
+}

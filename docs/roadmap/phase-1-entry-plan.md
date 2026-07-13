@@ -3858,6 +3858,32 @@ Recommended next slice:
 P9.8 Experimental Host-SDK C# Profile Availability Preflight
 ```
 
+## Completed Slice: P9.8 Experimental Host-SDK C# Profile Availability Preflight
+
+Goal: expose the local C# parser prerequisite without extracting a target or adding a dependency.
+
+Result:
+
+```text
+Decision: pass-experimental-host-sdk-preflight-only; retain-nonportable-and-not-product-ready-boundary.
+```
+
+Produced artifacts:
+
+- `docs/examples/profiles/experimental-host-sdk-csharp-syntax.profile.json`
+- `tools/preflight_csharp_host_sdk_profile.py`
+- `tools/run_csharp_host_sdk_preflight_negative_probes.py`
+- `generated/roadmap/p9.8-experimental-host-sdk-csharp-profile-preflight-report.json`
+- `generated/roadmap/p9.8-experimental-host-sdk-csharp-profile-preflight-negative-probes-report.json`
+- `generated/roadmap/p9.8-experimental-host-sdk-csharp-profile-preflight-roadmap-report.json`
+- [P9.8 Experimental Host-SDK C# Profile Availability Preflight Review](../reviews/p9.8-experimental-host-sdk-csharp-profile-preflight-review.md)
+
+Recommended next slice:
+
+```text
+P9.9 Experimental C# Local Workspace Integration Boundary Plan - Plan Only
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

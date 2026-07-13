@@ -997,6 +997,14 @@ A host-SDK C# profile availability result must be explicitly experimental and en
 
 Before any reusable C# extraction or package dependency work, the project must record an explicit dependency decision covering versioning, compatibility, licensing, security updates, offline/clean-install behavior, upgrade/rollback, and release authority.
 
+### V428 - Host-SDK Preflight Is Environment-Only and Fail-Closed
+
+Severity: P0 in P9.8
+
+An experimental host-SDK preflight must validate the profile's exact experimental, host-specific, non-portable, not-product-ready, and zero-authority declaration before SDK discovery. It may inspect only local SDK metadata and the declared Roslyn binary files. It must never read target source, execute target extraction/build/restore/launch, add/restore/install packages, or persist absolute SDK paths.
+
+For a stable local environment, repeated preflight reports must be byte-identical. The report must identify selected SDK version and required binary digests. Repeatable negative probes must cover unsafe profile claims, unsupported SDK selection, an actually missing host binary, and profile-output overwrite.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

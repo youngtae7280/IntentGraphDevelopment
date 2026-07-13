@@ -1,0 +1,74 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-host-sdk-preflight-negative-probes-report",
+  "authority": {
+    "automaticCodeApplication": false,
+    "networkRequired": false,
+    "packageDependencyAdded": false,
+    "packageInstallExecuted": false,
+    "packageRestoreExecuted": false,
+    "targetBuildExecuted": false,
+    "targetRepositoryMutation": false,
+    "targetRepositoryRead": false
+  },
+  "positiveBaselinePassed": true,
+  "probeCount": 9,
+  "probes": [
+    {
+      "exitCode": 2,
+      "expectedError": "wrong profile artifactRole",
+      "expectedFailureObserved": true,
+      "id": "wrong-profile-role"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "profile authority must remain the host-SDK preflight boundary",
+      "expectedFailureObserved": true,
+      "id": "target-read-enabled"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "profile adapter must remain syntax-only with all execution authority false",
+      "expectedFailureObserved": true,
+      "id": "network-enabled"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "experimental host-SDK preflight profile must not declare target source or extraction",
+      "expectedFailureObserved": true,
+      "id": "source-extraction-enabled"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "no supported installed .NET SDK is available",
+      "expectedFailureObserved": true,
+      "id": "unsupported-sdk-major"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "profile must declare the exact required Roslyn assemblies",
+      "expectedFailureObserved": true,
+      "id": "missing-roslyn-assembly"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "profile availability boundary must remain experimental host-SDK-only and not portable",
+      "expectedFailureObserved": true,
+      "id": "portable-profile-claim"
+    },
+    {
+      "expectedError": "required Roslyn assembly is missing: Microsoft.CodeAnalysis.dll",
+      "expectedFailureObserved": true,
+      "id": "required-host-roslyn-binary-missing"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "output must not overwrite the profile",
+      "expectedFailureObserved": true,
+      "id": "output-overwrites-profile"
+    }
+  ],
+  "repeatOutputByteIdentical": true,
+  "result": "pass",
+  "scope": "p9.8-experimental-host-sdk-csharp-preflight-negative-probes",
+  "status": "intentgraph-experimental-csharp-host-sdk-preflight-negative-probes-passed"
+}

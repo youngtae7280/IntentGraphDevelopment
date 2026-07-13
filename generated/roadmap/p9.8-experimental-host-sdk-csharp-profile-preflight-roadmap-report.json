@@ -1,0 +1,41 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-host-sdk-preflight-roadmap-report",
+  "status": "intentgraph-experimental-csharp-host-sdk-preflight-completed",
+  "scope": "p9.8-experimental-host-sdk-csharp-availability-preflight",
+  "result": "pass",
+  "profile": {
+    "path": "docs/examples/profiles/experimental-host-sdk-csharp-syntax.profile.json",
+    "digest": "sha256:16c195c2b78f6b4f47e8868242db7ed1aaff661946a16eb5205dbf01a86de6ed",
+    "experimental": true,
+    "hostSdkSpecific": true,
+    "portable": false,
+    "productReady": false
+  },
+  "outputs": {
+    "preflight": {
+      "path": "generated/roadmap/p9.8-experimental-host-sdk-csharp-profile-preflight-report.json",
+      "digest": "sha256:c38343fa6ed6f0273efaf0359d0c97e1874e2c3b2a2aa78119713f335ad9df56",
+      "repeatByteIdentical": true,
+      "selectedSdk": "9.0.100",
+      "pathPersisted": false
+    },
+    "negativeProbes": {
+      "path": "generated/roadmap/p9.8-experimental-host-sdk-csharp-profile-preflight-negative-probes-report.json",
+      "digest": "sha256:23a3911d37239cae502e15dd33948ae57dbabe53506aace76158bd69ce6c205f",
+      "probeCount": 9,
+      "allExpectedFailuresObserved": true
+    }
+  },
+  "authority": {
+    "targetRepositoryRead": false,
+    "targetRepositoryMutation": false,
+    "targetBuildExecuted": false,
+    "packageDependencyAdded": false,
+    "packageRestoreExecuted": false,
+    "packageInstallExecuted": false,
+    "networkRequired": false,
+    "automaticCodeApplication": false,
+    "igdProductizationClaimed": false
+  },
+  "nextSlice": "P9.9 Experimental CSharp Local Workspace Integration Boundary Plan - Plan Only"
+}
