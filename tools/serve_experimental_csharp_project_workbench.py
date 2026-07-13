@@ -21,6 +21,7 @@ from experimental_csharp_project import (
     file_digest,
     add_mapping_candidate,
     add_review_receipt_document,
+    add_verifier_result_document,
     add_work_request,
     build_projection,
     canonical_json,
@@ -118,7 +119,7 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
 
         def do_POST(self) -> None:  # noqa: N802 - HTTP handler contract
             path = urlparse(self.path).path
-            if path not in {"/api/work-requests", "/api/mapping-candidates", "/api/change-proposals", "/api/draft-change-proposals", "/api/review-receipts", "/api/draft-review-receipts"}:
+            if path not in {"/api/work-requests", "/api/mapping-candidates", "/api/change-proposals", "/api/draft-change-proposals", "/api/review-receipts", "/api/draft-review-receipts", "/api/verifier-results"}:
                 self.error_json(HTTPStatus.NOT_FOUND, "local workbench route does not exist")
                 return
             content_length = self.headers.get("Content-Length")
@@ -175,10 +176,17 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                     "summary",
                 }
                 error_message = "guided review receipt fields must be strings"
+            elif path == "/api/verifier-results":
+                required_fields = {"verifierResult"}
+                error_message = "verifier result must contain only one verifierResult object"
             else:
                 required_fields = {"receipt"}
                 error_message = "review receipt must contain only one receipt object"
-            raw_document_paths = {"/api/change-proposals": "proposal", "/api/review-receipts": "receipt"}
+            raw_document_paths = {
+                "/api/change-proposals": "proposal",
+                "/api/review-receipts": "receipt",
+                "/api/verifier-results": "verifierResult",
+            }
             valid_fields = set(payload) == required_fields
             if path == "/api/draft-change-proposals":
                 valid_fields = set(payload) == required_fields or set(payload) == required_fields | {"codeDiffs"}
@@ -216,6 +224,8 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                             result=payload["result"],
                             summary=payload["summary"],
                         )
+                    elif path == "/api/verifier-results":
+                        result = add_verifier_result_document(workspace, payload["verifierResult"])
                     else:
                         result = add_review_receipt_document(workspace, payload["receipt"])
                     self.respond(HTTPStatus.CREATED, json_bytes(result), "application/json; charset=utf-8")

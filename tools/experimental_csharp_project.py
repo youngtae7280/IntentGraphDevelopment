@@ -50,6 +50,12 @@ REVIEW_RECEIPT_SCOPE = "experimental-csharp-semantic-overlay-review-receipt"
 REVIEW_RECEIPT_STATUS = "review-only-receipt-recorded"
 REVIEW_RECEIPT_RESULTS = {"reviewed-pass", "reviewed-fail", "review-blocked"}
 REVIEW_RECEIPT_SCOPES = {"proposal", "code-diff", "graph-delta", "verification-requirement", "evidence-requirement"}
+VERIFIER_RESULT_ROLE = "intentgraph-experimental-csharp-verifier-result"
+VERIFIER_RESULT_SCOPE = "experimental-csharp-semantic-overlay-verifier-result"
+VERIFIER_RESULT_STATUS = "verifier-result-imported"
+VERIFIER_RESULT_RESULTS = {"pass", "fail", "blocked"}
+VERIFIER_RESULT_KINDS = {"build", "test", "runtime-smoke", "static-analysis"}
+VERIFIER_EVIDENCE_CONTENT_TYPE = "application/vnd.intentgraph.verifier-evidence+json"
 FOUNDATION_ROLE = "intentgraph-semantic-foundation"
 FOUNDATION_STATUS = "intentgraph-semantic-foundation-declared"
 FOUNDATION_SCOPE = "experimental-csharp-semantic-foundation-declared-only"
@@ -83,6 +89,17 @@ REVIEW_RECEIPT_AUTHORITY = {
     "automaticCodeApplication": False,
     "verificationExecution": False,
     "evidenceExecution": False,
+    "selfAuthorized": False,
+    "approvalRecorded": False,
+    "networkRequired": False,
+    "credentialAccessAllowed": False,
+}
+VERIFIER_RESULT_AUTHORITY = {
+    "resultImported": True,
+    "verificationExecutedByIntentGraph": False,
+    "evidenceCollectedByIntentGraph": False,
+    "targetRepositoryMutation": False,
+    "automaticCodeApplication": False,
     "selfAuthorized": False,
     "approvalRecorded": False,
     "networkRequired": False,
@@ -152,8 +169,15 @@ def project_core_digest(state: dict[str, Any]) -> str:
         "mapping-candidate-expanded",
         "non-applied-change-proposal-recorded",
         "review-receipt-recorded",
+        "verifier-result-imported",
     }
-    requirement_kinds = {"proposal-verification-requirements", "proposal-evidence-requirements", "review-receipt"}
+    requirement_kinds = {
+        "proposal-verification-requirements",
+        "proposal-evidence-requirements",
+        "review-receipt",
+        "tool-verifier-result",
+        "deterministic-verifier-evidence",
+    }
     return digest_json(
         {
             "project": state.get("project"),
@@ -161,6 +185,7 @@ def project_core_digest(state: dict[str, Any]) -> str:
             "mappings": state.get("mappings", []),
             "changeProposals": state.get("changeProposals", []),
             "reviewReceipts": state.get("reviewReceipts", []),
+            "verifierResults": state.get("verifierResults", []),
             "verification": [item for item in state.get("verification", []) if item.get("kind") in requirement_kinds],
             "evidence": [item for item in state.get("evidence", []) if item.get("kind") in requirement_kinds],
             "history": [item for item in state.get("history", []) if item.get("kind") in history_kinds],
@@ -238,6 +263,7 @@ def validate_work_stage_revisions(
         "mapping-candidate-expanded",
         "proposal-and-requirements-recorded",
         "review-receipt-recorded",
+        "verifier-result-imported",
     }
     by_work: dict[str, list[dict[str, Any]]] = {}
     for revision in revisions:
@@ -640,6 +666,7 @@ def state_for(project_id: str, title: str, snapshot_manifest: dict[str, Any], su
         "mappings": [],
         "changeProposals": [],
         "reviewReceipts": [],
+        "verifierResults": [],
         "workStageRevisions": [],
         "verification": [
             {
@@ -989,6 +1016,232 @@ def review_receipt_artifacts(
     return receipts
 
 
+def verifier_result_pair(result: dict[str, Any]) -> tuple[str, str, str]:
+    return (
+        str(result["proposalId"]),
+        str(result["verificationRequirementId"]),
+        str(result["evidenceRequirementId"]),
+    )
+
+
+def validate_verifier_result_document(
+    result: dict[str, Any],
+    *,
+    proposal_by_id: dict[str, dict[str, Any]],
+    snapshot_source_digest: str,
+    latest_result_by_pair: dict[tuple[str, str, str], dict[str, Any]],
+) -> dict[str, Any]:
+    assert_no_unsafe_state(result)
+    expected = {
+        "artifactRole",
+        "schemaVersion",
+        "scope",
+        "id",
+        "proposalId",
+        "verificationRequirementId",
+        "evidenceRequirementId",
+        "result",
+        "verifier",
+        "subject",
+        "evidence",
+        "supersedesResultId",
+        "authority",
+    }
+    if set(result) != expected:
+        raise ProjectWorkspaceError("verifier result fields are invalid")
+    if (
+        result["artifactRole"] != VERIFIER_RESULT_ROLE
+        or result["schemaVersion"] != PROJECT_SCHEMA_VERSION
+        or result["scope"] != VERIFIER_RESULT_SCOPE
+    ):
+        raise ProjectWorkspaceError("verifier result role, schema version, or scope is invalid")
+    safe_id(str(result["id"]), "verifier result id")
+    proposal = proposal_by_id.get(result["proposalId"])
+    if proposal is None:
+        raise ProjectWorkspaceError("verifier result must reference a known change proposal")
+    verification_ids = {record["id"] for record in proposal["verificationRequirements"]}
+    evidence_ids = {record["id"] for record in proposal["evidenceRequirements"]}
+    if (
+        result["verificationRequirementId"] not in verification_ids
+        or result["evidenceRequirementId"] not in evidence_ids
+    ):
+        raise ProjectWorkspaceError("verifier result requirement references are invalid")
+    if result["result"] not in VERIFIER_RESULT_RESULTS:
+        raise ProjectWorkspaceError("verifier result status is invalid")
+
+    verifier = result["verifier"]
+    if not isinstance(verifier, dict) or set(verifier) != {"id", "kind", "version", "deterministic"}:
+        raise ProjectWorkspaceError("verifier identity is invalid")
+    safe_id(str(verifier["id"]), "verifier id")
+    if (
+        verifier["kind"] not in VERIFIER_RESULT_KINDS
+        or not isinstance(verifier["version"], str)
+        or not verifier["version"].strip()
+        or len(verifier["version"].encode("utf-8")) > 128
+        or verifier["deterministic"] is not True
+    ):
+        raise ProjectWorkspaceError("verifier identity must be deterministic and typed")
+
+    subject = result["subject"]
+    if not isinstance(subject, dict) or set(subject) != {"snapshotSourceDigest", "proposalDigest"}:
+        raise ProjectWorkspaceError("verifier result subject is invalid")
+    if subject["snapshotSourceDigest"] != snapshot_source_digest or subject["proposalDigest"] != digest_json(proposal):
+        raise ProjectWorkspaceError("verifier result subject digest is stale or mismatched")
+
+    evidence = result["evidence"]
+    if not isinstance(evidence, dict) or set(evidence) != {"contentType", "byteLength", "digest", "payload"}:
+        raise ProjectWorkspaceError("verifier evidence envelope is invalid")
+    payload = evidence["payload"]
+    if not isinstance(payload, dict) or set(payload) != {"summary", "exitCode", "checks"}:
+        raise ProjectWorkspaceError("verifier evidence payload is invalid")
+    if (
+        not isinstance(payload["summary"], str)
+        or not payload["summary"].strip()
+        or len(payload["summary"].encode("utf-8")) > 12000
+    ):
+        raise ProjectWorkspaceError("verifier evidence summary is invalid")
+    checks = payload["checks"]
+    if not isinstance(checks, list) or not 1 <= len(checks) <= 256:
+        raise ProjectWorkspaceError("verifier evidence checks are invalid")
+    check_ids: list[str] = []
+    check_results: list[str] = []
+    for check in checks:
+        if not isinstance(check, dict) or set(check) != {"id", "result", "summary"}:
+            raise ProjectWorkspaceError("verifier evidence check fields are invalid")
+        safe_id(str(check["id"]), "verifier evidence check id")
+        if check["result"] not in VERIFIER_RESULT_RESULTS:
+            raise ProjectWorkspaceError("verifier evidence check result is invalid")
+        if (
+            not isinstance(check["summary"], str)
+            or not check["summary"].strip()
+            or len(check["summary"].encode("utf-8")) > 4000
+        ):
+            raise ProjectWorkspaceError("verifier evidence check summary is invalid")
+        check_ids.append(check["id"])
+        check_results.append(check["result"])
+    if check_ids != sorted(set(check_ids)):
+        raise ProjectWorkspaceError("verifier evidence checks must be uniquely sorted by id")
+    exit_code = payload["exitCode"]
+    if exit_code is not None and (not isinstance(exit_code, int) or isinstance(exit_code, bool) or not 0 <= exit_code <= 255):
+        raise ProjectWorkspaceError("verifier evidence exit code is invalid")
+    if result["result"] == "pass" and (exit_code != 0 or any(value != "pass" for value in check_results)):
+        raise ProjectWorkspaceError("passing verifier result is inconsistent with its evidence")
+    if result["result"] == "fail" and (
+        exit_code is None
+        or any(value == "blocked" for value in check_results)
+        or (exit_code == 0 and all(value != "fail" for value in check_results))
+    ):
+        raise ProjectWorkspaceError("failing verifier result is inconsistent with its evidence")
+    if result["result"] == "blocked" and (exit_code is not None or "blocked" not in check_results):
+        raise ProjectWorkspaceError("blocked verifier result is inconsistent with its evidence")
+    payload_bytes = canonical_json(payload)
+    if (
+        evidence["contentType"] != VERIFIER_EVIDENCE_CONTENT_TYPE
+        or evidence["byteLength"] != len(payload_bytes)
+        or evidence["digest"] != digest_bytes(payload_bytes)
+    ):
+        raise ProjectWorkspaceError("verifier evidence digest or byte length is invalid")
+
+    pair = verifier_result_pair(result)
+    latest = latest_result_by_pair.get(pair)
+    expected_supersedes = latest["id"] if latest else None
+    if result["supersedesResultId"] != expected_supersedes:
+        raise ProjectWorkspaceError("verifier result supersedes chain is invalid")
+    if result["authority"] != VERIFIER_RESULT_AUTHORITY:
+        raise ProjectWorkspaceError("verifier result authority must remain import-only and non-approving")
+    return result
+
+
+def verifier_result_artifacts(
+    project_workspace: Path,
+    state: dict[str, Any],
+    *,
+    proposals: list[dict[str, Any]],
+    snapshot_source_digest: str,
+) -> list[dict[str, Any]]:
+    records = state.get("verifierResults", [])
+    if not isinstance(records, list):
+        raise ProjectWorkspaceError("project state verifierResults must be a list")
+    result_ids = validate_record_ids(records, "verifier result")
+    proposal_by_id = {proposal["id"]: proposal for proposal in proposals}
+    results: list[dict[str, Any]] = []
+    latest_result_by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for record in records:
+        expected = {
+            "id",
+            "artifact",
+            "artifactDigest",
+            "proposalId",
+            "verificationRequirementId",
+            "evidenceRequirementId",
+            "status",
+            "result",
+            "supersedesResultId",
+        }
+        if set(record) != expected:
+            raise ProjectWorkspaceError("verifier result index record fields are invalid")
+        if (
+            record["id"] not in result_ids
+            or record["proposalId"] not in proposal_by_id
+            or record["status"] != VERIFIER_RESULT_STATUS
+            or record["result"] not in VERIFIER_RESULT_RESULTS
+        ):
+            raise ProjectWorkspaceError("verifier result index record is invalid")
+        artifact = contained_project_path(project_workspace, str(record["artifact"]), required_directory="verifier-results")
+        if not artifact.is_file():
+            raise ProjectWorkspaceError("verifier result artifact is missing")
+        document = read_json(artifact)
+        result = validate_verifier_result_document(
+            document,
+            proposal_by_id=proposal_by_id,
+            snapshot_source_digest=snapshot_source_digest,
+            latest_result_by_pair=latest_result_by_pair,
+        )
+        if (
+            record["artifactDigest"] != digest_json(result)
+            or any(
+                result[key] != record[key]
+                for key in (
+                    "id",
+                    "proposalId",
+                    "verificationRequirementId",
+                    "evidenceRequirementId",
+                    "result",
+                    "supersedesResultId",
+                )
+            )
+        ):
+            raise ProjectWorkspaceError("verifier result index record does not match its artifact")
+        latest_result_by_pair[verifier_result_pair(result)] = result
+        results.append(result)
+    return results
+
+
+def proposal_verifier_status(
+    proposal: dict[str, Any],
+    verifier_results: list[dict[str, Any]],
+) -> tuple[str | None, str]:
+    expected_pairs = {
+        (proposal["id"], verification["id"], evidence["id"])
+        for verification in proposal["verificationRequirements"]
+        for evidence in proposal["evidenceRequirements"]
+    }
+    latest: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for result in verifier_results:
+        if result["proposalId"] == proposal["id"]:
+            latest[verifier_result_pair(result)] = result
+    if not latest:
+        return None, "proposal-ready"
+    statuses = {result["result"] for result in latest.values()}
+    if "fail" in statuses:
+        return "verifier-result-fail", "blocked"
+    if "blocked" in statuses:
+        return "verifier-result-blocked", "blocked"
+    if set(latest) == expected_pairs and statuses == {"pass"}:
+        return "verifier-result-pass", "verified"
+    return "verifier-result-partial", "proposal-ready"
+
+
 def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Path], dict[str, Any]]:
     project_workspace = project_workspace.resolve()
     project_file, snapshot = snapshot_paths(project_workspace)
@@ -1017,11 +1270,13 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         raise ProjectWorkspaceError("project authority boundary is invalid")
     if "reviewReceipts" not in state:
         state["reviewReceipts"] = []
+    if "verifierResults" not in state:
+        state["verifierResults"] = []
     if "semanticRelationOverlay" not in state:
         state["semanticRelationOverlay"] = empty_semantic_relation_overlay()
     if "workStageRevisions" not in state:
         state["workStageRevisions"] = []
-    for key in ("workItems", "mappings", "changeProposals", "reviewReceipts", "workStageRevisions", "verification", "evidence", "history"):
+    for key in ("workItems", "mappings", "changeProposals", "reviewReceipts", "verifierResults", "workStageRevisions", "verification", "evidence", "history"):
         if not isinstance(state.get(key), list):
             raise ProjectWorkspaceError(f"project state {key} must be a list")
     work_ids = validate_record_ids(state["workItems"], "work item")
@@ -1039,7 +1294,16 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
             raise ProjectWorkspaceError(f"work item {item['id']} title and request are required")
         if item["status"] not in WORK_STATUSES or item["mappingStatus"] not in MAPPING_STATUSES:
             raise ProjectWorkspaceError(f"work item {item['id']} lifecycle state is invalid")
-        if item["changeStatus"] not in {"not-proposed", "proposal-review-required"} or item["verificationStatus"] not in {"not-required", "snapshot-only", "requirements-recorded", "review-receipt-recorded"}:
+        if item["changeStatus"] not in {"not-proposed", "proposal-review-required"} or item["verificationStatus"] not in {
+            "not-required",
+            "snapshot-only",
+            "requirements-recorded",
+            "review-receipt-recorded",
+            "verifier-result-partial",
+            "verifier-result-pass",
+            "verifier-result-fail",
+            "verifier-result-blocked",
+        }:
             raise ProjectWorkspaceError(f"work item {item['id']} claims an unsupported change or verification state")
     fact_by_id = {fact.get("id"): fact for fact in facts.get("facts", []) if isinstance(fact, dict) and isinstance(fact.get("id"), str)}
     fact_ids = set(fact_by_id)
@@ -1094,14 +1358,27 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
     semantic_ids.update(f"history.{record['id']}" for record in state["history"])
     proposals = proposal_artifacts(project_workspace, state, work_ids=work_ids, mapping_ids=mapping_ids, fact_by_id=fact_by_id, known_node_ids=semantic_ids)
     review_receipts = review_receipt_artifacts(project_workspace, state, proposals=proposals)
+    verifier_results = verifier_result_artifacts(
+        project_workspace,
+        state,
+        proposals=proposals,
+        snapshot_source_digest=project["sourceDigest"],
+    )
     work_stage_revisions = validate_work_stage_revisions(state, work_ids=work_ids, proposals=proposals)
     reviewed_proposal_ids = {receipt["proposalId"] for receipt in review_receipts}
     proposed_work_ids = {proposal["workItemId"] for proposal in proposals}
     for item in state["workItems"]:
         if item["id"] in proposed_work_ids:
             proposal = next(proposal for proposal in proposals if proposal["workItemId"] == item["id"])
-            expected_verification_status = "review-receipt-recorded" if proposal["id"] in reviewed_proposal_ids else "requirements-recorded"
-            if item["changeStatus"] != "proposal-review-required" or item["verificationStatus"] != expected_verification_status:
+            verifier_status, expected_work_status = proposal_verifier_status(proposal, verifier_results)
+            expected_verification_status = verifier_status or (
+                "review-receipt-recorded" if proposal["id"] in reviewed_proposal_ids else "requirements-recorded"
+            )
+            if (
+                item["changeStatus"] != "proposal-review-required"
+                or item["verificationStatus"] != expected_verification_status
+                or item["status"] != expected_work_status
+            ):
                 raise ProjectWorkspaceError("work item proposal status must agree with its change proposal")
         elif item["changeStatus"] != "not-proposed":
             raise ProjectWorkspaceError("work item without a proposal must remain not-proposed")
@@ -1115,6 +1392,7 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         "mappingIds": mapping_ids,
         "proposals": proposals,
         "reviewReceipts": review_receipts,
+        "verifierResults": verifier_results,
         "workStageRevisions": work_stage_revisions,
         "semanticFoundation": foundation,
         "semanticRelationOverlay": semantic_relation_overlay,
@@ -1750,6 +2028,127 @@ def add_review_receipt(project_workspace: Path, receipt_path: Path) -> dict[str,
     return add_review_receipt_document(project_workspace, read_json(receipt_path))
 
 
+def add_verifier_result_document(project_workspace: Path, result: dict[str, Any]) -> dict[str, Any]:
+    project_workspace = project_workspace.resolve()
+    if not isinstance(result, dict):
+        raise ProjectWorkspaceError("verifier result document must be a JSON object")
+    state, _, _, data = validate_project_workspace(project_workspace)
+    before_digest = project_core_digest(state)
+    proposals = data["proposals"]
+    proposal_by_id = {proposal["id"]: proposal for proposal in proposals}
+    latest_by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for existing in data["verifierResults"]:
+        latest_by_pair[verifier_result_pair(existing)] = existing
+    result = validate_verifier_result_document(
+        result,
+        proposal_by_id=proposal_by_id,
+        snapshot_source_digest=state["project"]["sourceDigest"],
+        latest_result_by_pair=latest_by_pair,
+    )
+    if any(record["id"] == result["id"] for record in state["verifierResults"]):
+        raise ProjectWorkspaceError("verifier result identifier already exists")
+    destination_relative = f"verifier-results/{result['id']}.json"
+    destination = contained_project_path(project_workspace, destination_relative, required_directory="verifier-results")
+    if destination.exists():
+        raise ProjectWorkspaceError("verifier result artifact path already exists")
+    write_json(destination, result)
+    state["verifierResults"].append(
+        {
+            "id": result["id"],
+            "artifact": destination_relative,
+            "artifactDigest": digest_json(result),
+            "proposalId": result["proposalId"],
+            "verificationRequirementId": result["verificationRequirementId"],
+            "evidenceRequirementId": result["evidenceRequirementId"],
+            "status": VERIFIER_RESULT_STATUS,
+            "result": result["result"],
+            "supersedesResultId": result["supersedesResultId"],
+        }
+    )
+    proposal = proposal_by_id[result["proposalId"]]
+    work = next(item for item in state["workItems"] if item["id"] == proposal["workItemId"])
+    verification_status, work_status = proposal_verifier_status(
+        proposal,
+        [*data["verifierResults"], result],
+    )
+    if verification_status is None:
+        raise ProjectWorkspaceError("verifier result did not produce a proposal verification state")
+    work["verificationStatus"] = verification_status
+    work["status"] = work_status
+    verification_record_id = f"verification.verifier-result.{result['id']}"
+    evidence_record_id = f"evidence.verifier-result.{result['id']}"
+    history_record_id = f"history.verifier-result.{result['id']}"
+    state["verification"].append(
+        {
+            "id": verification_record_id,
+            "kind": "tool-verifier-result",
+            "result": result["result"],
+            "summary": f"Imported deterministic {result['verifier']['kind']} result for {result['verificationRequirementId']}.",
+        }
+    )
+    state["evidence"].append(
+        {
+            "id": evidence_record_id,
+            "kind": "deterministic-verifier-evidence",
+            "result": result["result"],
+            "summary": f"Bound {result['evidence']['digest']} to {result['evidenceRequirementId']}.",
+        }
+    )
+    state["history"].append(
+        {
+            "id": history_record_id,
+            "kind": "verifier-result-imported",
+            "summary": f"Imported verifier result {result['id']} without executing verification, applying the proposal, approving work, or changing source code.",
+        }
+    )
+    result_node = f"verifier-result.{result['id']}"
+    proposal_node = f"proposal.{result['proposalId']}"
+    added_edge_ids = [
+        f"edge.{proposal_node}.verified-by-result.{result['id']}",
+        f"edge.{result_node}.records-verification.{result['id']}",
+        f"edge.{result_node}.records-evidence.{result['id']}",
+        f"edge.project.{state['project']['id']}.verified-by.{verification_record_id}",
+        f"edge.project.{state['project']['id']}.evidenced-by.{evidence_record_id}",
+    ]
+    if result["supersedesResultId"] is not None:
+        added_edge_ids.append(f"edge.{result_node}.supersedes.{result['supersedesResultId']}")
+    revision = append_work_stage_revision(
+        state,
+        work_item_id=proposal["workItemId"],
+        stage_kind="verifier-result-imported",
+        before_digest=before_digest,
+        record_ids=[verification_record_id, evidence_record_id, history_record_id],
+        added_node_ids=[
+            result_node,
+            f"verification.{verification_record_id}",
+            f"evidence.{evidence_record_id}",
+        ],
+        changed_node_ids=[f"work.{proposal['workItemId']}", proposal_node],
+        added_edge_ids=added_edge_ids,
+        code_diff_ids=[item["id"] for item in proposal["codeDiffs"]],
+    )
+    write_json(project_workspace / PROJECT_FILE, state)
+    validate_project_workspace(project_workspace)
+    return {
+        "result": "pass",
+        "command": "add-experimental-csharp-verifier-result",
+        "verifierResultId": result["id"],
+        "revisionId": revision["id"],
+        "proposalId": result["proposalId"],
+        "resultStatus": result["result"],
+        "verificationStatus": verification_status,
+        "evidenceDigest": result["evidence"]["digest"],
+        "targetRepositoryMutation": False,
+        "automaticCodeApplication": False,
+        "approvalRecorded": False,
+        "authority": PROJECT_AUTHORITY,
+    }
+
+
+def add_verifier_result(project_workspace: Path, result_path: Path) -> dict[str, Any]:
+    return add_verifier_result_document(project_workspace, read_json(result_path.resolve()))
+
+
 def code_node(fact: dict[str, Any]) -> dict[str, Any]:
     kind = str(fact["kind"])
     location = fact.get("sourceLocation") if isinstance(fact.get("sourceLocation"), dict) else {"status": "file-level"}
@@ -1784,6 +2183,7 @@ def build_work_stage_timeline(
     *,
     proposals: list[dict[str, Any]],
     review_receipts: list[dict[str, Any]],
+    verifier_results: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     """Derive one inspectable lifecycle trace per recorded work item.
 
@@ -1796,6 +2196,14 @@ def build_work_stage_timeline(
     receipts_by_proposal: dict[str, list[dict[str, Any]]] = {}
     for receipt in review_receipts:
         receipts_by_proposal.setdefault(receipt["proposalId"], []).append(receipt)
+    results_by_proposal: dict[str, list[dict[str, Any]]] = {}
+    for result in verifier_results:
+        results_by_proposal.setdefault(result["proposalId"], []).append(result)
+    revision_sequence_by_record = {
+        record_id: revision["sequence"]
+        for revision in state.get("workStageRevisions", [])
+        for record_id in revision["recordIds"]
+    }
 
     stages: list[dict[str, Any]] = []
     for work in sorted(state["workItems"], key=lambda item: item["id"]):
@@ -1915,31 +2323,90 @@ def build_work_stage_timeline(
                 "revisionKind": "requirement-recorded-not-executed",
             }
         )
-        for receipt_index, receipt in enumerate(sorted(receipts_by_proposal.get(proposal["id"], []), key=lambda item: item["id"]), start=5):
-            receipt_node = f"review-receipt.{receipt['id']}"
-            verification_node = f"verification.verification.review-receipt.{receipt['id']}"
-            evidence_node = f"evidence.evidence.review-receipt.{receipt['id']}"
+        lifecycle_events = [
+            (
+                revision_sequence_by_record.get(f"history.review-receipt.{receipt['id']}", 1_000_000),
+                "review-receipt",
+                receipt,
+            )
+            for receipt in receipts_by_proposal.get(proposal["id"], [])
+        ]
+        lifecycle_events.extend(
+            (
+                revision_sequence_by_record.get(f"history.verifier-result.{result['id']}", 1_000_000),
+                "verifier-result",
+                result,
+            )
+            for result in results_by_proposal.get(proposal["id"], [])
+        )
+        lifecycle_events.sort(key=lambda item: (item[0], item[1], item[2]["id"]))
+        for event_index, (_, event_kind, event) in enumerate(lifecycle_events, start=5):
+            if event_kind == "review-receipt":
+                receipt = event
+                receipt_node = f"review-receipt.{receipt['id']}"
+                verification_node = f"verification.verification.review-receipt.{receipt['id']}"
+                evidence_node = f"evidence.evidence.review-receipt.{receipt['id']}"
+                edge_ids = [
+                    f"edge.{proposal_node}.reviewed-by.{receipt['id']}",
+                    f"edge.{receipt_node}.records-verification.{receipt['id']}",
+                    f"edge.{receipt_node}.records-evidence.{receipt['id']}",
+                ]
+                stages.append(
+                    {
+                        "id": f"stage.{work_id}.review-receipt.{receipt['id']}",
+                        "workItemId": work_id,
+                        "sequence": event_index,
+                        "kind": "review-receipt-recorded",
+                        "title": "Review receipt recorded",
+                        "summary": "A human review outcome was recorded. It is not runtime evidence, an approval, or application of the proposal.",
+                        "status": receipt["result"],
+                        "recordIds": [f"history.review-receipt.{receipt['id']}"],
+                        "nodeIds": [proposal_node, receipt_node, verification_node, evidence_node],
+                        "addedNodeIds": [receipt_node, verification_node, evidence_node],
+                        "changedNodeIds": [],
+                        "contextNodeIds": [work_node, *diff_node_ids],
+                        "edgeIds": edge_ids,
+                        "addedEdgeIds": edge_ids,
+                        "changedEdgeIds": [],
+                        "codeDiffs": list(proposal["codeDiffs"]),
+                        "verificationRecordIds": [verification_node],
+                        "evidenceRecordIds": [evidence_node],
+                        "revisionKind": "human-review-record-not-approval",
+                    }
+                )
+                continue
+            result = event
+            result_node = f"verifier-result.{result['id']}"
+            verification_node = f"verification.verification.verifier-result.{result['id']}"
+            evidence_node = f"evidence.evidence.verifier-result.{result['id']}"
+            edge_ids = [
+                f"edge.{proposal_node}.verified-by-result.{result['id']}",
+                f"edge.{result_node}.records-verification.{result['id']}",
+                f"edge.{result_node}.records-evidence.{result['id']}",
+            ]
+            if result["supersedesResultId"] is not None:
+                edge_ids.append(f"edge.{result_node}.supersedes.{result['supersedesResultId']}")
             stages.append(
                 {
-                    "id": f"stage.{work_id}.review-receipt.{receipt['id']}",
+                    "id": f"stage.{work_id}.verifier-result.{result['id']}",
                     "workItemId": work_id,
-                    "sequence": receipt_index,
-                    "kind": "review-receipt-recorded",
-                    "title": "Review receipt recorded",
-                    "summary": "A human review outcome was recorded. It is not runtime evidence, an approval, or application of the proposal.",
-                    "status": receipt["result"],
-                    "recordIds": [f"history.review-receipt.{receipt['id']}"],
-                    "nodeIds": [proposal_node, receipt_node, verification_node, evidence_node],
-                    "addedNodeIds": [receipt_node, verification_node, evidence_node],
-                    "changedNodeIds": [],
+                    "sequence": event_index,
+                    "kind": "verifier-result-imported",
+                    "title": "Verifier result imported",
+                    "summary": "A deterministic external verifier result and its evidence digest were bound to the proposal requirements. No source or graph delta was applied.",
+                    "status": result["result"],
+                    "recordIds": [f"history.verifier-result.{result['id']}"],
+                    "nodeIds": [proposal_node, result_node, verification_node, evidence_node],
+                    "addedNodeIds": [result_node, verification_node, evidence_node],
+                    "changedNodeIds": [work_node, proposal_node],
                     "contextNodeIds": [work_node, *diff_node_ids],
-                    "edgeIds": [f"edge.{proposal_node}.reviewed-by.{receipt['id']}", f"edge.{receipt_node}.records-verification.{receipt['id']}", f"edge.{receipt_node}.records-evidence.{receipt['id']}"],
-                    "addedEdgeIds": [f"edge.{proposal_node}.reviewed-by.{receipt['id']}", f"edge.{receipt_node}.records-verification.{receipt['id']}", f"edge.{receipt_node}.records-evidence.{receipt['id']}"],
+                    "edgeIds": edge_ids,
+                    "addedEdgeIds": edge_ids,
                     "changedEdgeIds": [],
                     "codeDiffs": list(proposal["codeDiffs"]),
                     "verificationRecordIds": [verification_node],
                     "evidenceRecordIds": [evidence_node],
-                    "revisionKind": "human-review-record-not-approval",
+                    "revisionKind": "tool-result-imported-not-approval",
                 }
             )
     revision_kinds_by_stage = {
@@ -1948,6 +2415,7 @@ def build_work_stage_timeline(
         "change-proposal-recorded": {"proposal-and-requirements-recorded"},
         "verification-and-evidence-requirements-recorded": {"proposal-and-requirements-recorded"},
         "review-receipt-recorded": {"review-receipt-recorded"},
+        "verifier-result-imported": {"verifier-result-imported"},
     }
     for stage in stages:
         candidates = [
@@ -2123,6 +2591,42 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
         edges.append({"id": f"edge.{proposal_node}.reviewed-by.{receipt['id']}", "category": "semantic-relation", "kind": "reviewed-by", "source": proposal_node, "target": receipt_node, "details": {"result": receipt["result"], "authority": "non-executing-non-approving"}})
         edges.append({"id": f"edge.{receipt_node}.records-verification.{receipt['id']}", "category": "semantic-relation", "kind": "records-verification", "source": receipt_node, "target": verification_node, "details": {"requirementId": receipt["verificationRequirementId"]}})
         edges.append({"id": f"edge.{receipt_node}.records-evidence.{receipt['id']}", "category": "semantic-relation", "kind": "records-evidence", "source": receipt_node, "target": evidence_node, "details": {"requirementId": receipt["evidenceRequirementId"]}})
+    for result in data["verifierResults"]:
+        nodes.append(
+            semantic_node(
+                f"verifier-result.{result['id']}",
+                "verifier-result",
+                f"{result['verifier']['kind']} {result['result']}",
+                {
+                    "id": result["id"],
+                    "proposalId": result["proposalId"],
+                    "verificationRequirementId": result["verificationRequirementId"],
+                    "evidenceRequirementId": result["evidenceRequirementId"],
+                    "result": result["result"],
+                    "verifier": result["verifier"],
+                    "evidenceDigest": result["evidence"]["digest"],
+                    "evidenceByteLength": result["evidence"]["byteLength"],
+                    "supersedesResultId": result["supersedesResultId"],
+                    "authority": "import-only-non-approving",
+                },
+            )
+        )
+    projected_node_ids = {node["id"] for node in nodes}
+    for result in data["verifierResults"]:
+        result_node = f"verifier-result.{result['id']}"
+        proposal_node = f"proposal.{result['proposalId']}"
+        verification_node = f"verification.verification.verifier-result.{result['id']}"
+        evidence_node = f"evidence.evidence.verifier-result.{result['id']}"
+        if any(identifier not in projected_node_ids for identifier in (proposal_node, verification_node, evidence_node)):
+            raise ProjectWorkspaceError("verifier result projection records are incomplete")
+        edges.append({"id": f"edge.{proposal_node}.verified-by-result.{result['id']}", "category": "semantic-relation", "kind": "verified-by-result", "source": proposal_node, "target": result_node, "details": {"result": result["result"], "proposalDigest": result["subject"]["proposalDigest"]}})
+        edges.append({"id": f"edge.{result_node}.records-verification.{result['id']}", "category": "semantic-relation", "kind": "records-verification", "source": result_node, "target": verification_node, "details": {"requirementId": result["verificationRequirementId"]}})
+        edges.append({"id": f"edge.{result_node}.records-evidence.{result['id']}", "category": "semantic-relation", "kind": "records-evidence", "source": result_node, "target": evidence_node, "details": {"requirementId": result["evidenceRequirementId"], "evidenceDigest": result["evidence"]["digest"]}})
+        if result["supersedesResultId"] is not None:
+            previous_node = f"verifier-result.{result['supersedesResultId']}"
+            if previous_node not in projected_node_ids:
+                raise ProjectWorkspaceError("verifier result supersedes node is missing")
+            edges.append({"id": f"edge.{result_node}.supersedes.{result['supersedesResultId']}", "category": "semantic-relation", "kind": "supersedes", "source": result_node, "target": previous_node, "details": {"appendOnly": True}})
     authority_node = "authority.project-boundary"
     nodes.append(semantic_node(authority_node, "authority", "Read-only authority boundary", state["authority"]))
     edges.append({"id": f"edge.{project_node}.governed-by.authority", "category": "semantic-relation", "kind": "governed-by", "source": project_node, "target": authority_node, "details": {"targetRepositoryMutation": False, "automaticCodeApplication": False}})
@@ -2176,7 +2680,12 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
     if len(all_ids) != len(nodes) or len({edge["id"] for edge in edges}) != len(edges) or any(edge["source"] not in all_ids or edge["target"] not in all_ids for edge in edges):
         raise ProjectWorkspaceError("project projection graph integrity is invalid")
     edge_ids = {edge["id"] for edge in edges}
-    work_stage_timeline = build_work_stage_timeline(state, proposals=proposals, review_receipts=data["reviewReceipts"])
+    work_stage_timeline = build_work_stage_timeline(
+        state,
+        proposals=proposals,
+        review_receipts=data["reviewReceipts"],
+        verifier_results=data["verifierResults"],
+    )
     for stage in work_stage_timeline:
         if (
             not stage["nodeIds"]
@@ -2248,6 +2757,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
         "workflow": {
             **{key: state[key] for key in ("workItems", "mappings", "verification", "evidence", "history")},
             "reviewReceipts": data["reviewReceipts"],
+            "verifierResults": data["verifierResults"],
             "semanticFoundation": semantic_foundation,
             "changeProposals": proposals,
             "proposalDeltas": sorted(proposal_deltas, key=lambda item: item["id"]),
@@ -2271,7 +2781,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "defaultView": {
                 "id": "all",
                 "codeKinds": ["file", "namespace", "type"],
-                "semanticCategories": ["project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "review-receipt", "authority", "history", "code-capsule"],
+                "semanticCategories": ["project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "review-receipt", "verifier-result", "authority", "history", "code-capsule"],
                 "rendering": "full-graph-progressive-detail",
                 "layout": "deterministic-relation-aware-community-preset",
                 "physicsLayoutOnLoad": False,
@@ -3270,6 +3780,9 @@ def parse_args() -> argparse.Namespace:
     receipt = sub.add_parser("add-review-receipt")
     receipt.add_argument("--workspace", required=True, type=Path)
     receipt.add_argument("--receipt", required=True, type=Path)
+    verifier_result = sub.add_parser("add-verifier-result")
+    verifier_result.add_argument("--workspace", required=True, type=Path)
+    verifier_result.add_argument("--result", required=True, type=Path)
     draft_receipt = sub.add_parser("draft-review-receipt")
     draft_receipt.add_argument("--workspace", required=True, type=Path)
     draft_receipt.add_argument("--receipt-id", required=True)
@@ -3316,6 +3829,8 @@ def main() -> int:
             )
         elif args.command == "add-review-receipt":
             result = add_review_receipt(args.workspace, args.receipt)
+        elif args.command == "add-verifier-result":
+            result = add_verifier_result(args.workspace, args.result)
         elif args.command == "draft-review-receipt":
             result = draft_review_receipt_from_proposal(
                 args.workspace,

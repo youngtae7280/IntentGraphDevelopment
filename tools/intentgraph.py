@@ -28,6 +28,7 @@ from experimental_csharp_project import (
     draft_review_receipt_from_proposal as draft_experimental_csharp_review_receipt,
     add_mapping_candidate as add_experimental_csharp_mapping_candidate,
     add_review_receipt as add_experimental_csharp_review_receipt,
+    add_verifier_result as add_experimental_csharp_verifier_result,
     add_work_request as add_experimental_csharp_work_request,
     emit_project_workbench as emit_experimental_csharp_project_workbench,
     initialize_project as initialize_experimental_csharp_project,
@@ -692,6 +693,12 @@ def parse_args() -> argparse.Namespace:
     )
     csharp_project_receipt.add_argument("--workspace", required=True, type=Path)
     csharp_project_receipt.add_argument("--receipt", required=True, type=Path)
+    csharp_project_verifier_result = subparsers.add_parser(
+        "add-experimental-csharp-verifier-result",
+        help="Import a deterministic verifier result and bind its evidence to proposal requirements.",
+    )
+    csharp_project_verifier_result.add_argument("--workspace", required=True, type=Path)
+    csharp_project_verifier_result.add_argument("--result", required=True, type=Path)
     csharp_project_guided_receipt = subparsers.add_parser(
         "draft-experimental-csharp-review-receipt",
         help="Record a user-authored, non-executing review receipt from existing proposal requirements.",
@@ -783,6 +790,9 @@ def main() -> int:
             return 0
         if args.command == "add-experimental-csharp-review-receipt":
             emit_status(add_experimental_csharp_review_receipt(args.workspace, args.receipt))
+            return 0
+        if args.command == "add-experimental-csharp-verifier-result":
+            emit_status(add_experimental_csharp_verifier_result(args.workspace, args.result))
             return 0
         if args.command == "draft-experimental-csharp-review-receipt":
             emit_status(
