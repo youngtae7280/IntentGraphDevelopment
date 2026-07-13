@@ -1106,6 +1106,36 @@ workflow records, snapshot facts, authority, source state, graph deltas, or code
 Static emission and validation, byte-identical repeated output, loopback server smoke,
 negative probes, and a real-browser observation with zero console errors are required.
 
+### V435 - Browser Rendering Evidence Must Be Repeatable and Fail Closed
+
+Severity: P1 in P9.32
+
+The static project Workbench must expose a query-activated, read-only runtime probe that
+is inert during ordinary use. In probe mode it must report the loaded node and relation
+counts, single graph instance, nonblank graph and material canvases, active material
+profile, effective and renderer zoom, virtual geometry scale, selected-edge screen
+width and opacity, actual selected-endpoint model-space expansion, populated selection
+inspector, and runtime script errors.
+
+A standard-library runner must serve only the supplied static Workbench over loopback,
+launch an installed Edge or Chrome browser in headless mode, parse the page-produced
+observation, and capture a PNG from the same browser process. The report must bind the
+input HTML, projection, manifest, validation report, browser executable, and browser
+version by digest or exact version metadata. It must validate both semantic measurements
+and nonblank pixel evidence. The runner must not require Selenium, Playwright, Puppeteer, an external
+network, provider API, credential, target launch, graph mutation, source mutation,
+snapshot mutation, or target-repository mutation.
+
+Repeatable negative probes must reject wrong graph counts, failed page checks, blank
+graph or material canvases, wrong effective zoom, oversized selected relations, wrong
+material identity, missing selection detail, runtime script errors, and invalid
+screenshot evidence. Browser evidence remains observational and must not be promoted to
+semantic, review, evidence-acceptance, proposal-approval, or application authority.
+The validator must require every declared P9.32 page-check ID exactly once; missing or
+duplicate checks fail closed rather than silently narrowing coverage.
+Report and screenshot outputs must be distinct and outside the input Workbench; an
+invalid output path must fail before deleting or writing any input artifact.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

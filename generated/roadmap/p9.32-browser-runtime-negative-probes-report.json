@@ -1,0 +1,153 @@
+{
+  "artifactRole": "intentgraph-workbench-browser-runtime-negative-probes-report",
+  "probeCount": 18,
+  "probes": [
+    {
+      "errors": [
+        "browser runtime node count mismatch"
+      ],
+      "expectedError": "node count mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-node-count"
+    },
+    {
+      "errors": [
+        "browser runtime edge count mismatch"
+      ],
+      "expectedError": "edge count mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-edge-count"
+    },
+    {
+      "errors": [
+        "browser runtime checks failed: full-node-count-loaded"
+      ],
+      "expectedError": "runtime checks failed",
+      "expectedFailureObserved": true,
+      "id": "failed-page-check"
+    },
+    {
+      "errors": [
+        "browser runtime required checks missing: full-node-count-loaded"
+      ],
+      "expectedError": "required checks missing",
+      "expectedFailureObserved": true,
+      "id": "missing-required-page-check"
+    },
+    {
+      "errors": [
+        "browser runtime graph canvas was blank"
+      ],
+      "expectedError": "graph canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-graph-canvas"
+    },
+    {
+      "errors": [
+        "browser runtime material canvas was blank"
+      ],
+      "expectedError": "material canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-material-canvas"
+    },
+    {
+      "errors": [
+        "browser runtime maximum-zoom graph canvas was blank"
+      ],
+      "expectedError": "maximum-zoom graph canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-maximum-zoom-graph-canvas"
+    },
+    {
+      "errors": [
+        "browser runtime maximum-zoom material canvas was blank"
+      ],
+      "expectedError": "maximum-zoom material canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-maximum-zoom-material-canvas"
+    },
+    {
+      "errors": [
+        "browser runtime endpoint geometry scale mismatch"
+      ],
+      "expectedError": "endpoint geometry scale mismatch",
+      "expectedFailureObserved": true,
+      "id": "unapplied-endpoint-geometry-scale"
+    },
+    {
+      "errors": [
+        "browser runtime effectiveGeometryZoom mismatch"
+      ],
+      "expectedError": "effectiveGeometryZoom mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-effective-zoom"
+    },
+    {
+      "errors": [
+        "browser runtime selectedEdgeRenderedWidth mismatch"
+      ],
+      "expectedError": "selectedEdgeRenderedWidth mismatch",
+      "expectedFailureObserved": true,
+      "id": "oversized-selected-edge"
+    },
+    {
+      "errors": [
+        "browser runtime material profile mismatch"
+      ],
+      "expectedError": "material profile mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-material"
+    },
+    {
+      "errors": [
+        "browser runtime selection inspector is incomplete"
+      ],
+      "expectedError": "selection inspector is incomplete",
+      "expectedFailureObserved": true,
+      "id": "empty-selection-inspector"
+    },
+    {
+      "errors": [
+        "browser runtime reported script errors"
+      ],
+      "expectedError": "reported script errors",
+      "expectedFailureObserved": true,
+      "id": "runtime-script-error"
+    },
+    {
+      "errors": [
+        "browser screenshot is not a valid PNG"
+      ],
+      "expectedError": "not a valid PNG",
+      "expectedFailureObserved": true,
+      "id": "invalid-screenshot"
+    },
+    {
+      "errors": [
+        "report and screenshot outputs must be outside the input workbench"
+      ],
+      "expectedError": "outside the input workbench",
+      "expectedFailureObserved": true,
+      "id": "report-overwrites-workbench-input"
+    },
+    {
+      "errors": [
+        "report and screenshot outputs must be outside the input workbench"
+      ],
+      "expectedError": "outside the input workbench",
+      "expectedFailureObserved": true,
+      "id": "screenshot-overwrites-workbench-input"
+    },
+    {
+      "errors": [
+        "report and screenshot output paths must be different"
+      ],
+      "expectedError": "must be different",
+      "expectedFailureObserved": true,
+      "id": "report-screenshot-output-collision"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.32-browser-runtime-validation-negative-probes",
+  "status": "intentgraph-workbench-browser-runtime-negative-probes-passed"
+}

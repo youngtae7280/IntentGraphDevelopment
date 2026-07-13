@@ -11,13 +11,12 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P9.31 Spectral Titanium Precision Rendering Refinement
+P9.32 Headless Browser Runtime Regression
 ```
 
-This rendering-only product slice keeps effective `100x` inspection and the thin
-selected-edge taper while replacing the remaining flat/plastic node surface with a
-cached brushed spectral-titanium material. It does not change the graph, source, layout
-coordinates, workflow, or authority. See
+This product-quality slice turns the prior manual browser observation into a repeatable
+Edge/Chrome runtime, canvas-pixel, selection-inspector, and screenshot regression. It
+does not change the graph, source, layout coordinates, workflow, or authority. See
 [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
@@ -4603,6 +4602,33 @@ Non-goals:
 Next product work:
 
 - make the browser rendering checks repeatable outside manual in-app observation
+
+## P9.32: Headless Browser Runtime Regression
+
+Goal: turn the P9.31 manual browser observation into a repeatable, fail-closed runtime
+and pixel regression without changing the graph or normal Workbench interaction.
+
+Status: completed on 2026-07-14. See
+[P9.32 Headless Browser Runtime Regression Review](../reviews/p9.32-headless-browser-runtime-regression-review.md).
+
+Delivered boundary:
+
+- query-activated page-side runtime observation that is inert during normal use
+- browser-native Edge/Chrome headless DOM and screenshot capture with no automation package
+- single-process DOM/PNG capture bound to input and browser executable digests
+- exact full-graph, effective-zoom, endpoint-distance, selected-edge, material, inspector, and script-error checks
+- PNG structure, dimensions, visual variation, luminance, and chromatic pixel evidence
+- 18 fail-closed browser-observation and output-guard probes
+
+Non-goals:
+
+- no graph, source, snapshot, target, workflow, layout, evidence, or authority mutation
+- no golden-image aesthetic scoring, browser download, network service, or provider API
+
+Next product work:
+
+- return to the highest-value daily-use product bottleneck, especially cohesive local
+  installation and launch, before another rendering-only refinement
 
 ## P9.29: Typed External Verifier Result Intake
 

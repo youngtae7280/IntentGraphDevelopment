@@ -49,6 +49,16 @@ held near 20 screen pixels, so it remains legible without growing with `100x` ge
 `0.065px` selected-edge taper, graph contents, layout coordinates, workflow records,
 source state, and authority remain unchanged.
 
+P9.32 replaces the remaining manual-only rendering check with a repeatable real-browser
+regression. A query-activated read-only page probe and a dependency-free headless
+Edge/Chrome runner verify all 8,208 nodes and 8,023 relations, effective `100x`, the
+`0.065px` selected relation, actual 4.1667 endpoint-distance expansion, cached material
+pixels, populated edge inspection, and a nonblank 1440 by 1000 screenshot from the same
+browser run. Eighteen fail-closed probes prove that stale counts, missing checks, blank canvases,
+wrong zoom/material, unapplied geometry, oversized selection emphasis, script errors,
+invalid screenshots, and input-output collisions are rejected. Input and browser
+binary digests bind the evidence. The probe does not change graph or source state.
+
 ## Working Definition
 
 IntentGraph is not just a code graph. It is an overlay graph over an existing codebase that can contain:

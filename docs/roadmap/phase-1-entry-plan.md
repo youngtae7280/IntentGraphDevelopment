@@ -4119,6 +4119,26 @@ snapshot, authority, source, layout coordinates, graph delta, and code diff matc
 P9.30 semantic projection. See
 [P9.31 Review](../reviews/p9.31-spectral-titanium-rendering-review.md).
 
+## Implemented Slice: P9.32 Headless Browser Runtime Regression
+
+P9.32 closes the manual-only rendering evidence gap without changing the unified graph
+or normal Workbench behavior. A hidden query mode runs a read-only page probe, selects
+one existing relation, reaches effective `100x`, samples graph and material canvases,
+and publishes a structured observation. A standard-library runner serves the static
+Workbench over loopback and uses one installed Edge or Chrome process for headless
+DOM/screenshot capture, so no browser-automation package is required. Input artifact
+digests and the exact browser executable digest/version bind the evidence.
+
+The measured WindowsUtility projection loaded 8,208 nodes and 8,023 relations, retained
+renderer `24x` plus virtual scale `4.1667`, rendered the selected relation at `0.065px`
+and `0.34` opacity, measured actual endpoint-distance expansion at `4.1667`, exposed
+source/target inspector details, and produced nonblank graph, material, and screenshot
+pixels with no reported runtime script errors. Eighteen fail-closed probes reject
+stale counts, missing checks, blank pixels, unapplied geometry, wrong zoom/material, oversized edge
+emphasis, empty inspector state, script errors, invalid screenshots, and output
+collisions. See
+[P9.32 Review](../reviews/p9.32-headless-browser-runtime-regression-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).
