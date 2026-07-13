@@ -1,0 +1,57 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-semantic-foundation-negative-probes-report",
+  "automaticCodeApplication": false,
+  "automaticIntentCreation": false,
+  "automaticMapping": false,
+  "networkRequired": false,
+  "probeCount": 6,
+  "probes": [
+    {
+      "actualError": "semantic foundation artifact role, status, or scope is invalid",
+      "expectedError": "role, status, or scope is invalid",
+      "expectedFailureObserved": true,
+      "id": "wrong-foundation-role",
+      "projectStateUnchanged": true
+    },
+    {
+      "actualError": "semantic foundation authority must remain declarative and non-applying",
+      "expectedError": "authority must remain declarative",
+      "expectedFailureObserved": true,
+      "id": "automatic-intent-creation",
+      "projectStateUnchanged": true
+    },
+    {
+      "actualError": "semantic foundation capabilities code capsule references are invalid",
+      "expectedError": "code capsule references are invalid",
+      "expectedFailureObserved": true,
+      "id": "unknown-code-capsule",
+      "projectStateUnchanged": true
+    },
+    {
+      "actualError": "sourceDocuments[0].logicalPath must not persist a physical path",
+      "expectedError": "must not persist a physical path",
+      "expectedFailureObserved": true,
+      "id": "physical-document-path",
+      "projectStateUnchanged": true
+    },
+    {
+      "actualError": "semantic foundation goals source document references are invalid",
+      "expectedError": "source document references are invalid",
+      "expectedFailureObserved": true,
+      "id": "unknown-source-document",
+      "projectStateUnchanged": true
+    },
+    {
+      "actualError": "semantic foundation is already recorded; a future reviewed replacement boundary is required",
+      "expectedError": "already recorded",
+      "expectedFailureObserved": true,
+      "id": "repeated-foundation-record",
+      "projectStateUnchanged": true
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.17-declared-semantic-foundation",
+  "snapshotWorkspaceMutation": false,
+  "status": "intentgraph-experimental-csharp-semantic-foundation-negative-probes-pass",
+  "targetRepositoryMutation": false
+}

@@ -4264,6 +4264,31 @@ Non-goals:
 - no semantic-foundation replacement without a future reviewed boundary
 - no source modification, approval, evidence execution, remote service, or packaged desktop release
 
+## P9.18: Large-Graph Navigation and Performance Workbench
+
+Goal: retain a complete project graph while making community layout and ordinary Workbench interactions usable on the measured WindowsUtility projection.
+
+Status: implementation and local interactive validation completed on 2026-07-13. See [P9.18 Large-Graph Navigation and Performance Workbench Review](../reviews/p9.18-large-graph-performance-workbench-review.md).
+
+Delivered boundary:
+
+- module, file, and symbol placement is deterministic, source-grouped, and weight-aware rather than grid-like
+- Semantic overview and text search emphasize records over the loaded full graph instead of replacing it with a smaller graph
+- differential visibility, local selection highlighting, position-based fitting, and frame-limited resize handling avoid unnecessary full-graph restyling
+- the graph stays a single local Cytoscape instance with progressive syntax detail
+
+Verification:
+
+- emitted WindowsUtility Workbench remains deterministic and source-state preserving
+- loopback smoke verifies the deferred graph shell and large-graph interaction contract
+- browser checks cover full graph, semantic emphasis, in-place search, and lens return
+- semantic-foundation negative probes and B1 local-review regression remain passing
+
+Non-goals:
+
+- no target source mutation, build, restore, launch, package action, provider call, credential access, or remote service
+- no automatic semantic inference, mapping acceptance, proposal application, evidence execution, editor integration, team coordination, or packaged desktop release
+
 ## P9.11: Experimental C# Fact Workspace Scope Review
 
 Goal: determine whether a C# fact-only workspace can have a local HTML inspection surface without misrepresenting absent mappings, proposals, deltas, diffs, evidence, or authority.

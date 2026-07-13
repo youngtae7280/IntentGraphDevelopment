@@ -47,7 +47,7 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
         probes: list[dict[str, Any]] = []
         try:
             status, html, headers = request(base_url + "/")
-            probes.append({"id": "serves-deferred-interactive-html", "passed": status == 200 and len(html) < 100000 and b"newWorkTrigger" in html and b"mapCodeTrigger" in html and b"__intentGraphLoadProjection" in html and b"/api/work-requests" in html and b"/api/mapping-candidates" in html and headers.get("Content-Security-Policy") is not None})
+            probes.append({"id": "serves-deferred-interactive-html", "passed": status == 200 and len(html) < 100000 and b"newWorkTrigger" in html and b"mapCodeTrigger" in html and b"__intentGraphLoadProjection" in html and b"/api/work-requests" in html and b"/api/mapping-candidates" in html and b"spiralPoint" in html and b"completeGraph" in html and b"semanticEdgeIds" in html and b"edge.low-detail" in html and b"'display':'none'" in html and b"search-match" in html and b"selection-neighbor" in html and b"visibilityUpdates" in html and b"state.cy.destroy" not in html and b"name:'cose'" not in html and headers.get("Content-Security-Policy") is not None})
             status, projection_bytes, _ = request(base_url + "/api/projection")
             initial_projection = json.loads(projection_bytes)
             probes.append({"id": "serves-project-projection", "passed": status == 200 and initial_projection["workflow"]["workItems"] == [] and initial_projection["graph"]["defaultView"]["id"] == "all" and set(initial_projection["graph"]["views"]["all"]["nodeIds"]) == {node["id"] for node in initial_projection["graph"]["nodes"]}})
