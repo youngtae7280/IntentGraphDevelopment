@@ -13,16 +13,19 @@ from urllib.parse import urlparse
 
 from emit_experimental_csharp_fact_workbench import CYTOSCAPE_LICENSE_SOURCE, CYTOSCAPE_SOURCE
 from experimental_csharp_project import (
+    PROJECT_FILE,
     ProjectWorkspaceError,
     add_change_proposal_document,
     draft_change_proposal_from_mapping,
     draft_review_receipt_from_proposal,
+    file_digest,
     add_mapping_candidate,
     add_review_receipt_document,
     add_work_request,
     build_projection,
     canonical_json,
     render_server_html,
+    read_json,
     validate_project_workspace,
 )
 
@@ -72,6 +75,24 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
             projection, _ = build_projection(workspace)
             return projection
 
+        def revision_head(self) -> dict[str, Any]:
+            project_path = workspace / PROJECT_FILE
+            state = read_json(project_path)
+            work_items = state.get("workItems")
+            revisions = state.get("workStageRevisions", [])
+            if not isinstance(work_items, list) or not isinstance(revisions, list):
+                raise ProjectWorkspaceError("project work revision head is invalid")
+            latest = revisions[-1] if revisions else None
+            if latest is not None and (not isinstance(latest, dict) or not isinstance(latest.get("id"), str)):
+                raise ProjectWorkspaceError("latest project work revision is invalid")
+            return {
+                "artifactRole": "intentgraph-experimental-csharp-work-stage-revision-head",
+                "projectStateVersion": file_digest(project_path),
+                "workItemCount": len(work_items),
+                "revisionCount": len(revisions),
+                "latestRevisionId": latest["id"] if latest else None,
+            }
+
         def do_GET(self) -> None:  # noqa: N802 - HTTP handler contract
             path = urlparse(self.path).path
             try:
@@ -81,6 +102,9 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                         return
                     if path == "/api/projection":
                         self.respond(HTTPStatus.OK, json_bytes(self.projection()), "application/json; charset=utf-8")
+                        return
+                    if path == "/api/revision-head":
+                        self.respond(HTTPStatus.OK, json_bytes(self.revision_head()), "application/json; charset=utf-8")
                         return
                     if path == "/assets/cytoscape.min.js":
                         self.respond(HTTPStatus.OK, CYTOSCAPE_SOURCE.read_bytes(), "application/javascript; charset=utf-8")

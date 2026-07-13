@@ -4375,6 +4375,38 @@ Next safe work:
   then compare those graph snapshots directly rather than deriving the trace from the
   current workspace state.
 
+## P9.25: Durable Work History Navigation
+
+Goal: retain every IGD-recorded request in one project Workbench and make both work
+items and their internal stages navigable as durable graph/code delta revisions.
+
+Status: implementation and browser interaction validation completed on 2026-07-13.
+See [P9.25 Durable Work History Navigation Review](../reviews/p9.25-durable-work-history-navigation-review.md).
+
+Delivered boundary:
+
+- work lifecycle mutations append `workStageRevisions[]` with stable revision IDs,
+  per-work predecessor order, global before/after digest continuity, graph delta IDs,
+  code diff IDs, and fixed non-executing authority
+- one Workbench exposes previous/next work and previous/next stage controls while
+  retaining the complete recorded work list
+- live loopback pages detect a small revision-head change and reload; static exports
+  remain immutable review snapshots
+- legacy stages remain visibly derived rather than receiving invented history
+
+Verification:
+
+- 21 loopback probes pass with two interleaved work histories and five revisions
+- 10 revision-integrity negative probes pass
+- browser navigation, external CLI live refresh, static emission/validation, Python
+  compilation, inline JavaScript parsing, and semantic-foundation regression pass
+
+Next safe work:
+
+- add filtered/virtualized project work history when real adoption produces enough
+  retained work to measure it; defer full graph snapshot materialization until an
+  applied-delta boundary exists
+
 ## P9.19: Local Review Proposal Intake
 
 Goal: let the loopback-only project Workbench record a validated review proposal after a user has recorded a work request and declared code mapping candidate.

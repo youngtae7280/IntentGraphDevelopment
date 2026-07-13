@@ -1,0 +1,70 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-work-stage-revision-negative-probes-report",
+  "automaticCodeApplication": false,
+  "networkRequired": false,
+  "positiveBaseline": {
+    "globalDigestChain": true,
+    "interleavedWorkItems": true,
+    "projectedDurableRevisionCount": 5,
+    "revisionCount": 5,
+    "workItemCount": 2
+  },
+  "probeCount": 10,
+  "probes": [
+    {
+      "error": "work stage revision fields are invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-missing-revision-field"
+    },
+    {
+      "error": "work stage revision lifecycle reference is invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-unknown-stage-kind"
+    },
+    {
+      "error": "work stage revision sequence must be contiguous",
+      "expectedFailureObserved": true,
+      "id": "rejects-noncontiguous-work-sequence"
+    },
+    {
+      "error": "work stage revision predecessor chain is invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-broken-work-predecessor"
+    },
+    {
+      "error": "work stage revision global before/after chain is invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-broken-global-digest-chain"
+    },
+    {
+      "error": "latest work stage revision does not match current work lifecycle state",
+      "expectedFailureObserved": true,
+      "id": "rejects-latest-state-digest-mismatch"
+    },
+    {
+      "error": "work stage revision record references are invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-unknown-record-reference"
+    },
+    {
+      "error": "work stage revision code diff references are invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-unknown-code-diff-reference"
+    },
+    {
+      "error": "work stage revision graph delta identifiers are invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-duplicate-graph-delta-identifiers"
+    },
+    {
+      "error": "work stage revision authority is invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-authority-promotion"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.25-durable-work-stage-revision-boundary",
+  "snapshotProvenanceUnchanged": true,
+  "status": "intentgraph-experimental-csharp-work-stage-revision-negative-probes-pass",
+  "targetRepositoryMutation": false
+}

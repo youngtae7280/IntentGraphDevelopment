@@ -135,6 +135,151 @@ def digest_json(value: Any) -> str:
     return digest_bytes(canonical_json(value))
 
 
+WORK_STAGE_REVISION_AUTHORITY = {
+    "targetRepositoryMutation": False,
+    "automaticCodeApplication": False,
+    "verificationExecution": False,
+    "runtimeEvidenceCollection": False,
+    "approvalAutomation": False,
+}
+
+
+def project_core_digest(state: dict[str, Any]) -> str:
+    """Digest the append-only work lifecycle independently of extractor refreshes."""
+    history_kinds = {
+        "work-request-recorded",
+        "mapping-candidate-recorded",
+        "mapping-candidate-expanded",
+        "non-applied-change-proposal-recorded",
+        "review-receipt-recorded",
+    }
+    requirement_kinds = {"proposal-verification-requirements", "proposal-evidence-requirements", "review-receipt"}
+    return digest_json(
+        {
+            "project": state.get("project"),
+            "workItems": state.get("workItems", []),
+            "mappings": state.get("mappings", []),
+            "changeProposals": state.get("changeProposals", []),
+            "reviewReceipts": state.get("reviewReceipts", []),
+            "verification": [item for item in state.get("verification", []) if item.get("kind") in requirement_kinds],
+            "evidence": [item for item in state.get("evidence", []) if item.get("kind") in requirement_kinds],
+            "history": [item for item in state.get("history", []) if item.get("kind") in history_kinds],
+        }
+    )
+
+
+def append_work_stage_revision(
+    state: dict[str, Any],
+    *,
+    work_item_id: str,
+    stage_kind: str,
+    before_digest: str,
+    record_ids: list[str],
+    added_node_ids: list[str],
+    changed_node_ids: list[str],
+    added_edge_ids: list[str],
+    changed_edge_ids: list[str] | None = None,
+    code_diff_ids: list[str] | None = None,
+) -> dict[str, Any]:
+    revisions = state.setdefault("workStageRevisions", [])
+    work_revisions = [item for item in revisions if item["workItemId"] == work_item_id]
+    sequence = len(work_revisions) + 1
+    after_digest = project_core_digest(state)
+    identifier = f"revision.{work_item_id[:52]}.{sequence}.{after_digest.removeprefix('sha256:')[:12]}"
+    safe_id(identifier, "work stage revision id")
+    revision = {
+        "id": identifier,
+        "workItemId": work_item_id,
+        "sequence": sequence,
+        "stageKind": stage_kind,
+        "predecessorRevisionId": work_revisions[-1]["id"] if work_revisions else None,
+        "beforeProjectStateDigest": before_digest,
+        "afterProjectStateDigest": after_digest,
+        "recordIds": sorted(set(record_ids)),
+        "graphDelta": {
+            "addedNodeIds": sorted(set(added_node_ids)),
+            "changedNodeIds": sorted(set(changed_node_ids)),
+            "addedEdgeIds": sorted(set(added_edge_ids)),
+            "changedEdgeIds": sorted(set(changed_edge_ids or [])),
+        },
+        "codeDiffIds": sorted(set(code_diff_ids or [])),
+        "authority": WORK_STAGE_REVISION_AUTHORITY,
+    }
+    revisions.append(revision)
+    return revision
+
+
+def validate_work_stage_revisions(
+    state: dict[str, Any],
+    *,
+    work_ids: set[str],
+    proposals: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    revisions = state["workStageRevisions"]
+    revision_ids = validate_record_ids(revisions, "work stage revision")
+    known_record_ids = {
+        record["id"]
+        for key in ("verification", "evidence", "history")
+        for record in state[key]
+    }
+    known_diff_ids = {
+        diff["id"]
+        for proposal in proposals
+        for diff in proposal["codeDiffs"]
+    }
+    expected_fields = {
+        "id", "workItemId", "sequence", "stageKind", "predecessorRevisionId",
+        "beforeProjectStateDigest", "afterProjectStateDigest", "recordIds",
+        "graphDelta", "codeDiffIds", "authority",
+    }
+    allowed_stage_kinds = {
+        "request-recorded",
+        "mapping-candidate-recorded",
+        "mapping-candidate-expanded",
+        "proposal-and-requirements-recorded",
+        "review-receipt-recorded",
+    }
+    by_work: dict[str, list[dict[str, Any]]] = {}
+    for revision in revisions:
+        if set(revision) != expected_fields or revision["id"] not in revision_ids:
+            raise ProjectWorkspaceError("work stage revision fields are invalid")
+        if revision["workItemId"] not in work_ids or revision["stageKind"] not in allowed_stage_kinds:
+            raise ProjectWorkspaceError("work stage revision lifecycle reference is invalid")
+        if not isinstance(revision["sequence"], int) or revision["sequence"] < 1:
+            raise ProjectWorkspaceError("work stage revision sequence is invalid")
+        if not sha256_value(revision["beforeProjectStateDigest"]) or not sha256_value(revision["afterProjectStateDigest"]):
+            raise ProjectWorkspaceError("work stage revision state digests are invalid")
+        record_ids = revision["recordIds"]
+        if not isinstance(record_ids, list) or not record_ids or record_ids != sorted(set(record_ids)) or any(item not in known_record_ids for item in record_ids):
+            raise ProjectWorkspaceError("work stage revision record references are invalid")
+        graph_delta = revision["graphDelta"]
+        if not isinstance(graph_delta, dict) or set(graph_delta) != {"addedNodeIds", "changedNodeIds", "addedEdgeIds", "changedEdgeIds"}:
+            raise ProjectWorkspaceError("work stage revision graph delta is invalid")
+        for values in graph_delta.values():
+            if not isinstance(values, list) or values != sorted(set(values)) or any(not isinstance(item, str) or not item for item in values):
+                raise ProjectWorkspaceError("work stage revision graph delta identifiers are invalid")
+        diff_ids = revision["codeDiffIds"]
+        if not isinstance(diff_ids, list) or diff_ids != sorted(set(diff_ids)) or any(item not in known_diff_ids for item in diff_ids):
+            raise ProjectWorkspaceError("work stage revision code diff references are invalid")
+        if revision["authority"] != WORK_STAGE_REVISION_AUTHORITY:
+            raise ProjectWorkspaceError("work stage revision authority is invalid")
+        by_work.setdefault(revision["workItemId"], []).append(revision)
+    for records in by_work.values():
+        ordered = sorted(records, key=lambda item: item["sequence"])
+        if [item["sequence"] for item in ordered] != list(range(1, len(ordered) + 1)):
+            raise ProjectWorkspaceError("work stage revision sequence must be contiguous")
+        for index, revision in enumerate(ordered):
+            expected_predecessor = ordered[index - 1]["id"] if index else None
+            if revision["predecessorRevisionId"] != expected_predecessor:
+                raise ProjectWorkspaceError("work stage revision predecessor chain is invalid")
+    for index, revision in enumerate(revisions):
+        if index and revision["beforeProjectStateDigest"] != revisions[index - 1]["afterProjectStateDigest"]:
+            raise ProjectWorkspaceError("work stage revision global before/after chain is invalid")
+    if revisions and revisions[-1]["afterProjectStateDigest"] != project_core_digest(state):
+        raise ProjectWorkspaceError("latest work stage revision does not match current work lifecycle state")
+    return revisions
+
+
 def file_digest(path: Path) -> str:
     return digest_bytes(path.read_bytes())
 
@@ -495,6 +640,7 @@ def state_for(project_id: str, title: str, snapshot_manifest: dict[str, Any], su
         "mappings": [],
         "changeProposals": [],
         "reviewReceipts": [],
+        "workStageRevisions": [],
         "verification": [
             {
                 "id": "verification.snapshot-integrity",
@@ -796,7 +942,9 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         state["reviewReceipts"] = []
     if "semanticRelationOverlay" not in state:
         state["semanticRelationOverlay"] = empty_semantic_relation_overlay()
-    for key in ("workItems", "mappings", "changeProposals", "reviewReceipts", "verification", "evidence", "history"):
+    if "workStageRevisions" not in state:
+        state["workStageRevisions"] = []
+    for key in ("workItems", "mappings", "changeProposals", "reviewReceipts", "workStageRevisions", "verification", "evidence", "history"):
         if not isinstance(state.get(key), list):
             raise ProjectWorkspaceError(f"project state {key} must be a list")
     work_ids = validate_record_ids(state["workItems"], "work item")
@@ -869,6 +1017,7 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
     semantic_ids.update(f"history.{record['id']}" for record in state["history"])
     proposals = proposal_artifacts(project_workspace, state, work_ids=work_ids, mapping_ids=mapping_ids, fact_by_id=fact_by_id, known_node_ids=semantic_ids)
     review_receipts = review_receipt_artifacts(project_workspace, state, proposals=proposals)
+    work_stage_revisions = validate_work_stage_revisions(state, work_ids=work_ids, proposals=proposals)
     reviewed_proposal_ids = {receipt["proposalId"] for receipt in review_receipts}
     proposed_work_ids = {proposal["workItemId"] for proposal in proposals}
     for item in state["workItems"]:
@@ -889,6 +1038,7 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         "mappingIds": mapping_ids,
         "proposals": proposals,
         "reviewReceipts": review_receipts,
+        "workStageRevisions": work_stage_revisions,
         "semanticFoundation": foundation,
         "semanticRelationOverlay": semantic_relation_overlay,
     }
@@ -897,6 +1047,7 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
 def add_work_request(project_workspace: Path, work_id: str, title: str, request: str) -> dict[str, Any]:
     project_workspace = project_workspace.resolve()
     state, _, _, _ = validate_project_workspace(project_workspace)
+    before_digest = project_core_digest(state)
     safe_id(work_id, "work item id")
     intent_id = f"intent.{work_id}"
     safe_id(intent_id, "intent unit id")
@@ -923,14 +1074,25 @@ def add_work_request(project_workspace: Path, work_id: str, title: str, request:
             "summary": f"Recorded work request {work_id} without automatic mapping or source mutation.",
         }
     )
+    revision = append_work_stage_revision(
+        state,
+        work_item_id=work_id,
+        stage_kind="request-recorded",
+        before_digest=before_digest,
+        record_ids=[f"history.request.{work_id}"],
+        added_node_ids=[f"work.{work_id}", intent_id],
+        changed_node_ids=[],
+        added_edge_ids=[f"edge.project.{state['project']['id']}.tracks.{work_id}", f"edge.{work_id}.expresses.{intent_id}"],
+    )
     write_json(project_workspace / PROJECT_FILE, state)
     validate_project_workspace(project_workspace)
-    return {"result": "pass", "command": "add-experimental-csharp-work-request", "workItemId": work_id, "authority": PROJECT_AUTHORITY}
+    return {"result": "pass", "command": "add-experimental-csharp-work-request", "workItemId": work_id, "revisionId": revision["id"], "authority": PROJECT_AUTHORITY}
 
 
 def add_mapping_candidate(project_workspace: Path, work_id: str, fact_ids: list[str], rationale: str) -> dict[str, Any]:
     project_workspace = project_workspace.resolve()
     state, _, _, data = validate_project_workspace(project_workspace)
+    before_digest = project_core_digest(state)
     work = next((item for item in state["workItems"] if item["id"] == work_id), None)
     if work is None:
         raise ProjectWorkspaceError("mapping candidate work item does not exist")
@@ -944,6 +1106,7 @@ def add_mapping_candidate(project_workspace: Path, work_id: str, fact_ids: list[
     mapping_id = f"mapping.{work_id}.candidate"
     existing = next((item for item in state["mappings"] if item["workItemId"] == work_id), None)
     if existing is None:
+        added_fact_ids = sorted(fact_ids)
         state["mappings"].append(
             {
                 "id": mapping_id,
@@ -962,22 +1125,38 @@ def add_mapping_candidate(project_workspace: Path, work_id: str, fact_ids: list[
         if not added:
             raise ProjectWorkspaceError("mapping candidate already contains the selected code fact")
         existing["codeFactIds"] = sorted(set(existing["codeFactIds"]) | set(fact_ids))
+        added_fact_ids = added
         existing["rationale"] = existing["rationale"] + "\n" + rationale.strip()
         history_kind = "mapping-candidate-expanded"
         history_summary = f"Expanded declared mapping candidate {mapping_id} by {len(added)} code fact(s); acceptance is not automatic."
     work["mappingStatus"] = "candidate"
     work["status"] = "mapping-candidate"
+    history_id = f"history.mapping.{work_id}.{len(state['history'])}"
     state["history"].append(
         {
-            "id": f"history.mapping.{work_id}.{len(state['history'])}",
+            "id": history_id,
             "kind": history_kind,
             "summary": history_summary,
         }
     )
+    revision = append_work_stage_revision(
+        state,
+        work_item_id=work_id,
+        stage_kind=history_kind,
+        before_digest=before_digest,
+        record_ids=[history_id],
+        added_node_ids=[f"mapping.{mapping_id}"] if existing is None else [],
+        changed_node_ids=[] if existing is None else [f"mapping.{mapping_id}"],
+        added_edge_ids=(
+            [f"edge.mapping.{mapping_id}.for.{work['intentUnitId']}"]
+            if existing is None
+            else []
+        ) + [f"edge.mapping.{mapping_id}.to.{fact_id}" for fact_id in added_fact_ids],
+    )
     write_json(project_workspace / PROJECT_FILE, state)
     validate_project_workspace(project_workspace)
     active_mapping = next(item for item in state["mappings"] if item["id"] == mapping_id)
-    return {"result": "pass", "command": "add-experimental-csharp-mapping-candidate", "mappingId": mapping_id, "codeFactCount": len(active_mapping["codeFactIds"]), "authority": PROJECT_AUTHORITY}
+    return {"result": "pass", "command": "add-experimental-csharp-mapping-candidate", "mappingId": mapping_id, "codeFactCount": len(active_mapping["codeFactIds"]), "revisionId": revision["id"], "authority": PROJECT_AUTHORITY}
 
 
 def record_semantic_foundation(project_workspace: Path, foundation_path: Path) -> dict[str, Any]:
@@ -992,6 +1171,37 @@ def record_semantic_foundation(project_workspace: Path, foundation_path: Path) -
         str(fact["sourceFile"]).split("/", 1)[0]
         for fact in data["facts"].get("facts", [])
         if isinstance(fact, dict) and isinstance(fact.get("sourceFile"), str) and safe_relative_source(fact["sourceFile"])
+    }
+    foundation = validate_semantic_foundation(
+        read_json(foundation_path),
+        module_labels=module_labels,
+        source_artifact=True,
+    )
+    state["semanticFoundation"] = {
+        "artifactRole": FOUNDATION_RECORD_ROLE,
+        "status": "recorded",
+        "scope": FOUNDATION_RECORD_SCOPE,
+        "sourceArtifactDigest": file_digest(foundation_path),
+        **{key: foundation[key] for key in ("sourceDocuments", "goals", "capabilities", "constraints", "verificationRequirements")},
+    }
+    state["history"].append(
+        {
+            "id": f"history.semantic-foundation.{len(state['history'])}",
+            "kind": "semantic-foundation-recorded",
+            "summary": "Recorded declared project goals, capabilities, constraints, and verification requirements without creating automatic Intent Units or changing source code.",
+        }
+    )
+    write_json(project_workspace / PROJECT_FILE, state)
+    validate_project_workspace(project_workspace)
+    return {
+        "result": "pass",
+        "command": "record-experimental-csharp-semantic-foundation",
+        "sourceArtifactDigest": state["semanticFoundation"]["sourceArtifactDigest"],
+        "goalCount": len(state["semanticFoundation"]["goals"]),
+        "capabilityCount": len(state["semanticFoundation"]["capabilities"]),
+        "constraintCount": len(state["semanticFoundation"]["constraints"]),
+        "verificationRequirementCount": len(state["semanticFoundation"]["verificationRequirements"]),
+        "authority": PROJECT_AUTHORITY,
     }
 
 
@@ -1032,44 +1242,12 @@ def record_semantic_relation_overlay(project_workspace: Path, overlay_path: Path
         "targetRestoreExecuted": False,
         "authority": PROJECT_AUTHORITY,
     }
-    foundation = validate_semantic_foundation(
-        read_json(foundation_path),
-        module_labels=module_labels,
-        source_artifact=True,
-    )
-    state["semanticFoundation"] = {
-        "artifactRole": FOUNDATION_RECORD_ROLE,
-        "status": "recorded",
-        "scope": FOUNDATION_RECORD_SCOPE,
-        "sourceArtifactDigest": file_digest(foundation_path),
-        **{key: foundation[key] for key in ("sourceDocuments", "goals", "capabilities", "constraints", "verificationRequirements")},
-    }
-    state["history"].append(
-        {
-            "id": f"history.semantic-foundation.{len(state['history'])}",
-            "kind": "semantic-foundation-recorded",
-            "summary": "Recorded declared project goals, capabilities, constraints, and verification requirements without creating automatic Intent Units or changing source code.",
-        }
-    )
-    write_json(project_workspace / PROJECT_FILE, state)
-    validate_project_workspace(project_workspace)
-    return {
-        "result": "pass",
-        "command": "record-experimental-csharp-semantic-foundation",
-        "sourceArtifactDigest": state["semanticFoundation"]["sourceArtifactDigest"],
-        "goalCount": len(state["semanticFoundation"]["goals"]),
-        "capabilityCount": len(state["semanticFoundation"]["capabilities"]),
-        "constraintCount": len(state["semanticFoundation"]["constraints"]),
-        "verificationRequirementCount": len(state["semanticFoundation"]["verificationRequirements"]),
-        "authority": PROJECT_AUTHORITY,
-    }
-
-
 def add_change_proposal_document(project_workspace: Path, proposal: dict[str, Any]) -> dict[str, Any]:
     project_workspace = project_workspace.resolve()
     if not isinstance(proposal, dict):
         raise ProjectWorkspaceError("change proposal document must be a JSON object")
     state, _, _, data = validate_project_workspace(project_workspace)
+    before_digest = project_core_digest(state)
     work_ids = {item["id"] for item in state["workItems"]}
     mapping_ids = {item["id"] for item in state["mappings"]}
     fact_by_id = {fact.get("id"): fact for fact in data["facts"].get("facts", []) if isinstance(fact, dict) and isinstance(fact.get("id"), str)}
@@ -1126,12 +1304,41 @@ def add_change_proposal_document(project_workspace: Path, proposal: dict[str, An
             "summary": f"Recorded non-applied proposal {proposal['id']} with graph delta and {len(proposal['codeDiffs'])} code diff record(s); no source change was applied.",
         }
     )
+    proposal_node = f"proposal.{proposal['id']}"
+    added_node_ids = [item["id"] for item in proposal["graphDelta"]["addedNodes"]]
+    verification_record_id = f"verification.requirements.{proposal['id']}"
+    evidence_record_id = f"evidence.requirements.{proposal['id']}"
+    history_record_id = f"history.proposal.{proposal['id']}"
+    revision = append_work_stage_revision(
+        state,
+        work_item_id=proposal["workItemId"],
+        stage_kind="proposal-and-requirements-recorded",
+        before_digest=before_digest,
+        record_ids=[verification_record_id, evidence_record_id, history_record_id],
+        added_node_ids=[
+            proposal_node,
+            *added_node_ids,
+            f"verification.{verification_record_id}",
+            f"evidence.{evidence_record_id}",
+        ],
+        changed_node_ids=list(proposal["graphDelta"]["changedNodeIds"]),
+        added_edge_ids=[
+            f"edge.work.{proposal['workItemId']}.proposes.{proposal['id']}",
+            *[f"edge.{proposal_node}.changes.{item}" for item in proposal["graphDelta"]["changedNodeIds"]],
+            *[f"edge.{proposal_node}.adds.{item}" for item in added_node_ids],
+            *[item["id"] for item in proposal["graphDelta"]["addedEdges"]],
+            f"edge.project.{state['project']['id']}.verified-by.{verification_record_id}",
+            f"edge.project.{state['project']['id']}.evidenced-by.{evidence_record_id}",
+        ],
+        code_diff_ids=[item["id"] for item in proposal["codeDiffs"]],
+    )
     write_json(project_workspace / PROJECT_FILE, state)
     validate_project_workspace(project_workspace)
     return {
         "result": "pass",
         "command": "add-experimental-csharp-change-proposal",
         "proposalId": proposal["id"],
+        "revisionId": revision["id"],
         "applicationStatus": PROPOSAL_STATUS,
         "targetRepositoryMutation": False,
         "authority": PROJECT_AUTHORITY,
@@ -1260,6 +1467,7 @@ def add_review_receipt_document(project_workspace: Path, receipt: dict[str, Any]
     if not isinstance(receipt, dict):
         raise ProjectWorkspaceError("review receipt document must be a JSON object")
     state, _, _, data = validate_project_workspace(project_workspace)
+    before_digest = project_core_digest(state)
     proposals = data["proposals"]
     proposal_by_id = {proposal["id"]: proposal for proposal in proposals}
     receipt = validate_review_receipt_document(receipt, proposal_by_id=proposal_by_id)
@@ -1313,12 +1521,35 @@ def add_review_receipt_document(project_workspace: Path, receipt: dict[str, Any]
             "summary": f"Recorded review receipt {receipt['id']} without executing verification, collecting runtime evidence, applying a graph delta, or changing source code.",
         }
     )
+    verification_record_id = f"verification.review-receipt.{receipt['id']}"
+    evidence_record_id = f"evidence.review-receipt.{receipt['id']}"
+    history_record_id = f"history.review-receipt.{receipt['id']}"
+    receipt_node = f"review-receipt.{receipt['id']}"
+    proposal_node = f"proposal.{receipt['proposalId']}"
+    revision = append_work_stage_revision(
+        state,
+        work_item_id=proposal["workItemId"],
+        stage_kind="review-receipt-recorded",
+        before_digest=before_digest,
+        record_ids=[verification_record_id, evidence_record_id, history_record_id],
+        added_node_ids=[receipt_node, f"verification.{verification_record_id}", f"evidence.{evidence_record_id}"],
+        changed_node_ids=[],
+        added_edge_ids=[
+            f"edge.{proposal_node}.reviewed-by.{receipt['id']}",
+            f"edge.{receipt_node}.records-verification.{receipt['id']}",
+            f"edge.{receipt_node}.records-evidence.{receipt['id']}",
+            f"edge.project.{state['project']['id']}.verified-by.{verification_record_id}",
+            f"edge.project.{state['project']['id']}.evidenced-by.{evidence_record_id}",
+        ],
+        code_diff_ids=[item["id"] for item in proposal["codeDiffs"]],
+    )
     write_json(project_workspace / PROJECT_FILE, state)
     validate_project_workspace(project_workspace)
     return {
         "result": "pass",
         "command": "add-experimental-csharp-review-receipt",
         "receiptId": receipt["id"],
+        "revisionId": revision["id"],
         "proposalId": receipt["proposalId"],
         "resultStatus": receipt["result"],
         "targetRepositoryMutation": False,
@@ -1582,6 +1813,29 @@ def build_work_stage_timeline(
                     "revisionKind": "human-review-record-not-approval",
                 }
             )
+    revision_kinds_by_stage = {
+        "request-recorded": {"request-recorded"},
+        "mapping-candidate-recorded": {"mapping-candidate-recorded", "mapping-candidate-expanded"},
+        "change-proposal-recorded": {"proposal-and-requirements-recorded"},
+        "verification-and-evidence-requirements-recorded": {"proposal-and-requirements-recorded"},
+        "review-receipt-recorded": {"review-receipt-recorded"},
+    }
+    for stage in stages:
+        candidates = [
+            revision
+            for revision in state.get("workStageRevisions", [])
+            if revision["workItemId"] == stage["workItemId"]
+            and revision["stageKind"] in revision_kinds_by_stage[stage["kind"]]
+            and (
+                stage["kind"] != "review-receipt-recorded"
+                or bool(set(stage["recordIds"]) & set(revision["recordIds"]))
+            )
+        ]
+        candidates.sort(key=lambda item: item["sequence"])
+        stage["revisionIds"] = [item["id"] for item in candidates]
+        stage["durableRevision"] = bool(candidates)
+        stage["beforeProjectStateDigest"] = candidates[0]["beforeProjectStateDigest"] if candidates else None
+        stage["afterProjectStateDigest"] = candidates[-1]["afterProjectStateDigest"] if candidates else None
     return stages
 
 
@@ -1869,9 +2123,12 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "changeProposals": proposals,
             "proposalDeltas": sorted(proposal_deltas, key=lambda item: item["id"]),
             "workStageTimeline": work_stage_timeline,
+            "workStageRevisions": data["workStageRevisions"],
             "timelineContract": {
                 "kind": "record-derived-work-stage-timeline",
                 "immutableRecordsRequired": True,
+                "durableRevisionCount": len(data["workStageRevisions"]),
+                "legacyDerivedStageCount": sum(1 for stage in work_stage_timeline if not stage["durableRevision"]),
                 "automaticApplication": False,
                 "targetRepositoryMutation": False,
             },
@@ -1936,6 +2193,12 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "zoomStyleBuckets": True,
             "supportingNodeLabelsOnDemand": True,
             "workStageTimeline": True,
+            "durableWorkStageRevisions": True,
+            "allRecordedWorkItemsNavigable": True,
+            "previousNextWorkNavigation": True,
+            "previousNextStageNavigation": True,
+            "liveProjectionRefreshAfterMutation": True,
+            "staticRevisionSnapshotImmutable": True,
             "physicsLayoutOnLoad": False,
         },
     }
@@ -1971,20 +2234,20 @@ HTML_TEMPLATE = r'''<!doctype html>
     button,input,select { font:inherit; } button { color:var(--text); background:#161b2a; border:1px solid #323b52; border-radius:4px; padding:6px 9px; cursor:pointer; transition:border-color 120ms ease,background 120ms ease,box-shadow 120ms ease; } button:hover,button.active { border-color:var(--accent); background:#1a2634; box-shadow:0 0 0 1px rgba(101,196,214,.12); } input,select { width:100%; color:var(--text); background:#0b0f1a; border:1px solid #323b52; border-radius:4px; padding:7px 8px; }
     .app { height:100vh; display:grid; grid-template-rows:54px 1fr; } .topbar { display:flex; align-items:center; justify-content:space-between; padding:0 16px; border-bottom:1px solid var(--line); background:#0c0f1a; box-shadow:0 1px 10px rgba(0,0,0,.18); } .brand { display:flex; align-items:baseline; gap:9px; } .brand strong { color:#fbfcff; font-size:15px; letter-spacing:.4px; } .brand span { color:var(--muted); } .badges { display:flex; gap:6px; } .badge { color:#bbc6d6; border:1px solid #3a455b; padding:3px 7px; border-radius:99px; font-size:11px; } .badge.accent { color:#9bdfeb; border-color:#397884; }
     .workspace { min-height:0; display:grid; grid-template-columns:var(--left) 7px minmax(440px,1fr) 7px var(--right); } .rail,.inspector { overflow:auto; background:var(--panel2); } .rail { border-right:1px solid var(--line); } .inspector { border-left:1px solid var(--line); } .resizer { background:#161b2a; cursor:col-resize; position:relative; } .resizer:hover,.resizer.active { background:var(--accent); box-shadow:0 0 10px rgba(101,196,214,.2); } .section { padding:14px; border-bottom:1px solid var(--line); } h2 { margin:0 0 9px; font-size:11px; text-transform:uppercase; color:#b6c4d9; letter-spacing:.8px; } h3 { margin:0 0 7px; font-size:15px; } p { margin:5px 0; color:#c7d0dd; } label { display:block; margin:8px 0 4px; color:var(--muted); font-size:11px; } .modes { display:grid; grid-template-columns:1fr 1fr; gap:5px; } .modes button:last-child { grid-column:span 2; }
-    .work-list,.stage-list { display:grid; gap:7px; } .work-card { text-align:left; padding:9px; background:#151320; } .work-card small { display:block; color:var(--muted); margin-top:3px; } .work-card .state { display:block; color:#92fff0; text-transform:uppercase; font-size:10px; letter-spacing:.5px; } .work-card.unmapped .state { color:var(--warn); } .stage-card { text-align:left; padding:8px 9px; background:#101725; border-left:2px solid #466b8a; } .stage-card:hover,.stage-card.active { border-left-color:#92fff0; } .stage-card .stage-meta { display:flex; justify-content:space-between; gap:8px; color:#a7b9c9; font-size:10px; text-transform:uppercase; letter-spacing:.4px; } .stage-card strong,.stage-card small { display:block; } .stage-card strong { margin-top:2px; color:#e5edf6; } .stage-card small { margin-top:2px; color:var(--muted); } .stage-card .stage-delta { color:#9ce0e8; } .empty { color:var(--muted); font-style:italic; padding:7px 0; } .metrics { display:grid; grid-template-columns:1fr 1fr; gap:7px; } .metric { padding:8px; border:1px solid var(--line); background:#0a0910; } .metric strong { color:#fff; display:block; font-size:16px; } .metric span { color:var(--muted); font-size:11px; }
+    .work-list,.stage-list { display:grid; gap:7px; } .record-nav { display:grid; grid-template-columns:30px minmax(0,1fr) 30px; gap:5px; align-items:stretch; margin-bottom:8px; } .record-nav button { padding:4px; font-size:18px; line-height:1; } .record-nav button:disabled { opacity:.35; cursor:default; border-color:#293248; background:#101522; box-shadow:none; } .record-position { min-width:0; display:flex; flex-direction:column; justify-content:center; padding:4px 7px; border:1px solid #303a50; background:#0d121e; } .record-position strong,.record-position small { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .record-position strong { color:#dce8f4; font-size:11px; } .record-position small { color:var(--muted); font-size:10px; } .work-card { text-align:left; padding:9px; background:#151320; } .work-card.active { border-color:#65c4d6; background:#172333; box-shadow:inset 2px 0 #65c4d6; } .work-card small { display:block; color:var(--muted); margin-top:3px; } .work-card .state { display:block; color:#92fff0; text-transform:uppercase; font-size:10px; letter-spacing:.5px; } .work-card.unmapped .state { color:var(--warn); } .stage-card { text-align:left; padding:8px 9px; background:#101725; border-left:2px solid #466b8a; } .stage-card:hover,.stage-card.active { border-left-color:#92fff0; } .stage-card .stage-meta { display:flex; justify-content:space-between; gap:8px; color:#a7b9c9; font-size:10px; text-transform:uppercase; letter-spacing:.4px; } .stage-card strong,.stage-card small { display:block; } .stage-card strong { margin-top:2px; color:#e5edf6; } .stage-card small { margin-top:2px; color:var(--muted); } .stage-card .stage-delta { color:#9ce0e8; } .stage-card .stage-revision { color:#a999c9; } .stage-card .stage-revision.durable { color:#79d9c8; } .empty { color:var(--muted); font-style:italic; padding:7px 0; } .metrics { display:grid; grid-template-columns:1fr 1fr; gap:7px; } .metric { padding:8px; border:1px solid var(--line); background:#0a0910; } .metric strong { color:#fff; display:block; font-size:16px; } .metric span { color:var(--muted); font-size:11px; }
     .canvas { min-width:0; min-height:0; display:grid; grid-template-rows:68px minmax(0,1fr) 174px; background:#080b14; } .canvasbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); background:#0d111d; } h1 { margin:0; font-size:16px; } .canvasbar p { font-size:11px; margin:2px 0 0; color:var(--muted); } .tools { display:flex; gap:5px; } .icon { min-width:32px; } #projectGraph { min-height:0; background:radial-gradient(ellipse at 48% 47%,rgba(38,69,97,.2),transparent 48%),radial-gradient(ellipse at 22% 76%,rgba(45,42,80,.12),transparent 42%),#080b14; } .review-tray { border-top:1px solid var(--line); display:grid; grid-template-columns:1.2fr 1fr 1fr; overflow:auto; background:#0d111d; } .tray-section { padding:12px; border-right:1px solid var(--line); } .tray-section:last-child { border-right:0; } .tray-title { color:#b7c8dd; text-transform:uppercase; font-size:10px; letter-spacing:.65px; margin-bottom:6px; } .state-line { color:#c9d2df; } .state-line strong { color:var(--warn); } .detail { padding:8px; background:#141a28; border:1px solid #35405a; border-radius:4px; } .detail + .detail { margin-top:8px; } .kv { display:grid; grid-template-columns:112px 1fr; gap:4px 8px; margin:8px 0 0; } .kv dt { color:var(--muted); } .kv dd { margin:0; overflow-wrap:anywhere; } .status-list { display:grid; gap:6px; } .status-row { display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid #293248; } .status-row:last-child { border-bottom:0; } .status-row span:last-child { color:var(--warn); text-align:right; } .boundary { color:#c8d2df; } .boundary strong { color:#9bdfeb; } .legend { display:grid; grid-template-columns:1fr 1fr; gap:6px; color:#ced7e5; } .legend i { width:10px; height:10px; display:inline-block; border-radius:50%; margin-right:5px; } .delta-list { display:grid; gap:4px; margin-top:8px; } .delta-step { width:100%; text-align:left; font-size:11px; padding:5px 7px; } .diff { margin:9px 0 0; padding:9px; overflow:auto; white-space:pre; background:#080b14; border:1px solid #35405a; color:#d8f3ef; font:11px/1.45 Consolas,monospace; }
     @media (max-width: 980px) { :root { --left:240px; --right:300px; } .review-tray { grid-template-columns:1fr; } .canvas { grid-template-rows:68px minmax(0,1fr) 220px; } } @media (max-width: 760px) { body { overflow:auto; } .app { height:auto; min-height:100vh; } .workspace { grid-template-columns:1fr; } .resizer { display:none; } .rail,.inspector { border:0; } .canvas { min-height:560px; } }
   </style>
 </head>
 <body>
   <div class="app">
-    <header class="topbar"><div class="brand"><strong>IntentGraph</strong><span>Project workbench</span></div><div class="badges"><span class="badge accent">local semantic overlay</span><span class="badge" id="projectBadge"></span><span class="badge" id="snapshotBadge"></span></div></header>
+    <header class="topbar"><div class="brand"><strong>IntentGraph</strong><span>Project workbench</span></div><div class="badges"><span class="badge accent">local semantic overlay</span><span class="badge" id="modeBadge"></span><span class="badge" id="projectBadge"></span><span class="badge" id="snapshotBadge"></span></div></header>
     <div class="workspace">
       <aside class="rail">
         <section class="section"><h2>Graph lens</h2><div class="modes"><button class="mode active" data-mode="all">Full graph</button><button class="mode" data-mode="overview">Semantic overview</button><button class="mode" data-mode="impact">Active work</button><button class="mode" data-mode="code">Code topology</button><button class="mode" data-mode="focus">Focus selection</button><button id="clearSelection">Clear focus</button></div></section>
         <section class="section"><h2>Find</h2><label for="search">Node, relation, or source file</label><input id="search" type="search" placeholder="Find project or code fact"><label for="categoryFilter">Node category</label><select id="categoryFilter"></select><label for="relationFilter">Relation kind</label><select id="relationFilter"></select></section>
-        <section class="section"><h2>Active work</h2><div id="workList" class="work-list"></div></section>
-        <section class="section"><h2>Work stages</h2><div id="stageList" class="stage-list"></div></section>
+        <section class="section"><h2>Work history</h2><div class="record-nav"><button id="previousWork" type="button" title="Previous work" aria-label="Previous work">&lsaquo;</button><div id="workPosition" class="record-position"></div><button id="nextWork" type="button" title="Next work" aria-label="Next work">&rsaquo;</button></div><div id="workList" class="work-list"></div></section>
+        <section class="section"><h2>Work stages</h2><div class="record-nav"><button id="previousStage" type="button" title="Previous stage" aria-label="Previous stage">&lsaquo;</button><div id="stagePosition" class="record-position"></div><button id="nextStage" type="button" title="Next stage" aria-label="Next stage">&rsaquo;</button></div><div id="stageList" class="stage-list"></div></section>
         <section class="section"><h2>Project snapshot</h2><div id="metrics" class="metrics"></div></section>
         <section class="section"><h2>Legend</h2><div class="legend"><div><i style="background:var(--code)"></i>Code fact</div><div><i style="background:#d6a762"></i>Goal / Intent</div><div><i style="background:#5fb8a5"></i>Capability / work</div><div><i style="background:#7993a8"></i>Source document</div><div><i style="background:var(--evidence)"></i>Evidence / verify</div><div><i style="background:var(--history)"></i>History / authority</div></div></section>
       </aside>
@@ -2001,6 +2264,7 @@ HTML_TEMPLATE = r'''<!doctype html>
   <script id="workbench-data" type="application/json">__WORKBENCH_DATA__</script>
   <script>
     function boot(model) {
+    const liveMode=typeof window.__intentGraphLoadProjection==='function';
     const allNodes = model.graph.nodes, allEdges = model.graph.edges;
     const nodeById = new Map(allNodes.map(node => [node.id,node]));
     const alwaysLabeledCategories = new Set(['project']);
@@ -2011,7 +2275,8 @@ HTML_TEMPLATE = r'''<!doctype html>
     const semanticEdgeIds = new Set(allEdges.filter(edge=>semanticNodeIds.has(edge.source)&&semanticNodeIds.has(edge.target)).map(edge=>edge.id));
     const importantCodeLabelIds = new Set(allNodes.filter(node=>node.category==='code'&&(node.codeDiffs||[]).length>0).map(node=>node.id));
     const emptyIds = new Set();
-    const state = { mode:model.graph.defaultView?.id || 'all', selected:null, stageFocus:null, cy:null, renderTimer:null, detailLevel:null, viewportScale:null, positions:null, visibleNodeIds:null, visibleEdgeIds:null, highlighted:null, emphasizedNodeIds:new Set(), emphasizedEdgeIds:new Set(), stageAddedNodeIds:new Set(), stageChangedNodeIds:new Set(), stageEdgeIds:new Set(), searchMatchNodeIds:new Set(), onDemandLabelIds:new Set(), resizeQueued:false, graphInstanceCount:0, visibilityUpdates:0 };
+    const workItems=model.workflow.workItems||[],workStages=model.workflow.workStageTimeline||[];
+    const state = { mode:model.graph.defaultView?.id || 'all', selected:null, selectedWorkId:workItems.length?workItems[workItems.length-1].id:null, stageFocus:null, cy:null, renderTimer:null, detailLevel:null, viewportScale:null, positions:null, visibleNodeIds:null, visibleEdgeIds:null, highlighted:null, emphasizedNodeIds:new Set(), emphasizedEdgeIds:new Set(), stageAddedNodeIds:new Set(), stageChangedNodeIds:new Set(), stageEdgeIds:new Set(), searchMatchNodeIds:new Set(), onDemandLabelIds:new Set(), resizeQueued:false, graphInstanceCount:0, visibilityUpdates:0 };
     const colors = { code:'#5f7f99', project:'#75c9d8', 'source-document':'#8197ad', goal:'#dfad62', capability:'#72b798', constraint:'#d8936a', 'verification-requirement':'#a892d0', work:'#72b798', intent:'#dc91ad', mapping:'#d7b56c', proposal:'#de817a', verification:'#a892d0', evidence:'#a892d0', 'review-receipt':'#bc8ce5', authority:'#8297b6', history:'#8297b6' };
     const communityPalette = ['#5c8ec4','#db913d','#dc5e68','#70b5aa','#5da45b','#d7bc4b','#a77ba2','#d882a1','#a77f68','#9a9da8'];
     const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -2268,25 +2533,45 @@ HTML_TEMPLATE = r'''<!doctype html>
       const item=state.cy.$id(state.selected.id);if(!item.length)return;
       item.select();item.connectedEdges().addClass('selection-neighbor');state.highlighted=state.selected.id;updateOnDemandLabels();
     }
-    function renderStageSelection(stage){const panel=document.getElementById('selectionInspector'),diffs=stage.codeDiffs||[],diffHtml=diffs.map(diff=>`<h3 style="margin-top:12px">${safe(diff.sourceFile)}</h3><pre class="diff">${safe(diff.unifiedDiff)}</pre>`).join('');panel.className='detail';panel.innerHTML=`<h3>${safe(stage.title)}</h3>${rows([['work item',stage.workItemId],['stage',`${stage.sequence}. ${stage.kind}`],['status',stage.status],['revision boundary',stage.revisionKind],['graph additions',stage.addedNodeIds.length+' node(s), '+stage.addedEdgeIds.length+' edge(s)'],['graph changes',stage.changedNodeIds.length+' node(s), '+stage.changedEdgeIds.length+' edge(s)'],['code diffs',diffs.length],['verification records',stage.verificationRecordIds.length],['evidence records',stage.evidenceRecordIds.length],['history records',stage.recordIds.join(', ')||'none']])}<p>${safe(stage.summary)}</p>${diffHtml}`;}
+    function renderStageSelection(stage){const panel=document.getElementById('selectionInspector'),diffs=stage.codeDiffs||[],diffHtml=diffs.map(diff=>`<h3 style="margin-top:12px">${safe(diff.sourceFile)}</h3><pre class="diff">${safe(diff.unifiedDiff)}</pre>`).join('');panel.className='detail';panel.innerHTML=`<h3>${safe(stage.title)}</h3>${rows([['work item',stage.workItemId],['stage',`${stage.sequence}. ${stage.kind}`],['status',stage.status],['revision persistence',stage.durableRevision?'durable':'legacy derived'],['revision ids',stage.revisionIds.join(', ')||'not available'],['before state',short(stage.beforeProjectStateDigest)||'not available'],['after state',short(stage.afterProjectStateDigest)||'not available'],['revision boundary',stage.revisionKind],['graph additions',stage.addedNodeIds.length+' node(s), '+stage.addedEdgeIds.length+' edge(s)'],['graph changes',stage.changedNodeIds.length+' node(s), '+stage.changedEdgeIds.length+' edge(s)'],['code diffs',diffs.length],['verification records',stage.verificationRecordIds.length],['evidence records',stage.evidenceRecordIds.length],['history records',stage.recordIds.join(', ')||'none']])}<p>${safe(stage.summary)}</p>${diffHtml}`;}
     function renderSelection(){const panel=document.getElementById('selectionInspector');if(!state.selected){if(state.stageFocus){renderStageSelection(state.stageFocus);return;}panel.className='empty';panel.textContent='Select a graph node or relation to inspect its semantic and source provenance.';return;}if(state.selected.type==='node'){const node=nodeById.get(state.selected.id);if(!node)return;const base=[['category',node.category],['kind',node.kind],['identifier',node.id]];let diffHtml='';if(node.category==='code'){const diffs=node.codeDiffs||[];base.push(['source file',node.source.file],['range',`${node.source.location?.lineStart||'file'}:${node.source.location?.columnStart||''} - ${node.source.location?.lineEnd||''}:${node.source.location?.columnEnd||''}`],['source digest',short(node.source.digest)],['confidence',node.provenance.confidence],['delta state',node.deltaState||'unchanged'],['interpretation',node.details.interpretation],['code diff',diffs.length?`${diffs.length} proposed diff(s) below`:'No change proposal recorded']);diffHtml=diffs.map(diff=>`<h3 style="margin-top:12px">${safe(diff.proposalTitle)}</h3><p>${safe(diff.sourceFile)}</p><pre class="diff">${safe(diff.unifiedDiff)}</pre>`).join('');}else base.push(...Object.entries(node.details).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value]));panel.className='detail';panel.innerHTML=`<h3>${safe(node.label)}</h3>${rows(base)}${diffHtml}`; }else{const edge=allEdges.find(item=>item.id===state.selected.id);if(!edge)return;panel.className='detail';panel.innerHTML=`<h3>${safe(edge.kind)}</h3>${rows([['category',edge.category],['source',edge.source],['target',edge.target],...Object.entries(edge.details||{}).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value])])}`;}}
-    function focusWork(workId){state.stageFocus=null;state.selected={type:'node',id:`work.${workId}`};state.mode='impact';document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item.dataset.mode==='impact'));renderGraph({fit:true});renderSelection();}
+    function stagesForWork(workId){return workStages.filter(stage=>stage.workItemId===workId).sort((left,right)=>left.sequence-right.sequence||left.id.localeCompare(right.id));}
+    function renderWorkHistory() {
+      const workIndex=workItems.findIndex(work=>work.id===state.selectedWorkId),work=workIndex>=0?workItems[workIndex]:null;
+      document.getElementById('previousWork').disabled=workIndex<=0;
+      document.getElementById('nextWork').disabled=workIndex<0||workIndex>=workItems.length-1;
+      document.getElementById('workPosition').innerHTML=work?`<strong>${workIndex+1} / ${workItems.length} - ${safe(work.title)}</strong><small>${safe(work.id)}</small>`:'<strong>No recorded work</strong><small>0 / 0</small>';
+      document.getElementById('workList').innerHTML=workItems.length?workItems.map(item=>`<button class="work-card ${item.mappingStatus==='unmapped'?'unmapped':''} ${item.id===state.selectedWorkId?'active':''}" data-work="${safe(item.id)}"><span class="state">${safe(item.status)} / ${safe(item.mappingStatus)}</span><strong>${safe(item.title)}</strong><small>${safe(item.request)}</small></button>`).join(''):'<div class="empty">No work request has been recorded. Use the project workspace command to add one.</div>';
+      document.querySelectorAll('[data-work]').forEach(button=>button.addEventListener('click',()=>focusWork(button.dataset.work)));
+      renderWorkStages();
+    }
+    function renderWorkStages() {
+      const stages=stagesForWork(state.selectedWorkId),stageIndex=state.stageFocus?stages.findIndex(stage=>stage.id===state.stageFocus.id):-1;
+      document.getElementById('previousStage').disabled=!stages.length||(stageIndex===0);
+      document.getElementById('nextStage').disabled=!stages.length||(stageIndex===stages.length-1);
+      document.getElementById('stagePosition').innerHTML=stages.length?`<strong>${stageIndex>=0?stageIndex+1:'-'} / ${stages.length} - ${safe(stageIndex>=0?stages[stageIndex].title:'Select a stage')}</strong><small>${safe(state.selectedWorkId||'')}</small>`:`<strong>No recorded stages</strong><small>${safe(state.selectedWorkId||'0 / 0')}</small>`;
+      document.getElementById('stageList').innerHTML=stages.length?stages.map(stage=>{const delta=`+${stage.addedNodeIds.length} nodes / ${stage.changedNodeIds.length} changed / ${stage.codeDiffs.length} diffs`,revision=stage.durableRevision?`${stage.revisionIds.length} durable revision(s)`:'legacy record-derived';return `<button class="stage-card ${state.stageFocus?.id===stage.id?'active':''}" data-stage="${safe(stage.id)}"><span class="stage-meta"><span>${safe(stage.workItemId)}</span><span>${safe(stage.sequence)} / ${safe(stage.status)}</span></span><strong>${safe(stage.title)}</strong><small class="stage-delta">${safe(delta)}</small><small class="stage-revision ${stage.durableRevision?'durable':''}">${safe(revision)}</small></button>`;}).join(''):'<div class="empty">No recorded work stages are available for this work item.</div>';
+      document.querySelectorAll('[data-stage]').forEach(button=>button.addEventListener('click',()=>focusStage(button.dataset.stage)));
+    }
+    function focusWork(workId){if(!workItems.some(work=>work.id===workId))return;state.selectedWorkId=workId;state.stageFocus=null;state.selected={type:'node',id:`work.${workId}`};state.mode='impact';document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item.dataset.mode==='impact'));renderWorkHistory();renderGraph({fit:true});renderSelection();}
     function focusDelta(nodeId){state.stageFocus=null;state.selected={type:'node',id:nodeId};state.mode='impact';document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item.dataset.mode==='impact'));renderGraph({fit:true});renderSelection();}
-    function focusStage(stageId){const stage=(model.workflow.workStageTimeline||[]).find(item=>item.id===stageId);if(!stage)return;state.selected=null;state.stageFocus=stage;state.mode='focus';document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item.dataset.mode==='focus'));document.querySelectorAll('[data-stage]').forEach(item=>item.classList.toggle('active',item.dataset.stage===stageId));renderGraph({fit:true});renderStageSelection(stage);}
+    function focusStage(stageId){const stage=workStages.find(item=>item.id===stageId);if(!stage)return;state.selectedWorkId=stage.workItemId;state.selected=null;state.stageFocus=stage;state.mode='focus';document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item.dataset.mode==='focus'));renderWorkHistory();renderGraph({fit:true});renderStageSelection(stage);}
+    function moveWork(offset){const index=workItems.findIndex(work=>work.id===state.selectedWorkId),next=Math.max(0,Math.min(workItems.length-1,index+offset));if(workItems[next])focusWork(workItems[next].id);}
+    function moveStage(offset){const stages=stagesForWork(state.selectedWorkId);if(!stages.length)return;const index=state.stageFocus?stages.findIndex(stage=>stage.id===state.stageFocus.id):-1;const next=index<0?(offset<0?stages.length-1:0):Math.max(0,Math.min(stages.length-1,index+offset));focusStage(stages[next].id);}
     function staticPanels(){
       document.getElementById('projectBadge').textContent=model.project.id;
+      document.getElementById('modeBadge').textContent=liveMode?'live current':'revision snapshot';
       document.getElementById('snapshotBadge').textContent=`snapshot ${short(model.snapshot.sourceDigest)}`;
       const overlay=model.snapshot.semanticRelationOverlay||{},metrics=[['files',model.snapshot.sourceFileCount],['facts',model.snapshot.factCount],['syntax relations',model.snapshot.relationCount],['resolved relations',overlay.resolvedRelationCount||0],['cross-module',overlay.resolvedCrossModuleRelationCount||0],['work items',model.workflow.workItems.length]];
       document.getElementById('metrics').innerHTML=metrics.map(([label,value])=>`<div class="metric"><strong>${Number(value).toLocaleString()}</strong><span>${safe(label)}</span></div>`).join('');
-      const works=model.workflow.workItems;document.getElementById('workList').innerHTML=works.length?works.map(work=>`<button class="work-card ${work.mappingStatus==='unmapped'?'unmapped':''}" data-work="${safe(work.id)}"><span class="state">${safe(work.status)} / ${safe(work.mappingStatus)}</span><strong>${safe(work.title)}</strong><small>${safe(work.request)}</small></button>`).join(''):'<div class="empty">No work request has been recorded. Use the project workspace command to add one.</div>';document.querySelectorAll('[data-work]').forEach(button=>button.addEventListener('click',()=>focusWork(button.dataset.work)));
-      const stages=model.workflow.workStageTimeline||[];document.getElementById('stageList').innerHTML=stages.length?stages.map(stage=>{const delta=`+${stage.addedNodeIds.length} nodes / ${stage.changedNodeIds.length} changed / ${stage.codeDiffs.length} diffs`;return `<button class="stage-card" data-stage="${safe(stage.id)}"><span class="stage-meta"><span>${safe(stage.workItemId)}</span><span>${safe(stage.sequence)} / ${safe(stage.status)}</span></span><strong>${safe(stage.title)}</strong><small class="stage-delta">${safe(delta)}</small></button>`;}).join(''):'<div class="empty">No recorded work stages are available.</div>';document.querySelectorAll('[data-stage]').forEach(button=>button.addEventListener('click',()=>focusStage(button.dataset.stage)));
+      renderWorkHistory();
       const c=model.changeReview;document.getElementById('changePanel').innerHTML=`<div class="state-line"><strong>${safe(c.status)}</strong><br>${safe(c.summary)}<br><small>${safe(c.reason)}</small></div>`;const deltas=model.workflow.proposalDeltas||[];document.getElementById('deltaList').innerHTML=deltas.length?deltas.map(delta=>`<button class="delta-step" data-delta="${safe(delta.targetNodeId)}">${safe(delta.kind)}: ${safe(delta.label)}</button>`).join(''):'<div class="empty">No graph delta is recorded.</div>';document.querySelectorAll('[data-delta]').forEach(button=>button.addEventListener('click',()=>focusDelta(button.dataset.delta)));
       const receipts=model.workflow.reviewReceipts||[];document.getElementById('evidencePanel').innerHTML=`<div class="state-line">${model.workflow.verification.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br>${model.workflow.evidence.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br><strong>Review receipts:</strong> ${receipts.length?receipts.map(item=>safe(item.status)).join(', '):'none recorded'}</div>`;document.getElementById('authorityPanel').innerHTML=`<div class="state-line"><strong>read-only boundary</strong><br>Target edits: ${safe(model.authority.targetRepositoryMutation)}<br>Automatic application: ${safe(model.authority.automaticCodeApplication)}<br>History records: ${model.workflow.history.length}</div>`;
       document.getElementById('boundaryPanel').innerHTML='<strong>This page is a project-state projection.</strong><br>It can show recorded requests, candidate mappings, review-required proposals, graph delta, code diff, non-executing review receipts, verification, evidence, authority, history, syntax facts, and bounded local-symbol relations. It does not build, restore, launch, apply changes, execute verification, collect runtime evidence, or approve work.';
     }
     function resize(){document.querySelectorAll('.resizer').forEach(handle=>handle.addEventListener('pointerdown',event=>{event.preventDefault();handle.classList.add('active');const side=handle.dataset.side,start=event.clientX,variable=side==='left'?'--left':'--right',initial=parseInt(getComputedStyle(document.documentElement).getPropertyValue(variable));const move=e=>{const delta=e.clientX-start;const next=side==='left'?initial+delta:initial-delta;document.documentElement.style.setProperty(variable,`${Math.max(230,Math.min(560,next))}px`);if(!state.resizeQueued){state.resizeQueued=true;window.requestAnimationFrame(()=>{state.resizeQueued=false;state.cy?.resize();});}};const up=()=>{handle.classList.remove('active');window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);state.cy?.resize();};window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);}));}
-    window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},workItems:()=>model.workflow.workItems.slice(),reviewReceiptPairs:()=>{const recorded=new Set((model.workflow.reviewReceipts||[]).map(receipt=>receipt.proposalId+'|'+receipt.verificationRequirementId+'|'+receipt.evidenceRequirementId));return (model.workflow.changeProposals||[]).flatMap(proposal=>(proposal.verificationRequirements||[]).flatMap(verification=>(proposal.evidenceRequirements||[]).map(evidence=>({key:proposal.id+'|'+verification.id+'|'+evidence.id,proposalId:proposal.id,proposalTitle:proposal.title,verificationRequirementId:verification.id,evidenceRequirementId:evidence.id,verificationKind:verification.kind,evidenceKind:evidence.kind})))).filter(pair=>!recorded.has(pair.key));},metrics:()=>({graphInstanceCount:state.graphInstanceCount,visibilityUpdates:state.visibilityUpdates,visibleNodeCount:state.visibleNodeIds?.size||0,visibleEdgeCount:state.visibleEdgeIds?.size||0,totalNodeCount:allNodes.length,totalEdgeCount:allEdges.length,zoom:state.cy?.zoom()||null,zoomStyleBand:state.viewportScale||null})};
-    document.getElementById('zoomIn').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()*1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('zoomOut').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()/1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('fitGraph').addEventListener('click',()=>{const graph=visibleGraphData(),semanticFocus=state.mode==='overview'&&!filters().search&&!filters().category&&!filters().relation?model.graph.views.overview.nodeIds.map(id=>nodeById.get(id)).filter(Boolean):graph.nodes;fitNodes(semanticFocus);});init();staticPanels();renderGraph({fit:true});renderSelection();resize();window.dispatchEvent(new Event('intentgraph-ready'));
+    window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},workItems:()=>workItems.slice(),workStages:()=>workStages.slice(),selectedWork:()=>state.selectedWorkId,selectedStage:()=>state.stageFocus?.id||null,selectWork:focusWork,selectStage:focusStage,previousWork:()=>moveWork(-1),nextWork:()=>moveWork(1),previousStage:()=>moveStage(-1),nextStage:()=>moveStage(1),reviewReceiptPairs:()=>{const recorded=new Set((model.workflow.reviewReceipts||[]).map(receipt=>receipt.proposalId+'|'+receipt.verificationRequirementId+'|'+receipt.evidenceRequirementId));return (model.workflow.changeProposals||[]).flatMap(proposal=>(proposal.verificationRequirements||[]).flatMap(verification=>(proposal.evidenceRequirements||[]).map(evidence=>({key:proposal.id+'|'+verification.id+'|'+evidence.id,proposalId:proposal.id,proposalTitle:proposal.title,verificationRequirementId:verification.id,evidenceRequirementId:evidence.id,verificationKind:verification.kind,evidenceKind:evidence.kind})))).filter(pair=>!recorded.has(pair.key));},metrics:()=>({graphInstanceCount:state.graphInstanceCount,visibilityUpdates:state.visibilityUpdates,visibleNodeCount:state.visibleNodeIds?.size||0,visibleEdgeCount:state.visibleEdgeIds?.size||0,totalNodeCount:allNodes.length,totalEdgeCount:allEdges.length,zoom:state.cy?.zoom()||null,zoomStyleBand:state.viewportScale||null})};
+    document.getElementById('previousWork').addEventListener('click',()=>moveWork(-1));document.getElementById('nextWork').addEventListener('click',()=>moveWork(1));document.getElementById('previousStage').addEventListener('click',()=>moveStage(-1));document.getElementById('nextStage').addEventListener('click',()=>moveStage(1));document.getElementById('zoomIn').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()*1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('zoomOut').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()/1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('fitGraph').addEventListener('click',()=>{const graph=visibleGraphData(),semanticFocus=state.mode==='overview'&&!filters().search&&!filters().category&&!filters().relation?model.graph.views.overview.nodeIds.map(id=>nodeById.get(id)).filter(Boolean):graph.nodes;fitNodes(semanticFocus);});init();staticPanels();renderGraph({fit:true});renderSelection();resize();window.dispatchEvent(new Event('intentgraph-ready'));
     }
     const embeddedProjection=JSON.parse(document.getElementById('workbench-data').textContent);
     if(embeddedProjection&&embeddedProjection.deferred===true&&typeof window.__intentGraphLoadProjection==='function'){
@@ -2323,6 +2608,27 @@ SERVER_UI_EXTENSION = r'''<style>
 <dialog id="importReceiptDialog" class="new-work-dialog proposal-dialog"><form id="importReceiptForm" class="new-work-form" method="dialog"><h2>Import a non-executing review receipt</h2><p>Paste one deterministic receipt for a proposal verification/evidence requirement pair. It records what was reviewed as pass, fail, or blocked. It does not run verification, collect runtime evidence, apply a graph delta, approve the proposal, or edit C# source.</p><label for="receiptDocument">Review receipt JSON</label><textarea id="receiptDocument" class="proposal-input" name="receiptDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-review-receipt document."></textarea><div id="importReceiptMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportReceipt" type="button">Cancel</button><button type="submit">Validate and record receipt</button></div></form></dialog>
 <script>
   (() => { const dialog=document.getElementById('newWorkDialog'), trigger=document.getElementById('newWorkTrigger'), form=document.getElementById('newWorkForm'), workId=document.getElementById('newWorkId'), title=document.getElementById('newWorkTitle'), request=document.getElementById('newWorkRequest'), message=document.getElementById('newWorkMessage'); trigger.addEventListener('click',()=>dialog.showModal()); document.getElementById('cancelNewWork').addEventListener('click',()=>dialog.close()); form.addEventListener('submit',async event=>{event.preventDefault();message.textContent='Recording request...';const body={workId:workId.value.trim(),title:title.value.trim(),request:request.value.trim()};try{const response=await fetch('/api/work-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const result=await response.json();if(!response.ok){throw new Error(result.error||'Request could not be recorded.');}message.textContent='Recorded. Reloading workbench...';window.setTimeout(()=>window.location.reload(),250);}catch(error){message.textContent=error.message||'Request could not be recorded.';}}); })();
+</script>
+<script>
+  (() => {
+    let projectStateVersion=null;
+    async function loadRevisionHead(){
+      const response=await fetch('/api/revision-head',{cache:'no-store'});
+      if(!response.ok)throw new Error('revision head request failed');
+      return response.json();
+    }
+    async function checkForProjectUpdate(){
+      if(document.visibilityState==='hidden')return;
+      try {
+        const head=await loadRevisionHead();
+        if(projectStateVersion===null){projectStateVersion=head.projectStateVersion;return;}
+        if(head.projectStateVersion!==projectStateVersion)window.location.reload();
+      } catch (_error) {
+        // The next interval retries; a transient local read must not disturb review.
+      }
+    }
+    window.addEventListener('intentgraph-ready',()=>{checkForProjectUpdate();window.setInterval(checkForProjectUpdate,2000);});
+  })();
 </script>
 <script>
   (() => {
@@ -2484,12 +2790,15 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not isinstance(workflow, dict) or not isinstance(workflow.get("reviewReceipts"), list) or not isinstance(workflow.get("workStageTimeline"), list):
         errors.append("project workbench review receipt state is invalid")
     else:
-        required_stage_fields = {"id", "workItemId", "sequence", "kind", "title", "summary", "status", "recordIds", "nodeIds", "addedNodeIds", "changedNodeIds", "contextNodeIds", "edgeIds", "addedEdgeIds", "changedEdgeIds", "codeDiffs", "verificationRecordIds", "evidenceRecordIds", "revisionKind"}
+        required_stage_fields = {"id", "workItemId", "sequence", "kind", "title", "summary", "status", "recordIds", "nodeIds", "addedNodeIds", "changedNodeIds", "contextNodeIds", "edgeIds", "addedEdgeIds", "changedEdgeIds", "codeDiffs", "verificationRecordIds", "evidenceRecordIds", "revisionKind", "revisionIds", "durableRevision", "beforeProjectStateDigest", "afterProjectStateDigest"}
         work_ids = {item["id"] for item in workflow.get("workItems", []) if isinstance(item, dict) and isinstance(item.get("id"), str)}
         stage_ids = set()
         for stage in workflow["workStageTimeline"]:
             if not isinstance(stage, dict) or set(stage) != required_stage_fields or stage["id"] in stage_ids or stage["workItemId"] not in work_ids or not isinstance(stage["sequence"], int) or stage["sequence"] < 1:
                 errors.append("project workbench work stage timeline is invalid")
+                break
+            if stage["durableRevision"] != bool(stage["revisionIds"]) or (stage["durableRevision"] and (not sha256_value(stage["beforeProjectStateDigest"]) or not sha256_value(stage["afterProjectStateDigest"]))):
+                errors.append("project workbench durable work stage revision is invalid")
                 break
             stage_ids.add(stage["id"])
     graph = projection.get("graph")
@@ -2524,7 +2833,7 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not isinstance(default_view, dict) or default_view.get("id") != "all" or default_view.get("rendering") != "full-graph-progressive-detail" or default_view.get("layout") != "deterministic-relation-aware-community-preset" or default_view.get("physicsLayoutOnLoad") is not False:
         errors.append("project workbench full graph rendering contract is invalid")
     ui_contract = projection.get("uiContract")
-    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "viewportScaleCompensation", "relationAwareCommunityLayout", "zoomStyleBuckets", "supportingNodeLabelsOnDemand", "workStageTimeline", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi", "loopbackGuidedReviewProposalFromUi", "loopbackReviewReceiptIntakeFromUi", "loopbackGuidedReviewReceiptFromUi")) or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
+    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "viewportScaleCompensation", "relationAwareCommunityLayout", "zoomStyleBuckets", "supportingNodeLabelsOnDemand", "workStageTimeline", "durableWorkStageRevisions", "allRecordedWorkItemsNavigable", "previousNextWorkNavigation", "previousNextStageNavigation", "liveProjectionRefreshAfterMutation", "staticRevisionSnapshotImmutable", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi", "loopbackGuidedReviewProposalFromUi", "loopbackReviewReceiptIntakeFromUi", "loopbackGuidedReviewReceiptFromUi")) or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
         errors.append("project workbench progressive full graph UI contract is invalid")
     try:
         assert_no_unsafe_state(projection)
@@ -2546,7 +2855,7 @@ def validate_output(output: Path, project_workspace: Path, expected_projection: 
         errors.append("projection does not match deterministic project workspace input")
     errors.extend(validate_projection(projection))
     html = paths["index"].read_text(encoding="utf-8")
-    for marker in ["id=\"projectGraph\"", "id=\"workList\"", "id=\"stageList\"", "id=\"selectionInspector\"", "id=\"changePanel\"", "id=\"deltaList\"", "id=\"evidencePanel\"", "id=\"authorityPanel\"", "id=\"zoomIn\"", "id=\"zoomOut\"", "assets/cytoscape.min.js"]:
+    for marker in ["id=\"projectGraph\"", "id=\"modeBadge\"", "id=\"workList\"", "id=\"previousWork\"", "id=\"nextWork\"", "id=\"workPosition\"", "id=\"stageList\"", "id=\"previousStage\"", "id=\"nextStage\"", "id=\"stagePosition\"", "id=\"selectionInspector\"", "id=\"changePanel\"", "id=\"deltaList\"", "id=\"evidencePanel\"", "id=\"authorityPanel\"", "id=\"zoomIn\"", "id=\"zoomOut\"", "assets/cytoscape.min.js"]:
         if marker not in html:
             errors.append(f"HTML marker missing: {marker}")
     for forbidden in ["http://", "https://", "fetch(", "sourceText", "targetSyntax", "applyProposal", "approveProposal"]:

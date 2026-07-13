@@ -4016,6 +4016,17 @@ history boundary must persist independent before/after graph snapshots at each s
 See [P9.24 Work Stage Timeline](../product/igd-work-stage-timeline-p9.24.md) and
 [P9.24 Review](../reviews/p9.24-work-stage-timeline-review.md).
 
+## Implemented Slice: P9.25 Durable Work History Navigation
+
+P9.25 makes one request one durable work history. A single Workbench retains every
+recorded work item, provides previous/next work and stage navigation, and focuses the
+unified graph on each stage's additions, changes, relations, code diffs, verification,
+evidence, and authority. New lifecycle writes carry before/after work-history digests;
+legacy records remain explicitly derived. The live loopback page reloads when its
+small revision head changes, while static HTML remains an immutable review snapshot.
+See [P9.25 Durable Work History Navigation](../product/igd-durable-work-history-navigation-p9.25.md)
+and [P9.25 Review](../reviews/p9.25-durable-work-history-navigation-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).
