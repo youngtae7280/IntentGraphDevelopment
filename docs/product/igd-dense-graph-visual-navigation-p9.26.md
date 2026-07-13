@@ -11,19 +11,22 @@ authority records.
   zoom, search, selection, work navigation, and stage navigation
 - full-graph fit uses a compact module radius and reduced outer padding so the graph
   occupies the available canvas without overlapping communities
-- zoom supports nine progressive visual bands from `far` through `micro`, with a
-  maximum zoom of `100`
+- zoom supports eleven progressive visual bands from `far` through `atomic`, with a
+  maximum zoom of `240` and a visible zoom readout
 - semantic nodes remain legible in the overview while code nodes grow progressively
   in `close`, `deep`, and `inspect` bands
 - node body, border, label, glow padding, and relation width are compensated only
   when a zoom-band boundary is crossed
-- semantic nodes use a dark chromatic core, shared rasterized refraction texture,
-  luminous category border, and restrained outer ring; the texture combines an
-  asymmetric highlight, caustic line, inner rim, vignette, and deterministic grain
+- semantic and capsule nodes use a low-opacity spectral-obsidian core, thin luminous
+  category rim, restrained outer emission, and geometric silhouettes without the
+  former glossy texture; this keeps them technical rather than toy-like
 - ordinary code facts stay texture-free for scale; file landmarks alone reuse the
   shared texture, while code kind is communicated with stable geometry
-- edge and selection-emphasis widths use the same band compensation, so a selected
-  edge remains bounded at maximum zoom
+- edge and selection-emphasis widths use screen-pixel compensation, so a selected
+  edge remains at `0.95` rendered pixels while zooming and the previous relation is
+  restored to its ordinary width when selection changes
+- zoom buttons stay anchored to the selected graph element or project node, avoiding
+  an empty viewport during deep inspection
 - labels remain on demand for ordinary code facts so deep zoom does not turn into a
   wall of text
 - zoom-band restyling waits for a 350 ms interaction-settle boundary, so rapid wheel

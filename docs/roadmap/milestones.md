@@ -4443,10 +4443,10 @@ Delivered boundary:
 
 - compact deterministic module placement and reduced fit padding use more of the
   available graph canvas
-- nine compensated zoom bands and `maxZoom: 100` preserve overview readability while
-  making individual code facts inspectable at deep zoom
-- semantic nodes use a restrained material/neon treatment; ordinary code facts avoid
-  expensive per-node glow
+- eleven compensated zoom bands and `maxZoom: 240` preserve overview readability
+  while making individual code facts inspectable at deep zoom
+- semantic nodes use a restrained spectral-obsidian rim treatment without glossy
+  body texture; ordinary code facts avoid expensive per-node glow
 - work history has search, status filters, and a 60-card DOM window while retaining
   navigation over all recorded work
 - `code` remains a category and `method` remains a kind on the same code-fact node
@@ -4454,7 +4454,8 @@ Delivered boundary:
 Verification:
 
 - WindowsUtility browser QA covers 8,179 nodes, 7,978 relations, 0.388 initial zoom,
-  100 deep zoom, search, status filters, and the `micro` band
+  240 deep zoom, search, status filters, the `atomic` band, and 0.95-pixel selected
+  relation emphasis
 - 21-probe server smoke, static emission/validation, Python compilation, and inline
   JavaScript parsing pass
 

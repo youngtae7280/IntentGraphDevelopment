@@ -4030,11 +4030,13 @@ and [P9.25 Review](../reviews/p9.25-durable-work-history-navigation-review.md).
 ## Implemented Slice: P9.26 Dense Graph Visual Navigation
 
 P9.26 keeps the same complete unified graph while tightening deterministic community
-placement, reducing fit padding, raising the zoom ceiling to 100, and scaling code
-facts and relation emphasis through nine visual detail bands. Semantic and capsule
-nodes gain a restrained reflected dark-core material treatment; code facts receive
-kind-specific geometry without per-node texture or glow, while file landmarks reuse
-one shared material texture. Work history adds search, status
+placement, reducing fit padding, raising the zoom ceiling to 240, and scaling code
+facts and relation emphasis through eleven visual detail bands. Semantic and capsule
+nodes use a restrained spectral-obsidian edge treatment without glossy body texture;
+code facts receive kind-specific geometry without per-node texture or glow, while
+file landmarks reuse one shared material texture. Selected relations remain at 0.95
+rendered pixels through deep zoom and previous selections return to ordinary width.
+Work history adds search, status
 filters, and a 60-card DOM window without
 dropping recorded work from navigation. See
 [P9.26 Dense Graph Visual Navigation](../product/igd-dense-graph-visual-navigation-p9.26.md)
