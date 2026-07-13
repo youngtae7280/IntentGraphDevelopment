@@ -3786,6 +3786,28 @@ Recommended next slice:
 P9.5 Project Profile Authoring and Language Expansion Gate - Plan Only
 ```
 
+## Completed Slice: P9.5 Project Profile Authoring and Language Expansion Gate
+
+Goal: select a safe second source-shape feasibility probe before adding a language profile.
+
+Result:
+
+```text
+Decision: select-a-readonly-windowsutility-csharp-syntax-only-feasibility-probe.
+```
+
+Produced artifacts:
+
+- `docs/product/igd-profile-authoring-p9.5.md`
+- `generated/roadmap/p9.5-project-profile-language-expansion-gate-report.json`
+- [P9.5 Project Profile Authoring and Language Expansion Gate Review](../reviews/p9.5-project-profile-language-expansion-gate-review.md)
+
+Recommended next slice:
+
+```text
+P9.6 WindowsUtility C# Syntax-Only Feasibility Probe
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

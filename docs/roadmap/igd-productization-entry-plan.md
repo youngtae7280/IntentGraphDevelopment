@@ -1,6 +1,6 @@
 # IntentGraphDevelopment Productization Entry Plan
 
-Status: P9.0 plan, P9.1 bounded implementation, P9.2 logical source identity, P9.3 external intake planning, and P9.4 bounded import completed; P9.5 language/profile expansion planning is next.
+Status: P9.0 plan, P9.1 bounded implementation, P9.2 logical source identity, P9.3 external intake planning, P9.4 bounded import, and P9.5 C# profile planning completed; P9.6 feasibility implementation is next.
 
 ## Purpose
 
@@ -119,3 +119,9 @@ The next slice is `P9.4 B1-Equivalent External Source Snapshot Import`.
 P9.4 snapshots an external B1-equivalent source copy into a new workspace. It records only profile and source-digest evidence, not the external absolute path, and proves that the external tree stays unchanged through import and review. It remains a single-profile safety proof, not generic project support.
 
 The next slice is `P9.5 Project Profile Authoring and Language Expansion Gate - Plan Only`.
+
+## P9.5 Result
+
+P9.5 selects WindowsUtility's `src` tree as the second profile-shape feasibility target. The selected adapter is a Roslyn syntax-only probe: no MSBuild workspace, project evaluation, build, restore, semantic binding, or target mutation. It is not yet a reusable or packaged C# profile.
+
+The next slice is `P9.6 WindowsUtility C# Syntax-Only Feasibility Probe`.

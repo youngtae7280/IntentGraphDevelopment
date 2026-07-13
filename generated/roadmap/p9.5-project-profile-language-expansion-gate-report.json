@@ -1,0 +1,57 @@
+{
+  "artifactRole": "intentgraph-project-profile-language-expansion-gate-report",
+  "status": "intentgraph-project-profile-language-expansion-gate-planned",
+  "scope": "p9.5-plan-only-windowsutility-csharp-syntax-profile",
+  "decision": "select-a-readonly-windowsutility-csharp-syntax-only-feasibility-probe",
+  "targetEvidence": {
+    "target": "WindowsUtility",
+    "targetRevision": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "targetCleanAligned": true,
+    "sourceRoot": "src",
+    "managedSourceFileCountExcludingBinObj": 206,
+    "projectCount": 17
+  },
+  "p9_6": {
+    "extractorAdapter": "roslyn-syntax-only",
+    "semanticResolution": false,
+    "sourceBuildAllowed": false,
+    "networkRequired": false,
+    "targetRepositoryMutation": false,
+    "supportedFactKinds": [
+      "file",
+      "namespace",
+      "type",
+      "interface",
+      "enum",
+      "method",
+      "constructor",
+      "property",
+      "field",
+      "using",
+      "invocation"
+    ],
+    "supportedRelationKinds": [
+      "contains",
+      "imports",
+      "inherits",
+      "implements",
+      "invokes-syntax"
+    ]
+  },
+  "buildBorrowIntegrate": {
+    "selected": "roslyn-syntax-only-local-feasibility-probe",
+    "reason": "C# syntax requires a compiler-grade parser; P9.6 must avoid MSBuild/project evaluation and package decisions.",
+    "packagedDependencyDecision": "deferred-to-p9.7"
+  },
+  "authority": {
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "hookInstallationAllowed": false,
+    "releasePublishingAllowed": false,
+    "igdProductizationClaimed": false
+  },
+  "nextSlice": "P9.6 WindowsUtility CSharp Syntax-Only Feasibility Probe"
+}

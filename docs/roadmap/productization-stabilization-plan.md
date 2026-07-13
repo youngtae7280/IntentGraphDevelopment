@@ -16,6 +16,8 @@ IntentGraph is not ready for productization. The current evidence proves a seman
 
 > **P9.4 external intake proof:** an external B1-equivalent source copy now imports into a new workspace with an absolute-path-free receipt and unchanged external source digest. Profile authoring and language expansion remain gated.
 
+> **P9.5 language gate:** WindowsUtility C# is selected only for a Roslyn syntax-only, read-only feasibility probe. A reusable C# profile, semantic binding, dependency packaging, and target mutation remain gated.
+
 ## Non-Negotiable Boundary
 
 Productization must remain blocked until real-project adoption evidence exists.

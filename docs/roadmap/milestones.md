@@ -3992,6 +3992,29 @@ Next safe work:
 
 - continue to `P9.5 Project Profile Authoring and Language Expansion Gate - Plan Only`.
 
+## P9.5: Project Profile Authoring and Language Expansion Gate
+
+Goal: choose a second source shape and compiler-grade parser boundary without claiming broad language support.
+
+Status: completed on 2026-07-13. See [P9.5 Project Profile Authoring and Language Expansion Gate Review](../reviews/p9.5-project-profile-language-expansion-gate-review.md).
+
+Decision:
+
+- select WindowsUtility `src` as the second profile-shape feasibility target.
+- select a Roslyn C# syntax-only local probe, with no MSBuild workspace, build, restore, semantic binding, or target mutation.
+- P9.6 may extract syntax-provenance facts only in a disposable read-only context.
+- no reusable C# profile, dependency package, network, provider, credential, hook, source mutation, hardware action, release, or productization authority was added.
+
+Produced artifacts:
+
+- `docs/product/igd-profile-authoring-p9.5.md`
+- `generated/roadmap/p9.5-project-profile-language-expansion-gate-report.json`
+- [P9.5 Project Profile Authoring and Language Expansion Gate Review](../reviews/p9.5-project-profile-language-expansion-gate-review.md)
+
+Next safe work:
+
+- continue to `P9.6 WindowsUtility C# Syntax-Only Feasibility Probe`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.
