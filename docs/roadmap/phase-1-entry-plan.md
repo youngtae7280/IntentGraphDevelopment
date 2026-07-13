@@ -4053,6 +4053,17 @@ proposal stage and per-code-node diff. See
 [P9.27 Diff-Backed Guided Proposals](../product/igd-diff-backed-guided-proposals-p9.27.md)
 and [P9.27 Review](../reviews/p9.27-diff-backed-guided-proposals-review.md).
 
+## Implemented Slice: P9.28 Precision Deep Zoom and Graph Material
+
+P9.28 keeps the complete unified graph and changes only its rendering contract. The
+Workbench supports a direct selection-anchored 100x precision lens, holds selected
+relations at 0.42 rendered pixels, compensates node/state geometry in screen space,
+and refreshes only nearby precision elements after pan. A shared desaturated
+spectral-obsidian material replaces the saturated plastic treatment while ordinary
+code facts remain cheap to render. See
+[P9.28 Precision Deep Zoom and Graph Material](../product/igd-precision-deep-zoom-material-p9.28.md)
+and [P9.28 Review](../reviews/p9.28-precision-deep-zoom-material-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).

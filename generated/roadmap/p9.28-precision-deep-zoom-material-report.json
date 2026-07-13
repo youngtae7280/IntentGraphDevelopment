@@ -1,0 +1,43 @@
+{
+  "artifactRole": "intentgraph-p9.28-precision-deep-zoom-material-report",
+  "status": "intentgraph-p9.28-precision-deep-zoom-material-pass",
+  "scope": "p9.28-workbench-rendering-only",
+  "result": "pass",
+  "renderingContract": {
+    "maximumZoom": 100,
+    "direct100xCommand": true,
+    "selectedEdgeRenderedWidthPixels": 0.42,
+    "neighborEdgeRenderedWidthPixels": 0.27,
+    "precisionViewportStyling": true,
+    "precisionPanRefresh": true,
+    "precisionUnderlayDisabled": true,
+    "sharedSpectralObsidianTexture": true,
+    "graphStructureChanged": false
+  },
+  "browserVerification": {
+    "codeRelationSelected": true,
+    "zoomReached": 100,
+    "selectedEdgeRenderedWidthPixels": 0.42,
+    "sourceNodeRenderedWidthPixels": 15.2,
+    "targetNodeRenderedWidthPixels": 15.2,
+    "sourceBorderRenderedWidthPixels": 0.2,
+    "directZoomElapsedMilliseconds": 1508,
+    "oversizedHighLevelUnderlayObserved": false
+  },
+  "verification": {
+    "staticWorkbenchValidation": "pass",
+    "loopbackServerProbeCount": 21,
+    "loopbackServerResult": "pass",
+    "browserVisualInspection": "pass"
+  },
+  "authority": {
+    "graphMutationApplied": false,
+    "sourceMutation": false,
+    "snapshotWorkspaceMutation": false,
+    "targetRepositoryMutation": false,
+    "verificationExecution": false,
+    "evidenceExecution": false,
+    "automaticCodeApplication": false,
+    "approvalAutomation": false
+  }
+}

@@ -4492,6 +4492,35 @@ Next product work:
 - add typed verifier-result intake and bind deterministic build/test/runtime evidence to
   proposal requirements without treating review notes as execution evidence
 
+## P9.28: Precision Deep Zoom and Graph Material
+
+Goal: make the existing unified graph readable through a supported 100x inspection
+lens without oversized relation emphasis, node state effects, or full-graph zoom work.
+
+Status: implementation, static validation, server regression, and browser visual
+validation completed on 2026-07-13. See
+[P9.28 Precision Deep Zoom and Graph Material Review](../reviews/p9.28-precision-deep-zoom-material-review.md).
+
+Delivered boundary:
+
+- direct 100x zoom anchored to selection, with 100x as the supported maximum
+- selected relations remain 0.42 rendered pixels and endpoint nodes remain bounded
+- high-zoom borders, labels, outlines, and state styles are screen-space compensated
+- precision underlays are disabled and pan refresh touches only the nearby graph
+- semantic and structural landmarks use one shared desaturated obsidian material
+- graph nodes, relations, source facts, workflow records, and authority remain unchanged
+
+Verification:
+
+- static Workbench emission/validation and 21 loopback server probes pass
+- browser QA measures a real C# code relation at 0.420 pixels and its endpoints at
+  15.2 pixels at 100x
+- the one-command 100x transition settles in approximately 1.5 seconds
+
+Next product work:
+
+- add typed verifier-result intake and deterministic evidence binding
+
 ## P9.20: Local Review Receipt Intake
 
 Goal: make a review-only proposal's verification/evidence requirements actionable as typed local review records without claiming that execution evidence, source application, or approval occurred.

@@ -20,6 +20,8 @@ P9.17 supersedes the P9.15 semantic-only default: the WindowsUtility Workbench n
 
 P9.27 closes the JSON-only code-change gap in the normal Workbench path. A user can select mapped code facts, enter hunk-only unified diffs, and record a snapshot-checked, non-applied proposal whose graph delta and code diffs are immediately inspectable. The target repository remains unchanged; typed verification-result intake, application authority, distribution, and broader product hardening remain open.
 
+P9.28 hardens the same unified graph for visual inspection: a direct 100x precision lens keeps selected relations at 0.42 rendered pixels, bounds nodes and borders in screen space, refreshes only the nearby graph after pan, and replaces saturated plastic surfaces with a shared dark spectral-obsidian material. This is a rendering-only change; graph structure and source state are unchanged.
+
 ## Working Definition
 
 IntentGraph is not just a code graph. It is an overlay graph over an existing codebase that can contain:
