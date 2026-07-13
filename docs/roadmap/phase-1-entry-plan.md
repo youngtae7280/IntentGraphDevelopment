@@ -3530,6 +3530,27 @@ Recommended next slice:
 Wait for exact packaged UI screenshot capture authorization response.
 ```
 
+## Completed Slice: P8.119 Packaged UI Screenshot Authorization Response Record
+
+Goal: record the exact accepted response for sandboxed packaged UI screenshot capture.
+
+Result:
+
+```text
+Decision: exact-packaged-ui-screenshot-authorization-recorded.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.119-packaged-ui-screenshot-authorization-response-record.json`
+- [P8.119 Packaged UI Screenshot Authorization Response Record](../reviews/p8.119-packaged-ui-screenshot-authorization-response-record.md)
+
+Recommended next slice:
+
+```text
+P8.120 Packaged UI Screenshot Capture Verification
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

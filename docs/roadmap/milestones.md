@@ -3724,6 +3724,28 @@ Next safe work:
 
 - wait for exact packaged UI screenshot capture authorization response.
 
+## P8.119: Packaged UI Screenshot Authorization Response Record
+
+Goal: record the Coordinator's exact accepted response for sandboxed packaged UI screenshot capture.
+
+Status: completed on 2026-07-13. See [P8.119 Packaged UI Screenshot Authorization Response Record](../reviews/p8.119-packaged-ui-screenshot-authorization-response-record.md).
+
+Decision:
+
+- exact packaged UI screenshot authorization was recorded.
+- the next verifier run may use `accept-sandboxed-packaged-ui-screenshot-capture`.
+- the authorization is limited to sandboxed packaged UI screenshot capture.
+- no packaged executable launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed by this record.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.119-packaged-ui-screenshot-authorization-response-record.json`
+- [P8.119 Packaged UI Screenshot Authorization Response Record](../reviews/p8.119-packaged-ui-screenshot-authorization-response-record.md)
+
+Next safe work:
+
+- continue to `P8.120 Packaged UI Screenshot Capture Verification`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.
