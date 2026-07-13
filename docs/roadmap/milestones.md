@@ -4149,7 +4149,30 @@ Produced artifacts:
 
 Next safe work:
 
-- continue to `P9.11 Experimental C# Fact Workspace Scope Review - Plan Only`.
+- continue to `P9.12 Experimental C# Fact-Only Workbench`.
+
+## P9.11: Experimental C# Fact Workspace Scope Review
+
+Goal: determine whether a C# fact-only workspace can have a local HTML inspection surface without misrepresenting absent mappings, proposals, deltas, diffs, evidence, or authority.
+
+Status: completed on 2026-07-13. See [P9.11 Experimental C# Fact Workspace Scope Review](../reviews/p9.11-experimental-csharp-fact-workspace-scope-review.md).
+
+Decision:
+
+- P9.12 may build a separate local fact-only C# workbench from a validated snapshot workspace.
+- the surface must show code facts and syntax relations plus an explicit not-recorded semantic/change state.
+- it must not reuse B1 or approval-workbench contracts that require mapping, proposal, delta, or code-diff data.
+- workbench export must not change the P9.10 source workspace or target project.
+
+Produced artifacts:
+
+- `docs/product/igd-experimental-csharp-fact-workbench-p9.11.md`
+- `generated/roadmap/p9.11-experimental-csharp-fact-workspace-scope-review-report.json`
+- [P9.11 Experimental C# Fact Workspace Scope Review](../reviews/p9.11-experimental-csharp-fact-workspace-scope-review.md)
+
+Next safe work:
+
+- continue to `P9.12 Experimental C# Fact-Only Workbench`.
 
 ## P8.112: Productization Execution Hold After Launch Request
 

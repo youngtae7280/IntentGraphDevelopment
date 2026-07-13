@@ -1021,6 +1021,16 @@ Severity: P0 in P9.10
 
 The workspace must prove external source before/after/copy digest equality for its own intake event and extract facts from the copy only. Fixed source inputs must produce byte-identical workspace artifacts. If a live external source changes between separate runs, each valid workspace may represent its own receipt-bound snapshot; the system must not claim cross-snapshot equality. The workspace must remain fact-only and reject mapping, proposal, semantic-resolution, authority, output-path, or source provenance promotion.
 
+### V431 - Experimental C# Fact Workbench Is Explicitly Incomplete
+
+Severity: P0 in P9.11/P9.12
+
+An experimental C# fact workbench may render only a validated P9.10 snapshot workspace and must preserve its exact profile, logical source identity, source/fact/extraction digests, syntax-only status, and fact-only authority. It must present code facts and syntax relations as inspectable graph elements with valid endpoints and inspector payloads, while keeping source references relative and digest-backed. Source text and external absolute source paths must not persist.
+
+The workbench must explicitly distinguish recorded C# facts from not-recorded Intent mapping, change proposal, graph delta, code diff, verification, evidence, acceptance authority, and semantic history. Missing semantic/change records must never be rendered as successful verification, an empty project intent, resolved call semantics, or an actionable approval. Its HTML must be local-only, include a bundled graph runtime and required graph/search/filter/inspector/status/unavailable-state markers, and contain no network URL, mutation or approval control, source application, authority promotion, or generic C# product claim.
+
+Fixed inputs must yield byte-identical projection and HTML artifacts. Negative probes must reject invalid workspace pairing, stale provenance, malformed facts/relations, unresolved endpoints or inspectors, source/path leakage, semantic/authority promotion, missing unavailable-state metadata, external runtime references, UI mutation/approval controls, and unsafe output paths. Browser evidence must prove a nonblank graph, pan/zoom, node and edge inspection, and visible unavailable code-diff state.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

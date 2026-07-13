@@ -1,6 +1,6 @@
 # IntentGraphDevelopment Productization Entry Plan
 
-Status: P9.0 plan, P9.1 bounded implementation, P9.2 logical source identity, P9.3 external intake planning, P9.4 bounded import, P9.5 C# profile planning, P9.6 C# syntax feasibility, P9.7 dependency/profile reuse planning, P9.8 host-SDK availability preflight, P9.9 C# workspace integration planning, and P9.10 fact-only snapshot workspace implementation completed; P9.11 scope review is next.
+Status: P9.0 plan, P9.1 bounded implementation, P9.2 logical source identity, P9.3 external intake planning, P9.4 bounded import, P9.5 C# profile planning, P9.6 C# syntax feasibility, P9.7 dependency/profile reuse planning, P9.8 host-SDK availability preflight, P9.9 C# workspace integration planning, P9.10 fact-only snapshot workspace implementation, and P9.11 fact-workbench scope review completed; P9.12 fact-only workbench implementation is next.
 
 ## Purpose
 
@@ -124,4 +124,12 @@ The next slice is `P9.5 Project Profile Authoring and Language Expansion Gate - 
 
 P9.5 selects WindowsUtility's `src` tree as the second profile-shape feasibility target. P9.6 then proved a disposable Roslyn syntax-only extraction over 206 C# source files. The target stayed clean and byte-identical; two fact runs matched byte-for-byte; 8,137 provenance-backed facts and 7,931 relations were emitted. Invocation observations remain ambiguous syntax records, not resolved calls. It is not yet a reusable or packaged C# profile.
 
-The next slice is `P9.11 Experimental C# Fact Workspace Scope Review - Plan Only`.
+## P9.10 Result
+
+P9.10 creates a new experimental C# snapshot workspace from an external source tree, extracts syntax-only facts only from that copy, and records path-free intake, extraction, and validation evidence. It does not generate an HTML surface because mapping, proposal, delta, diff, verification, evidence, and acceptance records are absent.
+
+## P9.11 Result
+
+P9.11 authorizes a distinct fact-only workbench rather than reusing B1 or approval-workbench contracts that require semantic mapping and change data. The future HTML surface must show recorded snapshot/fact state and explicitly label higher-level semantic and change records as not recorded.
+
+The next slice is `P9.12 Experimental C# Fact-Only Workbench`.

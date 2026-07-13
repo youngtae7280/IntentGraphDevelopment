@@ -1,0 +1,42 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-fact-workspace-scope-review-report",
+  "status": "intentgraph-experimental-csharp-fact-workspace-scope-review-passed",
+  "scope": "p9.11-experimental-csharp-fact-workspace-scope-review",
+  "decision": "authorize-p9.12-experimental-csharp-fact-only-workbench",
+  "inputs": {
+    "p9_10": "passed-snapshot-first-fact-only-workspace",
+    "csharpFactBoundary": "roslyn-syntax-only-relative-provenance",
+    "b1Workbench": "requires-mapping-and-non-applied-proposal",
+    "p8ApprovalWorkbench": "requires-delta-diff-evidence-authority"
+  },
+  "p9_12": {
+    "command": "intentgraph emit-experimental-csharp-fact-workbench --workspace <workspace> --out <new-output-directory>",
+    "workspaceRole": "intentgraph-experimental-csharp-fact-workspace",
+    "mode": "experimental-csharp-fact-only-workbench",
+    "workspaceMutation": false,
+    "outputs": ["projection.json", "index.html", "manifest.json", "validation-report.json"],
+    "graphNavigation": true,
+    "nodeEdgeInspection": true,
+    "unavailableSemanticStateExplicit": true,
+    "intentMappingCreated": false,
+    "proposalCreated": false,
+    "codeDiffCreated": false,
+    "semanticResolutionClaimed": false,
+    "genericProfileSupportClaimed": false
+  },
+  "authority": {
+    "targetRepositoryMutation": false,
+    "targetBuildExecuted": false,
+    "targetRestoreExecuted": false,
+    "targetLaunchExecuted": false,
+    "externalPackageRestoreExecuted": false,
+    "packageDependencyAdded": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "automaticCodeApplication": false,
+    "approvalAutomation": false,
+    "igdProductizationClaimed": false
+  },
+  "nextSlice": "P9.12 Experimental CSharp Fact-Only Workbench"
+}

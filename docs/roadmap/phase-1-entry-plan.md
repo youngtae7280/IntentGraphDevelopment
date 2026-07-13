@@ -3931,6 +3931,28 @@ Recommended next slice:
 P9.11 Experimental C# Fact Workspace Scope Review - Plan Only
 ```
 
+## Completed Slice: P9.11 Experimental C# Fact Workspace Scope Review
+
+Goal: decide whether a fact-only C# workspace may become locally inspectable without being represented as a complete IntentGraph review state.
+
+Result:
+
+```text
+Decision: authorize-p9.12-experimental-csharp-fact-only-workbench.
+```
+
+Produced artifacts:
+
+- `docs/product/igd-experimental-csharp-fact-workbench-p9.11.md`
+- `generated/roadmap/p9.11-experimental-csharp-fact-workspace-scope-review-report.json`
+- [P9.11 Experimental C# Fact Workspace Scope Review](../reviews/p9.11-experimental-csharp-fact-workspace-scope-review.md)
+
+Recommended next slice:
+
+```text
+P9.12 Experimental C# Fact-Only Workbench
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.
