@@ -3993,6 +3993,10 @@ P9.15 keeps the same graph but changes its default projection to semantic overvi
 
 P9.17 corrects the P9.15 overcorrection. The default local Workbench loads every projected node and edge, positions source communities radially without a browser physics layout, and changes lenses through visibility updates rather than graph reconstruction. It also records declared goals, capabilities, constraints, verification requirements, and document references as a semantic foundation without silently creating Intent Units. See [P9.17 Full-Graph Semantic Foundation Workbench](../product/igd-full-graph-semantic-foundation-workbench-p9.17.md) and [P9.17 Review](../reviews/p9.17-full-graph-semantic-foundation-workbench-review.md).
 
+## Implemented Slice: P9.21 Guided Local Review Proposal Intake
+
+P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

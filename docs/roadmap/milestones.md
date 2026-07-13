@@ -4264,6 +4264,29 @@ Non-goals:
 - no semantic-foundation replacement without a future reviewed boundary
 - no source modification, approval, evidence execution, remote service, or packaged desktop release
 
+## P9.21: Guided Local Review Proposal Intake
+
+Goal: let a user record a bounded review-only proposal from an existing declared work-to-code mapping without hand-authoring a JSON artifact.
+
+Status: implementation and local validation completed on 2026-07-13. See [P9.21 Guided Review Proposals Review](../reviews/p9.21-guided-review-proposals-review.md).
+
+Delivered boundary:
+
+- the loopback Workbench exposes `Draft review proposal` alongside the advanced JSON import route
+- `POST /api/draft-change-proposals` accepts only bounded user-entered review fields, resolves existing local IDs, and records one non-applied proposal with no code diff
+- a guided proposal requires one declared mapping candidate and one still-unproposed work item
+- static exports remain read-only and contain no local proposal client
+
+Verification:
+
+- loopback smoke records request, mapping, guided proposal, and a non-executing receipt in a temporary workspace; it rejects an unknown guided work item and preserves snapshot provenance
+- guided proposal negative probes reject malformed identifiers, unmapped work, unsafe persistence, invalid requirement kinds, blank input, and duplicate active proposals
+- static WindowsUtility workbench generation and validation remain deterministic
+
+Non-goals:
+
+- no AI proposal generation, patch synthesis, source mutation, graph-delta application, build, test, evidence execution, approval, external service, or productization claim
+
 ## P9.19: Local Review Proposal Intake
 
 Goal: let the loopback-only project Workbench record a validated review proposal after a user has recorded a work request and declared code mapping candidate.

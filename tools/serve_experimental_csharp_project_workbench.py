@@ -15,6 +15,7 @@ from emit_experimental_csharp_fact_workbench import CYTOSCAPE_LICENSE_SOURCE, CY
 from experimental_csharp_project import (
     ProjectWorkspaceError,
     add_change_proposal_document,
+    draft_change_proposal_from_mapping,
     add_mapping_candidate,
     add_review_receipt_document,
     add_work_request,
@@ -92,7 +93,7 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
 
         def do_POST(self) -> None:  # noqa: N802 - HTTP handler contract
             path = urlparse(self.path).path
-            if path not in {"/api/work-requests", "/api/mapping-candidates", "/api/change-proposals", "/api/review-receipts"}:
+            if path not in {"/api/work-requests", "/api/mapping-candidates", "/api/change-proposals", "/api/draft-change-proposals", "/api/review-receipts"}:
                 self.error_json(HTTPStatus.NOT_FOUND, "local workbench route does not exist")
                 return
             content_length = self.headers.get("Content-Length")
@@ -127,10 +128,23 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
             elif path == "/api/change-proposals":
                 required_fields = {"proposal"}
                 error_message = "change proposal must contain only one proposal object"
+            elif path == "/api/draft-change-proposals":
+                required_fields = {
+                    "proposalId",
+                    "workId",
+                    "title",
+                    "summary",
+                    "verificationKind",
+                    "verificationSummary",
+                    "evidenceKind",
+                    "evidenceSummary",
+                }
+                error_message = "guided review proposal fields must be strings"
             else:
                 required_fields = {"receipt"}
                 error_message = "review receipt must contain only one receipt object"
-            if set(payload) != required_fields or (path == "/api/change-proposals" and not isinstance(payload.get("proposal"), dict)) or (path == "/api/review-receipts" and not isinstance(payload.get("receipt"), dict)) or (path not in {"/api/change-proposals", "/api/review-receipts"} and any(not isinstance(payload.get(key), str) for key in required_fields)):
+            raw_document_paths = {"/api/change-proposals": "proposal", "/api/review-receipts": "receipt"}
+            if set(payload) != required_fields or (path in raw_document_paths and not isinstance(payload.get(raw_document_paths[path]), dict)) or (path not in raw_document_paths and any(not isinstance(payload.get(key), str) for key in required_fields)):
                 self.error_json(HTTPStatus.BAD_REQUEST, error_message)
                 return
             try:
@@ -141,6 +155,18 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                         result = add_mapping_candidate(workspace, payload["workId"], [payload["codeFactId"]], payload["rationale"])
                     elif path == "/api/change-proposals":
                         result = add_change_proposal_document(workspace, payload["proposal"])
+                    elif path == "/api/draft-change-proposals":
+                        result = draft_change_proposal_from_mapping(
+                            workspace,
+                            proposal_id=payload["proposalId"],
+                            work_id=payload["workId"],
+                            title=payload["title"],
+                            summary=payload["summary"],
+                            verification_kind=payload["verificationKind"],
+                            verification_summary=payload["verificationSummary"],
+                            evidence_kind=payload["evidenceKind"],
+                            evidence_summary=payload["evidenceSummary"],
+                        )
                     else:
                         result = add_review_receipt_document(workspace, payload["receipt"])
                     self.respond(HTTPStatus.CREATED, json_bytes(result), "application/json; charset=utf-8")

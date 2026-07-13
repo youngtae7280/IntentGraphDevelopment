@@ -1,0 +1,85 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-change-proposal-negative-probes-report",
+  "automaticCodeApplication": false,
+  "networkRequired": false,
+  "probeCount": 8,
+  "probes": [
+    {
+      "actualError": "change proposal role, schema version, or scope is invalid",
+      "expectedError": "role, schema version, or scope is invalid",
+      "expectedFailureObserved": true,
+      "id": "wrong-proposal-role"
+    },
+    {
+      "actualError": "change proposal must remain non-applied and review-required",
+      "expectedError": "must remain non-applied and review-required",
+      "expectedFailureObserved": true,
+      "id": "applied-status-claim"
+    },
+    {
+      "actualError": "change proposal changed node references are invalid",
+      "expectedError": "changed node references are invalid",
+      "expectedFailureObserved": true,
+      "id": "unknown-changed-code-fact"
+    },
+    {
+      "actualError": "change proposal code diff provenance does not match its code fact",
+      "expectedError": "provenance does not match",
+      "expectedFailureObserved": true,
+      "id": "stale-code-diff-digest"
+    },
+    {
+      "actualError": "change proposal authority must remain non-applying and non-self-authorizing",
+      "expectedError": "authority must remain non-applying",
+      "expectedFailureObserved": true,
+      "id": "unsafe-proposal-authority"
+    },
+    {
+      "actualError": "change proposal unified diff is invalid",
+      "expectedError": "unified diff is invalid",
+      "expectedFailureObserved": true,
+      "id": "invalid-unified-diff"
+    },
+    {
+      "actualError": "change proposal added edge endpoints or kind are invalid",
+      "expectedError": "added edge endpoints or kind are invalid",
+      "expectedFailureObserved": true,
+      "id": "unresolved-added-edge"
+    },
+    {
+      "actualError": "change proposal verificationRequirements must contain at least one requirement",
+      "expectedError": "verificationRequirements must contain at least one requirement",
+      "expectedFailureObserved": true,
+      "id": "missing-verification-requirements"
+    }
+  ],
+  "projectAuthority": {
+    "approvalAutomation": false,
+    "automaticCodeApplication": false,
+    "automaticIntentMapping": false,
+    "credentialAccessAllowed": false,
+    "graphMutationFromUi": false,
+    "igdProductizationClaimed": false,
+    "networkRequired": false,
+    "projectWorkspaceMutation": true,
+    "providerApiAllowed": false,
+    "snapshotWorkspaceMutation": false,
+    "targetBuildExecuted": false,
+    "targetLaunchExecuted": false,
+    "targetRepositoryMutation": false,
+    "targetRestoreExecuted": false
+  },
+  "proposalAuthority": {
+    "approvalRecorded": false,
+    "automaticCodeApplication": false,
+    "credentialAccessAllowed": false,
+    "graphMutationApplied": false,
+    "networkRequired": false,
+    "selfAuthorized": false,
+    "targetRepositoryMutation": false
+  },
+  "result": "pass",
+  "scope": "p9.14-experimental-csharp-change-proposal",
+  "status": "intentgraph-experimental-csharp-change-proposal-negative-probes-pass",
+  "targetRepositoryMutation": false
+}

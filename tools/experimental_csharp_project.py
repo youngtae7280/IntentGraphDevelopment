@@ -956,7 +956,7 @@ def add_change_proposal_document(project_workspace: Path, proposal: dict[str, An
         {
             "id": f"history.proposal.{proposal['id']}",
             "kind": "non-applied-change-proposal-recorded",
-            "summary": f"Recorded non-applied proposal {proposal['id']} with graph delta and code diff evidence; no source change was applied.",
+            "summary": f"Recorded non-applied proposal {proposal['id']} with graph delta and {len(proposal['codeDiffs'])} code diff record(s); no source change was applied.",
         }
     )
     write_json(project_workspace / PROJECT_FILE, state)
@@ -968,6 +968,118 @@ def add_change_proposal_document(project_workspace: Path, proposal: dict[str, An
         "applicationStatus": PROPOSAL_STATUS,
         "targetRepositoryMutation": False,
         "authority": PROJECT_AUTHORITY,
+    }
+
+
+def draft_change_proposal_from_mapping(
+    project_workspace: Path,
+    *,
+    proposal_id: str,
+    work_id: str,
+    title: str,
+    summary: str,
+    verification_kind: str,
+    verification_summary: str,
+    evidence_kind: str,
+    evidence_summary: str,
+) -> dict[str, Any]:
+    """Build one bounded, non-applied review proposal from a declared mapping.
+
+    The caller supplies the review intent and requirements.  The workspace derives only
+    stable references already recorded in the local project state; it never synthesizes
+    a code patch, applies a graph delta, or changes the inspected source project.
+    """
+
+    draft = {
+        "proposalId": proposal_id,
+        "workId": work_id,
+        "title": title,
+        "summary": summary,
+        "verificationKind": verification_kind,
+        "verificationSummary": verification_summary,
+        "evidenceKind": evidence_kind,
+        "evidenceSummary": evidence_summary,
+    }
+    assert_no_unsafe_state(draft)
+    if any(not isinstance(value, str) or not value.strip() for value in draft.values()):
+        raise ProjectWorkspaceError("guided review proposal fields must be non-blank strings")
+    if any(len(value.encode("utf-8")) > 12000 for value in draft.values()):
+        raise ProjectWorkspaceError("guided review proposal fields exceed the local workspace size limit")
+    safe_id(proposal_id, "guided review proposal id")
+    safe_id(work_id, "guided review proposal work item id")
+    safe_id(verification_kind, "guided review proposal verification kind")
+    safe_id(evidence_kind, "guided review proposal evidence kind")
+
+    project_workspace = project_workspace.resolve()
+    state, _, _, _ = validate_project_workspace(project_workspace)
+    work = next((item for item in state["workItems"] if item["id"] == work_id), None)
+    if work is None:
+        raise ProjectWorkspaceError("guided review proposal work item does not exist")
+    mapping = next((item for item in state["mappings"] if item["workItemId"] == work_id), None)
+    if mapping is None or mapping["status"] != "candidate" or mapping["confidence"] != "declared":
+        raise ProjectWorkspaceError("guided review proposal requires a declared mapping candidate")
+    if work["changeStatus"] != "not-proposed":
+        raise ProjectWorkspaceError("guided review proposal work item already has an active change proposal")
+
+    proposal = {
+        "artifactRole": PROPOSAL_ROLE,
+        "schemaVersion": PROJECT_SCHEMA_VERSION,
+        "scope": PROPOSAL_SCOPE,
+        "id": proposal_id,
+        "workItemId": work_id,
+        "mappingId": mapping["id"],
+        "title": title.strip(),
+        "summary": summary.strip(),
+        "applicationStatus": PROPOSAL_STATUS,
+        "graphDelta": {
+            "addedNodes": [
+                {
+                    "id": f"verification.{proposal_id}",
+                    "category": "verification",
+                    "label": f"{title.strip()} review requirement",
+                    "details": {
+                        "kind": verification_kind,
+                        "result": "required-not-run",
+                        "summary": verification_summary.strip(),
+                        "source": "guided-review-proposal-form",
+                    },
+                }
+            ],
+            "changedNodeIds": sorted(mapping["codeFactIds"]),
+            "addedEdges": [
+                {
+                    "id": f"edge.{proposal_id}.verifies",
+                    "kind": "verifies",
+                    "source": work["intentUnitId"],
+                    "target": f"verification.{proposal_id}",
+                    "details": {"status": "required-not-run", "source": "guided-review-proposal-form"},
+                }
+            ],
+        },
+        "codeDiffs": [],
+        "verificationRequirements": [
+            {
+                "id": f"verification.requirement.{proposal_id}",
+                "kind": verification_kind,
+                "summary": verification_summary.strip(),
+            }
+        ],
+        "evidenceRequirements": [
+            {
+                "id": f"evidence.requirement.{proposal_id}",
+                "kind": evidence_kind,
+                "summary": evidence_summary.strip(),
+            }
+        ],
+        "authority": PROPOSAL_AUTHORITY,
+    }
+    result = add_change_proposal_document(project_workspace, proposal)
+    return {
+        **result,
+        "command": "draft-experimental-csharp-change-proposal",
+        "mappingId": mapping["id"],
+        "codeDiffCount": 0,
+        "guidedReviewProposal": True,
     }
 
 
@@ -1354,6 +1466,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "staticGraphMutationFromUi": False,
             "loopbackProjectStateMutationFromUi": True,
             "loopbackReviewProposalIntakeFromUi": True,
+            "loopbackGuidedReviewProposalFromUi": True,
             "loopbackReviewReceiptIntakeFromUi": True,
             "targetRepositoryMutationFromUi": False,
             "approvalControlsPresent": False,
@@ -1658,20 +1771,22 @@ def render_html(projection: dict[str, Any]) -> str:
 SERVER_UI_EXTENSION = r'''<style>
   .new-work-trigger { position:fixed; right:18px; bottom:18px; z-index:30; background:#133f3e; border-color:#45f2dc; color:#d9fffa; box-shadow:0 0 18px rgba(69,242,220,.16); }
   .new-work-dialog { width:min(520px,calc(100vw - 32px)); color:#f2efff; background:#100e1a; border:1px solid #50466d; border-radius:6px; padding:0; box-shadow:0 20px 60px rgba(0,0,0,.6); }
-  .new-work-dialog::backdrop { background:rgba(2,1,8,.78); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#e8e1ff; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form textarea { min-height:110px; resize:vertical; color:#f2efff; background:#07060d; border:1px solid #443d60; border-radius:4px; padding:8px; font:inherit; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#ffd166; font-size:12px; } .map-code-trigger { position:fixed; right:18px; bottom:62px; z-index:30; background:#221e3a; border-color:#ad91ff; color:#efe8ff; box-shadow:0 0 18px rgba(173,145,255,.13); } .selected-code-fact { padding:8px; overflow-wrap:anywhere; color:#d4cceb; background:#07060d; border:1px solid #443d60; border-radius:4px; font:11px/1.4 Consolas,monospace; }
-  .proposal-trigger { position:fixed; right:18px; bottom:106px; z-index:30; background:#422718; border-color:#ffd166; color:#fff2cc; box-shadow:0 0 18px rgba(255,209,102,.12); } .proposal-dialog { width:min(760px,calc(100vw - 32px)); } .proposal-input { min-height:300px !important; font:12px/1.45 Consolas,monospace !important; tab-size:2; }
-  .receipt-trigger { position:fixed; right:18px; bottom:150px; z-index:30; background:#35244e; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); }
+  .new-work-dialog::backdrop { background:rgba(2,1,8,.78); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#e8e1ff; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form input,.new-work-form select,.new-work-form textarea { color:#f2efff; background:#07060d; border:1px solid #443d60; border-radius:4px; padding:8px; font:inherit; } .new-work-form textarea { min-height:110px; resize:vertical; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#ffd166; font-size:12px; } .map-code-trigger { position:fixed; right:18px; bottom:62px; z-index:30; background:#221e3a; border-color:#ad91ff; color:#efe8ff; box-shadow:0 0 18px rgba(173,145,255,.13); } .selected-code-fact { padding:8px; overflow-wrap:anywhere; color:#d4cceb; background:#07060d; border:1px solid #443d60; border-radius:4px; font:11px/1.4 Consolas,monospace; }
+  .draft-proposal-trigger { position:fixed; right:18px; bottom:106px; z-index:30; background:#173a34; border-color:#63efc3; color:#dcfff3; box-shadow:0 0 18px rgba(99,239,195,.14); } .proposal-trigger { position:fixed; right:18px; bottom:150px; z-index:30; background:#422718; border-color:#ffd166; color:#fff2cc; box-shadow:0 0 18px rgba(255,209,102,.12); } .proposal-dialog { width:min(760px,calc(100vw - 32px)); } .proposal-input { min-height:300px !important; font:12px/1.45 Consolas,monospace !important; tab-size:2; }
+  .receipt-trigger { position:fixed; right:18px; bottom:194px; z-index:30; background:#35244e; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); }
 </style>
 <button id="newWorkTrigger" class="new-work-trigger" type="button">New work request</button>
 <button id="mapCodeTrigger" class="map-code-trigger" type="button">Map selected code</button>
-<button id="importProposalTrigger" class="proposal-trigger" type="button" disabled>Import review proposal</button>
+<button id="draftProposalTrigger" class="draft-proposal-trigger" type="button" disabled>Draft review proposal</button>
+<button id="importProposalTrigger" class="proposal-trigger" type="button" disabled>Import proposal JSON</button>
 <button id="importReceiptTrigger" class="receipt-trigger" type="button" disabled>Import review receipt</button>
 <dialog id="newWorkDialog" class="new-work-dialog"><form id="newWorkForm" class="new-work-form" method="dialog"><h2>Record a work request</h2><p>This records a request in the local IntentGraph project workspace. It does not edit the source project.</p><label for="newWorkId">Stable work id</label><input id="newWorkId" name="workId" required pattern="[a-z][a-z0-9.-]{2,100}" placeholder="example-work-item"><label for="newWorkTitle">Title</label><input id="newWorkTitle" name="title" required maxlength="180" placeholder="Short work title"><label for="newWorkRequest">Request</label><textarea id="newWorkRequest" name="request" required maxlength="12000" placeholder="Describe the desired behavior or change."></textarea><div id="newWorkMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelNewWork" type="button">Cancel</button><button type="submit">Record request</button></div></form></dialog>
 <dialog id="mapCodeDialog" class="new-work-dialog"><form id="mapCodeForm" class="new-work-form" method="dialog"><h2>Record a code mapping candidate</h2><p>This connects the selected code fact to a local work request as a declared candidate. It does not approve the mapping or edit the source project.</p><label>Selected code fact</label><div id="selectedCodeFact" class="selected-code-fact"></div><label for="mapWorkId">Work request</label><select id="mapWorkId" name="workId" required></select><label for="mapRationale">Why this code is relevant</label><textarea id="mapRationale" name="rationale" required maxlength="12000" placeholder="Describe the relationship between this request and the selected code."></textarea><div id="mapCodeMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelMapCode" type="button">Cancel</button><button id="submitMapCode" type="submit">Record mapping candidate</button></div></form></dialog>
+<dialog id="draftProposalDialog" class="new-work-dialog"><form id="draftProposalForm" class="new-work-form" method="dialog"><h2>Draft a review proposal</h2><p>Creates a non-applied review proposal from an existing declared mapping. It records no code patch and does not edit the source project.</p><label for="draftProposalWorkId">Mapped work request</label><select id="draftProposalWorkId" name="workId" required></select><label for="draftProposalId">Stable proposal id</label><input id="draftProposalId" name="proposalId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"><label for="draftProposalTitle">Proposal title</label><input id="draftProposalTitle" name="title" required maxlength="180" placeholder="Short review proposal title"><label for="draftProposalSummary">Review summary</label><textarea id="draftProposalSummary" name="summary" required maxlength="12000" placeholder="Describe the bounded review change."></textarea><label for="draftVerificationKind">Verification kind</label><select id="draftVerificationKind" name="verificationKind" required><option value="local-review">Local review</option><option value="build-required">Build required</option><option value="test-required">Test required</option></select><label for="draftVerificationSummary">Verification requirement</label><textarea id="draftVerificationSummary" name="verificationSummary" required maxlength="12000" placeholder="State what must be verified later."></textarea><label for="draftEvidenceKind">Evidence kind</label><select id="draftEvidenceKind" name="evidenceKind" required><option value="review-note">Review note</option><option value="test-evidence">Test evidence</option><option value="build-evidence">Build evidence</option></select><label for="draftEvidenceSummary">Evidence requirement</label><textarea id="draftEvidenceSummary" name="evidenceSummary" required maxlength="12000" placeholder="State what evidence must be collected later."></textarea><div id="draftProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelDraftProposal" type="button">Cancel</button><button id="submitDraftProposal" type="submit">Record review proposal</button></div></form></dialog>
 <dialog id="importProposalDialog" class="new-work-dialog proposal-dialog"><form id="importProposalForm" class="new-work-form" method="dialog"><h2>Import a review-only change proposal</h2><p>Paste a deterministic proposal document for an existing work request and mapping candidate. The local server validates it before recording any project-state artifact. It does not edit the C# source project, apply a graph delta, or approve the proposal.</p><label for="proposalDocument">Proposal JSON</label><textarea id="proposalDocument" class="proposal-input" name="proposalDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-change-proposal document."></textarea><div id="importProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportProposal" type="button">Cancel</button><button type="submit">Validate and record proposal</button></div></form></dialog>
 <dialog id="importReceiptDialog" class="new-work-dialog proposal-dialog"><form id="importReceiptForm" class="new-work-form" method="dialog"><h2>Import a non-executing review receipt</h2><p>Paste one deterministic receipt for a proposal verification/evidence requirement pair. It records what was reviewed as pass, fail, or blocked. It does not run verification, collect runtime evidence, apply a graph delta, approve the proposal, or edit C# source.</p><label for="receiptDocument">Review receipt JSON</label><textarea id="receiptDocument" class="proposal-input" name="receiptDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-review-receipt document."></textarea><div id="importReceiptMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportReceipt" type="button">Cancel</button><button type="submit">Validate and record receipt</button></div></form></dialog>
 <script>
-  (() => { const dialog=document.getElementById('newWorkDialog'), trigger=document.getElementById('newWorkTrigger'), form=document.getElementById('newWorkForm'), message=document.getElementById('newWorkMessage'); trigger.addEventListener('click',()=>dialog.showModal()); document.getElementById('cancelNewWork').addEventListener('click',()=>dialog.close()); form.addEventListener('submit',async event=>{event.preventDefault();message.textContent='Recording request...';const body={workId:form.workId.value.trim(),title:form.title.value.trim(),request:form.request.value.trim()};try{const response=await fetch('/api/work-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const result=await response.json();if(!response.ok){throw new Error(result.error||'Request could not be recorded.');}message.textContent='Recorded. Reloading workbench...';window.setTimeout(()=>window.location.reload(),250);}catch(error){message.textContent=error.message||'Request could not be recorded.';}}); })();
+  (() => { const dialog=document.getElementById('newWorkDialog'), trigger=document.getElementById('newWorkTrigger'), form=document.getElementById('newWorkForm'), workId=document.getElementById('newWorkId'), title=document.getElementById('newWorkTitle'), request=document.getElementById('newWorkRequest'), message=document.getElementById('newWorkMessage'); trigger.addEventListener('click',()=>dialog.showModal()); document.getElementById('cancelNewWork').addEventListener('click',()=>dialog.close()); form.addEventListener('submit',async event=>{event.preventDefault();message.textContent='Recording request...';const body={workId:workId.value.trim(),title:title.value.trim(),request:request.value.trim()};try{const response=await fetch('/api/work-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const result=await response.json();if(!response.ok){throw new Error(result.error||'Request could not be recorded.');}message.textContent='Recorded. Reloading workbench...';window.setTimeout(()=>window.location.reload(),250);}catch(error){message.textContent=error.message||'Request could not be recorded.';}}); })();
 </script>
 <script>
   (() => {
@@ -1705,6 +1820,31 @@ SERVER_UI_EXTENSION = r'''<style>
         message.textContent='Recorded. Reloading workbench...';
         window.setTimeout(()=>window.location.reload(),250);
       }catch(error){message.textContent=error.message||'Mapping candidate could not be recorded.';}
+    });
+  })();
+</script>
+<script>
+  (() => {
+    const dialog=document.getElementById('draftProposalDialog'),trigger=document.getElementById('draftProposalTrigger'),form=document.getElementById('draftProposalForm'),workSelect=document.getElementById('draftProposalWorkId'),proposalId=document.getElementById('draftProposalId'),title=document.getElementById('draftProposalTitle'),summary=document.getElementById('draftProposalSummary'),verificationKind=document.getElementById('draftVerificationKind'),verificationSummary=document.getElementById('draftVerificationSummary'),evidenceKind=document.getElementById('draftEvidenceKind'),evidenceSummary=document.getElementById('draftEvidenceSummary'),message=document.getElementById('draftProposalMessage'),submit=document.getElementById('submitDraftProposal');
+    function eligibleWorks(){const workbench=window.intentGraphWorkbench;const works=workbench&&workbench.workItems?workbench.workItems():[];return works.filter(work=>work.mappingStatus==='candidate'&&work.changeStatus==='not-proposed');}
+    function updateProposalId(){const workId=workSelect.value;proposalId.value=workId?'proposal-'+workId:'';}
+    function openDialog(){const works=eligibleWorks();workSelect.replaceChildren();works.forEach(work=>workSelect.add(new Option(work.title+' ('+work.id+')',work.id)));updateProposalId();const ready=works.length>0;message.textContent=ready?'':'Record a declared code mapping before drafting a review proposal.';submit.disabled=!ready;dialog.showModal();}
+    trigger.disabled=true;
+    window.addEventListener('intentgraph-ready',()=>{trigger.disabled=false;});
+    trigger.addEventListener('click',openDialog);
+    workSelect.addEventListener('change',updateProposalId);
+    document.getElementById('cancelDraftProposal').addEventListener('click',()=>dialog.close());
+    form.addEventListener('submit',async event=>{
+      event.preventDefault();
+      message.textContent='Recording review proposal...';
+      const body={proposalId:proposalId.value.trim(),workId:workSelect.value,title:title.value.trim(),summary:summary.value.trim(),verificationKind:verificationKind.value,verificationSummary:verificationSummary.value.trim(),evidenceKind:evidenceKind.value,evidenceSummary:evidenceSummary.value.trim()};
+      try{
+        const response=await fetch('/api/draft-change-proposals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+        const result=await response.json();
+        if(!response.ok)throw new Error(result.error||'Review proposal could not be recorded.');
+        message.textContent='Recorded for review. Reloading workbench...';
+        window.setTimeout(()=>window.location.reload(),250);
+      }catch(error){message.textContent=error.message||'Review proposal could not be recorded.';}
     });
   })();
 </script>
@@ -1813,7 +1953,7 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not isinstance(default_view, dict) or default_view.get("id") != "all" or default_view.get("rendering") != "full-graph-progressive-detail" or default_view.get("layout") != "deterministic-source-grouped-preset" or default_view.get("physicsLayoutOnLoad") is not False:
         errors.append("project workbench full graph rendering contract is invalid")
     ui_contract = projection.get("uiContract")
-    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi", "loopbackReviewReceiptIntakeFromUi")) or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
+    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi", "loopbackGuidedReviewProposalFromUi", "loopbackReviewReceiptIntakeFromUi")) or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
         errors.append("project workbench progressive full graph UI contract is invalid")
     try:
         assert_no_unsafe_state(projection)
@@ -1961,6 +2101,16 @@ def parse_args() -> argparse.Namespace:
     proposal = sub.add_parser("add-change-proposal")
     proposal.add_argument("--workspace", required=True, type=Path)
     proposal.add_argument("--proposal", required=True, type=Path)
+    draft_proposal = sub.add_parser("draft-change-proposal")
+    draft_proposal.add_argument("--workspace", required=True, type=Path)
+    draft_proposal.add_argument("--proposal-id", required=True)
+    draft_proposal.add_argument("--work-id", required=True)
+    draft_proposal.add_argument("--title", required=True)
+    draft_proposal.add_argument("--summary", required=True)
+    draft_proposal.add_argument("--verification-kind", required=True)
+    draft_proposal.add_argument("--verification-summary", required=True)
+    draft_proposal.add_argument("--evidence-kind", required=True)
+    draft_proposal.add_argument("--evidence-summary", required=True)
     receipt = sub.add_parser("add-review-receipt")
     receipt.add_argument("--workspace", required=True, type=Path)
     receipt.add_argument("--receipt", required=True, type=Path)
@@ -1986,6 +2136,18 @@ def main() -> int:
             result = record_semantic_foundation(args.workspace, args.foundation)
         elif args.command == "add-change-proposal":
             result = add_change_proposal(args.workspace, args.proposal)
+        elif args.command == "draft-change-proposal":
+            result = draft_change_proposal_from_mapping(
+                args.workspace,
+                proposal_id=args.proposal_id,
+                work_id=args.work_id,
+                title=args.title,
+                summary=args.summary,
+                verification_kind=args.verification_kind,
+                verification_summary=args.verification_summary,
+                evidence_kind=args.evidence_kind,
+                evidence_summary=args.evidence_summary,
+            )
         elif args.command == "add-review-receipt":
             result = add_review_receipt(args.workspace, args.receipt)
         elif args.command == "emit-workbench":

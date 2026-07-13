@@ -24,6 +24,7 @@ from emit_experimental_csharp_fact_workbench import (
 from experimental_csharp_project import (
     ProjectWorkspaceError,
     add_change_proposal as add_experimental_csharp_change_proposal,
+    draft_change_proposal_from_mapping as draft_experimental_csharp_change_proposal,
     add_mapping_candidate as add_experimental_csharp_mapping_candidate,
     add_review_receipt as add_experimental_csharp_review_receipt,
     add_work_request as add_experimental_csharp_work_request,
@@ -664,6 +665,19 @@ def parse_args() -> argparse.Namespace:
     )
     csharp_project_proposal.add_argument("--workspace", required=True, type=Path)
     csharp_project_proposal.add_argument("--proposal", required=True, type=Path)
+    csharp_project_guided_proposal = subparsers.add_parser(
+        "draft-experimental-csharp-change-proposal",
+        help="Record a bounded non-applied review proposal from an existing declared mapping, without a code patch.",
+    )
+    csharp_project_guided_proposal.add_argument("--workspace", required=True, type=Path)
+    csharp_project_guided_proposal.add_argument("--proposal-id", required=True)
+    csharp_project_guided_proposal.add_argument("--work-id", required=True)
+    csharp_project_guided_proposal.add_argument("--title", required=True)
+    csharp_project_guided_proposal.add_argument("--summary", required=True)
+    csharp_project_guided_proposal.add_argument("--verification-kind", required=True)
+    csharp_project_guided_proposal.add_argument("--verification-summary", required=True)
+    csharp_project_guided_proposal.add_argument("--evidence-kind", required=True)
+    csharp_project_guided_proposal.add_argument("--evidence-summary", required=True)
     csharp_project_receipt = subparsers.add_parser(
         "add-experimental-csharp-review-receipt",
         help="Record a non-executing review receipt for one proposal verification/evidence requirement pair.",
@@ -729,6 +743,21 @@ def main() -> int:
             return 0
         if args.command == "add-experimental-csharp-change-proposal":
             emit_status(add_experimental_csharp_change_proposal(args.workspace, args.proposal))
+            return 0
+        if args.command == "draft-experimental-csharp-change-proposal":
+            emit_status(
+                draft_experimental_csharp_change_proposal(
+                    args.workspace,
+                    proposal_id=args.proposal_id,
+                    work_id=args.work_id,
+                    title=args.title,
+                    summary=args.summary,
+                    verification_kind=args.verification_kind,
+                    verification_summary=args.verification_summary,
+                    evidence_kind=args.evidence_kind,
+                    evidence_summary=args.evidence_summary,
+                )
+            )
             return 0
         if args.command == "add-experimental-csharp-review-receipt":
             emit_status(add_experimental_csharp_review_receipt(args.workspace, args.receipt))
