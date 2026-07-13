@@ -11,12 +11,13 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P9.30 Local Evidence Decision Authority
+P9.31 Spectral Titanium Precision Rendering Refinement
 ```
 
-This product slice lets an explicitly human local reviewer accept or reject the current
-typed verifier result while keeping reviewer authentication, proposal approval, and
-code application outside the decision authority. See
+This rendering-only product slice keeps effective `100x` inspection and the thin
+selected-edge taper while replacing the remaining flat/plastic node surface with a
+cached brushed spectral-titanium material. It does not change the graph, source, layout
+coordinates, workflow, or authority. See
 [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
@@ -4573,6 +4574,35 @@ Next product work:
 
 - define the next bounded authority or application boundary only after P9.30 review
   evidence remains reproducible
+
+## P9.31: Spectral Titanium Precision Rendering Refinement
+
+Goal: preserve effective `100x` inspection and screen-space edge tapering while making
+small graph nodes read as a precise technical material instead of flat or plastic
+tokens.
+
+Status: completed on 2026-07-14. See
+[P9.31 Spectral Titanium Precision Rendering Review](../reviews/p9.31-spectral-titanium-rendering-review.md).
+
+Delivered boundary:
+
+- cached `spectral-titanium-v2` canvas sprites with brushed dark-metal depth
+- asymmetric cyan, magenta, and warm-metal rim segments rather than a uniform glow
+- micro-etched inner guides and a thin selected-state Fresnel ring
+- precision material core held near 20 screen pixels instead of scaling with logical zoom
+- effective `100x` remains renderer `24x` times virtual geometry `4.1667`
+- selected relations remain `0.065px` at `0.34` opacity at maximum zoom
+- overview material culling keeps all 8,208 graph nodes loaded
+
+Non-goals:
+
+- no graph, layout-coordinate, source, work-history, graph-delta, code-diff, evidence,
+  or authority mutation
+- no physics layout, animated decoration, or per-frame gradient construction
+
+Next product work:
+
+- make the browser rendering checks repeatable outside manual in-app observation
 
 ## P9.29: Typed External Verifier Result Intake
 

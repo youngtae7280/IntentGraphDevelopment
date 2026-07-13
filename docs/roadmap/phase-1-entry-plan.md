@@ -4105,6 +4105,20 @@ obsidian/titanium material. It does not change graph structure. See
 [P9.30 Local Evidence Decision Authority](../product/igd-evidence-decision-authority-p9.30.md)
 and [P9.30 Review](../reviews/p9.30-evidence-decision-authority-review.md).
 
+## Implemented Slice: P9.31 Spectral Titanium Precision Rendering Refinement
+
+P9.31 changes only the Workbench renderer. The cached node sprite now combines a dark
+brushed titanium core, asymmetric cyan/magenta/warm-metal rim segments, micro-etching,
+and a thin selected-state Fresnel ring. The precision material core remains near 20
+screen pixels rather than growing with logical zoom.
+
+Effective `100x` remains renderer `24x` times virtual geometry `4.1667`. At maximum
+zoom a selected relation remains `0.065px` at `0.34` opacity. Far-overview material
+culling does not remove any of the 8,208 nodes or 8,023 relations. Graph, workflow,
+snapshot, authority, source, layout coordinates, graph delta, and code diff match the
+P9.30 semantic projection. See
+[P9.31 Review](../reviews/p9.31-spectral-titanium-rendering-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).

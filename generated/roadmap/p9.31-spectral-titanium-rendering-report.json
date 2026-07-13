@@ -1,0 +1,51 @@
+{
+  "artifactRole": "intentgraph-p9.31-spectral-titanium-rendering-report",
+  "status": "intentgraph-p9.31-spectral-titanium-rendering-pass",
+  "scope": "p9.31-rendering-only",
+  "result": "pass",
+  "graph": {
+    "nodeCount": 8208,
+    "relationCount": 8023,
+    "structureChanged": false,
+    "layoutCoordinatesChanged": false
+  },
+  "precisionZoom": {
+    "logicalMaximumZoom": 100,
+    "rendererMaximumZoom": 24,
+    "virtualGeometryScaleAtMaximumZoom": 4.1667,
+    "effectiveGeometryMaximumZoom": 100,
+    "selectedEdgeRenderedWidthPixels": 0.065,
+    "selectedEdgeRenderedOpacity": 0.34,
+    "precisionProjectRenderedWidthPixels": 20.112,
+    "precisionMaterialCoreTargetPixels": 20.109,
+    "precisionMaterialSpriteFootprintPixels": 28.957
+  },
+  "material": {
+    "profile": "cached-spectral-titanium-v2",
+    "cachedCanvasSprites": true,
+    "asymmetricSpectralRim": true,
+    "microEtching": true,
+    "selectedFresnelRing": true,
+    "perFrameGradientConstruction": false,
+    "overviewCulledOrdinaryCodeMaterialCount": 7477,
+    "allCodeFactsRemainLoaded": true
+  },
+  "verification": {
+    "staticEmission": "pass",
+    "staticValidation": "pass",
+    "deterministicFileCount": 6,
+    "p930SemanticProjectionDomainsMatch": true,
+    "loopbackServerProbeCount": 30,
+    "projectNegativeProbeCount": 8,
+    "browserConsoleErrorCount": 0,
+    "browserObservationMode": "live-in-app-browser"
+  },
+  "authority": {
+    "graphMutation": false,
+    "sourceMutation": false,
+    "snapshotMutation": false,
+    "targetRepositoryMutation": false,
+    "proposalApproval": false,
+    "proposalApplication": false
+  }
+}

@@ -1085,6 +1085,27 @@ relations rather than accept self-consistent counters or partial topology. Every
 JSON value, including nested arrays and objects in enum fields, must produce a controlled
 validation failure and zero writes instead of an uncaught type error.
 
+### V434 - Precision Rendering Is Screen-Bounded and Semantically Inert
+
+Severity: P1 in P9.31
+
+The project Workbench must expose an effective logical zoom of `100` while keeping the
+graph renderer at or below `24` and expressing the remaining scale through deterministic
+virtual geometry. At maximum zoom, a selected relation must render at `0.065` screen
+pixels with `0.34` opacity. Precision node material must remain screen-bounded rather
+than grow with logical geometry.
+
+The active cached node material must be identifiable as `cached-spectral-titanium-v2`.
+Its gradients, grain, etching, and spectral rim are constructed only when a bounded
+sprite-cache entry is missing; viewport rendering reuses the cached sprite. Distant
+overview culling may skip expensive material sprites for ordinary code facts, but it
+must not remove those code facts from the Cytoscape graph.
+
+Rendering refinement must not change graph nodes, graph relations, layout coordinates,
+workflow records, snapshot facts, authority, source state, graph deltas, or code diffs.
+Static emission and validation, byte-identical repeated output, loopback server smoke,
+negative probes, and a real-browser observation with zero console errors are required.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

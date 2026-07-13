@@ -42,6 +42,13 @@ remaining plastic appearance. At distant overview scales, ordinary code facts re
 their Cytoscape nodes while the heavier material pass is reserved for structural,
 selected, changed, and searched landmarks. Graph structure is unchanged.
 
+P9.31 sharpens that rendering-only boundary. Cached node sprites now use a dark brushed
+spectral-titanium surface with asymmetric cyan, magenta, and warm-metal rim segments,
+micro-etching, and a thin selected-state Fresnel ring. The precision material core is
+held near 20 screen pixels, so it remains legible without growing with `100x` geometry. The
+`0.065px` selected-edge taper, graph contents, layout coordinates, workflow records,
+source state, and authority remain unchanged.
+
 ## Working Definition
 
 IntentGraph is not just a code graph. It is an overlay graph over an existing codebase that can contain:
