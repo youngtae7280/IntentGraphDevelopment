@@ -1,0 +1,28 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "date": "2026-07-13",
+  "decision": "packaged-ui-screenshot-authorization-request-refreshed-not-recorded",
+  "nonGoals": {
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "installerCreation": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "productizationClaimed": false,
+    "providerApiCalls": false,
+    "releasePublishing": false
+  },
+  "recommendedNextSlice": "Wait for exact packaged UI screenshot capture authorization response",
+  "requestSummary": {
+    "currentGoalAcceptShortcutApplies": false,
+    "exactAcceptedResponseRecorded": false,
+    "packageExtractionInventoryVerificationPassed": true,
+    "packagedExecutableLaunchSmokePassed": true,
+    "packagedUiScreenshotAllowedNow": false,
+    "requiredAcceptedResponse": "accept sandboxed packaged UI screenshot capture"
+  },
+  "result": "screenshot-authorization-requested-not-recorded",
+  "scope": "p8.117-packaged-ui-screenshot-authorization-refresh-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "workItem": "P8.117 Packaged UI Screenshot Authorization Request Refresh"
+}

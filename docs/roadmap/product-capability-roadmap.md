@@ -7,7 +7,7 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P8.116 completed.
+P8.117 completed.
 Selected next benchmark: B1-typescript-rest-api.
 Productization readiness is blocked.
 Next safe work must stabilize real-project adoption before product implementation.
@@ -172,13 +172,13 @@ accepted mapping negative probes pass.
 The next safe work must continue bounded product-surface stabilization before product implementation. Reasonable next slices are:
 
 ```text
-P8.117 Packaged UI Screenshot Authorization Request Refresh
+Wait for exact packaged UI screenshot capture authorization response.
 ```
 
 Latest readiness note:
 
 ```text
-P8.116 rechecked packaged UI screenshot authorization. Extraction verification and launch smoke preconditions are now satisfied, but exact screenshot authorization is still absent; no screenshot was captured.
+P8.117 refreshed the exact packaged UI screenshot authorization request. Required response is `accept sandboxed packaged UI screenshot capture`; no screenshot was captured.
 ```
 
 ## Phase Overview

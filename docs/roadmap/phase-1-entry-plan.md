@@ -3487,6 +3487,28 @@ Recommended next slice:
 P8.117 Packaged UI Screenshot Authorization Request Refresh
 ```
 
+## Completed Slice: P8.117 Packaged UI Screenshot Authorization Request Refresh
+
+Goal: refresh the exact packaged UI screenshot authorization request now that extraction verification and launch smoke passed.
+
+Result:
+
+```text
+Decision: packaged-ui-screenshot-authorization-request-refreshed-not-recorded.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.117-packaged-ui-screenshot-authorization-refresh.json`
+- `generated/roadmap/p8.117-packaged-ui-screenshot-authorization-refresh-report.json`
+- [P8.117 Packaged UI Screenshot Authorization Request Refresh](../reviews/p8.117-packaged-ui-screenshot-authorization-refresh.md)
+
+Recommended next slice:
+
+```text
+Wait for exact packaged UI screenshot capture authorization response.
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

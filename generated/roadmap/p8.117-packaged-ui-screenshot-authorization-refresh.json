@@ -1,0 +1,30 @@
+{
+  "allowedResponses": [
+    "accept sandboxed packaged UI screenshot capture",
+    "reject packaged UI screenshot capture",
+    "revise screenshot scope first"
+  ],
+  "artifactRole": "intentgraph-packaged-ui-screenshot-authorization-request",
+  "date": "2026-07-13",
+  "executionBoundary": {
+    "artifactSigned": false,
+    "credentialAccessed": false,
+    "installerCreated": false,
+    "packagedExecutableLaunchedByThisRequest": false,
+    "packagedUiScreenshotCapturedByThisRequest": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false,
+    "providerApiCalled": false,
+    "releasePublished": false
+  },
+  "preconditions": {
+    "exactScreenshotAcceptedResponseRecorded": false,
+    "packageExtractionInventoryVerificationPassed": true,
+    "packagedExecutableLaunchSmokePassed": true,
+    "windowsUtilityCleanAligned": true
+  },
+  "requiredAcceptedResponse": "accept sandboxed packaged UI screenshot capture",
+  "scope": "p8.117-packaged-ui-screenshot-authorization-refresh",
+  "status": "intentgraph-packaged-ui-screenshot-authorization-requested",
+  "workItem": "P8.117 Packaged UI Screenshot Authorization Request Refresh"
+}

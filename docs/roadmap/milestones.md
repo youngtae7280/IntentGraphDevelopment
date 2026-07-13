@@ -3678,6 +3678,29 @@ Next safe work:
 
 - continue to `P8.117 Packaged UI Screenshot Authorization Request Refresh`.
 
+## P8.117: Packaged UI Screenshot Authorization Request Refresh
+
+Goal: refresh the exact packaged UI screenshot authorization request now that extraction verification and launch smoke passed.
+
+Status: completed on 2026-07-13. See [P8.117 Packaged UI Screenshot Authorization Request Refresh](../reviews/p8.117-packaged-ui-screenshot-authorization-refresh.md).
+
+Decision:
+
+- screenshot capture authorization was requested.
+- required accepted response is `accept sandboxed packaged UI screenshot capture`.
+- the current-goal ordinary `accept/revise/blocked` shortcut does not authorize screenshot capture.
+- no packaged executable launch, screenshot capture, installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.117-packaged-ui-screenshot-authorization-refresh.json`
+- `generated/roadmap/p8.117-packaged-ui-screenshot-authorization-refresh-report.json`
+- [P8.117 Packaged UI Screenshot Authorization Request Refresh](../reviews/p8.117-packaged-ui-screenshot-authorization-refresh.md)
+
+Next safe work:
+
+- wait for exact packaged UI screenshot capture authorization response.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.
