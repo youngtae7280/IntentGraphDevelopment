@@ -3993,6 +3993,29 @@ P9.15 keeps the same graph but changes its default projection to semantic overvi
 
 P9.17 corrects the P9.15 overcorrection. The default local Workbench loads every projected node and edge, positions source communities radially without a browser physics layout, and changes lenses through visibility updates rather than graph reconstruction. It also records declared goals, capabilities, constraints, verification requirements, and document references as a semantic foundation without silently creating Intent Units. See [P9.17 Full-Graph Semantic Foundation Workbench](../product/igd-full-graph-semantic-foundation-workbench-p9.17.md) and [P9.17 Review](../reviews/p9.17-full-graph-semantic-foundation-workbench-review.md).
 
+## Implemented Slice: P9.22 Guided Local Review Receipt Intake
+
+P9.22 turns the normal receipt route into a bounded local form: a user chooses an unreviewed proposal verification/evidence requirement pair, declares `reviewed-pass`, `reviewed-fail`, or `review-blocked`, and supplies a summary. The workspace records a fixed non-executing receipt envelope. It does not run a build, test, smoke check, evidence collector, apply a graph delta, approve a proposal, or modify the target project. See [P9.22 Guided Review Receipts](../product/igd-guided-review-receipts-p9.22.md) and [P9.22 Review](../reviews/p9.22-guided-review-receipts-review.md).
+
+## Implemented Slice: P9.23 Relation-Aware C# Graph Workbench
+
+P9.23 adds a bounded local-symbol relation overlay to the immutable C# snapshot. It
+keeps the source snapshot syntax-only while giving the full Workbench `calls`,
+`references`, `constructs`, `inherits`, and `implements` facts for deterministic
+community placement and inspection. The target project is not built, restored,
+launched, or changed. See [P9.23 Relation-Aware C# Graph](../product/igd-relation-aware-csharp-graph-p9.23.md) and [P9.23 Review](../reviews/p9.23-relation-aware-csharp-graph-review.md).
+
+## Implemented Slice: P9.24 Work Stage Timeline
+
+P9.24 makes a recorded request inspectable as request, mapping, proposal,
+verification/evidence requirements, and optional review-receipt stages in the same
+relation-aware graph. Selecting a stage focuses its resolved subgraph, highlights its
+additions and changes, and exposes its code diff fragments and authority boundary.
+This initial timeline is derived from immutable current workspace records; a later
+history boundary must persist independent before/after graph snapshots at each stage.
+See [P9.24 Work Stage Timeline](../product/igd-work-stage-timeline-p9.24.md) and
+[P9.24 Review](../reviews/p9.24-work-stage-timeline-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).

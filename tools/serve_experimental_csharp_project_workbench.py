@@ -16,6 +16,7 @@ from experimental_csharp_project import (
     ProjectWorkspaceError,
     add_change_proposal_document,
     draft_change_proposal_from_mapping,
+    draft_review_receipt_from_proposal,
     add_mapping_candidate,
     add_review_receipt_document,
     add_work_request,
@@ -93,7 +94,7 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
 
         def do_POST(self) -> None:  # noqa: N802 - HTTP handler contract
             path = urlparse(self.path).path
-            if path not in {"/api/work-requests", "/api/mapping-candidates", "/api/change-proposals", "/api/draft-change-proposals", "/api/review-receipts"}:
+            if path not in {"/api/work-requests", "/api/mapping-candidates", "/api/change-proposals", "/api/draft-change-proposals", "/api/review-receipts", "/api/draft-review-receipts"}:
                 self.error_json(HTTPStatus.NOT_FOUND, "local workbench route does not exist")
                 return
             content_length = self.headers.get("Content-Length")
@@ -140,6 +141,16 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                     "evidenceSummary",
                 }
                 error_message = "guided review proposal fields must be strings"
+            elif path == "/api/draft-review-receipts":
+                required_fields = {
+                    "receiptId",
+                    "proposalId",
+                    "verificationRequirementId",
+                    "evidenceRequirementId",
+                    "result",
+                    "summary",
+                }
+                error_message = "guided review receipt fields must be strings"
             else:
                 required_fields = {"receipt"}
                 error_message = "review receipt must contain only one receipt object"
@@ -166,6 +177,16 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                             verification_summary=payload["verificationSummary"],
                             evidence_kind=payload["evidenceKind"],
                             evidence_summary=payload["evidenceSummary"],
+                        )
+                    elif path == "/api/draft-review-receipts":
+                        result = draft_review_receipt_from_proposal(
+                            workspace,
+                            receipt_id=payload["receiptId"],
+                            proposal_id=payload["proposalId"],
+                            verification_requirement_id=payload["verificationRequirementId"],
+                            evidence_requirement_id=payload["evidenceRequirementId"],
+                            result=payload["result"],
+                            summary=payload["summary"],
                         )
                     else:
                         result = add_review_receipt_document(workspace, payload["receipt"])

@@ -1,0 +1,54 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-guided-proposal-negative-probes-report",
+  "automaticCodeApplication": false,
+  "networkRequired": false,
+  "positiveBaseline": {
+    "codeDiffCount": 0,
+    "guidedReviewProposal": true,
+    "proposalId": "guided-proposal",
+    "result": "pass"
+  },
+  "probeCount": 7,
+  "probes": [
+    {
+      "error": "guided review proposal id must be a stable lowercase identifier",
+      "expectedFailureObserved": true,
+      "id": "rejects-invalid-guided-proposal-id"
+    },
+    {
+      "error": "guided review proposal work item does not exist",
+      "expectedFailureObserved": true,
+      "id": "rejects-unknown-guided-work"
+    },
+    {
+      "error": "guided review proposal requires a declared mapping candidate",
+      "expectedFailureObserved": true,
+      "id": "rejects-unmapped-guided-work"
+    },
+    {
+      "error": "guided review proposal fields must be non-blank strings",
+      "expectedFailureObserved": true,
+      "id": "rejects-blank-guided-summary"
+    },
+    {
+      "error": "title must not persist a physical path",
+      "expectedFailureObserved": true,
+      "id": "rejects-unsafe-guided-path"
+    },
+    {
+      "error": "guided review proposal verification kind must be a stable lowercase identifier",
+      "expectedFailureObserved": true,
+      "id": "rejects-invalid-guided-verification-kind"
+    },
+    {
+      "error": "guided review proposal work item already has an active change proposal",
+      "expectedFailureObserved": true,
+      "id": "rejects-duplicate-guided-proposal-work"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.21-guided-review-proposal-boundary",
+  "snapshotProvenanceUnchanged": true,
+  "status": "intentgraph-experimental-csharp-guided-proposal-negative-probes-pass",
+  "targetRepositoryMutation": false
+}

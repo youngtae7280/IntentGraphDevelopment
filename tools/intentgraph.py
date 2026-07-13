@@ -25,12 +25,14 @@ from experimental_csharp_project import (
     ProjectWorkspaceError,
     add_change_proposal as add_experimental_csharp_change_proposal,
     draft_change_proposal_from_mapping as draft_experimental_csharp_change_proposal,
+    draft_review_receipt_from_proposal as draft_experimental_csharp_review_receipt,
     add_mapping_candidate as add_experimental_csharp_mapping_candidate,
     add_review_receipt as add_experimental_csharp_review_receipt,
     add_work_request as add_experimental_csharp_work_request,
     emit_project_workbench as emit_experimental_csharp_project_workbench,
     initialize_project as initialize_experimental_csharp_project,
     record_semantic_foundation as record_experimental_csharp_semantic_foundation,
+    record_semantic_relation_overlay as record_experimental_csharp_semantic_relation_overlay,
     validate_emitted_project_workbench as validate_experimental_csharp_project_workbench,
 )
 from serve_experimental_csharp_project_workbench import LocalWorkbenchServerError, serve as serve_experimental_csharp_project_workbench
@@ -659,6 +661,12 @@ def parse_args() -> argparse.Namespace:
     )
     csharp_project_foundation.add_argument("--workspace", required=True, type=Path)
     csharp_project_foundation.add_argument("--foundation", required=True, type=Path)
+    csharp_project_semantic_relations = subparsers.add_parser(
+        "record-experimental-csharp-semantic-relation-overlay",
+        help="Record read-only local C# symbol relations for relation-aware graph layout without building or changing source.",
+    )
+    csharp_project_semantic_relations.add_argument("--workspace", required=True, type=Path)
+    csharp_project_semantic_relations.add_argument("--overlay", required=True, type=Path)
     csharp_project_proposal = subparsers.add_parser(
         "add-experimental-csharp-change-proposal",
         help="Record a non-applied C# change proposal with graph delta and code diff review data.",
@@ -684,6 +692,17 @@ def parse_args() -> argparse.Namespace:
     )
     csharp_project_receipt.add_argument("--workspace", required=True, type=Path)
     csharp_project_receipt.add_argument("--receipt", required=True, type=Path)
+    csharp_project_guided_receipt = subparsers.add_parser(
+        "draft-experimental-csharp-review-receipt",
+        help="Record a user-authored, non-executing review receipt from existing proposal requirements.",
+    )
+    csharp_project_guided_receipt.add_argument("--workspace", required=True, type=Path)
+    csharp_project_guided_receipt.add_argument("--receipt-id", required=True)
+    csharp_project_guided_receipt.add_argument("--proposal-id", required=True)
+    csharp_project_guided_receipt.add_argument("--verification-requirement-id", required=True)
+    csharp_project_guided_receipt.add_argument("--evidence-requirement-id", required=True)
+    csharp_project_guided_receipt.add_argument("--result", required=True, choices=["reviewed-pass", "reviewed-fail", "review-blocked"])
+    csharp_project_guided_receipt.add_argument("--summary", required=True)
     csharp_project_workbench = subparsers.add_parser(
         "emit-experimental-csharp-project-workbench",
         help="Emit a unified project workbench from a local C# semantic-overlay project workspace.",
@@ -741,6 +760,9 @@ def main() -> int:
         if args.command == "record-experimental-csharp-semantic-foundation":
             emit_status(record_experimental_csharp_semantic_foundation(args.workspace, args.foundation))
             return 0
+        if args.command == "record-experimental-csharp-semantic-relation-overlay":
+            emit_status(record_experimental_csharp_semantic_relation_overlay(args.workspace, args.overlay))
+            return 0
         if args.command == "add-experimental-csharp-change-proposal":
             emit_status(add_experimental_csharp_change_proposal(args.workspace, args.proposal))
             return 0
@@ -761,6 +783,19 @@ def main() -> int:
             return 0
         if args.command == "add-experimental-csharp-review-receipt":
             emit_status(add_experimental_csharp_review_receipt(args.workspace, args.receipt))
+            return 0
+        if args.command == "draft-experimental-csharp-review-receipt":
+            emit_status(
+                draft_experimental_csharp_review_receipt(
+                    args.workspace,
+                    receipt_id=args.receipt_id,
+                    proposal_id=args.proposal_id,
+                    verification_requirement_id=args.verification_requirement_id,
+                    evidence_requirement_id=args.evidence_requirement_id,
+                    result=args.result,
+                    summary=args.summary,
+                )
+            )
             return 0
         if args.command == "emit-experimental-csharp-project-workbench":
             emit_status(emit_experimental_csharp_project_workbench(args.workspace, args.out))

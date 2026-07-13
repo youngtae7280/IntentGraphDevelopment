@@ -1,0 +1,47 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-semantic-relation-overlay-negative-probes-report",
+  "networkRequired": false,
+  "probeCount": 5,
+  "probes": [
+    {
+      "expectedError": "authority boundary",
+      "id": "rejects-target-build-claim",
+      "observedError": "semantic relation overlay authority boundary is invalid",
+      "passed": true,
+      "zeroWrite": true
+    },
+    {
+      "expectedError": "relation is invalid",
+      "id": "rejects-unknown-code-fact-endpoint",
+      "observedError": "semantic relation overlay relation is invalid",
+      "passed": true,
+      "zeroWrite": true
+    },
+    {
+      "expectedError": "not permitted",
+      "id": "rejects-persisted-source-text",
+      "observedError": "sourceText is not permitted in project overlay state",
+      "passed": true,
+      "zeroWrite": true
+    },
+    {
+      "expectedError": "extractor boundary",
+      "id": "rejects-source-build-capability",
+      "observedError": "semantic relation overlay extractor boundary is invalid",
+      "passed": true,
+      "zeroWrite": true
+    },
+    {
+      "expectedError": "source identity",
+      "id": "rejects-source-digest-mismatch",
+      "observedError": "semantic relation overlay source identity is invalid",
+      "passed": true,
+      "zeroWrite": true
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.23-readonly-semantic-relation-overlay-negative-probes",
+  "status": "intentgraph-experimental-csharp-semantic-relation-overlay-negative-probes-pass",
+  "targetBuildExecuted": false,
+  "targetRepositoryMutation": false
+}

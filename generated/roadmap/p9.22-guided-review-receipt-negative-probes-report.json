@@ -1,0 +1,54 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-guided-receipt-negative-probes-report",
+  "automaticCodeApplication": false,
+  "networkRequired": false,
+  "positiveBaseline": {
+    "guidedReviewReceipt": true,
+    "receiptId": "guided-receipt",
+    "result": "pass",
+    "resultStatus": "reviewed-pass"
+  },
+  "probeCount": 7,
+  "probes": [
+    {
+      "error": "guided review receipt id must be a stable lowercase identifier",
+      "expectedFailureObserved": true,
+      "id": "rejects-invalid-guided-receipt-id"
+    },
+    {
+      "error": "review receipt must reference a known change proposal",
+      "expectedFailureObserved": true,
+      "id": "rejects-unknown-guided-receipt-proposal"
+    },
+    {
+      "error": "review receipt requirement references are invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-invalid-guided-receipt-requirement"
+    },
+    {
+      "error": "guided review receipt fields must be non-blank strings",
+      "expectedFailureObserved": true,
+      "id": "rejects-blank-guided-receipt-summary"
+    },
+    {
+      "error": "summary must not persist a physical path",
+      "expectedFailureObserved": true,
+      "id": "rejects-unsafe-guided-receipt-path"
+    },
+    {
+      "error": "guided review receipt result is invalid",
+      "expectedFailureObserved": true,
+      "id": "rejects-invalid-guided-receipt-result"
+    },
+    {
+      "error": "review receipt already exists for the proposal requirement pair",
+      "expectedFailureObserved": true,
+      "id": "rejects-duplicate-guided-receipt-pair"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.22-guided-review-receipt-boundary",
+  "snapshotProvenanceUnchanged": true,
+  "status": "intentgraph-experimental-csharp-guided-receipt-negative-probes-pass",
+  "targetRepositoryMutation": false
+}

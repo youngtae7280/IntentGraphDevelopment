@@ -8,6 +8,10 @@ coverage/
 __pycache__/
 *.py[cod]
 
+# Local C# semantic-overlay probe build output.
+tools/csharp_semantic_overlay_probe/bin/
+tools/csharp_semantic_overlay_probe/obj/
+
 .env
 .env.*
 !.env.example

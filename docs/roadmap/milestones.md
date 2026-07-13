@@ -4264,6 +4264,29 @@ Non-goals:
 - no semantic-foundation replacement without a future reviewed boundary
 - no source modification, approval, evidence execution, remote service, or packaged desktop release
 
+## P9.22: Guided Local Review Receipt Intake
+
+Goal: let a user record a non-executing receipt for one already declared proposal verification/evidence requirement pair without hand-authoring a JSON artifact.
+
+Status: implementation and local validation completed on 2026-07-13. See [P9.22 Guided Review Receipts Review](../reviews/p9.22-guided-review-receipts-review.md).
+
+Delivered boundary:
+
+- the loopback Workbench exposes `Record review receipt` alongside the advanced JSON import route
+- `POST /api/draft-review-receipts` accepts only bounded user-entered receipt fields, resolves existing proposal requirements, and records one non-executing receipt
+- the form lists only unreviewed verification/evidence requirement pairs from recorded proposals
+- static exports remain read-only and contain no local receipt client
+
+Verification:
+
+- loopback smoke records request, mapping, guided proposal, and guided receipt in a temporary workspace; it rejects an unknown guided receipt proposal and preserves snapshot provenance
+- guided receipt negative probes reject malformed identifiers, unknown proposals, invalid requirement pairs, unsafe persistence, blank input, invalid results, and duplicate receipt pairs
+- public CLI and browser inspection confirm the same bounded receipt behavior without source modification or verification execution
+
+Non-goals:
+
+- no AI conclusion, source mutation, graph-delta application, build, test, runtime observation, evidence execution, approval, external service, or productization claim
+
 ## P9.21: Guided Local Review Proposal Intake
 
 Goal: let a user record a bounded review-only proposal from an existing declared work-to-code mapping without hand-authoring a JSON artifact.
@@ -4286,6 +4309,71 @@ Verification:
 Non-goals:
 
 - no AI proposal generation, patch synthesis, source mutation, graph-delta application, build, test, evidence execution, approval, external service, or productization claim
+
+## P9.23: Relation-Aware C# Graph Workbench
+
+Goal: replace purely source-grouped full-graph placement with a deterministic layout
+that can use validated, read-only local C# symbol relations while keeping all graph
+facts visible and the target repository untouched.
+
+Status: implementation and visual validation completed on 2026-07-13. See
+[P9.23 Relation-Aware C# Graph Review](../reviews/p9.23-relation-aware-csharp-graph-review.md).
+
+Delivered boundary:
+
+- a local Roslyn sidecar reads only the immutable snapshot and records `calls`,
+  `references`, `constructs`, `inherits`, and `implements` between local code facts
+- the sidecar's digest, diagnostics, exact authority boundary, and sorted relation
+  facts are validated before it can be recorded in a project workspace
+- the full Workbench graph places module centers with a deterministic force pass over
+  cross-module symbol links and keeps all code relations loaded at every zoom level
+- zoom styling changes only across fixed bands, avoiding a complete 8k-node restyle on
+  every wheel tick
+
+Verification:
+
+- WindowsUtility relation overlay: `5,623` local-symbol relations and `915`
+  cross-module relations, with no target build, restore, or mutation
+- static emission/validation, 20-probe loopback smoke, and five zero-write relation
+  overlay negative probes pass
+- browser inspection confirms calls/references filters, sidecar counters, and full
+  relation-aware graph rendering
+
+Next safe work:
+
+- P9.24 Work Stage Timeline: group already recorded work lifecycle facts into an
+  inspectable graph/code delta trace.
+
+## P9.24: Work Stage Timeline
+
+Goal: make each recorded request navigable as an ordered lifecycle, with its graph
+delta, code diff fragments, verification/evidence records, history, and authority
+boundary visible in the same relation-aware Workbench.
+
+Status: implementation and browser interaction validation completed on 2026-07-13.
+See [P9.24 Work Stage Timeline Review](../reviews/p9.24-work-stage-timeline-review.md).
+
+Delivered boundary:
+
+- deterministic `workStageTimeline[]` records reconstruct request, mapping, proposal,
+  requirements, and review receipt stages from validated local workspace records
+- a selected stage focuses its resolved subgraph, highlights additions and changed
+  nodes/relations, and shows all related recorded code diff fragments in the inspector
+- static and loopback Workbenches use the identical projection contract; stage
+  selection does not mutate the project workspace or target repository
+
+Verification:
+
+- WindowsUtility emits four resolved stages for the recorded browse-folder request
+- static emission/validation, 20-probe loopback smoke, semantic-relation negative
+  probes, guided-review-receipt negative probes, JavaScript parse, and browser stage
+  focus checks pass
+
+Next safe work:
+
+- persist immutable per-stage `before`/`after` projection references at record time,
+  then compare those graph snapshots directly rather than deriving the trace from the
+  current workspace state.
 
 ## P9.19: Local Review Proposal Intake
 

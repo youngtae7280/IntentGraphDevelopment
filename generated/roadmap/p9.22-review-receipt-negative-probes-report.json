@@ -1,0 +1,87 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-review-receipt-negative-probes-report",
+  "automaticCodeApplication": false,
+  "evidenceExecution": false,
+  "probeCount": 8,
+  "probes": [
+    {
+      "actualError": "review receipt role, schema version, or scope is invalid",
+      "expectedError": "role, schema version, or scope is invalid",
+      "expectedFailureObserved": true,
+      "id": "wrong-receipt-role"
+    },
+    {
+      "actualError": "review receipt must reference a known change proposal",
+      "expectedError": "must reference a known change proposal",
+      "expectedFailureObserved": true,
+      "id": "unknown-proposal"
+    },
+    {
+      "actualError": "review receipt requirement references are invalid",
+      "expectedError": "requirement references are invalid",
+      "expectedFailureObserved": true,
+      "id": "unknown-verification-requirement"
+    },
+    {
+      "actualError": "review receipt result is invalid",
+      "expectedError": "review receipt result is invalid",
+      "expectedFailureObserved": true,
+      "id": "invalid-result"
+    },
+    {
+      "actualError": "review receipt scope is invalid",
+      "expectedError": "review receipt scope is invalid",
+      "expectedFailureObserved": true,
+      "id": "missing-proposal-review-scope"
+    },
+    {
+      "actualError": "review receipt authority must remain non-executing and non-approving",
+      "expectedError": "authority must remain non-executing and non-approving",
+      "expectedFailureObserved": true,
+      "id": "executing-receipt-authority"
+    },
+    {
+      "actualError": "sourceText is not permitted in project overlay state",
+      "expectedError": "sourceText is not permitted",
+      "expectedFailureObserved": true,
+      "id": "source-text-in-receipt"
+    },
+    {
+      "actualError": "review receipt already exists for the proposal requirement pair",
+      "expectedError": "already exists for the proposal requirement pair",
+      "expectedFailureObserved": true,
+      "id": "duplicate-requirement-pair"
+    }
+  ],
+  "projectAuthority": {
+    "approvalAutomation": false,
+    "automaticCodeApplication": false,
+    "automaticIntentMapping": false,
+    "credentialAccessAllowed": false,
+    "graphMutationFromUi": false,
+    "igdProductizationClaimed": false,
+    "networkRequired": false,
+    "projectWorkspaceMutation": true,
+    "providerApiAllowed": false,
+    "snapshotWorkspaceMutation": false,
+    "targetBuildExecuted": false,
+    "targetLaunchExecuted": false,
+    "targetRepositoryMutation": false,
+    "targetRestoreExecuted": false
+  },
+  "result": "pass",
+  "reviewReceiptAuthority": {
+    "approvalRecorded": false,
+    "automaticCodeApplication": false,
+    "credentialAccessAllowed": false,
+    "evidenceExecution": false,
+    "networkRequired": false,
+    "selfAuthorized": false,
+    "targetRepositoryMutation": false,
+    "verificationExecution": false
+  },
+  "scope": "p9.20-experimental-csharp-review-receipt",
+  "status": "intentgraph-experimental-csharp-review-receipt-negative-probes-pass",
+  "targetRepositoryMutation": false,
+  "verificationExecution": false
+}
