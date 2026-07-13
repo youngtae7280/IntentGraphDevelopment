@@ -3587,6 +3587,8 @@ Result:
 Decision: productization-still-not-ready-packaged-ui-screenshot-evidence-present-product-candidate-and-release-gates-missing.
 ```
 
+P8.124 later corrected this scope: the package evidence is WindowsUtility adoption evidence and does not define an IntentGraphDevelopment product candidate.
+
 Produced artifacts:
 
 - `generated/roadmap/p8.121-productization-readiness-recheck-after-packaged-ui-screenshot-capture-report.json`
@@ -3608,6 +3610,8 @@ Result:
 Decision: product-candidate-acceptance-requested-not-recorded.
 ```
 
+P8.124 withdrew this WindowsUtility candidate request because the candidate must be IntentGraphDevelopment itself.
+
 Produced artifacts:
 
 - `generated/roadmap/p8.122-product-candidate-acceptance-request.json`
@@ -3617,7 +3621,7 @@ Produced artifacts:
 Recommended next slice:
 
 ```text
-Wait for exact WindowsUtility product candidate acceptance response.
+P8.124 WindowsUtility Adoption / IGD Productization Scope Correction
 ```
 
 ## Completed Slice: P8.123 Product Candidate Acceptance Scope Hold Record
@@ -3630,6 +3634,8 @@ Result:
 Decision: product-candidate-acceptance-held-pending-exact-response.
 ```
 
+P8.124 supersedes this hold as a current roadmap blocker.
+
 Produced artifacts:
 
 - `generated/roadmap/p8.123-product-candidate-acceptance-scope-hold-record-report.json`
@@ -3638,7 +3644,29 @@ Produced artifacts:
 Recommended next slice:
 
 ```text
-Wait for exact WindowsUtility product candidate acceptance response.
+P8.124 WindowsUtility Adoption / IGD Productization Scope Correction
+```
+
+## Completed Slice: P8.124 WindowsUtility Adoption / IGD Productization Scope Correction
+
+Goal: separate WindowsUtility real-project adoption from productization of IntentGraphDevelopment itself.
+
+Result:
+
+```text
+Decision: windowsutility-is-adoption-target-not-igd-product-candidate.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.124-windowsutility-adoption-igd-productization-scope-correction-report.json`
+- `docs/roadmap/igd-productization-entry-plan.md`
+- [P8.124 WindowsUtility Adoption / IGD Productization Scope Correction](../reviews/p8.124-windowsutility-adoption-igd-productization-scope-correction.md)
+
+Recommended next slice:
+
+```text
+P9.0 IntentGraphDevelopment Productization Entry Boundary Plan
 ```
 
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request

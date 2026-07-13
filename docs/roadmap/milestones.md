@@ -3783,6 +3783,7 @@ Status: completed on 2026-07-13. See [P8.121 Productization Readiness Recheck Af
 Decision:
 
 - productization remains not-ready.
+- P8.124 later corrected the scope: WindowsUtility package evidence is adoption evidence, not an IntentGraphDevelopment product-candidate gate.
 - package artifact, extraction inventory, launch smoke, and packaged UI screenshot evidence are present.
 - product candidate acceptance, installer creation/status, artifact signing/status, release publishing/status, and final productization authority remain absent.
 - no installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
@@ -3808,6 +3809,7 @@ Decision:
 - required accepted response is `accept WindowsUtility product candidate`.
 - the current-goal ordinary `accept/revise/blocked` shortcut does not authorize product candidate acceptance.
 - no installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+- P8.124 withdraws this request because WindowsUtility is not the IntentGraphDevelopment product candidate.
 
 Produced artifacts:
 
@@ -3831,6 +3833,7 @@ Decision:
 - required accepted response is `accept WindowsUtility product candidate`.
 - the current-goal ordinary `accept/revise/blocked` shortcut does not authorize product candidate acceptance.
 - no installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+- P8.124 supersedes this hold as a current roadmap gate.
 
 Produced artifacts:
 
@@ -3839,7 +3842,30 @@ Produced artifacts:
 
 Next safe work:
 
-- wait for exact WindowsUtility product candidate acceptance response.
+- continue to `P8.124 WindowsUtility Adoption / IGD Productization Scope Correction`.
+
+## P8.124: WindowsUtility Adoption / IGD Productization Scope Correction
+
+Goal: correct the boundary between WindowsUtility real-project adoption evidence and IntentGraphDevelopment productization.
+
+Status: completed on 2026-07-13. See [P8.124 WindowsUtility Adoption / IGD Productization Scope Correction](../reviews/p8.124-windowsutility-adoption-igd-productization-scope-correction.md).
+
+Decision:
+
+- WindowsUtility is an IntentGraphDevelopment adoption target, not the IntentGraphDevelopment product candidate.
+- WindowsUtility package, extraction, launch, and UI evidence remain valid as target-delivery evidence.
+- P8.121-P8.123 no longer gate IntentGraphDevelopment work on a WindowsUtility product-candidate acceptance.
+- no installer creation, signing, credential access, provider API call, release publishing, or IntentGraphDevelopment productization claim was performed.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.124-windowsutility-adoption-igd-productization-scope-correction-report.json`
+- `docs/roadmap/igd-productization-entry-plan.md`
+- [P8.124 WindowsUtility Adoption / IGD Productization Scope Correction](../reviews/p8.124-windowsutility-adoption-igd-productization-scope-correction.md)
+
+Next safe work:
+
+- continue to `P9.0 IntentGraphDevelopment Productization Entry Boundary Plan`.
 
 ## P8.112: Productization Execution Hold After Launch Request
 

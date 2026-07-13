@@ -1,8 +1,10 @@
 # Productization Stabilization Plan
 
-Status: created in P8.0; rechecked through P8.59.
+Status: created in P8.0; scope-corrected in P8.124.
 
 IntentGraph is not ready for productization. The current evidence proves a semantic overlay model, deterministic toy and B1 fixtures, a static workbench preview, and read-only WindowsUtility adoption artifacts. It does not yet prove a safe user-facing product.
+
+> **P8.124 scope correction:** this plan concerns productization of IntentGraphDevelopment itself. WindowsUtility is a real-project adoption target. Its package, launch, and screenshot evidence demonstrate a bounded target-delivery loop; they are neither an IntentGraphDevelopment package nor an IntentGraphDevelopment product-candidate approval.
 
 ## Non-Negotiable Boundary
 

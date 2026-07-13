@@ -1,0 +1,55 @@
+{
+  "artifactRole": "intentgraph-roadmap-scope-correction-report",
+  "status": "intentgraph-roadmap-scope-corrected",
+  "scope": "p8.124-windowsutility-adoption-versus-igd-productization",
+  "decision": "windowsutility-is-an-igd-adoption-target-not-the-igd-product-candidate",
+  "date": "2026-07-13",
+  "correction": {
+    "productBeingProductized": "IntentGraphDevelopment",
+    "windowsUtilityRole": "real-project-adoption-and-target-delivery-evidence",
+    "windowsUtilityIsTheIGDProductCandidate": false,
+    "windowsUtilityPackageEvidenceIsIGDProductizationEvidence": false,
+    "igdProductCandidateDefined": false,
+    "igdProductizationReadiness": "not-yet-evaluated-under-correct-scope"
+  },
+  "preservedEvidence": [
+    {
+      "artifact": "generated/roadmap/p8.55-sandboxed-package-artifact-creation-probe-report.json",
+      "role": "windowsutility-target-package-evidence"
+    },
+    {
+      "artifact": "generated/windowsutility/package-artifact/p8.107/extraction-inventory-report.json",
+      "role": "windowsutility-target-package-evidence"
+    },
+    {
+      "artifact": "generated/windowsutility/package-artifact/p8.114/launch-smoke-report.json",
+      "role": "windowsutility-target-package-evidence"
+    },
+    {
+      "artifact": "generated/windowsutility/package-artifact/p8.120/screenshot-capture-report.json",
+      "role": "windowsutility-target-package-evidence"
+    }
+  ],
+  "supersededGateInterpretations": [
+    {
+      "artifact": "generated/roadmap/p8.121-productization-readiness-recheck-after-packaged-ui-screenshot-capture-report.json",
+      "supersededInterpretation": "WindowsUtility package evidence determines IntentGraphDevelopment productization readiness"
+    },
+    {
+      "artifact": "generated/roadmap/p8.122-product-candidate-acceptance-request.json",
+      "supersededInterpretation": "WindowsUtility must be accepted as the IntentGraphDevelopment product candidate"
+    },
+    {
+      "artifact": "generated/roadmap/p8.123-product-candidate-acceptance-scope-hold-record-report.json",
+      "supersededInterpretation": "Missing WindowsUtility product-candidate acceptance blocks IntentGraphDevelopment roadmap execution"
+    }
+  ],
+  "authority": {
+    "windowsUtilityProductCandidateAcceptanceRequired": false,
+    "installerCreationAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "releasePublishingAuthorized": false,
+    "igdProductizationClaimed": false
+  },
+  "nextSlice": "P9.0 IntentGraphDevelopment Productization Entry Boundary Plan"
+}
