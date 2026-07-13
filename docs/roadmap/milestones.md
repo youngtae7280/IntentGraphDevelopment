@@ -3944,6 +3944,29 @@ Next safe work:
 
 - continue to `P9.3 External Project Profile Intake and Workspace Import Boundary Plan`.
 
+## P9.3: External Project Profile Intake and Workspace Import Boundary Plan
+
+Goal: define the first safe boundary for reading an external project source root into an IGD workspace.
+
+Status: completed on 2026-07-13. See [P9.3 External Project Profile Intake and Workspace Import Boundary Plan Review](../reviews/p9.3-external-project-profile-intake-boundary-plan-review.md).
+
+Decision:
+
+- P9.4 may import only a B1-equivalent external TypeScript source tree through a read-only snapshot copy.
+- an intake receipt must record profile identity, logical source root, before/after source evidence, copied file evidence, and false authority flags without persisting the external absolute path.
+- arbitrary project, multi-language, C#, and WindowsUtility import claims remain forbidden.
+- no external source mutation, code application, network, provider, credential, hook, package, signing, release, or productization action was performed.
+
+Produced artifacts:
+
+- `docs/product/igd-external-project-profile-p9.3.md`
+- `generated/roadmap/p9.3-external-project-profile-intake-boundary-plan-report.json`
+- [P9.3 External Project Profile Intake and Workspace Import Boundary Plan Review](../reviews/p9.3-external-project-profile-intake-boundary-plan-review.md)
+
+Next safe work:
+
+- continue to `P9.4 B1-Equivalent External Source Snapshot Import`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

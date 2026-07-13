@@ -1,0 +1,43 @@
+{
+  "artifactRole": "intentgraph-external-project-profile-intake-boundary-plan-report",
+  "status": "intentgraph-external-project-profile-intake-boundary-planned",
+  "scope": "p9.3-plan-only-b1-equivalent-external-readonly-snapshot",
+  "decision": "open-only-a-b1-equivalent-external-source-intake-proof",
+  "p9_4": {
+    "command": "python tools/intentgraph.py import-b1-equivalent --workspace <new-workspace> --source-root <external-b1-equivalent-source>",
+    "profileId": "b1-typescript-rest-api-sample",
+    "logicalSourceRoot": "intentgraph://profiles/b1-typescript-rest-api-sample/source",
+    "externalSourceMode": "read-only-snapshot-copy",
+    "sourceMustMatchBoundedB1Profile": true,
+    "arbitraryProjectSupported": false
+  },
+  "requiredReceipt": {
+    "artifactRole": "intentgraph-external-source-intake-receipt",
+    "externalSourceMutated": false,
+    "sourcePathPersisted": false,
+    "networkRequired": false,
+    "automaticCodeApplication": false
+  },
+  "requiredFailures": [
+    "missing-or-invalid-source-root",
+    "source-root-inside-workspace",
+    "source-or-copied-file-symlink",
+    "unsupported-file-extension",
+    "source-digest-change-during-intake",
+    "source-not-equivalent-to-bounded-b1-profile",
+    "workspace-validation-failure",
+    "mutation-or-network-authority-request"
+  ],
+  "authority": {
+    "externalSourceMutation": false,
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "hookInstallationAllowed": false,
+    "releasePublishingAllowed": false,
+    "igdProductizationClaimed": false
+  },
+  "nextSlice": "P9.4 B1-Equivalent External Source Snapshot Import"
+}

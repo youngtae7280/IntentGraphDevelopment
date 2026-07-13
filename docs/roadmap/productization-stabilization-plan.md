@@ -12,6 +12,8 @@ IntentGraph is not ready for productization. The current evidence proves a seman
 
 > **P9.2 portable profile:** the B1 local-review profile uses a stable `intentgraph://` logical source identity and a static profile proposal baseline. Workspace location no longer changes its review artifacts; external project profile intake remains future work.
 
+> **P9.3 external intake boundary:** P9.4 may read and snapshot only a B1-equivalent external TypeScript source copy. It must prove before/after source equality and must not claim arbitrary project or WindowsUtility support.
+
 ## Non-Negotiable Boundary
 
 Productization must remain blocked until real-project adoption evidence exists.

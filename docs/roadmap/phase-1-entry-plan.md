@@ -3741,6 +3741,28 @@ Recommended next slice:
 P9.3 External Project Profile Intake and Workspace Import Boundary Plan
 ```
 
+## Completed Slice: P9.3 External Project Profile Intake and Workspace Import Boundary Plan
+
+Goal: define a safe, read-only external project intake boundary before implementing import behavior.
+
+Result:
+
+```text
+Decision: open-only-a-b1-equivalent-external-source-intake-proof.
+```
+
+Produced artifacts:
+
+- `docs/product/igd-external-project-profile-p9.3.md`
+- `generated/roadmap/p9.3-external-project-profile-intake-boundary-plan-report.json`
+- [P9.3 External Project Profile Intake and Workspace Import Boundary Plan Review](../reviews/p9.3-external-project-profile-intake-boundary-plan-review.md)
+
+Recommended next slice:
+
+```text
+P9.4 B1-Equivalent External Source Snapshot Import
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

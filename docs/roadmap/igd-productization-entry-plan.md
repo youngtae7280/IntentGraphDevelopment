@@ -1,6 +1,6 @@
 # IntentGraphDevelopment Productization Entry Plan
 
-Status: P9.0 plan, P9.1 bounded implementation, and P9.2 logical source identity completed; P9.3 external profile planning is next.
+Status: P9.0 plan, P9.1 bounded implementation, P9.2 logical source identity, and P9.3 external intake planning completed; P9.4 bounded import implementation is next.
 
 ## Purpose
 
@@ -107,3 +107,9 @@ P9.1 originally materialized a copied proposal baseline because the historical B
 P9.2 replaces that path-specific materialization for the local-review profile. The B1 workspace now uses the logical identity `intentgraph://profiles/b1-typescript-rest-api-sample/source` and a static profile proposal baseline. Two fresh workspaces in different directories produce byte-identical review artifacts while historical B1 physical-path extraction stays byte-identical.
 
 The next slice is `P9.3 External Project Profile Intake and Workspace Import Boundary Plan`.
+
+## P9.3 Result
+
+P9.3 defines a read-only external source intake boundary. P9.4 may import only a TypeScript source tree that is byte-equivalent to the bounded B1 profile, snapshot it into a new workspace, and prove the external tree did not change. It must not claim arbitrary project, C#, or WindowsUtility support.
+
+The next slice is `P9.4 B1-Equivalent External Source Snapshot Import`.
