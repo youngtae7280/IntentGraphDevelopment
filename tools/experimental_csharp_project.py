@@ -799,10 +799,11 @@ def record_semantic_foundation(project_workspace: Path, foundation_path: Path) -
     }
 
 
-def add_change_proposal(project_workspace: Path, proposal_path: Path) -> dict[str, Any]:
+def add_change_proposal_document(project_workspace: Path, proposal: dict[str, Any]) -> dict[str, Any]:
     project_workspace = project_workspace.resolve()
+    if not isinstance(proposal, dict):
+        raise ProjectWorkspaceError("change proposal document must be a JSON object")
     state, _, _, data = validate_project_workspace(project_workspace)
-    proposal = read_json(proposal_path.resolve())
     work_ids = {item["id"] for item in state["workItems"]}
     mapping_ids = {item["id"] for item in state["mappings"]}
     fact_by_id = {fact.get("id"): fact for fact in data["facts"].get("facts", []) if isinstance(fact, dict) and isinstance(fact.get("id"), str)}
@@ -869,6 +870,11 @@ def add_change_proposal(project_workspace: Path, proposal_path: Path) -> dict[st
         "targetRepositoryMutation": False,
         "authority": PROJECT_AUTHORITY,
     }
+
+
+def add_change_proposal(project_workspace: Path, proposal_path: Path) -> dict[str, Any]:
+    proposal_path = proposal_path.resolve()
+    return add_change_proposal_document(project_workspace, read_json(proposal_path))
 
 
 def code_node(fact: dict[str, Any]) -> dict[str, Any]:
@@ -1171,6 +1177,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "externalRuntimeUrlsAllowed": False,
             "staticGraphMutationFromUi": False,
             "loopbackProjectStateMutationFromUi": True,
+            "loopbackReviewProposalIntakeFromUi": True,
             "targetRepositoryMutationFromUi": False,
             "approvalControlsPresent": False,
             "fullGraphDefault": True,
@@ -1464,11 +1471,14 @@ SERVER_UI_EXTENSION = r'''<style>
   .new-work-trigger { position:fixed; right:18px; bottom:18px; z-index:30; background:#16413f; border-color:#3b9c94; color:#d9fffa; box-shadow:0 10px 30px rgba(0,0,0,.35); }
   .new-work-dialog { width:min(520px,calc(100vw - 32px)); color:#e1e9f1; background:#111923; border:1px solid #355061; border-radius:6px; padding:0; box-shadow:0 20px 60px rgba(0,0,0,.55); }
   .new-work-dialog::backdrop { background:rgba(0,0,0,.66); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#c8d7e5; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form textarea { min-height:110px; resize:vertical; color:#e1e9f1; background:#0b1219; border:1px solid #314556; border-radius:4px; padding:8px; font:inherit; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#deb96f; font-size:12px; } .map-code-trigger { position:fixed; right:18px; bottom:62px; z-index:30; background:#293550; border-color:#536d9a; color:#e0e9ff; box-shadow:0 10px 30px rgba(0,0,0,.35); } .selected-code-fact { padding:8px; overflow-wrap:anywhere; color:#b8cce4; background:#0b1219; border:1px solid #314556; border-radius:4px; font:11px/1.4 Consolas,monospace; }
+  .proposal-trigger { position:fixed; right:18px; bottom:106px; z-index:30; background:#513d24; border-color:#b99756; color:#fff2cc; box-shadow:0 10px 30px rgba(0,0,0,.35); } .proposal-dialog { width:min(760px,calc(100vw - 32px)); } .proposal-input { min-height:300px !important; font:12px/1.45 Consolas,monospace !important; tab-size:2; }
 </style>
 <button id="newWorkTrigger" class="new-work-trigger" type="button">New work request</button>
 <button id="mapCodeTrigger" class="map-code-trigger" type="button">Map selected code</button>
+<button id="importProposalTrigger" class="proposal-trigger" type="button" disabled>Import review proposal</button>
 <dialog id="newWorkDialog" class="new-work-dialog"><form id="newWorkForm" class="new-work-form" method="dialog"><h2>Record a work request</h2><p>This records a request in the local IntentGraph project workspace. It does not edit the source project.</p><label for="newWorkId">Stable work id</label><input id="newWorkId" name="workId" required pattern="[a-z][a-z0-9.-]{2,100}" placeholder="example-work-item"><label for="newWorkTitle">Title</label><input id="newWorkTitle" name="title" required maxlength="180" placeholder="Short work title"><label for="newWorkRequest">Request</label><textarea id="newWorkRequest" name="request" required maxlength="12000" placeholder="Describe the desired behavior or change."></textarea><div id="newWorkMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelNewWork" type="button">Cancel</button><button type="submit">Record request</button></div></form></dialog>
 <dialog id="mapCodeDialog" class="new-work-dialog"><form id="mapCodeForm" class="new-work-form" method="dialog"><h2>Record a code mapping candidate</h2><p>This connects the selected code fact to a local work request as a declared candidate. It does not approve the mapping or edit the source project.</p><label>Selected code fact</label><div id="selectedCodeFact" class="selected-code-fact"></div><label for="mapWorkId">Work request</label><select id="mapWorkId" name="workId" required></select><label for="mapRationale">Why this code is relevant</label><textarea id="mapRationale" name="rationale" required maxlength="12000" placeholder="Describe the relationship between this request and the selected code."></textarea><div id="mapCodeMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelMapCode" type="button">Cancel</button><button id="submitMapCode" type="submit">Record mapping candidate</button></div></form></dialog>
+<dialog id="importProposalDialog" class="new-work-dialog proposal-dialog"><form id="importProposalForm" class="new-work-form" method="dialog"><h2>Import a review-only change proposal</h2><p>Paste a deterministic proposal document for an existing work request and mapping candidate. The local server validates it before recording any project-state artifact. It does not edit the C# source project, apply a graph delta, or approve the proposal.</p><label for="proposalDocument">Proposal JSON</label><textarea id="proposalDocument" class="proposal-input" name="proposalDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-change-proposal document."></textarea><div id="importProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportProposal" type="button">Cancel</button><button type="submit">Validate and record proposal</button></div></form></dialog>
 <script>
   (() => { const dialog=document.getElementById('newWorkDialog'), trigger=document.getElementById('newWorkTrigger'), form=document.getElementById('newWorkForm'), message=document.getElementById('newWorkMessage'); trigger.addEventListener('click',()=>dialog.showModal()); document.getElementById('cancelNewWork').addEventListener('click',()=>dialog.close()); form.addEventListener('submit',async event=>{event.preventDefault();message.textContent='Recording request...';const body={workId:form.workId.value.trim(),title:form.title.value.trim(),request:form.request.value.trim()};try{const response=await fetch('/api/work-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const result=await response.json();if(!response.ok){throw new Error(result.error||'Request could not be recorded.');}message.textContent='Recorded. Reloading workbench...';window.setTimeout(()=>window.location.reload(),250);}catch(error){message.textContent=error.message||'Request could not be recorded.';}}); })();
 </script>
@@ -1504,6 +1514,29 @@ SERVER_UI_EXTENSION = r'''<style>
         message.textContent='Recorded. Reloading workbench...';
         window.setTimeout(()=>window.location.reload(),250);
       }catch(error){message.textContent=error.message||'Mapping candidate could not be recorded.';}
+    });
+  })();
+</script>
+<script>
+  (() => {
+    const dialog=document.getElementById('importProposalDialog'),trigger=document.getElementById('importProposalTrigger'),form=document.getElementById('importProposalForm'),documentField=document.getElementById('proposalDocument'),message=document.getElementById('importProposalMessage');
+    trigger.disabled=true;
+    window.addEventListener('intentgraph-ready',()=>{trigger.disabled=false;});
+    trigger.addEventListener('click',()=>dialog.showModal());
+    document.getElementById('cancelImportProposal').addEventListener('click',()=>dialog.close());
+    form.addEventListener('submit',async event=>{
+      event.preventDefault();
+      let proposal;
+      try { proposal=JSON.parse(documentField.value); } catch (_error) { message.textContent='Proposal JSON is not valid.'; return; }
+      if(!proposal || Array.isArray(proposal) || typeof proposal!=='object'){ message.textContent='Proposal JSON must be an object.'; return; }
+      message.textContent='Validating review-only proposal...';
+      try {
+        const response=await fetch('/api/change-proposals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({proposal})});
+        const result=await response.json();
+        if(!response.ok)throw new Error(result.error||'Proposal could not be recorded.');
+        message.textContent='Recorded for review. Reloading workbench...';
+        window.setTimeout(()=>window.location.reload(),250);
+      }catch(error){message.textContent=error.message||'Proposal could not be recorded.';}
     });
   })();
 </script>'''
@@ -1563,7 +1596,7 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not isinstance(default_view, dict) or default_view.get("id") != "all" or default_view.get("rendering") != "full-graph-progressive-detail" or default_view.get("layout") != "deterministic-source-grouped-preset" or default_view.get("physicsLayoutOnLoad") is not False:
         errors.append("project workbench full graph rendering contract is invalid")
     ui_contract = projection.get("uiContract")
-    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "loopbackProjectStateMutationFromUi")) or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
+    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi")) or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
         errors.append("project workbench progressive full graph UI contract is invalid")
     try:
         assert_no_unsafe_state(projection)

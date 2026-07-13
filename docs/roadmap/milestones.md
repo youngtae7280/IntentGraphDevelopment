@@ -4264,6 +4264,29 @@ Non-goals:
 - no semantic-foundation replacement without a future reviewed boundary
 - no source modification, approval, evidence execution, remote service, or packaged desktop release
 
+## P9.19: Local Review Proposal Intake
+
+Goal: let the loopback-only project Workbench record a validated review proposal after a user has recorded a work request and declared code mapping candidate.
+
+Status: implementation and local validation completed on 2026-07-13. See [P9.19 Local Review Proposal Intake Review](../reviews/p9.19-local-review-proposal-intake-review.md).
+
+Delivered boundary:
+
+- the Workbench exposes a user-initiated `Import review proposal` dialog only on the loopback server surface
+- `POST /api/change-proposals` accepts exactly one proposal object and calls the existing deterministic P9.14 validator
+- accepted records remain `not-applied-review-required`, attach to the local project workspace, and become visible as a graph delta/code-diff review state
+- static export remains read-only and has no proposal API client
+
+Verification:
+
+- loopback smoke records a work request, mapping candidate, and valid review-only proposal in a temporary local workspace
+- smoke rejects an applied status claim and proves source snapshot provenance unchanged
+- P9.14 proposal negative probes remain passing
+
+Non-goals:
+
+- no automatic proposal generation, source mutation, graph-delta application, mapping/proposal approval, build, evidence execution, external service, or productization claim
+
 ## P9.18: Large-Graph Navigation and Performance Workbench
 
 Goal: retain a complete project graph while making community layout and ordinary Workbench interactions usable on the measured WindowsUtility projection.

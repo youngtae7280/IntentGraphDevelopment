@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 from emit_experimental_csharp_fact_workbench import CYTOSCAPE_LICENSE_SOURCE, CYTOSCAPE_SOURCE
 from experimental_csharp_project import (
     ProjectWorkspaceError,
+    add_change_proposal_document,
     add_mapping_candidate,
     add_work_request,
     build_projection,
@@ -24,7 +25,7 @@ from experimental_csharp_project import (
 
 
 LOOPBACK_HOSTS = {"127.0.0.1", "::1"}
-MAX_REQUEST_BYTES = 32768
+MAX_REQUEST_BYTES = 131072
 CONTENT_SECURITY_POLICY = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'"
 
 
@@ -90,7 +91,7 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
 
         def do_POST(self) -> None:  # noqa: N802 - HTTP handler contract
             path = urlparse(self.path).path
-            if path not in {"/api/work-requests", "/api/mapping-candidates"}:
+            if path not in {"/api/work-requests", "/api/mapping-candidates", "/api/change-proposals"}:
                 self.error_json(HTTPStatus.NOT_FOUND, "local workbench route does not exist")
                 return
             content_length = self.headers.get("Content-Length")
@@ -119,18 +120,23 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
             if path == "/api/work-requests":
                 required_fields = {"workId", "title", "request"}
                 error_message = "work request must contain only workId, title, and request strings"
-            else:
+            elif path == "/api/mapping-candidates":
                 required_fields = {"workId", "codeFactId", "rationale"}
                 error_message = "mapping candidate must contain only workId, codeFactId, and rationale strings"
-            if set(payload) != required_fields or any(not isinstance(payload.get(key), str) for key in required_fields):
+            else:
+                required_fields = {"proposal"}
+                error_message = "change proposal must contain only one proposal object"
+            if set(payload) != required_fields or (path == "/api/change-proposals" and not isinstance(payload.get("proposal"), dict)) or (path != "/api/change-proposals" and any(not isinstance(payload.get(key), str) for key in required_fields)):
                 self.error_json(HTTPStatus.BAD_REQUEST, error_message)
                 return
             try:
                 with lock:
                     if path == "/api/work-requests":
                         result = add_work_request(workspace, payload["workId"], payload["title"], payload["request"])
-                    else:
+                    elif path == "/api/mapping-candidates":
                         result = add_mapping_candidate(workspace, payload["workId"], [payload["codeFactId"]], payload["rationale"])
+                    else:
+                        result = add_change_proposal_document(workspace, payload["proposal"])
                     self.respond(HTTPStatus.CREATED, json_bytes(result), "application/json; charset=utf-8")
             except ProjectWorkspaceError as error:
                 self.error_json(HTTPStatus.BAD_REQUEST, str(error))
