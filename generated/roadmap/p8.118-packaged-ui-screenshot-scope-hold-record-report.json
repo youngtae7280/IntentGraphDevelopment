@@ -1,0 +1,45 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "date": "2026-07-13",
+  "decision": "packaged-ui-screenshot-held-pending-exact-authorization-response",
+  "holdSummary": {
+    "currentGoalAcceptShortcutApplies": false,
+    "exactAcceptedResponseRecorded": false,
+    "packageExtractionInventoryVerificationPassed": true,
+    "packagedExecutableLaunchSmokePassed": true,
+    "packagedUiScreenshotCaptureAllowed": false,
+    "requiredAcceptedResponse": "accept sandboxed packaged UI screenshot capture",
+    "windowsUtilityCleanAligned": true
+  },
+  "nonGoals": {
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "installerCreation": false,
+    "packagedExecutableLaunch": false,
+    "packagedUiLaunch": false,
+    "packagedUiScreenshotCapture": false,
+    "productCandidateAcceptance": false,
+    "productizationClaimed": false,
+    "providerApiCalls": false,
+    "releasePublishing": false
+  },
+  "recommendedNextSlice": "Wait for exact packaged UI screenshot capture authorization response",
+  "result": "packaged-ui-screenshot-held-no-execution",
+  "scope": "p8.118-packaged-ui-screenshot-scope-hold-record-report",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.117-packaged-ui-screenshot-authorization-refresh.json",
+      "role": "intentgraph-packaged-ui-screenshot-authorization-request",
+      "sha256": "sha256:2d50215bdabafe9f21a372a6f28223922943d88b7763e7ac88f652a3bdfe03dd",
+      "status": "intentgraph-packaged-ui-screenshot-authorization-requested"
+    },
+    {
+      "path": "generated/roadmap/p8.117-packaged-ui-screenshot-authorization-refresh-report.json",
+      "role": "intentgraph-roadmap-phase-report",
+      "sha256": "sha256:aefcede20062f8446a98b3fc4f18eeca452ea647c5cc615fc5da2b8912c279c5",
+      "status": "intentgraph-roadmap-phase-completed"
+    }
+  ],
+  "status": "intentgraph-roadmap-phase-completed",
+  "workItem": "P8.118 Packaged UI Screenshot Scope Hold Record"
+}

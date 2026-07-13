@@ -3509,6 +3509,27 @@ Recommended next slice:
 Wait for exact packaged UI screenshot capture authorization response.
 ```
 
+## Completed Slice: P8.118 Packaged UI Screenshot Scope Hold Record
+
+Goal: record that packaged UI screenshot capture remains held while exact screenshot authorization is absent.
+
+Result:
+
+```text
+Decision: packaged-ui-screenshot-held-pending-exact-authorization-response.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.118-packaged-ui-screenshot-scope-hold-record-report.json`
+- [P8.118 Packaged UI Screenshot Scope Hold Record](../reviews/p8.118-packaged-ui-screenshot-scope-hold-record.md)
+
+Recommended next slice:
+
+```text
+Wait for exact packaged UI screenshot capture authorization response.
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.
