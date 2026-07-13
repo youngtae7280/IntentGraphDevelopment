@@ -1,0 +1,44 @@
+{
+  "artifactRole": "intentgraph-dense-graph-visual-navigation-report",
+  "result": "pass",
+  "project": "WindowsUtility",
+  "graph": {
+    "nodeCount": 8179,
+    "relationCount": 7978,
+    "graphInstanceCount": 1,
+    "layout": "deterministic-relation-aware-community-preset"
+  },
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "initialZoom": 0.38823508451980243,
+    "deepInspectionZoom": 100,
+    "maxZoom": 100,
+    "deepInspectionBand": "micro",
+    "zoomBandCount": 9,
+    "zoomInteractionSettleMilliseconds": 350,
+    "elevenStepZoomInteractionMilliseconds": 846,
+    "selectionWidthBeforeZoomPixels": 1.6,
+    "selectionWidthAfterZoomPixels": 1.6,
+    "maximumZoomOrdinaryEdgeWidthPixels": 1,
+    "maximumZoomSelectedEdgeWidthPixels": 1.6
+  },
+  "workHistory": {
+    "recordedCount": 3,
+    "searchMatchCount": 1,
+    "unmappedFilterCount": 2,
+    "renderLimit": 60
+  },
+  "nodeTypeHierarchy": {
+    "codeCategory": "code",
+    "methodKind": "method",
+    "methodDuplicatedAsPeerCategory": false
+  },
+  "authority": {
+    "targetRepositoryMutation": false,
+    "snapshotWorkspaceMutation": false,
+    "graphMutation": false,
+    "automaticCodeApplication": false,
+    "approvalAutomation": false
+  }
+}

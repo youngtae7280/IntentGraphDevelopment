@@ -4027,6 +4027,19 @@ small revision head changes, while static HTML remains an immutable review snaps
 See [P9.25 Durable Work History Navigation](../product/igd-durable-work-history-navigation-p9.25.md)
 and [P9.25 Review](../reviews/p9.25-durable-work-history-navigation-review.md).
 
+## Implemented Slice: P9.26 Dense Graph Visual Navigation
+
+P9.26 keeps the same complete unified graph while tightening deterministic community
+placement, reducing fit padding, raising the zoom ceiling to 100, and scaling code
+facts and relation emphasis through nine visual detail bands. Semantic and capsule
+nodes gain a restrained reflected dark-core material treatment; code facts receive
+kind-specific geometry without per-node texture or glow, while file landmarks reuse
+one shared material texture. Work history adds search, status
+filters, and a 60-card DOM window without
+dropping recorded work from navigation. See
+[P9.26 Dense Graph Visual Navigation](../product/igd-dense-graph-visual-navigation-p9.26.md)
+and [P9.26 Review](../reviews/p9.26-dense-graph-visual-navigation-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).

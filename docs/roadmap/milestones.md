@@ -4430,6 +4430,39 @@ Non-goals:
 
 - no automatic proposal generation, source mutation, graph-delta application, mapping/proposal approval, build, evidence execution, external service, or productization claim
 
+## P9.26: Dense Graph Visual Navigation
+
+Goal: make the complete WindowsUtility graph readable from compact overview through
+deep code-fact inspection without changing the unified graph or rebuilding it during
+interaction.
+
+Status: implementation and local browser validation completed on 2026-07-13. See
+[P9.26 Dense Graph Visual Navigation Review](../reviews/p9.26-dense-graph-visual-navigation-review.md).
+
+Delivered boundary:
+
+- compact deterministic module placement and reduced fit padding use more of the
+  available graph canvas
+- nine compensated zoom bands and `maxZoom: 100` preserve overview readability while
+  making individual code facts inspectable at deep zoom
+- semantic nodes use a restrained material/neon treatment; ordinary code facts avoid
+  expensive per-node glow
+- work history has search, status filters, and a 60-card DOM window while retaining
+  navigation over all recorded work
+- `code` remains a category and `method` remains a kind on the same code-fact node
+
+Verification:
+
+- WindowsUtility browser QA covers 8,179 nodes, 7,978 relations, 0.388 initial zoom,
+  100 deep zoom, search, status filters, and the `micro` band
+- 21-probe server smoke, static emission/validation, Python compilation, and inline
+  JavaScript parsing pass
+
+Non-goals:
+
+- no graph/source mutation, build, restore, launch, automatic mapping, planning,
+  evidence execution, authority promotion, or approval automation
+
 ## P9.20: Local Review Receipt Intake
 
 Goal: make a review-only proposal's verification/evidence requirements actionable as typed local review records without claiming that execution evidence, source application, or approval occurred.
