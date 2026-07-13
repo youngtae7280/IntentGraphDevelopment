@@ -3598,6 +3598,28 @@ Recommended next slice:
 P8.122 Product Candidate Acceptance Request
 ```
 
+## Completed Slice: P8.122 Product Candidate Acceptance Request
+
+Goal: request exact product candidate acceptance now that package, extraction, launch, and screenshot evidence are present.
+
+Result:
+
+```text
+Decision: product-candidate-acceptance-requested-not-recorded.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.122-product-candidate-acceptance-request.json`
+- `generated/roadmap/p8.122-product-candidate-acceptance-request-report.json`
+- [P8.122 Product Candidate Acceptance Request](../reviews/p8.122-product-candidate-acceptance-request.md)
+
+Recommended next slice:
+
+```text
+Wait for exact WindowsUtility product candidate acceptance response.
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

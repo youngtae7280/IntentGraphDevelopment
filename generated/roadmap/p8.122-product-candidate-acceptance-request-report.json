@@ -1,0 +1,26 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "date": "2026-07-13",
+  "decision": "product-candidate-acceptance-request-created",
+  "nonGoals": {
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "installerCreation": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false,
+    "providerApiCalls": false,
+    "releasePublishing": false
+  },
+  "recommendedNextSlice": "Wait for exact WindowsUtility product candidate acceptance response",
+  "requestSummary": {
+    "candidateEvidenceChainPresent": true,
+    "currentGoalAcceptShortcutApplies": false,
+    "exactAcceptedResponseRecorded": false,
+    "productCandidateAcceptedNow": false,
+    "requiredAcceptedResponse": "accept WindowsUtility product candidate"
+  },
+  "result": "product-candidate-acceptance-requested-not-recorded",
+  "scope": "p8.122-product-candidate-acceptance-request-report",
+  "status": "intentgraph-roadmap-phase-completed",
+  "workItem": "P8.122 Product Candidate Acceptance Request"
+}

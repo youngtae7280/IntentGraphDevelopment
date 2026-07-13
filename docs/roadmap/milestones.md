@@ -3796,6 +3796,29 @@ Next safe work:
 
 - continue to `P8.122 Product Candidate Acceptance Request`.
 
+## P8.122: Product Candidate Acceptance Request
+
+Goal: request exact product candidate acceptance now that package, extraction, launch, and screenshot evidence are present.
+
+Status: completed on 2026-07-13. See [P8.122 Product Candidate Acceptance Request](../reviews/p8.122-product-candidate-acceptance-request.md).
+
+Decision:
+
+- product candidate acceptance was requested.
+- required accepted response is `accept WindowsUtility product candidate`.
+- the current-goal ordinary `accept/revise/blocked` shortcut does not authorize product candidate acceptance.
+- no installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.122-product-candidate-acceptance-request.json`
+- `generated/roadmap/p8.122-product-candidate-acceptance-request-report.json`
+- [P8.122 Product Candidate Acceptance Request](../reviews/p8.122-product-candidate-acceptance-request.md)
+
+Next safe work:
+
+- wait for exact WindowsUtility product candidate acceptance response.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.
