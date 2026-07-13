@@ -4042,6 +4042,17 @@ dropping recorded work from navigation. See
 [P9.26 Dense Graph Visual Navigation](../product/igd-dense-graph-visual-navigation-p9.26.md)
 and [P9.26 Review](../reviews/p9.26-dense-graph-visual-navigation-review.md).
 
+## Implemented Slice: P9.27 Diff-Backed Guided Code Change Proposals
+
+P9.27 turns the guided proposal form into a real code-change review path. A user
+selects mapped code facts and supplies hunk-only unified diffs; the server verifies
+snapshot digest, source context, hunk counts, ordering, range overlap, and non-no-op
+content before recording a non-applied proposal. Only diff-backed facts become changed
+nodes, while other mapped facts remain context. The Workbench immediately exposes the
+proposal stage and per-code-node diff. See
+[P9.27 Diff-Backed Guided Proposals](../product/igd-diff-backed-guided-proposals-p9.27.md)
+and [P9.27 Review](../reviews/p9.27-diff-backed-guided-proposals-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).

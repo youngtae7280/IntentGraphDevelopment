@@ -78,7 +78,7 @@ def server_proposal(code_fact_id: str) -> dict[str, Any]:
     }
 
 
-def server_guided_proposal() -> dict[str, str]:
+def server_guided_proposal(code_fact_id: str, unified_diff: str) -> dict[str, Any]:
     return {
         "proposalId": "server-proposal",
         "workId": "server-request",
@@ -88,6 +88,7 @@ def server_guided_proposal() -> dict[str, str]:
         "verificationSummary": "Review the declared mapping before any source action.",
         "evidenceKind": "server-evidence",
         "evidenceSummary": "Collect evidence only through a later authorized boundary.",
+        "codeDiffs": [{"codeFactId": code_fact_id, "unifiedDiff": unified_diff}],
     }
 
 
@@ -160,11 +161,15 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
         recorded_overlay = record_semantic_relation_overlay(workspace, overlay_path)
         if recorded_overlay["result"] != "pass":
             raise RuntimeError("server smoke could not record its synthetic semantic relation overlay")
-        code_fact_id = next(
-            fact["id"]
+        code_fact = next(
+            fact
             for fact in before_data["facts"]["facts"]
             if isinstance(fact, dict) and fact.get("kind") == "method"
         )
+        code_fact_id = code_fact["id"]
+        source_line_number = code_fact["sourceLocation"]["lineStart"]
+        source_line = (workspace / "snapshot" / "source" / Path(code_fact["sourceFile"])).read_text(encoding="utf-8-sig").splitlines()[source_line_number - 1]
+        guided_unified_diff = f"@@ -{source_line_number},1 +{source_line_number},2 @@\n+// IGD review-only proposed change.\n {source_line}"
         server = make_server(workspace, "127.0.0.1", 0)
         thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01}, daemon=True)
         thread.start()
@@ -173,7 +178,7 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
         probes: list[dict[str, Any]] = []
         try:
             status, html, headers = request(base_url + "/")
-            probes.append({"id": "serves-deferred-interactive-html", "passed": status == 200 and len(html) < 120000 and b"newWorkTrigger" in html and b"mapCodeTrigger" in html and b"draftProposalTrigger" in html and b"importProposalTrigger" in html and b"draftReceiptTrigger" in html and b"importReceiptTrigger" in html and b"modeBadge" in html and b"previousWork" in html and b"nextWork" in html and b"previousStage" in html and b"nextStage" in html and b"workPosition" in html and b"stagePosition" in html and b"workSearch" in html and b"workStatusFilter" in html and b"workWindowSummary" in html and b"workListRenderLimit=60" in html and b"maxZoom:240" in html and b"?'nano':'atomic'" in html and b"makeSpectralObsidianNodeMaterialTexture" in html and b"edge:selected" in html and b"zoomReadout" in html and b"highlightedEdgeIds" in html and b"focusStage" in html and b"workStageTimeline" in html and b"__intentGraphLoadProjection" in html and b"/api/revision-head" in html and b"checkForProjectUpdate" in html and b"/api/work-requests" in html and b"/api/mapping-candidates" in html and b"/api/change-proposals" in html and b"/api/draft-change-proposals" in html and b"/api/review-receipts" in html and b"/api/draft-review-receipts" in html and b"spiralPoint" in html and b"local-symbol links" in html and b"completeGraph" in html and b"semanticEdgeIds" in html and b"importantCodeLabelIds" in html and b"show-on-demand-label" in html and b"updateViewportScale" in html and b"zoomStyleBand" in html and b"codeNodes.addClass('show-code-label')" not in html and b"edge.low-detail',style:{'display':'none'}" not in html and b"search-match" in html and b"selection-neighbor" in html and b"visibilityUpdates" in html and b"state.cy.destroy" not in html and b"name:'cose'" not in html and headers.get("Content-Security-Policy") is not None})
+            probes.append({"id": "serves-deferred-interactive-html", "passed": status == 200 and len(html) < 120000 and b"newWorkTrigger" in html and b"mapCodeTrigger" in html and b"draftProposalTrigger" in html and b"draftCodeDiffList" in html and b"proposalCodeFacts" in html and b"Import proposal JSON" in html and b"draftReceiptTrigger" in html and b"importReceiptTrigger" in html and b"modeBadge" in html and b"previousWork" in html and b"nextWork" in html and b"previousStage" in html and b"nextStage" in html and b"workPosition" in html and b"stagePosition" in html and b"workSearch" in html and b"workStatusFilter" in html and b"workWindowSummary" in html and b"workListRenderLimit=60" in html and b"maxZoom:240" in html and b"?'nano':'atomic'" in html and b"makeSpectralObsidianNodeMaterialTexture" in html and b"edge:selected" in html and b"zoomReadout" in html and b"highlightedEdgeIds" in html and b"focusStage" in html and b"workStageTimeline" in html and b"__intentGraphLoadProjection" in html and b"/api/revision-head" in html and b"checkForProjectUpdate" in html and b"/api/work-requests" in html and b"/api/mapping-candidates" in html and b"/api/change-proposals" in html and b"/api/draft-change-proposals" in html and b"/api/review-receipts" in html and b"/api/draft-review-receipts" in html and b"spiralPoint" in html and b"local-symbol links" in html and b"completeGraph" in html and b"semanticEdgeIds" in html and b"importantCodeLabelIds" in html and b"show-on-demand-label" in html and b"updateViewportScale" in html and b"zoomStyleBand" in html and b"codeNodes.addClass('show-code-label')" not in html and b"edge.low-detail',style:{'display':'none'}" not in html and b"search-match" in html and b"selection-neighbor" in html and b"visibilityUpdates" in html and b"state.cy.destroy" not in html and b"name:'cose'" not in html and headers.get("Content-Security-Policy") is not None})
             status, projection_bytes, _ = request(base_url + "/api/projection")
             initial_projection = json.loads(projection_bytes)
             head_status, head_bytes, _ = request(base_url + "/api/revision-head")
@@ -200,13 +205,13 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
             mapped_projection = json.loads(mapped_projection_bytes)
             mapping_stage = mapped_projection["workflow"]["workStageTimeline"][1]
             probes.append({"id": "reloads-mapped-projection", "passed": status == 200 and len(mapped_projection["workflow"]["mappings"]) == 1 and mapped_projection["workflow"]["mappings"][0]["codeFactIds"] == [code_fact_id] and [stage["kind"] for stage in mapped_projection["workflow"]["workStageTimeline"] if stage["workItemId"] == "server-request"] == ["request-recorded", "mapping-candidate-recorded"] and len(mapped_projection["workflow"]["workStageRevisions"]) == 3 and mapping_stage["durableRevision"] is True and mapping_stage["revisionIds"] == [mapped["revisionId"]]})
-            status, proposal_bytes, _ = request(base_url + "/api/draft-change-proposals", method="POST", body=server_guided_proposal())
+            status, proposal_bytes, _ = request(base_url + "/api/draft-change-proposals", method="POST", body=server_guided_proposal(code_fact_id, guided_unified_diff))
             proposal_result = json.loads(proposal_bytes)
-            probes.append({"id": "records-guided-review-proposal-in-project-workspace", "passed": status == 201 and proposal_result["result"] == "pass" and proposal_result["proposalId"] == "server-proposal" and proposal_result["mappingId"] == "mapping.server-request.candidate" and proposal_result["revisionId"].startswith("revision.server-request.3.") and proposal_result["codeDiffCount"] == 0 and proposal_result["guidedReviewProposal"] is True and proposal_result["targetRepositoryMutation"] is False})
+            probes.append({"id": "records-diff-backed-guided-proposal-in-project-workspace", "passed": status == 201 and proposal_result["result"] == "pass" and proposal_result["proposalId"] == "server-proposal" and proposal_result["mappingId"] == "mapping.server-request.candidate" and proposal_result["revisionId"].startswith("revision.server-request.3.") and proposal_result["codeDiffCount"] == 1 and proposal_result["diffBackedGuidedProposal"] is True and proposal_result["guidedReviewProposal"] is True and proposal_result["targetRepositoryMutation"] is False})
             status, proposal_projection_bytes, _ = request(base_url + "/api/projection")
             proposal_projection = json.loads(proposal_projection_bytes)
             proposal_stages = [stage for stage in proposal_projection["workflow"]["workStageTimeline"] if stage["workItemId"] == "server-request"][2:4]
-            probes.append({"id": "reloads-review-only-proposal-delta", "passed": status == 200 and len(proposal_projection["workflow"]["changeProposals"]) == 1 and [stage["kind"] for stage in proposal_projection["workflow"]["workStageTimeline"] if stage["workItemId"] == "server-request"] == ["request-recorded", "mapping-candidate-recorded", "change-proposal-recorded", "verification-and-evidence-requirements-recorded"] and len(proposal_projection["workflow"]["workStageRevisions"]) == 4 and all(stage["durableRevision"] is True and stage["revisionIds"] == [proposal_result["revisionId"]] for stage in proposal_stages) and proposal_stages[0]["beforeProjectStateDigest"] == proposal_stages[1]["beforeProjectStateDigest"] and proposal_stages[0]["afterProjectStateDigest"] == proposal_stages[1]["afterProjectStateDigest"] and proposal_projection["changeReview"]["status"] == "review-required" and proposal_projection["authority"]["targetRepositoryMutation"] is False})
+            probes.append({"id": "reloads-diff-backed-proposal-delta", "passed": status == 200 and len(proposal_projection["workflow"]["changeProposals"]) == 1 and len(proposal_projection["workflow"]["changeProposals"][0]["codeDiffs"]) == 1 and proposal_stages[0]["codeDiffs"][0]["codeFactId"] == code_fact_id and [stage["kind"] for stage in proposal_projection["workflow"]["workStageTimeline"] if stage["workItemId"] == "server-request"] == ["request-recorded", "mapping-candidate-recorded", "change-proposal-recorded", "verification-and-evidence-requirements-recorded"] and len(proposal_projection["workflow"]["workStageRevisions"]) == 4 and all(stage["durableRevision"] is True and stage["revisionIds"] == [proposal_result["revisionId"]] for stage in proposal_stages) and proposal_stages[0]["beforeProjectStateDigest"] == proposal_stages[1]["beforeProjectStateDigest"] and proposal_stages[0]["afterProjectStateDigest"] == proposal_stages[1]["afterProjectStateDigest"] and proposal_projection["changeReview"]["status"] == "review-required" and proposal_projection["snapshot"]["proposedCodeDiffFragmentsShown"] is True and proposal_projection["authority"]["targetRepositoryMutation"] is False})
             status, receipt_bytes, _ = request(base_url + "/api/draft-review-receipts", method="POST", body=server_guided_receipt())
             receipt_result = json.loads(receipt_bytes)
             probes.append({"id": "records-guided-non-executing-review-receipt", "passed": status == 201 and receipt_result["result"] == "pass" and receipt_result["receiptId"] == "server-review-receipt" and receipt_result["revisionId"].startswith("revision.server-request.4.") and receipt_result["guidedReviewReceipt"] is True and receipt_result["targetRepositoryMutation"] is False})
@@ -245,7 +250,7 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
                 probes.append({"id": "rejects-non-object-proposal-payload", "passed": error.code == 400 and "proposal object" in malformed.get("error", "")})
             else:
                 probes.append({"id": "rejects-non-object-proposal-payload", "passed": False})
-            invalid_draft = {**server_guided_proposal(), "workId": "unknown-work"}
+            invalid_draft = {**server_guided_proposal(code_fact_id, guided_unified_diff), "workId": "unknown-work"}
             try:
                 request(base_url + "/api/draft-change-proposals", method="POST", body=invalid_draft)
             except HTTPError as error:

@@ -1,0 +1,47 @@
+{
+  "artifactRole": "intentgraph-p9.27-diff-backed-guided-proposals-report",
+  "status": "intentgraph-p9.27-diff-backed-guided-proposals-pass",
+  "scope": "p9.27-local-workbench-code-change-authoring",
+  "result": "pass",
+  "productCapability": {
+    "guidedCodeDiffAuthoring": true,
+    "proposalJsonRequiredForNormalPath": false,
+    "mappedFactSelection": true,
+    "snapshotMatchedHunks": true,
+    "diffBackedChangedNodeClassification": true,
+    "codeNodeInspectorDiff": true,
+    "durableWorkStages": true
+  },
+  "windowsUtilityDemonstration": {
+    "workItemId": "preserve-csd-selection-on-cancel",
+    "proposalId": "proposal-preserve-csd-selection-on-cancel",
+    "mappedCodeFactCount": 3,
+    "codeDiffCount": 3,
+    "workStageCount": 4,
+    "graphNodeCount": 8189,
+    "graphEdgeCount": 7996,
+    "targetRepositoryMutation": false,
+    "snapshotWorkspaceMutation": false
+  },
+  "verification": {
+    "loopbackServerProbeCount": 21,
+    "loopbackServerResult": "pass",
+    "negativeProbeCount": 8,
+    "negativeProbeResult": "pass",
+    "staticWorkbenchValidation": "pass",
+    "browserProposalStageInspection": "pass",
+    "browserChangedCodeNodeInspection": "pass",
+    "browserGuidedFormSubmission": "pass",
+    "mappedContextExcludedFromChangedNodes": true
+  },
+  "authority": {
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "graphMutationApplied": false,
+    "verificationExecution": false,
+    "evidenceExecution": false,
+    "approvalAutomation": false,
+    "networkRequired": false,
+    "credentialAccessAllowed": false
+  }
+}

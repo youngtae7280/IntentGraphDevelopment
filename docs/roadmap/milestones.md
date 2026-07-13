@@ -4464,6 +4464,34 @@ Non-goals:
 - no graph/source mutation, build, restore, launch, automatic mapping, planning,
   evidence execution, authority promotion, or approval automation
 
+## P9.27: Diff-Backed Guided Code Change Proposals
+
+Goal: let the normal loopback Workbench create an inspectable code-bearing proposal
+without requiring a complete hand-authored proposal JSON document.
+
+Status: implementation, negative probes, static validation, and browser interaction
+validation completed on 2026-07-13. See
+[P9.27 Diff-Backed Guided Proposals Review](../reviews/p9.27-diff-backed-guided-proposals-review.md).
+
+Delivered boundary:
+
+- mapped code facts appear as selectable diff targets in the guided form
+- supplied hunk-only diffs are checked against immutable snapshot source and fact ranges
+- derived proposal records carry stable source file/digest provenance
+- only facts with supplied diffs are classified as changed; remaining mappings are context
+- proposal stage and code-node inspector expose the resulting graph and code delta
+
+Verification:
+
+- 21 loopback server probes and 8 diff-specific negative probes pass
+- WindowsUtility demonstration carries three checked diffs across four durable stages
+- browser QA covers form submission, proposal-stage focus, and changed-code-node diff inspection
+
+Next product work:
+
+- add typed verifier-result intake and bind deterministic build/test/runtime evidence to
+  proposal requirements without treating review notes as execution evidence
+
 ## P9.20: Local Review Receipt Intake
 
 Goal: make a review-only proposal's verification/evidence requirements actionable as typed local review records without claiming that execution evidence, source application, or approval occurred.

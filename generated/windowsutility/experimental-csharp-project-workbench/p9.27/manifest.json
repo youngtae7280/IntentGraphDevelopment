@@ -1,0 +1,51 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-project-workbench",
+  "assets": {
+    "cytoscape": {
+      "path": "assets/cytoscape.min.js",
+      "sha256": "sha256:9c2a3bf2592e0b14a1f7bec07c03a54f16dedf32af9cd0af155c716aa6c87bc3",
+      "version": "3.34.0"
+    },
+    "license": {
+      "path": "assets/cytoscape-license.txt",
+      "sha256": "sha256:eb319c6e6f233607f71e8e2f450391751883cfc0eeb3ca7ef574c13d1d9c2203"
+    }
+  },
+  "authority": {
+    "approvalAutomation": false,
+    "automaticCodeApplication": false,
+    "automaticIntentMapping": false,
+    "credentialAccessAllowed": false,
+    "graphMutationFromUi": false,
+    "igdProductizationClaimed": false,
+    "networkRequired": false,
+    "projectWorkspaceMutation": true,
+    "providerApiAllowed": false,
+    "snapshotWorkspaceMutation": false,
+    "targetBuildExecuted": false,
+    "targetLaunchExecuted": false,
+    "targetRepositoryMutation": false,
+    "targetRestoreExecuted": false
+  },
+  "outputs": {
+    "html": {
+      "path": "index.html",
+      "sha256": "sha256:707b302fd56b71846edf7e1c33da5f5fe98a5d776b1b256a7d07d1c463073370"
+    },
+    "projection": {
+      "path": "projection.json",
+      "sha256": "sha256:6d719b2fe771a11bf8d27cb89b9298f551716039bfe1dc7d03cfc8664a474c84"
+    }
+  },
+  "project": {
+    "id": "p925-navigation-demo",
+    "logicalSourceRoot": "intentgraph://profiles/experimental-csharp-host-sdk-syntax-only/source",
+    "sourceDigest": "sha256:5b1969fdb13bd9d2d02e9332295a1ea84357cd496b629b7b5882573a10e35194",
+    "sourceRole": "snapshot-copy-not-target",
+    "title": "P9.25 navigation demo"
+  },
+  "projectWorkspaceMutation": false,
+  "scope": "p9.13-experimental-csharp-project-overlay-workbench",
+  "status": "intentgraph-experimental-csharp-project-workbench-emitted",
+  "version": "0.1.0"
+}

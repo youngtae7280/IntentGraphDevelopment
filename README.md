@@ -18,6 +18,8 @@ P1.19 selected `B1-typescript-rest-api` as the next benchmark shape. P2.0 create
 
 P9.17 supersedes the P9.15 semantic-only default: the WindowsUtility Workbench now loads the complete graph with progressive detail, retains a declared project semantic foundation, and supports local work-to-code mapping candidates without source mutation. IntentGraphDevelopment is still neither an installable nor a released product.
 
+P9.27 closes the JSON-only code-change gap in the normal Workbench path. A user can select mapped code facts, enter hunk-only unified diffs, and record a snapshot-checked, non-applied proposal whose graph delta and code diffs are immediately inspectable. The target repository remains unchanged; typed verification-result intake, application authority, distribution, and broader product hardening remain open.
+
 ## Working Definition
 
 IntentGraph is not just a code graph. It is an overlay graph over an existing codebase that can contain:

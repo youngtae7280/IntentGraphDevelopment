@@ -164,7 +164,7 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                     "evidenceKind",
                     "evidenceSummary",
                 }
-                error_message = "guided review proposal fields must be strings"
+                error_message = "guided review proposal fields must be strings with optional codeDiffs"
             elif path == "/api/draft-review-receipts":
                 required_fields = {
                     "receiptId",
@@ -179,7 +179,10 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                 required_fields = {"receipt"}
                 error_message = "review receipt must contain only one receipt object"
             raw_document_paths = {"/api/change-proposals": "proposal", "/api/review-receipts": "receipt"}
-            if set(payload) != required_fields or (path in raw_document_paths and not isinstance(payload.get(raw_document_paths[path]), dict)) or (path not in raw_document_paths and any(not isinstance(payload.get(key), str) for key in required_fields)):
+            valid_fields = set(payload) == required_fields
+            if path == "/api/draft-change-proposals":
+                valid_fields = set(payload) == required_fields or set(payload) == required_fields | {"codeDiffs"}
+            if not valid_fields or (path in raw_document_paths and not isinstance(payload.get(raw_document_paths[path]), dict)) or (path not in raw_document_paths and any(not isinstance(payload.get(key), str) for key in required_fields)) or (path == "/api/draft-change-proposals" and "codeDiffs" in payload and not isinstance(payload["codeDiffs"], list)):
                 self.error_json(HTTPStatus.BAD_REQUEST, error_message)
                 return
             try:
@@ -201,6 +204,7 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                             verification_summary=payload["verificationSummary"],
                             evidence_kind=payload["evidenceKind"],
                             evidence_summary=payload["evidenceSummary"],
+                            code_diffs=payload.get("codeDiffs"),
                         )
                     elif path == "/api/draft-review-receipts":
                         result = draft_review_receipt_from_proposal(

@@ -708,6 +708,83 @@ def validate_record_ids(records: list[dict[str, Any]], label: str) -> set[str]:
     return ids
 
 
+def validate_guided_unified_diff(
+    unified_diff: str,
+    *,
+    source_path: Path,
+    source_location: dict[str, Any],
+) -> None:
+    """Validate a hunk-only unified diff against the immutable snapshot source."""
+
+    if not isinstance(unified_diff, str) or not unified_diff.startswith("@@") or len(unified_diff.encode("utf-8")) > 32768 or "\\" in unified_diff or "\x00" in unified_diff:
+        raise ProjectWorkspaceError("guided proposal unified diff is invalid")
+    if not source_path.is_file() or source_path.is_symlink():
+        raise ProjectWorkspaceError("guided proposal source artifact is unavailable")
+    try:
+        source_lines = source_path.read_text(encoding="utf-8-sig").splitlines()
+    except UnicodeDecodeError as error:
+        raise ProjectWorkspaceError("guided proposal source artifact must be UTF-8 text") from error
+    diff_lines = unified_diff.splitlines()
+    header_pattern = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(?: .*)?$")
+    line_start = source_location.get("lineStart")
+    line_end = source_location.get("lineEnd")
+    if not isinstance(line_start, int) or not isinstance(line_end, int) or line_start < 1 or line_end < line_start:
+        raise ProjectWorkspaceError("guided proposal code fact source location is invalid")
+
+    hunk_count = 0
+    previous_old_end = 0
+    overlaps_fact = False
+    source_changed = False
+    index = 0
+    while index < len(diff_lines):
+        match = header_pattern.fullmatch(diff_lines[index])
+        if match is None:
+            raise ProjectWorkspaceError("guided proposal unified diff hunk header is invalid")
+        old_start = int(match.group(1))
+        old_count = int(match.group(2) or "1")
+        new_count = int(match.group(4) or "1")
+        if old_start < 1 or old_count < 0 or new_count < 0 or old_start - 1 + old_count > len(source_lines):
+            raise ProjectWorkspaceError("guided proposal unified diff hunk range is invalid")
+        if old_start < previous_old_end:
+            raise ProjectWorkspaceError("guided proposal unified diff hunks must be ordered and non-overlapping")
+        hunk_count += 1
+        index += 1
+        old_cursor = old_start - 1
+        seen_old = 0
+        seen_new = 0
+        removed: list[str] = []
+        added: list[str] = []
+        while index < len(diff_lines) and not diff_lines[index].startswith("@@"):
+            line = diff_lines[index]
+            if not line or line[0] not in {" ", "+", "-"}:
+                raise ProjectWorkspaceError("guided proposal unified diff line prefix is invalid")
+            marker, content = line[0], line[1:]
+            if marker in {" ", "-"}:
+                if old_cursor >= len(source_lines) or source_lines[old_cursor] != content:
+                    raise ProjectWorkspaceError("guided proposal unified diff does not match snapshot source")
+                old_cursor += 1
+                seen_old += 1
+            if marker in {" ", "+"}:
+                seen_new += 1
+            if marker == "-":
+                removed.append(content)
+            elif marker == "+":
+                added.append(content)
+            index += 1
+        if seen_old != old_count or seen_new != new_count:
+            raise ProjectWorkspaceError("guided proposal unified diff hunk counts are invalid")
+        if removed != added:
+            source_changed = source_changed or bool(removed or added)
+        old_end = old_start + max(old_count, 1) - 1
+        overlaps_fact = overlaps_fact or (old_start <= line_end and old_end >= line_start)
+        previous_old_end = old_start + old_count
+
+    if hunk_count == 0 or not source_changed:
+        raise ProjectWorkspaceError("guided proposal unified diff must describe a real source change")
+    if not overlaps_fact:
+        raise ProjectWorkspaceError("guided proposal unified diff must overlap its mapped code fact")
+
+
 def validate_proposal_document(
     proposal: dict[str, Any],
     *,
@@ -1356,12 +1433,14 @@ def draft_change_proposal_from_mapping(
     verification_summary: str,
     evidence_kind: str,
     evidence_summary: str,
+    code_diffs: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
     """Build one bounded, non-applied review proposal from a declared mapping.
 
     The caller supplies the review intent and requirements.  The workspace derives only
-    stable references already recorded in the local project state; it never synthesizes
-    a code patch, applies a graph delta, or changes the inspected source project.
+    stable references already recorded in the local project state.  Optional diff hunks
+    are supplied by the caller and checked against the immutable source snapshot; this
+    function never synthesizes or applies a patch or changes the inspected source project.
     """
 
     draft = {
@@ -1385,7 +1464,7 @@ def draft_change_proposal_from_mapping(
     safe_id(evidence_kind, "guided review proposal evidence kind")
 
     project_workspace = project_workspace.resolve()
-    state, _, _, _ = validate_project_workspace(project_workspace)
+    state, _, snapshot_artifacts, data = validate_project_workspace(project_workspace)
     work = next((item for item in state["workItems"] if item["id"] == work_id), None)
     if work is None:
         raise ProjectWorkspaceError("guided review proposal work item does not exist")
@@ -1394,6 +1473,53 @@ def draft_change_proposal_from_mapping(
         raise ProjectWorkspaceError("guided review proposal requires a declared mapping candidate")
     if work["changeStatus"] != "not-proposed":
         raise ProjectWorkspaceError("guided review proposal work item already has an active change proposal")
+
+    normalized_code_diffs: list[dict[str, str]] = []
+    if code_diffs is not None:
+        if not isinstance(code_diffs, list) or not code_diffs or len(code_diffs) > 32:
+            raise ProjectWorkspaceError("guided proposal code diffs must contain between one and 32 mapped fact hunks")
+        assert_no_unsafe_state(code_diffs, "codeDiffs")
+        fact_by_id = {
+            fact.get("id"): fact
+            for fact in data["facts"].get("facts", [])
+            if isinstance(fact, dict) and isinstance(fact.get("id"), str)
+        }
+        seen_fact_ids: set[str] = set()
+        source_root = snapshot_artifacts["sourceRoot"].resolve()
+        for item in code_diffs:
+            if not isinstance(item, dict) or set(item) != {"codeFactId", "unifiedDiff"} or any(not isinstance(value, str) for value in item.values()):
+                raise ProjectWorkspaceError("guided proposal code diff fields are invalid")
+            fact_id = item["codeFactId"]
+            if fact_id in seen_fact_ids:
+                raise ProjectWorkspaceError("guided proposal code diffs must target unique mapped code facts")
+            if fact_id not in mapping["codeFactIds"]:
+                raise ProjectWorkspaceError("guided proposal code diff must target a mapped code fact")
+            fact = fact_by_id.get(fact_id)
+            if fact is None or not isinstance(fact.get("sourceLocation"), dict) or not safe_relative_source(str(fact.get("sourceFile", ""))):
+                raise ProjectWorkspaceError("guided proposal code diff fact provenance is invalid")
+            source_path = (source_root / Path(str(fact["sourceFile"]))).resolve()
+            if not is_within(source_path, source_root):
+                raise ProjectWorkspaceError("guided proposal code diff source escapes the immutable snapshot")
+            if digest_bytes(source_path.read_bytes()) != fact.get("sourceDigest"):
+                raise ProjectWorkspaceError("guided proposal source digest does not match its code fact")
+            validate_guided_unified_diff(
+                item["unifiedDiff"],
+                source_path=source_path,
+                source_location=fact["sourceLocation"],
+            )
+            diff_fingerprint = digest_bytes(
+                canonical_json({"proposalId": proposal_id, "codeFactId": fact_id})
+            ).split(":", 1)[1][:16]
+            normalized_code_diffs.append(
+                {
+                    "id": f"diff.{proposal_id[:75]}.{diff_fingerprint}",
+                    "codeFactId": fact_id,
+                    "sourceFile": fact["sourceFile"],
+                    "beforeSourceDigest": fact["sourceDigest"],
+                    "unifiedDiff": item["unifiedDiff"],
+                }
+            )
+            seen_fact_ids.add(fact_id)
 
     proposal = {
         "artifactRole": PROPOSAL_ROLE,
@@ -1419,7 +1545,9 @@ def draft_change_proposal_from_mapping(
                     },
                 }
             ],
-            "changedNodeIds": sorted(mapping["codeFactIds"]),
+            "changedNodeIds": sorted(
+                item["codeFactId"] for item in normalized_code_diffs
+            ) if normalized_code_diffs else sorted(mapping["codeFactIds"]),
             "addedEdges": [
                 {
                     "id": f"edge.{proposal_id}.verifies",
@@ -1430,7 +1558,7 @@ def draft_change_proposal_from_mapping(
                 }
             ],
         },
-        "codeDiffs": [],
+        "codeDiffs": normalized_code_diffs,
         "verificationRequirements": [
             {
                 "id": f"verification.requirement.{proposal_id}",
@@ -1452,7 +1580,8 @@ def draft_change_proposal_from_mapping(
         **result,
         "command": "draft-experimental-csharp-change-proposal",
         "mappingId": mapping["id"],
-        "codeDiffCount": 0,
+        "codeDiffCount": len(normalized_code_diffs),
+        "diffBackedGuidedProposal": bool(normalized_code_diffs),
         "guidedReviewProposal": True,
     }
 
@@ -2620,7 +2749,7 @@ HTML_TEMPLATE = r'''<!doctype html>
       document.getElementById('boundaryPanel').innerHTML='<strong>This page is a project-state projection.</strong><br>It can show recorded requests, candidate mappings, review-required proposals, graph delta, code diff, non-executing review receipts, verification, evidence, authority, history, syntax facts, and bounded local-symbol relations. It does not build, restore, launch, apply changes, execute verification, collect runtime evidence, or approve work.';
     }
     function resize(){document.querySelectorAll('.resizer').forEach(handle=>handle.addEventListener('pointerdown',event=>{event.preventDefault();handle.classList.add('active');const side=handle.dataset.side,start=event.clientX,variable=side==='left'?'--left':'--right',initial=parseInt(getComputedStyle(document.documentElement).getPropertyValue(variable));const move=e=>{const delta=e.clientX-start;const next=side==='left'?initial+delta:initial-delta;document.documentElement.style.setProperty(variable,`${Math.max(230,Math.min(560,next))}px`);if(!state.resizeQueued){state.resizeQueued=true;window.requestAnimationFrame(()=>{state.resizeQueued=false;state.cy?.resize();});}};const up=()=>{handle.classList.remove('active');window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);state.cy?.resize();};window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);}));}
-    window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},selectGraphElement:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return false;state.selected={type:item.isNode()?'node':'edge',id:identifier};renderSelection();highlight();return true;},workItems:()=>workItems.slice(),filteredWorkItems:()=>filteredWorkItems().slice(),workStages:()=>workStages.slice(),selectedWork:()=>state.selectedWorkId,selectedStage:()=>state.stageFocus?.id||null,selectWork:focusWork,selectStage:focusStage,previousWork:()=>moveWork(-1),nextWork:()=>moveWork(1),previousStage:()=>moveStage(-1),nextStage:()=>moveStage(1),reviewReceiptPairs:()=>{const recorded=new Set((model.workflow.reviewReceipts||[]).map(receipt=>receipt.proposalId+'|'+receipt.verificationRequirementId+'|'+receipt.evidenceRequirementId));return (model.workflow.changeProposals||[]).flatMap(proposal=>(proposal.verificationRequirements||[]).flatMap(verification=>(proposal.evidenceRequirements||[]).map(evidence=>({key:proposal.id+'|'+verification.id+'|'+evidence.id,proposalId:proposal.id,proposalTitle:proposal.title,verificationRequirementId:verification.id,evidenceRequirementId:evidence.id,verificationKind:verification.kind,evidenceKind:evidence.kind})))).filter(pair=>!recorded.has(pair.key));},elementMetrics:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return null;return {type:item.isNode()?'node':'edge',width:parseFloat(item.renderedStyle('width')),height:item.isNode()?parseFloat(item.renderedStyle('height')):null,shape:item.isNode()?item.style('shape'):null,backgroundImage:item.isNode()?item.style('background-image'):null,backgroundOpacity:item.isNode()?parseFloat(item.style('background-opacity')):null,underlayOpacity:parseFloat(item.style('underlay-opacity'))};},metrics:()=>({graphInstanceCount:state.graphInstanceCount,visibilityUpdates:state.visibilityUpdates,visibleNodeCount:state.visibleNodeIds?.size||0,visibleEdgeCount:state.visibleEdgeIds?.size||0,totalNodeCount:allNodes.length,totalEdgeCount:allEdges.length,highlightedEdgeCount:state.highlightedEdgeIds.size,selectedEdgeRenderedWidth:state.selected?.type==='edge'?state.cy.$id(state.selected.id).renderedStyle('width'):null,renderedWorkCardCount:state.renderedWorkCardCount,workListRenderLimit,zoom:state.cy?.zoom()||null,maxZoom:state.cy?.maxZoom()||null,zoomStyleBand:state.viewportScale||null})};
+    window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},selectGraphElement:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return false;state.selected={type:item.isNode()?'node':'edge',id:identifier};renderSelection();highlight();return true;},workItems:()=>workItems.slice(),filteredWorkItems:()=>filteredWorkItems().slice(),workStages:()=>workStages.slice(),proposalCodeFacts:workId=>{const mapping=(model.workflow.mappings||[]).find(item=>item.workItemId===workId);return mapping?(mapping.codeFactIds||[]).map(identifier=>nodeById.get(identifier)).filter(Boolean).map(node=>({id:node.id,label:node.label,kind:node.kind,source:node.source})):[];},selectedWork:()=>state.selectedWorkId,selectedStage:()=>state.stageFocus?.id||null,selectWork:focusWork,selectStage:focusStage,previousWork:()=>moveWork(-1),nextWork:()=>moveWork(1),previousStage:()=>moveStage(-1),nextStage:()=>moveStage(1),reviewReceiptPairs:()=>{const recorded=new Set((model.workflow.reviewReceipts||[]).map(receipt=>receipt.proposalId+'|'+receipt.verificationRequirementId+'|'+receipt.evidenceRequirementId));return (model.workflow.changeProposals||[]).flatMap(proposal=>(proposal.verificationRequirements||[]).flatMap(verification=>(proposal.evidenceRequirements||[]).map(evidence=>({key:proposal.id+'|'+verification.id+'|'+evidence.id,proposalId:proposal.id,proposalTitle:proposal.title,verificationRequirementId:verification.id,evidenceRequirementId:evidence.id,verificationKind:verification.kind,evidenceKind:evidence.kind})))).filter(pair=>!recorded.has(pair.key));},elementMetrics:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return null;return {type:item.isNode()?'node':'edge',width:parseFloat(item.renderedStyle('width')),height:item.isNode()?parseFloat(item.renderedStyle('height')):null,shape:item.isNode()?item.style('shape'):null,backgroundImage:item.isNode()?item.style('background-image'):null,backgroundOpacity:item.isNode()?parseFloat(item.style('background-opacity')):null,underlayOpacity:parseFloat(item.style('underlay-opacity'))};},metrics:()=>({graphInstanceCount:state.graphInstanceCount,visibilityUpdates:state.visibilityUpdates,visibleNodeCount:state.visibleNodeIds?.size||0,visibleEdgeCount:state.visibleEdgeIds?.size||0,totalNodeCount:allNodes.length,totalEdgeCount:allEdges.length,highlightedEdgeCount:state.highlightedEdgeIds.size,selectedEdgeRenderedWidth:state.selected?.type==='edge'?state.cy.$id(state.selected.id).renderedStyle('width'):null,renderedWorkCardCount:state.renderedWorkCardCount,workListRenderLimit,zoom:state.cy?.zoom()||null,maxZoom:state.cy?.maxZoom()||null,zoomStyleBand:state.viewportScale||null})};
     document.getElementById('previousWork').addEventListener('click',()=>moveWork(-1));document.getElementById('nextWork').addEventListener('click',()=>moveWork(1));document.getElementById('previousStage').addEventListener('click',()=>moveStage(-1));document.getElementById('nextStage').addEventListener('click',()=>moveStage(1));document.getElementById('zoomIn').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()*1.8,renderedPosition:zoomAnchorPosition()}));document.getElementById('zoomOut').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()/1.8,renderedPosition:zoomAnchorPosition()}));document.getElementById('fitGraph').addEventListener('click',()=>{const graph=visibleGraphData(),semanticFocus=state.mode==='overview'&&!filters().search&&!filters().category&&!filters().relation?model.graph.views.overview.nodeIds.map(id=>nodeById.get(id)).filter(Boolean):graph.nodes;fitNodes(semanticFocus);updateZoomReadout();});init();staticPanels();renderGraph({fit:true});updateZoomReadout();renderSelection();resize();window.dispatchEvent(new Event('intentgraph-ready'));
     }
     const embeddedProjection=JSON.parse(document.getElementById('workbench-data').textContent);
@@ -2642,17 +2771,18 @@ SERVER_UI_EXTENSION = r'''<style>
   .new-work-dialog { width:min(520px,calc(100vw - 32px)); color:#f2efff; background:#100e1a; border:1px solid #50466d; border-radius:6px; padding:0; box-shadow:0 20px 60px rgba(0,0,0,.6); }
   .new-work-dialog::backdrop { background:rgba(2,1,8,.78); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#e8e1ff; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form input,.new-work-form select,.new-work-form textarea { color:#f2efff; background:#07060d; border:1px solid #443d60; border-radius:4px; padding:8px; font:inherit; } .new-work-form textarea { min-height:110px; resize:vertical; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#ffd166; font-size:12px; } .map-code-trigger { position:fixed; right:18px; bottom:62px; z-index:30; background:#221e3a; border-color:#ad91ff; color:#efe8ff; box-shadow:0 0 18px rgba(173,145,255,.13); } .selected-code-fact { padding:8px; overflow-wrap:anywhere; color:#d4cceb; background:#07060d; border:1px solid #443d60; border-radius:4px; font:11px/1.4 Consolas,monospace; }
   .draft-proposal-trigger { position:fixed; right:18px; bottom:106px; z-index:30; background:#173a34; border-color:#63efc3; color:#dcfff3; box-shadow:0 0 18px rgba(99,239,195,.14); } .proposal-trigger { position:fixed; right:18px; bottom:150px; z-index:30; background:#422718; border-color:#ffd166; color:#fff2cc; box-shadow:0 0 18px rgba(255,209,102,.12); } .proposal-dialog { width:min(760px,calc(100vw - 32px)); } .proposal-input { min-height:300px !important; font:12px/1.45 Consolas,monospace !important; tab-size:2; }
+  .draft-proposal-dialog { width:min(940px,calc(100vw - 32px)); } .diff-authoring { display:grid; gap:8px; max-height:34vh; overflow:auto; padding:2px 4px 2px 0; } .diff-entry { border:1px solid #273d4d; background:rgba(6,13,22,.72); padding:10px; display:grid; gap:8px; } .diff-entry.enabled { border-color:#38c7b0; box-shadow:inset 2px 0 #38c7b0; } .diff-entry-head { display:grid; grid-template-columns:auto minmax(0,1fr); gap:9px; align-items:start; color:#d8eaf4; } .diff-entry-head input { margin-top:3px; accent-color:#63efc3; } .diff-entry-meta { display:grid; gap:2px; min-width:0; } .diff-entry-meta strong,.diff-entry-meta small { overflow-wrap:anywhere; } .diff-entry-meta small { color:#8298a9; } .diff-entry textarea { min-height:112px !important; resize:vertical; font:12px/1.45 Consolas,monospace !important; tab-size:2; } .diff-entry textarea:disabled { opacity:.42; cursor:not-allowed; }
   .draft-receipt-trigger { position:fixed; right:18px; bottom:194px; z-index:30; background:#2f2449; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); } .receipt-trigger { position:fixed; right:18px; bottom:238px; z-index:30; background:#35244e; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); }
 </style>
 <button id="newWorkTrigger" class="new-work-trigger" type="button">New work request</button>
 <button id="mapCodeTrigger" class="map-code-trigger" type="button">Map selected code</button>
-<button id="draftProposalTrigger" class="draft-proposal-trigger" type="button" disabled>Draft review proposal</button>
+<button id="draftProposalTrigger" class="draft-proposal-trigger" type="button" disabled>Draft code change</button>
 <button id="importProposalTrigger" class="proposal-trigger" type="button" disabled>Import proposal JSON</button>
 <button id="draftReceiptTrigger" class="draft-receipt-trigger" type="button" disabled>Record review receipt</button>
 <button id="importReceiptTrigger" class="receipt-trigger" type="button" disabled>Import receipt JSON</button>
 <dialog id="newWorkDialog" class="new-work-dialog"><form id="newWorkForm" class="new-work-form" method="dialog"><h2>Record a work request</h2><p>This records a request in the local IntentGraph project workspace. It does not edit the source project.</p><label for="newWorkId">Stable work id</label><input id="newWorkId" name="workId" required pattern="[a-z][a-z0-9.-]{2,100}" placeholder="example-work-item"><label for="newWorkTitle">Title</label><input id="newWorkTitle" name="title" required maxlength="180" placeholder="Short work title"><label for="newWorkRequest">Request</label><textarea id="newWorkRequest" name="request" required maxlength="12000" placeholder="Describe the desired behavior or change."></textarea><div id="newWorkMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelNewWork" type="button">Cancel</button><button type="submit">Record request</button></div></form></dialog>
 <dialog id="mapCodeDialog" class="new-work-dialog"><form id="mapCodeForm" class="new-work-form" method="dialog"><h2>Record a code mapping candidate</h2><p>This connects the selected code fact to a local work request as a declared candidate. It does not approve the mapping or edit the source project.</p><label>Selected code fact</label><div id="selectedCodeFact" class="selected-code-fact"></div><label for="mapWorkId">Work request</label><select id="mapWorkId" name="workId" required></select><label for="mapRationale">Why this code is relevant</label><textarea id="mapRationale" name="rationale" required maxlength="12000" placeholder="Describe the relationship between this request and the selected code."></textarea><div id="mapCodeMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelMapCode" type="button">Cancel</button><button id="submitMapCode" type="submit">Record mapping candidate</button></div></form></dialog>
-<dialog id="draftProposalDialog" class="new-work-dialog"><form id="draftProposalForm" class="new-work-form" method="dialog"><h2>Draft a review proposal</h2><p>Creates a non-applied review proposal from an existing declared mapping. It records no code patch and does not edit the source project.</p><label for="draftProposalWorkId">Mapped work request</label><select id="draftProposalWorkId" name="workId" required></select><label for="draftProposalId">Stable proposal id</label><input id="draftProposalId" name="proposalId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"><label for="draftProposalTitle">Proposal title</label><input id="draftProposalTitle" name="title" required maxlength="180" placeholder="Short review proposal title"><label for="draftProposalSummary">Review summary</label><textarea id="draftProposalSummary" name="summary" required maxlength="12000" placeholder="Describe the bounded review change."></textarea><label for="draftVerificationKind">Verification kind</label><select id="draftVerificationKind" name="verificationKind" required><option value="local-review">Local review</option><option value="build-required">Build required</option><option value="test-required">Test required</option></select><label for="draftVerificationSummary">Verification requirement</label><textarea id="draftVerificationSummary" name="verificationSummary" required maxlength="12000" placeholder="State what must be verified later."></textarea><label for="draftEvidenceKind">Evidence kind</label><select id="draftEvidenceKind" name="evidenceKind" required><option value="review-note">Review note</option><option value="test-evidence">Test evidence</option><option value="build-evidence">Build evidence</option></select><label for="draftEvidenceSummary">Evidence requirement</label><textarea id="draftEvidenceSummary" name="evidenceSummary" required maxlength="12000" placeholder="State what evidence must be collected later."></textarea><div id="draftProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelDraftProposal" type="button">Cancel</button><button id="submitDraftProposal" type="submit">Record review proposal</button></div></form></dialog>
+<dialog id="draftProposalDialog" class="new-work-dialog draft-proposal-dialog"><form id="draftProposalForm" class="new-work-form" method="dialog"><h2>Draft a code change</h2><p>Attach hunk-only unified diffs to mapped code facts. IGD checks every hunk against the immutable source snapshot, then records a non-applied proposal for graph and code review. Source files are never modified here.</p><label for="draftProposalWorkId">Mapped work request</label><select id="draftProposalWorkId" name="workId" required></select><label for="draftProposalId">Stable proposal id</label><input id="draftProposalId" name="proposalId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"><label for="draftProposalTitle">Proposal title</label><input id="draftProposalTitle" name="title" required maxlength="180" placeholder="Short code change title"><label for="draftProposalSummary">Change summary</label><textarea id="draftProposalSummary" name="summary" required maxlength="12000" placeholder="Describe the intended behavior and bounded code change."></textarea><label>Mapped code change fragments</label><div id="draftCodeDiffList" class="diff-authoring"></div><label for="draftVerificationKind">Verification kind</label><select id="draftVerificationKind" name="verificationKind" required><option value="local-review">Local review</option><option value="build-required">Build required</option><option value="test-required">Test required</option></select><label for="draftVerificationSummary">Verification requirement</label><textarea id="draftVerificationSummary" name="verificationSummary" required maxlength="12000" placeholder="State what must be verified later."></textarea><label for="draftEvidenceKind">Evidence kind</label><select id="draftEvidenceKind" name="evidenceKind" required><option value="review-note">Review note</option><option value="test-evidence">Test evidence</option><option value="build-evidence">Build evidence</option></select><label for="draftEvidenceSummary">Evidence requirement</label><textarea id="draftEvidenceSummary" name="evidenceSummary" required maxlength="12000" placeholder="State what evidence must be collected later."></textarea><div id="draftProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelDraftProposal" type="button">Cancel</button><button id="submitDraftProposal" type="submit">Record code change</button></div></form></dialog>
 <dialog id="draftReceiptDialog" class="new-work-dialog"><form id="draftReceiptForm" class="new-work-form" method="dialog"><h2>Record a review receipt</h2><p>Records a human review result for one existing proposal requirement pair. It does not execute the requirement, collect runtime evidence, apply the proposal, approve the proposal, or edit the source project.</p><label for="draftReceiptPair">Proposal requirement pair</label><select id="draftReceiptPair" name="pair" required></select><label for="draftReceiptId">Stable receipt id</label><input id="draftReceiptId" name="receiptId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"><label for="draftReceiptResult">Review result</label><select id="draftReceiptResult" name="result" required><option value="reviewed-pass">Reviewed pass</option><option value="reviewed-fail">Reviewed fail</option><option value="review-blocked">Review blocked</option></select><label for="draftReceiptSummary">Review summary</label><textarea id="draftReceiptSummary" name="summary" required maxlength="12000" placeholder="State what was reviewed. This is not execution evidence."></textarea><div id="draftReceiptMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelDraftReceipt" type="button">Cancel</button><button id="submitDraftReceipt" type="submit">Record receipt</button></div></form></dialog>
 <dialog id="importProposalDialog" class="new-work-dialog proposal-dialog"><form id="importProposalForm" class="new-work-form" method="dialog"><h2>Import a review-only change proposal</h2><p>Paste a deterministic proposal document for an existing work request and mapping candidate. The local server validates it before recording any project-state artifact. It does not edit the C# source project, apply a graph delta, or approve the proposal.</p><label for="proposalDocument">Proposal JSON</label><textarea id="proposalDocument" class="proposal-input" name="proposalDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-change-proposal document."></textarea><div id="importProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportProposal" type="button">Cancel</button><button type="submit">Validate and record proposal</button></div></form></dialog>
 <dialog id="importReceiptDialog" class="new-work-dialog proposal-dialog"><form id="importReceiptForm" class="new-work-form" method="dialog"><h2>Import a non-executing review receipt</h2><p>Paste one deterministic receipt for a proposal verification/evidence requirement pair. It records what was reviewed as pass, fail, or blocked. It does not run verification, collect runtime evidence, apply a graph delta, approve the proposal, or edit C# source.</p><label for="receiptDocument">Review receipt JSON</label><textarea id="receiptDocument" class="proposal-input" name="receiptDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-review-receipt document."></textarea><div id="importReceiptMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportReceipt" type="button">Cancel</button><button type="submit">Validate and record receipt</button></div></form></dialog>
@@ -2717,26 +2847,41 @@ SERVER_UI_EXTENSION = r'''<style>
 </script>
 <script>
   (() => {
-    const dialog=document.getElementById('draftProposalDialog'),trigger=document.getElementById('draftProposalTrigger'),form=document.getElementById('draftProposalForm'),workSelect=document.getElementById('draftProposalWorkId'),proposalId=document.getElementById('draftProposalId'),title=document.getElementById('draftProposalTitle'),summary=document.getElementById('draftProposalSummary'),verificationKind=document.getElementById('draftVerificationKind'),verificationSummary=document.getElementById('draftVerificationSummary'),evidenceKind=document.getElementById('draftEvidenceKind'),evidenceSummary=document.getElementById('draftEvidenceSummary'),message=document.getElementById('draftProposalMessage'),submit=document.getElementById('submitDraftProposal');
+    const dialog=document.getElementById('draftProposalDialog'),trigger=document.getElementById('draftProposalTrigger'),form=document.getElementById('draftProposalForm'),workSelect=document.getElementById('draftProposalWorkId'),proposalId=document.getElementById('draftProposalId'),title=document.getElementById('draftProposalTitle'),summary=document.getElementById('draftProposalSummary'),diffList=document.getElementById('draftCodeDiffList'),verificationKind=document.getElementById('draftVerificationKind'),verificationSummary=document.getElementById('draftVerificationSummary'),evidenceKind=document.getElementById('draftEvidenceKind'),evidenceSummary=document.getElementById('draftEvidenceSummary'),message=document.getElementById('draftProposalMessage'),submit=document.getElementById('submitDraftProposal');
     function eligibleWorks(){const workbench=window.intentGraphWorkbench;const works=workbench&&workbench.workItems?workbench.workItems():[];return works.filter(work=>work.mappingStatus==='candidate'&&work.changeStatus==='not-proposed');}
     function updateProposalId(){const workId=workSelect.value;proposalId.value=workId?'proposal-'+workId:'';}
-    function openDialog(){const works=eligibleWorks();workSelect.replaceChildren();works.forEach(work=>workSelect.add(new Option(work.title+' ('+work.id+')',work.id)));updateProposalId();const ready=works.length>0;message.textContent=ready?'':'Record a declared code mapping before drafting a review proposal.';submit.disabled=!ready;dialog.showModal();}
+    function renderCodeDiffs(){
+      const workbench=window.intentGraphWorkbench,facts=workbench&&workbench.proposalCodeFacts?workbench.proposalCodeFacts(workSelect.value):[];
+      diffList.replaceChildren();
+      facts.forEach(fact=>{
+        const entry=document.createElement('section'),head=document.createElement('label'),toggle=document.createElement('input'),meta=document.createElement('span'),name=document.createElement('strong'),source=document.createElement('small'),textarea=document.createElement('textarea'),location=fact.source?.location||{};
+        entry.className='diff-entry';head.className='diff-entry-head';meta.className='diff-entry-meta';toggle.type='checkbox';toggle.dataset.codeFactId=fact.id;name.textContent=fact.label||fact.id;source.textContent=`${fact.source?.file||'unknown source'}:${location.lineStart||'?'}-${location.lineEnd||'?'} / ${fact.kind||'code fact'}`;textarea.disabled=true;textarea.dataset.codeFactId=fact.id;textarea.maxLength=32768;textarea.spellcheck=false;textarea.placeholder=`@@ -${location.lineStart||1},1 +${location.lineStart||1},1 @@\n-existing source line\n+proposed source line`;
+        meta.append(name,source);head.append(toggle,meta);entry.append(head,textarea);diffList.append(entry);
+        toggle.addEventListener('change',()=>{textarea.disabled=!toggle.checked;entry.classList.toggle('enabled',toggle.checked);if(toggle.checked)textarea.focus();});
+      });
+      if(!facts.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='This work item has no mapped code facts.';diffList.append(empty);}
+      return facts.length;
+    }
+    function openDialog(){const works=eligibleWorks();workSelect.replaceChildren();works.forEach(work=>workSelect.add(new Option(work.title+' ('+work.id+')',work.id)));updateProposalId();const factCount=renderCodeDiffs(),ready=works.length>0&&factCount>0;message.textContent=ready?'Select at least one mapped fact and provide a snapshot-matching unified diff.':'Record a declared code mapping before drafting a code change.';submit.disabled=!ready;dialog.showModal();}
     trigger.disabled=true;
     window.addEventListener('intentgraph-ready',()=>{trigger.disabled=false;});
     trigger.addEventListener('click',openDialog);
-    workSelect.addEventListener('change',updateProposalId);
+    workSelect.addEventListener('change',()=>{updateProposalId();renderCodeDiffs();});
     document.getElementById('cancelDraftProposal').addEventListener('click',()=>dialog.close());
     form.addEventListener('submit',async event=>{
       event.preventDefault();
-      message.textContent='Recording review proposal...';
-      const body={proposalId:proposalId.value.trim(),workId:workSelect.value,title:title.value.trim(),summary:summary.value.trim(),verificationKind:verificationKind.value,verificationSummary:verificationSummary.value.trim(),evidenceKind:evidenceKind.value,evidenceSummary:evidenceSummary.value.trim()};
+      const codeDiffs=[...diffList.querySelectorAll('.diff-entry')].filter(entry=>entry.querySelector('input')?.checked).map(entry=>({codeFactId:entry.querySelector('input').dataset.codeFactId,unifiedDiff:entry.querySelector('textarea').value.trimEnd()}));
+      if(!codeDiffs.length){message.textContent='Select at least one mapped code fact and provide its unified diff.';return;}
+      if(codeDiffs.some(item=>!item.unifiedDiff.trim())){message.textContent='Every selected code fact needs a unified diff.';return;}
+      message.textContent='Checking code diffs against the immutable snapshot...';
+      const body={proposalId:proposalId.value.trim(),workId:workSelect.value,title:title.value.trim(),summary:summary.value.trim(),codeDiffs,verificationKind:verificationKind.value,verificationSummary:verificationSummary.value.trim(),evidenceKind:evidenceKind.value,evidenceSummary:evidenceSummary.value.trim()};
       try{
         const response=await fetch('/api/draft-change-proposals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
         const result=await response.json();
-        if(!response.ok)throw new Error(result.error||'Review proposal could not be recorded.');
-        message.textContent='Recorded for review. Reloading workbench...';
+        if(!response.ok)throw new Error(result.error||'Code change could not be recorded.');
+        message.textContent=`Recorded ${result.codeDiffCount} checked code diff(s). Reloading workbench...`;
         window.setTimeout(()=>window.location.reload(),250);
-      }catch(error){message.textContent=error.message||'Review proposal could not be recorded.';}
+      }catch(error){message.textContent=error.message||'Code change could not be recorded.';}
     });
   })();
 </script>
