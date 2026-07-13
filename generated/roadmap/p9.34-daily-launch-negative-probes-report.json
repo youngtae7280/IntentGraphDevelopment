@@ -1,0 +1,108 @@
+{
+  "artifactRole": "intentgraph-daily-launch-negative-probes-report",
+  "authority": {
+    "browserLaunched": false,
+    "networkRequired": false,
+    "serverLeftRunning": false,
+    "targetRepositoryMutation": false
+  },
+  "probeCount": 16,
+  "probes": [
+    {
+      "expectedFailureObserved": true,
+      "id": "concurrent-first-create-lock",
+      "secondPrepareBlockedBeforePreparation": true,
+      "singleAtomicProjectCreated": true
+    },
+    {
+      "expectedFailureObserved": true,
+      "id": "missing-file-fact",
+      "sourceDigestCardinalityEnforced": true
+    },
+    {
+      "expectedFailureObserved": true,
+      "id": "duplicate-file-fact",
+      "sourceDigestCardinalityEnforced": true
+    },
+    {
+      "expectedError": "source changed since the recorded snapshot",
+      "expectedFailureObserved": true,
+      "id": "source-content-stale",
+      "sourceTreeUnchanged": true,
+      "workspaceTreeUnchanged": true
+    },
+    {
+      "expectedError": "workspace and launch record must both exist",
+      "expectedFailureObserved": true,
+      "id": "missing-launch-record",
+      "sourceTreeUnchanged": true,
+      "workspaceTreeUnchanged": true
+    },
+    {
+      "expectedError": "launch record does not match",
+      "expectedFailureObserved": true,
+      "id": "tampered-launch-identity",
+      "sourceTreeUnchanged": true,
+      "workspaceTreeUnchanged": true
+    },
+    {
+      "expectedError": "project state does not match nested snapshot provenance",
+      "expectedFailureObserved": true,
+      "id": "tampered-project-state",
+      "sourceTreeUnchanged": true,
+      "workspaceTreeUnchanged": true
+    },
+    {
+      "expectedFailureObserved": true,
+      "id": "source-home-overlap",
+      "sourceTreeUnchanged": true,
+      "workspaceAbsent": true
+    },
+    {
+      "expectedFailureObserved": true,
+      "id": "empty-csharp-source",
+      "onlyStableLockMetadataAllowed": true,
+      "workspaceAbsent": true
+    },
+    {
+      "expectedFailureObserved": true,
+      "id": "csharp-directory-reparse-point",
+      "reparseTargetUnchanged": true,
+      "resolvedSourceContainmentEnforced": true
+    },
+    {
+      "expectedFailureObserved": true,
+      "id": "intentgraph-home-reparse-point",
+      "reparseTargetUnchanged": true,
+      "workspaceAbsent": true
+    },
+    {
+      "browserLaunched": false,
+      "expectedFailureObserved": true,
+      "id": "invalid-port",
+      "workspaceAbsent": true
+    },
+    {
+      "browserLaunched": false,
+      "expectedFailureObserved": true,
+      "id": "occupied-explicit-port",
+      "workspaceAbsent": true
+    },
+    {
+      "expectedPassObserved": true,
+      "id": "mtime-only-resume",
+      "sourceTextEqualityNotRequired": true
+    },
+    {
+      "expectedPassObserved": true,
+      "id": "bin-obj-ignored-resume"
+    },
+    {
+      "expectedPassObserved": true,
+      "id": "absolute-source-path-not-persisted"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.34-local-csharp-daily-launch",
+  "status": "intentgraph-daily-launch-negative-probes-passed"
+}

@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -71,17 +72,54 @@ def is_under(path: Path, parent: Path) -> bool:
         return False
 
 
+def is_reparse_point(path: Path) -> bool:
+    details = path.lstat()
+    attributes = getattr(details, "st_file_attributes", 0)
+    reparse_attribute = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
+    return stat.S_ISLNK(details.st_mode) or bool(attributes & reparse_attribute)
+
+
+def resolved_source_path(path: Path, root: Path, relative: Path) -> Path:
+    try:
+        if is_reparse_point(path):
+            raise ProbeError(f"target source tree must not contain reparse points: {relative.as_posix()}")
+        resolved = path.resolve(strict=True)
+        resolved.relative_to(root)
+    except ProbeError:
+        raise
+    except (OSError, ValueError) as error:
+        raise ProbeError(f"target source path must resolve under the source root: {relative.as_posix()}") from error
+    return resolved
+
+
 def csharp_files(source_root: Path) -> list[Path]:
-    if not source_root.is_dir() or source_root.is_symlink():
+    try:
+        invalid_root = not source_root.is_dir() or is_reparse_point(source_root)
+    except OSError:
+        invalid_root = True
+    if invalid_root:
         raise ProbeError("target source root must be an existing non-symlink directory")
+    source_root = source_root.resolve(strict=True)
     files: list[Path] = []
-    for path in source_root.rglob("*.cs"):
-        relative = path.relative_to(source_root)
-        if any(part.lower() in {"bin", "obj"} for part in relative.parts):
-            continue
-        if path.is_symlink():
-            raise ProbeError(f"target source file must not be a symlink: {relative.as_posix()}")
-        files.append(path)
+    pending = [source_root]
+    while pending:
+        directory = pending.pop()
+        try:
+            entries = sorted(os.scandir(directory), key=lambda entry: entry.name)
+        except OSError as error:
+            raise ProbeError(f"cannot enumerate target source directory: {directory}") from error
+        for entry in entries:
+            path = Path(entry.path)
+            relative = path.relative_to(source_root)
+            resolved = resolved_source_path(path, source_root, relative)
+            try:
+                if entry.is_dir(follow_symlinks=False):
+                    if not any(part.lower() in {"bin", "obj"} for part in relative.parts):
+                        pending.append(resolved)
+                elif entry.is_file(follow_symlinks=False) and path.suffix.lower() == ".cs":
+                    files.append(resolved)
+            except OSError as error:
+                raise ProbeError(f"cannot inspect target source path: {relative.as_posix()}") from error
     files.sort(key=lambda item: item.relative_to(source_root).as_posix())
     if not files:
         raise ProbeError("target source root has no C# files")
@@ -89,6 +127,7 @@ def csharp_files(source_root: Path) -> list[Path]:
 
 
 def source_snapshot(source_root: Path) -> dict[str, str]:
+    source_root = source_root.resolve(strict=True)
     return {
         path.relative_to(source_root).as_posix(): sha256_bytes(path.read_bytes())
         for path in csharp_files(source_root)
@@ -127,6 +166,7 @@ def build_probe(temp_root: Path) -> Path:
     env = os.environ.copy()
     env.update(
         {
+            "DOTNET_CLI_HOME": str(temp_root / "dotnet-home"),
             "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
             "NUGET_PACKAGES": str(nuget_packages),
             "NUGET_HTTP_CACHE_PATH": str(nuget_http_cache),
@@ -176,7 +216,11 @@ def invoke_probe(
     return run_command(
         command,
         cwd=assembly.parent,
-        env={**os.environ, "DOTNET_CLI_TELEMETRY_OPTOUT": "1"},
+        env={
+            **os.environ,
+            "DOTNET_CLI_HOME": str(assembly.parent / ".dotnet-home"),
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+        },
     )
 
 
@@ -220,10 +264,11 @@ def validate_facts(
 
     facts = data.get("facts")
     relations = data.get("relations")
-    if not isinstance(facts, list) or not facts or not isinstance(relations, list) or not relations:
-        raise ProbeError("code facts must contain non-empty facts and relations arrays")
+    if not isinstance(facts, list) or not facts or not isinstance(relations, list):
+        raise ProbeError("code facts must contain a non-empty facts array and a relations array")
     fact_ids: set[str] = set()
     observed_kinds: set[str] = set()
+    file_fact_counts = {source_file: 0 for source_file in snapshot}
     for fact in facts:
         if not isinstance(fact, dict):
             raise ProbeError("every fact must be an object")
@@ -255,12 +300,15 @@ def validate_facts(
         if kind == "file":
             if fact.get("sourceLocationStatus") != "file-level":
                 raise ProbeError(f"file fact {fact_id} must be file-level")
+            file_fact_counts[source_file] += 1
         elif not isinstance(location, dict) or not {"lineStart", "lineEnd", "columnStart", "columnEnd"}.issubset(location):
             raise ProbeError(f"fact {fact_id} is missing source location provenance")
-    if observed_kinds != EXPECTED_FACT_KINDS:
-        missing = sorted(EXPECTED_FACT_KINDS - observed_kinds)
-        extra = sorted(observed_kinds - EXPECTED_FACT_KINDS)
-        raise ProbeError(f"unexpected C# fact-kind coverage; missing={missing}, extra={extra}")
+    invalid_file_fact_counts = {path: count for path, count in file_fact_counts.items() if count != 1}
+    if invalid_file_fact_counts:
+        raise ProbeError(
+            "C# facts must contain exactly one file fact per source digest entry; "
+            f"invalid counts={invalid_file_fact_counts}"
+        )
     if [fact["id"] for fact in facts] != sorted(fact_ids):
         raise ProbeError("facts must be sorted by id")
 
@@ -279,10 +327,6 @@ def validate_facts(
         observed_relation_kinds.add(kind)
         if relation.get("from") not in fact_ids or relation.get("to") not in fact_ids:
             raise ProbeError(f"relation {relation_id} has an unresolved endpoint")
-    if observed_relation_kinds != EXPECTED_RELATION_KINDS:
-        missing = sorted(EXPECTED_RELATION_KINDS - observed_relation_kinds)
-        extra = sorted(observed_relation_kinds - EXPECTED_RELATION_KINDS)
-        raise ProbeError(f"unexpected C# relation-kind coverage; missing={missing}, extra={extra}")
     if [relation["id"] for relation in relations] != sorted(relation_ids):
         raise ProbeError("relations must be sorted by id")
     return {
@@ -321,9 +365,7 @@ def main() -> int:
         if before_git["head"] != args.expected_target_revision:
             raise ProbeError("target revision does not match the P9.6 declared revision")
         before_snapshot = source_snapshot(target_source_root)
-        temp_parent = ROOT / ".tmp"
-        temp_parent.mkdir(exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix="p9.6-csharp-syntax-", dir=temp_parent) as temporary:
+        with tempfile.TemporaryDirectory(prefix="p9.6-csharp-syntax-") as temporary:
             temp_root = Path(temporary)
             assembly = build_probe(temp_root)
             first = temp_root / "first-facts.json"

@@ -1,0 +1,93 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-fact-workspace-negative-probes-report",
+  "authority": {
+    "automaticCodeApplication": false,
+    "externalPackageRestoreExecuted": false,
+    "externalSourceMutation": false,
+    "intentUnitMappingCreated": false,
+    "localAdapterProjectRestoreExecuted": true,
+    "localAdapterRestorePackageSources": "empty",
+    "networkRequired": false,
+    "packageDependencyAdded": false,
+    "targetBuildExecuted": false,
+    "targetRepositoryMutation": false
+  },
+  "externalSourcePathPersisted": false,
+  "positiveBaselinePassed": true,
+  "probeCount": 10,
+  "probes": [
+    {
+      "exitCode": 2,
+      "expectedError": "external C# source root must be an existing non-symlink directory",
+      "expectedFailureObserved": true,
+      "id": "external-source-root-is-file",
+      "workspaceAbsentAfterFailure": true
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "external C# source root must contain at least one C# file",
+      "expectedFailureObserved": true,
+      "id": "external-source-root-has-no-csharp",
+      "workspaceAbsentAfterFailure": true
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "experimental C# workspace must not exist before initialization",
+      "expectedFailureObserved": true,
+      "id": "workspace-already-exists",
+      "workspaceAbsentAfterFailure": false
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "external C# source root and workspace must not overlap",
+      "expectedFailureObserved": true,
+      "id": "workspace-overlaps-source",
+      "workspaceAbsentAfterFailure": true
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "experimental C# workspace must use the declared host-SDK profile path",
+      "expectedFailureObserved": true,
+      "id": "undeclared-profile-path",
+      "workspaceAbsentAfterFailure": true
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "workspace intake receipt does not match snapshot source evidence",
+      "expectedFailureObserved": true,
+      "id": "external-source-path-persisted",
+      "workspaceAbsentAfterFailure": null
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "must not persist source text",
+      "expectedFailureObserved": true,
+      "id": "persisted-source-text",
+      "workspaceAbsentAfterFailure": null
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "extractor.semanticResolution must be False",
+      "expectedFailureObserved": true,
+      "id": "semantic-resolution-claimed",
+      "workspaceAbsentAfterFailure": null
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "workspace inputs or outputs are invalid",
+      "expectedFailureObserved": true,
+      "id": "workspace-output-path-escape",
+      "workspaceAbsentAfterFailure": null
+    },
+    {
+      "expectedError": "external C# source changed during snapshot intake",
+      "expectedFailureObserved": true,
+      "id": "external-source-changed-during-snapshot",
+      "workspaceAbsentAfterFailure": true
+    }
+  ],
+  "repeatWorkspaceArtifactsByteIdentical": true,
+  "result": "pass",
+  "scope": "p9.10-experimental-csharp-snapshot-workspace-negative-probes",
+  "status": "intentgraph-experimental-csharp-fact-workspace-negative-probes-passed"
+}

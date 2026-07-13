@@ -1,0 +1,63 @@
+{
+  "artifactRole": "intentgraph-daily-launch-server-smoke-report",
+  "authority": {
+    "networkRequired": false,
+    "realBrowserLaunched": false,
+    "targetRepositoryMutation": false
+  },
+  "browserLaunchObservation": {
+    "browserOpenFailure": {
+      "attempts": 1,
+      "browserOpened": false,
+      "ready": true,
+      "result": "warning",
+      "url": "http://127.0.0.1:43210/",
+      "warning": "Default browser could not be opened"
+    },
+    "positive": {
+      "attempts": 2,
+      "browserOpened": true,
+      "ready": true,
+      "result": "opened",
+      "url": "http://127.0.0.1:43210/"
+    },
+    "readinessFailure": {
+      "attempts": 3,
+      "browserOpened": false,
+      "ready": false,
+      "result": "warning",
+      "url": "http://127.0.0.1:43210/",
+      "warning": "Workbench did not become ready for browser launch"
+    },
+    "realBrowserOpened": false
+  },
+  "checks": {
+    "automaticPortAssigned": true,
+    "browserLaunchAttemptBounded": true,
+    "browserLaunchReadinessGated": true,
+    "browserNotCalledWhenReadinessFails": true,
+    "browserOpenFailureObserved": true,
+    "browserSuppressed": true,
+    "concurrentSessionBlocked": true,
+    "htmlNonblank": true,
+    "loopbackOnly": true,
+    "projectStateUnchangedByReads": true,
+    "projectionLoaded": true,
+    "revisionHeadLoaded": true,
+    "sourceTreeUnchanged": true
+  },
+  "launch": {
+    "action": "created",
+    "automaticPortAssigned": true,
+    "browserRequested": false,
+    "host": "127.0.0.1",
+    "productVersion": "0.1.0-preview",
+    "sourceDigest": "sha256:0ba2031fc2cca6307b28e4d4f1496cc21fc24034f3a0904f2bc9f2ccf466b79b",
+    "sourceFileCount": 1,
+    "sourcePathPersisted": false,
+    "targetRepositoryMutation": false
+  },
+  "result": "pass",
+  "scope": "p9.34-local-csharp-daily-launch",
+  "status": "intentgraph-daily-launch-server-smoke-passed"
+}

@@ -14,6 +14,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+import time
 from pathlib import Path
 from typing import Any
 import zlib
@@ -36,13 +37,18 @@ REQUIRED_RUNTIME_CHECK_IDS = (
     "single-graph-instance",
     "overview-canvas-nonblank",
     "overview-material-nonblank",
-    "astral-forged-glass-material-active",
+    "celestial-ceramic-material-active",
     "material-sprite-cache-bounded",
     "material-viewport-candidates-bounded",
     "selected-endpoint-material-detailed",
-    "logical-zoom-100",
-    "renderer-zoom-100",
-    "effective-geometry-zoom-100",
+    "zoom-100-control",
+    "zoom-maximum-control",
+    "zoom-out-control",
+    "maximum-pan-control",
+    "deep-navigation-handler-budget",
+    "logical-zoom-256",
+    "renderer-zoom-256",
+    "effective-geometry-zoom-256",
     "virtual-geometry-scale-unity",
     "maximum-canvas-nonblank",
     "maximum-material-nonblank",
@@ -374,7 +380,8 @@ def validate_runtime_observation(
     screenshot: dict[str, Any],
     expected_node_count: int,
     expected_edge_count: int,
-    expected_material: str = "cached-astral-forged-glass-v3",
+    expected_material: str = "cached-celestial-ceramic-v4",
+    capture_elapsed_milliseconds: float | None = None,
 ) -> list[str]:
     errors: list[str] = []
     if observation.get("result") != "pass":
@@ -425,12 +432,12 @@ def validate_runtime_observation(
         if abs(endpoint_geometry_scale - 1.0) > 0.01:
             errors.append("browser runtime endpoint geometry scale mismatch")
     numeric_expectations = (
-        ("logicalZoom", 100.0, 0.001),
-        ("rendererZoom", 100.0, 0.001),
-        ("effectiveGeometryZoom", 100.0, 0.001),
+        ("logicalZoom", 256.0, 0.001),
+        ("rendererZoom", 256.0, 0.001),
+        ("effectiveGeometryZoom", 256.0, 0.001),
         ("virtualGeometryScale", 1.0, 0.001),
-        ("selectedEdgeRenderedWidth", 0.55, 0.002),
-        ("selectedEdgeRenderedOpacity", 0.68, 0.002),
+        ("selectedEdgeRenderedWidth", 0.30, 0.002),
+        ("selectedEdgeRenderedOpacity", 0.42, 0.002),
     )
     for key, expected, tolerance in numeric_expectations:
         try:
@@ -460,10 +467,50 @@ def validate_runtime_observation(
         material_candidate_count = int(maximum_state.get("materialCandidateCount", 0))
     except (TypeError, ValueError):
         material_candidate_count = 0
-    if not 0 < material_candidate_count < expected_node_count:
+    material_candidate_limit = max(256, (expected_node_count + 9) // 10)
+    if not 0 < material_candidate_count <= material_candidate_limit:
         errors.append("browser runtime material viewport candidate count is unbounded")
     if maximum_state.get("materialProfile") != expected_material:
         errors.append("browser runtime material profile mismatch")
+    navigation = maximum.get("navigation", {})
+    hundred = navigation.get("hundred", {})
+    try:
+        hundred_logical = float(hundred.get("logicalZoom"))
+        hundred_renderer = float(hundred.get("rendererZoom"))
+    except (TypeError, ValueError):
+        errors.append("browser runtime 100x control observation is missing")
+    else:
+        if abs(hundred_logical - 100.0) > 0.001 or abs(hundred_renderer - 100.0) > 0.001:
+            errors.append("browser runtime 100x control mismatch")
+    after_zoom_out = navigation.get("afterZoomOut", {})
+    try:
+        zoomed_out = float(after_zoom_out.get("logicalZoom"))
+    except (TypeError, ValueError):
+        errors.append("browser runtime zoom-out control observation is missing")
+    else:
+        if not 100.0 < zoomed_out < 256.0:
+            errors.append("browser runtime zoom-out control mismatch")
+    pan_delta = navigation.get("panDelta", {})
+    try:
+        pan_x = float(pan_delta.get("x"))
+        pan_y = float(pan_delta.get("y"))
+    except (TypeError, ValueError):
+        errors.append("browser runtime maximum pan observation is missing")
+    else:
+        if abs(pan_x - 18.0) > 0.001 or abs(pan_y + 12.0) > 0.001:
+            errors.append("browser runtime maximum pan control mismatch")
+    for key, maximum_milliseconds in (
+        ("hundredHandlerMilliseconds", 1000.0),
+        ("maximumHandlerMilliseconds", 1000.0),
+        ("panHandlerMilliseconds", 250.0),
+    ):
+        try:
+            duration = float(navigation.get(key))
+        except (TypeError, ValueError):
+            errors.append(f"browser runtime {key} is missing")
+            continue
+        if duration < 0 or duration >= maximum_milliseconds:
+            errors.append(f"browser runtime {key} exceeds budget")
     selection_text = maximum.get("selectionText")
     if not isinstance(selection_text, str) or not all(
         marker in selection_text for marker in ("source", "target")
@@ -481,6 +528,12 @@ def validate_runtime_observation(
         errors.append("browser screenshot lacks visual variation")
     if int(screenshot.get("luminanceRange") or 0) < 24:
         errors.append("browser screenshot luminance range is too narrow")
+    if (
+        capture_elapsed_milliseconds is None
+        or capture_elapsed_milliseconds <= 0
+        or capture_elapsed_milliseconds >= 45000
+    ):
+        errors.append("headless browser capture exceeds the wall-clock budget")
     return errors
 
 
@@ -489,7 +542,7 @@ def run_probe(
     output: Path,
     screenshot_output: Path,
     browser_path: Path | None = None,
-    expected_material: str = "cached-astral-forged-glass-v3",
+    expected_material: str = "cached-celestial-ceramic-v4",
 ) -> dict[str, Any]:
     workbench = workbench.resolve(strict=True)
     output = output.resolve()
@@ -502,6 +555,7 @@ def run_probe(
     browser_details: dict[str, Any] = {}
     input_artifacts: dict[str, Any] = {}
     expected_node_count = expected_edge_count = 0
+    capture_elapsed_milliseconds = 0.0
     try:
         if not (workbench / "index.html").is_file() or not (workbench / "projection.json").is_file():
             raise ValueError("workbench must contain index.html and projection.json")
@@ -517,11 +571,15 @@ def run_probe(
             url = f"http://127.0.0.1:{server.server_port}/?intentGraphRuntimeProbe=1"
             with tempfile.TemporaryDirectory(prefix="intentgraph-browser-probe-") as temporary:
                 temporary_root = Path(temporary)
+                capture_started = time.perf_counter()
                 dom, _ = run_browser_capture(
                     browser,
                     temporary_root / "capture-profile",
                     url,
                     screenshot_output,
+                )
+                capture_elapsed_milliseconds = round(
+                    (time.perf_counter() - capture_started) * 1000, 3
                 )
                 observation = parse_runtime_report(dom)
         finally:
@@ -536,6 +594,7 @@ def run_probe(
                 expected_node_count,
                 expected_edge_count,
                 expected_material,
+                capture_elapsed_milliseconds,
             )
         )
     except Exception as error:  # The report remains useful on environment failures.
@@ -548,7 +607,7 @@ def run_probe(
             if result == "pass"
             else "intentgraph-workbench-headless-browser-regression-failed"
         ),
-        "scope": "p9.33-actual-100x-astral-material-regression",
+        "scope": "p9.34-256x-celestial-ceramic-regression",
         "result": result,
         "input": {
             "workbench": repo_path(workbench),
@@ -567,6 +626,8 @@ def run_probe(
                 "singleProcessDomAndScreenshot": True,
                 "viewport": {"width": 1440, "height": 1000},
                 "virtualTimeBudgetMilliseconds": 12000,
+                "wallClockElapsedMilliseconds": capture_elapsed_milliseconds,
+                "wallClockBudgetMilliseconds": 45000,
                 "runtimeQuery": "intentGraphRuntimeProbe=1",
             },
         },
@@ -595,7 +656,7 @@ def main() -> int:
     parser.add_argument("--screenshot-out", required=True, type=Path)
     parser.add_argument("--browser", type=Path)
     parser.add_argument(
-        "--expected-material", default="cached-astral-forged-glass-v3"
+        "--expected-material", default="cached-celestial-ceramic-v4"
     )
     args = parser.parse_args()
     try:

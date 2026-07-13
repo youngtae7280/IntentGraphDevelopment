@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import shutil
+import stat
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -108,6 +110,26 @@ def is_within(path: Path, parent: Path) -> bool:
         return False
 
 
+def is_reparse_point(path: Path) -> bool:
+    details = path.lstat()
+    attributes = getattr(details, "st_file_attributes", 0)
+    reparse_attribute = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
+    return stat.S_ISLNK(details.st_mode) or bool(attributes & reparse_attribute)
+
+
+def resolved_source_path(path: Path, root: Path, relative: Path) -> Path:
+    try:
+        if is_reparse_point(path):
+            raise ExperimentalWorkspaceError(f"C# source tree must not contain reparse points: {relative.as_posix()}")
+        resolved = path.resolve(strict=True)
+        resolved.relative_to(root)
+    except ExperimentalWorkspaceError:
+        raise
+    except (OSError, ValueError) as error:
+        raise ExperimentalWorkspaceError(f"C# source path must resolve under the source root: {relative.as_posix()}") from error
+    return resolved
+
+
 def contained_path(workspace: Path, value: str, *, artifact: bool = False) -> Path:
     relative = Path(value)
     if relative.is_absolute() or ".." in relative.parts:
@@ -121,17 +143,34 @@ def contained_path(workspace: Path, value: str, *, artifact: bool = False) -> Pa
 
 
 def csharp_source_records(root: Path) -> list[dict[str, str]]:
-    if not root.is_dir() or root.is_symlink():
+    try:
+        invalid_root = not root.is_dir() or is_reparse_point(root)
+    except OSError:
+        invalid_root = True
+    if invalid_root:
         raise ExperimentalWorkspaceError("external C# source root must be an existing non-symlink directory")
+    root = root.resolve(strict=True)
     records: list[dict[str, str]] = []
-    for path in sorted(root.rglob("*")):
-        relative = path.relative_to(root)
-        if any(part.lower() in {"bin", "obj"} for part in relative.parts):
-            continue
-        if path.is_symlink():
-            raise ExperimentalWorkspaceError(f"C# source tree must not contain symlinks: {relative.as_posix()}")
-        if path.is_file() and path.suffix.lower() == ".cs":
-            records.append({"path": relative.as_posix(), "sha256": digest_bytes(path.read_bytes())})
+    pending = [root]
+    while pending:
+        directory = pending.pop()
+        try:
+            entries = sorted(os.scandir(directory), key=lambda entry: entry.name)
+        except OSError as error:
+            raise ExperimentalWorkspaceError(f"cannot enumerate C# source directory: {directory}") from error
+        for entry in entries:
+            path = Path(entry.path)
+            relative = path.relative_to(root)
+            resolved = resolved_source_path(path, root, relative)
+            try:
+                if entry.is_dir(follow_symlinks=False):
+                    if not any(part.lower() in {"bin", "obj"} for part in relative.parts):
+                        pending.append(resolved)
+                elif entry.is_file(follow_symlinks=False) and path.suffix.lower() == ".cs":
+                    records.append({"path": relative.as_posix(), "sha256": digest_bytes(resolved.read_bytes())})
+            except OSError as error:
+                raise ExperimentalWorkspaceError(f"cannot inspect C# source path: {relative.as_posix()}") from error
+    records.sort(key=lambda record: record["path"])
     if not records:
         raise ExperimentalWorkspaceError("external C# source root must contain at least one C# file")
     return records
@@ -209,8 +248,14 @@ def manifest_for(records: list[dict[str, str]], profile_digest: str) -> dict[str
 
 
 def copy_snapshot(source_root: Path, workspace_source: Path, records: list[dict[str, str]]) -> None:
+    source_root = source_root.resolve(strict=True)
     for record in records:
-        source = source_root / record["path"]
+        relative = Path(record["path"])
+        if relative.is_absolute() or ".." in relative.parts:
+            raise ExperimentalWorkspaceError(f"unsafe C# source record path: {record['path']}")
+        source = resolved_source_path(source_root / relative, source_root, relative)
+        if not source.is_file():
+            raise ExperimentalWorkspaceError(f"C# source record must resolve to a file: {record['path']}")
         destination = workspace_source / record["path"]
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, destination)
@@ -333,9 +378,13 @@ def initialize_workspace(workspace: Path, external_source_root: Path, profile_pa
     workspace = workspace.resolve()
     if workspace.exists():
         raise ExperimentalWorkspaceError("experimental C# workspace must not exist before initialization")
-    if external_source_root.is_symlink() or not external_source_root.is_dir():
+    try:
+        invalid_source_root = not external_source_root.is_dir() or is_reparse_point(external_source_root)
+    except OSError:
+        invalid_source_root = True
+    if invalid_source_root:
         raise ExperimentalWorkspaceError("external C# source root must be an existing non-symlink directory")
-    external_source_root = external_source_root.resolve()
+    external_source_root = external_source_root.resolve(strict=True)
     if is_within(workspace, external_source_root) or is_within(external_source_root, workspace):
         raise ExperimentalWorkspaceError("external C# source root and workspace must not overlap")
     profile, profile_digest = declared_profile(profile_path, require_canonical_path=True)
@@ -364,9 +413,7 @@ def initialize_workspace(workspace: Path, external_source_root: Path, profile_pa
         manifest = manifest_for(before_records, profile_digest)
         write_json(workspace / WORKSPACE_FILE, manifest)
 
-        temp_parent = ROOT / ".tmp"
-        temp_parent.mkdir(exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix="p9.10-csharp-workspace-", dir=temp_parent) as temporary:
+        with tempfile.TemporaryDirectory(prefix="p9.10-csharp-workspace-") as temporary:
             temporary_root = Path(temporary)
             assembly = build_probe(temporary_root)
             first_facts = temporary_root / "first-facts.json"

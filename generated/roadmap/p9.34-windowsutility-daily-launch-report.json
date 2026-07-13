@@ -1,0 +1,46 @@
+{
+  "artifactRole": "intentgraph-windowsutility-daily-launch-benchmark-report",
+  "status": "intentgraph-windowsutility-daily-launch-benchmark-passed",
+  "scope": "p9.34-windows-local-install-and-daily-launch",
+  "result": "pass",
+  "productVersion": "0.1.0-preview",
+  "source": {
+    "project": "WindowsUtility",
+    "sourceDigest": "sha256:40e62ffb901d32cc453f678b4242a2ef2d741ed0182dedf0cebecb91906b5a85",
+    "sourceFileCount": 207,
+    "absoluteSourcePathPersisted": false,
+    "targetRepositoryMutation": false
+  },
+  "extraction": {
+    "factCount": 8187,
+    "relationCount": 7980,
+    "graphNodeCount": 8194,
+    "graphEdgeCount": 7986
+  },
+  "performance": {
+    "createElapsedSecondsObserved": 11.38,
+    "createThresholdSeconds": 60,
+    "createThresholdPassed": true,
+    "resumeElapsedSecondsObserved": 1.44,
+    "resumeThresholdSeconds": 5,
+    "resumeThresholdPassed": true
+  },
+  "launch": {
+    "loopbackOnly": true,
+    "automaticPortAssigned": true,
+    "projectionLoaded": true,
+    "browserSuppressedForBenchmark": true,
+    "concurrentSessionLockEnabled": true
+  },
+  "authority": {
+    "targetRepositoryMutation": false,
+    "targetBuildExecuted": false,
+    "targetRestoreExecuted": false,
+    "targetLaunchExecuted": false,
+    "networkRequired": false,
+    "providerApiCalled": false,
+    "credentialAccessed": false,
+    "automaticCodeApplication": false,
+    "releasePublished": false
+  }
+}

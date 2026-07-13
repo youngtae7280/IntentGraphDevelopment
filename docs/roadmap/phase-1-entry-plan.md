@@ -4158,6 +4158,38 @@ Twenty browser/output negative probes, 30 server probes, eight workspace probes,
 byte-identical repeat emission, and unchanged semantic domains pass. See
 [P9.33 Review](../reviews/p9.33-actual-100x-astral-material-review.md).
 
+## Implemented Slice: P9.34 Windows Local Install And Daily Launch
+
+P9.34 packages the Local Review Kit as a deterministic Windows-local directory/ZIP and
+adds `igd doctor`, `prepare`, `status`, and `open`. `igd open <C# source root>` creates
+or resumes a path-hashed local project, chooses a loopback port, waits for readiness,
+and opens the Workbench. Runtime installation is separate from user projects, normal
+uninstall preserves data, stale source fails closed, and a process lock prevents two
+servers from mutating one project.
+
+Small-project, WindowsUtility, bundle, install, uninstall, server, concurrency, and
+negative-probe validation pass. The preview remains unsigned and unpublished, requires
+host Python and .NET, and does not yet refresh changed source. See
+[P9.34 Daily Open](../product/igd-daily-open-p9.34.md),
+[P9.34 Windows Install](../product/igd-windows-portable-install-p9.34.md), and
+[P9.34 Review](../reviews/p9.34-windows-local-install-daily-launch-review.md).
+
+## Implemented Correction: P9.34.R 256x Deep Inspection Rendering
+
+P9.34.R is renderer-only. It retains `100x` as a direct inspection control and raises
+the real camera ceiling to `256x`. At maximum zoom the selected relation tapers to
+`0.30px` at `0.42` opacity, and the cached node finish changes to a near-black
+celestial-ceramic material with restrained asymmetric spectral detail. The precision
+path remains viewport-local, keeps a 96-sprite cache bound, and does not mutate graph,
+source, workflow, evidence, authority, or history state.
+
+The real WindowsUtility page passes 25 runtime browser checks and 25 fail-closed
+negative probes, including direct `100x`/`256x` controls, maximum-zoom pan, zoom-out,
+selection inspection, material pixel detail, a strict viewport-candidate ceiling, and
+an externally measured 45-second whole-capture ceiling. See
+[P9.34.R Product Note](../product/igd-256x-celestial-ceramic-p9.34r.md) and
+[P9.34.R Review](../reviews/p9.34r-deep-inspection-rendering-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).

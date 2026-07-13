@@ -1,4 +1,4 @@
-"""Fail-closed probes for the P9.33 browser observation validator."""
+"""Fail-closed probes for the deep-inspection browser observation validator."""
 
 from __future__ import annotations
 
@@ -38,13 +38,13 @@ def good_observation() -> dict[str, Any]:
             },
             "endpointGeometryScale": 1.0,
             "state": {
-                "logicalZoom": 100,
-                "rendererZoom": 100,
-                "effectiveGeometryZoom": 100,
+                "logicalZoom": 256,
+                "rendererZoom": 256,
+                "effectiveGeometryZoom": 256,
                 "virtualGeometryScale": 1.0,
-                "selectedEdgeRenderedWidth": 0.55,
-                "selectedEdgeRenderedOpacity": 0.68,
-                "materialProfile": "cached-astral-forged-glass-v3",
+                "selectedEdgeRenderedWidth": 0.30,
+                "selectedEdgeRenderedOpacity": 0.42,
+                "materialProfile": "cached-celestial-ceramic-v4",
                 "materialCandidateCount": 2,
             },
             "selectedEndpointMaterialPixels": {
@@ -52,6 +52,14 @@ def good_observation() -> dict[str, Any]:
                 "chromaticSampleCount": 120,
                 "uniqueColorBucketCount": 24,
                 "luminanceRange": 120,
+            },
+            "navigation": {
+                "hundred": {"logicalZoom": 100, "rendererZoom": 100},
+                "afterZoomOut": {"logicalZoom": 142.2, "rendererZoom": 142.2},
+                "panDelta": {"x": 18, "y": -12},
+                "hundredHandlerMilliseconds": 24,
+                "maximumHandlerMilliseconds": 31,
+                "panHandlerMilliseconds": 4,
             },
             "selectionText": "relation\nsource\nproject.project\ntarget\nwork.item",
         },
@@ -147,6 +155,28 @@ def mutate_material(observation: dict[str, Any], _screenshot: dict[str, Any]) ->
     observation["maximum"]["state"]["materialProfile"] = "plastic-orb"
 
 
+def mutate_hundred_control(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["navigation"]["hundred"]["logicalZoom"] = 24
+
+
+def mutate_zoom_out_control(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["navigation"]["afterZoomOut"]["logicalZoom"] = 256
+
+
+def mutate_pan_control(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
+    observation["maximum"]["navigation"]["panDelta"] = {"x": 0, "y": 0}
+
+
+def mutate_navigation_budget(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["navigation"]["maximumHandlerMilliseconds"] = 1200
+
+
 def mutate_selection(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
     observation["maximum"]["selectionText"] = ""
 
@@ -198,6 +228,10 @@ PROBES: tuple[tuple[str, Mutation, str], ...] = (
     ("wrong-effective-zoom", mutate_zoom, "effectiveGeometryZoom mismatch"),
     ("oversized-selected-edge", mutate_edge_width, "selectedEdgeRenderedWidth mismatch"),
     ("wrong-material", mutate_material, "material profile mismatch"),
+    ("broken-100x-control", mutate_hundred_control, "100x control mismatch"),
+    ("broken-zoom-out-control", mutate_zoom_out_control, "zoom-out control mismatch"),
+    ("broken-maximum-pan-control", mutate_pan_control, "maximum pan control mismatch"),
+    ("slow-maximum-zoom-handler", mutate_navigation_budget, "maximumHandlerMilliseconds exceeds budget"),
     ("empty-selection-inspector", mutate_selection, "selection inspector is incomplete"),
     ("runtime-script-error", mutate_runtime_error, "reported script errors"),
     ("invalid-screenshot", mutate_screenshot, "not a valid PNG"),
@@ -215,7 +249,9 @@ def main() -> int:
         observation = deepcopy(good_observation())
         screenshot = deepcopy(good_screenshot())
         mutate(observation, screenshot)
-        errors = validate_runtime_observation(observation, screenshot, 8208, 8023)
+        errors = validate_runtime_observation(
+            observation, screenshot, 8208, 8023, capture_elapsed_milliseconds=16000
+        )
         observed = any(expected_error in error for error in errors)
         probe_results.append(
             {
@@ -225,6 +261,24 @@ def main() -> int:
                 "errors": errors,
             }
         )
+    wall_clock_errors = validate_runtime_observation(
+        good_observation(),
+        good_screenshot(),
+        8208,
+        8023,
+        capture_elapsed_milliseconds=45000,
+    )
+    probe_results.append(
+        {
+            "id": "slow-headless-browser-capture",
+            "expectedError": "headless browser capture exceeds the wall-clock budget",
+            "expectedFailureObserved": any(
+                "headless browser capture exceeds the wall-clock budget" in error
+                for error in wall_clock_errors
+            ),
+            "errors": wall_clock_errors,
+        }
+    )
     output_guards = (
         (
             "report-overwrites-workbench-input",

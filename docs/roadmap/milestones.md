@@ -4807,3 +4807,61 @@ Produced artifacts:
 Next safe work:
 
 - wait for exact packaged executable launch smoke authorization response.
+
+## P9.34: Windows Local Install And Daily Launch
+
+Goal: close the first daily-use product bottleneck by packaging the C# Local Review Kit and reducing first use to one normal command.
+
+Status: implementation and local validation completed on 2026-07-14. See [P9.34 Windows Local Install And Daily Launch Review](../reviews/p9.34-windows-local-install-daily-launch-review.md).
+
+Delivered boundary:
+
+- `igd doctor`, `prepare`, `status`, and `open`
+- atomic first snapshot/project creation and unchanged-source resume
+- fail-closed stale source and one-process-per-project session ownership
+- automatic loopback port and readiness-gated browser launch
+- deterministic 21-file Windows-local directory/ZIP bundle
+- per-user install/uninstall with runtime and user-data separation
+
+Verification:
+
+- 16 daily launcher probes, 13 server checks, 13 bundle probes, and 26 installed-runtime checks pass
+- two independent ZIP builds are byte-identical
+- WindowsUtility creates in 11.38 seconds and resumes in 1.44 seconds
+- 207 C# files produce 8,187 facts, 7,980 relations, and an 8,194-node Workbench
+
+Non-goals:
+
+- no target source mutation, build, restore, launch, proposal application, or approval automation
+- no download, provider, credential, signing, release, editor, or team integration
+- no automatic source refresh or semantic record migration
+
+Next safe work:
+
+- continue to a reviewed `igd refresh` boundary that preserves history and invalidates stale mappings/proposals.
+
+## P9.34.R: 256x Deep Inspection And Celestial Ceramic Material
+
+Goal: correct the maximum-inspection interaction and remaining toy-like node finish without changing the unified graph.
+
+Status: implementation and browser validation completed on 2026-07-14. See [P9.34.R Deep Inspection Rendering Review](../reviews/p9.34r-deep-inspection-rendering-review.md).
+
+Delivered boundary:
+
+- one-click `100x` inspection plus a real `256x` Cytoscape camera ceiling
+- selection-centered deep zoom with viewport-center fallback and maximum-zoom pan
+- maximum-zoom selected relation taper of `0.30px` at `0.42` opacity
+- cached near-black celestial-ceramic material with asymmetric cyan/magenta spectral detail
+- bounded 96-entry material cache and viewport-local candidate rendering
+
+Verification:
+
+- the real WindowsUtility Workbench loads all 8,194 nodes and 7,986 edges
+- 25 browser runtime checks exercise `100x`, `256x`, zoom-out, pan, material pixels, selection details, and interaction contracts
+- a 45-second external wall-clock ceiling and 10%-or-256 viewport candidate ceiling guard severe rendering regressions
+- 25 fail-closed browser/output mutations are rejected
+- graph facts, relations, project state, source snapshots, workflow, evidence, authority, and history remain unchanged
+
+Next safe work:
+
+- continue product workflow work at P9.35; treat further material refinement as user-review-driven rendering work, not graph-model work.

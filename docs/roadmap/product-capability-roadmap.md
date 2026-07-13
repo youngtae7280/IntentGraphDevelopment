@@ -7,9 +7,9 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P9.33 completed.
+P9.34.R completed.
 Selected next benchmark: B1-typescript-rest-api.
-IntentGraphDevelopment has a defined-but-not-built product candidate: IntentGraph Local Review Kit.
+IntentGraphDevelopment has a first installable Windows-local preview: IntentGraph Local Review Kit.
 The experimental C# fact-only inspector is complete. P9.13 adds a separate local semantic-overlay project workspace and unified project workbench. P9.14 adds review-only change proposals with graph delta and code-diff fragments to that same C# project route. P9.15 corrects the raw-code-heavy default graph and adds a loopback-only interactive work-request intake surface. Visual interaction review remains a required user-facing quality gate.
 
 P9.17 supersedes the P9.15 semantic-only default. The local Workbench loads the full graph through progressive detail and deterministic radial source communities, preserves one graph across lens changes, records local mapping candidates, and can record a declared semantic foundation from supplied project documents without automatically creating Intent Units. P9.18 then corrects large-graph navigation: module communities are weight-aware and organic, semantic overview and text search emphasize records in place, and visibility, selection, fitting, and panel resizing avoid full-graph restyling where possible. Its current visual system uses a dark neon/space palette and only labels core semantic nodes, code capsules, changed-code facts, selected code facts, and search matches; ordinary code facts remain inspectable by selection. P9.19 adds a loopback-only review-proposal intake dialog that uses the existing deterministic proposal validator and records only non-applied local project-state artifacts. P9.20 adds typed non-executing review receipts for individual proposal verification/evidence requirement pairs.
@@ -70,6 +70,23 @@ evidence bound and verify the material layer.
 The graph, layout, source, workflow, evidence, authority, delta, and code-diff domains
 remain unchanged. After this bounded correction, cohesive daily-use installation and
 launch remain the next product bottleneck.
+
+P9.34 closes that first product bottleneck. A deterministic 21-file Windows-local
+directory/ZIP installs the `igd` command, keeps runtime separate from user data, and
+supports `doctor`, `prepare`, `status`, and one-command `open` over an ordinary C#
+source directory. First creation is atomic, unchanged source resumes, stale source
+fails before server bind, only one process owns a project, and browser launch waits for
+loopback readiness. WindowsUtility prepared in 11.38 seconds and resumed in 1.44
+seconds with 8,194 graph nodes. Source refresh with semantic invalidation is now the
+largest daily-use bottleneck; signing and public release remain absent.
+
+P9.34.R then corrects only the deep-inspection renderer after live product review. The
+real camera supports `100x` and `256x` controls, selected relations taper to
+`0.30px`/`0.42` at maximum zoom, and a cached celestial-ceramic material replaces the
+remaining glass-like finish. A real WindowsUtility browser run verifies all 8,194 nodes
+and 7,986 edges, 25 runtime conditions, an external wall-clock ceiling, and 25
+fail-closed mutations. No graph or source
+domain changed.
 ```
 
 > **Scope correction, P8.124:** the WindowsUtility package and its verification artifacts are Phase G adoption evidence. WindowsUtility is not an IntentGraphDevelopment product candidate, and the historical P8.121-P8.123 candidate-acceptance gate does not block this roadmap. IntentGraphDevelopment productization begins only after its own product surface and distribution boundary are defined. See [P8.124 WindowsUtility Adoption / IGD Productization Scope Correction](../reviews/p8.124-windowsutility-adoption-igd-productization-scope-correction.md).
@@ -252,7 +269,7 @@ P8.124 superseded the P8.121-P8.123 interpretation that WindowsUtility package e
 | E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | P5.0 verifier and P5.1 boundary review completed for B1. |
 | F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | P6.0 preview and P6.1 boundary review completed for B1. |
 | G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Bounded WindowsUtility mapping, source-change, package, launch, and UI evidence exists. It is adoption evidence, not an IGD product release. |
-| H | Productization | Package IntentGraphDevelopment CLI/local app/editor/GitHub/team workflow surfaces. | P9.0-P9.16 established the local project workflow; P9.17-P9.32 added a complete unified graph, bounded request/mapping/proposal/result/evidence-decision workflow, effective 100x inspection, and repeatable real-browser regression. Cohesive installation and launch remain open. |
+| H | Productization | Package IntentGraphDevelopment CLI/local app/editor/GitHub/team workflow surfaces. | P9.0-P9.33 established the local workflow and browser-verified unified graph. P9.34 adds a deterministic installable Windows-local preview and one-command launch. Source refresh, upgrade, self-contained runtime, editor/team integration, signing, and release remain open. |
 
 ## Phase A: Model Correction
 
