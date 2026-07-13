@@ -22,6 +22,8 @@ from experimental_csharp_project import (
     add_mapping_candidate,
     add_review_receipt_document,
     add_verifier_result_document,
+    add_evidence_decision_document,
+    draft_evidence_decision_from_result,
     add_work_request,
     build_projection,
     canonical_json,
@@ -119,7 +121,7 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
 
         def do_POST(self) -> None:  # noqa: N802 - HTTP handler contract
             path = urlparse(self.path).path
-            if path not in {"/api/work-requests", "/api/mapping-candidates", "/api/change-proposals", "/api/draft-change-proposals", "/api/review-receipts", "/api/draft-review-receipts", "/api/verifier-results"}:
+            if path not in {"/api/work-requests", "/api/mapping-candidates", "/api/change-proposals", "/api/draft-change-proposals", "/api/review-receipts", "/api/draft-review-receipts", "/api/verifier-results", "/api/evidence-decisions", "/api/draft-evidence-decisions"}:
                 self.error_json(HTTPStatus.NOT_FOUND, "local workbench route does not exist")
                 return
             content_length = self.headers.get("Content-Length")
@@ -179,6 +181,19 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
             elif path == "/api/verifier-results":
                 required_fields = {"verifierResult"}
                 error_message = "verifier result must contain only one verifierResult object"
+            elif path == "/api/evidence-decisions":
+                required_fields = {"evidenceDecision"}
+                error_message = "evidence decision must contain only one evidenceDecision object"
+            elif path == "/api/draft-evidence-decisions":
+                required_fields = {
+                    "decisionId",
+                    "verifierResultId",
+                    "decision",
+                    "reviewerId",
+                    "reviewerRole",
+                    "summary",
+                }
+                error_message = "guided evidence decision fields must be strings"
             else:
                 required_fields = {"receipt"}
                 error_message = "review receipt must contain only one receipt object"
@@ -186,6 +201,7 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                 "/api/change-proposals": "proposal",
                 "/api/review-receipts": "receipt",
                 "/api/verifier-results": "verifierResult",
+                "/api/evidence-decisions": "evidenceDecision",
             }
             valid_fields = set(payload) == required_fields
             if path == "/api/draft-change-proposals":
@@ -226,6 +242,18 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
                         )
                     elif path == "/api/verifier-results":
                         result = add_verifier_result_document(workspace, payload["verifierResult"])
+                    elif path == "/api/evidence-decisions":
+                        result = add_evidence_decision_document(workspace, payload["evidenceDecision"])
+                    elif path == "/api/draft-evidence-decisions":
+                        result = draft_evidence_decision_from_result(
+                            workspace,
+                            decision_id=payload["decisionId"],
+                            verifier_result_id=payload["verifierResultId"],
+                            decision=payload["decision"],
+                            reviewer_id=payload["reviewerId"],
+                            reviewer_role=payload["reviewerRole"],
+                            summary=payload["summary"],
+                        )
                     else:
                         result = add_review_receipt_document(workspace, payload["receipt"])
                     self.respond(HTTPStatus.CREATED, json_bytes(result), "application/json; charset=utf-8")

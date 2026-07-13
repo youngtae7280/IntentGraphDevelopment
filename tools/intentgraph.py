@@ -29,6 +29,8 @@ from experimental_csharp_project import (
     add_mapping_candidate as add_experimental_csharp_mapping_candidate,
     add_review_receipt as add_experimental_csharp_review_receipt,
     add_verifier_result as add_experimental_csharp_verifier_result,
+    add_evidence_decision as add_experimental_csharp_evidence_decision,
+    draft_evidence_decision_from_result as draft_experimental_csharp_evidence_decision,
     add_work_request as add_experimental_csharp_work_request,
     emit_project_workbench as emit_experimental_csharp_project_workbench,
     initialize_project as initialize_experimental_csharp_project,
@@ -699,6 +701,23 @@ def parse_args() -> argparse.Namespace:
     )
     csharp_project_verifier_result.add_argument("--workspace", required=True, type=Path)
     csharp_project_verifier_result.add_argument("--result", required=True, type=Path)
+    csharp_project_evidence_decision = subparsers.add_parser(
+        "add-experimental-csharp-evidence-decision",
+        help="Record an explicit local human acceptance or rejection for one current verifier result.",
+    )
+    csharp_project_evidence_decision.add_argument("--workspace", required=True, type=Path)
+    csharp_project_evidence_decision.add_argument("--decision", required=True, type=Path)
+    csharp_project_guided_evidence_decision = subparsers.add_parser(
+        "draft-experimental-csharp-evidence-decision",
+        help="Record a guided local human evidence decision without approving or applying the proposal.",
+    )
+    csharp_project_guided_evidence_decision.add_argument("--workspace", required=True, type=Path)
+    csharp_project_guided_evidence_decision.add_argument("--decision-id", required=True)
+    csharp_project_guided_evidence_decision.add_argument("--verifier-result-id", required=True)
+    csharp_project_guided_evidence_decision.add_argument("--decision", required=True, choices=["accepted", "rejected"])
+    csharp_project_guided_evidence_decision.add_argument("--reviewer-id", required=True)
+    csharp_project_guided_evidence_decision.add_argument("--reviewer-role", required=True, choices=["maintainer", "quality-reviewer", "security-reviewer"])
+    csharp_project_guided_evidence_decision.add_argument("--summary", required=True)
     csharp_project_guided_receipt = subparsers.add_parser(
         "draft-experimental-csharp-review-receipt",
         help="Record a user-authored, non-executing review receipt from existing proposal requirements.",
@@ -793,6 +812,22 @@ def main() -> int:
             return 0
         if args.command == "add-experimental-csharp-verifier-result":
             emit_status(add_experimental_csharp_verifier_result(args.workspace, args.result))
+            return 0
+        if args.command == "add-experimental-csharp-evidence-decision":
+            emit_status(add_experimental_csharp_evidence_decision(args.workspace, args.decision))
+            return 0
+        if args.command == "draft-experimental-csharp-evidence-decision":
+            emit_status(
+                draft_experimental_csharp_evidence_decision(
+                    args.workspace,
+                    decision_id=args.decision_id,
+                    verifier_result_id=args.verifier_result_id,
+                    decision=args.decision,
+                    reviewer_id=args.reviewer_id,
+                    reviewer_role=args.reviewer_role,
+                    summary=args.summary,
+                )
+            )
             return 0
         if args.command == "draft-experimental-csharp-review-receipt":
             emit_status(

@@ -65,6 +65,15 @@ VERIFIER_ARTIFACT_KINDS = {
 }
 VERIFIER_ARTIFACT_MEDIA_TYPES = {"application/json", "application/xml", "text/plain"}
 VERIFIER_ARTIFACT_AVAILABILITY = "external-digest-only"
+EVIDENCE_DECISION_ROLE = "intentgraph-experimental-csharp-evidence-decision"
+EVIDENCE_DECISION_SCOPE = "experimental-csharp-semantic-overlay-evidence-decision"
+EVIDENCE_DECISION_STATUS = "evidence-decision-recorded"
+EVIDENCE_DECISIONS = {"accepted", "rejected"}
+EVIDENCE_REVIEWER_ROLES = {"maintainer", "quality-reviewer", "security-reviewer"}
+EVIDENCE_DECISION_PERMISSIONS = {
+    "accepted": "evidence.accept",
+    "rejected": "evidence.reject",
+}
 PROPOSAL_VERIFICATION_KINDS = {
     "build-required", "local-review", "runtime-smoke-required",
     "static-analysis-required", "test-required",
@@ -131,6 +140,19 @@ VERIFIER_RESULT_AUTHORITY = {
     "automaticCodeApplication": False,
     "selfAuthorized": False,
     "approvalRecorded": False,
+    "networkRequired": False,
+    "credentialAccessAllowed": False,
+}
+EVIDENCE_DECISION_AUTHORITY = {
+    "decisionRecorded": True,
+    "reviewerAuthoritySource": "explicit-local-human-declaration",
+    "reviewerAuthenticatedByIntentGraph": False,
+    "localWorkspaceReadinessMayChange": True,
+    "proposalApprovalRecorded": False,
+    "graphMutationApplied": False,
+    "targetRepositoryMutation": False,
+    "automaticCodeApplication": False,
+    "selfAuthorized": False,
     "networkRequired": False,
     "credentialAccessAllowed": False,
 }
@@ -287,6 +309,7 @@ def project_core_digest(state: dict[str, Any]) -> str:
         "non-applied-change-proposal-recorded",
         "review-receipt-recorded",
         "verifier-result-imported",
+        "evidence-decision-recorded",
     }
     requirement_kinds = {
         "proposal-verification-requirements",
@@ -294,6 +317,9 @@ def project_core_digest(state: dict[str, Any]) -> str:
         "review-receipt",
         "tool-verifier-result",
         "deterministic-verifier-evidence",
+        "evidence-acceptance-decision",
+        "accepted-verifier-evidence",
+        "rejected-verifier-evidence",
     }
     lifecycle = {
         "project": state.get("project"),
@@ -309,7 +335,45 @@ def project_core_digest(state: dict[str, Any]) -> str:
     # must not invalidate durable revision digests recorded before P9.29.
     if state.get("verifierResults"):
         lifecycle["verifierResults"] = state["verifierResults"]
+    if state.get("evidenceDecisions"):
+        lifecycle["evidenceDecisions"] = state["evidenceDecisions"]
     return digest_json(lifecycle)
+
+
+def evidence_decision_state_records(decision: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Derive the immutable state records represented by one evidence decision."""
+
+    identifier = decision["id"]
+    result_id = decision["verifierResultId"]
+    outcome = decision["decision"]
+    reviewer_id = decision["reviewer"]["id"]
+    evidence_digest = decision["subject"]["evidenceDigest"]
+    return {
+        "verification": {
+            "id": f"verification.evidence-decision.{identifier}",
+            "kind": "evidence-acceptance-decision",
+            "result": outcome,
+            "summary": f"Recorded {outcome} for verifier result {result_id}.",
+        },
+        "evidence": {
+            "id": f"evidence.evidence-decision.{identifier}",
+            "kind": (
+                "accepted-verifier-evidence"
+                if outcome == "accepted"
+                else "rejected-verifier-evidence"
+            ),
+            "result": outcome,
+            "verifierResultId": result_id,
+            "evidenceDigest": evidence_digest,
+            "authorityRef": f"authority.evidence-decision.{identifier}",
+            "summary": f"Reviewer {reviewer_id} decided evidence {evidence_digest}.",
+        },
+        "history": {
+            "id": f"history.evidence-decision.{identifier}",
+            "kind": "evidence-decision-recorded",
+            "summary": f"Recorded local evidence decision {identifier} without approving or applying the proposal.",
+        },
+    }
 
 
 def append_work_stage_revision(
@@ -383,6 +447,7 @@ def validate_work_stage_revisions(
         "proposal-and-requirements-recorded",
         "review-receipt-recorded",
         "verifier-result-imported",
+        "evidence-decision-recorded",
     }
     by_work: dict[str, list[dict[str, Any]]] = {}
     for revision in revisions:
@@ -786,6 +851,7 @@ def state_for(project_id: str, title: str, snapshot_manifest: dict[str, Any], su
         "changeProposals": [],
         "reviewReceipts": [],
         "verifierResults": [],
+        "evidenceDecisions": [],
         "workStageRevisions": [],
         "verification": [
             {
@@ -1562,9 +1628,169 @@ def verifier_result_artifacts(
     return results
 
 
+def evidence_decision_id_prefix(verifier_result_id: str) -> str:
+    fingerprint = digest_json({"verifierResultId": verifier_result_id}).removeprefix("sha256:")[:16]
+    prefix = f"decision.{verifier_result_id[:48]}.{fingerprint}"
+    safe_id(prefix, "evidence decision id prefix")
+    return prefix
+
+
+def validate_evidence_decision_document(
+    decision: dict[str, Any],
+    *,
+    result_by_id: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    assert_no_unsafe_state(decision)
+    expected = {
+        "artifactRole",
+        "schemaVersion",
+        "scope",
+        "id",
+        "verifierResultId",
+        "proposalId",
+        "verificationRequirementId",
+        "evidenceRequirementId",
+        "decision",
+        "reviewer",
+        "subject",
+        "summary",
+        "status",
+        "authority",
+    }
+    if set(decision) != expected:
+        raise ProjectWorkspaceError("evidence decision fields are invalid")
+    if (
+        decision["artifactRole"] != EVIDENCE_DECISION_ROLE
+        or decision["schemaVersion"] != PROJECT_SCHEMA_VERSION
+        or decision["scope"] != EVIDENCE_DECISION_SCOPE
+        or decision["status"] != EVIDENCE_DECISION_STATUS
+    ):
+        raise ProjectWorkspaceError("evidence decision role, schema version, scope, or status is invalid")
+    required_safe_id(decision["id"], "evidence decision id")
+    result_id = required_safe_id(decision["verifierResultId"], "evidence decision verifier result id")
+    result = result_by_id.get(result_id)
+    if result is None:
+        raise ProjectWorkspaceError("evidence decision must reference a known verifier result")
+    for key, label in (
+        ("proposalId", "evidence decision proposal id"),
+        ("verificationRequirementId", "evidence decision verification requirement id"),
+        ("evidenceRequirementId", "evidence decision evidence requirement id"),
+    ):
+        required_safe_id(decision[key], label)
+        if decision[key] != result[key]:
+            raise ProjectWorkspaceError("evidence decision requirement binding does not match its verifier result")
+    if not isinstance(decision["decision"], str) or decision["decision"] not in EVIDENCE_DECISIONS:
+        raise ProjectWorkspaceError("evidence decision result is invalid")
+    if decision["decision"] == "accepted" and result["result"] != "pass":
+        raise ProjectWorkspaceError("only a current passing verifier result may be accepted as evidence")
+    reviewer = decision["reviewer"]
+    if not isinstance(reviewer, dict) or set(reviewer) != {
+        "id", "actorType", "role", "permission", "authorityScope", "authenticationStatus",
+    }:
+        raise ProjectWorkspaceError("evidence decision reviewer fields are invalid")
+    required_safe_id(reviewer["id"], "evidence decision reviewer id")
+    if (
+        reviewer["actorType"] != "human"
+        or not isinstance(reviewer["role"], str)
+        or reviewer["role"] not in EVIDENCE_REVIEWER_ROLES
+        or reviewer["permission"] != EVIDENCE_DECISION_PERMISSIONS[decision["decision"]]
+        or reviewer["authorityScope"] != "local-project-workspace"
+        or reviewer["authenticationStatus"] != "local-session-not-cryptographically-verified"
+    ):
+        raise ProjectWorkspaceError("evidence decision reviewer authority is invalid")
+    subject = decision["subject"]
+    if not isinstance(subject, dict) or set(subject) != {
+        "verifierResultDigest", "evidenceDigest", "proposalDigest", "snapshotSourceDigest",
+    }:
+        raise ProjectWorkspaceError("evidence decision subject fields are invalid")
+    expected_subject = {
+        "verifierResultDigest": digest_json(result),
+        "evidenceDigest": result["evidence"]["digest"],
+        "proposalDigest": result["subject"]["proposalDigest"],
+        "snapshotSourceDigest": result["subject"]["snapshotSourceDigest"],
+    }
+    if subject != expected_subject:
+        raise ProjectWorkspaceError("evidence decision subject does not match its verifier result")
+    if not isinstance(decision["summary"], str) or not decision["summary"].strip():
+        raise ProjectWorkspaceError("evidence decision summary is required")
+    if len(decision["summary"].encode("utf-8")) > 12000:
+        raise ProjectWorkspaceError("evidence decision summary exceeds the local workspace size limit")
+    if decision["authority"] != EVIDENCE_DECISION_AUTHORITY:
+        raise ProjectWorkspaceError("evidence decision authority exceeds the local human-decision boundary")
+    return decision
+
+
+def evidence_decision_artifacts(
+    project_workspace: Path,
+    state: dict[str, Any],
+    *,
+    verifier_results: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    records = state.get("evidenceDecisions", [])
+    if not isinstance(records, list):
+        raise ProjectWorkspaceError("project state evidenceDecisions must be a list")
+    decision_ids = validate_record_ids(records, "evidence decision")
+    result_by_id = {result["id"]: result for result in verifier_results}
+    decisions: list[dict[str, Any]] = []
+    seen_result_ids: set[str] = set()
+    expected_index_fields = {
+        "id", "artifact", "artifactDigest", "verifierResultId", "proposalId",
+        "verificationRequirementId", "evidenceRequirementId", "decision", "status",
+        "reviewerId", "reviewerRole",
+    }
+    for record in records:
+        if set(record) != expected_index_fields:
+            raise ProjectWorkspaceError("evidence decision index record fields are invalid")
+        for key, label in (
+            ("id", "evidence decision index id"),
+            ("verifierResultId", "evidence decision index verifier result id"),
+            ("proposalId", "evidence decision index proposal id"),
+            ("verificationRequirementId", "evidence decision index verification requirement id"),
+            ("evidenceRequirementId", "evidence decision index evidence requirement id"),
+            ("reviewerId", "evidence decision index reviewer id"),
+        ):
+            required_safe_id(record[key], label)
+        if (
+            record["id"] not in decision_ids
+            or record["verifierResultId"] not in result_by_id
+            or record["decision"] not in EVIDENCE_DECISIONS
+            or record["status"] != EVIDENCE_DECISION_STATUS
+            or record["reviewerRole"] not in EVIDENCE_REVIEWER_ROLES
+            or not sha256_value(record["artifactDigest"])
+        ):
+            raise ProjectWorkspaceError("evidence decision index record is invalid")
+        if record["verifierResultId"] in seen_result_ids:
+            raise ProjectWorkspaceError("evidence decision already exists for the verifier result")
+        artifact = contained_project_path(
+            project_workspace,
+            str(record["artifact"]),
+            required_directory="evidence-decisions",
+        )
+        if not artifact.is_file():
+            raise ProjectWorkspaceError("evidence decision artifact is missing")
+        decision = validate_evidence_decision_document(read_json(artifact), result_by_id=result_by_id)
+        if (
+            record["artifactDigest"] != digest_json(decision)
+            or any(
+                decision[key] != record[key]
+                for key in (
+                    "id", "verifierResultId", "proposalId", "verificationRequirementId",
+                    "evidenceRequirementId", "decision", "status",
+                )
+            )
+            or decision["reviewer"]["id"] != record["reviewerId"]
+            or decision["reviewer"]["role"] != record["reviewerRole"]
+        ):
+            raise ProjectWorkspaceError("evidence decision index record does not match its artifact")
+        seen_result_ids.add(decision["verifierResultId"])
+        decisions.append(decision)
+    return decisions
+
+
 def proposal_verifier_status(
     proposal: dict[str, Any],
     verifier_results: list[dict[str, Any]],
+    evidence_decisions: list[dict[str, Any]] | None = None,
 ) -> tuple[str | None, str]:
     expected_pairs = proposal_verifier_pairs(proposal)
     latest: dict[tuple[str, str, str], dict[str, Any]] = {}
@@ -1573,6 +1799,20 @@ def proposal_verifier_status(
             latest[verifier_result_pair(result)] = result
     if not latest:
         return None, "proposal-ready"
+    decision_by_result = {
+        decision["verifierResultId"]: decision
+        for decision in (evidence_decisions or [])
+    }
+    current_decisions = [decision_by_result.get(result["id"]) for result in latest.values()]
+    decided = [decision for decision in current_decisions if decision is not None]
+    if any(decision["decision"] == "rejected" for decision in decided):
+        return "evidence-rejected", "blocked"
+    if set(latest) == expected_pairs and len(decided) == len(expected_pairs):
+        statuses = {result["result"] for result in latest.values()}
+        if statuses == {"pass"}:
+            return "evidence-accepted-pass", "verified"
+    if decided:
+        return "evidence-decision-partial", "verification-observed"
     statuses = {result["result"] for result in latest.values()}
     if "fail" in statuses:
         return "verifier-result-fail", "verification-observed"
@@ -1584,6 +1824,62 @@ def proposal_verifier_status(
         # an approval or completed-work claim.
         return "verifier-result-pass", "verification-observed"
     return "verifier-result-partial", "verification-observed"
+
+
+def verifier_result_coverage_for(
+    proposals: list[dict[str, Any]],
+    verifier_results: list[dict[str, Any]],
+    evidence_decisions: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Derive proposal coverage only from proposal bindings and current results."""
+
+    latest_by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for result in verifier_results:
+        latest_by_pair[verifier_result_pair(result)] = result
+    decision_by_result = {
+        decision["verifierResultId"]: decision for decision in evidence_decisions
+    }
+    coverage: list[dict[str, Any]] = []
+    for proposal in proposals:
+        pairs = sorted(proposal_verifier_pairs(proposal))
+        latest = [latest_by_pair[pair] for pair in pairs if pair in latest_by_pair]
+        results = [item["result"] for item in latest]
+        decisions = [decision_by_result.get(item["id"]) for item in latest]
+        accepted = sum(1 for item in decisions if item and item["decision"] == "accepted")
+        rejected = sum(1 for item in decisions if item and item["decision"] == "rejected")
+        pending = len(pairs) - accepted - rejected
+        acceptance_status = (
+            "accepted"
+            if accepted == len(pairs) and len(latest) == len(pairs)
+            else "rejected"
+            if rejected
+            else "partial"
+            if accepted
+            else "pending"
+        )
+        coverage.append(
+            {
+                "proposalId": proposal["id"],
+                "workItemId": proposal["workItemId"],
+                "requiredPairCount": len(pairs),
+                "observedPairCount": len(latest),
+                "missingPairCount": len(pairs) - len(latest),
+                "passPairCount": results.count("pass"),
+                "failPairCount": results.count("fail"),
+                "blockedPairCount": results.count("blocked"),
+                "allPairsObservedPassing": len(latest) == len(pairs) and set(results) == {"pass"},
+                "acceptedPairCount": accepted,
+                "rejectedPairCount": rejected,
+                "pendingPairCount": pending,
+                "allPairsAcceptedPassing": (
+                    accepted == len(pairs)
+                    and len(latest) == len(pairs)
+                    and set(results) == {"pass"}
+                ),
+                "acceptanceStatus": acceptance_status,
+            }
+        )
+    return sorted(coverage, key=lambda item: item["proposalId"])
 
 
 def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Path], dict[str, Any]]:
@@ -1616,11 +1912,13 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         state["reviewReceipts"] = []
     if "verifierResults" not in state:
         state["verifierResults"] = []
+    if "evidenceDecisions" not in state:
+        state["evidenceDecisions"] = []
     if "semanticRelationOverlay" not in state:
         state["semanticRelationOverlay"] = empty_semantic_relation_overlay()
     if "workStageRevisions" not in state:
         state["workStageRevisions"] = []
-    for key in ("workItems", "mappings", "changeProposals", "reviewReceipts", "verifierResults", "workStageRevisions", "verification", "evidence", "history"):
+    for key in ("workItems", "mappings", "changeProposals", "reviewReceipts", "verifierResults", "evidenceDecisions", "workStageRevisions", "verification", "evidence", "history"):
         if not isinstance(state.get(key), list):
             raise ProjectWorkspaceError(f"project state {key} must be a list")
     work_ids = validate_record_ids(state["workItems"], "work item")
@@ -1647,6 +1945,9 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
             "verifier-result-pass",
             "verifier-result-fail",
             "verifier-result-blocked",
+            "evidence-decision-partial",
+            "evidence-rejected",
+            "evidence-accepted-pass",
         }:
             raise ProjectWorkspaceError(f"work item {item['id']} claims an unsupported change or verification state")
     fact_by_id = {fact.get("id"): fact for fact in facts.get("facts", []) if isinstance(fact, dict) and isinstance(fact.get("id"), str)}
@@ -1709,13 +2010,45 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         snapshot_logical_source_root=project["logicalSourceRoot"],
         snapshot_source_digest=project["sourceDigest"],
     )
+    evidence_decisions = evidence_decision_artifacts(
+        project_workspace,
+        state,
+        verifier_results=verifier_results,
+    )
+    record_by_domain: dict[str, dict[str, dict[str, Any]]] = {}
+    for domain in ("verification", "evidence", "history"):
+        validate_record_ids(state[domain], domain)
+        record_by_domain[domain] = {record["id"]: record for record in state[domain]}
+    expected_decision_record_ids = {domain: set() for domain in record_by_domain}
+    for decision in evidence_decisions:
+        for domain, expected_record in evidence_decision_state_records(decision).items():
+            expected_decision_record_ids[domain].add(expected_record["id"])
+            if record_by_domain[domain].get(expected_record["id"]) != expected_record:
+                raise ProjectWorkspaceError(
+                    f"evidence decision {domain} record does not match its decision artifact"
+                )
+    decision_record_prefixes = {
+        "verification": "verification.evidence-decision.",
+        "evidence": "evidence.evidence-decision.",
+        "history": "history.evidence-decision.",
+    }
+    for domain, prefix in decision_record_prefixes.items():
+        actual_ids = {
+            identifier for identifier in record_by_domain[domain] if identifier.startswith(prefix)
+        }
+        if actual_ids != expected_decision_record_ids[domain]:
+            raise ProjectWorkspaceError(f"evidence decision {domain} records are incomplete")
     work_stage_revisions = validate_work_stage_revisions(state, work_ids=work_ids, proposals=proposals)
     reviewed_proposal_ids = {receipt["proposalId"] for receipt in review_receipts}
     proposed_work_ids = {proposal["workItemId"] for proposal in proposals}
     for item in state["workItems"]:
         if item["id"] in proposed_work_ids:
             proposal = next(proposal for proposal in proposals if proposal["workItemId"] == item["id"])
-            verifier_status, expected_work_status = proposal_verifier_status(proposal, verifier_results)
+            verifier_status, expected_work_status = proposal_verifier_status(
+                proposal,
+                verifier_results,
+                evidence_decisions,
+            )
             expected_verification_status = verifier_status or (
                 "review-receipt-recorded" if proposal["id"] in reviewed_proposal_ids else "requirements-recorded"
             )
@@ -1727,8 +2060,6 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
                 raise ProjectWorkspaceError("work item proposal status must agree with its change proposal")
         elif item["changeStatus"] != "not-proposed":
             raise ProjectWorkspaceError("work item without a proposal must remain not-proposed")
-    for key in ("verification", "evidence", "history"):
-        validate_record_ids(state[key], key)
     if not state["verification"] or not state["evidence"] or not state["history"]:
         raise ProjectWorkspaceError("project state must retain snapshot verification, evidence, and history")
     return state, snapshot_manifest, snapshot_artifacts, {
@@ -1738,6 +2069,7 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         "proposals": proposals,
         "reviewReceipts": review_receipts,
         "verifierResults": verifier_results,
+        "evidenceDecisions": evidence_decisions,
         "workStageRevisions": work_stage_revisions,
         "semanticFoundation": foundation,
         "semanticRelationOverlay": semantic_relation_overlay,
@@ -2340,7 +2672,11 @@ def _add_review_receipt_document_locked(project_workspace: Path, receipt: dict[s
     )
     proposal = proposal_by_id[receipt["proposalId"]]
     work = next(item for item in state["workItems"] if item["id"] == proposal["workItemId"])
-    verifier_status, work_status = proposal_verifier_status(proposal, data["verifierResults"])
+    verifier_status, work_status = proposal_verifier_status(
+        proposal,
+        data["verifierResults"],
+        data["evidenceDecisions"],
+    )
     work["verificationStatus"] = verifier_status or "review-receipt-recorded"
     work["status"] = work_status
     state["verification"].append(
@@ -2532,6 +2868,7 @@ def _add_verifier_result_document_locked(project_workspace: Path, result: dict[s
     verification_status, work_status = proposal_verifier_status(
         proposal,
         [*data["verifierResults"], result],
+        data["evidenceDecisions"],
     )
     if verification_status is None:
         raise ProjectWorkspaceError("verifier result did not produce a proposal verification state")
@@ -2622,6 +2959,209 @@ def add_verifier_result(project_workspace: Path, result_path: Path) -> dict[str,
     return add_verifier_result_document(project_workspace, read_json(result_path.resolve()))
 
 
+def add_evidence_decision_document(project_workspace: Path, decision: dict[str, Any]) -> dict[str, Any]:
+    project_workspace = project_workspace.resolve()
+    with project_workspace_write_lock(project_workspace):
+        return _add_evidence_decision_document_locked(project_workspace, decision)
+
+
+def _add_evidence_decision_document_locked(project_workspace: Path, decision: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(decision, dict):
+        raise ProjectWorkspaceError("evidence decision document must be a JSON object")
+    project_file = project_workspace / PROJECT_FILE
+    project_file_before = project_file.read_bytes()
+    state, _, _, data = validate_project_workspace(project_workspace)
+    before_digest = project_core_digest(state)
+    result_by_id = {result["id"]: result for result in data["verifierResults"]}
+    decision = validate_evidence_decision_document(decision, result_by_id=result_by_id)
+    if any(record["id"] == decision["id"] for record in state["evidenceDecisions"]):
+        raise ProjectWorkspaceError("evidence decision identifier already exists")
+    if any(record["verifierResultId"] == decision["verifierResultId"] for record in state["evidenceDecisions"]):
+        raise ProjectWorkspaceError("evidence decision already exists for the verifier result")
+    result = result_by_id[decision["verifierResultId"]]
+    pair = verifier_result_pair(result)
+    latest_by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for existing in data["verifierResults"]:
+        latest_by_pair[verifier_result_pair(existing)] = existing
+    if latest_by_pair[pair]["id"] != result["id"]:
+        raise ProjectWorkspaceError("evidence decision must reference the current verifier result for its requirement pair")
+
+    destination_relative = f"evidence-decisions/{decision['id']}.json"
+    destination = contained_project_path(
+        project_workspace,
+        destination_relative,
+        required_directory="evidence-decisions",
+    )
+    destination_preexisting = destination.exists()
+    destination_created = False
+    if destination_preexisting and digest_json(read_json(destination)) != digest_json(decision):
+        raise ProjectWorkspaceError("evidence decision artifact path already exists with different content")
+    state["evidenceDecisions"].append(
+        {
+            "id": decision["id"],
+            "artifact": destination_relative,
+            "artifactDigest": digest_json(decision),
+            "verifierResultId": decision["verifierResultId"],
+            "proposalId": decision["proposalId"],
+            "verificationRequirementId": decision["verificationRequirementId"],
+            "evidenceRequirementId": decision["evidenceRequirementId"],
+            "decision": decision["decision"],
+            "status": decision["status"],
+            "reviewerId": decision["reviewer"]["id"],
+            "reviewerRole": decision["reviewer"]["role"],
+        }
+    )
+    proposal = next(item for item in data["proposals"] if item["id"] == decision["proposalId"])
+    work = next(item for item in state["workItems"] if item["id"] == proposal["workItemId"])
+    verification_status, work_status = proposal_verifier_status(
+        proposal,
+        data["verifierResults"],
+        [*data["evidenceDecisions"], decision],
+    )
+    if verification_status is None:
+        raise ProjectWorkspaceError("evidence decision did not produce a proposal verification state")
+    work["verificationStatus"] = verification_status
+    work["status"] = work_status
+
+    decision_records = evidence_decision_state_records(decision)
+    verification_record_id = decision_records["verification"]["id"]
+    evidence_record_id = decision_records["evidence"]["id"]
+    history_record_id = decision_records["history"]["id"]
+    for domain, record in decision_records.items():
+        state[domain].append(record)
+    decision_node = f"evidence-decision.{decision['id']}"
+    decision_authority_node = f"authority.evidence-decision.{decision['id']}"
+    result_node = f"verifier-result.{decision['verifierResultId']}"
+    proposal_node = f"proposal.{decision['proposalId']}"
+    revision = append_work_stage_revision(
+        state,
+        work_item_id=proposal["workItemId"],
+        stage_kind="evidence-decision-recorded",
+        before_digest=before_digest,
+        record_ids=[verification_record_id, evidence_record_id, history_record_id],
+        added_node_ids=[
+            decision_node,
+            decision_authority_node,
+            f"verification.{verification_record_id}",
+            f"evidence.{evidence_record_id}",
+        ],
+        changed_node_ids=[f"work.{proposal['workItemId']}", proposal_node, result_node],
+        added_edge_ids=[
+            f"edge.{result_node}.decided-by.{decision['id']}",
+            f"edge.{decision_node}.records-verification.{decision['id']}",
+            f"edge.{decision_node}.records-evidence.{decision['id']}",
+            f"edge.{decision_node}.records-authority.{decision['id']}",
+            f"edge.{decision_authority_node}.{'authorizes' if decision['decision'] == 'accepted' else 'rejects'}.{evidence_record_id}",
+            f"edge.{decision_node}.governed-by.authority",
+            f"edge.project.{state['project']['id']}.verified-by.{verification_record_id}",
+            f"edge.project.{state['project']['id']}.evidenced-by.{evidence_record_id}",
+        ],
+        code_diff_ids=[item["id"] for item in proposal["codeDiffs"]],
+    )
+    if project_file.read_bytes() != project_file_before:
+        raise ProjectWorkspaceError("project workspace changed during evidence decision recording")
+    try:
+        if not destination_preexisting:
+            write_json_atomic(destination, decision)
+            destination_created = True
+        write_json_atomic(project_file, state)
+        validate_project_workspace(project_workspace)
+    except Exception:
+        write_bytes_atomic(project_file, project_file_before)
+        if destination_created:
+            destination.unlink(missing_ok=True)
+        raise
+    return {
+        "result": "pass",
+        "command": "add-experimental-csharp-evidence-decision",
+        "evidenceDecisionId": decision["id"],
+        "revisionId": revision["id"],
+        "verifierResultId": decision["verifierResultId"],
+        "proposalId": decision["proposalId"],
+        "decision": decision["decision"],
+        "verificationStatus": verification_status,
+        "workStatus": work_status,
+        "proposalApprovalRecorded": False,
+        "targetRepositoryMutation": False,
+        "automaticCodeApplication": False,
+        "authority": PROJECT_AUTHORITY,
+    }
+
+
+def draft_evidence_decision_from_result(
+    project_workspace: Path,
+    *,
+    decision_id: str,
+    verifier_result_id: str,
+    decision: str,
+    reviewer_id: str,
+    reviewer_role: str,
+    summary: str,
+) -> dict[str, Any]:
+    draft = {
+        "decisionId": decision_id,
+        "verifierResultId": verifier_result_id,
+        "decision": decision,
+        "reviewerId": reviewer_id,
+        "reviewerRole": reviewer_role,
+        "summary": summary,
+    }
+    assert_no_unsafe_state(draft)
+    if any(not isinstance(value, str) or not value.strip() for value in draft.values()):
+        raise ProjectWorkspaceError("guided evidence decision fields must be non-blank strings")
+    safe_id(decision_id, "guided evidence decision id")
+    safe_id(verifier_result_id, "guided evidence decision verifier result id")
+    safe_id(reviewer_id, "guided evidence decision reviewer id")
+    if decision not in EVIDENCE_DECISIONS:
+        raise ProjectWorkspaceError("guided evidence decision result is invalid")
+    if reviewer_role not in EVIDENCE_REVIEWER_ROLES:
+        raise ProjectWorkspaceError("guided evidence decision reviewer role is invalid")
+    _, _, _, data = validate_project_workspace(project_workspace.resolve())
+    result_by_id = {item["id"]: item for item in data["verifierResults"]}
+    result = result_by_id.get(verifier_result_id)
+    if result is None:
+        raise ProjectWorkspaceError("guided evidence decision must reference a known verifier result")
+    document = {
+        "artifactRole": EVIDENCE_DECISION_ROLE,
+        "schemaVersion": PROJECT_SCHEMA_VERSION,
+        "scope": EVIDENCE_DECISION_SCOPE,
+        "id": decision_id.strip(),
+        "verifierResultId": verifier_result_id.strip(),
+        "proposalId": result["proposalId"],
+        "verificationRequirementId": result["verificationRequirementId"],
+        "evidenceRequirementId": result["evidenceRequirementId"],
+        "decision": decision.strip(),
+        "reviewer": {
+            "id": reviewer_id.strip(),
+            "actorType": "human",
+            "role": reviewer_role.strip(),
+            "permission": EVIDENCE_DECISION_PERMISSIONS[decision],
+            "authorityScope": "local-project-workspace",
+            "authenticationStatus": "local-session-not-cryptographically-verified",
+        },
+        "subject": {
+            "verifierResultDigest": digest_json(result),
+            "evidenceDigest": result["evidence"]["digest"],
+            "proposalDigest": result["subject"]["proposalDigest"],
+            "snapshotSourceDigest": result["subject"]["snapshotSourceDigest"],
+        },
+        "summary": summary.strip(),
+        "status": EVIDENCE_DECISION_STATUS,
+        "authority": EVIDENCE_DECISION_AUTHORITY,
+    }
+    recorded = add_evidence_decision_document(project_workspace, document)
+    return {
+        **recorded,
+        "command": "draft-experimental-csharp-evidence-decision",
+        "guidedEvidenceDecision": True,
+        "reviewerAuthority": document["reviewer"],
+    }
+
+
+def add_evidence_decision(project_workspace: Path, decision_path: Path) -> dict[str, Any]:
+    return add_evidence_decision_document(project_workspace, read_json(decision_path.resolve()))
+
+
 def code_node(fact: dict[str, Any]) -> dict[str, Any]:
     kind = str(fact["kind"])
     location = fact.get("sourceLocation") if isinstance(fact.get("sourceLocation"), dict) else {"status": "file-level"}
@@ -2657,6 +3197,7 @@ def build_work_stage_timeline(
     proposals: list[dict[str, Any]],
     review_receipts: list[dict[str, Any]],
     verifier_results: list[dict[str, Any]],
+    evidence_decisions: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     """Derive one inspectable lifecycle trace per recorded work item.
 
@@ -2672,6 +3213,9 @@ def build_work_stage_timeline(
     results_by_proposal: dict[str, list[dict[str, Any]]] = {}
     for result in verifier_results:
         results_by_proposal.setdefault(result["proposalId"], []).append(result)
+    decisions_by_proposal: dict[str, list[dict[str, Any]]] = {}
+    for decision in evidence_decisions:
+        decisions_by_proposal.setdefault(decision["proposalId"], []).append(decision)
     revision_sequence_by_record = {
         record_id: revision["sequence"]
         for revision in state.get("workStageRevisions", [])
@@ -2812,6 +3356,14 @@ def build_work_stage_timeline(
             )
             for result in results_by_proposal.get(proposal["id"], [])
         )
+        lifecycle_events.extend(
+            (
+                revision_sequence_by_record.get(f"history.evidence-decision.{decision['id']}", 1_000_000),
+                "evidence-decision",
+                decision,
+            )
+            for decision in decisions_by_proposal.get(proposal["id"], [])
+        )
         lifecycle_events.sort(key=lambda item: (item[0], item[1], item[2]["id"]))
         for event_index, (_, event_kind, event) in enumerate(lifecycle_events, start=5):
             if event_kind == "review-receipt":
@@ -2845,6 +3397,46 @@ def build_work_stage_timeline(
                         "verificationRecordIds": [verification_node],
                         "evidenceRecordIds": [evidence_node],
                         "revisionKind": "human-review-record-not-approval",
+                    }
+                )
+                continue
+            if event_kind == "evidence-decision":
+                decision = event
+                decision_node = f"evidence-decision.{decision['id']}"
+                result_node = f"verifier-result.{decision['verifierResultId']}"
+                verification_node = f"verification.verification.evidence-decision.{decision['id']}"
+                evidence_node = f"evidence.evidence.evidence-decision.{decision['id']}"
+                authority_node = f"authority.evidence-decision.{decision['id']}"
+                authority_relation = "authorizes" if decision["decision"] == "accepted" else "rejects"
+                edge_ids = [
+                    f"edge.{result_node}.decided-by.{decision['id']}",
+                    f"edge.{decision_node}.records-verification.{decision['id']}",
+                    f"edge.{decision_node}.records-evidence.{decision['id']}",
+                    f"edge.{decision_node}.records-authority.{decision['id']}",
+                    f"edge.{authority_node}.{authority_relation}.evidence.evidence-decision.{decision['id']}",
+                    f"edge.{decision_node}.governed-by.authority",
+                ]
+                stages.append(
+                    {
+                        "id": f"stage.{work_id}.evidence-decision.{decision['id']}",
+                        "workItemId": work_id,
+                        "sequence": event_index,
+                        "kind": "evidence-decision-recorded",
+                        "title": "Evidence decision recorded",
+                        "summary": "A local human reviewer accepted or rejected one current verifier result for workspace readiness only. The proposal remains unapproved and unapplied.",
+                        "status": decision["decision"],
+                        "recordIds": [f"history.evidence-decision.{decision['id']}"],
+                        "nodeIds": [proposal_node, result_node, decision_node, verification_node, evidence_node, authority_node],
+                        "addedNodeIds": [decision_node, verification_node, evidence_node, authority_node],
+                        "changedNodeIds": [work_node, proposal_node, result_node],
+                        "contextNodeIds": [work_node, *diff_node_ids],
+                        "edgeIds": edge_ids,
+                        "addedEdgeIds": edge_ids,
+                        "changedEdgeIds": [],
+                        "codeDiffs": list(proposal["codeDiffs"]),
+                        "verificationRecordIds": [verification_node],
+                        "evidenceRecordIds": [evidence_node],
+                        "revisionKind": "local-human-evidence-decision-not-proposal-approval",
                     }
                 )
                 continue
@@ -2889,6 +3481,7 @@ def build_work_stage_timeline(
         "verification-and-evidence-requirements-recorded": {"proposal-and-requirements-recorded"},
         "review-receipt-recorded": {"review-receipt-recorded"},
         "verifier-result-imported": {"verifier-result-imported"},
+        "evidence-decision-recorded": {"evidence-decision-recorded"},
     }
     for stage in stages:
         candidates = [
@@ -2897,7 +3490,7 @@ def build_work_stage_timeline(
             if revision["workItemId"] == stage["workItemId"]
             and revision["stageKind"] in revision_kinds_by_stage[stage["kind"]]
             and (
-                stage["kind"] not in {"review-receipt-recorded", "verifier-result-imported"}
+                stage["kind"] not in {"review-receipt-recorded", "verifier-result-imported", "evidence-decision-recorded"}
                 or bool(set(stage["recordIds"]) & set(revision["recordIds"]))
             )
         ]
@@ -2909,16 +3502,97 @@ def build_work_stage_timeline(
     return stages
 
 
+def evidence_decision_projection_edges(decision: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return the complete authority topology represented by one decision."""
+
+    identifier = decision["id"]
+    result_node = f"verifier-result.{decision['verifierResultId']}"
+    decision_node = f"evidence-decision.{identifier}"
+    verification_node = f"verification.verification.evidence-decision.{identifier}"
+    evidence_node = f"evidence.evidence.evidence-decision.{identifier}"
+    authority_node = f"authority.evidence-decision.{identifier}"
+    authority_relation = "authorizes" if decision["decision"] == "accepted" else "rejects"
+    return [
+        {
+            "id": f"edge.{result_node}.decided-by.{identifier}",
+            "category": "authority-relation",
+            "kind": "decided-by",
+            "source": result_node,
+            "target": decision_node,
+            "details": {
+                "decision": decision["decision"],
+                "reviewerRole": decision["reviewer"]["role"],
+            },
+        },
+        {
+            "id": f"edge.{decision_node}.records-verification.{identifier}",
+            "category": "semantic-relation",
+            "kind": "records-verification",
+            "source": decision_node,
+            "target": verification_node,
+            "details": {"verifierResultId": decision["verifierResultId"]},
+        },
+        {
+            "id": f"edge.{decision_node}.records-evidence.{identifier}",
+            "category": "semantic-relation",
+            "kind": "records-evidence",
+            "source": decision_node,
+            "target": evidence_node,
+            "details": {"evidenceDigest": decision["subject"]["evidenceDigest"]},
+        },
+        {
+            "id": f"edge.{decision_node}.records-authority.{identifier}",
+            "category": "authority-relation",
+            "kind": "records-authority",
+            "source": decision_node,
+            "target": authority_node,
+            "details": {
+                "reviewerRole": decision["reviewer"]["role"],
+                "authenticationStatus": decision["reviewer"]["authenticationStatus"],
+            },
+        },
+        {
+            "id": f"edge.{authority_node}.{authority_relation}.evidence.evidence-decision.{identifier}",
+            "category": "authority-relation",
+            "kind": authority_relation,
+            "source": authority_node,
+            "target": evidence_node,
+            "details": {
+                "verifierResultId": decision["verifierResultId"],
+                "evidenceDigest": decision["subject"]["evidenceDigest"],
+                "proposalApprovalRecorded": False,
+            },
+        },
+        {
+            "id": f"edge.{decision_node}.governed-by.authority",
+            "category": "authority-relation",
+            "kind": "governed-by",
+            "source": decision_node,
+            "target": "authority.project-boundary",
+            "details": {
+                "authorityScope": decision["reviewer"]["authorityScope"],
+                "proposalApprovalRecorded": False,
+            },
+        },
+    ]
+
+
 def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
     state, snapshot_manifest, snapshot_artifacts, data = validate_project_workspace(project_workspace)
     facts_document = data["facts"]
     proposals = data["proposals"]
     verifier_results = data["verifierResults"]
+    evidence_decisions = data["evidenceDecisions"]
+    decision_by_result_id = {
+        decision["verifierResultId"]: decision
+        for decision in evidence_decisions
+    }
     latest_verifier_result_by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
     for verifier_result in verifier_results:
         latest_verifier_result_by_pair[verifier_result_pair(verifier_result)] = verifier_result
     current_verifier_result_ids = {result["id"] for result in latest_verifier_result_by_pair.values()}
     verifier_result_intake_pairs: list[dict[str, Any]] = []
+    evidence_decision_intake_results: list[dict[str, Any]] = []
     verifier_result_coverage: list[dict[str, Any]] = []
     for proposal in proposals:
         proposal_pairs: list[tuple[str, str, str]] = []
@@ -2930,6 +3604,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             pair = (proposal["id"], verification["id"], evidence_requirement["id"])
             proposal_pairs.append(pair)
             latest = latest_verifier_result_by_pair.get(pair)
+            latest_decision = decision_by_result_id.get(latest["id"]) if latest else None
             verifier_result_intake_pairs.append(
                 {
                     "key": "|".join(pair),
@@ -2951,29 +3626,37 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
                             "id": latest["id"],
                             "result": latest["result"],
                             "observationStatus": latest["observationStatus"],
-                            "acceptanceStatus": latest["acceptanceStatus"],
+                            "acceptanceStatus": latest_decision["decision"] if latest_decision else "pending",
+                            "decisionId": latest_decision["id"] if latest_decision else None,
                         }
                         if latest
                         else None
                     ),
                 }
             )
-        latest_for_proposal = [latest_verifier_result_by_pair[pair] for pair in proposal_pairs if pair in latest_verifier_result_by_pair]
-        results = [item["result"] for item in latest_for_proposal]
-        verifier_result_coverage.append(
-            {
-                "proposalId": proposal["id"],
-                "workItemId": proposal["workItemId"],
-                "requiredPairCount": len(proposal_pairs),
-                "observedPairCount": len(latest_for_proposal),
-                "missingPairCount": len(proposal_pairs) - len(latest_for_proposal),
-                "passPairCount": results.count("pass"),
-                "failPairCount": results.count("fail"),
-                "blockedPairCount": results.count("blocked"),
-                "allPairsObservedPassing": len(latest_for_proposal) == len(proposal_pairs) and set(results) == {"pass"},
-                "acceptanceStatus": "pending",
-            }
-        )
+            if latest:
+                evidence_decision_intake_results.append(
+                    {
+                        "key": latest["id"],
+                        "decisionIdPrefix": evidence_decision_id_prefix(latest["id"]),
+                        "proposalId": proposal["id"],
+                        "proposalTitle": proposal["title"],
+                        "workItemId": proposal["workItemId"],
+                        "verifierResultId": latest["id"],
+                        "verifierResult": latest["result"],
+                        "verifierKind": latest["verifier"]["kind"],
+                        "evidenceDigest": latest["evidence"]["digest"],
+                        "verificationRequirementId": latest["verificationRequirementId"],
+                        "evidenceRequirementId": latest["evidenceRequirementId"],
+                        "decisionRecorded": latest_decision is not None,
+                        "currentDecision": latest_decision,
+                    }
+                )
+    verifier_result_coverage = verifier_result_coverage_for(
+        proposals,
+        verifier_results,
+        evidence_decisions,
+    )
     raw_facts = facts_document.get("facts")
     raw_relations = facts_document.get("relations")
     if not isinstance(raw_facts, list) or not isinstance(raw_relations, list):
@@ -3126,6 +3809,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
         edges.append({"id": f"edge.{receipt_node}.records-verification.{receipt['id']}", "category": "semantic-relation", "kind": "records-verification", "source": receipt_node, "target": verification_node, "details": {"requirementId": receipt["verificationRequirementId"]}})
         edges.append({"id": f"edge.{receipt_node}.records-evidence.{receipt['id']}", "category": "semantic-relation", "kind": "records-evidence", "source": receipt_node, "target": evidence_node, "details": {"requirementId": receipt["evidenceRequirementId"]}})
     for result in verifier_results:
+        effective_decision = decision_by_result_id.get(result["id"])
         nodes.append(
             semantic_node(
                 f"verifier-result.{result['id']}",
@@ -3148,11 +3832,60 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
                     "evidenceDigest": result["evidence"]["digest"],
                     "evidenceByteLength": result["evidence"]["byteLength"],
                     "observationStatus": result["observationStatus"],
-                    "acceptanceStatus": result["acceptanceStatus"],
+                    "observationAcceptanceStatus": result["acceptanceStatus"],
+                    "acceptanceStatus": effective_decision["decision"] if effective_decision else "pending",
+                    "evidenceDecisionId": effective_decision["id"] if effective_decision else None,
                     "current": result["id"] in current_verifier_result_ids,
                     "supersedesResultId": result["supersedesResultId"],
                     "authority": "import-only-non-approving",
                 },
+            )
+        )
+    for decision in evidence_decisions:
+        nodes.append(
+            semantic_node(
+                f"evidence-decision.{decision['id']}",
+                "evidence-decision",
+                f"Evidence {decision['decision']}",
+                {
+                    "id": decision["id"],
+                    "verifierResultId": decision["verifierResultId"],
+                    "proposalId": decision["proposalId"],
+                    "verificationRequirementId": decision["verificationRequirementId"],
+                    "evidenceRequirementId": decision["evidenceRequirementId"],
+                    "decision": decision["decision"],
+                    "reviewer": decision["reviewer"],
+                    "subject": decision["subject"],
+                    "summary": decision["summary"],
+                    "authority": decision["authority"],
+                },
+            )
+        )
+        authority_record = {
+            "id": f"authority.evidence-decision.{decision['id']}",
+            "kind": "evidence-decision-authority",
+            "proposer": decision["reviewer"]["id"],
+            "proposerType": "human",
+            "requiredAuthority": decision["reviewer"]["role"],
+            "validator": "p9.30-evidence-decision-validator",
+            "decidedBy": decision["reviewer"]["id"],
+            "decidedByType": "human",
+            "decision": decision["decision"],
+            "decisionStatus": decision["decision"],
+            "permission": decision["reviewer"]["permission"],
+            "authorityScope": decision["reviewer"]["authorityScope"],
+            "authenticationStatus": decision["reviewer"]["authenticationStatus"],
+            "verifierResultId": decision["verifierResultId"],
+            "proposalApprovalRecorded": False,
+            "graphMutationApplied": False,
+            "targetRepositoryMutation": False,
+        }
+        nodes.append(
+            semantic_node(
+                authority_record["id"],
+                "authority",
+                f"Evidence {decision['decision']} authority",
+                authority_record,
             )
         )
     projected_node_ids = {node["id"] for node in nodes}
@@ -3171,6 +3904,15 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             if previous_node not in projected_node_ids:
                 raise ProjectWorkspaceError("verifier result supersedes node is missing")
             edges.append({"id": f"edge.{result_node}.supersedes.{result['supersedesResultId']}", "category": "semantic-relation", "kind": "supersedes", "source": result_node, "target": previous_node, "details": {"appendOnly": True}})
+    for decision in evidence_decisions:
+        decision_node = f"evidence-decision.{decision['id']}"
+        result_node = f"verifier-result.{decision['verifierResultId']}"
+        verification_node = f"verification.verification.evidence-decision.{decision['id']}"
+        evidence_node = f"evidence.evidence.evidence-decision.{decision['id']}"
+        authority_node = f"authority.evidence-decision.{decision['id']}"
+        if any(identifier not in projected_node_ids for identifier in (decision_node, result_node, verification_node, evidence_node, authority_node)):
+            raise ProjectWorkspaceError("evidence decision projection records are incomplete")
+        edges.extend(evidence_decision_projection_edges(decision))
     authority_node = "authority.project-boundary"
     nodes.append(semantic_node(authority_node, "authority", "Read-only authority boundary", state["authority"]))
     edges.append({"id": f"edge.{project_node}.governed-by.authority", "category": "semantic-relation", "kind": "governed-by", "source": project_node, "target": authority_node, "details": {"targetRepositoryMutation": False, "automaticCodeApplication": False}})
@@ -3229,6 +3971,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
         proposals=proposals,
         review_receipts=data["reviewReceipts"],
         verifier_results=data["verifierResults"],
+        evidence_decisions=data["evidenceDecisions"],
     )
     for stage in work_stage_timeline:
         if (
@@ -3302,6 +4045,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             **{key: state[key] for key in ("workItems", "mappings", "verification", "evidence", "history")},
             "reviewReceipts": data["reviewReceipts"],
             "verifierResults": verifier_results,
+            "evidenceDecisions": evidence_decisions,
             "verifierResultCoverage": sorted(verifier_result_coverage, key=lambda item: item["proposalId"]),
             "verifierResultIntake": {
                 "artifactRole": VERIFIER_RESULT_ROLE,
@@ -3314,6 +4058,16 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
                 "artifactAvailability": VERIFIER_ARTIFACT_AVAILABILITY,
                 "pairs": sorted(verifier_result_intake_pairs, key=lambda item: item["key"]),
                 "authority": VERIFIER_RESULT_AUTHORITY,
+            },
+            "evidenceDecisionIntake": {
+                "artifactRole": EVIDENCE_DECISION_ROLE,
+                "schemaVersion": PROJECT_SCHEMA_VERSION,
+                "scope": EVIDENCE_DECISION_SCOPE,
+                "allowedDecisions": sorted(EVIDENCE_DECISIONS),
+                "allowedReviewerRoles": sorted(EVIDENCE_REVIEWER_ROLES),
+                "decisionPermissions": EVIDENCE_DECISION_PERMISSIONS,
+                "results": sorted(evidence_decision_intake_results, key=lambda item: item["key"]),
+                "authority": EVIDENCE_DECISION_AUTHORITY,
             },
             "semanticFoundation": semantic_foundation,
             "changeProposals": proposals,
@@ -3338,7 +4092,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "defaultView": {
                 "id": "all",
                 "codeKinds": ["file", "namespace", "type"],
-                "semanticCategories": ["project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "review-receipt", "verifier-result", "authority", "history", "code-capsule"],
+                "semanticCategories": ["project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "review-receipt", "verifier-result", "evidence-decision", "authority", "history", "code-capsule"],
                 "rendering": "full-graph-progressive-detail",
                 "layout": "deterministic-relation-aware-community-preset",
                 "physicsLayoutOnLoad": False,
@@ -3379,9 +4133,12 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "loopbackReviewReceiptIntakeFromUi": True,
             "loopbackGuidedReviewReceiptFromUi": True,
             "loopbackVerifierResultIntakeFromUi": True,
+            "loopbackEvidenceDecisionFromUi": True,
             "clientSideEvidenceArtifactHashing": True,
             "externalVerifierExecutionByWorkbench": False,
-            "externalEvidenceAcceptanceByWorkbench": False,
+            "externalEvidenceAcceptanceByWorkbench": True,
+            "evidenceAcceptanceAuthorityScope": "local-project-workspace",
+            "reviewerAuthenticationByWorkbench": False,
             "targetRepositoryMutationFromUi": False,
             "approvalControlsPresent": False,
             "fullGraphDefault": True,
@@ -3396,13 +4153,15 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "virtualPrecisionZoom": True,
             "effectiveGeometryMaximumZoom": 100,
             "virtualGeometryScaleAtMaximumZoom": 4.1667,
-            "selectedEdgeRenderedWidthPixelsAtMaximumZoom": 0.1,
+            "selectedEdgeRenderedWidthPixelsAtMaximumZoom": 0.065,
+            "selectedEdgeRenderedOpacityAtMaximumZoom": 0.34,
             "selectedEdgeScreenSpaceTaper": True,
             "spectralObsidianNodeMaterial": True,
             "iridescentVoidNodeMaterial": True,
             "rendererSafeOpticalMaterial": True,
             "cachedCanvasNodeMaterial": True,
             "viewportLocalMaterialRendering": True,
+            "farZoomMaterialCulling": True,
             "precisionDeepZoomBands": True,
             "supportingNodeLabelsOnDemand": True,
             "workStageTimeline": True,
@@ -3447,7 +4206,7 @@ HTML_TEMPLATE = r'''<!doctype html>
   <style>
     :root { --left:286px; --right:356px; --void:#050710; --panel:#0c101c; --panel2:#0e1320; --line:#273149; --text:#edf4ff; --muted:#91a0b7; --accent:#54b6bd; --pink:#c078a0; --violet:#8f72ae; --warn:#c9a96d; --danger:#c96d79; --code:#46a8c6; --intent:#c078a0; --work:#65a98f; --evidence:#8f72ae; --history:#687ea8; --proposal:#c96d79; }
     * { box-sizing:border-box; } body { margin:0; background:var(--void); color:var(--text); font:13px/1.45 Inter,Segoe UI,Arial,sans-serif; letter-spacing:0; overflow:hidden; }
-    button,input,select { font:inherit; } button { color:var(--text); background:#161b2a; border:1px solid #323b52; border-radius:4px; padding:6px 9px; cursor:pointer; transition:border-color 120ms ease,background 120ms ease,box-shadow 120ms ease; } button:hover,button.active { border-color:var(--accent); background:#1a2634; box-shadow:0 0 0 1px rgba(101,196,214,.12); } input,select { width:100%; color:var(--text); background:#0b0f1a; border:1px solid #323b52; border-radius:4px; padding:7px 8px; }
+    button,input,select { font:inherit; } button { color:var(--text); background:#161b2a; border:1px solid #323b52; border-radius:4px; padding:6px 9px; cursor:pointer; transition:border-color 120ms ease,background 120ms ease,box-shadow 120ms ease; } button:hover,button.active { border-color:var(--accent); background:#1a2634; box-shadow:0 0 0 1px rgba(101,196,214,.12); } button:disabled { opacity:.36; cursor:not-allowed; border-color:#293248; box-shadow:none; filter:saturate(.38); } input,select { width:100%; color:var(--text); background:#0b0f1a; border:1px solid #323b52; border-radius:4px; padding:7px 8px; }
     .app { height:100vh; display:grid; grid-template-rows:54px 1fr; } .topbar { display:flex; align-items:center; justify-content:space-between; padding:0 16px; border-bottom:1px solid var(--line); background:#0c0f1a; box-shadow:0 1px 10px rgba(0,0,0,.18); } .brand { display:flex; align-items:baseline; gap:9px; } .brand strong { color:#fbfcff; font-size:15px; letter-spacing:.4px; } .brand span { color:var(--muted); } .badges { display:flex; gap:6px; } .badge { color:#bbc6d6; border:1px solid #3a455b; padding:3px 7px; border-radius:99px; font-size:11px; } .badge.accent { color:#9bdfeb; border-color:#397884; }
     .workspace { min-height:0; display:grid; grid-template-columns:var(--left) 7px minmax(440px,1fr) 7px var(--right); } .rail,.inspector { overflow:auto; background:var(--panel2); } .rail { border-right:1px solid var(--line); } .inspector { border-left:1px solid var(--line); } .resizer { background:#161b2a; cursor:col-resize; position:relative; } .resizer:hover,.resizer.active { background:var(--accent); box-shadow:0 0 10px rgba(101,196,214,.2); } .section { padding:14px; border-bottom:1px solid var(--line); } h2 { margin:0 0 9px; font-size:11px; text-transform:uppercase; color:#b6c4d9; letter-spacing:.8px; } h3 { margin:0 0 7px; font-size:15px; } p { margin:5px 0; color:#c7d0dd; } label { display:block; margin:8px 0 4px; color:var(--muted); font-size:11px; } .modes { display:grid; grid-template-columns:1fr 1fr; gap:5px; } .modes button:last-child { grid-column:span 2; }
     .work-list,.stage-list { display:grid; gap:7px; } .work-controls { display:grid; grid-template-columns:minmax(0,1fr) 104px; gap:5px; margin-bottom:7px; } .work-controls input,.work-controls select { min-width:0; } .record-nav { display:grid; grid-template-columns:30px minmax(0,1fr) 30px; gap:5px; align-items:stretch; margin-bottom:8px; } .record-nav button { padding:4px; font-size:18px; line-height:1; } .record-nav button:disabled { opacity:.35; cursor:default; border-color:#293248; background:#101522; box-shadow:none; } .record-position { min-width:0; display:flex; flex-direction:column; justify-content:center; padding:4px 7px; border:1px solid #303a50; background:#0d121e; } .record-position strong,.record-position small { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .record-position strong { color:#dce8f4; font-size:11px; } .record-position small { color:var(--muted); font-size:10px; } .work-window-summary { margin:7px 0 0; color:var(--muted); font-size:10px; text-align:right; } .work-card { text-align:left; padding:9px; background:#151320; } .work-card.active { border-color:#65c4d6; background:#172333; box-shadow:inset 2px 0 #65c4d6; } .work-card small { display:block; color:var(--muted); margin-top:3px; } .work-card .state { display:block; color:#92fff0; text-transform:uppercase; font-size:10px; letter-spacing:.5px; } .work-card.unmapped .state { color:var(--warn); } .stage-card { text-align:left; padding:8px 9px; background:#101725; border-left:2px solid #466b8a; } .stage-card:hover,.stage-card.active { border-left-color:#92fff0; } .stage-card .stage-meta { display:flex; justify-content:space-between; gap:8px; color:#a7b9c9; font-size:10px; text-transform:uppercase; letter-spacing:.4px; } .stage-card strong,.stage-card small { display:block; } .stage-card strong { margin-top:2px; color:#e5edf6; } .stage-card small { margin-top:2px; color:var(--muted); } .stage-card .stage-delta { color:#9ce0e8; } .stage-card .stage-revision { color:#a999c9; } .stage-card .stage-revision.durable { color:#79d9c8; } .empty { color:var(--muted); font-style:italic; padding:7px 0; } .metrics { display:grid; grid-template-columns:1fr 1fr; gap:7px; } .metric { padding:8px; border:1px solid var(--line); background:#0a0910; } .metric strong { color:#fff; display:block; font-size:16px; } .metric span { color:var(--muted); font-size:11px; }
@@ -3465,7 +4224,7 @@ HTML_TEMPLATE = r'''<!doctype html>
         <section class="section"><h2>Work history</h2><div class="work-controls"><input id="workSearch" type="search" aria-label="Find recorded work" placeholder="Work id, title, request"><select id="workStatusFilter" aria-label="Work state"><option value="">All states</option><option value="unmapped">Unmapped</option><option value="mapped">Mapped</option><option value="proposal-ready">Proposal ready</option><option value="verification-observed">Verification observed</option><option value="blocked">Blocked</option><option value="reviewed">Review receipt</option></select></div><div class="record-nav"><button id="previousWork" type="button" title="Previous work" aria-label="Previous work">&lsaquo;</button><div id="workPosition" class="record-position"></div><button id="nextWork" type="button" title="Next work" aria-label="Next work">&rsaquo;</button></div><div id="workList" class="work-list"></div><div id="workWindowSummary" class="work-window-summary"></div></section>
         <section class="section"><h2>Work stages</h2><div class="record-nav"><button id="previousStage" type="button" title="Previous stage" aria-label="Previous stage">&lsaquo;</button><div id="stagePosition" class="record-position"></div><button id="nextStage" type="button" title="Next stage" aria-label="Next stage">&rsaquo;</button></div><div id="stageList" class="stage-list"></div></section>
         <section class="section"><h2>Project snapshot</h2><div id="metrics" class="metrics"></div></section>
-        <section class="section"><h2>Legend</h2><div class="legend"><div><i style="background:var(--code)"></i>Code fact</div><div><i style="background:#d6a762"></i>Goal / Intent</div><div><i style="background:#5fb8a5"></i>Capability / work</div><div><i style="background:#7993a8"></i>Source document</div><div><i style="background:var(--evidence)"></i>Evidence / verify</div><div><i style="background:#5fc8b4"></i>Observed verifier result</div><div><i style="background:var(--history)"></i>History / authority</div></div></section>
+        <section class="section"><h2>Legend</h2><div class="legend"><div><i style="background:var(--code)"></i>Code fact</div><div><i style="background:#d6a762"></i>Goal / Intent</div><div><i style="background:#5fb8a5"></i>Capability / work</div><div><i style="background:#7993a8"></i>Source document</div><div><i style="background:var(--evidence)"></i>Evidence / verify</div><div><i style="background:#5fc8b4"></i>Observed verifier result</div><div><i style="background:#d5b15b"></i>Evidence decision</div><div><i style="background:var(--history)"></i>History / authority</div></div></section>
       </aside>
       <div class="resizer" data-side="left" role="separator" aria-label="Resize navigation"></div>
       <main class="canvas">
@@ -3492,12 +4251,12 @@ HTML_TEMPLATE = r'''<!doctype html>
     const importantCodeLabelIds = new Set(allNodes.filter(node=>node.category==='code'&&(node.codeDiffs||[]).length>0).map(node=>node.id));
     const emptyIds = new Set();
     const workItems=model.workflow.workItems||[],workStages=model.workflow.workStageTimeline||[],workListRenderLimit=60;
-    const state = { mode:model.graph.defaultView?.id || 'all', selected:null, selectedWorkId:workItems.length?workItems[workItems.length-1].id:null, stageFocus:null, cy:null, renderTimer:null, workFilterTimer:null, zoomSettleTimer:null, precisionZoomOverride:null, precisionActualZoomOverride:null, detailLevel:null, viewportScale:null, positions:null, visibleNodeIds:null, visibleEdgeIds:null, highlighted:null, highlightedEdgeIds:new Set(), emphasizedNodeIds:new Set(), emphasizedEdgeIds:new Set(), stageAddedNodeIds:new Set(), stageChangedNodeIds:new Set(), stageEdgeIds:new Set(), searchMatchNodeIds:new Set(), onDemandLabelIds:new Set(), resizeQueued:false, graphInstanceCount:0, visibilityUpdates:0, renderedWorkCardCount:0, virtualGeometryScale:1, virtualGeometryAnchorId:null, virtualGeometryFrame:null, desiredLogicalZoom:1, desiredActualZoom:1, materialLayer:null, materialContext:null, materialFrame:null, materialSpriteCache:new Map(), materialProfile:null, materialDrawCount:0 };
+    const state = { mode:model.graph.defaultView?.id || 'all', selected:null, selectedWorkId:workItems.length?workItems[workItems.length-1].id:null, stageFocus:null, cy:null, renderTimer:null, workFilterTimer:null, zoomSettleTimer:null, precisionZoomOverride:null, precisionActualZoomOverride:null, detailLevel:null, viewportScale:null, positions:null, visibleNodeIds:null, visibleEdgeIds:null, highlighted:null, highlightedEdgeIds:new Set(), emphasizedNodeIds:new Set(), emphasizedEdgeIds:new Set(), stageAddedNodeIds:new Set(), stageChangedNodeIds:new Set(), stageEdgeIds:new Set(), searchMatchNodeIds:new Set(), onDemandLabelIds:new Set(), resizeQueued:false, graphInstanceCount:0, visibilityUpdates:0, renderedWorkCardCount:0, virtualGeometryScale:1, virtualGeometryAnchorId:null, virtualGeometryFrame:null, desiredLogicalZoom:1, desiredActualZoom:1, materialLayer:null, materialContext:null, materialFrame:null, materialSpriteCache:new Map(), materialProfile:null, materialDrawCount:0, materialCulledOrdinaryCodeCount:0 };
     const precisionZoomPivot=18,rendererMaximumZoom=24,logicalMaximumZoom=100;
     function logicalZoomFromActual(actual){if(actual<=precisionZoomPivot)return actual;return precisionZoomPivot+(actual-precisionZoomPivot)*(logicalMaximumZoom-precisionZoomPivot)/(rendererMaximumZoom-precisionZoomPivot);}
     function actualZoomFromLogical(logical){if(logical<=precisionZoomPivot)return logical;return precisionZoomPivot+(logical-precisionZoomPivot)*(rendererMaximumZoom-precisionZoomPivot)/(logicalMaximumZoom-precisionZoomPivot);}
-    const colors = { code:'#46a8c6', project:'#54b6bd', 'source-document':'#6e8ba5', goal:'#c9a96d', capability:'#6aa990', constraint:'#bf815f', 'verification-requirement':'#957bb1', work:'#65a98f', intent:'#c078a0', mapping:'#baa267', proposal:'#c96d79', verification:'#8677a8', evidence:'#8f72ae', 'review-receipt':'#a570ba', 'verifier-result':'#5fc8b4', authority:'#6389b6', history:'#687ea8' };
-    const communityPalette = ['#3f8daf','#b8955b','#b56072','#4f958c','#65956a','#9e8f56','#8d6aa4','#a66888','#a97a58','#73869d'];
+    const colors = { code:'#58a8bd', project:'#77c4c5', 'source-document':'#738ba2', goal:'#b99b67', capability:'#689b84', constraint:'#ae765e', 'verification-requirement':'#8976a0', work:'#68a083', intent:'#a96f8d', mapping:'#ad9660', proposal:'#b9616d', verification:'#756b98', evidence:'#806c9b', 'review-receipt':'#8f6ca5', 'verifier-result':'#6cc5b3', 'evidence-decision':'#c2a25a', authority:'#6382a8', history:'#667894' };
+    const communityPalette = ['#477f94','#8a7957','#8c5963','#4f817c','#627e68','#837653','#715f83','#815d71','#846451','#667788'];
     const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     const short = value => String(value || '').replace('sha256:','').slice(0,12);
     const rows = entries => `<dl class="kv">${entries.map(([key,value])=>`<dt>${safe(key)}</dt><dd>${safe(value)}</dd>`).join('')}</dl>`;
@@ -3507,13 +4266,13 @@ HTML_TEMPLATE = r'''<!doctype html>
     function stableHash(value) { let hash=2166136261; for(let index=0;index<value.length;index+=1){hash^=value.charCodeAt(index);hash=Math.imul(hash,16777619);} return hash>>>0; }
     function nodeColor(node) { return node.category==='code'||node.category==='code-capsule' ? communityPalette[stableHash(sourceModule(node))%communityPalette.length] : (colors[node.category]||'#8fa1b9'); }
     function rgba(hex,alpha){const value=String(hex||'#8fa1b9').replace('#',''),full=value.length===3?value.split('').map(char=>char+char).join(''):value,number=parseInt(full,16);return `rgba(${number>>16&255},${number>>8&255},${number&255},${alpha})`;}
-    function materialShape(node){if(['file','source-document','work'].includes(node.kind)||['source-document','work'].includes(node.category))return 'squircle';if(['type','project','code-capsule','proposal'].includes(node.kind)||['project','code-capsule','proposal'].includes(node.category))return 'hex';if(['verification','evidence','verifier-result','authority','history','verification-requirement'].includes(node.category))return 'diamond';return 'orb';}
+    function materialShape(node){if(['file','source-document','work'].includes(node.kind)||['source-document','work'].includes(node.category))return 'squircle';if(['type','project','code-capsule','proposal'].includes(node.kind)||['project','code-capsule','proposal'].includes(node.category))return 'hex';if(['verification','evidence','verifier-result','evidence-decision','authority','history','verification-requirement'].includes(node.category))return 'diamond';return 'orb';}
     function traceMaterialShape(context,shape,cx,cy,radius){context.beginPath();if(shape==='squircle'){const left=cx-radius,right=cx+radius,top=cy-radius,bottom=cy+radius,corner=radius*.36;context.moveTo(left+corner,top);context.lineTo(right-corner,top);context.quadraticCurveTo(right,top,right,top+corner);context.lineTo(right,bottom-corner);context.quadraticCurveTo(right,bottom,right-corner,bottom);context.lineTo(left+corner,bottom);context.quadraticCurveTo(left,bottom,left,bottom-corner);context.lineTo(left,top+corner);context.quadraticCurveTo(left,top,left+corner,top);}else if(shape==='hex'){for(let index=0;index<6;index+=1){const angle=Math.PI/3*index-Math.PI/2,point={x:cx+Math.cos(angle)*radius,y:cy+Math.sin(angle)*radius};if(index===0)context.moveTo(point.x,point.y);else context.lineTo(point.x,point.y);}}else if(shape==='diamond'){context.moveTo(cx,cy-radius);context.lineTo(cx+radius*.82,cy);context.lineTo(cx,cy+radius);context.lineTo(cx-radius*.82,cy);}else context.arc(cx,cy,radius,0,Math.PI*2);context.closePath();}
-    function materialSprite(node,selected,accent){const color=nodeColor(node),shape=materialShape(node),key=[color,shape,selected?'selected':'normal',accent||''].join('|');if(state.materialSpriteCache.has(key))return state.materialSpriteCache.get(key);const canvas=document.createElement('canvas');canvas.width=canvas.height=96;const context=canvas.getContext('2d'),cx=48,cy=48,radius=27;
-      const halo=context.createRadialGradient(cx,cy,radius*.35,cx,cy,46);halo.addColorStop(0,rgba(color,.13));halo.addColorStop(.46,rgba(color,.075));halo.addColorStop(1,rgba(color,0));context.fillStyle=halo;context.fillRect(0,0,96,96);
-      context.save();traceMaterialShape(context,shape,cx,cy,radius);context.clip();const core=context.createRadialGradient(35,31,1,49,51,38);core.addColorStop(0,'rgba(236,253,255,.78)');core.addColorStop(.075,'rgba(114,159,170,.38)');core.addColorStop(.22,'rgba(28,49,61,.96)');core.addColorStop(.58,'rgba(7,13,23,.99)');core.addColorStop(1,'rgba(1,3,8,1)');context.fillStyle=core;context.fillRect(18,18,60,60);const spectrum=context.createLinearGradient(22,75,77,20);spectrum.addColorStop(0,rgba(color,.03));spectrum.addColorStop(.38,'rgba(0,0,0,0)');spectrum.addColorStop(.56,'rgba(204,248,249,.16)');spectrum.addColorStop(.64,rgba(color,.11));spectrum.addColorStop(1,'rgba(0,0,0,0)');context.fillStyle=spectrum;context.fillRect(18,18,60,60);context.restore();
-      traceMaterialShape(context,shape,cx,cy,radius);context.strokeStyle=rgba(color,.92);context.lineWidth=2.1;context.stroke();traceMaterialShape(context,shape,cx,cy,radius-3.2);context.strokeStyle='rgba(211,246,249,.15)';context.lineWidth=.8;context.stroke();context.beginPath();context.arc(36.5,34.5,2.2,Math.PI*.92,Math.PI*1.88);context.strokeStyle='rgba(238,255,255,.72)';context.lineWidth=1.15;context.stroke();
-      if(accent){traceMaterialShape(context,shape,cx,cy,radius+3.4);context.strokeStyle=accent;context.globalAlpha=.78;context.lineWidth=1.15;context.stroke();context.globalAlpha=1;}if(selected){traceMaterialShape(context,shape,cx,cy,radius+5);context.strokeStyle='rgba(207,252,255,.94)';context.lineWidth=1.25;context.stroke();}
+    function materialSprite(node,selected,accent){const color=nodeColor(node),shape=materialShape(node),key=[color,shape,selected?'selected':'normal',accent||''].join('|');if(state.materialSpriteCache.has(key))return state.materialSpriteCache.get(key);const canvas=document.createElement('canvas');canvas.width=canvas.height=128;const context=canvas.getContext('2d'),cx=64,cy=64,radius=29;
+      const halo=context.createRadialGradient(cx,cy,radius*.82,cx,cy,48);halo.addColorStop(0,rgba(color,selected ? .072 : .022));halo.addColorStop(.62,rgba(color,selected ? .022 : .006));halo.addColorStop(1,rgba(color,0));context.fillStyle=halo;context.fillRect(0,0,128,128);
+      context.save();traceMaterialShape(context,shape,cx,cy,radius);context.clip();context.fillStyle='#02050a';context.fillRect(32,32,64,64);const depth=context.createRadialGradient(53,47,2,66,67,43);depth.addColorStop(0,rgba(color,.21));depth.addColorStop(.18,rgba(color,.082));depth.addColorStop(.52,'rgba(6,12,20,.98)');depth.addColorStop(1,'rgba(1,3,7,1)');context.fillStyle=depth;context.fillRect(31,31,66,66);const facet=context.createLinearGradient(37,92,91,35);facet.addColorStop(0,'rgba(0,0,0,0)');facet.addColorStop(.42,rgba(color,.022));facet.addColorStop(.49,'rgba(190,238,240,.06)');facet.addColorStop(.53,rgba(color,.045));facet.addColorStop(.67,'rgba(0,0,0,0)');context.fillStyle=facet;context.fillRect(31,31,66,66);let grainSeed=stableHash(key);for(let grainIndex=0;grainIndex<22;grainIndex+=1){grainSeed=Math.imul(grainSeed^grainIndex,1664525)+1013904223>>>0;const gx=38+(grainSeed%5200)/100,gy=38+((grainSeed>>>11)%5200)/100;context.fillStyle=grainIndex%5===0?'rgba(186,226,228,.07)':rgba(color,.035);context.fillRect(gx,gy,.55,.55);}context.globalCompositeOperation='screen';const eclipse=context.createRadialGradient(49,46,1,58,55,30);eclipse.addColorStop(0,'rgba(223,250,250,.075)');eclipse.addColorStop(.16,rgba(color,.034));eclipse.addColorStop(.54,'rgba(0,0,0,0)');context.fillStyle=eclipse;context.fillRect(31,31,66,66);context.restore();context.globalCompositeOperation='source-over';
+      traceMaterialShape(context,shape,cx,cy,radius+1.2);context.strokeStyle='rgba(0,0,0,.96)';context.lineWidth=4.5;context.stroke();traceMaterialShape(context,shape,cx,cy,radius);context.strokeStyle='rgba(187,213,220,.13)';context.lineWidth=.74;context.stroke();traceMaterialShape(context,shape,cx,cy,radius-.8);context.strokeStyle=rgba(color,.17);context.lineWidth=.52;context.stroke();traceMaterialShape(context,shape,cx,cy,radius-2.7);context.strokeStyle='rgba(206,244,245,.055)';context.lineWidth=.46;context.stroke();if(shape==='orb'){context.beginPath();context.arc(cx,cy,radius+.15,-2.58,-1.56);context.strokeStyle='rgba(143,222,229,.36)';context.lineWidth=.68;context.stroke();context.beginPath();context.arc(cx,cy,radius+.05,.34,.94);context.strokeStyle='rgba(177,104,148,.17)';context.lineWidth=.48;context.stroke();}context.save();traceMaterialShape(context,shape,cx,cy,radius-3.8);context.clip();context.beginPath();context.moveTo(41,84);context.quadraticCurveTo(58,51,88,39);context.strokeStyle='rgba(202,242,244,.075)';context.lineWidth=.58;context.stroke();context.beginPath();context.moveTo(44,86);context.lineTo(85,42);context.strokeStyle=rgba(color,.065);context.lineWidth=.42;context.stroke();context.beginPath();context.moveTo(39,72);context.lineTo(74,38);context.moveTo(53,91);context.lineTo(91,54);context.strokeStyle='rgba(116,190,197,.045)';context.lineWidth=.35;context.stroke();context.restore();
+      if(accent){context.beginPath();context.arc(cx,cy,radius+2.8,-2.72,-1.82);context.strokeStyle=accent;context.globalAlpha=.42;context.lineWidth=.68;context.stroke();context.beginPath();context.arc(cx,cy,radius+2.6,.34,.78);context.globalAlpha=.2;context.lineWidth=.46;context.stroke();context.globalAlpha=1;}if(selected){traceMaterialShape(context,shape,cx,cy,radius+3.8);context.strokeStyle='rgba(168,231,235,.68)';context.lineWidth=.72;context.stroke();}
       state.materialSpriteCache.set(key,canvas);return canvas;}
     function ensureMaterialLayer(){if(state.materialLayer)return;const host=document.getElementById('projectGraph'),layer=document.createElement('canvas');layer.className='node-material-layer';layer.setAttribute('aria-hidden','true');host.appendChild(layer);state.materialLayer=layer;state.materialContext=layer.getContext('2d',{alpha:true});}
     function materialNodeSize(node){const profileState=state.materialProfile;if(!profileState)return node.category==='code'?3:16;const {profile,scale,actualZoom}=profileState;let value=profile.node;if(node.category==='code-capsule')value=profile.capsule;else if(node.category==='code'){value=profile.code;if(node.kind==='file')value=profile.file;else if(node.kind==='namespace')value=profile.namespace;else if(node.kind==='type')value=profile.type;}return Math.max(node.category==='code'?2.2:8,Math.min(42,value*scale*actualZoom));}
@@ -3522,16 +4281,18 @@ HTML_TEMPLATE = r'''<!doctype html>
       const layer=state.materialLayer,context=state.materialContext,width=Math.max(1,Math.round(state.cy.width())),height=Math.max(1,Math.round(state.cy.height())),ratio=Math.min(2,window.devicePixelRatio||1);
       if(layer.width!==Math.round(width*ratio)||layer.height!==Math.round(height*ratio)){layer.width=Math.round(width*ratio);layer.height=Math.round(height*ratio);layer.style.width=width+'px';layer.style.height=height+'px';}
       context.setTransform(ratio,0,0,ratio,0,0);context.clearRect(0,0,width,height);
-      const zoom=state.cy.zoom(),pan=state.cy.pan(),positions=state.positions||(state.positions=buildPresetPositions()),factor=state.virtualGeometryScale||1,anchor=positions.get(state.virtualGeometryAnchorId)||{x:0,y:0};let drawn=0;
+      const zoom=state.cy.zoom(),pan=state.cy.pan(),positions=state.positions||(state.positions=buildPresetPositions()),factor=state.virtualGeometryScale||1,anchor=positions.get(state.virtualGeometryAnchorId)||{x:0,y:0},farMaterial=state.detailLevel==='overview';let drawn=0,culledOrdinaryCode=0;
       allNodes.forEach(node=>{
         if(state.visibleNodeIds&&!state.visibleNodeIds.has(node.id))return;const base=positions.get(node.id);if(!base)return;
-        const modelX=anchor.x+(base.x-anchor.x)*factor,modelY=anchor.y+(base.y-anchor.y)*factor,x=modelX*zoom+pan.x,y=modelY*zoom+pan.y,size=materialNodeSize(node),outer=size*1.86;
-        if(x+outer<0||x-outer>width||y+outer<0||y-outer>height)return;
         const selected=state.selected?.type==='node'&&state.selected.id===node.id;
         const accent=state.stageAddedNodeIds.has(node.id)?'#71ead8':state.stageChangedNodeIds.has(node.id)?'#f0a36d':state.searchMatchNodeIds.has(node.id)?'#8de0e8':state.emphasizedNodeIds.has(node.id)?'#d7b56c':'';
+        const materialLandmark=node.category!=='code'||['file','namespace','type'].includes(node.kind)||importantCodeLabelIds.has(node.id)||selected||Boolean(accent);
+        if(farMaterial&&!materialLandmark){culledOrdinaryCode+=1;return;}
+        const modelX=anchor.x+(base.x-anchor.x)*factor,modelY=anchor.y+(base.y-anchor.y)*factor,x=modelX*zoom+pan.x,y=modelY*zoom+pan.y,size=materialNodeSize(node),outer=size*1.44;
+        if(x+outer<0||x-outer>width||y+outer<0||y-outer>height)return;
         context.globalAlpha=node.category==='code'&&state.detailLevel==='overview'?.58:1;context.drawImage(materialSprite(node,selected,accent),x-outer/2,y-outer/2,outer,outer);drawn+=1;
       });
-      context.globalAlpha=1;state.materialDrawCount=drawn;layer.dataset.drawCount=String(drawn);layer.dataset.spriteCount=String(state.materialSpriteCache.size);layer.dataset.material='cached-spectral-alloy';
+      context.globalAlpha=1;state.materialDrawCount=drawn;state.materialCulledOrdinaryCodeCount=culledOrdinaryCode;layer.dataset.drawCount=String(drawn);layer.dataset.culledOrdinaryCode=String(culledOrdinaryCode);layer.dataset.spriteCount=String(state.materialSpriteCache.size);layer.dataset.material='cached-etched-obsidian';
     }
     function scheduleMaterialLayer(){if(state.materialFrame!==null)return;state.materialFrame=window.requestAnimationFrame(drawMaterialLayer);}
     function spiralPoint(index,scale,rotation=0) { const golden=Math.PI*(3-Math.sqrt(5)),radius=scale*Math.sqrt(index+.75),angle=rotation+index*golden; return {x:Math.cos(angle)*radius,y:Math.sin(angle)*radius}; }
@@ -3659,15 +4420,15 @@ HTML_TEMPLATE = r'''<!doctype html>
       {selector:'edge[category = "delta-relation"]',style:{'line-color':'#de817a','line-style':'dashed','width':1.1,'opacity':.8}},
       {selector:'edge[kind = "invokes-syntax"]',style:{'line-color':'#8d78c1','line-style':'dashed'}},
       {selector:'.filtered-out',style:{'display':'none'}},
-      {selector:'node.semantic-emphasis',style:{'border-width':2,'border-color':'#f0cd75','border-opacity':1,'underlay-color':'#f0cd75','underlay-opacity':.22,'z-index':97}},
-      {selector:'edge.semantic-emphasis',style:{'line-color':'#d7b56c','width':1.1,'opacity':.82,'z-index':96}},
+      {selector:'node.semantic-emphasis',style:{'border-width':.72,'border-color':'#988767','border-opacity':.42,'underlay-color':'#8d7a58','underlay-opacity':.055,'z-index':97}},
+      {selector:'edge.semantic-emphasis',style:{'line-color':'#8f8268','width':.72,'opacity':.54,'z-index':96}},
       {selector:'node.stage-added',style:{'border-width':2.3,'border-color':'#70e5d2','border-opacity':1,'underlay-color':'#70e5d2','underlay-opacity':.25,'z-index':98}},
       {selector:'node.stage-changed',style:{'border-width':2.5,'border-color':'#f0a36d','border-opacity':1,'underlay-color':'#f0a36d','underlay-opacity':.25,'z-index':98}},
       {selector:'edge.stage-delta',style:{'line-color':'#7de2e9','width':1.35,'opacity':.96,'z-index':97}},
       {selector:'node.search-match',style:{'border-width':2,'border-color':'#8de0e8','border-opacity':1,'underlay-color':'#8de0e8','underlay-opacity':.24,'z-index':98}},
       {selector:'node:selected',style:{'border-opacity':0,'underlay-opacity':0,'overlay-opacity':0,'z-index':99}},
-      {selector:'edge:selected',style:{'line-color':'#c4f5f7','opacity':.68,'overlay-opacity':0,'underlay-opacity':0,'z-index':99}},
-      {selector:'edge.selection-neighbor',style:{'line-color':'#75aeb5','width':.45,'opacity':.42,'overlay-opacity':0,'underlay-opacity':0,'z-index':98}}
+      {selector:'edge:selected',style:{'line-color':'#aee8eb','opacity':.58,'overlay-opacity':0,'underlay-opacity':0,'z-index':99}},
+      {selector:'edge.selection-neighbor',style:{'line-color':'#6d9ca3','width':.38,'opacity':.34,'overlay-opacity':0,'underlay-opacity':0,'z-index':98}}
     ];}
     function setDifference(left,right){const values=[];left.forEach(value=>{if(!right.has(value))values.push(value);});return values;}
     function updateSemanticEmphasis() {
@@ -3799,8 +4560,9 @@ HTML_TEMPLATE = r'''<!doctype html>
       if(!item?.length){const project=allNodes.find(node=>node.category==='project');if(project)item=state.cy.$id(project.id);}
       if(!item?.length)return center;const position=item.renderedPosition();return Number.isFinite(position.x)&&Number.isFinite(position.y)?position:center;
     }
-    function highlightedEdgeScreenWidth(zoom,selected){if(zoom>=80)return selected ? .1 : .055;if(zoom>=45)return selected ? .13 : .075;if(zoom>=18)return selected ? .2 : .11;return selected ? .34 : .19;}
-    function refreshHighlightedEdgeScale(){if(!state.cy||!state.highlightedEdgeIds.size)return;const actualZoom=Math.max(.1,state.cy.zoom()),logicalZoom=logicalZoomFromActual(actualZoom),readout=document.getElementById('zoomReadout');state.highlightedEdgeIds.forEach(id=>{const selected=state.selected?.type==='edge'&&state.selected.id===id;state.cy.$id(id).style('width',highlightedEdgeScreenWidth(logicalZoom,selected)/actualZoom);});if(state.selected?.type==='edge'){const edge=allEdges.find(candidate=>candidate.id===state.selected.id),item=state.cy.$id(state.selected.id);readout.dataset.selectedEdgeRenderedWidth=parseFloat(item.renderedStyle('width')).toFixed(3);if(edge){const source=state.cy.$id(edge.source),target=state.cy.$id(edge.target),sourceBounds=source.renderedBoundingBox({includeLabels:false,includeOverlays:false,includeUnderlays:false}),targetBounds=target.renderedBoundingBox({includeLabels:false,includeOverlays:false,includeUnderlays:false});readout.dataset.selectedSourceRenderedWidth=parseFloat(source.renderedStyle('width')).toFixed(3);readout.dataset.selectedTargetRenderedWidth=parseFloat(target.renderedStyle('width')).toFixed(3);readout.dataset.selectedSourceRenderedBorder=parseFloat(source.renderedStyle('border-width')).toFixed(3);readout.dataset.selectedTargetRenderedBorder=parseFloat(target.renderedStyle('border-width')).toFixed(3);readout.dataset.selectedSourceRenderedUnderlay=parseFloat(source.renderedStyle('underlay-padding')).toFixed(3);readout.dataset.selectedTargetRenderedUnderlay=parseFloat(target.renderedStyle('underlay-padding')).toFixed(3);readout.dataset.selectedSourceRenderedBounds=`${sourceBounds.w.toFixed(3)}x${sourceBounds.h.toFixed(3)}`;readout.dataset.selectedTargetRenderedBounds=`${targetBounds.w.toFixed(3)}x${targetBounds.h.toFixed(3)}`;}}}
+    function highlightedEdgeScreenWidth(zoom,selected){if(zoom>=80)return selected ? .065 : .032;if(zoom>=45)return selected ? .09 : .046;if(zoom>=18)return selected ? .14 : .075;return selected ? .28 : .15;}
+    function highlightedEdgeOpacity(zoom,selected){if(zoom>=80)return selected ? .34 : .1;if(zoom>=45)return selected ? .39 : .13;if(zoom>=18)return selected ? .44 : .16;return selected ? .5 : .2;}
+    function refreshHighlightedEdgeScale(){if(!state.cy||!state.highlightedEdgeIds.size)return;const actualZoom=Math.max(.1,state.cy.zoom()),logicalZoom=logicalZoomFromActual(actualZoom),readout=document.getElementById('zoomReadout');state.highlightedEdgeIds.forEach(id=>{const selected=state.selected?.type==='edge'&&state.selected.id===id;state.cy.$id(id).style({'width':highlightedEdgeScreenWidth(logicalZoom,selected)/actualZoom,'opacity':highlightedEdgeOpacity(logicalZoom,selected)});});if(state.selected?.type==='edge'){const edge=allEdges.find(candidate=>candidate.id===state.selected.id),item=state.cy.$id(state.selected.id);readout.dataset.selectedEdgeRenderedWidth=parseFloat(item.renderedStyle('width')).toFixed(3);readout.dataset.selectedEdgeRenderedOpacity=parseFloat(item.style('opacity')).toFixed(3);if(edge){const source=state.cy.$id(edge.source),target=state.cy.$id(edge.target),sourceBounds=source.renderedBoundingBox({includeLabels:false,includeOverlays:false,includeUnderlays:false}),targetBounds=target.renderedBoundingBox({includeLabels:false,includeOverlays:false,includeUnderlays:false});readout.dataset.selectedSourceRenderedWidth=parseFloat(source.renderedStyle('width')).toFixed(3);readout.dataset.selectedTargetRenderedWidth=parseFloat(target.renderedStyle('width')).toFixed(3);readout.dataset.selectedSourceRenderedBorder=parseFloat(source.renderedStyle('border-width')).toFixed(3);readout.dataset.selectedTargetRenderedBorder=parseFloat(target.renderedStyle('border-width')).toFixed(3);readout.dataset.selectedSourceRenderedUnderlay=parseFloat(source.renderedStyle('underlay-padding')).toFixed(3);readout.dataset.selectedTargetRenderedUnderlay=parseFloat(target.renderedStyle('underlay-padding')).toFixed(3);readout.dataset.selectedSourceRenderedBounds=`${sourceBounds.w.toFixed(3)}x${sourceBounds.h.toFixed(3)}`;readout.dataset.selectedTargetRenderedBounds=`${targetBounds.w.toFixed(3)}x${targetBounds.h.toFixed(3)}`;}}}
     function updateViewportScale() {
       if(!state.cy)return;
       const actualZoom=state.precisionActualZoomOverride||state.cy.zoom(),zoom=state.precisionZoomOverride||logicalZoomFromActual(actualZoom),deepZoomFloors=[18,24,32,45,60,80,100],deepFloor=zoom>=18?deepZoomFloors.reduce((floor,candidate)=>zoom>=candidate?candidate:floor,18):null,band=zoom<.25?'far':zoom<.52?'overview':zoom<1.05?'structure':zoom<1.8?'detail':zoom<3.5?'close':zoom<7?'deep':zoom<18?'inspect':`precision-${deepFloor}`;
@@ -3847,7 +4609,7 @@ HTML_TEMPLATE = r'''<!doctype html>
     function highlight(){
       if(!state.cy)return;
       const hadHighlightedEdges=state.highlightedEdgeIds.size>0;
-      if(state.highlighted){state.cy.$id(state.highlighted).unselect();state.highlightedEdgeIds.forEach(id=>{const edge=state.cy.$id(id);edge.removeClass('selection-neighbor');edge.removeStyle('width');});}
+      if(state.highlighted){state.cy.$id(state.highlighted).unselect();state.highlightedEdgeIds.forEach(id=>{const edge=state.cy.$id(id);edge.removeClass('selection-neighbor');edge.removeStyle('width opacity');});}
       state.highlightedEdgeIds=new Set();
       state.highlighted=null;
       if(hadHighlightedEdges){state.viewportScale=null;updateViewportScale();}
@@ -3893,15 +4655,16 @@ HTML_TEMPLATE = r'''<!doctype html>
       document.getElementById('metrics').innerHTML=metrics.map(([label,value])=>`<div class="metric"><strong>${Number(value).toLocaleString()}</strong><span>${safe(label)}</span></div>`).join('');
       renderWorkHistory();
       const c=model.changeReview;document.getElementById('changePanel').innerHTML=`<div class="state-line"><strong>${safe(c.status)}</strong><br>${safe(c.summary)}<br><small>${safe(c.reason)}</small></div>`;const deltas=model.workflow.proposalDeltas||[];document.getElementById('deltaList').innerHTML=deltas.length?deltas.map(delta=>`<button class="delta-step" data-delta="${safe(delta.targetNodeId)}">${safe(delta.kind)}: ${safe(delta.label)}</button>`).join(''):'<div class="empty">No graph delta is recorded.</div>';document.querySelectorAll('[data-delta]').forEach(button=>button.addEventListener('click',()=>focusDelta(button.dataset.delta)));
-      const receipts=model.workflow.reviewReceipts||[],verifierResults=model.workflow.verifierResults||[],coverage=model.workflow.verifierResultCoverage||[],intake=model.workflow.verifierResultIntake||{pairs:[]},currentResultIds=new Set((intake.pairs||[]).map(pair=>pair.currentResult?.id).filter(Boolean));
-      const coverageHtml=coverage.length?coverage.map(item=>`<div class="evidence-result"><strong>${safe(item.observedPairCount+'/'+item.requiredPairCount+' observed')}</strong> ${safe(item.proposalId)}<br><small>${safe(item.passPairCount+' pass / '+item.failPairCount+' fail / '+item.blockedPairCount+' blocked / '+item.missingPairCount+' missing / acceptance '+item.acceptanceStatus)}</small></div>`).join(''):'<div class="empty">No proposal verification coverage exists.</div>';
-      const resultHtml=verifierResults.length?verifierResults.map(item=>{const current=currentResultIds.has(item.id),payload=item.evidence?.payload||{},artifactCount=(payload.artifactRefs||[]).length;return `<div class="evidence-result ${current?'current':'superseded'}"><strong>${safe(item.verifier?.kind||'verifier')} ${safe(item.result)}</strong> ${safe(current?'current observed result':'superseded result')}<br><small>${safe(item.id+' / attempt '+item.attempt+' / '+item.observationStatus+' / acceptance '+item.acceptanceStatus+' / '+(payload.checks||[]).length+' checks / '+artifactCount+' artifacts')}</small></div>`;}).join(''):'<div class="empty">No external verifier result has been imported.</div>';
-      document.getElementById('evidencePanel').innerHTML=`<div class="state-line">${model.workflow.verification.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br>${model.workflow.evidence.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br><strong>Review receipts:</strong> ${receipts.length?receipts.map(item=>safe(item.status)).join(', '):'none recorded'}</div><h3 style="margin-top:12px">Requirement coverage</h3>${coverageHtml}<h3 style="margin-top:12px">External verifier results</h3>${resultHtml}`;
-      document.getElementById('authorityPanel').innerHTML=`<div class="state-line"><strong>read-only boundary</strong><br>Target edits: ${safe(model.authority.targetRepositoryMutation)}<br>Automatic application: ${safe(model.authority.automaticCodeApplication)}<br>Imported verifier execution: false<br>Imported evidence acceptance: pending<br>History records: ${model.workflow.history.length}</div>`;
-      document.getElementById('boundaryPanel').innerHTML='<strong>This page is a project-state projection.</strong><br>It can show recorded requests, candidate mappings, review-required proposals, graph delta, code diff, non-executing review receipts, imported external verifier results, evidence, authority, history, syntax facts, and bounded local-symbol relations. Import records what an external tool reported and binds its digests; it does not authenticate the producer, execute verification, accept evidence, build, restore, launch, apply changes, collect runtime evidence, or approve work.';
+      const receipts=model.workflow.reviewReceipts||[],verifierResults=model.workflow.verifierResults||[],decisions=model.workflow.evidenceDecisions||[],decisionByResult=new Map(decisions.map(item=>[item.verifierResultId,item])),coverage=model.workflow.verifierResultCoverage||[],intake=model.workflow.verifierResultIntake||{pairs:[]},currentResultIds=new Set((intake.pairs||[]).map(pair=>pair.currentResult?.id).filter(Boolean));
+      const coverageHtml=coverage.length?coverage.map(item=>`<div class="evidence-result"><strong>${safe(item.observedPairCount+'/'+item.requiredPairCount+' observed')}</strong> ${safe(item.proposalId)}<br><small>${safe(item.passPairCount+' pass / '+item.failPairCount+' fail / '+item.blockedPairCount+' blocked / '+item.missingPairCount+' missing / '+item.acceptedPairCount+' accepted / '+item.rejectedPairCount+' rejected / '+item.pendingPairCount+' pending')}</small></div>`).join(''):'<div class="empty">No proposal verification coverage exists.</div>';
+      const resultHtml=verifierResults.length?verifierResults.map(item=>{const current=currentResultIds.has(item.id),decision=decisionByResult.get(item.id),payload=item.evidence?.payload||{},artifactCount=(payload.artifactRefs||[]).length;return `<div class="evidence-result ${current?'current':'superseded'}"><strong>${safe(item.verifier?.kind||'verifier')} ${safe(item.result)}</strong> ${safe(current?'current observed result':'superseded result')}<br><small>${safe(item.id+' / attempt '+item.attempt+' / '+item.observationStatus+' / acceptance '+(decision?.decision||'pending')+' / '+(payload.checks||[]).length+' checks / '+artifactCount+' artifacts')}</small></div>`;}).join(''):'<div class="empty">No external verifier result has been imported.</div>';
+      const decisionHtml=decisions.length?decisions.map(item=>`<div class="evidence-result ${item.decision==='accepted'?'current':'superseded'}"><strong>${safe(item.decision)}</strong> ${safe(item.verifierResultId)}<br><small>${safe(item.reviewer.id+' / '+item.reviewer.role+' / '+item.reviewer.permission+' / local workspace only')}</small></div>`).join(''):'<div class="empty">No evidence acceptance decision has been recorded.</div>';
+      document.getElementById('evidencePanel').innerHTML=`<div class="state-line">${model.workflow.verification.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br>${model.workflow.evidence.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br><strong>Review receipts:</strong> ${receipts.length?receipts.map(item=>safe(item.status)).join(', '):'none recorded'}</div><h3 style="margin-top:12px">Requirement coverage</h3>${coverageHtml}<h3 style="margin-top:12px">External verifier results</h3>${resultHtml}<h3 style="margin-top:12px">Evidence decisions</h3>${decisionHtml}`;
+      document.getElementById('authorityPanel').innerHTML=`<div class="state-line"><strong>local human evidence authority</strong><br>Target edits: ${safe(model.authority.targetRepositoryMutation)}<br>Automatic application: ${safe(model.authority.automaticCodeApplication)}<br>Verifier execution by IGD: false<br>Evidence decisions: ${decisions.length}<br>Reviewer authentication by IGD: false<br>Proposal approval: false<br>History records: ${model.workflow.history.length}</div>`;
+      document.getElementById('boundaryPanel').innerHTML='<strong>This page is a project-state projection.</strong><br>It can show requests, mappings, review-required proposals, graph/code deltas, external verifier observations, and explicit local human evidence decisions. A decision changes only local workspace readiness for the exact current evidence. It does not authenticate the reviewer or producer, execute verification, approve the proposal, apply graph/code changes, or edit the target repository.';
     }
     function resize(){document.querySelectorAll('.resizer').forEach(handle=>handle.addEventListener('pointerdown',event=>{event.preventDefault();handle.classList.add('active');const side=handle.dataset.side,start=event.clientX,variable=side==='left'?'--left':'--right',initial=parseInt(getComputedStyle(document.documentElement).getPropertyValue(variable));const move=e=>{const delta=e.clientX-start;const next=side==='left'?initial+delta:initial-delta;document.documentElement.style.setProperty(variable,`${Math.max(230,Math.min(560,next))}px`);if(!state.resizeQueued){state.resizeQueued=true;window.requestAnimationFrame(()=>{state.resizeQueued=false;state.cy?.resize();});}};const up=()=>{handle.classList.remove('active');window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);state.cy?.resize();};window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);}));}
-    window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},selectGraphElement:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return false;state.selected={type:item.isNode()?'node':'edge',id:identifier};renderSelection();highlight();return true;},workItems:()=>workItems.slice(),filteredWorkItems:()=>filteredWorkItems().slice(),workStages:()=>workStages.slice(),proposalCodeFacts:workId=>{const mapping=(model.workflow.mappings||[]).find(item=>item.workItemId===workId);return mapping?(mapping.codeFactIds||[]).map(identifier=>nodeById.get(identifier)).filter(Boolean).map(node=>({id:node.id,label:node.label,kind:node.kind,source:node.source})):[];},selectedWork:()=>state.selectedWorkId,selectedStage:()=>state.stageFocus?.id||null,selectWork:focusWork,selectStage:focusStage,previousWork:()=>moveWork(-1),nextWork:()=>moveWork(1),previousStage:()=>moveStage(-1),nextStage:()=>moveStage(1),reviewReceiptPairs:()=>{const recorded=new Set((model.workflow.reviewReceipts||[]).map(receipt=>receipt.proposalId+'|'+receipt.verificationRequirementId+'|'+receipt.evidenceRequirementId));return (model.workflow.changeProposals||[]).flatMap(proposal=>(proposal.verificationRequirements||[]).flatMap(verification=>(proposal.evidenceRequirements||[]).map(evidence=>({key:proposal.id+'|'+verification.id+'|'+evidence.id,proposalId:proposal.id,proposalTitle:proposal.title,verificationRequirementId:verification.id,evidenceRequirementId:evidence.id,verificationKind:verification.kind,evidenceKind:evidence.kind})))).filter(pair=>!recorded.has(pair.key));},verifierResultIntake:()=>model.workflow.verifierResultIntake,elementMetrics:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return null;return {type:item.isNode()?'node':'edge',width:parseFloat(item.renderedStyle('width')),height:item.isNode()?parseFloat(item.renderedStyle('height')):null,shape:item.isNode()?item.style('shape'):null,backgroundImage:item.isNode()?item.style('background-image'):null,backgroundOpacity:item.isNode()?parseFloat(item.style('background-opacity')):null,underlayOpacity:parseFloat(item.style('underlay-opacity'))};},metrics:()=>({graphInstanceCount:state.graphInstanceCount,visibilityUpdates:state.visibilityUpdates,visibleNodeCount:state.visibleNodeIds?.size||0,visibleEdgeCount:state.visibleEdgeIds?.size||0,totalNodeCount:allNodes.length,totalEdgeCount:allEdges.length,highlightedEdgeCount:state.highlightedEdgeIds.size,selectedEdgeRenderedWidth:state.selected?.type==='edge'?state.cy.$id(state.selected.id).renderedStyle('width'):null,renderedWorkCardCount:state.renderedWorkCardCount,workListRenderLimit,zoom:logicalZoomFromActual(state.cy?.zoom()||0),rendererZoom:state.cy?.zoom()||null,maxZoom:logicalMaximumZoom,rendererMaxZoom:state.cy?.maxZoom()||null,zoomStyleBand:state.viewportScale||null})};
+    window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},selectGraphElement:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return false;state.selected={type:item.isNode()?'node':'edge',id:identifier};renderSelection();highlight();return true;},workItems:()=>workItems.slice(),filteredWorkItems:()=>filteredWorkItems().slice(),workStages:()=>workStages.slice(),proposalCodeFacts:workId=>{const mapping=(model.workflow.mappings||[]).find(item=>item.workItemId===workId);return mapping?(mapping.codeFactIds||[]).map(identifier=>nodeById.get(identifier)).filter(Boolean).map(node=>({id:node.id,label:node.label,kind:node.kind,source:node.source})):[];},selectedWork:()=>state.selectedWorkId,selectedStage:()=>state.stageFocus?.id||null,selectWork:focusWork,selectStage:focusStage,previousWork:()=>moveWork(-1),nextWork:()=>moveWork(1),previousStage:()=>moveStage(-1),nextStage:()=>moveStage(1),reviewReceiptPairs:()=>{const recorded=new Set((model.workflow.reviewReceipts||[]).map(receipt=>receipt.proposalId+'|'+receipt.verificationRequirementId+'|'+receipt.evidenceRequirementId));return (model.workflow.changeProposals||[]).flatMap(proposal=>(proposal.verificationRequirements||[]).flatMap(verification=>(proposal.evidenceRequirements||[]).map(evidence=>({key:proposal.id+'|'+verification.id+'|'+evidence.id,proposalId:proposal.id,proposalTitle:proposal.title,verificationRequirementId:verification.id,evidenceRequirementId:evidence.id,verificationKind:verification.kind,evidenceKind:evidence.kind})))).filter(pair=>!recorded.has(pair.key));},verifierResultIntake:()=>model.workflow.verifierResultIntake,evidenceDecisionIntake:()=>model.workflow.evidenceDecisionIntake,elementMetrics:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return null;return {type:item.isNode()?'node':'edge',width:parseFloat(item.renderedStyle('width')),height:item.isNode()?parseFloat(item.renderedStyle('height')):null,shape:item.isNode()?item.style('shape'):null,backgroundImage:item.isNode()?item.style('background-image'):null,backgroundOpacity:item.isNode()?parseFloat(item.style('background-opacity')):null,underlayOpacity:parseFloat(item.style('underlay-opacity'))};},metrics:()=>({graphInstanceCount:state.graphInstanceCount,visibilityUpdates:state.visibilityUpdates,visibleNodeCount:state.visibleNodeIds?.size||0,visibleEdgeCount:state.visibleEdgeIds?.size||0,totalNodeCount:allNodes.length,totalEdgeCount:allEdges.length,highlightedEdgeCount:state.highlightedEdgeIds.size,selectedEdgeRenderedWidth:state.selected?.type==='edge'?state.cy.$id(state.selected.id).renderedStyle('width'):null,renderedWorkCardCount:state.renderedWorkCardCount,workListRenderLimit,zoom:logicalZoomFromActual(state.cy?.zoom()||0),rendererZoom:state.cy?.zoom()||null,maxZoom:logicalMaximumZoom,rendererMaxZoom:state.cy?.maxZoom()||null,zoomStyleBand:state.viewportScale||null})};
     window.intentGraphRendererMetrics=()=>({logicalZoom:logicalZoomFromActual(state.cy?.zoom()||0),rendererZoom:state.cy?.zoom()||null,virtualGeometryScale:state.virtualGeometryScale,effectiveGeometryZoom:(state.cy?.zoom()||0)*state.virtualGeometryScale,selectedEdgeRenderedWidth:state.selected?.type==='edge'?parseFloat(state.cy.$id(state.selected.id).renderedStyle('width')):null,materialNodesDrawn:state.materialDrawCount,cachedMaterialSprites:state.materialSpriteCache.size,rendererMaximumZoom,logicalMaximumZoom});
     document.getElementById('previousWork').addEventListener('click',()=>moveWork(-1));document.getElementById('nextWork').addEventListener('click',()=>moveWork(1));document.getElementById('previousStage').addEventListener('click',()=>moveStage(-1));document.getElementById('nextStage').addEventListener('click',()=>moveStage(1));document.getElementById('zoomIn').addEventListener('click',()=>zoomGraphTo(logicalZoomFromActual(state.cy.zoom())*1.8));document.getElementById('zoomOut').addEventListener('click',()=>zoomGraphTo(logicalZoomFromActual(state.cy.zoom())/1.8));document.getElementById('zoom100').addEventListener('click',()=>zoomGraphTo(100));document.getElementById('fitGraph').addEventListener('click',()=>{const graph=visibleGraphData(),semanticFocus=state.mode==='overview'&&!filters().search&&!filters().category&&!filters().relation?model.graph.views.overview.nodeIds.map(id=>nodeById.get(id)).filter(Boolean):graph.nodes;fitNodes(semanticFocus);updateZoomReadout();});init();staticPanels();renderGraph({fit:true});updateZoomReadout();renderSelection();resize();window.dispatchEvent(new Event('intentgraph-ready'));
     }
@@ -3925,7 +4688,7 @@ SERVER_UI_EXTENSION = r'''<style>
   .new-work-dialog::backdrop { background:rgba(2,1,8,.78); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#e8e1ff; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form input,.new-work-form select,.new-work-form textarea { color:#f2efff; background:#07060d; border:1px solid #443d60; border-radius:4px; padding:8px; font:inherit; } .new-work-form textarea { min-height:110px; resize:vertical; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#ffd166; font-size:12px; } .map-code-trigger { position:fixed; right:18px; bottom:62px; z-index:30; background:#221e3a; border-color:#ad91ff; color:#efe8ff; box-shadow:0 0 18px rgba(173,145,255,.13); } .selected-code-fact { padding:8px; overflow-wrap:anywhere; color:#d4cceb; background:#07060d; border:1px solid #443d60; border-radius:4px; font:11px/1.4 Consolas,monospace; }
   .draft-proposal-trigger { position:fixed; right:18px; bottom:106px; z-index:30; background:#173a34; border-color:#63efc3; color:#dcfff3; box-shadow:0 0 18px rgba(99,239,195,.14); } .proposal-trigger { position:fixed; right:18px; bottom:150px; z-index:30; background:#422718; border-color:#ffd166; color:#fff2cc; box-shadow:0 0 18px rgba(255,209,102,.12); } .proposal-dialog { width:min(760px,calc(100vw - 32px)); } .proposal-input { min-height:300px !important; font:12px/1.45 Consolas,monospace !important; tab-size:2; }
   .draft-proposal-dialog { width:min(940px,calc(100vw - 32px)); } .diff-authoring { display:grid; gap:8px; max-height:34vh; overflow:auto; padding:2px 4px 2px 0; } .diff-entry { border:1px solid #273d4d; background:rgba(6,13,22,.72); padding:10px; display:grid; gap:8px; } .diff-entry.enabled { border-color:#38c7b0; box-shadow:inset 2px 0 #38c7b0; } .diff-entry-head { display:grid; grid-template-columns:auto minmax(0,1fr); gap:9px; align-items:start; color:#d8eaf4; } .diff-entry-head input { margin-top:3px; accent-color:#63efc3; } .diff-entry-meta { display:grid; gap:2px; min-width:0; } .diff-entry-meta strong,.diff-entry-meta small { overflow-wrap:anywhere; } .diff-entry-meta small { color:#8298a9; } .diff-entry textarea { min-height:112px !important; resize:vertical; font:12px/1.45 Consolas,monospace !important; tab-size:2; } .diff-entry textarea:disabled { opacity:.42; cursor:not-allowed; }
-  .draft-receipt-trigger { position:fixed; right:18px; bottom:194px; z-index:30; background:#2f2449; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); } .receipt-trigger { position:fixed; right:18px; bottom:238px; z-index:30; background:#35244e; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); } .verifier-trigger { position:fixed; right:18px; bottom:282px; z-index:30; background:#123b3a; border-color:#5fc8b4; color:#dffcf6; box-shadow:0 0 18px rgba(95,200,180,.15); }
+  .draft-receipt-trigger { position:fixed; right:18px; bottom:194px; z-index:30; background:#2f2449; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); } .receipt-trigger { position:fixed; right:18px; bottom:238px; z-index:30; background:#35244e; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); } .verifier-trigger { position:fixed; right:18px; bottom:282px; z-index:30; background:#123b3a; border-color:#5fc8b4; color:#dffcf6; box-shadow:0 0 18px rgba(95,200,180,.15); } .evidence-decision-trigger { position:fixed; right:18px; bottom:326px; z-index:30; background:#443414; border-color:#d5b15b; color:#fff2c8; box-shadow:0 0 18px rgba(213,177,91,.15); }
   .verifier-dialog { width:min(900px,calc(100vw - 32px)); } .verifier-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; } .verifier-grid>div { min-width:0; } .verifier-grid .wide { grid-column:1/-1; } .verifier-grid input,.verifier-grid select,.verifier-grid textarea { box-sizing:border-box; width:100%; } .verifier-grid textarea { min-height:84px; } .verifier-boundary { padding:9px 11px; border:1px solid #315a58; background:#091817; color:#bfe9e1; font-size:11px; line-height:1.5; } .verifier-file-state { min-height:18px; color:#8fdaca; font-size:11px; overflow-wrap:anywhere; }
 </style>
 <button id="newWorkTrigger" class="new-work-trigger" type="button">New work request</button>
@@ -3935,6 +4698,7 @@ SERVER_UI_EXTENSION = r'''<style>
 <button id="draftReceiptTrigger" class="draft-receipt-trigger" type="button" disabled>Record review receipt</button>
 <button id="importReceiptTrigger" class="receipt-trigger" type="button" disabled>Import receipt JSON</button>
 <button id="importVerifierResultTrigger" class="verifier-trigger" type="button" disabled>Import verification result</button>
+<button id="evidenceDecisionTrigger" class="evidence-decision-trigger" type="button" disabled>Review observed evidence</button>
 <dialog id="newWorkDialog" class="new-work-dialog"><form id="newWorkForm" class="new-work-form" method="dialog"><h2>Record a work request</h2><p>This records a request in the local IntentGraph project workspace. It does not edit the source project.</p><label for="newWorkId">Stable work id</label><input id="newWorkId" name="workId" required pattern="[a-z][a-z0-9.-]{2,100}" placeholder="example-work-item"><label for="newWorkTitle">Title</label><input id="newWorkTitle" name="title" required maxlength="180" placeholder="Short work title"><label for="newWorkRequest">Request</label><textarea id="newWorkRequest" name="request" required maxlength="12000" placeholder="Describe the desired behavior or change."></textarea><div id="newWorkMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelNewWork" type="button">Cancel</button><button type="submit">Record request</button></div></form></dialog>
 <dialog id="mapCodeDialog" class="new-work-dialog"><form id="mapCodeForm" class="new-work-form" method="dialog"><h2>Record a code mapping candidate</h2><p>This connects the selected code fact to a local work request as a declared candidate. It does not approve the mapping or edit the source project.</p><label>Selected code fact</label><div id="selectedCodeFact" class="selected-code-fact"></div><label for="mapWorkId">Work request</label><select id="mapWorkId" name="workId" required></select><label for="mapRationale">Why this code is relevant</label><textarea id="mapRationale" name="rationale" required maxlength="12000" placeholder="Describe the relationship between this request and the selected code."></textarea><div id="mapCodeMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelMapCode" type="button">Cancel</button><button id="submitMapCode" type="submit">Record mapping candidate</button></div></form></dialog>
 <dialog id="draftProposalDialog" class="new-work-dialog draft-proposal-dialog"><form id="draftProposalForm" class="new-work-form" method="dialog"><h2>Draft a code change</h2><p>Attach hunk-only unified diffs to mapped code facts. IGD checks every hunk against the immutable source snapshot, then records a non-applied proposal for graph and code review. Source files are never modified here.</p><label for="draftProposalWorkId">Mapped work request</label><select id="draftProposalWorkId" name="workId" required></select><label for="draftProposalId">Stable proposal id</label><input id="draftProposalId" name="proposalId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"><label for="draftProposalTitle">Proposal title</label><input id="draftProposalTitle" name="title" required maxlength="180" placeholder="Short code change title"><label for="draftProposalSummary">Change summary</label><textarea id="draftProposalSummary" name="summary" required maxlength="12000" placeholder="Describe the intended behavior and bounded code change."></textarea><label>Mapped code change fragments</label><div id="draftCodeDiffList" class="diff-authoring"></div><label for="draftVerificationKind">Verification kind</label><select id="draftVerificationKind" name="verificationKind" required><option value="local-review">Local review</option><option value="build-required">Build required</option><option value="test-required">Test required</option></select><label for="draftVerificationSummary">Verification requirement</label><textarea id="draftVerificationSummary" name="verificationSummary" required maxlength="12000" placeholder="State what must be verified later."></textarea><label for="draftEvidenceKind">Evidence kind</label><select id="draftEvidenceKind" name="evidenceKind" required><option value="review-note">Review note</option><option value="test-evidence">Test evidence</option><option value="build-evidence">Build evidence</option></select><label for="draftEvidenceSummary">Evidence requirement</label><textarea id="draftEvidenceSummary" name="evidenceSummary" required maxlength="12000" placeholder="State what evidence must be collected later."></textarea><div id="draftProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelDraftProposal" type="button">Cancel</button><button id="submitDraftProposal" type="submit">Record code change</button></div></form></dialog>
@@ -3942,6 +4706,7 @@ SERVER_UI_EXTENSION = r'''<style>
 <dialog id="importProposalDialog" class="new-work-dialog proposal-dialog"><form id="importProposalForm" class="new-work-form" method="dialog"><h2>Import a review-only change proposal</h2><p>Paste a deterministic proposal document for an existing work request and mapping candidate. The local server validates it before recording any project-state artifact. It does not edit the C# source project, apply a graph delta, or approve the proposal.</p><label for="proposalDocument">Proposal JSON</label><textarea id="proposalDocument" class="proposal-input" name="proposalDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-change-proposal document."></textarea><div id="importProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportProposal" type="button">Cancel</button><button type="submit">Validate and record proposal</button></div></form></dialog>
 <dialog id="importReceiptDialog" class="new-work-dialog proposal-dialog"><form id="importReceiptForm" class="new-work-form" method="dialog"><h2>Import a non-executing review receipt</h2><p>Paste one deterministic receipt for a proposal verification/evidence requirement pair. It records what was reviewed as pass, fail, or blocked. It does not run verification, collect runtime evidence, apply a graph delta, approve the proposal, or edit C# source.</p><label for="receiptDocument">Review receipt JSON</label><textarea id="receiptDocument" class="proposal-input" name="receiptDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-review-receipt document."></textarea><div id="importReceiptMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportReceipt" type="button">Cancel</button><button type="submit">Validate and record receipt</button></div></form></dialog>
 <dialog id="importVerifierResultDialog" class="new-work-dialog verifier-dialog"><form id="importVerifierResultForm" class="new-work-form" method="dialog"><h2>Import an observed verification result</h2><div class="verifier-boundary">This records what an external tool declared to be a deterministic result for one requirement pair. The selected local file is hashed in this browser and is not uploaded. IntentGraph does not independently prove determinism, run the verifier, authenticate its producer, accept the evidence, apply the proposal, or edit source.</div><div class="verifier-grid"><div class="wide"><label for="verifierPair">Proposal requirement pair</label><select id="verifierPair" required></select></div><div><label for="verifierResultId">Stable result id</label><input id="verifierResultId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"></div><div><label for="verifierOutcome">Observed outcome</label><select id="verifierOutcome" required><option value="pass">Pass</option><option value="fail">Fail</option><option value="blocked">Blocked</option></select></div><div><label for="verifierKind">Verifier kind</label><select id="verifierKind" required></select></div><div><label for="verifierIdentity">Verifier identity</label><input id="verifierIdentity" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101" value="local.verifier"></div><div><label for="verifierVersion">Verifier version</label><input id="verifierVersion" required maxlength="128" value="1.0.0"></div><div><label for="verifierInvocation">Invocation description (hashed, not stored)</label><input id="verifierInvocation" required maxlength="4000" placeholder="dotnet test --no-restore"></div><div class="wide"><label for="verifierSummary">Observed result summary</label><textarea id="verifierSummary" required maxlength="12000" placeholder="State exactly what this external run observed."></textarea></div><div><label for="verifierCheckId">Check id</label><input id="verifierCheckId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101" value="check.primary"></div><div><label for="verifierExitCode">Exit code (blank when blocked)</label><input id="verifierExitCode" type="number" min="0" max="255" value="0"></div><div class="wide"><label for="verifierCheckSummary">Check summary</label><input id="verifierCheckSummary" required maxlength="4000" placeholder="One declared deterministic check represented by this result"></div><div class="wide"><label for="verifierMetrics">Typed metrics JSON</label><textarea id="verifierMetrics" required spellcheck="false"></textarea></div><div><label for="verifierArtifactKind">Evidence artifact kind</label><select id="verifierArtifactKind" required></select></div><div><label for="verifierArtifactMediaType">Artifact media type</label><select id="verifierArtifactMediaType" required><option value="text/plain">text/plain</option><option value="application/json">application/json</option><option value="application/xml">application/xml</option></select></div><div class="wide"><label for="verifierArtifactFile">Local evidence artifact (hashed only)</label><input id="verifierArtifactFile" type="file" required><div id="verifierArtifactState" class="verifier-file-state">No file selected.</div></div></div><div id="importVerifierResultMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportVerifierResult" type="button">Cancel</button><button id="submitImportVerifierResult" type="submit">Hash and import observation</button></div></form></dialog>
+<dialog id="evidenceDecisionDialog" class="new-work-dialog verifier-dialog"><form id="evidenceDecisionForm" class="new-work-form" method="dialog"><h2>Review observed evidence</h2><div class="verifier-boundary">Accept or reject one current observed result for this local workspace. Only a passing result can be accepted. Your reviewer identity and role are explicit local declarations and are not cryptographically authenticated by IntentGraph. This does not approve or apply the proposal.</div><div class="verifier-grid"><div class="wide"><label for="evidenceDecisionResult">Current verifier result</label><select id="evidenceDecisionResult" required></select></div><div><label for="evidenceDecisionId">Stable decision id</label><input id="evidenceDecisionId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"></div><div><label for="evidenceDecisionOutcome">Decision</label><select id="evidenceDecisionOutcome" required></select></div><div><label for="evidenceReviewerId">Reviewer identity</label><input id="evidenceReviewerId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101" value="local.reviewer"></div><div><label for="evidenceReviewerRole">Reviewer role</label><select id="evidenceReviewerRole" required><option value="maintainer">Maintainer</option><option value="quality-reviewer">Quality reviewer</option><option value="security-reviewer">Security reviewer</option></select></div><div class="wide"><label for="evidenceDecisionSummary">Decision rationale</label><textarea id="evidenceDecisionSummary" required maxlength="12000" placeholder="Explain why this exact evidence is accepted or rejected for local workspace readiness."></textarea></div></div><div id="evidenceDecisionMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelEvidenceDecision" type="button">Cancel</button><button id="submitEvidenceDecision" type="submit">Record evidence decision</button></div></form></dialog>
 <script>
   (() => { const dialog=document.getElementById('newWorkDialog'), trigger=document.getElementById('newWorkTrigger'), form=document.getElementById('newWorkForm'), workId=document.getElementById('newWorkId'), title=document.getElementById('newWorkTitle'), request=document.getElementById('newWorkRequest'), message=document.getElementById('newWorkMessage'); trigger.addEventListener('click',()=>dialog.showModal()); document.getElementById('cancelNewWork').addEventListener('click',()=>dialog.close()); form.addEventListener('submit',async event=>{event.preventDefault();message.textContent='Recording request...';const body={workId:workId.value.trim(),title:title.value.trim(),request:request.value.trim()};try{const response=await fetch('/api/work-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const result=await response.json();if(!response.ok){throw new Error(result.error||'Request could not be recorded.');}message.textContent='Recorded. Reloading workbench...';window.setTimeout(()=>window.location.reload(),250);}catch(error){message.textContent=error.message||'Request could not be recorded.';}}); })();
 </script>
@@ -4152,6 +4917,28 @@ SERVER_UI_EXTENSION = r'''<style>
       }catch(error){message.textContent=error.message||'Verification result could not be imported.';submit.disabled=false;}
     });
   })();
+</script>
+<script>
+  (() => {
+    const dialog=document.getElementById('evidenceDecisionDialog'),trigger=document.getElementById('evidenceDecisionTrigger'),form=document.getElementById('evidenceDecisionForm'),resultSelect=document.getElementById('evidenceDecisionResult'),decisionId=document.getElementById('evidenceDecisionId'),outcome=document.getElementById('evidenceDecisionOutcome'),reviewerId=document.getElementById('evidenceReviewerId'),reviewerRole=document.getElementById('evidenceReviewerRole'),summary=document.getElementById('evidenceDecisionSummary'),message=document.getElementById('evidenceDecisionMessage'),submit=document.getElementById('submitEvidenceDecision');
+    let resultsById=new Map();
+    function currentResult(){return resultsById.get(resultSelect.value);}
+    function updateResult(){const item=currentResult();outcome.replaceChildren();if(!item)return;if(item.verifierResult==='pass')outcome.add(new Option('Accept passing evidence','accepted'));outcome.add(new Option('Reject evidence','rejected'));decisionId.value=item.decisionIdPrefix;message.textContent=item.verifierResult==='pass'?'Acceptance can mark this requirement evidence as accepted for local readiness.':'A non-passing result cannot be accepted; reject it and record a later verifier attempt.';}
+    function openDialog(){const intake=window.intentGraphWorkbench?.evidenceDecisionIntake?.()||{results:[]};const pending=(intake.results||[]).filter(item=>!item.decisionRecorded);resultsById=new Map(pending.map(item=>[item.verifierResultId,item]));resultSelect.replaceChildren();for(const item of pending){resultSelect.add(new Option(`${item.proposalTitle} - ${item.verifierKind} ${item.verifierResult} - ${item.verifierResultId}`,item.verifierResultId));}updateResult();const ready=pending.length>0;if(!ready)message.textContent='No current observed verifier result is waiting for an evidence decision.';submit.disabled=!ready;dialog.showModal();}
+    trigger.disabled=true;
+    window.addEventListener('intentgraph-ready',()=>{const intake=window.intentGraphWorkbench?.evidenceDecisionIntake?.()||{results:[]};trigger.disabled=!(intake.results||[]).some(item=>!item.decisionRecorded);});
+    trigger.addEventListener('click',openDialog);
+    resultSelect.addEventListener('change',updateResult);
+    document.getElementById('cancelEvidenceDecision').addEventListener('click',()=>dialog.close());
+    form.addEventListener('submit',async event=>{
+      event.preventDefault();const item=currentResult();if(!item)return;
+      message.textContent='Validating reviewer authority and exact evidence binding...';submit.disabled=true;
+      try{
+        const body={decisionId:decisionId.value.trim(),verifierResultId:item.verifierResultId,decision:outcome.value,reviewerId:reviewerId.value.trim(),reviewerRole:reviewerRole.value,summary:summary.value.trim()};
+        const response=await fetch('/api/draft-evidence-decisions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),recorded=await response.json();if(!response.ok)throw new Error(recorded.error||'Evidence decision could not be recorded.');message.textContent='Evidence decision recorded for local workspace readiness. Proposal remains unapproved. Reloading...';window.setTimeout(()=>window.location.reload(),250);
+      }catch(error){message.textContent=error.message||'Evidence decision could not be recorded.';submit.disabled=false;}
+    });
+  })();
 </script>'''
 
 
@@ -4183,8 +4970,12 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
         or not isinstance(workflow.get("reviewReceipts"), list)
         or not isinstance(workflow.get("workStageTimeline"), list)
         or not isinstance(workflow.get("verifierResults"), list)
+        or not isinstance(workflow.get("evidenceDecisions"), list)
         or not isinstance(workflow.get("verifierResultCoverage"), list)
         or not isinstance(workflow.get("verifierResultIntake"), dict)
+        or not isinstance(workflow.get("evidenceDecisionIntake"), dict)
+        or not isinstance(workflow.get("changeProposals"), list)
+        or not isinstance(workflow.get("workItems"), list)
     ):
         errors.append("project workbench review receipt state is invalid")
     else:
@@ -4203,6 +4994,11 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
             ):
                 errors.append("project workbench verifier result stage revision is invalid")
                 break
+            if stage["kind"] == "evidence-decision-recorded" and (
+                not stage["durableRevision"] or len(stage["revisionIds"]) != 1
+            ):
+                errors.append("project workbench evidence decision stage revision is invalid")
+                break
             stage_ids.add(stage["id"])
         try:
             verifier_results = workflow["verifierResults"]
@@ -4217,6 +5013,19 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
                 latest_by_pair[pair] = item
                 if item.get("observationStatus") != "observed" or item.get("acceptanceStatus") != "pending":
                     raise ProjectWorkspaceError("projection verifier result authority state is invalid")
+            result_by_id = {item["id"]: item for item in verifier_results}
+            evidence_decisions = workflow["evidenceDecisions"]
+            decision_ids: set[str] = set()
+            decided_result_ids: set[str] = set()
+            for decision in evidence_decisions:
+                if not isinstance(decision, dict):
+                    raise ProjectWorkspaceError("projection evidence decision is invalid")
+                validate_evidence_decision_document(decision, result_by_id=result_by_id)
+                if decision["id"] in decision_ids or decision["verifierResultId"] in decided_result_ids:
+                    raise ProjectWorkspaceError("projection evidence decisions must be unique by id and verifier result")
+                decision_ids.add(decision["id"])
+                decided_result_ids.add(decision["verifierResultId"])
+            decision_by_result = {decision["verifierResultId"]: decision for decision in evidence_decisions}
             intake = workflow["verifierResultIntake"]
             required_intake_fields = {
                 "artifactRole", "schemaVersion", "scope", "evidenceContentType",
@@ -4269,20 +5078,134 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
                 pair_keys.append(key)
             if pair_keys != sorted(set(pair_keys)):
                 raise ProjectWorkspaceError("projection verifier result intake pairs must be uniquely sorted")
+            decision_intake = workflow["evidenceDecisionIntake"]
+            required_decision_intake_fields = {
+                "artifactRole", "schemaVersion", "scope", "allowedDecisions",
+                "allowedReviewerRoles", "decisionPermissions", "results", "authority",
+            }
+            if (
+                set(decision_intake) != required_decision_intake_fields
+                or decision_intake["artifactRole"] != EVIDENCE_DECISION_ROLE
+                or decision_intake["schemaVersion"] != PROJECT_SCHEMA_VERSION
+                or decision_intake["scope"] != EVIDENCE_DECISION_SCOPE
+                or decision_intake["allowedDecisions"] != sorted(EVIDENCE_DECISIONS)
+                or decision_intake["allowedReviewerRoles"] != sorted(EVIDENCE_REVIEWER_ROLES)
+                or decision_intake["decisionPermissions"] != EVIDENCE_DECISION_PERMISSIONS
+                or decision_intake["authority"] != EVIDENCE_DECISION_AUTHORITY
+                or not isinstance(decision_intake["results"], list)
+            ):
+                raise ProjectWorkspaceError("projection evidence decision intake contract is invalid")
+            expected_current_results = {item["id"]: item for item in latest_by_pair.values()}
+            proposal_by_id = {
+                item["id"]: item
+                for item in workflow.get("changeProposals", [])
+                if isinstance(item, dict) and isinstance(item.get("id"), str)
+            }
+            decision_result_keys: list[str] = []
+            for item in decision_intake["results"]:
+                required_decision_result_fields = {
+                    "key", "decisionIdPrefix", "proposalId", "proposalTitle", "workItemId",
+                    "verifierResultId", "verifierResult", "verifierKind", "evidenceDigest",
+                    "verificationRequirementId", "evidenceRequirementId", "decisionRecorded",
+                    "currentDecision",
+                }
+                if not isinstance(item, dict) or set(item) != required_decision_result_fields:
+                    raise ProjectWorkspaceError("projection evidence decision intake result is invalid")
+                result = expected_current_results.get(item["verifierResultId"])
+                current_decision = decision_by_result.get(item["verifierResultId"])
+                proposal = proposal_by_id.get(item["proposalId"])
+                if (
+                    result is None
+                    or proposal is None
+                    or item["key"] != result["id"]
+                    or item["decisionIdPrefix"] != evidence_decision_id_prefix(result["id"])
+                    or item["proposalId"] != result["proposalId"]
+                    or item["proposalTitle"] != proposal.get("title")
+                    or item["workItemId"] != proposal.get("workItemId")
+                    or item["verifierResult"] != result["result"]
+                    or item["verifierKind"] != result["verifier"]["kind"]
+                    or item["evidenceDigest"] != result["evidence"]["digest"]
+                    or item["verificationRequirementId"] != result["verificationRequirementId"]
+                    or item["evidenceRequirementId"] != result["evidenceRequirementId"]
+                    or item["decisionRecorded"] != (current_decision is not None)
+                    or item["currentDecision"] != current_decision
+                ):
+                    raise ProjectWorkspaceError("projection evidence decision intake does not match current state")
+                decision_result_keys.append(item["key"])
+            if decision_result_keys != sorted(expected_current_results) or len(decision_result_keys) != len(set(decision_result_keys)):
+                raise ProjectWorkspaceError("projection evidence decision intake results must be complete and uniquely sorted")
             coverage = workflow["verifierResultCoverage"]
             if any(
                 not isinstance(item, dict)
                 or set(item) != {
                     "proposalId", "workItemId", "requiredPairCount", "observedPairCount",
                     "missingPairCount", "passPairCount", "failPairCount", "blockedPairCount",
-                    "allPairsObservedPassing", "acceptanceStatus",
+                    "allPairsObservedPassing", "acceptedPairCount", "rejectedPairCount",
+                    "pendingPairCount", "allPairsAcceptedPassing", "acceptanceStatus",
                 }
-                or item["acceptanceStatus"] != "pending"
+                or item["acceptanceStatus"] not in {"pending", "partial", "accepted", "rejected"}
                 or item["requiredPairCount"] != item["observedPairCount"] + item["missingPairCount"]
                 or item["observedPairCount"] != item["passPairCount"] + item["failPairCount"] + item["blockedPairCount"]
+                or item["requiredPairCount"] != item["acceptedPairCount"] + item["rejectedPairCount"] + item["pendingPairCount"]
+                or item["allPairsAcceptedPassing"] is not (
+                    item["allPairsObservedPassing"]
+                    and item["acceptedPairCount"] == item["requiredPairCount"]
+                )
+                or item["acceptanceStatus"] != (
+                    "accepted"
+                    if item["acceptedPairCount"] == item["requiredPairCount"] and item["requiredPairCount"] > 0
+                    else "rejected"
+                    if item["rejectedPairCount"] > 0
+                    else "partial"
+                    if item["acceptedPairCount"] > 0
+                    else "pending"
+                )
                 for item in coverage
             ):
                 raise ProjectWorkspaceError("projection verifier result coverage is invalid")
+            expected_coverage = verifier_result_coverage_for(
+                workflow["changeProposals"],
+                verifier_results,
+                evidence_decisions,
+            )
+            if coverage != expected_coverage:
+                raise ProjectWorkspaceError(
+                    "projection verifier result coverage does not match current results and decisions"
+                )
+            work_by_id = {
+                item["id"]: item
+                for item in workflow["workItems"]
+                if isinstance(item, dict) and isinstance(item.get("id"), str)
+            }
+            if len(work_by_id) != len(workflow["workItems"]):
+                raise ProjectWorkspaceError("projection work item identifiers are invalid")
+            reviewed_proposal_ids = {
+                receipt["proposalId"]
+                for receipt in workflow["reviewReceipts"]
+                if isinstance(receipt, dict) and isinstance(receipt.get("proposalId"), str)
+            }
+            for proposal in workflow["changeProposals"]:
+                if not isinstance(proposal, dict) or proposal.get("workItemId") not in work_by_id:
+                    raise ProjectWorkspaceError("projection change proposal work binding is invalid")
+                verifier_status, expected_work_status = proposal_verifier_status(
+                    proposal,
+                    verifier_results,
+                    evidence_decisions,
+                )
+                expected_verification_status = verifier_status or (
+                    "review-receipt-recorded"
+                    if proposal["id"] in reviewed_proposal_ids
+                    else "requirements-recorded"
+                )
+                work = work_by_id[proposal["workItemId"]]
+                if (
+                    work.get("changeStatus") != "proposal-review-required"
+                    or work.get("verificationStatus") != expected_verification_status
+                    or work.get("status") != expected_work_status
+                ):
+                    raise ProjectWorkspaceError(
+                        "projection work readiness does not match current results and decisions"
+                    )
         except (KeyError, TypeError, ProjectWorkspaceError):
             errors.append("project workbench verifier result projection contract is invalid")
     graph = projection.get("graph")
@@ -4296,7 +5219,7 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not any(node.get("category") == "project" for node in nodes if isinstance(node, dict)):
         errors.append("project workbench graph needs a project node")
     for node in nodes:
-        if not isinstance(node, dict) or node.get("category") not in {"code", "code-capsule", "project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "review-receipt", "verifier-result", "authority", "history"}:
+        if not isinstance(node, dict) or node.get("category") not in {"code", "code-capsule", "project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "review-receipt", "verifier-result", "evidence-decision", "authority", "history"}:
             errors.append("project workbench graph contains an unknown node category")
             continue
         if node["category"] == "code":
@@ -4317,9 +5240,45 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
         expected_result_ids = {item.get("id") for item in workflow["verifierResults"] if isinstance(item, dict)}
         if set(result_nodes) != expected_result_ids or any(
             bool(node.get("details", {}).get("current")) != (identifier in current_result_ids)
+            or node.get("details", {}).get("observationAcceptanceStatus") != "pending"
+            or node.get("details", {}).get("acceptanceStatus") != (
+                next((item["decision"] for item in workflow.get("evidenceDecisions", []) if item.get("verifierResultId") == identifier), "pending")
+            )
             for identifier, node in result_nodes.items()
         ):
             errors.append("project workbench verifier result graph nodes are invalid")
+    if isinstance(workflow, dict) and isinstance(workflow.get("evidenceDecisions"), list):
+        decision_nodes = {
+            str(node.get("id", "")).removeprefix("evidence-decision."): node
+            for node in nodes
+            if isinstance(node, dict) and node.get("category") == "evidence-decision"
+        }
+        expected_decision_ids = {item.get("id") for item in workflow["evidenceDecisions"] if isinstance(item, dict)}
+        authority_nodes = {
+            str(node.get("id", "")).removeprefix("authority.evidence-decision."): node
+            for node in nodes
+            if isinstance(node, dict) and str(node.get("id", "")).startswith("authority.evidence-decision.")
+        }
+        edge_by_id = {edge.get("id"): edge for edge in edges if isinstance(edge, dict)}
+        if set(decision_nodes) != expected_decision_ids or set(authority_nodes) != expected_decision_ids:
+            errors.append("project workbench evidence decision graph nodes are invalid")
+        else:
+            for decision in workflow["evidenceDecisions"]:
+                identifier = decision["id"]
+                authority_node = authority_nodes[identifier]
+                authority_details = authority_node.get("details", {})
+                expected_edges = evidence_decision_projection_edges(decision)
+                if (
+                    decision_nodes[identifier].get("details", {}).get("decision") != decision["decision"]
+                    or authority_details.get("proposerType") != "human"
+                    or authority_details.get("decidedByType") != "human"
+                    or authority_details.get("decisionStatus") != decision["decision"]
+                    or authority_details.get("proposalApprovalRecorded") is not False
+                    or authority_details.get("graphMutationApplied") is not False
+                    or any(edge_by_id.get(edge["id"]) != edge for edge in expected_edges)
+                ):
+                    errors.append("project workbench evidence decision authority graph is invalid")
+                    break
     for edge in edges:
         if not isinstance(edge, dict) or edge.get("source") not in node_ids or edge.get("target") not in node_ids:
             errors.append("project workbench graph edge endpoint does not resolve")
@@ -4334,7 +5293,7 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not isinstance(default_view, dict) or default_view.get("id") != "all" or default_view.get("rendering") != "full-graph-progressive-detail" or default_view.get("layout") != "deterministic-relation-aware-community-preset" or default_view.get("physicsLayoutOnLoad") is not False:
         errors.append("project workbench full graph rendering contract is invalid")
     ui_contract = projection.get("uiContract")
-    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "viewportScaleCompensation", "relationAwareCommunityLayout", "zoomStyleBuckets", "spectralObsidianNodeMaterial", "iridescentVoidNodeMaterial", "rendererSafeOpticalMaterial", "cachedCanvasNodeMaterial", "viewportLocalMaterialRendering", "virtualPrecisionZoom", "selectedEdgeScreenSpaceTaper", "precisionDeepZoomBands", "supportingNodeLabelsOnDemand", "workStageTimeline", "durableWorkStageRevisions", "allRecordedWorkItemsNavigable", "workHistorySearch", "workHistoryStatusFilter", "boundedWorkHistoryRendering", "previousNextWorkNavigation", "previousNextStageNavigation", "liveProjectionRefreshAfterMutation", "staticRevisionSnapshotImmutable", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi", "loopbackGuidedReviewProposalFromUi", "loopbackReviewReceiptIntakeFromUi", "loopbackGuidedReviewReceiptFromUi", "loopbackVerifierResultIntakeFromUi", "clientSideEvidenceArtifactHashing")) or ui_contract.get("maximumZoom") != 100 or ui_contract.get("rendererMaximumZoom") != 24 or ui_contract.get("effectiveGeometryMaximumZoom") != 100 or ui_contract.get("virtualGeometryScaleAtMaximumZoom") != 4.1667 or ui_contract.get("selectedEdgeRenderedWidthPixelsAtMaximumZoom") != 0.1 or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad", "externalVerifierExecutionByWorkbench", "externalEvidenceAcceptanceByWorkbench")):
+    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "viewportScaleCompensation", "relationAwareCommunityLayout", "zoomStyleBuckets", "spectralObsidianNodeMaterial", "iridescentVoidNodeMaterial", "rendererSafeOpticalMaterial", "cachedCanvasNodeMaterial", "viewportLocalMaterialRendering", "farZoomMaterialCulling", "virtualPrecisionZoom", "selectedEdgeScreenSpaceTaper", "precisionDeepZoomBands", "supportingNodeLabelsOnDemand", "workStageTimeline", "durableWorkStageRevisions", "allRecordedWorkItemsNavigable", "workHistorySearch", "workHistoryStatusFilter", "boundedWorkHistoryRendering", "previousNextWorkNavigation", "previousNextStageNavigation", "liveProjectionRefreshAfterMutation", "staticRevisionSnapshotImmutable", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi", "loopbackGuidedReviewProposalFromUi", "loopbackReviewReceiptIntakeFromUi", "loopbackGuidedReviewReceiptFromUi", "loopbackVerifierResultIntakeFromUi", "loopbackEvidenceDecisionFromUi", "clientSideEvidenceArtifactHashing", "externalEvidenceAcceptanceByWorkbench")) or ui_contract.get("maximumZoom") != 100 or ui_contract.get("rendererMaximumZoom") != 24 or ui_contract.get("effectiveGeometryMaximumZoom") != 100 or ui_contract.get("virtualGeometryScaleAtMaximumZoom") != 4.1667 or ui_contract.get("selectedEdgeRenderedWidthPixelsAtMaximumZoom") != 0.065 or ui_contract.get("selectedEdgeRenderedOpacityAtMaximumZoom") != 0.34 or ui_contract.get("evidenceAcceptanceAuthorityScope") != "local-project-workspace" or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad", "externalVerifierExecutionByWorkbench", "reviewerAuthenticationByWorkbench")):
         errors.append("project workbench progressive full graph UI contract is invalid")
     try:
         assert_no_unsafe_state(projection)
@@ -4356,7 +5315,7 @@ def validate_output(output: Path, project_workspace: Path, expected_projection: 
         errors.append("projection does not match deterministic project workspace input")
     errors.extend(validate_projection(projection))
     html = paths["index"].read_text(encoding="utf-8")
-    for marker in ["id=\"projectGraph\"", "id=\"modeBadge\"", "id=\"workList\"", "id=\"previousWork\"", "id=\"nextWork\"", "id=\"workPosition\"", "id=\"stageList\"", "id=\"previousStage\"", "id=\"nextStage\"", "id=\"stagePosition\"", "id=\"selectionInspector\"", "id=\"changePanel\"", "id=\"deltaList\"", "id=\"evidencePanel\"", "id=\"authorityPanel\"", "id=\"zoomIn\"", "id=\"zoomOut\"", "id=\"zoom100\"", "id=\"zoomReadout\"", "maxZoom:rendererMaximumZoom", "logicalZoomFromActual", "applyVirtualGeometry", "effectiveGeometryZoom", "node-material-layer", "materialSprite", "deepZoomFloors", "precision-", "spectralObsidianOpticalMaterial", "edge:selected", "assets/cytoscape.min.js"]:
+    for marker in ["id=\"projectGraph\"", "id=\"modeBadge\"", "id=\"workList\"", "id=\"previousWork\"", "id=\"nextWork\"", "id=\"workPosition\"", "id=\"stageList\"", "id=\"previousStage\"", "id=\"nextStage\"", "id=\"stagePosition\"", "id=\"selectionInspector\"", "id=\"changePanel\"", "id=\"deltaList\"", "id=\"evidencePanel\"", "id=\"authorityPanel\"", "id=\"zoomIn\"", "id=\"zoomOut\"", "id=\"zoom100\"", "id=\"zoomReadout\"", "maxZoom:rendererMaximumZoom", "logicalZoomFromActual", "applyVirtualGeometry", "effectiveGeometryZoom", "selectedEdgeRenderedOpacity", "culledOrdinaryCode", "node-material-layer", "materialSprite", "deepZoomFloors", "precision-", "spectralObsidianOpticalMaterial", "edge:selected", "assets/cytoscape.min.js"]:
         if marker not in html:
             errors.append(f"HTML marker missing: {marker}")
     for forbidden in ["http://", "https://", "fetch(", "sourceText", "targetSyntax", "applyProposal", "approveProposal"]:
@@ -4501,6 +5460,17 @@ def parse_args() -> argparse.Namespace:
     verifier_result = sub.add_parser("add-verifier-result")
     verifier_result.add_argument("--workspace", required=True, type=Path)
     verifier_result.add_argument("--result", required=True, type=Path)
+    evidence_decision = sub.add_parser("add-evidence-decision")
+    evidence_decision.add_argument("--workspace", required=True, type=Path)
+    evidence_decision.add_argument("--decision", required=True, type=Path)
+    draft_evidence_decision = sub.add_parser("draft-evidence-decision")
+    draft_evidence_decision.add_argument("--workspace", required=True, type=Path)
+    draft_evidence_decision.add_argument("--decision-id", required=True)
+    draft_evidence_decision.add_argument("--verifier-result-id", required=True)
+    draft_evidence_decision.add_argument("--decision", required=True, choices=sorted(EVIDENCE_DECISIONS))
+    draft_evidence_decision.add_argument("--reviewer-id", required=True)
+    draft_evidence_decision.add_argument("--reviewer-role", required=True, choices=sorted(EVIDENCE_REVIEWER_ROLES))
+    draft_evidence_decision.add_argument("--summary", required=True)
     draft_receipt = sub.add_parser("draft-review-receipt")
     draft_receipt.add_argument("--workspace", required=True, type=Path)
     draft_receipt.add_argument("--receipt-id", required=True)
@@ -4549,6 +5519,18 @@ def main() -> int:
             result = add_review_receipt(args.workspace, args.receipt)
         elif args.command == "add-verifier-result":
             result = add_verifier_result(args.workspace, args.result)
+        elif args.command == "add-evidence-decision":
+            result = add_evidence_decision(args.workspace, args.decision)
+        elif args.command == "draft-evidence-decision":
+            result = draft_evidence_decision_from_result(
+                args.workspace,
+                decision_id=args.decision_id,
+                verifier_result_id=args.verifier_result_id,
+                decision=args.decision,
+                reviewer_id=args.reviewer_id,
+                reviewer_role=args.reviewer_role,
+                summary=args.summary,
+            )
         elif args.command == "draft-review-receipt":
             result = draft_review_receipt_from_proposal(
                 args.workspace,

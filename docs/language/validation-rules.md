@@ -1052,6 +1052,39 @@ state, commit state last, reject duplicate attempts, preserve receipt/result ord
 and create exactly one durable revision per result. Malformed, stale, incompatible,
 authority-promoted, or projection-inconsistent input must fail zero-write.
 
+### V433 - Local Evidence Decisions Require Explicit Human Authority
+
+Severity: P0 in P9.30
+
+An evidence decision must reference one current verifier result and preserve its exact
+proposal, verification requirement, evidence requirement, result digest, evidence
+digest, source digest, and proposal digest. Only `accepted` and `rejected` decisions are
+allowed. `accepted` requires a passing verifier result; a fail or blocked result may
+only be rejected. Superseded, unknown, duplicate, stale, or authority-promoted decisions
+must fail zero-write.
+
+The reviewer must declare `actorType: human`, one of `maintainer`, `quality-reviewer`,
+or `security-reviewer`, the matching `evidence.accept` or `evidence.reject` permission,
+and `authorityScope: local-project-workspace`. The record must state that authentication
+is local-session and not cryptographically verified. AI actors, wrong roles, wrong
+permissions, wider scopes, and cryptographic-authentication claims must fail closed.
+
+Rejecting a current result blocks the work item. Deciding only part of the current
+required pairs leaves it `verification-observed`. Only when every current required pair
+has a passing accepted result may the work item become `verified`. A decision must create
+exactly one durable timeline revision and explicit decision, authority, and evidence
+graph records. It must not approve or apply the proposal, upload evidence bytes, execute
+verification, mutate graph/source/snapshot/target state, or grant network, provider, or
+credential authority. Concurrent duplicate decisions must have one winner, and
+cross-operation writes must preserve both accepted records without lost updates.
+
+Decision-derived verification, evidence, and history records must equal records derived
+from the accepted decision artifact; matching identifiers alone are insufficient.
+Projection validation must re-derive coverage, work readiness, and all six decision
+relations rather than accept self-consistent counters or partial topology. Every legal
+JSON value, including nested arrays and objects in enum fields, must produce a controlled
+validation failure and zero writes instead of an uncaught type error.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

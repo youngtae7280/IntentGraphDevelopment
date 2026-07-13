@@ -11,12 +11,12 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P9.29 Typed External Verifier Result Intake
+P9.30 Local Evidence Decision Authority
 ```
 
-This product slice adds guided, typed observation intake for external build, test,
-runtime-smoke, and static-analysis results while keeping evidence acceptance, proposal
-approval, and code application outside the intake authority. See
+This product slice lets an explicitly human local reviewer accept or reject the current
+typed verifier result while keeping reviewer authentication, proposal approval, and
+code application outside the decision authority. See
 [Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
@@ -4541,6 +4541,39 @@ Verification:
 - browser QA reaches effective 100x geometry and a selected-edge width of 0.10 pixels
 - emitted static and live scripts parse without errors
 
+## P9.30: Local Evidence Decision Authority
+
+Goal: let an explicitly human local reviewer accept or reject one current verifier
+result and make the resulting work readiness visible without approving or applying the
+proposal.
+
+Status: completed on 2026-07-13. See
+[P9.30 Local Evidence Decision Authority Review](../reviews/p9.30-evidence-decision-authority-review.md).
+
+Delivered boundary:
+
+- exact human-only reviewer actor type with `maintainer`, `quality-reviewer`, and
+  `security-reviewer` roles
+- decision-specific `evidence.accept` and `evidence.reject` permissions scoped to
+  `local-project-workspace`
+- only the current verifier result may be decided; acceptance requires a passing result
+- rejection blocks work, partial acceptance remains `verification-observed`, and all
+  current required pairs accepted and passing move work to `verified`
+- decision, evidence, authority, history, timeline, and graph visibility
+- effective `100x` graph inspection, a `0.065px`/`0.34` selected relation, and cached
+  viewport-local etched obsidian/titanium node material without graph-structure changes
+
+Non-goals:
+
+- no cryptographic reviewer authentication, verifier execution, evidence upload,
+  proposal approval, graph/source application, snapshot mutation, target mutation,
+  network, provider, or credential authority
+
+Next product work:
+
+- define the next bounded authority or application boundary only after P9.30 review
+  evidence remains reproducible
+
 ## P9.29: Typed External Verifier Result Intake
 
 Goal: let a normal Workbench user bind an externally produced result with declared
@@ -4566,7 +4599,7 @@ Non-goals:
 
 Next product work:
 
-- define explicit evidence acceptance/rejection and reviewer authority without applying code
+- completed by P9.30 local evidence decision authority
 
 ## P9.20: Local Review Receipt Intake
 

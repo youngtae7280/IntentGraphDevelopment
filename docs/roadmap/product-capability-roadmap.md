@@ -7,7 +7,7 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P9.29 completed.
+P9.30 completed.
 Selected next benchmark: B1-typescript-rest-api.
 IntentGraphDevelopment has a defined-but-not-built product candidate: IntentGraph Local Review Kit.
 The experimental C# fact-only inspector is complete. P9.13 adds a separate local semantic-overlay project workspace and unified project workbench. P9.14 adds review-only change proposals with graph delta and code-diff fragments to that same C# project route. P9.15 corrects the raw-code-heavy default graph and adds a loopback-only interactive work-request intake surface. Visual interaction review remains a required user-facing quality gate.
@@ -28,8 +28,19 @@ runtime-smoke, and static-analysis observations to exact proposal requirement pa
 hashes selected evidence locally, records attempt/supersession history, and projects
 coverage plus pending acceptance. It does not run or authenticate the verifier, upload
 evidence bytes, accept evidence, approve proposals, or apply graph/source changes. The
-next highest-value workflow gap is an explicit evidence acceptance and reviewer
+next highest-value workflow gap was an explicit evidence acceptance and reviewer
 authority decision boundary.
+
+P9.30 closes that local decision gap. Only a declared human reviewer in an allowed role
+with the matching `evidence.accept` or `evidence.reject` permission may decide the
+current verifier result. Acceptance requires a passing result. Rejection blocks the
+work item, partial decisions remain `verification-observed`, and all current required
+pairs accepted and passing move it to `verified`. The reviewer is not cryptographically
+authenticated; the proposal remains unapproved and unapplied; source and snapshot state
+remain immutable. Its rendering refinement reaches effective `100x` through renderer
+`24x` times virtual geometry `4.1667`, uses a `0.065px` selected edge at `0.34` opacity,
+and paints cached viewport-local etched obsidian/titanium material without changing the
+graph structure.
 ```
 
 > **Scope correction, P8.124:** the WindowsUtility package and its verification artifacts are Phase G adoption evidence. WindowsUtility is not an IntentGraphDevelopment product candidate, and the historical P8.121-P8.123 candidate-acceptance gate does not block this roadmap. IntentGraphDevelopment productization begins only after its own product surface and distribution boundary are defined. See [P8.124 WindowsUtility Adoption / IGD Productization Scope Correction](../reviews/p8.124-windowsutility-adoption-igd-productization-scope-correction.md).

@@ -1,0 +1,90 @@
+{
+  "artifactRole": "intentgraph-p9.30-local-evidence-decision-authority-report",
+  "status": "intentgraph-p9.30-local-evidence-decision-authority-pass",
+  "scope": "p9.30-local-evidence-decision-authority",
+  "result": "pass",
+  "decisionContract": {
+    "actorType": "human",
+    "allowedReviewerRoles": [
+      "maintainer",
+      "quality-reviewer",
+      "security-reviewer"
+    ],
+    "permissions": {
+      "accepted": "evidence.accept",
+      "rejected": "evidence.reject"
+    },
+    "authorityScope": "local-project-workspace",
+    "reviewerCryptographicallyAuthenticated": false,
+    "currentVerifierResultOnly": true,
+    "acceptedResultMustPass": true
+  },
+  "readinessSemantics": {
+    "rejectedCurrentResultWorkStatus": "blocked",
+    "partialAcceptanceWorkStatus": "verification-observed",
+    "allCurrentRequiredPairsAcceptedAndPassingWorkStatus": "verified",
+    "supersedingResultInheritsDecision": false
+  },
+  "verification": {
+    "positiveCheckCount": 19,
+    "zeroWriteNegativeProbeCount": 25,
+    "projectionCorruptionProbeCount": 13,
+    "stateIntegrityProbeCount": 1,
+    "orderingProbeCount": 3,
+    "loopbackServerProbeCount": 30,
+    "p9.29RegressionProbeCount": 18,
+    "projectRegressionProbeCount": 8,
+    "receiptRegressionProbeCount": 8,
+    "stageRegressionProbeCount": 10,
+    "concurrentDuplicateSingleWinner": true,
+    "crossOperationNoLostUpdate": true,
+    "staticWorkbenchEmission": "pass",
+    "staticWorkbenchValidation": "pass",
+    "repeatOutputByteIdentical": true
+  },
+  "windowsUtilityDemonstration": {
+    "graphNodeCount": 8208,
+    "graphRelationCount": 8023,
+    "targetRepositoryMutation": false,
+    "snapshotWorkspaceMutation": false
+  },
+  "visualRefinement": {
+    "effectiveMaximumZoom": 100,
+    "rendererMaximumZoom": 24,
+    "virtualGeometryScaleAtMaximumZoom": 4.1667,
+    "selectedEdgeRenderedWidthPixelsAtMaximumZoom": 0.065,
+    "selectedEdgeRenderedOpacityAtMaximumZoom": 0.34,
+    "cachedViewportLocalMaterial": "etched-obsidian-titanium-asymmetric-spectral",
+    "farZoomMaterialCulling": true,
+    "ordinaryCodeFactsRemainInGraph": true,
+    "graphStructureChanged": false,
+    "runtimeBrowserObservation": {
+      "fullGraphNodeCount": 8208,
+      "fullGraphRelationCount": 8023,
+      "logicalZoom": 100,
+      "rendererZoom": 24,
+      "effectiveGeometryZoom": 100,
+      "selectedEdgeRenderedWidthPixels": 0.065,
+      "selectedEdgeRenderedOpacity": 0.34,
+      "fittedOverviewMaterialDrawCount": 412,
+      "fittedOverviewCulledOrdinaryCodeCount": 7477,
+      "consoleErrorCount": 0,
+      "observationMode": "live-in-app-browser"
+    }
+  },
+  "authority": {
+    "verificationExecutedByIntentGraph": false,
+    "evidenceBytesUploaded": false,
+    "reviewerAuthenticatedCryptographically": false,
+    "proposalApproved": false,
+    "proposalApplied": false,
+    "graphMutationApplied": false,
+    "sourceMutation": false,
+    "snapshotWorkspaceMutation": false,
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false
+  }
+}

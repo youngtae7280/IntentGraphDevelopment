@@ -26,6 +26,22 @@ P9.28.R2 makes that precision lens spatially effective rather than display-only:
 
 P9.29 adds guided typed external verifier-result intake. Build, test, runtime-smoke, and static-analysis observations can be bound to exact proposal verification/evidence pairs with client-side artifact hashing, attempt/supersession history, requirement coverage, and durable timeline visibility. IntentGraph records the observation but does not execute the verifier, upload artifact bytes, authenticate the producer, accept evidence, approve the proposal, or apply source or graph changes.
 
+P9.30 adds local evidence acceptance and rejection for the current verifier result. A
+declared human reviewer with the `maintainer`, `quality-reviewer`, or
+`security-reviewer` role must hold the matching `evidence.accept` or
+`evidence.reject` permission inside `local-project-workspace`. This local reviewer
+identity is not cryptographically authenticated. Rejection blocks the work item,
+partial acceptance remains `verification-observed`, and only all current required
+pairs accepted with passing results move the work item to `verified`. The proposal
+remains unapproved and unapplied, and source and snapshot state remain immutable.
+
+The same slice refines only graph rendering: effective `100x` is composed from renderer
+`24x` and virtual geometry `4.1667`; a selected edge tapers to `0.065px` at `0.34`
+opacity; and cached viewport-local etched obsidian/titanium material replaces the
+remaining plastic appearance. At distant overview scales, ordinary code facts retain
+their Cytoscape nodes while the heavier material pass is reserved for structural,
+selected, changed, and searched landmarks. Graph structure is unchanged.
+
 ## Working Definition
 
 IntentGraph is not just a code graph. It is an overlay graph over an existing codebase that can contain:

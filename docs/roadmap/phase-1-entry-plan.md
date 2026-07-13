@@ -4087,6 +4087,24 @@ the proposal, or apply code. See
 [P9.29 Typed External Verifier Result Intake](../product/igd-typed-verifier-result-intake-p9.29.md)
 and [P9.29 Review](../reviews/p9.29-typed-verifier-result-intake-review.md).
 
+## Implemented Slice: P9.30 Local Evidence Decision Authority
+
+P9.30 adds a guided local decision over one current verifier result. The reviewer must
+declare `actorType: human`, one allowed reviewer role, and the decision-specific
+`evidence.accept` or `evidence.reject` permission inside `local-project-workspace`.
+This is a local authority record, not cryptographic authentication. A passing current
+result may be accepted; rejection blocks the work item; partial decisions remain
+`verification-observed`; and only all current required pairs accepted and passing make
+the work item `verified`.
+
+The proposal remains unapproved and unapplied. Source, snapshot, and target repository
+state remain immutable. The visual refinement in the same bounded slice composes
+renderer `24x` with virtual geometry `4.1667` for effective `100x`, tapers a selected
+edge to `0.065px` at `0.34` opacity, and uses cached viewport-local etched
+obsidian/titanium material. It does not change graph structure. See
+[P9.30 Local Evidence Decision Authority](../product/igd-evidence-decision-authority-p9.30.md)
+and [P9.30 Review](../reviews/p9.30-evidence-decision-authority-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).
