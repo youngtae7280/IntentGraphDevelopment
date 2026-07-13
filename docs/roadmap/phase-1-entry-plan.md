@@ -3551,6 +3551,32 @@ Recommended next slice:
 P8.120 Packaged UI Screenshot Capture Verification
 ```
 
+## Completed Slice: P8.120 Packaged UI Screenshot Capture Verification
+
+Goal: run the authorized packaged UI screenshot verifier from a sandboxed package copy.
+
+Result:
+
+```text
+Decision: sandboxed-packaged-ui-screenshot-captured-productization-still-not-claimed.
+```
+
+Produced artifacts:
+
+- `tools/run_windowsutility_packaged_ui_screenshot_capture.py`
+- `generated/windowsutility/package-artifact/p8.120/screenshot-capture-report.json`
+- `generated/windowsutility/package-artifact/p8.120/packaged-ui-screenshot.png`
+- `generated/windowsutility/package-artifact/p8.120/screenshot-stdout.log`
+- `generated/windowsutility/package-artifact/p8.120/screenshot-stderr.log`
+- `generated/roadmap/p8.120-packaged-ui-screenshot-capture-verification-report.json`
+- [P8.120 Packaged UI Screenshot Capture Verification](../reviews/p8.120-packaged-ui-screenshot-capture-verification.md)
+
+Recommended next slice:
+
+```text
+P8.121 Productization Readiness Recheck After Packaged UI Screenshot Capture
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

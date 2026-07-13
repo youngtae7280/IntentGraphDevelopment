@@ -3746,6 +3746,34 @@ Next safe work:
 
 - continue to `P8.120 Packaged UI Screenshot Capture Verification`.
 
+## P8.120: Packaged UI Screenshot Capture Verification
+
+Goal: run the authorized packaged UI screenshot verifier from a sandboxed package copy.
+
+Status: completed on 2026-07-13. See [P8.120 Packaged UI Screenshot Capture Verification](../reviews/p8.120-packaged-ui-screenshot-capture-verification.md).
+
+Decision:
+
+- packaged UI screenshot capture passed.
+- `WindowsUtility.App.exe` launched from a sandboxed copy of the verified package extraction.
+- the `Card Printer Utility` window was observed and captured as a valid 1320 x 820 PNG.
+- the process terminated after capture and the WindowsUtility target remained clean/aligned.
+- no installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `tools/run_windowsutility_packaged_ui_screenshot_capture.py`
+- `generated/windowsutility/package-artifact/p8.120/screenshot-capture-report.json`
+- `generated/windowsutility/package-artifact/p8.120/packaged-ui-screenshot.png`
+- `generated/windowsutility/package-artifact/p8.120/screenshot-stdout.log`
+- `generated/windowsutility/package-artifact/p8.120/screenshot-stderr.log`
+- `generated/roadmap/p8.120-packaged-ui-screenshot-capture-verification-report.json`
+- [P8.120 Packaged UI Screenshot Capture Verification](../reviews/p8.120-packaged-ui-screenshot-capture-verification.md)
+
+Next safe work:
+
+- continue to `P8.121 Productization Readiness Recheck After Packaged UI Screenshot Capture`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.
