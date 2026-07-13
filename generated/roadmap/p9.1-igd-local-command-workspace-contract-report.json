@@ -1,0 +1,59 @@
+{
+  "artifactRole": "intentgraph-local-command-workspace-contract-report",
+  "status": "intentgraph-local-command-workspace-contract-passed",
+  "scope": "p9.1-b1-local-review-workspace-only",
+  "decision": "single-local-command-facade-runs-the-bounded-b1-review-workflow",
+  "command": {
+    "entrypoint": "python tools/intentgraph.py",
+    "subcommands": [
+      "init-sample",
+      "validate",
+      "review"
+    ],
+    "profile": "b1-typescript-rest-api-sample",
+    "installable": false,
+    "generalPurpose": false
+  },
+  "workspace": {
+    "manifestRole": "intentgraph-local-review-workspace",
+    "schemaVersion": "0.1.0",
+    "sourceDigest": "sha256:5136b8c8ff2744d8870c83981333eb68af7c90e4046b7e21bbde5d255ab57782",
+    "proposalBaselineMaterialized": true,
+    "sourceTextEqualityRequired": false,
+    "sourceMutationDetected": false,
+    "reviewStepCount": 6,
+    "reviewSteps": [
+      "extract-code-facts",
+      "validate-code-facts",
+      "verify-intent-mapping",
+      "validate-proposal",
+      "verify-proposal-consistency",
+      "emit-workbench"
+    ],
+    "workbenchProduced": true
+  },
+  "verification": {
+    "freshWorkspaceReviewPassed": true,
+    "repeatSameWorkspaceOutputsStable": true,
+    "b1DirectRegressionPassed": true,
+    "negativeProbeReport": "generated/roadmap/p9.1-igd-local-review-workspace-negative-probes-report.json",
+    "negativeProbeCount": 14,
+    "allExpectedFailuresObserved": true
+  },
+  "authority": {
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "hookInstallationAllowed": false,
+    "releasePublishingAllowed": false,
+    "igdProductizationClaimed": false
+  },
+  "knownLimitations": [
+    "Only the bounded B1 TypeScript REST sample is supported.",
+    "The B1 aggregate code-facts digest still includes a physical sourceRoot, so P9.1 materializes the copied proposal baseline for its workspace path.",
+    "There is no package manifest, installer, editor integration, arbitrary-repository retrofit, or release workflow."
+  ],
+  "nextSlice": "P9.2 Logical Workspace Source Identity and Profile Contract"
+}

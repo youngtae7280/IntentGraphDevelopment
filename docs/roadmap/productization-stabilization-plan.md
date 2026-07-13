@@ -8,6 +8,8 @@ IntentGraph is not ready for productization. The current evidence proves a seman
 
 > **P9.0 candidate definition:** the first IGD product build path is `igd-local-review-kit`, a local command facade plus an interactive local review workbench. It is defined but not built, installed, released, or accepted.
 
+> **P9.1 bounded workflow:** `tools/intentgraph.py` now runs the B1 sample review workflow in a declared local workspace. It is not an installable CLI and remains path-bound through the historical B1 aggregate code-facts digest; P9.2 must correct that identity boundary before generalization.
+
 ## Non-Negotiable Boundary
 
 Productization must remain blocked until real-project adoption evidence exists.

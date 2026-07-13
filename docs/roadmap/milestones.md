@@ -3890,6 +3890,33 @@ Next safe work:
 
 - continue to `P9.1 IGD Local Command and Workspace Contract`.
 
+## P9.1: IGD Local Command and Workspace Contract
+
+Goal: make the bounded B1 review workflow runnable through one local command facade and one fail-closed workspace contract.
+
+Status: completed on 2026-07-13. See [P9.1 IGD Local Command and Workspace Contract Review](../reviews/p9.1-igd-local-command-workspace-contract-review.md).
+
+Decision:
+
+- `python tools/intentgraph.py` provides `init-sample`, `validate`, and `review` for a B1 local-review workspace.
+- a fresh workspace passes extraction, mapping, non-applied proposal, consistency, and workbench generation without target-repository mutation.
+- fourteen invalid workspace/proposal variants fail deterministically after a positive baseline review rerun.
+- the B1 aggregate code-facts baseline remains physical-path dependent; P9.1 materializes a workspace-local proposal baseline and P9.2 must correct the general identity model.
+- no package manifest, installer, signing, credential access, provider API call, release publishing, or productization claim was performed.
+
+Produced artifacts:
+
+- `tools/intentgraph.py`
+- `tools/run_igd_workspace_negative_probes.py`
+- `docs/product/igd-local-review-kit-p9.1.md`
+- `generated/roadmap/p9.1-igd-local-command-workspace-contract-report.json`
+- `generated/roadmap/p9.1-igd-local-review-workspace-negative-probes-report.json`
+- [P9.1 IGD Local Command and Workspace Contract Review](../reviews/p9.1-igd-local-command-workspace-contract-review.md)
+
+Next safe work:
+
+- continue to `P9.2 Logical Workspace Source Identity and Profile Contract`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

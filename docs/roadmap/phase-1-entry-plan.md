@@ -3691,6 +3691,31 @@ Recommended next slice:
 P9.1 IGD Local Command and Workspace Contract
 ```
 
+## Completed Slice: P9.1 IGD Local Command and Workspace Contract
+
+Goal: create one local command facade and fail-closed B1 workspace contract for the first IGD product build path.
+
+Result:
+
+```text
+Decision: single-local-command-facade-runs-the-bounded-b1-review-workflow.
+```
+
+Produced artifacts:
+
+- `tools/intentgraph.py`
+- `tools/run_igd_workspace_negative_probes.py`
+- `docs/product/igd-local-review-kit-p9.1.md`
+- `generated/roadmap/p9.1-igd-local-command-workspace-contract-report.json`
+- `generated/roadmap/p9.1-igd-local-review-workspace-negative-probes-report.json`
+- [P9.1 IGD Local Command and Workspace Contract Review](../reviews/p9.1-igd-local-command-workspace-contract-review.md)
+
+Recommended next slice:
+
+```text
+P9.2 Logical Workspace Source Identity and Profile Contract
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

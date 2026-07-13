@@ -1,6 +1,6 @@
 # IntentGraphDevelopment Productization Entry Plan
 
-Status: P9.0 plan completed; P9.1 implementation boundary is not yet opened.
+Status: P9.0 plan and P9.1 bounded implementation completed; P9.2 logical source identity planning is next.
 
 ## Purpose
 
@@ -94,4 +94,10 @@ P9.0 must consume, but not overclaim from:
 
 P9.0 passes only when it produces an inspectable product-candidate definition, an independent acceptance checklist, and a bounded next implementation slice. It must leave release and productization authority false.
 
-Those criteria are met by this plan, the P9.0 review, and the P9.0 report. The next slice is `P9.1 IGD Local Command and Workspace Contract`.
+Those criteria are met by this plan, the P9.0 review, and the P9.0 report.
+
+## P9.1 Result
+
+P9.1 created the first `intentgraph` local facade and a fail-closed B1 workspace contract. A fresh workspace produces code facts, mapping and proposal verification, consistency evidence, and a static review workbench without target-repository mutation. The candidate remains defined-but-not-built at a product level: P9.1 is neither an installable CLI nor arbitrary-repository support.
+
+P9.1 materializes a copied proposal baseline because the historical B1 aggregate code-facts digest includes a physical source-root value. The next slice is `P9.2 Logical Workspace Source Identity and Profile Contract`.

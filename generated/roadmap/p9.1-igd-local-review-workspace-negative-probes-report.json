@@ -1,0 +1,128 @@
+{
+  "artifactRole": "intentgraph-local-review-workspace-negative-probes-report",
+  "status": "intentgraph-local-review-workspace-negative-probes-passed",
+  "result": "pass",
+  "profile": "b1-typescript-rest-api-sample",
+  "baselineValidationPassed": true,
+  "baselineReviewPassed": true,
+  "probeCount": 14,
+  "probes": [
+    {
+      "id": "wrong-workspace-role",
+      "expectedError": "workspace artifactRole must equal intentgraph-local-review-workspace",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace artifactRole must equal intentgraph-local-review-workspace",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "target-mutation-enabled",
+      "expectedError": "workspace authority must equal the local review-only authority boundary",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace authority must equal the local review-only authority boundary",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "automatic-code-application-enabled",
+      "expectedError": "workspace authority must equal the local review-only authority boundary",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace authority must equal the local review-only authority boundary",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "network-enabled",
+      "expectedError": "workspace authority must equal the local review-only authority boundary",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace authority must equal the local review-only authority boundary",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "provider-api-enabled",
+      "expectedError": "workspace authority must equal the local review-only authority boundary",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace authority must equal the local review-only authority boundary",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "credential-access-enabled",
+      "expectedError": "workspace authority must equal the local review-only authority boundary",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace authority must equal the local review-only authority boundary",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "hook-installation-enabled",
+      "expectedError": "workspace authority must equal the local review-only authority boundary",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace authority must equal the local review-only authority boundary",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "release-publishing-enabled",
+      "expectedError": "workspace authority must equal the local review-only authority boundary",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace authority must equal the local review-only authority boundary",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "unsupported-profile",
+      "expectedError": "workspace profile must equal b1-typescript-rest-api-sample",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace profile must equal b1-typescript-rest-api-sample",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "source-path-traversal",
+      "expectedError": "workspace path must be relative and contained",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace path must be relative and contained: ../outside",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "output-outside-artifacts",
+      "expectedError": "workspace output codeFacts must equal artifacts/code-facts.json",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace output codeFacts must equal artifacts/code-facts.json",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "stale-source-provenance",
+      "expectedError": "workspace source digest does not match declared provenance",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace source digest does not match declared provenance",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "missing-proposal",
+      "expectedError": "workspace input proposal is missing",
+      "command": "validate",
+      "exitCode": 2,
+      "stderr": "error: workspace input proposal is missing: proposals/p4.0-complete-todo-route.proposal.json",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "stale-materialized-proposal-baseline",
+      "expectedError": "review step failed: validate-proposal",
+      "command": "review",
+      "exitCode": 2,
+      "stderr": "error: review step failed: validate-proposal",
+      "expectedFailureObserved": true
+    }
+  ],
+  "authority": {
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "networkRequired": false
+  }
+}
