@@ -1185,6 +1185,31 @@ Virtual-time interaction diagnostics must be finite but must not be presented as
 individual wall-clock budgets. No graph, source, workflow, evidence, authority, history,
 delta, or code-diff mutation is permitted.
 
+### V438 - Deep Zoom Material Must Remain Refined Under Selection
+
+Severity: P1 in P9.34.R3
+
+The Workbench camera, logical zoom, and effective geometry zoom must reach `512` while
+preserving direct `100x` and `256x` controls. At maximum zoom, a selected relation must
+render at `0.08` screen pixels with `0.12` opacity. Its endpoints must use a compact
+endpoint-specific treatment rather than the full selected-node halo.
+
+The active cached material must be `cached-nebula-black-metal-v7`. It must use a
+near-black alloy core, asymmetric facet planes, sparse grain, etched contours, and a
+thin diffraction rim. Its visible-body crop must preserve those facets at ordinary
+screen-scale rendering while relation endpoints retain their compact crop. Stacked
+glossy borders, broad radial highlights, and the prior
+`cached-stellar-vitreous-v5` identity must not remain active. Precision views must
+suppress the rectangular grid. The sprite cache remains bounded to 96 entries and
+material candidate rendering remains viewport-local.
+
+Browser verification must prove exact `100x` and `512x` camera values, exact maximum
+selected-relation width and opacity, bounded endpoint material pixels, nonblank graph
+and material canvases, endpoint opaque bounds no larger than `22x22` screen pixels,
+finite zoom/navigation observations, pan and zoom-out recovery, populated relation
+inspection, and zero runtime errors. The graph, layout, source, workflow, evidence,
+authority, history, delta, and code-diff domains must remain unchanged.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

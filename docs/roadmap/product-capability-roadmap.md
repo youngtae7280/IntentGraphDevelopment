@@ -7,7 +7,7 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P9.34.R2 completed.
+P9.34.R3 completed.
 Selected next benchmark: B1-typescript-rest-api.
 IntentGraphDevelopment has a first installable Windows-local preview: IntentGraph Local Review Kit.
 The experimental C# fact-only inspector is complete. P9.13 adds a separate local semantic-overlay project workspace and unified project workbench. P9.14 adds review-only change proposals with graph delta and code-diff fragments to that same C# project route. P9.15 corrects the raw-code-heavy default graph and adds a loopback-only interactive work-request intake surface. Visual interaction review remains a required user-facing quality gate.
@@ -94,6 +94,15 @@ so `256x` no longer lands on an empty coordinate. Maximum selected-relation emph
 reduced to `0.18px`/`0.34`, and cached `stellar-vitreous-v5` sprites replace circular
 ceramic highlights with stronger faceted prismatic rims. WindowsUtility browser, negative,
 and loopback server gates pass over the unchanged 8,194-node / 7,986-relation projection.
+
+P9.34.R3 applies the next user-requested presentation correction without changing graph
+structure. Actual camera zoom reaches `512x` while retaining `100x` and `256x` jumps.
+Maximum selected-relation emphasis is reduced to `0.08px`/`0.12`, and relation endpoints
+use compact ticks instead of full selected-node halos. Cached
+`nebula-black-metal-v7` sprites replace layered glossy rims with dark alloy facets,
+etched contours, sparse grain, and one thin asymmetric diffraction rim. WindowsUtility
+browser, negative, and loopback server gates pass over the unchanged 8,194-node /
+7,986-relation projection.
 ```
 
 > **Scope correction, P8.124:** the WindowsUtility package and its verification artifacts are Phase G adoption evidence. WindowsUtility is not an IntentGraphDevelopment product candidate, and the historical P8.121-P8.123 candidate-acceptance gate does not block this roadmap. IntentGraphDevelopment productization begins only after its own product surface and distribution boundary are defined. See [P8.124 WindowsUtility Adoption / IGD Productization Scope Correction](../reviews/p8.124-windowsutility-adoption-igd-productization-scope-correction.md).

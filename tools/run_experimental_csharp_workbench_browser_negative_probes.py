@@ -38,21 +38,23 @@ def good_observation() -> dict[str, Any]:
             },
             "endpointGeometryScale": 1.0,
             "state": {
-                "logicalZoom": 256,
-                "rendererZoom": 256,
-                "effectiveGeometryZoom": 256,
+                "logicalZoom": 512,
+                "rendererZoom": 512,
+                "effectiveGeometryZoom": 512,
                 "virtualGeometryScale": 1.0,
-                "selectedEdgeRenderedWidth": 0.18,
-                "selectedEdgeRenderedOpacity": 0.34,
-                "materialProfile": "cached-stellar-vitreous-v5",
+                "selectedEdgeRenderedWidth": 0.08,
+                "selectedEdgeRenderedOpacity": 0.12,
+                "materialProfile": "cached-nebula-black-metal-v7",
                 "materialCandidateCount": 2,
                 "materialSpriteCount": 12,
             },
             "selectedEndpointMaterialPixels": {
-                "opaqueSampleCount": 800,
-                "chromaticSampleCount": 120,
-                "uniqueColorBucketCount": 24,
-                "luminanceRange": 120,
+                "opaqueSampleCount": 135,
+                "chromaticSampleCount": 133,
+                "uniqueColorBucketCount": 31,
+                "luminanceRange": 200,
+                "opaqueBoundsWidth": 18,
+                "opaqueBoundsHeight": 18,
             },
             "navigation": {
                 "hundred": {"logicalZoom": 100, "rendererZoom": 100},
@@ -137,7 +139,21 @@ def mutate_material_detail(
         "chromaticSampleCount": 0,
         "uniqueColorBucketCount": 1,
         "luminanceRange": 2,
+        "opaqueBoundsWidth": 4,
+        "opaqueBoundsHeight": 4,
     }
+
+
+def mutate_material_bounds(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["selectedEndpointMaterialPixels"]["opaqueBoundsWidth"] = 30
+
+
+def mutate_non_finite_zoom(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["state"]["logicalZoom"] = "NaN"
 
 
 def mutate_material_candidates(
@@ -185,7 +201,7 @@ def mutate_hundred_control(
 def mutate_zoom_out_control(
     observation: dict[str, Any], _screenshot: dict[str, Any]
 ) -> None:
-    observation["maximum"]["navigation"]["afterZoomOut"]["logicalZoom"] = 256
+    observation["maximum"]["navigation"]["afterZoomOut"]["logicalZoom"] = 512
 
 
 def mutate_pan_control(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
@@ -242,6 +258,11 @@ PROBES: tuple[tuple[str, Mutation, str], ...] = (
         "selected endpoint material opaqueSampleCount is below",
     ),
     (
+        "oversized-selected-endpoint-material",
+        mutate_material_bounds,
+        "selected endpoint material opaqueBoundsWidth exceeds compact bounds",
+    ),
+    (
         "unbounded-material-viewport-candidates",
         mutate_material_candidates,
         "material viewport candidate count is unbounded",
@@ -262,6 +283,7 @@ PROBES: tuple[tuple[str, Mutation, str], ...] = (
         "hidden-selection maximum anchor is off center",
     ),
     ("wrong-effective-zoom", mutate_zoom, "effectiveGeometryZoom mismatch"),
+    ("non-finite-logical-zoom", mutate_non_finite_zoom, "logicalZoom mismatch"),
     ("oversized-selected-edge", mutate_edge_width, "selectedEdgeRenderedWidth mismatch"),
     ("wrong-material", mutate_material, "material profile mismatch"),
     ("broken-100x-control", mutate_hundred_control, "100x control mismatch"),
@@ -366,7 +388,7 @@ def main() -> int:
             if result == "pass"
             else "intentgraph-workbench-browser-runtime-negative-probes-failed"
         ),
-        "scope": "p9.34r2-stellar-vitreous-browser-runtime-negative-probes",
+        "scope": "p9.34r3-nebula-black-metal-browser-runtime-negative-probes",
         "result": result,
         "probeCount": len(probe_results),
         "probes": probe_results,

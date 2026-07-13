@@ -38,10 +38,11 @@ REQUIRED_RUNTIME_CHECK_IDS = (
     "single-graph-instance",
     "overview-canvas-nonblank",
     "overview-material-nonblank",
-    "stellar-vitreous-material-active",
+    "nebula-black-metal-material-active",
     "material-sprite-cache-bounded",
     "material-viewport-candidates-bounded",
     "selected-endpoint-material-detailed",
+    "selected-endpoint-material-compact",
     "zoom-100-control",
     "zoom-maximum-control",
     "unselected-deep-zoom-anchors-visible-node",
@@ -49,9 +50,9 @@ REQUIRED_RUNTIME_CHECK_IDS = (
     "zoom-out-control",
     "maximum-pan-control",
     "deep-navigation-render-settled",
-    "logical-zoom-256",
-    "renderer-zoom-256",
-    "effective-geometry-zoom-256",
+    "logical-zoom-512",
+    "renderer-zoom-512",
+    "effective-geometry-zoom-512",
     "virtual-geometry-scale-unity",
     "maximum-canvas-nonblank",
     "maximum-material-nonblank",
@@ -383,7 +384,7 @@ def validate_runtime_observation(
     screenshot: dict[str, Any],
     expected_node_count: int,
     expected_edge_count: int,
-    expected_material: str = "cached-stellar-vitreous-v5",
+    expected_material: str = "cached-nebula-black-metal-v7",
     capture_elapsed_milliseconds: float | None = None,
 ) -> list[str]:
     errors: list[str] = []
@@ -432,15 +433,15 @@ def validate_runtime_observation(
     except (TypeError, ValueError):
         errors.append("browser runtime endpoint geometry scale is missing")
     else:
-        if abs(endpoint_geometry_scale - 1.0) > 0.01:
+        if not math.isfinite(endpoint_geometry_scale) or abs(endpoint_geometry_scale - 1.0) > 0.01:
             errors.append("browser runtime endpoint geometry scale mismatch")
     numeric_expectations = (
-        ("logicalZoom", 256.0, 0.001),
-        ("rendererZoom", 256.0, 0.001),
-        ("effectiveGeometryZoom", 256.0, 0.001),
+        ("logicalZoom", 512.0, 0.001),
+        ("rendererZoom", 512.0, 0.001),
+        ("effectiveGeometryZoom", 512.0, 0.001),
         ("virtualGeometryScale", 1.0, 0.001),
-        ("selectedEdgeRenderedWidth", 0.18, 0.002),
-        ("selectedEdgeRenderedOpacity", 0.34, 0.002),
+        ("selectedEdgeRenderedWidth", 0.08, 0.002),
+        ("selectedEdgeRenderedOpacity", 0.12, 0.002),
     )
     for key, expected, tolerance in numeric_expectations:
         try:
@@ -448,11 +449,11 @@ def validate_runtime_observation(
         except (TypeError, ValueError):
             errors.append(f"browser runtime {key} is missing")
             continue
-        if abs(actual - expected) > tolerance:
+        if not math.isfinite(actual) or abs(actual - expected) > tolerance:
             errors.append(f"browser runtime {key} mismatch")
     material_pixels = maximum.get("selectedEndpointMaterialPixels", {})
     material_thresholds = (
-        ("opaqueSampleCount", 120),
+        ("opaqueSampleCount", 60),
         ("chromaticSampleCount", 12),
         ("uniqueColorBucketCount", 8),
         ("luminanceRange", 35),
@@ -465,6 +466,16 @@ def validate_runtime_observation(
         if actual < minimum:
             errors.append(
                 f"browser runtime selected endpoint material {key} is below {minimum}"
+            )
+    for key in ("opaqueBoundsWidth", "opaqueBoundsHeight"):
+        try:
+            actual = float(material_pixels.get(key))
+        except (TypeError, ValueError):
+            errors.append(f"browser runtime selected endpoint material {key} is missing")
+            continue
+        if not math.isfinite(actual) or not 0 < actual <= 22:
+            errors.append(
+                f"browser runtime selected endpoint material {key} exceeds compact bounds"
             )
     try:
         material_candidate_count = int(maximum_state.get("materialCandidateCount", 0))
@@ -500,7 +511,7 @@ def validate_runtime_observation(
     except (TypeError, ValueError):
         errors.append("browser runtime 100x control observation is missing")
     else:
-        if abs(hundred_logical - 100.0) > 0.001 or abs(hundred_renderer - 100.0) > 0.001:
+        if not all(math.isfinite(value) for value in (hundred_logical, hundred_renderer)) or abs(hundred_logical - 100.0) > 0.001 or abs(hundred_renderer - 100.0) > 0.001:
             errors.append("browser runtime 100x control mismatch")
     after_zoom_out = navigation.get("afterZoomOut", {})
     try:
@@ -508,7 +519,7 @@ def validate_runtime_observation(
     except (TypeError, ValueError):
         errors.append("browser runtime zoom-out control observation is missing")
     else:
-        if not 100.0 < zoomed_out < 256.0:
+        if not math.isfinite(zoomed_out) or not 100.0 < zoomed_out < 512.0:
             errors.append("browser runtime zoom-out control mismatch")
     pan_delta = navigation.get("panDelta", {})
     try:
@@ -517,7 +528,7 @@ def validate_runtime_observation(
     except (TypeError, ValueError):
         errors.append("browser runtime maximum pan observation is missing")
     else:
-        if abs(pan_x - 18.0) > 0.001 or abs(pan_y + 12.0) > 0.001:
+        if not all(math.isfinite(value) for value in (pan_x, pan_y)) or abs(pan_x - 18.0) > 0.001 or abs(pan_y + 12.0) > 0.001:
             errors.append("browser runtime maximum pan control mismatch")
     for key in (
         "hundredInteractionMilliseconds",
@@ -550,6 +561,7 @@ def validate_runtime_observation(
         errors.append("browser screenshot luminance range is too narrow")
     if (
         capture_elapsed_milliseconds is None
+        or not math.isfinite(capture_elapsed_milliseconds)
         or capture_elapsed_milliseconds <= 0
         or capture_elapsed_milliseconds >= 45000
     ):
@@ -562,7 +574,7 @@ def run_probe(
     output: Path,
     screenshot_output: Path,
     browser_path: Path | None = None,
-    expected_material: str = "cached-stellar-vitreous-v5",
+    expected_material: str = "cached-nebula-black-metal-v7",
 ) -> dict[str, Any]:
     workbench = workbench.resolve(strict=True)
     output = output.resolve()
@@ -627,7 +639,7 @@ def run_probe(
             if result == "pass"
             else "intentgraph-workbench-headless-browser-regression-failed"
         ),
-        "scope": "p9.34r2-256x-stellar-vitreous-regression",
+        "scope": "p9.34r3-512x-nebula-black-metal-regression",
         "result": result,
         "input": {
             "workbench": repo_path(workbench),
@@ -676,7 +688,7 @@ def main() -> int:
     parser.add_argument("--screenshot-out", required=True, type=Path)
     parser.add_argument("--browser", type=Path)
     parser.add_argument(
-        "--expected-material", default="cached-stellar-vitreous-v5"
+        "--expected-material", default="cached-nebula-black-metal-v7"
     )
     args = parser.parse_args()
     try:

@@ -1,0 +1,252 @@
+{
+  "artifactRole": "intentgraph-workbench-browser-runtime-negative-probes-report",
+  "probeCount": 30,
+  "probes": [
+    {
+      "errors": [
+        "browser runtime node count mismatch"
+      ],
+      "expectedError": "node count mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-node-count"
+    },
+    {
+      "errors": [
+        "browser runtime edge count mismatch"
+      ],
+      "expectedError": "edge count mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-edge-count"
+    },
+    {
+      "errors": [
+        "browser runtime checks failed: full-node-count-loaded"
+      ],
+      "expectedError": "runtime checks failed",
+      "expectedFailureObserved": true,
+      "id": "failed-page-check"
+    },
+    {
+      "errors": [
+        "browser runtime required checks missing: full-node-count-loaded"
+      ],
+      "expectedError": "required checks missing",
+      "expectedFailureObserved": true,
+      "id": "missing-required-page-check"
+    },
+    {
+      "errors": [
+        "browser runtime graph canvas was blank"
+      ],
+      "expectedError": "graph canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-graph-canvas"
+    },
+    {
+      "errors": [
+        "browser runtime material canvas was blank"
+      ],
+      "expectedError": "material canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-material-canvas"
+    },
+    {
+      "errors": [
+        "browser runtime maximum-zoom graph canvas was blank"
+      ],
+      "expectedError": "maximum-zoom graph canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-maximum-zoom-graph-canvas"
+    },
+    {
+      "errors": [
+        "browser runtime maximum-zoom material canvas was blank"
+      ],
+      "expectedError": "maximum-zoom material canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-maximum-zoom-material-canvas"
+    },
+    {
+      "errors": [
+        "browser runtime endpoint geometry scale mismatch"
+      ],
+      "expectedError": "endpoint geometry scale mismatch",
+      "expectedFailureObserved": true,
+      "id": "mutated-model-geometry-at-actual-zoom"
+    },
+    {
+      "errors": [
+        "browser runtime selected endpoint material opaqueSampleCount is below 60",
+        "browser runtime selected endpoint material chromaticSampleCount is below 12",
+        "browser runtime selected endpoint material uniqueColorBucketCount is below 8",
+        "browser runtime selected endpoint material luminanceRange is below 35"
+      ],
+      "expectedError": "selected endpoint material opaqueSampleCount is below",
+      "expectedFailureObserved": true,
+      "id": "flat-selected-endpoint-material"
+    },
+    {
+      "errors": [
+        "browser runtime selected endpoint material opaqueBoundsWidth exceeds compact bounds"
+      ],
+      "expectedError": "selected endpoint material opaqueBoundsWidth exceeds compact bounds",
+      "expectedFailureObserved": true,
+      "id": "oversized-selected-endpoint-material"
+    },
+    {
+      "errors": [
+        "browser runtime material viewport candidate count is unbounded"
+      ],
+      "expectedError": "material viewport candidate count is unbounded",
+      "expectedFailureObserved": true,
+      "id": "unbounded-material-viewport-candidates"
+    },
+    {
+      "errors": [
+        "browser runtime material sprite cache count is unbounded"
+      ],
+      "expectedError": "material sprite cache count is unbounded",
+      "expectedFailureObserved": true,
+      "id": "unbounded-material-sprite-cache"
+    },
+    {
+      "errors": [
+        "browser runtime unselected maximum anchor is off center"
+      ],
+      "expectedError": "unselected maximum anchor is off center",
+      "expectedFailureObserved": true,
+      "id": "off-center-unselected-maximum-zoom"
+    },
+    {
+      "errors": [
+        "browser runtime hidden-selection maximum anchor is off center"
+      ],
+      "expectedError": "hidden-selection maximum anchor is off center",
+      "expectedFailureObserved": true,
+      "id": "off-center-hidden-selection-maximum-zoom"
+    },
+    {
+      "errors": [
+        "browser runtime effectiveGeometryZoom mismatch"
+      ],
+      "expectedError": "effectiveGeometryZoom mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-effective-zoom"
+    },
+    {
+      "errors": [
+        "browser runtime logicalZoom mismatch"
+      ],
+      "expectedError": "logicalZoom mismatch",
+      "expectedFailureObserved": true,
+      "id": "non-finite-logical-zoom"
+    },
+    {
+      "errors": [
+        "browser runtime selectedEdgeRenderedWidth mismatch"
+      ],
+      "expectedError": "selectedEdgeRenderedWidth mismatch",
+      "expectedFailureObserved": true,
+      "id": "oversized-selected-edge"
+    },
+    {
+      "errors": [
+        "browser runtime material profile mismatch"
+      ],
+      "expectedError": "material profile mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-material"
+    },
+    {
+      "errors": [
+        "browser runtime 100x control mismatch"
+      ],
+      "expectedError": "100x control mismatch",
+      "expectedFailureObserved": true,
+      "id": "broken-100x-control"
+    },
+    {
+      "errors": [
+        "browser runtime zoom-out control mismatch"
+      ],
+      "expectedError": "zoom-out control mismatch",
+      "expectedFailureObserved": true,
+      "id": "broken-zoom-out-control"
+    },
+    {
+      "errors": [
+        "browser runtime maximum pan control mismatch"
+      ],
+      "expectedError": "maximum pan control mismatch",
+      "expectedFailureObserved": true,
+      "id": "broken-maximum-pan-control"
+    },
+    {
+      "errors": [
+        "browser runtime maximumInteractionMilliseconds is not a finite settled observation"
+      ],
+      "expectedError": "maximumInteractionMilliseconds is not a finite settled observation",
+      "expectedFailureObserved": true,
+      "id": "non-finite-maximum-zoom-observation"
+    },
+    {
+      "errors": [
+        "browser runtime selection inspector is incomplete"
+      ],
+      "expectedError": "selection inspector is incomplete",
+      "expectedFailureObserved": true,
+      "id": "empty-selection-inspector"
+    },
+    {
+      "errors": [
+        "browser runtime reported script errors"
+      ],
+      "expectedError": "reported script errors",
+      "expectedFailureObserved": true,
+      "id": "runtime-script-error"
+    },
+    {
+      "errors": [
+        "browser screenshot is not a valid PNG"
+      ],
+      "expectedError": "not a valid PNG",
+      "expectedFailureObserved": true,
+      "id": "invalid-screenshot"
+    },
+    {
+      "errors": [
+        "headless browser capture exceeds the wall-clock budget"
+      ],
+      "expectedError": "headless browser capture exceeds the wall-clock budget",
+      "expectedFailureObserved": true,
+      "id": "slow-headless-browser-capture"
+    },
+    {
+      "errors": [
+        "report and screenshot outputs must be outside the input workbench"
+      ],
+      "expectedError": "outside the input workbench",
+      "expectedFailureObserved": true,
+      "id": "report-overwrites-workbench-input"
+    },
+    {
+      "errors": [
+        "report and screenshot outputs must be outside the input workbench"
+      ],
+      "expectedError": "outside the input workbench",
+      "expectedFailureObserved": true,
+      "id": "screenshot-overwrites-workbench-input"
+    },
+    {
+      "errors": [
+        "report and screenshot output paths must be different"
+      ],
+      "expectedError": "must be different",
+      "expectedFailureObserved": true,
+      "id": "report-screenshot-output-collision"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.34r3-nebula-black-metal-browser-runtime-negative-probes",
+  "status": "intentgraph-workbench-browser-runtime-negative-probes-passed"
+}

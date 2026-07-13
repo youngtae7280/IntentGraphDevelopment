@@ -4890,3 +4890,32 @@ Verification:
 Next safe work:
 
 - continue to the reviewed P9.35 source refresh boundary.
+
+## P9.34.R3: 512x Inspection And Nebula Black-Metal Material
+
+Goal: resolve the remaining oversized selected-relation treatment, insufficient deep
+inspection ceiling, and glossy toy-like material without changing the unified graph.
+
+Status: implementation and browser validation completed on 2026-07-14. See
+[P9.34.R3 Nebula Black-Metal Rendering Review](../reviews/p9.34r3-nebula-black-metal-rendering-review.md).
+
+Delivered boundary:
+
+- direct `100x`, `256x`, and actual `512x` camera controls
+- maximum selected relation taper of `0.08px` at `0.12` opacity
+- compact relation endpoint ticks instead of full selected-node halos
+- cached `nebula-black-metal-v7` material with dark alloy facets, a thin spectral rim,
+  and a tighter visible-body crop
+- finite deep-zoom metrics and a `22x22px` maximum opaque endpoint boundary
+- unchanged 96-entry cache and viewport-local rendering bound
+- no graph, source, workflow, evidence, authority, history, delta, or code-diff change
+
+Verification:
+
+- 28 WindowsUtility browser runtime checks pass
+- 30 fail-closed browser observation mutations pass
+- 30 loopback server/projection checks pass
+
+Next safe work:
+
+- resume the reviewed P9.35 source refresh boundary after user visual review.
