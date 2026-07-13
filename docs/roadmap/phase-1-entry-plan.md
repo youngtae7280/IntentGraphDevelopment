@@ -3620,6 +3620,27 @@ Recommended next slice:
 Wait for exact WindowsUtility product candidate acceptance response.
 ```
 
+## Completed Slice: P8.123 Product Candidate Acceptance Scope Hold Record
+
+Goal: record that product candidate acceptance remains held while exact candidate acceptance is absent.
+
+Result:
+
+```text
+Decision: product-candidate-acceptance-held-pending-exact-response.
+```
+
+Produced artifacts:
+
+- `generated/roadmap/p8.123-product-candidate-acceptance-scope-hold-record-report.json`
+- [P8.123 Product Candidate Acceptance Scope Hold Record](../reviews/p8.123-product-candidate-acceptance-scope-hold-record.md)
+
+Recommended next slice:
+
+```text
+Wait for exact WindowsUtility product candidate acceptance response.
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

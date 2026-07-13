@@ -3819,6 +3819,28 @@ Next safe work:
 
 - wait for exact WindowsUtility product candidate acceptance response.
 
+## P8.123: Product Candidate Acceptance Scope Hold Record
+
+Goal: record that product candidate acceptance remains held while exact candidate acceptance is absent.
+
+Status: completed on 2026-07-13. See [P8.123 Product Candidate Acceptance Scope Hold Record](../reviews/p8.123-product-candidate-acceptance-scope-hold-record.md).
+
+Decision:
+
+- product candidate acceptance remains held.
+- required accepted response is `accept WindowsUtility product candidate`.
+- the current-goal ordinary `accept/revise/blocked` shortcut does not authorize product candidate acceptance.
+- no installer creation, signing, credential access, provider API call, release publishing, product candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `generated/roadmap/p8.123-product-candidate-acceptance-scope-hold-record-report.json`
+- [P8.123 Product Candidate Acceptance Scope Hold Record](../reviews/p8.123-product-candidate-acceptance-scope-hold-record.md)
+
+Next safe work:
+
+- wait for exact WindowsUtility product candidate acceptance response.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

@@ -1,0 +1,40 @@
+{
+  "artifactRole": "intentgraph-roadmap-phase-report",
+  "date": "2026-07-13",
+  "decision": "product-candidate-acceptance-held-pending-exact-response",
+  "holdSummary": {
+    "candidateEvidenceChainPresent": true,
+    "currentGoalAcceptShortcutApplies": false,
+    "exactAcceptedResponseRecorded": false,
+    "productCandidateAccepted": false,
+    "requiredAcceptedResponse": "accept WindowsUtility product candidate"
+  },
+  "nonGoals": {
+    "artifactSigning": false,
+    "credentialAccess": false,
+    "installerCreation": false,
+    "productCandidateAccepted": false,
+    "productizationClaimed": false,
+    "providerApiCalls": false,
+    "releasePublishing": false
+  },
+  "recommendedNextSlice": "Wait for exact WindowsUtility product candidate acceptance response",
+  "result": "product-candidate-acceptance-held-no-productization-execution",
+  "scope": "p8.123-product-candidate-acceptance-scope-hold-record-report",
+  "sourceReports": [
+    {
+      "path": "generated/roadmap/p8.122-product-candidate-acceptance-request.json",
+      "role": "intentgraph-product-candidate-acceptance-request",
+      "sha256": "sha256:327cfd753a4b3a867936f791ab945b8c4a541fc329ecf2bbc15ef5982d3ff2ea",
+      "status": "intentgraph-product-candidate-acceptance-requested"
+    },
+    {
+      "path": "generated/roadmap/p8.122-product-candidate-acceptance-request-report.json",
+      "role": "intentgraph-roadmap-phase-report",
+      "sha256": "sha256:bc05cb2b90deeea8c8dcc71ac9a5d34acb8908267930f513d55174323bec7b64",
+      "status": "intentgraph-roadmap-phase-completed"
+    }
+  ],
+  "status": "intentgraph-roadmap-phase-completed",
+  "workItem": "P8.123 Product Candidate Acceptance Scope Hold Record"
+}
