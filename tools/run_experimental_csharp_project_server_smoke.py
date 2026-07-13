@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import tempfile
 import threading
@@ -20,6 +21,12 @@ from experimental_csharp_project import (
     REVIEW_RECEIPT_AUTHORITY,
     REVIEW_RECEIPT_ROLE,
     REVIEW_RECEIPT_SCOPE,
+    VERIFIER_EVIDENCE_CONTENT_TYPE,
+    VERIFIER_RESULT_AUTHORITY,
+    VERIFIER_RESULT_ROLE,
+    VERIFIER_RESULT_SCOPE,
+    canonical_json,
+    digest_bytes,
     initialize_project,
     record_semantic_relation_overlay,
     validate_project_workspace,
@@ -84,11 +91,52 @@ def server_guided_proposal(code_fact_id: str, unified_diff: str) -> dict[str, An
         "workId": "server-request",
         "title": "Server-recorded review proposal",
         "summary": "Exercise the local guided proposal intake without editing source code.",
-        "verificationKind": "server-review",
+        "verificationKind": "test-required",
         "verificationSummary": "Review the declared mapping before any source action.",
-        "evidenceKind": "server-evidence",
+        "evidenceKind": "test-evidence",
         "evidenceSummary": "Collect evidence only through a later authorized boundary.",
         "codeDiffs": [{"codeFactId": code_fact_id, "unifiedDiff": unified_diff}],
+    }
+
+
+def server_verifier_result(pair: dict[str, Any]) -> dict[str, Any]:
+    artifact_bytes = b"server smoke external test evidence\n"
+    payload = {
+        "summary": "Observed one external server-smoke test result with declared deterministic metadata.",
+        "exitCode": 0,
+        "checks": [{"id": "check.server", "result": "pass", "summary": "The external test command reported pass."}],
+        "metrics": {"total": 1, "passed": 1, "failed": 0, "skipped": 0},
+        "artifactRefs": [
+            {
+                "id": "artifact.server",
+                "kind": pair["requiredArtifactKinds"][0],
+                "logicalName": "server-test-report.txt",
+                "mediaType": "text/plain",
+                "byteLength": len(artifact_bytes),
+                "digest": digest_bytes(artifact_bytes),
+                "availability": "external-digest-only",
+            }
+        ],
+    }
+    payload_bytes = canonical_json(payload)
+    return {
+        "artifactRole": VERIFIER_RESULT_ROLE,
+        "schemaVersion": PROJECT_SCHEMA_VERSION,
+        "scope": VERIFIER_RESULT_SCOPE,
+        "id": f"{pair['resultIdPrefix']}.{pair['nextAttempt']}",
+        "proposalId": pair["proposalId"],
+        "verificationRequirementId": pair["verificationRequirement"]["id"],
+        "evidenceRequirementId": pair["evidenceRequirement"]["id"],
+        "attempt": pair["nextAttempt"],
+        "result": "pass",
+        "verifier": {"id": "server.test.verifier", "kind": "test", "version": "1.0.0", "deterministic": True},
+        "invocation": {"id": "invocation.server.test", "digest": digest_bytes(canonical_json({"description": "server smoke test"}))},
+        "subject": {"logicalSourceRoot": pair["logicalSourceRoot"], "snapshotSourceDigest": pair["snapshotSourceDigest"], "proposalDigest": pair["proposalDigest"]},
+        "evidence": {"contentType": VERIFIER_EVIDENCE_CONTENT_TYPE, "byteLength": len(payload_bytes), "digest": digest_bytes(payload_bytes), "payload": payload},
+        "observationStatus": "observed",
+        "acceptanceStatus": "pending",
+        "supersedesResultId": pair["supersedesResultId"],
+        "authority": VERIFIER_RESULT_AUTHORITY,
     }
 
 
@@ -178,14 +226,14 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
         probes: list[dict[str, Any]] = []
         try:
             status, html, headers = request(base_url + "/")
-            probes.append({"id": "serves-deferred-interactive-html", "passed": status == 200 and len(html) < 120000 and b"newWorkTrigger" in html and b"mapCodeTrigger" in html and b"draftProposalTrigger" in html and b"draftCodeDiffList" in html and b"proposalCodeFacts" in html and b"Import proposal JSON" in html and b"draftReceiptTrigger" in html and b"importReceiptTrigger" in html and b"modeBadge" in html and b"previousWork" in html and b"nextWork" in html and b"previousStage" in html and b"nextStage" in html and b"workPosition" in html and b"stagePosition" in html and b"workSearch" in html and b"workStatusFilter" in html and b"workWindowSummary" in html and b"workListRenderLimit=60" in html and b"maxZoom:rendererMaximumZoom" in html and b"logicalZoomFromActual" in html and b"deepZoomFloors" in html and b"precision-" in html and b"spectralObsidianOpticalMaterial" in html and b"edge:selected" in html and b"zoomReadout" in html and b"highlightedEdgeIds" in html and b"focusStage" in html and b"workStageTimeline" in html and b"__intentGraphLoadProjection" in html and b"/api/revision-head" in html and b"checkForProjectUpdate" in html and b"/api/work-requests" in html and b"/api/mapping-candidates" in html and b"/api/change-proposals" in html and b"/api/draft-change-proposals" in html and b"/api/review-receipts" in html and b"/api/draft-review-receipts" in html and b"spiralPoint" in html and b"local-symbol links" in html and b"completeGraph" in html and b"semanticEdgeIds" in html and b"importantCodeLabelIds" in html and b"show-on-demand-label" in html and b"updateViewportScale" in html and b"zoomStyleBand" in html and b"codeNodes.addClass('show-code-label')" not in html and b"edge.low-detail',style:{'display':'none'}" not in html and b"search-match" in html and b"selection-neighbor" in html and b"visibilityUpdates" in html and b"state.cy.destroy" not in html and b"name:'cose'" not in html and headers.get("Content-Security-Policy") is not None})
+            probes.append({"id": "serves-deferred-interactive-html", "passed": status == 200 and len(html) < 150000 and b"newWorkTrigger" in html and b"mapCodeTrigger" in html and b"draftProposalTrigger" in html and b"draftCodeDiffList" in html and b"proposalCodeFacts" in html and b"Import proposal JSON" in html and b"draftReceiptTrigger" in html and b"importReceiptTrigger" in html and b"importVerifierResultTrigger" in html and b"importVerifierResultDialog" in html and b"client-side" not in html and b"hashed in this browser" in html and b"/api/verifier-results" in html and b"pair.resultIdPrefix" in html and b"crypto.subtle.digest" in html and b"modeBadge" in html and b"previousWork" in html and b"nextWork" in html and b"previousStage" in html and b"nextStage" in html and b"workPosition" in html and b"stagePosition" in html and b"workSearch" in html and b"workStatusFilter" in html and b"workWindowSummary" in html and b"workListRenderLimit=60" in html and b"maxZoom:rendererMaximumZoom" in html and b"logicalZoomFromActual" in html and b"deepZoomFloors" in html and b"precision-" in html and b"spectralObsidianOpticalMaterial" in html and b"edge:selected" in html and b"zoomReadout" in html and b"highlightedEdgeIds" in html and b"focusStage" in html and b"workStageTimeline" in html and b"__intentGraphLoadProjection" in html and b"/api/revision-head" in html and b"checkForProjectUpdate" in html and b"/api/work-requests" in html and b"/api/mapping-candidates" in html and b"/api/change-proposals" in html and b"/api/draft-change-proposals" in html and b"/api/review-receipts" in html and b"/api/draft-review-receipts" in html and b"spiralPoint" in html and b"local-symbol links" in html and b"completeGraph" in html and b"semanticEdgeIds" in html and b"importantCodeLabelIds" in html and b"show-on-demand-label" in html and b"updateViewportScale" in html and b"zoomStyleBand" in html and b"codeNodes.addClass('show-code-label')" not in html and b"edge.low-detail',style:{'display':'none'}" not in html and b"search-match" in html and b"selection-neighbor" in html and b"visibilityUpdates" in html and b"state.cy.destroy" not in html and b"name:'cose'" not in html and headers.get("Content-Security-Policy") is not None})
             probes.append({"id": "serves-effective-100x-and-cached-optical-material", "passed": all(marker in html for marker in (b"applyVirtualGeometry", b"effectiveGeometryZoom", b"virtualGeometryScale", b"node-material-layer", b"materialSprite", b"scheduleMaterialLayer"))})
             status, projection_bytes, _ = request(base_url + "/api/projection")
             initial_projection = json.loads(projection_bytes)
             head_status, head_bytes, _ = request(base_url + "/api/revision-head")
             initial_head = json.loads(head_bytes)
             probes.append({"id": "projects-effective-100x-rendering-contract", "passed": initial_projection["uiContract"]["effectiveGeometryMaximumZoom"] == 100 and initial_projection["uiContract"]["virtualGeometryScaleAtMaximumZoom"] == 4.1667 and initial_projection["uiContract"]["selectedEdgeRenderedWidthPixelsAtMaximumZoom"] == 0.1 and initial_projection["uiContract"]["cachedCanvasNodeMaterial"] is True and initial_projection["uiContract"]["viewportLocalMaterialRendering"] is True})
-            probes.append({"id": "serves-project-projection", "passed": status == 200 and head_status == 200 and initial_head["revisionCount"] == 0 and initial_head["workItemCount"] == 0 and initial_head["latestRevisionId"] is None and initial_head["projectStateVersion"].startswith("sha256:") and initial_projection["workflow"]["workItems"] == [] and initial_projection["workflow"]["workStageTimeline"] == [] and initial_projection["workflow"]["workStageRevisions"] == [] and initial_projection["workflow"]["timelineContract"]["durableRevisionCount"] == 0 and initial_projection["uiContract"]["allRecordedWorkItemsNavigable"] is True and initial_projection["uiContract"]["workHistorySearch"] is True and initial_projection["uiContract"]["workHistoryStatusFilter"] is True and initial_projection["uiContract"]["boundedWorkHistoryRendering"] is True and initial_projection["uiContract"]["previousNextWorkNavigation"] is True and initial_projection["uiContract"]["previousNextStageNavigation"] is True and initial_projection["uiContract"]["liveProjectionRefreshAfterMutation"] is True and initial_projection["snapshot"]["semanticRelationOverlay"]["resolvedRelationCount"] == 1 and initial_projection["graph"]["relationCounts"].get("calls") == 1 and initial_projection["graph"]["defaultView"]["id"] == "all" and set(initial_projection["graph"]["views"]["all"]["nodeIds"]) == {node["id"] for node in initial_projection["graph"]["nodes"]}})
+            probes.append({"id": "serves-project-projection", "passed": status == 200 and head_status == 200 and initial_head["revisionCount"] == 0 and initial_head["workItemCount"] == 0 and initial_head["latestRevisionId"] is None and initial_head["projectStateVersion"].startswith("sha256:") and initial_projection["workflow"]["workItems"] == [] and initial_projection["workflow"]["workStageTimeline"] == [] and initial_projection["workflow"]["workStageRevisions"] == [] and initial_projection["workflow"]["timelineContract"]["durableRevisionCount"] == 0 and initial_projection["workflow"]["verifierResults"] == [] and initial_projection["workflow"]["verifierResultIntake"]["pairs"] == [] and initial_projection["uiContract"]["allRecordedWorkItemsNavigable"] is True and initial_projection["uiContract"]["workHistorySearch"] is True and initial_projection["uiContract"]["workHistoryStatusFilter"] is True and initial_projection["uiContract"]["boundedWorkHistoryRendering"] is True and initial_projection["uiContract"]["previousNextWorkNavigation"] is True and initial_projection["uiContract"]["previousNextStageNavigation"] is True and initial_projection["uiContract"]["liveProjectionRefreshAfterMutation"] is True and initial_projection["uiContract"]["loopbackVerifierResultIntakeFromUi"] is True and initial_projection["uiContract"]["clientSideEvidenceArtifactHashing"] is True and initial_projection["uiContract"]["externalVerifierExecutionByWorkbench"] is False and initial_projection["uiContract"]["externalEvidenceAcceptanceByWorkbench"] is False and initial_projection["snapshot"]["semanticRelationOverlay"]["resolvedRelationCount"] == 1 and initial_projection["graph"]["relationCounts"].get("calls") == 1 and initial_projection["graph"]["defaultView"]["id"] == "all" and set(initial_projection["graph"]["views"]["all"]["nodeIds"]) == {node["id"] for node in initial_projection["graph"]["nodes"]}})
             status, created_bytes, _ = request(base_url + "/api/work-requests", method="POST", body={"workId": "server-request", "title": "Server-recorded request", "request": "Record a local work request without editing the source project."})
             created = json.loads(created_bytes)
             probes.append({"id": "records-work-request-only-in-project-workspace", "passed": status == 201 and created["result"] == "pass" and created["workItemId"] == "server-request" and created["revisionId"].startswith("revision.server-request.1.")})
@@ -222,6 +270,28 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
             receipt_stage = next(stage for stage in receipt_projection["workflow"]["workStageTimeline"] if stage["kind"] == "review-receipt-recorded")
             revisions = receipt_projection["workflow"]["workStageRevisions"]
             probes.append({"id": "reloads-review-receipt-state", "passed": status == 200 and len(receipt_projection["workflow"]["reviewReceipts"]) == 1 and [stage["kind"] for stage in receipt_projection["workflow"]["workStageTimeline"] if stage["workItemId"] == "server-request"] == ["request-recorded", "mapping-candidate-recorded", "change-proposal-recorded", "verification-and-evidence-requirements-recorded", "review-receipt-recorded"] and len(revisions) == 5 and [revision["sequence"] for revision in revisions if revision["workItemId"] == "server-request"] == [1, 2, 3, 4] and all(revision["beforeProjectStateDigest"] == revisions[index - 1]["afterProjectStateDigest"] for index, revision in enumerate(revisions) if index) and receipt_stage["durableRevision"] is True and receipt_stage["revisionIds"] == [receipt_result["revisionId"]] and any(node["id"] == "review-receipt.server-review-receipt" for node in receipt_projection["graph"]["nodes"]) and receipt_projection["workflow"]["workItems"][0]["verificationStatus"] == "review-receipt-recorded" and receipt_projection["authority"]["targetRepositoryMutation"] is False})
+            verifier_pair = receipt_projection["workflow"]["verifierResultIntake"]["pairs"][0]
+            verifier_result = server_verifier_result(verifier_pair)
+            probes.append({"id": "projects-pair-scoped-default-verifier-result-id", "passed": verifier_result["id"] == f"{verifier_pair['resultIdPrefix']}.{verifier_pair['nextAttempt']}" and len(verifier_result["id"]) <= 101})
+            invalid_verifier = copy.deepcopy(verifier_result)
+            invalid_verifier["authority"] = {**VERIFIER_RESULT_AUTHORITY, "approvalRecorded": True}
+            before_invalid_state = (workspace / "intentgraph.project.json").read_bytes()
+            try:
+                request(base_url + "/api/verifier-results", method="POST", body={"verifierResult": invalid_verifier})
+            except HTTPError as error:
+                invalid = json.loads(error.read())
+                probes.append({"id": "rejects-authority-promoted-verifier-result-zero-write", "passed": error.code == 400 and "authority must remain import-only" in invalid.get("error", "") and (workspace / "intentgraph.project.json").read_bytes() == before_invalid_state})
+            else:
+                probes.append({"id": "rejects-authority-promoted-verifier-result-zero-write", "passed": False})
+            status, verifier_bytes, _ = request(base_url + "/api/verifier-results", method="POST", body={"verifierResult": verifier_result})
+            verifier_response = json.loads(verifier_bytes)
+            probes.append({"id": "imports-observed-verifier-result-without-acceptance", "passed": status == 201 and verifier_response["result"] == "pass" and verifier_response["resultStatus"] == "pass" and verifier_response["verificationStatus"] == "verifier-result-pass" and verifier_response["revisionId"].startswith("revision.server-request.5.") and verifier_response["approvalRecorded"] is False and verifier_response["targetRepositoryMutation"] is False})
+            status, verifier_projection_bytes, _ = request(base_url + "/api/projection")
+            verifier_projection = json.loads(verifier_projection_bytes)
+            verifier_stage = next(stage for stage in verifier_projection["workflow"]["workStageTimeline"] if stage["kind"] == "verifier-result-imported")
+            verifier_coverage = verifier_projection["workflow"]["verifierResultCoverage"][0]
+            verifier_node = next(node for node in verifier_projection["graph"]["nodes"] if node["category"] == "verifier-result")
+            probes.append({"id": "projects-current-observed-result-evidence-and-pending-authority", "passed": status == 200 and len(verifier_projection["workflow"]["verifierResults"]) == 1 and verifier_coverage["requiredPairCount"] == 1 and verifier_coverage["observedPairCount"] == 1 and verifier_coverage["passPairCount"] == 1 and verifier_coverage["allPairsObservedPassing"] is True and verifier_coverage["acceptanceStatus"] == "pending" and verifier_node["details"]["current"] is True and verifier_node["details"]["artifactRefs"][0]["digest"].startswith("sha256:") and verifier_stage["durableRevision"] is True and verifier_stage["revisionIds"] == [verifier_response["revisionId"]] and verifier_projection["workflow"]["workItems"][0]["status"] == "verification-observed" and verifier_projection["workflow"]["workItems"][0]["verificationStatus"] == "verifier-result-pass" and len(verifier_projection["workflow"]["reviewReceipts"]) == 1 and verifier_projection["authority"]["approvalAutomation"] is False})
             try:
                 request(base_url + "/api/work-requests", method="POST", body={"workId": "server-request", "title": "Duplicate", "request": "Duplicate identifier."})
             except HTTPError as error:
@@ -284,7 +354,7 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
             thread.join(timeout=10)
             server.server_close()
         after_state, after_manifest, _, _ = validate_project_workspace(workspace)
-        probes.append({"id": "snapshot-provenance-unchanged", "passed": before_manifest["source"] == after_manifest["source"] and before_state["project"] == after_state["project"] and len(after_state["workItems"]) == 2 and len(after_state["mappings"]) == 1 and len(after_state["changeProposals"]) == 1 and len(after_state["reviewReceipts"]) == 1 and len(after_state["workStageRevisions"]) == 5})
+        probes.append({"id": "snapshot-provenance-unchanged", "passed": before_manifest["source"] == after_manifest["source"] and before_state["project"] == after_state["project"] and len(after_state["workItems"]) == 2 and len(after_state["mappings"]) == 1 and len(after_state["changeProposals"]) == 1 and len(after_state["reviewReceipts"]) == 1 and len(after_state["verifierResults"]) == 1 and len(after_state["workStageRevisions"]) == 6})
         try:
             make_server(workspace, "0.0.0.0", 0)
         except LocalWorkbenchServerError as error:
@@ -295,7 +365,7 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
     report = {
         "artifactRole": "intentgraph-experimental-csharp-project-server-smoke-report",
         "status": "intentgraph-experimental-csharp-project-server-smoke-" + result,
-        "scope": "p9.25-durable-work-stage-revisions-and-navigation",
+        "scope": "p9.29-typed-external-verifier-result-intake",
         "result": result,
         "probeCount": len(probes),
         "probes": probes,

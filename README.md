@@ -18,11 +18,13 @@ P1.19 selected `B1-typescript-rest-api` as the next benchmark shape. P2.0 create
 
 P9.17 supersedes the P9.15 semantic-only default: the WindowsUtility Workbench now loads the complete graph with progressive detail, retains a declared project semantic foundation, and supports local work-to-code mapping candidates without source mutation. IntentGraphDevelopment is still neither an installable nor a released product.
 
-P9.27 closes the JSON-only code-change gap in the normal Workbench path. A user can select mapped code facts, enter hunk-only unified diffs, and record a snapshot-checked, non-applied proposal whose graph delta and code diffs are immediately inspectable. The target repository remains unchanged; typed verification-result intake, application authority, distribution, and broader product hardening remain open.
+P9.27 closes the JSON-only code-change gap in the normal Workbench path. A user can select mapped code facts, enter hunk-only unified diffs, and record a snapshot-checked, non-applied proposal whose graph delta and code diffs are immediately inspectable. The target repository remains unchanged. P9.29 later closes typed result intake; application authority, distribution, and broader product hardening remain open.
 
 P9.28 hardens the same unified graph for visual inspection: a direct 100x precision lens keeps selected relations at 0.42 rendered pixels, bounds nodes and borders in screen space, refreshes only the nearby graph after pan, and replaces saturated plastic surfaces with a shared dark spectral-obsidian material. This is a rendering-only change; graph structure and source state are unchanged.
 
 P9.28.R2 makes that precision lens spatially effective rather than display-only: renderer-safe `24x` geometry expands around the active anchor to an effective `100x`, selected relations taper to `0.10px`, and cached viewport-local spectral-alloy sprites replace the remaining flat plastic node bodies. Graph structure, source state, workflow history, graph delta, and code diff remain unchanged.
+
+P9.29 adds guided typed external verifier-result intake. Build, test, runtime-smoke, and static-analysis observations can be bound to exact proposal verification/evidence pairs with client-side artifact hashing, attempt/supersession history, requirement coverage, and durable timeline visibility. IntentGraph records the observation but does not execute the verifier, upload artifact bytes, authenticate the producer, accept evidence, approve the proposal, or apply source or graph changes.
 
 ## Working Definition
 

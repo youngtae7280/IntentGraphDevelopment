@@ -1031,6 +1031,27 @@ The workbench must explicitly distinguish recorded C# facts from not-recorded In
 
 Fixed inputs must yield byte-identical projection and HTML artifacts. Negative probes must reject invalid workspace pairing, stale provenance, malformed facts/relations, unresolved endpoints or inspectors, source/path leakage, semantic/authority promotion, missing unavailable-state metadata, external runtime references, UI mutation/approval controls, and unsafe output paths. Browser evidence must prove a nonblank graph, pan/zoom, node and edge inspection, and visible unavailable code-diff state.
 
+### V432 - External Verifier Results Are Typed Observations, Not Acceptance
+
+Severity: P0 in P9.29
+
+An imported verifier result must bind one exact proposal verification/evidence
+requirement pair declared compatible with its verifier kind. It must preserve source
+and proposal digests, use a monotonic attempt, declare typed checks and metrics, and
+bind the required external artifact kind by digest, byte length, media type, and
+logical name. A passing test observation must include at least one passed test.
+
+The `deterministic` field is a declaration supplied by the external result. Intake
+validation must not describe it as independently proven or authenticated.
+
+The Workbench may hash local artifact bytes but must not upload them, execute or
+authenticate the verifier, accept evidence, approve the proposal, apply a graph delta,
+or edit source. Pass, fail, and blocked observations remain `verification-observed`
+with acceptance pending. Writes must be serialized, compare the expected project
+state, commit state last, reject duplicate attempts, preserve receipt/result ordering,
+and create exactly one durable revision per result. Malformed, stale, incompatible,
+authority-promoted, or projection-inconsistent input must fail zero-write.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

@@ -11,10 +11,13 @@ No `M8` was opened automatically.
 Most recent completed work:
 
 ```text
-P8.63 Graph Delta Approval Workbench Dark Resizable Revision
+P9.29 Typed External Verifier Result Intake
 ```
 
-This Phase G stabilization slice implemented the coordinator's graph workbench revise feedback: dark theme, Graphify-inspired graph styling, and resizable review panels. The coordinator also recorded a current-goal policy that future accept/revise/blocked continuation prompts should be treated as accept. See [Product Capability Roadmap](product-capability-roadmap.md).
+This product slice adds guided, typed observation intake for external build, test,
+runtime-smoke, and static-analysis results while keeping evidence acceptance, proposal
+approval, and code application outside the intake authority. See
+[Product Capability Roadmap](product-capability-roadmap.md).
 
 Long-range product capability roadmap:
 
@@ -4534,14 +4537,36 @@ Delivered boundary:
 
 Verification:
 
-- static Workbench emission/validation and 21 loopback server probes pass
-- browser QA measures a real C# code relation at 0.420 pixels and its endpoints at
-  15.2 pixels at 100x
-- the one-command 100x transition settles in approximately 1.5 seconds
+- static Workbench emission/validation and loopback server probes pass
+- browser QA reaches effective 100x geometry and a selected-edge width of 0.10 pixels
+- emitted static and live scripts parse without errors
+
+## P9.29: Typed External Verifier Result Intake
+
+Goal: let a normal Workbench user bind an externally produced result with declared
+deterministic metadata and an evidence artifact digest to one exact proposal
+verification/evidence requirement pair.
+
+Status: completed on 2026-07-13. See
+[P9.29 Typed External Verifier Result Intake Review](../reviews/p9.29-typed-verifier-result-intake-review.md).
+
+Delivered boundary:
+
+- guided build/test/runtime-smoke/static-analysis result intake
+- client-side artifact hashing without artifact upload
+- typed metrics and exact requirement compatibility checks
+- attempt, supersession, current-result, and durable-revision history
+- graph, timeline, coverage, evidence, and inspector visibility
+- explicit `observed` plus `acceptance pending` authority state
+
+Non-goals:
+
+- no verifier execution, producer authentication, evidence acceptance, proposal approval,
+  graph/source application, target mutation, network, provider, or credential authority
 
 Next product work:
 
-- add typed verifier-result intake and deterministic evidence binding
+- define explicit evidence acceptance/rejection and reviewer authority without applying code
 
 ## P9.20: Local Review Receipt Intake
 

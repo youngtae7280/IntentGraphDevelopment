@@ -4075,6 +4075,18 @@ and state accents. See
 [P9.28.R2 Effective Precision Zoom and Spectral Alloy](../product/igd-effective-precision-zoom-spectral-alloy-p9.28r2.md)
 and [P9.28.R2 Review](../reviews/p9.28r2-effective-precision-zoom-spectral-alloy-review.md).
 
+## Implemented Slice: P9.29 Typed External Verifier Result Intake
+
+P9.29 adds a guided local path from a proposal's declared verification/evidence pair
+to a typed external build, test, runtime-smoke, or static-analysis observation. Local
+artifact bytes are hashed in the browser and are not uploaded. The projection exposes
+current/superseded results, requirement coverage, checks, artifact identities, and one
+durable work stage. Every result remains observed with evidence acceptance pending;
+IntentGraph does not execute or authenticate the verifier, accept evidence, approve
+the proposal, or apply code. See
+[P9.29 Typed External Verifier Result Intake](../product/igd-typed-verifier-result-intake-p9.29.md)
+and [P9.29 Review](../reviews/p9.29-typed-verifier-result-intake-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).

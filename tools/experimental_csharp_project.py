@@ -7,10 +7,13 @@ of a validated P9.10 C# fact workspace; it never points at or edits the source p
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import json
+import os
 import re
 import shutil
 import tempfile
+import time
 from pathlib import Path
 from typing import Any
 
@@ -56,6 +59,32 @@ VERIFIER_RESULT_STATUS = "verifier-result-imported"
 VERIFIER_RESULT_RESULTS = {"pass", "fail", "blocked"}
 VERIFIER_RESULT_KINDS = {"build", "test", "runtime-smoke", "static-analysis"}
 VERIFIER_EVIDENCE_CONTENT_TYPE = "application/vnd.intentgraph.verifier-evidence+json"
+VERIFIER_ARTIFACT_KINDS = {
+    "build-report", "runtime-observation", "static-analysis-report",
+    "stderr-log", "stdout-log", "test-report",
+}
+VERIFIER_ARTIFACT_MEDIA_TYPES = {"application/json", "application/xml", "text/plain"}
+VERIFIER_ARTIFACT_AVAILABILITY = "external-digest-only"
+PROPOSAL_VERIFICATION_KINDS = {
+    "build-required", "local-review", "runtime-smoke-required",
+    "static-analysis-required", "test-required",
+}
+PROPOSAL_EVIDENCE_KINDS = {
+    "build-evidence", "review-note", "runtime-evidence",
+    "static-analysis-evidence", "test-evidence",
+}
+VERIFICATION_KIND_TO_VERIFIER_KINDS = {
+    "build-required": ["build"],
+    "runtime-smoke-required": ["runtime-smoke"],
+    "static-analysis-required": ["static-analysis"],
+    "test-required": ["test"],
+}
+EVIDENCE_KIND_TO_REQUIRED_ARTIFACT_KINDS = {
+    "build-evidence": ["build-report"],
+    "runtime-evidence": ["runtime-observation"],
+    "static-analysis-evidence": ["static-analysis-report"],
+    "test-evidence": ["test-report"],
+}
 FOUNDATION_ROLE = "intentgraph-semantic-foundation"
 FOUNDATION_STATUS = "intentgraph-semantic-foundation-declared"
 FOUNDATION_SCOPE = "experimental-csharp-semantic-foundation-declared-only"
@@ -124,7 +153,7 @@ PROJECT_AUTHORITY = {
     "igdProductizationClaimed": False,
 }
 
-WORK_STATUSES = {"intake", "mapping-candidate", "mapped", "proposal-ready", "verified", "blocked", "complete"}
+WORK_STATUSES = {"intake", "mapping-candidate", "mapped", "proposal-ready", "verification-observed", "verified", "blocked", "complete"}
 MAPPING_STATUSES = {"unmapped", "candidate", "accepted"}
 SAFE_ID = re.compile(r"^[a-z][a-z0-9.-]{2,100}$")
 
@@ -146,6 +175,94 @@ def read_json(path: Path) -> dict[str, Any]:
 def write_json(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=True, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+
+
+def write_bytes_atomic(path: Path, value: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent, delete=False) as handle:
+        temporary = Path(handle.name)
+        handle.write(value)
+        handle.flush()
+        os.fsync(handle.fileno())
+    try:
+        temporary.replace(path)
+        if os.name != "nt":
+            directory_descriptor = os.open(path.parent, os.O_RDONLY)
+            try:
+                os.fsync(directory_descriptor)
+            finally:
+                os.close(directory_descriptor)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def write_json_atomic(path: Path, value: dict[str, Any]) -> None:
+    document = (json.dumps(value, ensure_ascii=True, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    write_bytes_atomic(path, document)
+
+
+@contextmanager
+def project_workspace_write_lock(project_workspace: Path, timeout_seconds: float = 10.0):
+    """Serialize local writers without making the lock file part of project state."""
+
+    lock_path = project_workspace.parent / f".{project_workspace.name}.intentgraph-project.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    handle = lock_path.open("a+b")
+    if handle.seek(0, os.SEEK_END) == 0:
+        handle.write(b"0")
+        handle.flush()
+    deadline = time.monotonic() + timeout_seconds
+    acquired = False
+    try:
+        while not acquired:
+            try:
+                handle.seek(0)
+                if os.name == "nt":
+                    import msvcrt
+
+                    msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+                else:
+                    import fcntl
+
+                    fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                acquired = True
+            except OSError as error:
+                if time.monotonic() >= deadline:
+                    raise ProjectWorkspaceError("project workspace is busy with another writer") from error
+                time.sleep(0.05)
+        yield
+    finally:
+        if acquired:
+            handle.seek(0)
+            if os.name == "nt":
+                import msvcrt
+
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+        handle.close()
+
+
+def commit_project_state_atomic(
+    project_workspace: Path,
+    state: dict[str, Any],
+    project_file_before: bytes,
+    *,
+    operation: str,
+) -> None:
+    """Commit one locked state-only mutation with compare-and-swap and rollback."""
+
+    project_file = project_workspace / PROJECT_FILE
+    if project_file.read_bytes() != project_file_before:
+        raise ProjectWorkspaceError(f"project workspace changed during {operation}")
+    try:
+        write_json_atomic(project_file, state)
+        validate_project_workspace(project_workspace)
+    except Exception:
+        write_bytes_atomic(project_file, project_file_before)
+        raise
 
 
 def digest_json(value: Any) -> str:
@@ -178,19 +295,21 @@ def project_core_digest(state: dict[str, Any]) -> str:
         "tool-verifier-result",
         "deterministic-verifier-evidence",
     }
-    return digest_json(
-        {
-            "project": state.get("project"),
-            "workItems": state.get("workItems", []),
-            "mappings": state.get("mappings", []),
-            "changeProposals": state.get("changeProposals", []),
-            "reviewReceipts": state.get("reviewReceipts", []),
-            "verifierResults": state.get("verifierResults", []),
-            "verification": [item for item in state.get("verification", []) if item.get("kind") in requirement_kinds],
-            "evidence": [item for item in state.get("evidence", []) if item.get("kind") in requirement_kinds],
-            "history": [item for item in state.get("history", []) if item.get("kind") in history_kinds],
-        }
-    )
+    lifecycle = {
+        "project": state.get("project"),
+        "workItems": state.get("workItems", []),
+        "mappings": state.get("mappings", []),
+        "changeProposals": state.get("changeProposals", []),
+        "reviewReceipts": state.get("reviewReceipts", []),
+        "verification": [item for item in state.get("verification", []) if item.get("kind") in requirement_kinds],
+        "evidence": [item for item in state.get("evidence", []) if item.get("kind") in requirement_kinds],
+        "history": [item for item in state.get("history", []) if item.get("kind") in history_kinds],
+    }
+    # Empty verifier-result storage is a backward-compatible schema extension. It
+    # must not invalidate durable revision digests recorded before P9.29.
+    if state.get("verifierResults"):
+        lifecycle["verifierResults"] = state["verifierResults"]
+    return digest_json(lifecycle)
 
 
 def append_work_stage_revision(
@@ -735,6 +854,44 @@ def validate_record_ids(records: list[dict[str, Any]], label: str) -> set[str]:
     return ids
 
 
+def required_safe_id(value: Any, label: str) -> str:
+    if not isinstance(value, str):
+        raise ProjectWorkspaceError(f"{label} must be a string")
+    safe_id(value, label)
+    return value
+
+
+def proposal_verifier_bindings(proposal: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return explicit verifier bindings, or a safe singleton legacy binding."""
+
+    explicit = proposal.get("verifierBindings")
+    if explicit is not None:
+        return explicit
+    verification = proposal["verificationRequirements"]
+    evidence = proposal["evidenceRequirements"]
+    if len(verification) != 1 or len(evidence) != 1:
+        return []
+    allowed_kinds = VERIFICATION_KIND_TO_VERIFIER_KINDS.get(verification[0]["kind"], [])
+    artifact_kinds = EVIDENCE_KIND_TO_REQUIRED_ARTIFACT_KINDS.get(evidence[0]["kind"], [])
+    if not allowed_kinds or not artifact_kinds:
+        return []
+    return [
+        {
+            "verificationRequirementId": verification[0]["id"],
+            "evidenceRequirementId": evidence[0]["id"],
+            "allowedVerifierKinds": allowed_kinds,
+            "requiredArtifactKinds": artifact_kinds,
+        }
+    ]
+
+
+def proposal_verifier_pairs(proposal: dict[str, Any]) -> set[tuple[str, str, str]]:
+    return {
+        (proposal["id"], binding["verificationRequirementId"], binding["evidenceRequirementId"])
+        for binding in proposal_verifier_bindings(proposal)
+    }
+
+
 def validate_guided_unified_diff(
     unified_diff: str,
     *,
@@ -837,7 +994,7 @@ def validate_proposal_document(
         "evidenceRequirements",
         "authority",
     }
-    if set(proposal) != expected:
+    if frozenset(proposal) not in {frozenset(expected), frozenset({*expected, "verifierBindings"})}:
         raise ProjectWorkspaceError("change proposal fields are invalid")
     if proposal["artifactRole"] != PROPOSAL_ROLE or proposal["schemaVersion"] != PROJECT_SCHEMA_VERSION or proposal["scope"] != PROPOSAL_SCOPE:
         raise ProjectWorkspaceError("change proposal role, schema version, or scope is invalid")
@@ -903,8 +1060,55 @@ def validate_proposal_document(
         if not isinstance(records, list) or not records:
             raise ProjectWorkspaceError(f"change proposal {key} must contain at least one requirement")
         record_ids = validate_record_ids(records, f"change proposal {key}")
-        if len(record_ids) != len(records) or any(not isinstance(record.get("summary"), str) or not record["summary"].strip() for record in records):
+        if (
+            len(record_ids) != len(records)
+            or any(set(record) != {"id", "kind", "summary"} for record in records)
+            or any(
+                not isinstance(record.get("kind"), str)
+                or SAFE_ID.fullmatch(record["kind"]) is None
+                or not isinstance(record.get("summary"), str)
+                or not record["summary"].strip()
+                for record in records
+            )
+        ):
             raise ProjectWorkspaceError(f"change proposal {key} records are invalid")
+    verification_by_id = {record["id"]: record for record in proposal["verificationRequirements"]}
+    evidence_by_id = {record["id"]: record for record in proposal["evidenceRequirements"]}
+    bindings = proposal.get("verifierBindings")
+    if bindings is not None:
+        if not isinstance(bindings, list):
+            raise ProjectWorkspaceError("change proposal verifier bindings must be a list")
+        pair_ids: list[tuple[str, str]] = []
+        for binding in bindings:
+            if not isinstance(binding, dict) or set(binding) != {
+                "verificationRequirementId", "evidenceRequirementId",
+                "allowedVerifierKinds", "requiredArtifactKinds",
+            }:
+                raise ProjectWorkspaceError("change proposal verifier binding fields are invalid")
+            verification_id = required_safe_id(binding["verificationRequirementId"], "verifier binding verification requirement id")
+            evidence_id = required_safe_id(binding["evidenceRequirementId"], "verifier binding evidence requirement id")
+            if verification_id not in verification_by_id or evidence_id not in evidence_by_id:
+                raise ProjectWorkspaceError("change proposal verifier binding references are invalid")
+            allowed_kinds = binding["allowedVerifierKinds"]
+            artifact_kinds = binding["requiredArtifactKinds"]
+            if (
+                not isinstance(allowed_kinds, list)
+                or not allowed_kinds
+                or allowed_kinds != sorted(set(allowed_kinds))
+                or any(not isinstance(kind, str) or kind not in VERIFIER_RESULT_KINDS for kind in allowed_kinds)
+                or not isinstance(artifact_kinds, list)
+                or not artifact_kinds
+                or artifact_kinds != sorted(set(artifact_kinds))
+                or any(not isinstance(kind, str) or kind not in VERIFIER_ARTIFACT_KINDS for kind in artifact_kinds)
+            ):
+                raise ProjectWorkspaceError("change proposal verifier binding kinds are invalid")
+            expected_verifier_kinds = VERIFICATION_KIND_TO_VERIFIER_KINDS.get(verification_by_id[verification_id]["kind"], [])
+            expected_artifact_kinds = EVIDENCE_KIND_TO_REQUIRED_ARTIFACT_KINDS.get(evidence_by_id[evidence_id]["kind"], [])
+            if allowed_kinds != expected_verifier_kinds or artifact_kinds != expected_artifact_kinds:
+                raise ProjectWorkspaceError("change proposal verifier binding is incompatible with its requirements")
+            pair_ids.append((verification_id, evidence_id))
+        if pair_ids != sorted(set(pair_ids)):
+            raise ProjectWorkspaceError("change proposal verifier bindings must be uniquely sorted")
     return proposal
 
 
@@ -963,15 +1167,22 @@ def validate_review_receipt_document(
         raise ProjectWorkspaceError("review receipt fields are invalid")
     if receipt["artifactRole"] != REVIEW_RECEIPT_ROLE or receipt["schemaVersion"] != PROJECT_SCHEMA_VERSION or receipt["scope"] != REVIEW_RECEIPT_SCOPE:
         raise ProjectWorkspaceError("review receipt role, schema version, or scope is invalid")
-    safe_id(str(receipt["id"]), "review receipt id")
-    proposal = proposal_by_id.get(receipt["proposalId"])
+    required_safe_id(receipt["id"], "review receipt id")
+    proposal_id = required_safe_id(receipt["proposalId"], "review receipt proposal id")
+    verification_requirement_id = required_safe_id(
+        receipt["verificationRequirementId"], "review receipt verification requirement id"
+    )
+    evidence_requirement_id = required_safe_id(
+        receipt["evidenceRequirementId"], "review receipt evidence requirement id"
+    )
+    proposal = proposal_by_id.get(proposal_id)
     if proposal is None:
         raise ProjectWorkspaceError("review receipt must reference a known change proposal")
     verification_ids = {record["id"] for record in proposal["verificationRequirements"]}
     evidence_ids = {record["id"] for record in proposal["evidenceRequirements"]}
-    if receipt["verificationRequirementId"] not in verification_ids or receipt["evidenceRequirementId"] not in evidence_ids:
+    if verification_requirement_id not in verification_ids or evidence_requirement_id not in evidence_ids:
         raise ProjectWorkspaceError("review receipt requirement references are invalid")
-    if receipt["result"] not in REVIEW_RECEIPT_RESULTS:
+    if not isinstance(receipt["result"], str) or receipt["result"] not in REVIEW_RECEIPT_RESULTS:
         raise ProjectWorkspaceError("review receipt result is invalid")
     review_scope = receipt["reviewScope"]
     if not isinstance(review_scope, list) or not review_scope or review_scope != sorted(set(review_scope)) or "proposal" not in review_scope or any(item not in REVIEW_RECEIPT_SCOPES for item in review_scope):
@@ -1024,10 +1235,24 @@ def verifier_result_pair(result: dict[str, Any]) -> tuple[str, str, str]:
     )
 
 
+def verifier_result_id_prefix(pair: tuple[str, str, str]) -> str:
+    fingerprint = digest_json(
+        {
+            "proposalId": pair[0],
+            "verificationRequirementId": pair[1],
+            "evidenceRequirementId": pair[2],
+        }
+    ).removeprefix("sha256:")[:16]
+    prefix = f"result.{pair[0][:52]}.{fingerprint}"
+    safe_id(prefix, "verifier result id prefix")
+    return prefix
+
+
 def validate_verifier_result_document(
     result: dict[str, Any],
     *,
     proposal_by_id: dict[str, dict[str, Any]],
+    snapshot_logical_source_root: str,
     snapshot_source_digest: str,
     latest_result_by_pair: dict[tuple[str, str, str], dict[str, Any]],
 ) -> dict[str, Any]:
@@ -1040,10 +1265,14 @@ def validate_verifier_result_document(
         "proposalId",
         "verificationRequirementId",
         "evidenceRequirementId",
+        "attempt",
         "result",
         "verifier",
+        "invocation",
         "subject",
         "evidence",
+        "observationStatus",
+        "acceptanceStatus",
         "supersedesResultId",
         "authority",
     }
@@ -1055,44 +1284,68 @@ def validate_verifier_result_document(
         or result["scope"] != VERIFIER_RESULT_SCOPE
     ):
         raise ProjectWorkspaceError("verifier result role, schema version, or scope is invalid")
-    safe_id(str(result["id"]), "verifier result id")
-    proposal = proposal_by_id.get(result["proposalId"])
+    required_safe_id(result["id"], "verifier result id")
+    proposal_id = required_safe_id(result["proposalId"], "verifier result proposal id")
+    verification_requirement_id = required_safe_id(
+        result["verificationRequirementId"], "verifier result verification requirement id"
+    )
+    evidence_requirement_id = required_safe_id(
+        result["evidenceRequirementId"], "verifier result evidence requirement id"
+    )
+    proposal = proposal_by_id.get(proposal_id)
     if proposal is None:
         raise ProjectWorkspaceError("verifier result must reference a known change proposal")
-    verification_ids = {record["id"] for record in proposal["verificationRequirements"]}
-    evidence_ids = {record["id"] for record in proposal["evidenceRequirements"]}
-    if (
-        result["verificationRequirementId"] not in verification_ids
-        or result["evidenceRequirementId"] not in evidence_ids
-    ):
-        raise ProjectWorkspaceError("verifier result requirement references are invalid")
-    if result["result"] not in VERIFIER_RESULT_RESULTS:
+    binding = next(
+        (
+            item
+            for item in proposal_verifier_bindings(proposal)
+            if item["verificationRequirementId"] == verification_requirement_id
+            and item["evidenceRequirementId"] == evidence_requirement_id
+        ),
+        None,
+    )
+    if binding is None:
+        raise ProjectWorkspaceError("verifier result requirement pair is not declared as verifier-compatible")
+    if not isinstance(result["result"], str) or result["result"] not in VERIFIER_RESULT_RESULTS:
         raise ProjectWorkspaceError("verifier result status is invalid")
 
     verifier = result["verifier"]
     if not isinstance(verifier, dict) or set(verifier) != {"id", "kind", "version", "deterministic"}:
         raise ProjectWorkspaceError("verifier identity is invalid")
-    safe_id(str(verifier["id"]), "verifier id")
+    required_safe_id(verifier["id"], "verifier id")
     if (
-        verifier["kind"] not in VERIFIER_RESULT_KINDS
+        not isinstance(verifier["kind"], str)
+        or verifier["kind"] not in VERIFIER_RESULT_KINDS
+        or verifier["kind"] not in binding["allowedVerifierKinds"]
         or not isinstance(verifier["version"], str)
         or not verifier["version"].strip()
         or len(verifier["version"].encode("utf-8")) > 128
         or verifier["deterministic"] is not True
     ):
-        raise ProjectWorkspaceError("verifier identity must be deterministic and typed")
+        raise ProjectWorkspaceError("verifier identity must declare deterministic and typed metadata")
+
+    invocation = result["invocation"]
+    if not isinstance(invocation, dict) or set(invocation) != {"id", "digest"}:
+        raise ProjectWorkspaceError("verifier invocation identity is invalid")
+    required_safe_id(invocation["id"], "verifier invocation id")
+    if not sha256_value(invocation["digest"]):
+        raise ProjectWorkspaceError("verifier invocation digest is invalid")
 
     subject = result["subject"]
-    if not isinstance(subject, dict) or set(subject) != {"snapshotSourceDigest", "proposalDigest"}:
+    if not isinstance(subject, dict) or set(subject) != {"logicalSourceRoot", "snapshotSourceDigest", "proposalDigest"}:
         raise ProjectWorkspaceError("verifier result subject is invalid")
-    if subject["snapshotSourceDigest"] != snapshot_source_digest or subject["proposalDigest"] != digest_json(proposal):
+    if (
+        subject["logicalSourceRoot"] != snapshot_logical_source_root
+        or subject["snapshotSourceDigest"] != snapshot_source_digest
+        or subject["proposalDigest"] != digest_json(proposal)
+    ):
         raise ProjectWorkspaceError("verifier result subject digest is stale or mismatched")
 
     evidence = result["evidence"]
     if not isinstance(evidence, dict) or set(evidence) != {"contentType", "byteLength", "digest", "payload"}:
         raise ProjectWorkspaceError("verifier evidence envelope is invalid")
     payload = evidence["payload"]
-    if not isinstance(payload, dict) or set(payload) != {"summary", "exitCode", "checks"}:
+    if not isinstance(payload, dict) or set(payload) != {"summary", "exitCode", "checks", "metrics", "artifactRefs"}:
         raise ProjectWorkspaceError("verifier evidence payload is invalid")
     if (
         not isinstance(payload["summary"], str)
@@ -1108,8 +1361,8 @@ def validate_verifier_result_document(
     for check in checks:
         if not isinstance(check, dict) or set(check) != {"id", "result", "summary"}:
             raise ProjectWorkspaceError("verifier evidence check fields are invalid")
-        safe_id(str(check["id"]), "verifier evidence check id")
-        if check["result"] not in VERIFIER_RESULT_RESULTS:
+        required_safe_id(check["id"], "verifier evidence check id")
+        if not isinstance(check["result"], str) or check["result"] not in VERIFIER_RESULT_RESULTS:
             raise ProjectWorkspaceError("verifier evidence check result is invalid")
         if (
             not isinstance(check["summary"], str)
@@ -1121,6 +1374,62 @@ def validate_verifier_result_document(
         check_results.append(check["result"])
     if check_ids != sorted(set(check_ids)):
         raise ProjectWorkspaceError("verifier evidence checks must be uniquely sorted by id")
+
+    metrics = payload["metrics"]
+    metric_fields = {
+        "build": {"errorCount", "warningCount"},
+        "static-analysis": {"errorCount", "warningCount"},
+        "test": {"total", "passed", "failed", "skipped"},
+        "runtime-smoke": {"started", "observed", "responsive", "observationSeconds"},
+    }[verifier["kind"]]
+    if not isinstance(metrics, dict) or set(metrics) != metric_fields:
+        raise ProjectWorkspaceError("verifier evidence metrics do not match the verifier kind")
+    if verifier["kind"] in {"build", "static-analysis"}:
+        if any(not isinstance(metrics[key], int) or isinstance(metrics[key], bool) or metrics[key] < 0 for key in metric_fields):
+            raise ProjectWorkspaceError("build or static-analysis metrics are invalid")
+    elif verifier["kind"] == "test":
+        if any(not isinstance(metrics[key], int) or isinstance(metrics[key], bool) or metrics[key] < 0 for key in metric_fields):
+            raise ProjectWorkspaceError("test metrics are invalid")
+        if metrics["total"] != metrics["passed"] + metrics["failed"] + metrics["skipped"]:
+            raise ProjectWorkspaceError("test metrics total is inconsistent")
+    else:
+        if any(not isinstance(metrics[key], bool) for key in ("started", "observed", "responsive")):
+            raise ProjectWorkspaceError("runtime-smoke boolean metrics are invalid")
+        seconds = metrics["observationSeconds"]
+        if not isinstance(seconds, (int, float)) or isinstance(seconds, bool) or not 0 <= seconds <= 86400:
+            raise ProjectWorkspaceError("runtime-smoke observation duration is invalid")
+
+    artifact_refs = payload["artifactRefs"]
+    if not isinstance(artifact_refs, list) or not 1 <= len(artifact_refs) <= 32:
+        raise ProjectWorkspaceError("verifier evidence artifact references are invalid")
+    artifact_ids: list[str] = []
+    for artifact in artifact_refs:
+        if not isinstance(artifact, dict) or set(artifact) != {"id", "kind", "logicalName", "mediaType", "byteLength", "digest", "availability"}:
+            raise ProjectWorkspaceError("verifier evidence artifact reference fields are invalid")
+        required_safe_id(artifact["id"], "verifier evidence artifact id")
+        logical_name = artifact["logicalName"]
+        if (
+            not isinstance(artifact["kind"], str)
+            or artifact["kind"] not in VERIFIER_ARTIFACT_KINDS
+            or not isinstance(artifact["mediaType"], str)
+            or artifact["mediaType"] not in VERIFIER_ARTIFACT_MEDIA_TYPES
+            or artifact["availability"] != VERIFIER_ARTIFACT_AVAILABILITY
+            or not isinstance(logical_name, str)
+            or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._/-]{0,255}", logical_name)
+            or ".." in Path(logical_name).parts
+            or not isinstance(artifact["byteLength"], int)
+            or isinstance(artifact["byteLength"], bool)
+            or not 0 < artifact["byteLength"] <= 2_147_483_647
+            or not sha256_value(artifact["digest"])
+        ):
+            raise ProjectWorkspaceError("verifier evidence artifact reference is invalid")
+        artifact_ids.append(artifact["id"])
+    if artifact_ids != sorted(set(artifact_ids)):
+        raise ProjectWorkspaceError("verifier evidence artifact references must be uniquely sorted by id")
+    artifact_kinds = {artifact["kind"] for artifact in artifact_refs}
+    if not set(binding["requiredArtifactKinds"]).issubset(artifact_kinds):
+        raise ProjectWorkspaceError("verifier evidence is missing an artifact kind required by the proposal binding")
+
     exit_code = payload["exitCode"]
     if exit_code is not None and (not isinstance(exit_code, int) or isinstance(exit_code, bool) or not 0 <= exit_code <= 255):
         raise ProjectWorkspaceError("verifier evidence exit code is invalid")
@@ -1134,6 +1443,17 @@ def validate_verifier_result_document(
         raise ProjectWorkspaceError("failing verifier result is inconsistent with its evidence")
     if result["result"] == "blocked" and (exit_code is not None or "blocked" not in check_results):
         raise ProjectWorkspaceError("blocked verifier result is inconsistent with its evidence")
+    typed_pass = (
+        metrics.get("errorCount", 0) == 0
+        and metrics.get("failed", 0) == 0
+        and (verifier["kind"] != "test" or metrics["passed"] > 0)
+        and (
+            verifier["kind"] != "runtime-smoke"
+            or all(metrics[key] is True for key in ("started", "observed", "responsive"))
+        )
+    )
+    if result["result"] == "pass" and not typed_pass:
+        raise ProjectWorkspaceError("passing verifier result is inconsistent with its typed metrics")
     payload_bytes = canonical_json(payload)
     if (
         evidence["contentType"] != VERIFIER_EVIDENCE_CONTENT_TYPE
@@ -1145,8 +1465,16 @@ def validate_verifier_result_document(
     pair = verifier_result_pair(result)
     latest = latest_result_by_pair.get(pair)
     expected_supersedes = latest["id"] if latest else None
-    if result["supersedesResultId"] != expected_supersedes:
+    expected_attempt = latest["attempt"] + 1 if latest else 1
+    if (
+        not isinstance(result["attempt"], int)
+        or isinstance(result["attempt"], bool)
+        or result["attempt"] != expected_attempt
+        or result["supersedesResultId"] != expected_supersedes
+    ):
         raise ProjectWorkspaceError("verifier result supersedes chain is invalid")
+    if result["observationStatus"] != "observed" or result["acceptanceStatus"] != "pending":
+        raise ProjectWorkspaceError("verifier result must remain observed and pending acceptance")
     if result["authority"] != VERIFIER_RESULT_AUTHORITY:
         raise ProjectWorkspaceError("verifier result authority must remain import-only and non-approving")
     return result
@@ -1157,6 +1485,7 @@ def verifier_result_artifacts(
     state: dict[str, Any],
     *,
     proposals: list[dict[str, Any]],
+    snapshot_logical_source_root: str,
     snapshot_source_digest: str,
 ) -> list[dict[str, Any]]:
     records = state.get("verifierResults", [])
@@ -1174,17 +1503,29 @@ def verifier_result_artifacts(
             "proposalId",
             "verificationRequirementId",
             "evidenceRequirementId",
+            "attempt",
             "status",
             "result",
+            "observationStatus",
+            "acceptanceStatus",
             "supersedesResultId",
         }
         if set(record) != expected:
             raise ProjectWorkspaceError("verifier result index record fields are invalid")
+        for key, label in (
+            ("id", "verifier result index id"),
+            ("proposalId", "verifier result index proposal id"),
+            ("verificationRequirementId", "verifier result index verification requirement id"),
+            ("evidenceRequirementId", "verifier result index evidence requirement id"),
+        ):
+            required_safe_id(record[key], label)
         if (
             record["id"] not in result_ids
             or record["proposalId"] not in proposal_by_id
             or record["status"] != VERIFIER_RESULT_STATUS
+            or not isinstance(record["result"], str)
             or record["result"] not in VERIFIER_RESULT_RESULTS
+            or not sha256_value(record["artifactDigest"])
         ):
             raise ProjectWorkspaceError("verifier result index record is invalid")
         artifact = contained_project_path(project_workspace, str(record["artifact"]), required_directory="verifier-results")
@@ -1194,6 +1535,7 @@ def verifier_result_artifacts(
         result = validate_verifier_result_document(
             document,
             proposal_by_id=proposal_by_id,
+            snapshot_logical_source_root=snapshot_logical_source_root,
             snapshot_source_digest=snapshot_source_digest,
             latest_result_by_pair=latest_result_by_pair,
         )
@@ -1206,7 +1548,10 @@ def verifier_result_artifacts(
                     "proposalId",
                     "verificationRequirementId",
                     "evidenceRequirementId",
+                    "attempt",
                     "result",
+                    "observationStatus",
+                    "acceptanceStatus",
                     "supersedesResultId",
                 )
             )
@@ -1221,11 +1566,7 @@ def proposal_verifier_status(
     proposal: dict[str, Any],
     verifier_results: list[dict[str, Any]],
 ) -> tuple[str | None, str]:
-    expected_pairs = {
-        (proposal["id"], verification["id"], evidence["id"])
-        for verification in proposal["verificationRequirements"]
-        for evidence in proposal["evidenceRequirements"]
-    }
+    expected_pairs = proposal_verifier_pairs(proposal)
     latest: dict[tuple[str, str, str], dict[str, Any]] = {}
     for result in verifier_results:
         if result["proposalId"] == proposal["id"]:
@@ -1234,12 +1575,15 @@ def proposal_verifier_status(
         return None, "proposal-ready"
     statuses = {result["result"] for result in latest.values()}
     if "fail" in statuses:
-        return "verifier-result-fail", "blocked"
+        return "verifier-result-fail", "verification-observed"
     if "blocked" in statuses:
-        return "verifier-result-blocked", "blocked"
+        return "verifier-result-blocked", "verification-observed"
     if set(latest) == expected_pairs and statuses == {"pass"}:
-        return "verifier-result-pass", "verified"
-    return "verifier-result-partial", "proposal-ready"
+        # The Workbench verifies structure and binding, not producer identity or
+        # human acceptance. A complete imported pass is therefore observed, not
+        # an approval or completed-work claim.
+        return "verifier-result-pass", "verification-observed"
+    return "verifier-result-partial", "verification-observed"
 
 
 def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Path], dict[str, Any]]:
@@ -1362,6 +1706,7 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         project_workspace,
         state,
         proposals=proposals,
+        snapshot_logical_source_root=project["logicalSourceRoot"],
         snapshot_source_digest=project["sourceDigest"],
     )
     work_stage_revisions = validate_work_stage_revisions(state, work_ids=work_ids, proposals=proposals)
@@ -1401,6 +1746,13 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
 
 def add_work_request(project_workspace: Path, work_id: str, title: str, request: str) -> dict[str, Any]:
     project_workspace = project_workspace.resolve()
+    with project_workspace_write_lock(project_workspace):
+        return _add_work_request_locked(project_workspace, work_id, title, request)
+
+
+def _add_work_request_locked(project_workspace: Path, work_id: str, title: str, request: str) -> dict[str, Any]:
+    project_workspace = project_workspace.resolve()
+    project_file_before = (project_workspace / PROJECT_FILE).read_bytes()
     state, _, _, _ = validate_project_workspace(project_workspace)
     before_digest = project_core_digest(state)
     safe_id(work_id, "work item id")
@@ -1439,13 +1791,24 @@ def add_work_request(project_workspace: Path, work_id: str, title: str, request:
         changed_node_ids=[],
         added_edge_ids=[f"edge.project.{state['project']['id']}.tracks.{work_id}", f"edge.{work_id}.expresses.{intent_id}"],
     )
-    write_json(project_workspace / PROJECT_FILE, state)
-    validate_project_workspace(project_workspace)
+    commit_project_state_atomic(
+        project_workspace,
+        state,
+        project_file_before,
+        operation="work request recording",
+    )
     return {"result": "pass", "command": "add-experimental-csharp-work-request", "workItemId": work_id, "revisionId": revision["id"], "authority": PROJECT_AUTHORITY}
 
 
 def add_mapping_candidate(project_workspace: Path, work_id: str, fact_ids: list[str], rationale: str) -> dict[str, Any]:
     project_workspace = project_workspace.resolve()
+    with project_workspace_write_lock(project_workspace):
+        return _add_mapping_candidate_locked(project_workspace, work_id, fact_ids, rationale)
+
+
+def _add_mapping_candidate_locked(project_workspace: Path, work_id: str, fact_ids: list[str], rationale: str) -> dict[str, Any]:
+    project_workspace = project_workspace.resolve()
+    project_file_before = (project_workspace / PROJECT_FILE).read_bytes()
     state, _, _, data = validate_project_workspace(project_workspace)
     before_digest = project_core_digest(state)
     work = next((item for item in state["workItems"] if item["id"] == work_id), None)
@@ -1508,8 +1871,12 @@ def add_mapping_candidate(project_workspace: Path, work_id: str, fact_ids: list[
             else []
         ) + [f"edge.mapping.{mapping_id}.to.{fact_id}" for fact_id in added_fact_ids],
     )
-    write_json(project_workspace / PROJECT_FILE, state)
-    validate_project_workspace(project_workspace)
+    commit_project_state_atomic(
+        project_workspace,
+        state,
+        project_file_before,
+        operation="mapping candidate recording",
+    )
     active_mapping = next(item for item in state["mappings"] if item["id"] == mapping_id)
     return {"result": "pass", "command": "add-experimental-csharp-mapping-candidate", "mappingId": mapping_id, "codeFactCount": len(active_mapping["codeFactIds"]), "revisionId": revision["id"], "authority": PROJECT_AUTHORITY}
 
@@ -1519,6 +1886,12 @@ def record_semantic_foundation(project_workspace: Path, foundation_path: Path) -
     foundation_path = foundation_path.resolve()
     if not foundation_path.is_file() or foundation_path.is_symlink():
         raise ProjectWorkspaceError("semantic foundation artifact must be a regular JSON file")
+    with project_workspace_write_lock(project_workspace):
+        return _record_semantic_foundation_locked(project_workspace, foundation_path)
+
+
+def _record_semantic_foundation_locked(project_workspace: Path, foundation_path: Path) -> dict[str, Any]:
+    project_file_before = (project_workspace / PROJECT_FILE).read_bytes()
     state, _, _, data = validate_project_workspace(project_workspace)
     if data["semanticFoundation"]["status"] != "not-recorded":
         raise ProjectWorkspaceError("semantic foundation is already recorded; a future reviewed replacement boundary is required")
@@ -1546,8 +1919,12 @@ def record_semantic_foundation(project_workspace: Path, foundation_path: Path) -
             "summary": "Recorded declared project goals, capabilities, constraints, and verification requirements without creating automatic Intent Units or changing source code.",
         }
     )
-    write_json(project_workspace / PROJECT_FILE, state)
-    validate_project_workspace(project_workspace)
+    commit_project_state_atomic(
+        project_workspace,
+        state,
+        project_file_before,
+        operation="semantic foundation recording",
+    )
     return {
         "result": "pass",
         "command": "record-experimental-csharp-semantic-foundation",
@@ -1568,6 +1945,12 @@ def record_semantic_relation_overlay(project_workspace: Path, overlay_path: Path
         raise ProjectWorkspaceError("semantic relation overlay artifact must be a regular JSON file")
     if is_within(overlay_path, project_workspace):
         raise ProjectWorkspaceError("semantic relation overlay artifact must remain outside the project workspace")
+    with project_workspace_write_lock(project_workspace):
+        return _record_semantic_relation_overlay_locked(project_workspace, overlay_path)
+
+
+def _record_semantic_relation_overlay_locked(project_workspace: Path, overlay_path: Path) -> dict[str, Any]:
+    project_file_before = (project_workspace / PROJECT_FILE).read_bytes()
     state, _, _, data = validate_project_workspace(project_workspace)
     if data["semanticRelationOverlay"]["status"] != "not-recorded":
         raise ProjectWorkspaceError("semantic relation overlay is already recorded; a future reviewed replacement boundary is required")
@@ -1583,8 +1966,12 @@ def record_semantic_relation_overlay(project_workspace: Path, overlay_path: Path
             "summary": "Recorded deterministic local-symbol relations from the immutable C# snapshot without building, restoring, launching, or changing the target project.",
         }
     )
-    write_json(project_workspace / PROJECT_FILE, state)
-    validate_project_workspace(project_workspace)
+    commit_project_state_atomic(
+        project_workspace,
+        state,
+        project_file_before,
+        operation="semantic relation overlay recording",
+    )
     diagnostics = state["semanticRelationOverlay"]["diagnostics"]
     return {
         "result": "pass",
@@ -1597,10 +1984,20 @@ def record_semantic_relation_overlay(project_workspace: Path, overlay_path: Path
         "targetRestoreExecuted": False,
         "authority": PROJECT_AUTHORITY,
     }
+
+
 def add_change_proposal_document(project_workspace: Path, proposal: dict[str, Any]) -> dict[str, Any]:
+    project_workspace = project_workspace.resolve()
+    with project_workspace_write_lock(project_workspace):
+        return _add_change_proposal_document_locked(project_workspace, proposal)
+
+
+def _add_change_proposal_document_locked(project_workspace: Path, proposal: dict[str, Any]) -> dict[str, Any]:
     project_workspace = project_workspace.resolve()
     if not isinstance(proposal, dict):
         raise ProjectWorkspaceError("change proposal document must be a JSON object")
+    project_file = project_workspace / PROJECT_FILE
+    project_file_before = project_file.read_bytes()
     state, _, _, data = validate_project_workspace(project_workspace)
     before_digest = project_core_digest(state)
     work_ids = {item["id"] for item in state["workItems"]}
@@ -1620,9 +2017,10 @@ def add_change_proposal_document(project_workspace: Path, proposal: dict[str, An
         raise ProjectWorkspaceError("work item already has an active change proposal")
     destination_relative = f"proposals/{proposal['id']}.json"
     destination = contained_project_path(project_workspace, destination_relative, required_directory="proposals")
-    if destination.exists():
-        raise ProjectWorkspaceError("change proposal artifact path already exists")
-    write_json(destination, proposal)
+    destination_preexisting = destination.exists()
+    if destination_preexisting and digest_json(read_json(destination)) != digest_json(proposal):
+        raise ProjectWorkspaceError("change proposal artifact path already exists with different content")
+    destination_created = False
     state["changeProposals"].append(
         {
             "id": proposal["id"],
@@ -1687,8 +2085,19 @@ def add_change_proposal_document(project_workspace: Path, proposal: dict[str, An
         ],
         code_diff_ids=[item["id"] for item in proposal["codeDiffs"]],
     )
-    write_json(project_workspace / PROJECT_FILE, state)
-    validate_project_workspace(project_workspace)
+    if project_file.read_bytes() != project_file_before:
+        raise ProjectWorkspaceError("project workspace changed during change proposal recording")
+    try:
+        if not destination_preexisting:
+            write_json_atomic(destination, proposal)
+            destination_created = True
+        write_json_atomic(project_file, state)
+        validate_project_workspace(project_workspace)
+    except Exception:
+        write_bytes_atomic(project_file, project_file_before)
+        if destination_created:
+            destination.unlink(missing_ok=True)
+        raise
     return {
         "result": "pass",
         "command": "add-experimental-csharp-change-proposal",
@@ -1740,6 +2149,12 @@ def draft_change_proposal_from_mapping(
     safe_id(work_id, "guided review proposal work item id")
     safe_id(verification_kind, "guided review proposal verification kind")
     safe_id(evidence_kind, "guided review proposal evidence kind")
+    if verification_kind not in PROPOSAL_VERIFICATION_KINDS or evidence_kind not in PROPOSAL_EVIDENCE_KINDS:
+        raise ProjectWorkspaceError("guided review proposal requirement kind is unsupported")
+    allowed_verifier_kinds = VERIFICATION_KIND_TO_VERIFIER_KINDS.get(verification_kind, [])
+    required_artifact_kinds = EVIDENCE_KIND_TO_REQUIRED_ARTIFACT_KINDS.get(evidence_kind, [])
+    if bool(allowed_verifier_kinds) != bool(required_artifact_kinds):
+        raise ProjectWorkspaceError("guided review proposal verification and evidence kinds are incompatible")
 
     project_workspace = project_workspace.resolve()
     state, _, snapshot_artifacts, data = validate_project_workspace(project_workspace)
@@ -1851,6 +2266,18 @@ def draft_change_proposal_from_mapping(
                 "summary": evidence_summary.strip(),
             }
         ],
+        "verifierBindings": (
+            [
+                {
+                    "verificationRequirementId": f"verification.requirement.{proposal_id}",
+                    "evidenceRequirementId": f"evidence.requirement.{proposal_id}",
+                    "allowedVerifierKinds": allowed_verifier_kinds,
+                    "requiredArtifactKinds": required_artifact_kinds,
+                }
+            ]
+            if allowed_verifier_kinds
+            else []
+        ),
         "authority": PROPOSAL_AUTHORITY,
     }
     result = add_change_proposal_document(project_workspace, proposal)
@@ -1871,8 +2298,16 @@ def add_change_proposal(project_workspace: Path, proposal_path: Path) -> dict[st
 
 def add_review_receipt_document(project_workspace: Path, receipt: dict[str, Any]) -> dict[str, Any]:
     project_workspace = project_workspace.resolve()
+    with project_workspace_write_lock(project_workspace):
+        return _add_review_receipt_document_locked(project_workspace, receipt)
+
+
+def _add_review_receipt_document_locked(project_workspace: Path, receipt: dict[str, Any]) -> dict[str, Any]:
+    project_workspace = project_workspace.resolve()
     if not isinstance(receipt, dict):
         raise ProjectWorkspaceError("review receipt document must be a JSON object")
+    project_file = project_workspace / PROJECT_FILE
+    project_file_before = project_file.read_bytes()
     state, _, _, data = validate_project_workspace(project_workspace)
     before_digest = project_core_digest(state)
     proposals = data["proposals"]
@@ -1889,9 +2324,10 @@ def add_review_receipt_document(project_workspace: Path, receipt: dict[str, Any]
         raise ProjectWorkspaceError("review receipt already exists for the proposal requirement pair")
     destination_relative = f"receipts/{receipt['id']}.json"
     destination = contained_project_path(project_workspace, destination_relative, required_directory="receipts")
-    if destination.exists():
-        raise ProjectWorkspaceError("review receipt artifact path already exists")
-    write_json(destination, receipt)
+    destination_preexisting = destination.exists()
+    destination_created = False
+    if destination_preexisting and digest_json(read_json(destination)) != digest_json(receipt):
+        raise ProjectWorkspaceError("review receipt artifact path already exists with different content")
     state["reviewReceipts"].append(
         {
             "id": receipt["id"],
@@ -1904,7 +2340,9 @@ def add_review_receipt_document(project_workspace: Path, receipt: dict[str, Any]
     )
     proposal = proposal_by_id[receipt["proposalId"]]
     work = next(item for item in state["workItems"] if item["id"] == proposal["workItemId"])
-    work["verificationStatus"] = "review-receipt-recorded"
+    verifier_status, work_status = proposal_verifier_status(proposal, data["verifierResults"])
+    work["verificationStatus"] = verifier_status or "review-receipt-recorded"
+    work["status"] = work_status
     state["verification"].append(
         {
             "id": f"verification.review-receipt.{receipt['id']}",
@@ -1950,8 +2388,19 @@ def add_review_receipt_document(project_workspace: Path, receipt: dict[str, Any]
         ],
         code_diff_ids=[item["id"] for item in proposal["codeDiffs"]],
     )
-    write_json(project_workspace / PROJECT_FILE, state)
-    validate_project_workspace(project_workspace)
+    if project_file.read_bytes() != project_file_before:
+        raise ProjectWorkspaceError("project workspace changed during review receipt recording")
+    try:
+        if not destination_preexisting:
+            write_json_atomic(destination, receipt)
+            destination_created = True
+        write_json_atomic(project_file, state)
+        validate_project_workspace(project_workspace)
+    except Exception:
+        write_bytes_atomic(project_file, project_file_before)
+        if destination_created:
+            destination.unlink(missing_ok=True)
+        raise
     return {
         "result": "pass",
         "command": "add-experimental-csharp-review-receipt",
@@ -2030,8 +2479,16 @@ def add_review_receipt(project_workspace: Path, receipt_path: Path) -> dict[str,
 
 def add_verifier_result_document(project_workspace: Path, result: dict[str, Any]) -> dict[str, Any]:
     project_workspace = project_workspace.resolve()
+    with project_workspace_write_lock(project_workspace):
+        return _add_verifier_result_document_locked(project_workspace, result)
+
+
+def _add_verifier_result_document_locked(project_workspace: Path, result: dict[str, Any]) -> dict[str, Any]:
+    project_workspace = project_workspace.resolve()
     if not isinstance(result, dict):
         raise ProjectWorkspaceError("verifier result document must be a JSON object")
+    project_file = project_workspace / PROJECT_FILE
+    project_file_before = project_file.read_bytes()
     state, _, _, data = validate_project_workspace(project_workspace)
     before_digest = project_core_digest(state)
     proposals = data["proposals"]
@@ -2042,6 +2499,7 @@ def add_verifier_result_document(project_workspace: Path, result: dict[str, Any]
     result = validate_verifier_result_document(
         result,
         proposal_by_id=proposal_by_id,
+        snapshot_logical_source_root=state["project"]["logicalSourceRoot"],
         snapshot_source_digest=state["project"]["sourceDigest"],
         latest_result_by_pair=latest_by_pair,
     )
@@ -2049,9 +2507,10 @@ def add_verifier_result_document(project_workspace: Path, result: dict[str, Any]
         raise ProjectWorkspaceError("verifier result identifier already exists")
     destination_relative = f"verifier-results/{result['id']}.json"
     destination = contained_project_path(project_workspace, destination_relative, required_directory="verifier-results")
-    if destination.exists():
-        raise ProjectWorkspaceError("verifier result artifact path already exists")
-    write_json(destination, result)
+    destination_preexisting = destination.exists()
+    destination_created = False
+    if destination_preexisting and digest_json(read_json(destination)) != digest_json(result):
+        raise ProjectWorkspaceError("verifier result artifact path already exists with different content")
     state["verifierResults"].append(
         {
             "id": result["id"],
@@ -2060,8 +2519,11 @@ def add_verifier_result_document(project_workspace: Path, result: dict[str, Any]
             "proposalId": result["proposalId"],
             "verificationRequirementId": result["verificationRequirementId"],
             "evidenceRequirementId": result["evidenceRequirementId"],
+            "attempt": result["attempt"],
             "status": VERIFIER_RESULT_STATUS,
             "result": result["result"],
+            "observationStatus": result["observationStatus"],
+            "acceptanceStatus": result["acceptanceStatus"],
             "supersedesResultId": result["supersedesResultId"],
         }
     )
@@ -2083,7 +2545,7 @@ def add_verifier_result_document(project_workspace: Path, result: dict[str, Any]
             "id": verification_record_id,
             "kind": "tool-verifier-result",
             "result": result["result"],
-            "summary": f"Imported deterministic {result['verifier']['kind']} result for {result['verificationRequirementId']}.",
+            "summary": f"Imported declared-deterministic {result['verifier']['kind']} result for {result['verificationRequirementId']}.",
         }
     )
     state["evidence"].append(
@@ -2127,8 +2589,19 @@ def add_verifier_result_document(project_workspace: Path, result: dict[str, Any]
         added_edge_ids=added_edge_ids,
         code_diff_ids=[item["id"] for item in proposal["codeDiffs"]],
     )
-    write_json(project_workspace / PROJECT_FILE, state)
-    validate_project_workspace(project_workspace)
+    if project_file.read_bytes() != project_file_before:
+        raise ProjectWorkspaceError("project workspace changed during verifier result recording")
+    try:
+        if not destination_preexisting:
+            write_json_atomic(destination, result)
+            destination_created = True
+        write_json_atomic(project_file, state)
+        validate_project_workspace(project_workspace)
+    except Exception:
+        write_bytes_atomic(project_file, project_file_before)
+        if destination_created:
+            destination.unlink(missing_ok=True)
+        raise
     return {
         "result": "pass",
         "command": "add-experimental-csharp-verifier-result",
@@ -2393,7 +2866,7 @@ def build_work_stage_timeline(
                     "sequence": event_index,
                     "kind": "verifier-result-imported",
                     "title": "Verifier result imported",
-                    "summary": "A deterministic external verifier result and its evidence digest were bound to the proposal requirements. No source or graph delta was applied.",
+                    "summary": "A declared-deterministic external verifier result and its evidence digest were bound to the proposal requirements. No source or graph delta was applied.",
                     "status": result["result"],
                     "recordIds": [f"history.verifier-result.{result['id']}"],
                     "nodeIds": [proposal_node, result_node, verification_node, evidence_node],
@@ -2424,7 +2897,7 @@ def build_work_stage_timeline(
             if revision["workItemId"] == stage["workItemId"]
             and revision["stageKind"] in revision_kinds_by_stage[stage["kind"]]
             and (
-                stage["kind"] != "review-receipt-recorded"
+                stage["kind"] not in {"review-receipt-recorded", "verifier-result-imported"}
                 or bool(set(stage["recordIds"]) & set(revision["recordIds"]))
             )
         ]
@@ -2440,6 +2913,67 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
     state, snapshot_manifest, snapshot_artifacts, data = validate_project_workspace(project_workspace)
     facts_document = data["facts"]
     proposals = data["proposals"]
+    verifier_results = data["verifierResults"]
+    latest_verifier_result_by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for verifier_result in verifier_results:
+        latest_verifier_result_by_pair[verifier_result_pair(verifier_result)] = verifier_result
+    current_verifier_result_ids = {result["id"] for result in latest_verifier_result_by_pair.values()}
+    verifier_result_intake_pairs: list[dict[str, Any]] = []
+    verifier_result_coverage: list[dict[str, Any]] = []
+    for proposal in proposals:
+        proposal_pairs: list[tuple[str, str, str]] = []
+        verification_by_id = {item["id"]: item for item in proposal["verificationRequirements"]}
+        evidence_by_id = {item["id"]: item for item in proposal["evidenceRequirements"]}
+        for binding in proposal_verifier_bindings(proposal):
+            verification = verification_by_id[binding["verificationRequirementId"]]
+            evidence_requirement = evidence_by_id[binding["evidenceRequirementId"]]
+            pair = (proposal["id"], verification["id"], evidence_requirement["id"])
+            proposal_pairs.append(pair)
+            latest = latest_verifier_result_by_pair.get(pair)
+            verifier_result_intake_pairs.append(
+                {
+                    "key": "|".join(pair),
+                    "resultIdPrefix": verifier_result_id_prefix(pair),
+                    "proposalId": proposal["id"],
+                    "proposalTitle": proposal["title"],
+                    "workItemId": proposal["workItemId"],
+                    "verificationRequirement": verification,
+                    "evidenceRequirement": evidence_requirement,
+                    "allowedVerifierKinds": binding["allowedVerifierKinds"],
+                    "requiredArtifactKinds": binding["requiredArtifactKinds"],
+                    "logicalSourceRoot": state["project"]["logicalSourceRoot"],
+                    "snapshotSourceDigest": state["project"]["sourceDigest"],
+                    "proposalDigest": digest_json(proposal),
+                    "nextAttempt": latest["attempt"] + 1 if latest else 1,
+                    "supersedesResultId": latest["id"] if latest else None,
+                    "currentResult": (
+                        {
+                            "id": latest["id"],
+                            "result": latest["result"],
+                            "observationStatus": latest["observationStatus"],
+                            "acceptanceStatus": latest["acceptanceStatus"],
+                        }
+                        if latest
+                        else None
+                    ),
+                }
+            )
+        latest_for_proposal = [latest_verifier_result_by_pair[pair] for pair in proposal_pairs if pair in latest_verifier_result_by_pair]
+        results = [item["result"] for item in latest_for_proposal]
+        verifier_result_coverage.append(
+            {
+                "proposalId": proposal["id"],
+                "workItemId": proposal["workItemId"],
+                "requiredPairCount": len(proposal_pairs),
+                "observedPairCount": len(latest_for_proposal),
+                "missingPairCount": len(proposal_pairs) - len(latest_for_proposal),
+                "passPairCount": results.count("pass"),
+                "failPairCount": results.count("fail"),
+                "blockedPairCount": results.count("blocked"),
+                "allPairsObservedPassing": len(latest_for_proposal) == len(proposal_pairs) and set(results) == {"pass"},
+                "acceptanceStatus": "pending",
+            }
+        )
     raw_facts = facts_document.get("facts")
     raw_relations = facts_document.get("relations")
     if not isinstance(raw_facts, list) or not isinstance(raw_relations, list):
@@ -2591,7 +3125,7 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
         edges.append({"id": f"edge.{proposal_node}.reviewed-by.{receipt['id']}", "category": "semantic-relation", "kind": "reviewed-by", "source": proposal_node, "target": receipt_node, "details": {"result": receipt["result"], "authority": "non-executing-non-approving"}})
         edges.append({"id": f"edge.{receipt_node}.records-verification.{receipt['id']}", "category": "semantic-relation", "kind": "records-verification", "source": receipt_node, "target": verification_node, "details": {"requirementId": receipt["verificationRequirementId"]}})
         edges.append({"id": f"edge.{receipt_node}.records-evidence.{receipt['id']}", "category": "semantic-relation", "kind": "records-evidence", "source": receipt_node, "target": evidence_node, "details": {"requirementId": receipt["evidenceRequirementId"]}})
-    for result in data["verifierResults"]:
+    for result in verifier_results:
         nodes.append(
             semantic_node(
                 f"verifier-result.{result['id']}",
@@ -2602,17 +3136,27 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
                     "proposalId": result["proposalId"],
                     "verificationRequirementId": result["verificationRequirementId"],
                     "evidenceRequirementId": result["evidenceRequirementId"],
+                    "attempt": result["attempt"],
                     "result": result["result"],
                     "verifier": result["verifier"],
+                    "invocation": result["invocation"],
+                    "metrics": result["evidence"]["payload"]["metrics"],
+                    "artifactRefs": result["evidence"]["payload"]["artifactRefs"],
+                    "summary": result["evidence"]["payload"]["summary"],
+                    "exitCode": result["evidence"]["payload"]["exitCode"],
+                    "checks": result["evidence"]["payload"]["checks"],
                     "evidenceDigest": result["evidence"]["digest"],
                     "evidenceByteLength": result["evidence"]["byteLength"],
+                    "observationStatus": result["observationStatus"],
+                    "acceptanceStatus": result["acceptanceStatus"],
+                    "current": result["id"] in current_verifier_result_ids,
                     "supersedesResultId": result["supersedesResultId"],
                     "authority": "import-only-non-approving",
                 },
             )
         )
     projected_node_ids = {node["id"] for node in nodes}
-    for result in data["verifierResults"]:
+    for result in verifier_results:
         result_node = f"verifier-result.{result['id']}"
         proposal_node = f"proposal.{result['proposalId']}"
         verification_node = f"verification.verification.verifier-result.{result['id']}"
@@ -2757,7 +3301,20 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
         "workflow": {
             **{key: state[key] for key in ("workItems", "mappings", "verification", "evidence", "history")},
             "reviewReceipts": data["reviewReceipts"],
-            "verifierResults": data["verifierResults"],
+            "verifierResults": verifier_results,
+            "verifierResultCoverage": sorted(verifier_result_coverage, key=lambda item: item["proposalId"]),
+            "verifierResultIntake": {
+                "artifactRole": VERIFIER_RESULT_ROLE,
+                "schemaVersion": PROJECT_SCHEMA_VERSION,
+                "scope": VERIFIER_RESULT_SCOPE,
+                "evidenceContentType": VERIFIER_EVIDENCE_CONTENT_TYPE,
+                "allowedVerifierKinds": sorted(VERIFIER_RESULT_KINDS),
+                "allowedArtifactKinds": sorted(VERIFIER_ARTIFACT_KINDS),
+                "allowedArtifactMediaTypes": sorted(VERIFIER_ARTIFACT_MEDIA_TYPES),
+                "artifactAvailability": VERIFIER_ARTIFACT_AVAILABILITY,
+                "pairs": sorted(verifier_result_intake_pairs, key=lambda item: item["key"]),
+                "authority": VERIFIER_RESULT_AUTHORITY,
+            },
             "semanticFoundation": semantic_foundation,
             "changeProposals": proposals,
             "proposalDeltas": sorted(proposal_deltas, key=lambda item: item["id"]),
@@ -2821,6 +3378,10 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "loopbackGuidedReviewProposalFromUi": True,
             "loopbackReviewReceiptIntakeFromUi": True,
             "loopbackGuidedReviewReceiptFromUi": True,
+            "loopbackVerifierResultIntakeFromUi": True,
+            "clientSideEvidenceArtifactHashing": True,
+            "externalVerifierExecutionByWorkbench": False,
+            "externalEvidenceAcceptanceByWorkbench": False,
             "targetRepositoryMutationFromUi": False,
             "approvalControlsPresent": False,
             "fullGraphDefault": True,
@@ -2890,7 +3451,7 @@ HTML_TEMPLATE = r'''<!doctype html>
     .app { height:100vh; display:grid; grid-template-rows:54px 1fr; } .topbar { display:flex; align-items:center; justify-content:space-between; padding:0 16px; border-bottom:1px solid var(--line); background:#0c0f1a; box-shadow:0 1px 10px rgba(0,0,0,.18); } .brand { display:flex; align-items:baseline; gap:9px; } .brand strong { color:#fbfcff; font-size:15px; letter-spacing:.4px; } .brand span { color:var(--muted); } .badges { display:flex; gap:6px; } .badge { color:#bbc6d6; border:1px solid #3a455b; padding:3px 7px; border-radius:99px; font-size:11px; } .badge.accent { color:#9bdfeb; border-color:#397884; }
     .workspace { min-height:0; display:grid; grid-template-columns:var(--left) 7px minmax(440px,1fr) 7px var(--right); } .rail,.inspector { overflow:auto; background:var(--panel2); } .rail { border-right:1px solid var(--line); } .inspector { border-left:1px solid var(--line); } .resizer { background:#161b2a; cursor:col-resize; position:relative; } .resizer:hover,.resizer.active { background:var(--accent); box-shadow:0 0 10px rgba(101,196,214,.2); } .section { padding:14px; border-bottom:1px solid var(--line); } h2 { margin:0 0 9px; font-size:11px; text-transform:uppercase; color:#b6c4d9; letter-spacing:.8px; } h3 { margin:0 0 7px; font-size:15px; } p { margin:5px 0; color:#c7d0dd; } label { display:block; margin:8px 0 4px; color:var(--muted); font-size:11px; } .modes { display:grid; grid-template-columns:1fr 1fr; gap:5px; } .modes button:last-child { grid-column:span 2; }
     .work-list,.stage-list { display:grid; gap:7px; } .work-controls { display:grid; grid-template-columns:minmax(0,1fr) 104px; gap:5px; margin-bottom:7px; } .work-controls input,.work-controls select { min-width:0; } .record-nav { display:grid; grid-template-columns:30px minmax(0,1fr) 30px; gap:5px; align-items:stretch; margin-bottom:8px; } .record-nav button { padding:4px; font-size:18px; line-height:1; } .record-nav button:disabled { opacity:.35; cursor:default; border-color:#293248; background:#101522; box-shadow:none; } .record-position { min-width:0; display:flex; flex-direction:column; justify-content:center; padding:4px 7px; border:1px solid #303a50; background:#0d121e; } .record-position strong,.record-position small { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .record-position strong { color:#dce8f4; font-size:11px; } .record-position small { color:var(--muted); font-size:10px; } .work-window-summary { margin:7px 0 0; color:var(--muted); font-size:10px; text-align:right; } .work-card { text-align:left; padding:9px; background:#151320; } .work-card.active { border-color:#65c4d6; background:#172333; box-shadow:inset 2px 0 #65c4d6; } .work-card small { display:block; color:var(--muted); margin-top:3px; } .work-card .state { display:block; color:#92fff0; text-transform:uppercase; font-size:10px; letter-spacing:.5px; } .work-card.unmapped .state { color:var(--warn); } .stage-card { text-align:left; padding:8px 9px; background:#101725; border-left:2px solid #466b8a; } .stage-card:hover,.stage-card.active { border-left-color:#92fff0; } .stage-card .stage-meta { display:flex; justify-content:space-between; gap:8px; color:#a7b9c9; font-size:10px; text-transform:uppercase; letter-spacing:.4px; } .stage-card strong,.stage-card small { display:block; } .stage-card strong { margin-top:2px; color:#e5edf6; } .stage-card small { margin-top:2px; color:var(--muted); } .stage-card .stage-delta { color:#9ce0e8; } .stage-card .stage-revision { color:#a999c9; } .stage-card .stage-revision.durable { color:#79d9c8; } .empty { color:var(--muted); font-style:italic; padding:7px 0; } .metrics { display:grid; grid-template-columns:1fr 1fr; gap:7px; } .metric { padding:8px; border:1px solid var(--line); background:#0a0910; } .metric strong { color:#fff; display:block; font-size:16px; } .metric span { color:var(--muted); font-size:11px; }
-    .canvas { min-width:0; min-height:0; display:grid; grid-template-rows:68px minmax(0,1fr) 174px; background:#050812; } .canvasbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); background:#0a0f1a; } h1 { margin:0; font-size:16px; } .canvasbar p { font-size:11px; margin:2px 0 0; color:var(--muted); } .tools { display:flex; gap:5px; align-items:center; } .icon { min-width:32px; } .zoom-readout { width:64px; color:#bdebf2; font:600 11px/1.2 Consolas,monospace; text-align:center; font-variant-numeric:tabular-nums; } #projectGraph { min-height:0; position:relative; overflow:hidden; isolation:isolate; background-color:#03060d; background-image:linear-gradient(rgba(86,125,153,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(86,125,153,.022) 1px,transparent 1px),radial-gradient(circle at 34% 28%,rgba(31,88,105,.055),transparent 31%),radial-gradient(circle at 72% 64%,rgba(99,46,89,.035),transparent 36%); background-size:40px 40px,40px 40px,100% 100%,100% 100%; } .node-material-layer { position:absolute; inset:0; width:100%; height:100%; z-index:7; pointer-events:none; } .review-tray { border-top:1px solid var(--line); display:grid; grid-template-columns:1.2fr 1fr 1fr; overflow:auto; background:#0a0f1a; } .tray-section { padding:12px; border-right:1px solid var(--line); } .tray-section:last-child { border-right:0; } .tray-title { color:#b7c8dd; text-transform:uppercase; font-size:10px; letter-spacing:.65px; margin-bottom:6px; } .state-line { color:#c9d2df; } .state-line strong { color:var(--warn); } .detail { padding:8px; background:#111827; border:1px solid #35405a; border-radius:4px; } .detail + .detail { margin-top:8px; } .kv { display:grid; grid-template-columns:112px 1fr; gap:4px 8px; margin:8px 0 0; } .kv dt { color:var(--muted); } .kv dd { margin:0; overflow-wrap:anywhere; } .status-list { display:grid; gap:6px; } .status-row { display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid #293248; } .status-row:last-child { border-bottom:0; } .status-row span:last-child { color:var(--warn); text-align:right; } .boundary { color:#c8d2df; } .boundary strong { color:#8cecf4; } .legend { display:grid; grid-template-columns:1fr 1fr; gap:6px; color:#ced7e5; } .legend i { width:10px; height:10px; display:inline-block; border-radius:50%; margin-right:5px; } .delta-list { display:grid; gap:4px; margin-top:8px; } .delta-step { width:100%; text-align:left; font-size:11px; padding:5px 7px; } .diff { margin:9px 0 0; padding:9px; overflow:auto; white-space:pre; background:#050812; border:1px solid #35405a; color:#d8f3ef; font:11px/1.45 Consolas,monospace; }
+    .canvas { min-width:0; min-height:0; display:grid; grid-template-rows:68px minmax(0,1fr) 174px; background:#050812; } .canvasbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); background:#0a0f1a; } h1 { margin:0; font-size:16px; } .canvasbar p { font-size:11px; margin:2px 0 0; color:var(--muted); } .tools { display:flex; gap:5px; align-items:center; } .icon { min-width:32px; } .zoom-readout { width:64px; color:#bdebf2; font:600 11px/1.2 Consolas,monospace; text-align:center; font-variant-numeric:tabular-nums; } #projectGraph { min-height:0; position:relative; overflow:hidden; isolation:isolate; background-color:#03060d; background-image:linear-gradient(rgba(86,125,153,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(86,125,153,.022) 1px,transparent 1px),radial-gradient(circle at 34% 28%,rgba(31,88,105,.055),transparent 31%),radial-gradient(circle at 72% 64%,rgba(99,46,89,.035),transparent 36%); background-size:40px 40px,40px 40px,100% 100%,100% 100%; } .node-material-layer { position:absolute; inset:0; width:100%; height:100%; z-index:7; pointer-events:none; } .review-tray { border-top:1px solid var(--line); display:grid; grid-template-columns:1.2fr 1fr 1fr; overflow:auto; background:#0a0f1a; } .tray-section { padding:12px; border-right:1px solid var(--line); } .tray-section:last-child { border-right:0; } .tray-title { color:#b7c8dd; text-transform:uppercase; font-size:10px; letter-spacing:.65px; margin-bottom:6px; } .state-line { color:#c9d2df; } .state-line strong { color:var(--warn); } .evidence-result { margin-top:6px; padding:7px; border:1px solid #30475a; background:#09111b; color:#c9d8e2; } .evidence-result strong { color:#7ee6d3; } .evidence-result small { color:#8fa6b6; overflow-wrap:anywhere; } .evidence-result.superseded { opacity:.52; border-style:dashed; } .evidence-result.current { box-shadow:inset 2px 0 #5fc8b4; } .detail { padding:8px; background:#111827; border:1px solid #35405a; border-radius:4px; } .detail + .detail { margin-top:8px; } .kv { display:grid; grid-template-columns:112px 1fr; gap:4px 8px; margin:8px 0 0; } .kv dt { color:var(--muted); } .kv dd { margin:0; overflow-wrap:anywhere; } .status-list { display:grid; gap:6px; } .status-row { display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid #293248; } .status-row:last-child { border-bottom:0; } .status-row span:last-child { color:var(--warn); text-align:right; } .boundary { color:#c8d2df; } .boundary strong { color:#8cecf4; } .legend { display:grid; grid-template-columns:1fr 1fr; gap:6px; color:#ced7e5; } .legend i { width:10px; height:10px; display:inline-block; border-radius:50%; margin-right:5px; } .delta-list { display:grid; gap:4px; margin-top:8px; } .delta-step { width:100%; text-align:left; font-size:11px; padding:5px 7px; } .diff { margin:9px 0 0; padding:9px; overflow:auto; white-space:pre; background:#050812; border:1px solid #35405a; color:#d8f3ef; font:11px/1.45 Consolas,monospace; }
     @media (max-width: 980px) { :root { --left:240px; --right:300px; } .review-tray { grid-template-columns:1fr; } .canvas { grid-template-rows:68px minmax(0,1fr) 220px; } } @media (max-width: 760px) { body { overflow:auto; } .app { height:auto; min-height:100vh; } .workspace { grid-template-columns:1fr; } .resizer { display:none; } .rail,.inspector { border:0; } .canvas { min-height:560px; } }
   </style>
 </head>
@@ -2901,10 +3462,10 @@ HTML_TEMPLATE = r'''<!doctype html>
       <aside class="rail">
         <section class="section"><h2>Graph lens</h2><div class="modes"><button class="mode active" data-mode="all">Full graph</button><button class="mode" data-mode="overview">Semantic overview</button><button class="mode" data-mode="impact">Active work</button><button class="mode" data-mode="code">Code topology</button><button class="mode" data-mode="focus">Focus selection</button><button id="clearSelection">Clear focus</button></div></section>
         <section class="section"><h2>Find</h2><label for="search">Node, relation, or source file</label><input id="search" type="search" placeholder="Find project or code fact"><label for="categoryFilter">Node category</label><select id="categoryFilter"></select><label for="relationFilter">Relation kind</label><select id="relationFilter"></select></section>
-        <section class="section"><h2>Work history</h2><div class="work-controls"><input id="workSearch" type="search" aria-label="Find recorded work" placeholder="Work id, title, request"><select id="workStatusFilter" aria-label="Work state"><option value="">All states</option><option value="unmapped">Unmapped</option><option value="mapped">Mapped</option><option value="proposal-ready">Proposal ready</option><option value="reviewed">Review receipt</option></select></div><div class="record-nav"><button id="previousWork" type="button" title="Previous work" aria-label="Previous work">&lsaquo;</button><div id="workPosition" class="record-position"></div><button id="nextWork" type="button" title="Next work" aria-label="Next work">&rsaquo;</button></div><div id="workList" class="work-list"></div><div id="workWindowSummary" class="work-window-summary"></div></section>
+        <section class="section"><h2>Work history</h2><div class="work-controls"><input id="workSearch" type="search" aria-label="Find recorded work" placeholder="Work id, title, request"><select id="workStatusFilter" aria-label="Work state"><option value="">All states</option><option value="unmapped">Unmapped</option><option value="mapped">Mapped</option><option value="proposal-ready">Proposal ready</option><option value="verification-observed">Verification observed</option><option value="blocked">Blocked</option><option value="reviewed">Review receipt</option></select></div><div class="record-nav"><button id="previousWork" type="button" title="Previous work" aria-label="Previous work">&lsaquo;</button><div id="workPosition" class="record-position"></div><button id="nextWork" type="button" title="Next work" aria-label="Next work">&rsaquo;</button></div><div id="workList" class="work-list"></div><div id="workWindowSummary" class="work-window-summary"></div></section>
         <section class="section"><h2>Work stages</h2><div class="record-nav"><button id="previousStage" type="button" title="Previous stage" aria-label="Previous stage">&lsaquo;</button><div id="stagePosition" class="record-position"></div><button id="nextStage" type="button" title="Next stage" aria-label="Next stage">&rsaquo;</button></div><div id="stageList" class="stage-list"></div></section>
         <section class="section"><h2>Project snapshot</h2><div id="metrics" class="metrics"></div></section>
-        <section class="section"><h2>Legend</h2><div class="legend"><div><i style="background:var(--code)"></i>Code fact</div><div><i style="background:#d6a762"></i>Goal / Intent</div><div><i style="background:#5fb8a5"></i>Capability / work</div><div><i style="background:#7993a8"></i>Source document</div><div><i style="background:var(--evidence)"></i>Evidence / verify</div><div><i style="background:var(--history)"></i>History / authority</div></div></section>
+        <section class="section"><h2>Legend</h2><div class="legend"><div><i style="background:var(--code)"></i>Code fact</div><div><i style="background:#d6a762"></i>Goal / Intent</div><div><i style="background:#5fb8a5"></i>Capability / work</div><div><i style="background:#7993a8"></i>Source document</div><div><i style="background:var(--evidence)"></i>Evidence / verify</div><div><i style="background:#5fc8b4"></i>Observed verifier result</div><div><i style="background:var(--history)"></i>History / authority</div></div></section>
       </aside>
       <div class="resizer" data-side="left" role="separator" aria-label="Resize navigation"></div>
       <main class="canvas">
@@ -2935,7 +3496,7 @@ HTML_TEMPLATE = r'''<!doctype html>
     const precisionZoomPivot=18,rendererMaximumZoom=24,logicalMaximumZoom=100;
     function logicalZoomFromActual(actual){if(actual<=precisionZoomPivot)return actual;return precisionZoomPivot+(actual-precisionZoomPivot)*(logicalMaximumZoom-precisionZoomPivot)/(rendererMaximumZoom-precisionZoomPivot);}
     function actualZoomFromLogical(logical){if(logical<=precisionZoomPivot)return logical;return precisionZoomPivot+(logical-precisionZoomPivot)*(rendererMaximumZoom-precisionZoomPivot)/(logicalMaximumZoom-precisionZoomPivot);}
-    const colors = { code:'#46a8c6', project:'#54b6bd', 'source-document':'#6e8ba5', goal:'#c9a96d', capability:'#6aa990', constraint:'#bf815f', 'verification-requirement':'#957bb1', work:'#65a98f', intent:'#c078a0', mapping:'#baa267', proposal:'#c96d79', verification:'#8677a8', evidence:'#8f72ae', 'review-receipt':'#a570ba', authority:'#6389b6', history:'#687ea8' };
+    const colors = { code:'#46a8c6', project:'#54b6bd', 'source-document':'#6e8ba5', goal:'#c9a96d', capability:'#6aa990', constraint:'#bf815f', 'verification-requirement':'#957bb1', work:'#65a98f', intent:'#c078a0', mapping:'#baa267', proposal:'#c96d79', verification:'#8677a8', evidence:'#8f72ae', 'review-receipt':'#a570ba', 'verifier-result':'#5fc8b4', authority:'#6389b6', history:'#687ea8' };
     const communityPalette = ['#3f8daf','#b8955b','#b56072','#4f958c','#65956a','#9e8f56','#8d6aa4','#a66888','#a97a58','#73869d'];
     const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     const short = value => String(value || '').replace('sha256:','').slice(0,12);
@@ -2946,7 +3507,7 @@ HTML_TEMPLATE = r'''<!doctype html>
     function stableHash(value) { let hash=2166136261; for(let index=0;index<value.length;index+=1){hash^=value.charCodeAt(index);hash=Math.imul(hash,16777619);} return hash>>>0; }
     function nodeColor(node) { return node.category==='code'||node.category==='code-capsule' ? communityPalette[stableHash(sourceModule(node))%communityPalette.length] : (colors[node.category]||'#8fa1b9'); }
     function rgba(hex,alpha){const value=String(hex||'#8fa1b9').replace('#',''),full=value.length===3?value.split('').map(char=>char+char).join(''):value,number=parseInt(full,16);return `rgba(${number>>16&255},${number>>8&255},${number&255},${alpha})`;}
-    function materialShape(node){if(['file','source-document','work'].includes(node.kind)||['source-document','work'].includes(node.category))return 'squircle';if(['type','project','code-capsule','proposal'].includes(node.kind)||['project','code-capsule','proposal'].includes(node.category))return 'hex';if(['verification','evidence','authority','history','verification-requirement'].includes(node.category))return 'diamond';return 'orb';}
+    function materialShape(node){if(['file','source-document','work'].includes(node.kind)||['source-document','work'].includes(node.category))return 'squircle';if(['type','project','code-capsule','proposal'].includes(node.kind)||['project','code-capsule','proposal'].includes(node.category))return 'hex';if(['verification','evidence','verifier-result','authority','history','verification-requirement'].includes(node.category))return 'diamond';return 'orb';}
     function traceMaterialShape(context,shape,cx,cy,radius){context.beginPath();if(shape==='squircle'){const left=cx-radius,right=cx+radius,top=cy-radius,bottom=cy+radius,corner=radius*.36;context.moveTo(left+corner,top);context.lineTo(right-corner,top);context.quadraticCurveTo(right,top,right,top+corner);context.lineTo(right,bottom-corner);context.quadraticCurveTo(right,bottom,right-corner,bottom);context.lineTo(left+corner,bottom);context.quadraticCurveTo(left,bottom,left,bottom-corner);context.lineTo(left,top+corner);context.quadraticCurveTo(left,top,left+corner,top);}else if(shape==='hex'){for(let index=0;index<6;index+=1){const angle=Math.PI/3*index-Math.PI/2,point={x:cx+Math.cos(angle)*radius,y:cy+Math.sin(angle)*radius};if(index===0)context.moveTo(point.x,point.y);else context.lineTo(point.x,point.y);}}else if(shape==='diamond'){context.moveTo(cx,cy-radius);context.lineTo(cx+radius*.82,cy);context.lineTo(cx,cy+radius);context.lineTo(cx-radius*.82,cy);}else context.arc(cx,cy,radius,0,Math.PI*2);context.closePath();}
     function materialSprite(node,selected,accent){const color=nodeColor(node),shape=materialShape(node),key=[color,shape,selected?'selected':'normal',accent||''].join('|');if(state.materialSpriteCache.has(key))return state.materialSpriteCache.get(key);const canvas=document.createElement('canvas');canvas.width=canvas.height=96;const context=canvas.getContext('2d'),cx=48,cy=48,radius=27;
       const halo=context.createRadialGradient(cx,cy,radius*.35,cx,cy,46);halo.addColorStop(0,rgba(color,.13));halo.addColorStop(.46,rgba(color,.075));halo.addColorStop(1,rgba(color,0));context.fillStyle=halo;context.fillRect(0,0,96,96);
@@ -3294,10 +3855,10 @@ HTML_TEMPLATE = r'''<!doctype html>
       const item=state.cy.$id(state.selected.id);if(!item.length)return;
       item.select();const highlightedEdges=state.selected.type==='edge'?item:item.connectedEdges();highlightedEdges.addClass('selection-neighbor');state.highlightedEdgeIds=new Set(highlightedEdges.map(edge=>edge.id()));refreshHighlightedEdgeScale();state.highlighted=state.selected.id;updateOnDemandLabels();
     }
-    function renderStageSelection(stage){const panel=document.getElementById('selectionInspector'),diffs=stage.codeDiffs||[],diffHtml=diffs.map(diff=>`<h3 style="margin-top:12px">${safe(diff.sourceFile)}</h3><pre class="diff">${safe(diff.unifiedDiff)}</pre>`).join('');panel.className='detail';panel.innerHTML=`<h3>${safe(stage.title)}</h3>${rows([['work item',stage.workItemId],['stage',`${stage.sequence}. ${stage.kind}`],['status',stage.status],['revision persistence',stage.durableRevision?'durable':'legacy derived'],['revision ids',stage.revisionIds.join(', ')||'not available'],['before state',short(stage.beforeProjectStateDigest)||'not available'],['after state',short(stage.afterProjectStateDigest)||'not available'],['revision boundary',stage.revisionKind],['graph additions',stage.addedNodeIds.length+' node(s), '+stage.addedEdgeIds.length+' edge(s)'],['graph changes',stage.changedNodeIds.length+' node(s), '+stage.changedEdgeIds.length+' edge(s)'],['code diffs',diffs.length],['verification records',stage.verificationRecordIds.length],['evidence records',stage.evidenceRecordIds.length],['history records',stage.recordIds.join(', ')||'none']])}<p>${safe(stage.summary)}</p>${diffHtml}`;}
-    function renderSelection(){const panel=document.getElementById('selectionInspector');if(!state.selected){if(state.stageFocus){renderStageSelection(state.stageFocus);return;}panel.className='empty';panel.textContent='Select a graph node or relation to inspect its semantic and source provenance.';return;}if(state.selected.type==='node'){const node=nodeById.get(state.selected.id);if(!node)return;const base=[['category',node.category],['kind',node.kind],['identifier',node.id]];let diffHtml='';if(node.category==='code'){const diffs=node.codeDiffs||[];base.push(['source file',node.source.file],['range',`${node.source.location?.lineStart||'file'}:${node.source.location?.columnStart||''} - ${node.source.location?.lineEnd||''}:${node.source.location?.columnEnd||''}`],['source digest',short(node.source.digest)],['confidence',node.provenance.confidence],['delta state',node.deltaState||'unchanged'],['interpretation',node.details.interpretation],['code diff',diffs.length?`${diffs.length} proposed diff(s) below`:'No change proposal recorded']);diffHtml=diffs.map(diff=>`<h3 style="margin-top:12px">${safe(diff.proposalTitle)}</h3><p>${safe(diff.sourceFile)}</p><pre class="diff">${safe(diff.unifiedDiff)}</pre>`).join('');}else base.push(...Object.entries(node.details).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value]));panel.className='detail';panel.innerHTML=`<h3>${safe(node.label)}</h3>${rows(base)}${diffHtml}`; }else{const edge=allEdges.find(item=>item.id===state.selected.id);if(!edge)return;panel.className='detail';panel.innerHTML=`<h3>${safe(edge.kind)}</h3>${rows([['category',edge.category],['source',edge.source],['target',edge.target],...Object.entries(edge.details||{}).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value])])}`;}}
+    function renderStageSelection(stage){const panel=document.getElementById('selectionInspector'),diffs=stage.codeDiffs||[];let detailHtml=diffs.map(diff=>`<h3 style="margin-top:12px">${safe(diff.sourceFile)}</h3><pre class="diff">${safe(diff.unifiedDiff)}</pre>`).join('');if(stage.kind==='verifier-result-imported'){const resultId=(stage.nodeIds||[]).find(id=>id.startsWith('verifier-result.'))?.slice('verifier-result.'.length),result=(model.workflow.verifierResults||[]).find(item=>item.id===resultId),pair=(model.workflow.verifierResultIntake?.pairs||[]).find(item=>item.currentResult?.id===resultId),checks=result?.evidence?.payload?.checks||[],artifacts=result?.evidence?.payload?.artifactRefs||[];if(result)detailHtml=`<h3 style="margin-top:12px">Observed external result</h3>${rows([['result',result.result],['attempt',result.attempt],['current',pair?'yes':'superseded'],['observation',result.observationStatus],['acceptance',result.acceptanceStatus],['verifier',result.verifier.kind+' / '+result.verifier.id],['evidence digest',result.evidence.digest],['checks',checks.length],['artifacts',artifacts.length]])}<p>${safe(result.evidence.payload.summary)}</p>`;}panel.className='detail';panel.innerHTML=`<h3>${safe(stage.title)}</h3>${rows([['work item',stage.workItemId],['stage',`${stage.sequence}. ${stage.kind}`],['status',stage.status],['revision persistence',stage.durableRevision?'durable':'legacy derived'],['revision ids',stage.revisionIds.join(', ')||'not available'],['before state',short(stage.beforeProjectStateDigest)||'not available'],['after state',short(stage.afterProjectStateDigest)||'not available'],['revision boundary',stage.revisionKind],['graph additions',stage.addedNodeIds.length+' node(s), '+stage.addedEdgeIds.length+' edge(s)'],['graph changes',stage.changedNodeIds.length+' node(s), '+stage.changedEdgeIds.length+' edge(s)'],['code diffs',diffs.length],['verification records',stage.verificationRecordIds.length],['evidence records',stage.evidenceRecordIds.length],['history records',stage.recordIds.join(', ')||'none']])}<p>${safe(stage.summary)}</p>${detailHtml}`;}
+    function renderSelection(){const panel=document.getElementById('selectionInspector');if(!state.selected){if(state.stageFocus){renderStageSelection(state.stageFocus);return;}panel.className='empty';panel.textContent='Select a graph node or relation to inspect its semantic and source provenance.';return;}if(state.selected.type==='node'){const node=nodeById.get(state.selected.id);if(!node)return;const base=[['category',node.category],['kind',node.kind],['identifier',node.id]];let diffHtml='';if(node.category==='code'){const diffs=node.codeDiffs||[];base.push(['source file',node.source.file],['range',`${node.source.location?.lineStart||'file'}:${node.source.location?.columnStart||''} - ${node.source.location?.lineEnd||''}:${node.source.location?.columnEnd||''}`],['source digest',short(node.source.digest)],['confidence',node.provenance.confidence],['delta state',node.deltaState||'unchanged'],['interpretation',node.details.interpretation],['code diff',diffs.length?`${diffs.length} proposed diff(s) below`:'No change proposal recorded']);diffHtml=diffs.map(diff=>`<h3 style="margin-top:12px">${safe(diff.proposalTitle)}</h3><p>${safe(diff.sourceFile)}</p><pre class="diff">${safe(diff.unifiedDiff)}</pre>`).join('');}else if(node.category==='verifier-result'){const checks=node.details.checks||[],artifacts=node.details.artifactRefs||[];base.push(['result',node.details.result],['currency',node.details.current?'current':'superseded'],['attempt',node.details.attempt],['observation',node.details.observationStatus],['acceptance',node.details.acceptanceStatus],['verifier',`${node.details.verifier?.kind||''} / ${node.details.verifier?.id||''} ${node.details.verifier?.version||''}`],['invocation digest',node.details.invocation?.digest||''],['exit code',node.details.exitCode===null?'not executed':node.details.exitCode],['evidence digest',node.details.evidenceDigest],['metrics',JSON.stringify(node.details.metrics||{})]);diffHtml=`<h3 style="margin-top:12px">Evidence summary</h3><p>${safe(node.details.summary||'')}</p><h3 style="margin-top:12px">Checks</h3>${checks.map(check=>`<div class="evidence-result"><strong>${safe(check.result)}</strong> ${safe(check.id)}<br><small>${safe(check.summary)}</small></div>`).join('')||'<div class="empty">No checks recorded.</div>'}<h3 style="margin-top:12px">Artifact identities</h3>${artifacts.map(artifact=>`<div class="evidence-result"><strong>${safe(artifact.kind)}</strong> ${safe(artifact.logicalName)}<br><small>${safe(artifact.digest+' / '+artifact.byteLength+' bytes / '+artifact.availability)}</small></div>`).join('')||'<div class="empty">No artifacts recorded.</div>'}`;}else base.push(...Object.entries(node.details).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value]));panel.className='detail';panel.innerHTML=`<h3>${safe(node.label)}</h3>${rows(base)}${diffHtml}`; }else{const edge=allEdges.find(item=>item.id===state.selected.id);if(!edge)return;panel.className='detail';panel.innerHTML=`<h3>${safe(edge.kind)}</h3>${rows([['category',edge.category],['source',edge.source],['target',edge.target],...Object.entries(edge.details||{}).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value])])}`;}}
     function stagesForWork(workId){return workStages.filter(stage=>stage.workItemId===workId).sort((left,right)=>left.sequence-right.sequence||left.id.localeCompare(right.id));}
-    function workMatchesStatus(work,status){if(!status)return true;if(status==='unmapped')return work.mappingStatus==='unmapped';if(status==='mapped')return Boolean(work.mappingStatus&&work.mappingStatus!=='unmapped');if(status==='proposal-ready')return work.status==='proposal-ready'||work.changeStatus==='proposal-review-required';if(status==='reviewed')return /reviewed|accepted|rejected|receipt/.test(String(work.status+' '+work.changeStatus).toLowerCase());return true;}
+    function workMatchesStatus(work,status){if(!status)return true;if(status==='unmapped')return work.mappingStatus==='unmapped';if(status==='mapped')return Boolean(work.mappingStatus&&work.mappingStatus!=='unmapped');if(status==='proposal-ready')return work.status==='proposal-ready';if(status==='verification-observed')return work.status==='verification-observed';if(status==='blocked')return work.status==='blocked';if(status==='reviewed')return /reviewed|accepted|rejected|receipt/.test(String(work.status+' '+work.changeStatus+' '+work.verificationStatus).toLowerCase());return true;}
     function filteredWorkItems(){const query=document.getElementById('workSearch').value.trim().toLowerCase(),status=document.getElementById('workStatusFilter').value;return workItems.filter(work=>workMatchesStatus(work,status)&&(!query||String(work.id+' '+work.title+' '+work.request).toLowerCase().includes(query)));}
     function scheduleWorkHistoryRender(){window.clearTimeout(state.workFilterTimer);state.workFilterTimer=window.setTimeout(renderWorkHistory,100);}
     function renderWorkHistory() {
@@ -3332,11 +3893,15 @@ HTML_TEMPLATE = r'''<!doctype html>
       document.getElementById('metrics').innerHTML=metrics.map(([label,value])=>`<div class="metric"><strong>${Number(value).toLocaleString()}</strong><span>${safe(label)}</span></div>`).join('');
       renderWorkHistory();
       const c=model.changeReview;document.getElementById('changePanel').innerHTML=`<div class="state-line"><strong>${safe(c.status)}</strong><br>${safe(c.summary)}<br><small>${safe(c.reason)}</small></div>`;const deltas=model.workflow.proposalDeltas||[];document.getElementById('deltaList').innerHTML=deltas.length?deltas.map(delta=>`<button class="delta-step" data-delta="${safe(delta.targetNodeId)}">${safe(delta.kind)}: ${safe(delta.label)}</button>`).join(''):'<div class="empty">No graph delta is recorded.</div>';document.querySelectorAll('[data-delta]').forEach(button=>button.addEventListener('click',()=>focusDelta(button.dataset.delta)));
-      const receipts=model.workflow.reviewReceipts||[];document.getElementById('evidencePanel').innerHTML=`<div class="state-line">${model.workflow.verification.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br>${model.workflow.evidence.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br><strong>Review receipts:</strong> ${receipts.length?receipts.map(item=>safe(item.status)).join(', '):'none recorded'}</div>`;document.getElementById('authorityPanel').innerHTML=`<div class="state-line"><strong>read-only boundary</strong><br>Target edits: ${safe(model.authority.targetRepositoryMutation)}<br>Automatic application: ${safe(model.authority.automaticCodeApplication)}<br>History records: ${model.workflow.history.length}</div>`;
-      document.getElementById('boundaryPanel').innerHTML='<strong>This page is a project-state projection.</strong><br>It can show recorded requests, candidate mappings, review-required proposals, graph delta, code diff, non-executing review receipts, verification, evidence, authority, history, syntax facts, and bounded local-symbol relations. It does not build, restore, launch, apply changes, execute verification, collect runtime evidence, or approve work.';
+      const receipts=model.workflow.reviewReceipts||[],verifierResults=model.workflow.verifierResults||[],coverage=model.workflow.verifierResultCoverage||[],intake=model.workflow.verifierResultIntake||{pairs:[]},currentResultIds=new Set((intake.pairs||[]).map(pair=>pair.currentResult?.id).filter(Boolean));
+      const coverageHtml=coverage.length?coverage.map(item=>`<div class="evidence-result"><strong>${safe(item.observedPairCount+'/'+item.requiredPairCount+' observed')}</strong> ${safe(item.proposalId)}<br><small>${safe(item.passPairCount+' pass / '+item.failPairCount+' fail / '+item.blockedPairCount+' blocked / '+item.missingPairCount+' missing / acceptance '+item.acceptanceStatus)}</small></div>`).join(''):'<div class="empty">No proposal verification coverage exists.</div>';
+      const resultHtml=verifierResults.length?verifierResults.map(item=>{const current=currentResultIds.has(item.id),payload=item.evidence?.payload||{},artifactCount=(payload.artifactRefs||[]).length;return `<div class="evidence-result ${current?'current':'superseded'}"><strong>${safe(item.verifier?.kind||'verifier')} ${safe(item.result)}</strong> ${safe(current?'current observed result':'superseded result')}<br><small>${safe(item.id+' / attempt '+item.attempt+' / '+item.observationStatus+' / acceptance '+item.acceptanceStatus+' / '+(payload.checks||[]).length+' checks / '+artifactCount+' artifacts')}</small></div>`;}).join(''):'<div class="empty">No external verifier result has been imported.</div>';
+      document.getElementById('evidencePanel').innerHTML=`<div class="state-line">${model.workflow.verification.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br>${model.workflow.evidence.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br><strong>Review receipts:</strong> ${receipts.length?receipts.map(item=>safe(item.status)).join(', '):'none recorded'}</div><h3 style="margin-top:12px">Requirement coverage</h3>${coverageHtml}<h3 style="margin-top:12px">External verifier results</h3>${resultHtml}`;
+      document.getElementById('authorityPanel').innerHTML=`<div class="state-line"><strong>read-only boundary</strong><br>Target edits: ${safe(model.authority.targetRepositoryMutation)}<br>Automatic application: ${safe(model.authority.automaticCodeApplication)}<br>Imported verifier execution: false<br>Imported evidence acceptance: pending<br>History records: ${model.workflow.history.length}</div>`;
+      document.getElementById('boundaryPanel').innerHTML='<strong>This page is a project-state projection.</strong><br>It can show recorded requests, candidate mappings, review-required proposals, graph delta, code diff, non-executing review receipts, imported external verifier results, evidence, authority, history, syntax facts, and bounded local-symbol relations. Import records what an external tool reported and binds its digests; it does not authenticate the producer, execute verification, accept evidence, build, restore, launch, apply changes, collect runtime evidence, or approve work.';
     }
     function resize(){document.querySelectorAll('.resizer').forEach(handle=>handle.addEventListener('pointerdown',event=>{event.preventDefault();handle.classList.add('active');const side=handle.dataset.side,start=event.clientX,variable=side==='left'?'--left':'--right',initial=parseInt(getComputedStyle(document.documentElement).getPropertyValue(variable));const move=e=>{const delta=e.clientX-start;const next=side==='left'?initial+delta:initial-delta;document.documentElement.style.setProperty(variable,`${Math.max(230,Math.min(560,next))}px`);if(!state.resizeQueued){state.resizeQueued=true;window.requestAnimationFrame(()=>{state.resizeQueued=false;state.cy?.resize();});}};const up=()=>{handle.classList.remove('active');window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);state.cy?.resize();};window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);}));}
-    window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},selectGraphElement:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return false;state.selected={type:item.isNode()?'node':'edge',id:identifier};renderSelection();highlight();return true;},workItems:()=>workItems.slice(),filteredWorkItems:()=>filteredWorkItems().slice(),workStages:()=>workStages.slice(),proposalCodeFacts:workId=>{const mapping=(model.workflow.mappings||[]).find(item=>item.workItemId===workId);return mapping?(mapping.codeFactIds||[]).map(identifier=>nodeById.get(identifier)).filter(Boolean).map(node=>({id:node.id,label:node.label,kind:node.kind,source:node.source})):[];},selectedWork:()=>state.selectedWorkId,selectedStage:()=>state.stageFocus?.id||null,selectWork:focusWork,selectStage:focusStage,previousWork:()=>moveWork(-1),nextWork:()=>moveWork(1),previousStage:()=>moveStage(-1),nextStage:()=>moveStage(1),reviewReceiptPairs:()=>{const recorded=new Set((model.workflow.reviewReceipts||[]).map(receipt=>receipt.proposalId+'|'+receipt.verificationRequirementId+'|'+receipt.evidenceRequirementId));return (model.workflow.changeProposals||[]).flatMap(proposal=>(proposal.verificationRequirements||[]).flatMap(verification=>(proposal.evidenceRequirements||[]).map(evidence=>({key:proposal.id+'|'+verification.id+'|'+evidence.id,proposalId:proposal.id,proposalTitle:proposal.title,verificationRequirementId:verification.id,evidenceRequirementId:evidence.id,verificationKind:verification.kind,evidenceKind:evidence.kind})))).filter(pair=>!recorded.has(pair.key));},elementMetrics:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return null;return {type:item.isNode()?'node':'edge',width:parseFloat(item.renderedStyle('width')),height:item.isNode()?parseFloat(item.renderedStyle('height')):null,shape:item.isNode()?item.style('shape'):null,backgroundImage:item.isNode()?item.style('background-image'):null,backgroundOpacity:item.isNode()?parseFloat(item.style('background-opacity')):null,underlayOpacity:parseFloat(item.style('underlay-opacity'))};},metrics:()=>({graphInstanceCount:state.graphInstanceCount,visibilityUpdates:state.visibilityUpdates,visibleNodeCount:state.visibleNodeIds?.size||0,visibleEdgeCount:state.visibleEdgeIds?.size||0,totalNodeCount:allNodes.length,totalEdgeCount:allEdges.length,highlightedEdgeCount:state.highlightedEdgeIds.size,selectedEdgeRenderedWidth:state.selected?.type==='edge'?state.cy.$id(state.selected.id).renderedStyle('width'):null,renderedWorkCardCount:state.renderedWorkCardCount,workListRenderLimit,zoom:logicalZoomFromActual(state.cy?.zoom()||0),rendererZoom:state.cy?.zoom()||null,maxZoom:logicalMaximumZoom,rendererMaxZoom:state.cy?.maxZoom()||null,zoomStyleBand:state.viewportScale||null})};
+    window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},selectGraphElement:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return false;state.selected={type:item.isNode()?'node':'edge',id:identifier};renderSelection();highlight();return true;},workItems:()=>workItems.slice(),filteredWorkItems:()=>filteredWorkItems().slice(),workStages:()=>workStages.slice(),proposalCodeFacts:workId=>{const mapping=(model.workflow.mappings||[]).find(item=>item.workItemId===workId);return mapping?(mapping.codeFactIds||[]).map(identifier=>nodeById.get(identifier)).filter(Boolean).map(node=>({id:node.id,label:node.label,kind:node.kind,source:node.source})):[];},selectedWork:()=>state.selectedWorkId,selectedStage:()=>state.stageFocus?.id||null,selectWork:focusWork,selectStage:focusStage,previousWork:()=>moveWork(-1),nextWork:()=>moveWork(1),previousStage:()=>moveStage(-1),nextStage:()=>moveStage(1),reviewReceiptPairs:()=>{const recorded=new Set((model.workflow.reviewReceipts||[]).map(receipt=>receipt.proposalId+'|'+receipt.verificationRequirementId+'|'+receipt.evidenceRequirementId));return (model.workflow.changeProposals||[]).flatMap(proposal=>(proposal.verificationRequirements||[]).flatMap(verification=>(proposal.evidenceRequirements||[]).map(evidence=>({key:proposal.id+'|'+verification.id+'|'+evidence.id,proposalId:proposal.id,proposalTitle:proposal.title,verificationRequirementId:verification.id,evidenceRequirementId:evidence.id,verificationKind:verification.kind,evidenceKind:evidence.kind})))).filter(pair=>!recorded.has(pair.key));},verifierResultIntake:()=>model.workflow.verifierResultIntake,elementMetrics:identifier=>{const item=state.cy?.$id(identifier);if(!item?.length)return null;return {type:item.isNode()?'node':'edge',width:parseFloat(item.renderedStyle('width')),height:item.isNode()?parseFloat(item.renderedStyle('height')):null,shape:item.isNode()?item.style('shape'):null,backgroundImage:item.isNode()?item.style('background-image'):null,backgroundOpacity:item.isNode()?parseFloat(item.style('background-opacity')):null,underlayOpacity:parseFloat(item.style('underlay-opacity'))};},metrics:()=>({graphInstanceCount:state.graphInstanceCount,visibilityUpdates:state.visibilityUpdates,visibleNodeCount:state.visibleNodeIds?.size||0,visibleEdgeCount:state.visibleEdgeIds?.size||0,totalNodeCount:allNodes.length,totalEdgeCount:allEdges.length,highlightedEdgeCount:state.highlightedEdgeIds.size,selectedEdgeRenderedWidth:state.selected?.type==='edge'?state.cy.$id(state.selected.id).renderedStyle('width'):null,renderedWorkCardCount:state.renderedWorkCardCount,workListRenderLimit,zoom:logicalZoomFromActual(state.cy?.zoom()||0),rendererZoom:state.cy?.zoom()||null,maxZoom:logicalMaximumZoom,rendererMaxZoom:state.cy?.maxZoom()||null,zoomStyleBand:state.viewportScale||null})};
     window.intentGraphRendererMetrics=()=>({logicalZoom:logicalZoomFromActual(state.cy?.zoom()||0),rendererZoom:state.cy?.zoom()||null,virtualGeometryScale:state.virtualGeometryScale,effectiveGeometryZoom:(state.cy?.zoom()||0)*state.virtualGeometryScale,selectedEdgeRenderedWidth:state.selected?.type==='edge'?parseFloat(state.cy.$id(state.selected.id).renderedStyle('width')):null,materialNodesDrawn:state.materialDrawCount,cachedMaterialSprites:state.materialSpriteCache.size,rendererMaximumZoom,logicalMaximumZoom});
     document.getElementById('previousWork').addEventListener('click',()=>moveWork(-1));document.getElementById('nextWork').addEventListener('click',()=>moveWork(1));document.getElementById('previousStage').addEventListener('click',()=>moveStage(-1));document.getElementById('nextStage').addEventListener('click',()=>moveStage(1));document.getElementById('zoomIn').addEventListener('click',()=>zoomGraphTo(logicalZoomFromActual(state.cy.zoom())*1.8));document.getElementById('zoomOut').addEventListener('click',()=>zoomGraphTo(logicalZoomFromActual(state.cy.zoom())/1.8));document.getElementById('zoom100').addEventListener('click',()=>zoomGraphTo(100));document.getElementById('fitGraph').addEventListener('click',()=>{const graph=visibleGraphData(),semanticFocus=state.mode==='overview'&&!filters().search&&!filters().category&&!filters().relation?model.graph.views.overview.nodeIds.map(id=>nodeById.get(id)).filter(Boolean):graph.nodes;fitNodes(semanticFocus);updateZoomReadout();});init();staticPanels();renderGraph({fit:true});updateZoomReadout();renderSelection();resize();window.dispatchEvent(new Event('intentgraph-ready'));
     }
@@ -3360,7 +3925,8 @@ SERVER_UI_EXTENSION = r'''<style>
   .new-work-dialog::backdrop { background:rgba(2,1,8,.78); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#e8e1ff; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form input,.new-work-form select,.new-work-form textarea { color:#f2efff; background:#07060d; border:1px solid #443d60; border-radius:4px; padding:8px; font:inherit; } .new-work-form textarea { min-height:110px; resize:vertical; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#ffd166; font-size:12px; } .map-code-trigger { position:fixed; right:18px; bottom:62px; z-index:30; background:#221e3a; border-color:#ad91ff; color:#efe8ff; box-shadow:0 0 18px rgba(173,145,255,.13); } .selected-code-fact { padding:8px; overflow-wrap:anywhere; color:#d4cceb; background:#07060d; border:1px solid #443d60; border-radius:4px; font:11px/1.4 Consolas,monospace; }
   .draft-proposal-trigger { position:fixed; right:18px; bottom:106px; z-index:30; background:#173a34; border-color:#63efc3; color:#dcfff3; box-shadow:0 0 18px rgba(99,239,195,.14); } .proposal-trigger { position:fixed; right:18px; bottom:150px; z-index:30; background:#422718; border-color:#ffd166; color:#fff2cc; box-shadow:0 0 18px rgba(255,209,102,.12); } .proposal-dialog { width:min(760px,calc(100vw - 32px)); } .proposal-input { min-height:300px !important; font:12px/1.45 Consolas,monospace !important; tab-size:2; }
   .draft-proposal-dialog { width:min(940px,calc(100vw - 32px)); } .diff-authoring { display:grid; gap:8px; max-height:34vh; overflow:auto; padding:2px 4px 2px 0; } .diff-entry { border:1px solid #273d4d; background:rgba(6,13,22,.72); padding:10px; display:grid; gap:8px; } .diff-entry.enabled { border-color:#38c7b0; box-shadow:inset 2px 0 #38c7b0; } .diff-entry-head { display:grid; grid-template-columns:auto minmax(0,1fr); gap:9px; align-items:start; color:#d8eaf4; } .diff-entry-head input { margin-top:3px; accent-color:#63efc3; } .diff-entry-meta { display:grid; gap:2px; min-width:0; } .diff-entry-meta strong,.diff-entry-meta small { overflow-wrap:anywhere; } .diff-entry-meta small { color:#8298a9; } .diff-entry textarea { min-height:112px !important; resize:vertical; font:12px/1.45 Consolas,monospace !important; tab-size:2; } .diff-entry textarea:disabled { opacity:.42; cursor:not-allowed; }
-  .draft-receipt-trigger { position:fixed; right:18px; bottom:194px; z-index:30; background:#2f2449; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); } .receipt-trigger { position:fixed; right:18px; bottom:238px; z-index:30; background:#35244e; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); }
+  .draft-receipt-trigger { position:fixed; right:18px; bottom:194px; z-index:30; background:#2f2449; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); } .receipt-trigger { position:fixed; right:18px; bottom:238px; z-index:30; background:#35244e; border-color:#c0a0ff; color:#f0e7ff; box-shadow:0 0 18px rgba(192,160,255,.12); } .verifier-trigger { position:fixed; right:18px; bottom:282px; z-index:30; background:#123b3a; border-color:#5fc8b4; color:#dffcf6; box-shadow:0 0 18px rgba(95,200,180,.15); }
+  .verifier-dialog { width:min(900px,calc(100vw - 32px)); } .verifier-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; } .verifier-grid>div { min-width:0; } .verifier-grid .wide { grid-column:1/-1; } .verifier-grid input,.verifier-grid select,.verifier-grid textarea { box-sizing:border-box; width:100%; } .verifier-grid textarea { min-height:84px; } .verifier-boundary { padding:9px 11px; border:1px solid #315a58; background:#091817; color:#bfe9e1; font-size:11px; line-height:1.5; } .verifier-file-state { min-height:18px; color:#8fdaca; font-size:11px; overflow-wrap:anywhere; }
 </style>
 <button id="newWorkTrigger" class="new-work-trigger" type="button">New work request</button>
 <button id="mapCodeTrigger" class="map-code-trigger" type="button">Map selected code</button>
@@ -3368,12 +3934,14 @@ SERVER_UI_EXTENSION = r'''<style>
 <button id="importProposalTrigger" class="proposal-trigger" type="button" disabled>Import proposal JSON</button>
 <button id="draftReceiptTrigger" class="draft-receipt-trigger" type="button" disabled>Record review receipt</button>
 <button id="importReceiptTrigger" class="receipt-trigger" type="button" disabled>Import receipt JSON</button>
+<button id="importVerifierResultTrigger" class="verifier-trigger" type="button" disabled>Import verification result</button>
 <dialog id="newWorkDialog" class="new-work-dialog"><form id="newWorkForm" class="new-work-form" method="dialog"><h2>Record a work request</h2><p>This records a request in the local IntentGraph project workspace. It does not edit the source project.</p><label for="newWorkId">Stable work id</label><input id="newWorkId" name="workId" required pattern="[a-z][a-z0-9.-]{2,100}" placeholder="example-work-item"><label for="newWorkTitle">Title</label><input id="newWorkTitle" name="title" required maxlength="180" placeholder="Short work title"><label for="newWorkRequest">Request</label><textarea id="newWorkRequest" name="request" required maxlength="12000" placeholder="Describe the desired behavior or change."></textarea><div id="newWorkMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelNewWork" type="button">Cancel</button><button type="submit">Record request</button></div></form></dialog>
 <dialog id="mapCodeDialog" class="new-work-dialog"><form id="mapCodeForm" class="new-work-form" method="dialog"><h2>Record a code mapping candidate</h2><p>This connects the selected code fact to a local work request as a declared candidate. It does not approve the mapping or edit the source project.</p><label>Selected code fact</label><div id="selectedCodeFact" class="selected-code-fact"></div><label for="mapWorkId">Work request</label><select id="mapWorkId" name="workId" required></select><label for="mapRationale">Why this code is relevant</label><textarea id="mapRationale" name="rationale" required maxlength="12000" placeholder="Describe the relationship between this request and the selected code."></textarea><div id="mapCodeMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelMapCode" type="button">Cancel</button><button id="submitMapCode" type="submit">Record mapping candidate</button></div></form></dialog>
 <dialog id="draftProposalDialog" class="new-work-dialog draft-proposal-dialog"><form id="draftProposalForm" class="new-work-form" method="dialog"><h2>Draft a code change</h2><p>Attach hunk-only unified diffs to mapped code facts. IGD checks every hunk against the immutable source snapshot, then records a non-applied proposal for graph and code review. Source files are never modified here.</p><label for="draftProposalWorkId">Mapped work request</label><select id="draftProposalWorkId" name="workId" required></select><label for="draftProposalId">Stable proposal id</label><input id="draftProposalId" name="proposalId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"><label for="draftProposalTitle">Proposal title</label><input id="draftProposalTitle" name="title" required maxlength="180" placeholder="Short code change title"><label for="draftProposalSummary">Change summary</label><textarea id="draftProposalSummary" name="summary" required maxlength="12000" placeholder="Describe the intended behavior and bounded code change."></textarea><label>Mapped code change fragments</label><div id="draftCodeDiffList" class="diff-authoring"></div><label for="draftVerificationKind">Verification kind</label><select id="draftVerificationKind" name="verificationKind" required><option value="local-review">Local review</option><option value="build-required">Build required</option><option value="test-required">Test required</option></select><label for="draftVerificationSummary">Verification requirement</label><textarea id="draftVerificationSummary" name="verificationSummary" required maxlength="12000" placeholder="State what must be verified later."></textarea><label for="draftEvidenceKind">Evidence kind</label><select id="draftEvidenceKind" name="evidenceKind" required><option value="review-note">Review note</option><option value="test-evidence">Test evidence</option><option value="build-evidence">Build evidence</option></select><label for="draftEvidenceSummary">Evidence requirement</label><textarea id="draftEvidenceSummary" name="evidenceSummary" required maxlength="12000" placeholder="State what evidence must be collected later."></textarea><div id="draftProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelDraftProposal" type="button">Cancel</button><button id="submitDraftProposal" type="submit">Record code change</button></div></form></dialog>
 <dialog id="draftReceiptDialog" class="new-work-dialog"><form id="draftReceiptForm" class="new-work-form" method="dialog"><h2>Record a review receipt</h2><p>Records a human review result for one existing proposal requirement pair. It does not execute the requirement, collect runtime evidence, apply the proposal, approve the proposal, or edit the source project.</p><label for="draftReceiptPair">Proposal requirement pair</label><select id="draftReceiptPair" name="pair" required></select><label for="draftReceiptId">Stable receipt id</label><input id="draftReceiptId" name="receiptId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"><label for="draftReceiptResult">Review result</label><select id="draftReceiptResult" name="result" required><option value="reviewed-pass">Reviewed pass</option><option value="reviewed-fail">Reviewed fail</option><option value="review-blocked">Review blocked</option></select><label for="draftReceiptSummary">Review summary</label><textarea id="draftReceiptSummary" name="summary" required maxlength="12000" placeholder="State what was reviewed. This is not execution evidence."></textarea><div id="draftReceiptMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelDraftReceipt" type="button">Cancel</button><button id="submitDraftReceipt" type="submit">Record receipt</button></div></form></dialog>
 <dialog id="importProposalDialog" class="new-work-dialog proposal-dialog"><form id="importProposalForm" class="new-work-form" method="dialog"><h2>Import a review-only change proposal</h2><p>Paste a deterministic proposal document for an existing work request and mapping candidate. The local server validates it before recording any project-state artifact. It does not edit the C# source project, apply a graph delta, or approve the proposal.</p><label for="proposalDocument">Proposal JSON</label><textarea id="proposalDocument" class="proposal-input" name="proposalDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-change-proposal document."></textarea><div id="importProposalMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportProposal" type="button">Cancel</button><button type="submit">Validate and record proposal</button></div></form></dialog>
 <dialog id="importReceiptDialog" class="new-work-dialog proposal-dialog"><form id="importReceiptForm" class="new-work-form" method="dialog"><h2>Import a non-executing review receipt</h2><p>Paste one deterministic receipt for a proposal verification/evidence requirement pair. It records what was reviewed as pass, fail, or blocked. It does not run verification, collect runtime evidence, apply a graph delta, approve the proposal, or edit C# source.</p><label for="receiptDocument">Review receipt JSON</label><textarea id="receiptDocument" class="proposal-input" name="receiptDocument" required maxlength="100000" spellcheck="false" placeholder="Paste an intentgraph-experimental-csharp-review-receipt document."></textarea><div id="importReceiptMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportReceipt" type="button">Cancel</button><button type="submit">Validate and record receipt</button></div></form></dialog>
+<dialog id="importVerifierResultDialog" class="new-work-dialog verifier-dialog"><form id="importVerifierResultForm" class="new-work-form" method="dialog"><h2>Import an observed verification result</h2><div class="verifier-boundary">This records what an external tool declared to be a deterministic result for one requirement pair. The selected local file is hashed in this browser and is not uploaded. IntentGraph does not independently prove determinism, run the verifier, authenticate its producer, accept the evidence, apply the proposal, or edit source.</div><div class="verifier-grid"><div class="wide"><label for="verifierPair">Proposal requirement pair</label><select id="verifierPair" required></select></div><div><label for="verifierResultId">Stable result id</label><input id="verifierResultId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101"></div><div><label for="verifierOutcome">Observed outcome</label><select id="verifierOutcome" required><option value="pass">Pass</option><option value="fail">Fail</option><option value="blocked">Blocked</option></select></div><div><label for="verifierKind">Verifier kind</label><select id="verifierKind" required></select></div><div><label for="verifierIdentity">Verifier identity</label><input id="verifierIdentity" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101" value="local.verifier"></div><div><label for="verifierVersion">Verifier version</label><input id="verifierVersion" required maxlength="128" value="1.0.0"></div><div><label for="verifierInvocation">Invocation description (hashed, not stored)</label><input id="verifierInvocation" required maxlength="4000" placeholder="dotnet test --no-restore"></div><div class="wide"><label for="verifierSummary">Observed result summary</label><textarea id="verifierSummary" required maxlength="12000" placeholder="State exactly what this external run observed."></textarea></div><div><label for="verifierCheckId">Check id</label><input id="verifierCheckId" required pattern="[a-z][a-z0-9.-]{2,100}" maxlength="101" value="check.primary"></div><div><label for="verifierExitCode">Exit code (blank when blocked)</label><input id="verifierExitCode" type="number" min="0" max="255" value="0"></div><div class="wide"><label for="verifierCheckSummary">Check summary</label><input id="verifierCheckSummary" required maxlength="4000" placeholder="One declared deterministic check represented by this result"></div><div class="wide"><label for="verifierMetrics">Typed metrics JSON</label><textarea id="verifierMetrics" required spellcheck="false"></textarea></div><div><label for="verifierArtifactKind">Evidence artifact kind</label><select id="verifierArtifactKind" required></select></div><div><label for="verifierArtifactMediaType">Artifact media type</label><select id="verifierArtifactMediaType" required><option value="text/plain">text/plain</option><option value="application/json">application/json</option><option value="application/xml">application/xml</option></select></div><div class="wide"><label for="verifierArtifactFile">Local evidence artifact (hashed only)</label><input id="verifierArtifactFile" type="file" required><div id="verifierArtifactState" class="verifier-file-state">No file selected.</div></div></div><div id="importVerifierResultMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelImportVerifierResult" type="button">Cancel</button><button id="submitImportVerifierResult" type="submit">Hash and import observation</button></div></form></dialog>
 <script>
   (() => { const dialog=document.getElementById('newWorkDialog'), trigger=document.getElementById('newWorkTrigger'), form=document.getElementById('newWorkForm'), workId=document.getElementById('newWorkId'), title=document.getElementById('newWorkTitle'), request=document.getElementById('newWorkRequest'), message=document.getElementById('newWorkMessage'); trigger.addEventListener('click',()=>dialog.showModal()); document.getElementById('cancelNewWork').addEventListener('click',()=>dialog.close()); form.addEventListener('submit',async event=>{event.preventDefault();message.textContent='Recording request...';const body={workId:workId.value.trim(),title:title.value.trim(),request:request.value.trim()};try{const response=await fetch('/api/work-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const result=await response.json();if(!response.ok){throw new Error(result.error||'Request could not be recorded.');}message.textContent='Recorded. Reloading workbench...';window.setTimeout(()=>window.location.reload(),250);}catch(error){message.textContent=error.message||'Request could not be recorded.';}}); })();
 </script>
@@ -3455,6 +4023,7 @@ SERVER_UI_EXTENSION = r'''<style>
     window.addEventListener('intentgraph-ready',()=>{trigger.disabled=false;});
     trigger.addEventListener('click',openDialog);
     workSelect.addEventListener('change',()=>{updateProposalId();renderCodeDiffs();});
+    verificationKind.addEventListener('change',()=>{const compatible={'local-review':'review-note','build-required':'build-evidence','test-required':'test-evidence'};evidenceKind.value=compatible[verificationKind.value]||evidenceKind.value;});
     document.getElementById('cancelDraftProposal').addEventListener('click',()=>dialog.close());
     form.addEventListener('submit',async event=>{
       event.preventDefault();
@@ -3544,6 +4113,45 @@ SERVER_UI_EXTENSION = r'''<style>
       }catch(error){message.textContent=error.message||'Review receipt could not be recorded.';}
     });
   })();
+</script>
+<script>
+  (() => {
+    const dialog=document.getElementById('importVerifierResultDialog'),trigger=document.getElementById('importVerifierResultTrigger'),form=document.getElementById('importVerifierResultForm'),pairSelect=document.getElementById('verifierPair'),resultId=document.getElementById('verifierResultId'),outcome=document.getElementById('verifierOutcome'),kind=document.getElementById('verifierKind'),identity=document.getElementById('verifierIdentity'),version=document.getElementById('verifierVersion'),invocation=document.getElementById('verifierInvocation'),summary=document.getElementById('verifierSummary'),checkId=document.getElementById('verifierCheckId'),checkSummary=document.getElementById('verifierCheckSummary'),exitCode=document.getElementById('verifierExitCode'),metrics=document.getElementById('verifierMetrics'),artifactKind=document.getElementById('verifierArtifactKind'),mediaType=document.getElementById('verifierArtifactMediaType'),artifactFile=document.getElementById('verifierArtifactFile'),artifactState=document.getElementById('verifierArtifactState'),message=document.getElementById('importVerifierResultMessage'),submit=document.getElementById('submitImportVerifierResult');
+    let pairsByKey=new Map();
+    const authority={resultImported:true,verificationExecutedByIntentGraph:false,evidenceCollectedByIntentGraph:false,targetRepositoryMutation:false,automaticCodeApplication:false,selfAuthorized:false,approvalRecorded:false,networkRequired:false,credentialAccessAllowed:false};
+    function ordered(value){if(Array.isArray(value))return value.map(ordered);if(value&&typeof value==='object'){return Object.fromEntries(Object.keys(value).sort().map(key=>[key,ordered(value[key])]));}return value;}
+    function canonicalBytes(value){const ascii=JSON.stringify(ordered(value)).replace(/[^\x00-\x7f]/g,char=>'\\u'+char.charCodeAt(0).toString(16).padStart(4,'0'));return new TextEncoder().encode(ascii+'\n');}
+    async function sha256(bytes){const digest=await crypto.subtle.digest('SHA-256',bytes);return 'sha256:'+Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,'0')).join('');}
+    function safeFragment(value,max=74){return String(value).toLowerCase().replace(/[^a-z0-9.-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,max)||'result';}
+    function currentPair(){return pairsByKey.get(pairSelect.value);}
+    function defaultMetrics(verifierKind){if(verifierKind==='test')return {total:1,passed:1,failed:0,skipped:0};if(verifierKind==='runtime-smoke')return {started:true,observed:true,responsive:true,observationSeconds:1};return {errorCount:0,warningCount:0};}
+    function updatePair(){const pair=currentPair();kind.replaceChildren();artifactKind.replaceChildren();if(!pair)return;(pair.allowedVerifierKinds||[]).forEach(value=>kind.add(new Option(value,value)));(pair.requiredArtifactKinds||[]).forEach(value=>artifactKind.add(new Option(value,value)));resultId.value=`${pair.resultIdPrefix}.${pair.nextAttempt}`;metrics.value=JSON.stringify(defaultMetrics(kind.value),null,2);}
+    function updateOutcome(){if(outcome.value==='blocked'){exitCode.value='';exitCode.disabled=true;}else{exitCode.disabled=false;exitCode.value=outcome.value==='pass'?'0':'1';}}
+    function inferMediaType(file){const name=file.name.toLowerCase();return name.endsWith('.json')?'application/json':name.endsWith('.xml')?'application/xml':'text/plain';}
+    async function updateFileState(){const file=artifactFile.files[0];if(!file){artifactState.textContent='No file selected.';return;}mediaType.value=inferMediaType(file);const digest=await sha256(await file.arrayBuffer());artifactState.textContent=`${file.name} / ${file.size} bytes / ${digest} / contents remain local`;}
+    function openDialog(){const intake=window.intentGraphWorkbench?.verifierResultIntake?.()||{pairs:[]};pairsByKey=new Map((intake.pairs||[]).map(pair=>[pair.key,pair]));pairSelect.replaceChildren();for(const pair of intake.pairs||[]){pairSelect.add(new Option(`${pair.proposalTitle} - ${pair.verificationRequirement.kind} / ${pair.evidenceRequirement.kind} / attempt ${pair.nextAttempt}`,pair.key));}updatePair();updateOutcome();const ready=pairsByKey.size>0;message.textContent=ready?'Select the external evidence artifact whose bytes produced this observation.':'No proposal has a declared verifier-compatible requirement pair.';submit.disabled=!ready;dialog.showModal();}
+    trigger.disabled=true;
+    window.addEventListener('intentgraph-ready',()=>{trigger.disabled=false;});
+    trigger.addEventListener('click',openDialog);
+    pairSelect.addEventListener('change',updatePair);
+    kind.addEventListener('change',()=>{metrics.value=JSON.stringify(defaultMetrics(kind.value),null,2);});
+    outcome.addEventListener('change',updateOutcome);
+    artifactFile.addEventListener('change',()=>{updateFileState().catch(error=>{artifactState.textContent=error.message||'File hashing failed.';});});
+    document.getElementById('cancelImportVerifierResult').addEventListener('click',()=>dialog.close());
+    form.addEventListener('submit',async event=>{
+      event.preventDefault();const pair=currentPair(),file=artifactFile.files[0];if(!pair||!file)return;
+      message.textContent='Hashing local evidence and validating observation...';submit.disabled=true;
+      try{
+        if(file.size<1)throw new Error('Evidence artifact must not be empty.');
+        let typedMetrics;try{typedMetrics=JSON.parse(metrics.value);}catch(_error){throw new Error('Typed metrics JSON is not valid.');}
+        const observedOutcome=outcome.value,parsedExit=exitCode.value===''?null:Number(exitCode.value),resultIdentifier=resultId.value.trim(),artifactName=(file.name.replace(/[^A-Za-z0-9._-]/g,'_').slice(0,256)||'evidence.txt');
+        const artifactDigest=await sha256(await file.arrayBuffer()),invocationDigest=await sha256(canonicalBytes({description:invocation.value.trim()}));
+        const payload={summary:summary.value.trim(),exitCode:parsedExit,checks:[{id:checkId.value.trim(),result:observedOutcome,summary:checkSummary.value.trim()}],metrics:typedMetrics,artifactRefs:[{id:`artifact.${safeFragment(resultIdentifier,90)}`,kind:artifactKind.value,logicalName:artifactName,mediaType:mediaType.value,byteLength:file.size,digest:artifactDigest,availability:'external-digest-only'}]};
+        const payloadBytes=canonicalBytes(payload),verifierResult={artifactRole:'intentgraph-experimental-csharp-verifier-result',schemaVersion:'0.1.0',scope:'experimental-csharp-semantic-overlay-verifier-result',id:resultIdentifier,proposalId:pair.proposalId,verificationRequirementId:pair.verificationRequirement.id,evidenceRequirementId:pair.evidenceRequirement.id,attempt:pair.nextAttempt,result:observedOutcome,verifier:{id:identity.value.trim(),kind:kind.value,version:version.value.trim(),deterministic:true},invocation:{id:`invocation.${safeFragment(resultIdentifier,88)}`,digest:invocationDigest},subject:{logicalSourceRoot:pair.logicalSourceRoot,snapshotSourceDigest:pair.snapshotSourceDigest,proposalDigest:pair.proposalDigest},evidence:{contentType:'application/vnd.intentgraph.verifier-evidence+json',byteLength:payloadBytes.byteLength,digest:await sha256(payloadBytes),payload},observationStatus:'observed',acceptanceStatus:'pending',supersedesResultId:pair.supersedesResultId,authority};
+        const response=await fetch('/api/verifier-results',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({verifierResult})}),recorded=await response.json();if(!response.ok)throw new Error(recorded.error||'Verification result could not be imported.');message.textContent='Observation imported with acceptance still pending. Reloading workbench...';window.setTimeout(()=>window.location.reload(),250);
+      }catch(error){message.textContent=error.message||'Verification result could not be imported.';submit.disabled=false;}
+    });
+  })();
 </script>'''
 
 
@@ -3570,7 +4178,14 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if change_review.get("status") == "review-required" and change_review.get("graphDeltaShown") is not True:
         errors.append("project workbench proposal graph delta is not visible")
     workflow = projection.get("workflow")
-    if not isinstance(workflow, dict) or not isinstance(workflow.get("reviewReceipts"), list) or not isinstance(workflow.get("workStageTimeline"), list):
+    if (
+        not isinstance(workflow, dict)
+        or not isinstance(workflow.get("reviewReceipts"), list)
+        or not isinstance(workflow.get("workStageTimeline"), list)
+        or not isinstance(workflow.get("verifierResults"), list)
+        or not isinstance(workflow.get("verifierResultCoverage"), list)
+        or not isinstance(workflow.get("verifierResultIntake"), dict)
+    ):
         errors.append("project workbench review receipt state is invalid")
     else:
         required_stage_fields = {"id", "workItemId", "sequence", "kind", "title", "summary", "status", "recordIds", "nodeIds", "addedNodeIds", "changedNodeIds", "contextNodeIds", "edgeIds", "addedEdgeIds", "changedEdgeIds", "codeDiffs", "verificationRecordIds", "evidenceRecordIds", "revisionKind", "revisionIds", "durableRevision", "beforeProjectStateDigest", "afterProjectStateDigest"}
@@ -3583,7 +4198,93 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
             if stage["durableRevision"] != bool(stage["revisionIds"]) or (stage["durableRevision"] and (not sha256_value(stage["beforeProjectStateDigest"]) or not sha256_value(stage["afterProjectStateDigest"]))):
                 errors.append("project workbench durable work stage revision is invalid")
                 break
+            if stage["kind"] == "verifier-result-imported" and (
+                not stage["durableRevision"] or len(stage["revisionIds"]) != 1
+            ):
+                errors.append("project workbench verifier result stage revision is invalid")
+                break
             stage_ids.add(stage["id"])
+        try:
+            verifier_results = workflow["verifierResults"]
+            result_ids = [required_safe_id(item["id"], "projection verifier result id") for item in verifier_results]
+            if len(result_ids) != len(set(result_ids)):
+                raise ProjectWorkspaceError("projection verifier results must be unique")
+            latest_by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
+            for item in verifier_results:
+                if not isinstance(item, dict):
+                    raise ProjectWorkspaceError("projection verifier result is invalid")
+                pair = verifier_result_pair(item)
+                latest_by_pair[pair] = item
+                if item.get("observationStatus") != "observed" or item.get("acceptanceStatus") != "pending":
+                    raise ProjectWorkspaceError("projection verifier result authority state is invalid")
+            intake = workflow["verifierResultIntake"]
+            required_intake_fields = {
+                "artifactRole", "schemaVersion", "scope", "evidenceContentType",
+                "allowedVerifierKinds", "allowedArtifactKinds", "allowedArtifactMediaTypes",
+                "artifactAvailability", "pairs", "authority",
+            }
+            if (
+                set(intake) != required_intake_fields
+                or intake["artifactRole"] != VERIFIER_RESULT_ROLE
+                or intake["schemaVersion"] != PROJECT_SCHEMA_VERSION
+                or intake["scope"] != VERIFIER_RESULT_SCOPE
+                or intake["evidenceContentType"] != VERIFIER_EVIDENCE_CONTENT_TYPE
+                or intake["allowedVerifierKinds"] != sorted(VERIFIER_RESULT_KINDS)
+                or intake["allowedArtifactKinds"] != sorted(VERIFIER_ARTIFACT_KINDS)
+                or intake["allowedArtifactMediaTypes"] != sorted(VERIFIER_ARTIFACT_MEDIA_TYPES)
+                or intake["artifactAvailability"] != VERIFIER_ARTIFACT_AVAILABILITY
+                or intake["authority"] != VERIFIER_RESULT_AUTHORITY
+                or not isinstance(intake["pairs"], list)
+            ):
+                raise ProjectWorkspaceError("projection verifier result intake contract is invalid")
+            pair_keys: list[str] = []
+            for pair in intake["pairs"]:
+                required_pair_fields = {
+                    "key", "resultIdPrefix", "proposalId", "proposalTitle", "workItemId",
+                    "verificationRequirement", "evidenceRequirement",
+                    "allowedVerifierKinds", "requiredArtifactKinds", "logicalSourceRoot",
+                    "snapshotSourceDigest", "proposalDigest", "nextAttempt",
+                    "supersedesResultId", "currentResult",
+                }
+                if not isinstance(pair, dict) or set(pair) != required_pair_fields:
+                    raise ProjectWorkspaceError("projection verifier result intake pair is invalid")
+                key = pair["key"]
+                tuple_key = (pair["proposalId"], pair["verificationRequirement"]["id"], pair["evidenceRequirement"]["id"])
+                latest = latest_by_pair.get(tuple_key)
+                if (
+                    not isinstance(key, str)
+                    or key != "|".join(tuple_key)
+                    or pair["resultIdPrefix"] != verifier_result_id_prefix(tuple_key)
+                    or pair["allowedVerifierKinds"] != sorted(set(pair["allowedVerifierKinds"]))
+                    or not pair["allowedVerifierKinds"]
+                    or pair["requiredArtifactKinds"] != sorted(set(pair["requiredArtifactKinds"]))
+                    or not pair["requiredArtifactKinds"]
+                    or not sha256_value(pair["snapshotSourceDigest"])
+                    or not sha256_value(pair["proposalDigest"])
+                    or pair["nextAttempt"] != (latest["attempt"] + 1 if latest else 1)
+                    or pair["supersedesResultId"] != (latest["id"] if latest else None)
+                    or (pair["currentResult"] or {}).get("id") != (latest["id"] if latest else None)
+                ):
+                    raise ProjectWorkspaceError("projection verifier result intake pair does not match current state")
+                pair_keys.append(key)
+            if pair_keys != sorted(set(pair_keys)):
+                raise ProjectWorkspaceError("projection verifier result intake pairs must be uniquely sorted")
+            coverage = workflow["verifierResultCoverage"]
+            if any(
+                not isinstance(item, dict)
+                or set(item) != {
+                    "proposalId", "workItemId", "requiredPairCount", "observedPairCount",
+                    "missingPairCount", "passPairCount", "failPairCount", "blockedPairCount",
+                    "allPairsObservedPassing", "acceptanceStatus",
+                }
+                or item["acceptanceStatus"] != "pending"
+                or item["requiredPairCount"] != item["observedPairCount"] + item["missingPairCount"]
+                or item["observedPairCount"] != item["passPairCount"] + item["failPairCount"] + item["blockedPairCount"]
+                for item in coverage
+            ):
+                raise ProjectWorkspaceError("projection verifier result coverage is invalid")
+        except (KeyError, TypeError, ProjectWorkspaceError):
+            errors.append("project workbench verifier result projection contract is invalid")
     graph = projection.get("graph")
     if not isinstance(graph, dict) or not isinstance(graph.get("nodes"), list) or not isinstance(graph.get("edges"), list):
         return errors + ["project workbench graph is missing"]
@@ -3595,13 +4296,30 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not any(node.get("category") == "project" for node in nodes if isinstance(node, dict)):
         errors.append("project workbench graph needs a project node")
     for node in nodes:
-        if not isinstance(node, dict) or node.get("category") not in {"code", "code-capsule", "project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "review-receipt", "authority", "history"}:
+        if not isinstance(node, dict) or node.get("category") not in {"code", "code-capsule", "project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "review-receipt", "verifier-result", "authority", "history"}:
             errors.append("project workbench graph contains an unknown node category")
             continue
         if node["category"] == "code":
             source = node.get("source")
             if node.get("kind") not in ALLOWED_FACT_KINDS or not isinstance(source, dict) or not safe_relative_source(source.get("file")):
                 errors.append(f"code node {node.get('id')} provenance is invalid")
+    if isinstance(workflow, dict) and isinstance(workflow.get("verifierResults"), list):
+        current_result_ids = {
+            pair.get("currentResult", {}).get("id")
+            for pair in workflow.get("verifierResultIntake", {}).get("pairs", [])
+            if isinstance(pair, dict) and isinstance(pair.get("currentResult"), dict)
+        }
+        result_nodes = {
+            str(node.get("id", "")).removeprefix("verifier-result."): node
+            for node in nodes
+            if isinstance(node, dict) and node.get("category") == "verifier-result"
+        }
+        expected_result_ids = {item.get("id") for item in workflow["verifierResults"] if isinstance(item, dict)}
+        if set(result_nodes) != expected_result_ids or any(
+            bool(node.get("details", {}).get("current")) != (identifier in current_result_ids)
+            for identifier, node in result_nodes.items()
+        ):
+            errors.append("project workbench verifier result graph nodes are invalid")
     for edge in edges:
         if not isinstance(edge, dict) or edge.get("source") not in node_ids or edge.get("target") not in node_ids:
             errors.append("project workbench graph edge endpoint does not resolve")
@@ -3616,7 +4334,7 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not isinstance(default_view, dict) or default_view.get("id") != "all" or default_view.get("rendering") != "full-graph-progressive-detail" or default_view.get("layout") != "deterministic-relation-aware-community-preset" or default_view.get("physicsLayoutOnLoad") is not False:
         errors.append("project workbench full graph rendering contract is invalid")
     ui_contract = projection.get("uiContract")
-    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "viewportScaleCompensation", "relationAwareCommunityLayout", "zoomStyleBuckets", "spectralObsidianNodeMaterial", "iridescentVoidNodeMaterial", "rendererSafeOpticalMaterial", "cachedCanvasNodeMaterial", "viewportLocalMaterialRendering", "virtualPrecisionZoom", "selectedEdgeScreenSpaceTaper", "precisionDeepZoomBands", "supportingNodeLabelsOnDemand", "workStageTimeline", "durableWorkStageRevisions", "allRecordedWorkItemsNavigable", "workHistorySearch", "workHistoryStatusFilter", "boundedWorkHistoryRendering", "previousNextWorkNavigation", "previousNextStageNavigation", "liveProjectionRefreshAfterMutation", "staticRevisionSnapshotImmutable", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi", "loopbackGuidedReviewProposalFromUi", "loopbackReviewReceiptIntakeFromUi", "loopbackGuidedReviewReceiptFromUi")) or ui_contract.get("maximumZoom") != 100 or ui_contract.get("rendererMaximumZoom") != 24 or ui_contract.get("effectiveGeometryMaximumZoom") != 100 or ui_contract.get("virtualGeometryScaleAtMaximumZoom") != 4.1667 or ui_contract.get("selectedEdgeRenderedWidthPixelsAtMaximumZoom") != 0.1 or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
+    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "viewportScaleCompensation", "relationAwareCommunityLayout", "zoomStyleBuckets", "spectralObsidianNodeMaterial", "iridescentVoidNodeMaterial", "rendererSafeOpticalMaterial", "cachedCanvasNodeMaterial", "viewportLocalMaterialRendering", "virtualPrecisionZoom", "selectedEdgeScreenSpaceTaper", "precisionDeepZoomBands", "supportingNodeLabelsOnDemand", "workStageTimeline", "durableWorkStageRevisions", "allRecordedWorkItemsNavigable", "workHistorySearch", "workHistoryStatusFilter", "boundedWorkHistoryRendering", "previousNextWorkNavigation", "previousNextStageNavigation", "liveProjectionRefreshAfterMutation", "staticRevisionSnapshotImmutable", "loopbackProjectStateMutationFromUi", "loopbackReviewProposalIntakeFromUi", "loopbackGuidedReviewProposalFromUi", "loopbackReviewReceiptIntakeFromUi", "loopbackGuidedReviewReceiptFromUi", "loopbackVerifierResultIntakeFromUi", "clientSideEvidenceArtifactHashing")) or ui_contract.get("maximumZoom") != 100 or ui_contract.get("rendererMaximumZoom") != 24 or ui_contract.get("effectiveGeometryMaximumZoom") != 100 or ui_contract.get("virtualGeometryScaleAtMaximumZoom") != 4.1667 or ui_contract.get("selectedEdgeRenderedWidthPixelsAtMaximumZoom") != 0.1 or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad", "externalVerifierExecutionByWorkbench", "externalEvidenceAcceptanceByWorkbench")):
         errors.append("project workbench progressive full graph UI contract is invalid")
     try:
         assert_no_unsafe_state(projection)
