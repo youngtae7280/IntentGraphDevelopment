@@ -24,6 +24,8 @@ IntentGraph is not ready for productization. The current evidence proves a seman
 
 > **P9.9 snapshot workspace plan:** P9.10 may copy a declared C# source subset into a new local workspace and extract fact-only evidence from that copy. It must not read/write source after intake, map intent, apply a proposal, or imply reusable profile/product support.
 
+> **P9.10 fact workspace:** the experimental C# snapshot route now validates receipt/fact provenance and fail-closed intake. It remains fact-only; C# mapping, proposals, generic workbench support, package dependency, and product claims require later review.
+
 ## Non-Negotiable Boundary
 
 Productization must remain blocked until real-project adoption evidence exists.

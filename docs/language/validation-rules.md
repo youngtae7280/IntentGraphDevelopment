@@ -1013,6 +1013,14 @@ An experimental C# workspace may open only after the declared host-SDK preflight
 
 Facts must be generated solely from the workspace snapshot and preserve the P9.6 syntax-only boundary. The workspace must explicitly remain fact-only: no Intent Unit mapping, proposal, acceptance, source application, or product workbench claim may be created. Any profile/preflight mismatch, unsafe source root, source mutation, path leak, absolute path, source text, semantic-resolution claim, authority promotion, output collision, or workspace escape must fail closed.
 
+### V430 - Experimental C# Fact Workspace Has Reproducible Provenance
+
+Severity: P0 in P9.10
+
+`init-experimental-csharp` must require the one declared experimental profile and successful P9.8 preflight, then write a new local workspace only after intake guards pass. It may snapshot only non-symlink `*.cs` files outside `bin` and `obj`. Every persisted workspace artifact must use a logical source root and relative paths; no external absolute path or source text may persist.
+
+The workspace must prove external source before/after/copy digest equality for its own intake event and extract facts from the copy only. Fixed source inputs must produce byte-identical workspace artifacts. If a live external source changes between separate runs, each valid workspace may represent its own receipt-bound snapshot; the system must not claim cross-snapshot equality. The workspace must remain fact-only and reject mapping, proposal, semantic-resolution, authority, output-path, or source provenance promotion.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

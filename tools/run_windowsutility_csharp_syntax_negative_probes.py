@@ -186,7 +186,7 @@ def main() -> int:
             ],
             cwd=assembly.parent,
         )
-        expect_process(probes, "unexpected-parser-argument", "only --source-root, --source-root-id, and --out are allowed", (extra.returncode, extra.stderr.strip()))
+        expect_process(probes, "unexpected-parser-argument", "only --source-root, --source-root-id, --out, --artifact-scope, and --profile-id are allowed", (extra.returncode, extra.stderr.strip()))
 
         with_source_text = copy.deepcopy(baseline_facts)
         with_source_text["facts"][0]["sourceText"] = "must-not-persist"

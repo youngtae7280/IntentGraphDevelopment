@@ -3906,6 +3906,31 @@ Recommended next slice:
 P9.10 Experimental C# Snapshot Workspace and Fact Extraction Probe
 ```
 
+## Completed Slice: P9.10 Experimental C# Snapshot Workspace and Fact Extraction Probe
+
+Goal: make a read-only external C# source snapshot inspectable as fact-only IGD workspace evidence.
+
+Result:
+
+```text
+Decision: pass-experimental-csharp-snapshot-workspace; retain-fact-only-boundary.
+```
+
+Produced artifacts:
+
+- `tools/experimental_csharp_workspace.py`
+- `tools/run_experimental_csharp_workspace_negative_probes.py`
+- `tools/intentgraph.py` experimental C# commands
+- `generated/roadmap/p9.10-experimental-csharp-snapshot-workspace-negative-probes-report.json`
+- `generated/roadmap/p9.10-experimental-csharp-snapshot-workspace-report.json`
+- [P9.10 Experimental C# Snapshot Workspace and Fact Extraction Probe Review](../reviews/p9.10-experimental-csharp-snapshot-workspace-review.md)
+
+Recommended next slice:
+
+```text
+P9.11 Experimental C# Fact Workspace Scope Review - Plan Only
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

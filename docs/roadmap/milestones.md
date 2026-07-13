@@ -4123,6 +4123,34 @@ Next safe work:
 
 - continue to `P9.10 Experimental C# Snapshot Workspace and Fact Extraction Probe`.
 
+## P9.10: Experimental C# Snapshot Workspace and Fact Extraction Probe
+
+Goal: prove a local snapshot-to-fact workflow for C# without modifying an external project or claiming semantic overlay coverage.
+
+Status: completed on 2026-07-13. See [P9.10 Experimental C# Snapshot Workspace and Fact Extraction Probe Review](../reviews/p9.10-experimental-csharp-snapshot-workspace-review.md).
+
+Decision:
+
+- `intentgraph init-experimental-csharp` creates a new C#-only source snapshot workspace after the declared host-SDK preflight passes.
+- facts are extracted solely from the local copy and validated against path-free source receipt/digest evidence.
+- fixed C# fixtures produce byte-identical fresh workspace artifacts; ten invalid cases fail deterministically.
+- a real WindowsUtility snapshot workspace validates 206 files, 8,137 facts, and 7,931 relations without target mutation.
+- the workspace is explicitly fact-only, with no C# Intent Unit mapping, proposal, acceptance, source application, generic workbench claim, dependency package, or product readiness claim.
+
+Produced artifacts:
+
+- `tools/experimental_csharp_workspace.py`
+- `tools/run_experimental_csharp_workspace_negative_probes.py`
+- `tools/intentgraph.py` experimental C# commands
+- `generated/roadmap/p9.10-experimental-csharp-snapshot-workspace-negative-probes-report.json`
+- `generated/roadmap/p9.10-experimental-csharp-snapshot-workspace-report.json`
+- [P9.10 Experimental C# Snapshot Workspace and Fact Extraction Probe](../product/igd-experimental-csharp-snapshot-workspace-p9.10.md)
+- [P9.10 Experimental C# Snapshot Workspace and Fact Extraction Probe Review](../reviews/p9.10-experimental-csharp-snapshot-workspace-review.md)
+
+Next safe work:
+
+- continue to `P9.11 Experimental C# Fact Workspace Scope Review - Plan Only`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

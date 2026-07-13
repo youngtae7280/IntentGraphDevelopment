@@ -150,18 +150,31 @@ def build_probe(temp_root: Path) -> Path:
     return assembly
 
 
-def invoke_probe(assembly: Path, source_root: Path, logical_source_root: str, output: Path) -> subprocess.CompletedProcess[str]:
+def invoke_probe(
+    assembly: Path,
+    source_root: Path,
+    logical_source_root: str,
+    output: Path,
+    *,
+    artifact_scope: str | None = None,
+    profile_id: str | None = None,
+) -> subprocess.CompletedProcess[str]:
+    command = [
+        "dotnet",
+        str(assembly),
+        "--source-root",
+        str(source_root),
+        "--source-root-id",
+        logical_source_root,
+        "--out",
+        str(output),
+    ]
+    if artifact_scope is not None:
+        command.extend(["--artifact-scope", artifact_scope])
+    if profile_id is not None:
+        command.extend(["--profile-id", profile_id])
     return run_command(
-        [
-            "dotnet",
-            str(assembly),
-            "--source-root",
-            str(source_root),
-            "--source-root-id",
-            logical_source_root,
-            "--out",
-            str(output),
-        ],
+        command,
         cwd=assembly.parent,
         env={**os.environ, "DOTNET_CLI_TELEMETRY_OPTOUT": "1"},
     )
@@ -174,12 +187,19 @@ def read_json(path: Path) -> dict[str, Any]:
     return data
 
 
-def validate_facts(data: dict[str, Any], snapshot: dict[str, str], logical_source_root: str) -> dict[str, Any]:
+def validate_facts(
+    data: dict[str, Any],
+    snapshot: dict[str, str],
+    logical_source_root: str,
+    *,
+    expected_scope: str = EXPECTED_SCOPE,
+    expected_profile_id: str = EXPECTED_PROFILE,
+) -> dict[str, Any]:
     if data.get("artifactRole") != "intentgraph-code-facts":
         raise ProbeError("wrong code-facts artifactRole")
     if data.get("status") != "intentgraph-code-facts-extracted":
         raise ProbeError("wrong code-facts status")
-    if data.get("scope") != EXPECTED_SCOPE or data.get("profileId") != EXPECTED_PROFILE:
+    if data.get("scope") != expected_scope or data.get("profileId") != expected_profile_id:
         raise ProbeError("wrong C# syntax-probe profile or scope")
     if data.get("sourceRoot") != logical_source_root or data.get("sourceRootKind") != "logical-id":
         raise ProbeError("code facts must use the supplied logical source root")

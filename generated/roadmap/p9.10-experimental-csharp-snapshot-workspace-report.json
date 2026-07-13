@@ -1,0 +1,56 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-snapshot-workspace-roadmap-report",
+  "status": "intentgraph-experimental-csharp-snapshot-workspace-passed",
+  "scope": "p9.10-experimental-csharp-snapshot-workspace",
+  "result": "pass",
+  "reproduction": {
+    "target": "WindowsUtility",
+    "workspacePersistence": "ephemeral-local-workspace-not-retained-in-repository",
+    "logicalSourceRoot": "intentgraph://profiles/experimental-csharp-host-sdk-syntax-only/source",
+    "sourceDigest": "sha256:5b1969fdb13bd9d2d02e9332295a1ea84357cd496b629b7b5882573a10e35194",
+    "sourceFileCount": 206,
+    "sourceSnapshotCoherent": true,
+    "externalSourcePathPersisted": false,
+    "factOnly": true
+  },
+  "facts": {
+    "digest": "sha256:4b077901821d4e97de4f3dce253d6605f22886f4bbd1c790c8254a5bc0b76e66",
+    "factCount": 8137,
+    "relationCount": 7931,
+    "scope": "experimental-csharp-host-sdk-fact-workspace",
+    "profileId": "experimental-csharp-host-sdk-syntax-only",
+    "semanticResolution": false,
+    "sourceTextPersisted": false,
+    "absoluteSourcePathPersisted": false
+  },
+  "workspaceArtifacts": {
+    "manifestDigest": "sha256:5c68140289aabf1292ec3b8871366ad278e328f6a9ff82d20f4dd230c9befbc1",
+    "receiptDigest": "sha256:88b87daab0aff0a09eb18aa968ae8e646e0eadd636dbe4a54f9512ba56080aa4",
+    "extractionReportDigest": "sha256:074075019822dad227e6cce506dc19c1f99e238dda48d8685971bab9e739ee6a",
+    "validationReportDigest": "sha256:8874ed37039fce01c3e3ea61b012aab120e958b20d7c7f00892ea79f2576511c",
+    "pathsPersisted": false
+  },
+  "negativeProbes": {
+    "path": "generated/roadmap/p9.10-experimental-csharp-snapshot-workspace-negative-probes-report.json",
+    "digest": "sha256:f86195afe60fba0ed7a045ee9e4f2297bfd6aef6411244bbdf5f03b3af0ba861",
+    "probeCount": 10,
+    "allExpectedFailuresObserved": true,
+    "repeatWorkspaceArtifactsByteIdentical": true
+  },
+  "authority": {
+    "externalSourceReadForSnapshot": true,
+    "targetRepositoryMutation": false,
+    "targetBuildExecuted": false,
+    "targetRestoreExecuted": false,
+    "targetLaunchExecuted": false,
+    "packageDependencyAdded": false,
+    "externalPackageRestoreExecuted": false,
+    "localAdapterProjectRestoreExecuted": true,
+    "localAdapterRestorePackageSources": "empty",
+    "networkRequired": false,
+    "automaticCodeApplication": false,
+    "intentUnitMappingCreated": false,
+    "igdProductizationClaimed": false
+  },
+  "nextSlice": "P9.11 Experimental CSharp Fact Workspace Scope Review - Plan Only"
+}

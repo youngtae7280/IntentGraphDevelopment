@@ -11,6 +11,8 @@ internal static class Program
 {
     private const string ExtractorId = "tools/csharp_syntax_probe/Program.cs";
     private const string ExtractorVersion = "0.1.0";
+    private const string DefaultScope = "windowsutility-csharp-syntax-only-readonly";
+    private const string DefaultProfileId = "windowsutility-csharp-syntax-probe";
 
     private sealed record SourceLocation(int LineStart, int LineEnd, int ColumnStart, int ColumnEnd);
 
@@ -67,9 +69,11 @@ internal static class Program
             var sourceRoot = RequirePath(values, "--source-root");
             var output = RequirePath(values, "--out");
             var sourceRootId = RequireValue(values, "--source-root-id");
+            var artifactScope = values.TryGetValue("--artifact-scope", out var suppliedScope) ? RequireValue(values, "--artifact-scope") : DefaultScope;
+            var profileId = values.TryGetValue("--profile-id", out var suppliedProfile) ? RequireValue(values, "--profile-id") : DefaultProfileId;
             ValidateLogicalSourceRoot(sourceRootId);
             ValidateSourceAndOutput(sourceRoot, output);
-            var report = Extract(sourceRoot, sourceRootId);
+            var report = Extract(sourceRoot, sourceRootId, artifactScope, profileId);
             Directory.CreateDirectory(Path.GetDirectoryName(output) ?? throw new InvalidOperationException("output directory is missing"));
             File.WriteAllText(output, JsonSerializer.Serialize(report, JsonOptions) + Environment.NewLine, new UTF8Encoding(false));
             Console.WriteLine(JsonSerializer.Serialize(new
@@ -95,7 +99,7 @@ internal static class Program
     {
         if (args.Length == 0 || args.Length % 2 != 0)
         {
-            throw new InvalidOperationException("expected --source-root <path> --source-root-id <logical-id> --out <path>");
+            throw new InvalidOperationException("expected --source-root <path> --source-root-id <logical-id> --out <path> with optional --artifact-scope and --profile-id");
         }
 
         var values = new Dictionary<string, string>(StringComparer.Ordinal);
@@ -108,10 +112,11 @@ internal static class Program
             values[args[index]] = args[index + 1];
         }
 
-        var expected = new HashSet<string>(StringComparer.Ordinal) { "--source-root", "--source-root-id", "--out" };
-        if (!values.Keys.ToHashSet(StringComparer.Ordinal).SetEquals(expected))
+        var required = new HashSet<string>(StringComparer.Ordinal) { "--source-root", "--source-root-id", "--out" };
+        var allowed = new HashSet<string>(required, StringComparer.Ordinal) { "--artifact-scope", "--profile-id" };
+        if (!required.IsSubsetOf(values.Keys) || !values.Keys.All(allowed.Contains))
         {
-            throw new InvalidOperationException("only --source-root, --source-root-id, and --out are allowed");
+            throw new InvalidOperationException("only --source-root, --source-root-id, --out, --artifact-scope, and --profile-id are allowed");
         }
         return values;
     }
@@ -159,7 +164,7 @@ internal static class Program
         return normalizedCandidate.StartsWith(normalizedParent, StringComparison.OrdinalIgnoreCase);
     }
 
-    private static CodeFacts Extract(string sourceRoot, string sourceRootId)
+    private static CodeFacts Extract(string sourceRoot, string sourceRootId, string artifactScope, string profileId)
     {
         var sourceFiles = Directory
             .EnumerateFiles(sourceRoot, "*.cs", new EnumerationOptions
@@ -209,8 +214,8 @@ internal static class Program
         return new CodeFacts(
             "intentgraph-code-facts",
             "intentgraph-code-facts-extracted",
-            "windowsutility-csharp-syntax-only-readonly",
-            "windowsutility-csharp-syntax-probe",
+            artifactScope,
+            profileId,
             "0.1.0",
             sourceRootId,
             "logical-id",

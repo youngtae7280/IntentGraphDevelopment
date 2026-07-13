@@ -1,4 +1,4 @@
-"""Local-only P9.1 facade for the bounded B1 IntentGraph review workflow."""
+"""Local-only facade for bounded B1 review and experimental C# fact workspaces."""
 
 from __future__ import annotations
 
@@ -11,6 +11,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from experimental_csharp_workspace import (
+    ExperimentalWorkspaceError,
+    initialize_workspace as initialize_experimental_csharp_workspace,
+    validate_command as validate_experimental_csharp_workspace,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE_FILE = "intentgraph.workspace.json"
@@ -582,6 +587,18 @@ def parse_args() -> argparse.Namespace:
     )
     external_import.add_argument("--workspace", required=True, type=Path)
     external_import.add_argument("--source-root", required=True, type=Path)
+    csharp_init = subparsers.add_parser(
+        "init-experimental-csharp",
+        help="Create a fact-only C# snapshot workspace from the declared experimental host-SDK profile.",
+    )
+    csharp_init.add_argument("--workspace", required=True, type=Path)
+    csharp_init.add_argument("--source-root", required=True, type=Path)
+    csharp_init.add_argument("--profile", required=True, type=Path)
+    csharp_validate = subparsers.add_parser(
+        "validate-experimental-csharp",
+        help="Validate an existing fact-only experimental C# snapshot workspace.",
+    )
+    csharp_validate.add_argument("--workspace", required=True, type=Path)
     return parser.parse_args()
 
 
@@ -596,8 +613,14 @@ def main() -> int:
             return review_workspace(args.workspace)
         if args.command == "import-b1-equivalent":
             return initialize_b1_equivalent_import(args.workspace, args.source_root)
+        if args.command == "init-experimental-csharp":
+            emit_status(initialize_experimental_csharp_workspace(args.workspace, args.source_root, args.profile))
+            return 0
+        if args.command == "validate-experimental-csharp":
+            emit_status(validate_experimental_csharp_workspace(args.workspace))
+            return 0
         raise WorkspaceError(f"unsupported command: {args.command}")
-    except WorkspaceError as exc:
+    except (WorkspaceError, ExperimentalWorkspaceError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
