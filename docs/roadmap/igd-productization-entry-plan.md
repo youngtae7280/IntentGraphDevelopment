@@ -1,6 +1,6 @@
 # IntentGraphDevelopment Productization Entry Plan
 
-Status: P9.0 plan, P9.1 bounded implementation, P9.2 logical source identity, P9.3 external intake planning, P9.4 bounded import, and P9.5 C# profile planning completed; P9.6 feasibility implementation is next.
+Status: P9.0 plan, P9.1 bounded implementation, P9.2 logical source identity, P9.3 external intake planning, P9.4 bounded import, P9.5 C# profile planning, and P9.6 C# syntax feasibility completed; P9.7 dependency/profile reuse planning is next.
 
 ## Purpose
 
@@ -122,6 +122,6 @@ The next slice is `P9.5 Project Profile Authoring and Language Expansion Gate - 
 
 ## P9.5 Result
 
-P9.5 selects WindowsUtility's `src` tree as the second profile-shape feasibility target. The selected adapter is a Roslyn syntax-only probe: no MSBuild workspace, project evaluation, build, restore, semantic binding, or target mutation. It is not yet a reusable or packaged C# profile.
+P9.5 selects WindowsUtility's `src` tree as the second profile-shape feasibility target. P9.6 then proved a disposable Roslyn syntax-only extraction over 206 C# source files. The target stayed clean and byte-identical; two fact runs matched byte-for-byte; 8,137 provenance-backed facts and 7,931 relations were emitted. Invocation observations remain ambiguous syntax records, not resolved calls. It is not yet a reusable or packaged C# profile.
 
-The next slice is `P9.6 WindowsUtility C# Syntax-Only Feasibility Probe`.
+The next slice is `P9.7 C# Profile Reuse and Dependency Boundary Gate - Plan Only`.

@@ -1,0 +1,74 @@
+{
+  "artifactRole": "intentgraph-csharp-syntax-negative-probes-report",
+  "authority": {
+    "automaticCodeApplication": false,
+    "networkRequired": false,
+    "targetBuildExecuted": false,
+    "targetRepositoryMutation": false,
+    "windowsUtilityRead": false
+  },
+  "baseline": {
+    "factCount": 9,
+    "relationCount": 8,
+    "result": "pass",
+    "sourceDigest": "sha256:7c9059ea0760d7547c65a7a6fdd2df56f700220a514d9d103788ff2a28a086e4"
+  },
+  "probeCount": 9,
+  "probes": [
+    {
+      "exitCode": 2,
+      "expectedError": "source root id must be an intentgraph:// logical identifier",
+      "expectedFailureObserved": true,
+      "id": "invalid-logical-source-root"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "output must not be written inside source root",
+      "expectedFailureObserved": true,
+      "id": "output-inside-source-root"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "C# syntax errors in Sample.cs",
+      "expectedFailureObserved": true,
+      "id": "malformed-csharp"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "no C# source files found under source root",
+      "expectedFailureObserved": true,
+      "id": "empty-csharp-source-root"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "source root must be an existing directory",
+      "expectedFailureObserved": true,
+      "id": "missing-csharp-source-root"
+    },
+    {
+      "exitCode": 2,
+      "expectedError": "only --source-root, --source-root-id, and --out are allowed",
+      "expectedFailureObserved": true,
+      "id": "unexpected-parser-argument"
+    },
+    {
+      "expectedError": "must not persist source text",
+      "expectedFailureObserved": true,
+      "id": "persisted-source-text"
+    },
+    {
+      "expectedError": "must not persist source text",
+      "expectedFailureObserved": true,
+      "id": "persisted-target-syntax"
+    },
+    {
+      "exitCode": 1,
+      "expectedError": "isolated Roslyn build must fail when the CSharp assembly reference is missing",
+      "expectedFailureObserved": true,
+      "id": "missing-roslyn-assembly"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.6-windowsutility-csharp-syntax-only-negative-probes",
+  "status": "intentgraph-csharp-syntax-negative-probes-passed"
+}

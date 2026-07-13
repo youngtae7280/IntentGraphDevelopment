@@ -4015,6 +4015,37 @@ Next safe work:
 
 - continue to `P9.6 WindowsUtility C# Syntax-Only Feasibility Probe`.
 
+## P9.6: WindowsUtility C# Syntax-Only Feasibility Probe
+
+Goal: prove or reject one compiler-grade, read-only C# extraction boundary before adding reusable profile support.
+
+Status: completed on 2026-07-13. See [P9.6 WindowsUtility C# Syntax-Only Feasibility Probe Review](../reviews/p9.6-windowsutility-csharp-syntax-feasibility-probe-review.md).
+
+Decision:
+
+- a disposable local Roslyn syntax-only probe read WindowsUtility `src` at the declared clean/aligned revision.
+- two runs emitted byte-identical facts: 206 source files, 8,137 facts, and 7,931 relations.
+- all fact/relation IDs are unique, all relation endpoints resolve, and facts carry relative provenance without source text.
+- invocation records remain ambiguous syntax observations, never resolved calls.
+- target source/repository mutation, target build/restore/launch, hardware, network, credentials, provider calls, code application, release, and IGD productization authority remain false.
+- no reusable C# profile or packaged Roslyn dependency is claimed.
+
+Produced artifacts:
+
+- `tools/csharp_syntax_probe/`
+- `tools/run_windowsutility_csharp_syntax_probe.py`
+- `tools/run_windowsutility_csharp_syntax_negative_probes.py`
+- `generated/windowsutility/p9.6-csharp-syntax-facts.json`
+- `generated/windowsutility/p9.6-csharp-syntax-probe-report.json`
+- `generated/windowsutility/p9.6-csharp-syntax-negative-probes-report.json`
+- `generated/roadmap/p9.6-windowsutility-csharp-syntax-feasibility-probe-report.json`
+- [P9.6 WindowsUtility C# Syntax-Only Feasibility Probe](../product/igd-windowsutility-csharp-syntax-p9.6.md)
+- [P9.6 WindowsUtility C# Syntax-Only Feasibility Probe Review](../reviews/p9.6-windowsutility-csharp-syntax-feasibility-probe-review.md)
+
+Next safe work:
+
+- continue to `P9.7 C# Profile Reuse and Dependency Boundary Gate - Plan Only`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

@@ -1,0 +1,55 @@
+{
+  "artifactRole": "intentgraph-csharp-syntax-feasibility-roadmap-report",
+  "status": "intentgraph-csharp-syntax-feasibility-passed",
+  "scope": "p9.6-windowsutility-csharp-syntax-only-readonly",
+  "result": "pass",
+  "target": {
+    "id": "WindowsUtility",
+    "revision": "ac5b2204442cde751f625a9979a4fdb437d468a8",
+    "sourceRootLogicalId": "intentgraph://targets/windowsutility/src",
+    "sourceFileCount": 206,
+    "sourceDigest": "sha256:2e40a83a1e2ca75c89723c5b291715690ab91275f7a1d202e14dc46dbbf12b22",
+    "unchanged": true,
+    "cleanAligned": true
+  },
+  "outputs": {
+    "codeFacts": {
+      "path": "generated/windowsutility/p9.6-csharp-syntax-facts.json",
+      "digest": "sha256:b1d2668700d13ee459ab7e64cbd7eeeb8d27742300ba5863d00ef2f76829df78",
+      "factCount": 8137,
+      "relationCount": 7931,
+      "repeatByteIdentical": true
+    },
+    "probeReport": {
+      "path": "generated/windowsutility/p9.6-csharp-syntax-probe-report.json",
+      "digest": "sha256:8277a1682419d0f98e4dd117aee47376a20c0b7dd8725ecb4ffc4dd7e19d039f"
+    },
+    "negativeProbeReport": {
+      "path": "generated/windowsutility/p9.6-csharp-syntax-negative-probes-report.json",
+      "digest": "sha256:49f378835a3a220aa055a78cdac63a883f0420d30a25f65b40426d946e4bf9d9",
+      "probeCount": 9,
+      "allExpectedFailuresObserved": true
+    }
+  },
+  "extraction": {
+    "adapter": "roslyn-syntax-only",
+    "semanticResolution": false,
+    "sourceBuildAllowed": false,
+    "invocationRelationMeaning": "syntax-only-ambiguous-not-resolved-call",
+    "reusableProfileClaimed": false,
+    "packagedDependencyDecision": "deferred-to-p9.7"
+  },
+  "authority": {
+    "targetRepositoryMutation": false,
+    "targetBuildExecuted": false,
+    "targetRestoreExecuted": false,
+    "targetLaunchExecuted": false,
+    "hardwareAccess": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "automaticCodeApplication": false,
+    "igdProductizationClaimed": false
+  },
+  "nextSlice": "P9.7 CSharp Profile Reuse and Dependency Boundary Gate - Plan Only"
+}

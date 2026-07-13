@@ -979,6 +979,16 @@ An external source intake command must create a new workspace from a declared pr
 
 The intake receipt must omit the external absolute path while recording the profile, logical source root, before/after/copy tree digests, sorted copied-file digests, and false mutation/network/code-application authority flags. The command must fail closed for missing or file source roots, workspace overlap, pre-existing workspaces, symlinks, unsupported files, source mismatch, source change during intake, and tampered receipts. A positive baseline must prove that the external source digest stays unchanged through import and review.
 
+### V426 - C# Syntax-Only Feasibility Is Read-Only and Deterministic
+
+Severity: P0 in P9.6
+
+A C# feasibility probe over a declared target source root must use a logical `intentgraph://` source root, read only non-symlink `*.cs` files outside `bin` and `obj`, and export only relative source references, digest/range provenance, extractor metadata, and allowed fact/relation kinds. It must not export absolute target paths or source text.
+
+The probe must parse syntax only: semantic resolution and source build flags remain false, and invocation facts remain `ambiguous` syntax observations rather than resolved call edges. A positive probe must prove two outputs are byte-identical, every fact/relation ID is unique, every relation endpoint resolves, and the target source snapshot plus clean/aligned target Git state are unchanged before and after extraction.
+
+Repeatable negative probes must fail for bad logical roots, unsafe output location, malformed/empty/missing C# source, unsupported arguments, persisted source text, and missing parser assembly. The probe must not build, restore, launch, mutate, package, or access hardware in the target repository, nor claim reusable profile, dependency packaging, or productization authority.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

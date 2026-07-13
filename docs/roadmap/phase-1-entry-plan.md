@@ -3808,6 +3808,33 @@ Recommended next slice:
 P9.6 WindowsUtility C# Syntax-Only Feasibility Probe
 ```
 
+## Completed Slice: P9.6 WindowsUtility C# Syntax-Only Feasibility Probe
+
+Goal: test a compiler-grade C# fact extractor against a real project without changing that project.
+
+Result:
+
+```text
+Decision: pass-a-readonly-roslyn-syntax-only-feasibility-probe; do-not-claim-reusable-csharp-profile-support.
+```
+
+Produced artifacts:
+
+- `tools/csharp_syntax_probe/`
+- `tools/run_windowsutility_csharp_syntax_probe.py`
+- `tools/run_windowsutility_csharp_syntax_negative_probes.py`
+- `generated/windowsutility/p9.6-csharp-syntax-facts.json`
+- `generated/windowsutility/p9.6-csharp-syntax-probe-report.json`
+- `generated/windowsutility/p9.6-csharp-syntax-negative-probes-report.json`
+- `generated/roadmap/p9.6-windowsutility-csharp-syntax-feasibility-probe-report.json`
+- [P9.6 WindowsUtility C# Syntax-Only Feasibility Probe Review](../reviews/p9.6-windowsutility-csharp-syntax-feasibility-probe-review.md)
+
+Recommended next slice:
+
+```text
+P9.7 C# Profile Reuse and Dependency Boundary Gate - Plan Only
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

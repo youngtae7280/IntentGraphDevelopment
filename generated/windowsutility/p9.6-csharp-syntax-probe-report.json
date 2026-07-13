@@ -1,0 +1,58 @@
+{
+  "artifactRole": "intentgraph-csharp-syntax-feasibility-probe-report",
+  "authority": {
+    "automaticCodeApplication": false,
+    "credentialAccessAllowed": false,
+    "hardwareAccess": false,
+    "igdProductizationClaimed": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "targetBuildExecuted": false,
+    "targetLaunchExecuted": false,
+    "targetRepositoryMutation": false,
+    "targetRestoreExecuted": false
+  },
+  "extraction": {
+    "adapter": "roslyn-syntax-only",
+    "deterministic": true,
+    "repeatOutputByteIdentical": true,
+    "semanticResolution": false,
+    "sourceBuildAllowed": false,
+    "summary": {
+      "factCount": 8137,
+      "factKindCounts": {
+        "constructor": 69,
+        "field": 602,
+        "file": 206,
+        "invocation": 4962,
+        "method": 923,
+        "namespace": 205,
+        "property": 585,
+        "type": 249,
+        "using": 336
+      },
+      "relationCount": 7931,
+      "relationKindCounts": {
+        "contains": 2633,
+        "imports": 336,
+        "invokes-syntax": 4962
+      },
+      "sourceFileCount": 206
+    }
+  },
+  "result": "pass",
+  "scope": "p9.6-windowsutility-csharp-syntax-only-readonly",
+  "source": {
+    "afterDigest": "sha256:2e40a83a1e2ca75c89723c5b291715690ab91275f7a1d202e14dc46dbbf12b22",
+    "beforeDigest": "sha256:2e40a83a1e2ca75c89723c5b291715690ab91275f7a1d202e14dc46dbbf12b22",
+    "fileCount": 206,
+    "logicalRoot": "intentgraph://targets/windowsutility/src",
+    "unchanged": true
+  },
+  "status": "intentgraph-csharp-syntax-feasibility-probe-passed",
+  "target": {
+    "cleanAligned": true,
+    "id": "WindowsUtility",
+    "revision": "ac5b2204442cde751f625a9979a4fdb437d468a8"
+  }
+}
