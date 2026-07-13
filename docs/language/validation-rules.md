@@ -955,6 +955,22 @@ After CF0 has code-first maintenance deltas, overlay-only contract deltas, negat
 
 New CF0 behavior or contract units must not be added by default. The next implementation-expanding step must first pass a plan-only generalization or second-benchmark gate that states what CF0 cannot prove, which prior-art systems must be reconsidered, which abstractions are reusable, and what pass/fail criteria prevent fixture overfitting.
 
+### V423 - Local Review Workspace Is Fail-Closed
+
+Severity: P0 in P9.1
+
+The B1 local-review workspace must declare one supported profile, a source digest, contained input paths, exact `artifacts/` outputs, and a local-only authority object. It must fail before review execution when the role, schema, profile, source provenance, input path, output path, or any mutation/code-application/network/provider/credential/hook/release flag is invalid.
+
+The workspace positive baseline must pass extraction, code-fact validation, mapping verification, non-applied proposal validation, consistency verification, and workbench generation. Repeatable negative probes must rerun that baseline and prove expected failures.
+
+### V424 - Logical Source Identity Is Portable and Bounded
+
+Severity: P0 in P9.2
+
+When a code-fact report declares `sourceRootKind: logical-id`, its `sourceRoot` must be an `intentgraph://` logical identifier without traversal or backslashes. A portable workspace profile must bind its proposal baseline to this logical code-fact identity rather than a physical workspace path.
+
+The same profile and source bytes in two different workspace directories must produce byte-identical review artifacts. Existing physical-path B1 extraction without `sourceRootKind` must remain byte-identical. Invalid logical extractor inputs, invalid logical code-fact reports, wrong workspace logical IDs, and stale profile proposal baselines must fail deterministically.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

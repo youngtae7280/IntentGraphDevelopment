@@ -16,17 +16,18 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE_FILE = "intentgraph.workspace.json"
 PROFILE = "b1-typescript-rest-api-sample"
 WORKSPACE_ROLE = "intentgraph-local-review-workspace"
-SCHEMA_VERSION = "0.1.0"
+SCHEMA_VERSION = "0.2.0"
+LOGICAL_SOURCE_ROOT_ID = "intentgraph://profiles/b1-typescript-rest-api-sample/source"
 
 SAMPLE_SOURCE = ROOT / "docs" / "examples" / "b1-typescript-rest-api" / "source"
 SAMPLE_OVERLAY = ROOT / "docs" / "examples" / "b1-typescript-rest-api" / "intentgraph.overlay.json"
-SAMPLE_PROPOSAL = (
+SAMPLE_WORKSPACE_PROPOSAL = (
     ROOT
     / "docs"
     / "examples"
     / "b1-typescript-rest-api"
     / "proposals"
-    / "p4.0-complete-todo-route.proposal.json"
+    / "p9.2-local-review-workspace.proposal.json"
 )
 
 REQUIRED_OUTPUTS = {
@@ -130,6 +131,7 @@ def sample_manifest() -> dict[str, Any]:
         "source": {
             "root": "source",
             "digest": digest_tree(SAMPLE_SOURCE),
+            "logicalId": LOGICAL_SOURCE_ROOT_ID,
             "mutationAllowed": False,
         },
         "inputs": {
@@ -160,6 +162,8 @@ def validate_workspace(workspace: Path) -> tuple[dict[str, Any], dict[str, Path]
         raise WorkspaceError("workspace source must be an object")
     if source.get("mutationAllowed") is not False:
         raise WorkspaceError("workspace source mutation must remain false")
+    if source.get("logicalId") != LOGICAL_SOURCE_ROOT_ID:
+        raise WorkspaceError(f"workspace source logicalId must equal {LOGICAL_SOURCE_ROOT_ID}")
     source_root = contained_path(workspace, str(source.get("root", "")))
     expected_digest = source.get("digest")
     if not isinstance(expected_digest, str) or not expected_digest.startswith("sha256:"):
@@ -180,6 +184,18 @@ def validate_workspace(workspace: Path) -> tuple[dict[str, Any], dict[str, Path]
         if not path.is_file():
             raise WorkspaceError(f"workspace input {key} is missing: {value}")
         input_paths[key] = path
+
+    proposal_profile = read_json(input_paths["proposal"]).get("workspaceProfile")
+    expected_profile = {
+        "id": PROFILE,
+        "logicalSourceRoot": LOGICAL_SOURCE_ROOT_ID,
+        "pathSpecificBaselineMaterialization": False,
+        "sourceTextIncluded": False,
+        "patchIncluded": False,
+        "applied": False,
+    }
+    if proposal_profile != expected_profile:
+        raise WorkspaceError("workspace proposal must declare the bounded logical source profile")
 
     outputs = manifest.get("outputs")
     if not isinstance(outputs, dict):
@@ -210,34 +226,7 @@ def initialize_sample(workspace: Path) -> int:
     (workspace / "proposals").mkdir(parents=True, exist_ok=True)
     shutil.copy2(SAMPLE_OVERLAY, workspace / "overlay" / "intentgraph.overlay.json")
     proposal_path = workspace / "proposals" / "p4.0-complete-todo-route.proposal.json"
-    shutil.copy2(SAMPLE_PROPOSAL, proposal_path)
-
-    # B1's original proposal records a digest for its original fixture path.
-    # Materialize only that baseline for this local, copied source tree.
-    bootstrap_code_facts = workspace / "artifacts" / ".bootstrap-code-facts.json"
-    bootstrap = run_tool(
-        "extract_b1_code_facts.py",
-        [Path("--source-root"), workspace / "source", Path("--out"), bootstrap_code_facts],
-    )
-    if bootstrap["exitCode"] != 0:
-        raise WorkspaceError("could not materialize B1 proposal baseline")
-    proposal = read_json(proposal_path)
-    baseline = proposal.get("baseline")
-    if not isinstance(baseline, dict):
-        raise WorkspaceError("sample proposal baseline must be an object")
-    baseline["codeFactsDigest"] = digest_json(read_json(bootstrap_code_facts))
-    baseline["codeFactsPath"] = REQUIRED_OUTPUTS["codeFacts"]
-    baseline["overlayPath"] = "overlay/intentgraph.overlay.json"
-    proposal["workspaceMaterialization"] = {
-        "role": "intentgraph-local-review-proposal-baseline",
-        "template": "docs/examples/b1-typescript-rest-api/proposals/p4.0-complete-todo-route.proposal.json",
-        "sourceRootSpecificBaseline": True,
-        "sourceTextIncluded": False,
-        "patchIncluded": False,
-        "applied": False,
-    }
-    write_json(proposal_path, proposal)
-    bootstrap_code_facts.unlink()
+    shutil.copy2(SAMPLE_WORKSPACE_PROPOSAL, proposal_path)
     manifest = sample_manifest()
     write_json(workspace / WORKSPACE_FILE, manifest)
     _, paths = validate_workspace(workspace)
@@ -251,14 +240,15 @@ def initialize_sample(workspace: Path) -> int:
             "sourceDigest": manifest["source"]["digest"],
             "overlay": paths["overlay"].relative_to(workspace).as_posix(),
             "proposal": paths["proposal"].relative_to(workspace).as_posix(),
-            "proposalBaselineMaterialized": True,
+            "logicalSourceRoot": LOGICAL_SOURCE_ROOT_ID,
+            "proposalProfileTemplate": True,
             "authority": REQUIRED_AUTHORITY,
         }
     )
     return 0
 
 
-def run_tool(script: str, args: list[Path]) -> dict[str, Any]:
+def run_tool(script: str, args: list[str | Path]) -> dict[str, Any]:
     command = [sys.executable, str(ROOT / "tools" / script)] + [str(path) for path in args]
     completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, check=False)
     return {
@@ -278,7 +268,14 @@ def review_workspace(workspace: Path) -> int:
         (
             "extract-code-facts",
             "extract_b1_code_facts.py",
-            [Path("--source-root"), paths["sourceRoot"], Path("--out"), paths["codeFacts"]],
+            [
+                Path("--source-root"),
+                paths["sourceRoot"],
+                Path("--source-root-id"),
+                LOGICAL_SOURCE_ROOT_ID,
+                Path("--out"),
+                paths["codeFacts"],
+            ],
         ),
         (
             "validate-code-facts",
@@ -400,6 +397,7 @@ def review_workspace(workspace: Path) -> int:
         "workspaceManifestDigest": digest_json(manifest),
         "sourceDigestBefore": source_digest_before,
         "sourceDigestAfter": source_digest_after,
+        "logicalSourceRoot": manifest["source"]["logicalId"],
         "sourceTextEqualityRequired": False,
         "targetRepositoryMutation": False,
         "automaticCodeApplication": False,

@@ -1,0 +1,43 @@
+{
+  "artifactRole": "intentgraph-logical-workspace-source-identity-profile-contract-report",
+  "status": "intentgraph-logical-workspace-source-identity-profile-contract-passed",
+  "scope": "p9.2-b1-logical-source-identity-and-portable-workspace-profile",
+  "decision": "bind-the-b1-local-review-profile-to-a-logical-source-identity",
+  "logicalSourceIdentity": {
+    "id": "intentgraph://profiles/b1-typescript-rest-api-sample/source",
+    "kind": "logical-id",
+    "physicalPathIncludedInPortableCodeFacts": false,
+    "pathSpecificProposalBaselineMaterialization": false
+  },
+  "profile": {
+    "id": "b1-typescript-rest-api-sample",
+    "workspaceSchemaVersion": "0.2.0",
+    "proposalTemplate": "docs/examples/b1-typescript-rest-api/proposals/p9.2-local-review-workspace.proposal.json",
+    "proposalBaselineCodeFactsDigest": "sha256:17afb13342122140fd6a5c5b947a38b03e4a1c3e7cf1326a57c85f7eb11558ff"
+  },
+  "verification": {
+    "twoFreshWorkspacesByteIdentical": true,
+    "logicalWorkspaceNegativeProbeReport": "generated/roadmap/p9.2-igd-logical-workspace-negative-probes-report.json",
+    "logicalWorkspaceNegativeProbeCount": 16,
+    "logicalExtractorNegativeProbeReport": "generated/roadmap/p9.2-b1-logical-source-identity-negative-probes-report.json",
+    "logicalExtractorNegativeProbeCount": 5,
+    "existingB1DirectPipelinePassed": true,
+    "existingB1DefaultCodeFactsByteIdentical": true
+  },
+  "authority": {
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "hookInstallationAllowed": false,
+    "releasePublishingAllowed": false,
+    "igdProductizationClaimed": false
+  },
+  "knownLimitations": [
+    "Only the B1 TypeScript REST sample profile is supported.",
+    "A user project cannot yet declare and load its own profile.",
+    "The command is not packaged or installed and has no editor or release integration."
+  ],
+  "nextSlice": "P9.3 External Project Profile Intake and Workspace Import Boundary Plan"
+}

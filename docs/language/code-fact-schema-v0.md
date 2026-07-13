@@ -1,6 +1,6 @@
 # Code Fact Schema v0
 
-Status: P2.0 B1-bounded schema.
+Status: P2.0 B1-bounded schema, with P9.2 logical source identity extension.
 
 This schema defines the first IntentGraph code fact boundary for Phase B. It is intentionally small and benchmark-bounded. It is not a broad language index, static analysis graph, or code navigation database.
 
@@ -37,6 +37,7 @@ Required top-level fields:
 - `benchmarkId: B1-typescript-rest-api`
 - `codeFactsVersion`
 - `sourceRoot`
+- optional `sourceRootKind: logical-id`
 - `extractor`
 - `sourceDigests`
 - `facts[]`
@@ -73,6 +74,19 @@ Allowed confidence values:
 - `ambiguous`
 
 Source text must not be copied into facts as authority. Facts point to source files, digests, and locations.
+
+## Source Root Identity
+
+Historical B1 reports may use a physical `sourceRoot` path. A portable local-review profile may instead declare:
+
+```json
+{
+  "sourceRoot": "intentgraph://profiles/b1-typescript-rest-api-sample/source",
+  "sourceRootKind": "logical-id"
+}
+```
+
+When `sourceRootKind` is declared, it must equal `logical-id`; `sourceRoot` must start with `intentgraph://` and must not contain traversal segments or backslashes. The physical directory used for extraction remains workspace provenance, not part of the portable aggregate code-fact identity.
 
 ## Relation Requirements
 

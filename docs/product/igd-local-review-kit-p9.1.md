@@ -12,7 +12,7 @@ python tools/intentgraph.py review --workspace .tmp/igd-b1-review
 
 `init-sample` creates a fresh local workspace from the repository's B1 fixture. `validate` checks the workspace contract without generating artifacts. `review` runs the deterministic code-fact, mapping, proposal, consistency, and workbench pipeline entirely inside that workspace.
 
-The copied B1 proposal is materialized for the copied source tree: only its aggregate code-fact baseline and declared local paths are updated. Its source digests, non-applied proposal semantics, no-source-text boundary, and no-patch boundary remain unchanged. The original fixture proposal is never modified.
+P9.2 replaces P9.1's copied-path baseline materialization with the profile's stable `intentgraph://profiles/b1-typescript-rest-api-sample/source` logical source identity. The workspace copies a predeclared profile proposal whose code-fact baseline is independent of its physical workspace path. The original historical B1 proposal is never modified.
 
 ## Workspace Contract
 
@@ -30,4 +30,4 @@ The facade rejects path traversal, outputs outside `artifacts/`, stale source pr
 
 The command writes only to the declared workspace. It does not modify a target repository, apply a proposal, execute generated code, access credentials, use a provider API, install hooks, or publish anything.
 
-The B1 sample is the only supported P9.1 profile. Its aggregate code-fact digest still contains a physical source-root value, so the copied proposal baseline is intentionally workspace-specific. P9.2 must establish a logical source identity before this profile can be treated as portable. Broader language support, arbitrary-repository retrofit, installation, editor integration, and release are later work.
+The B1 sample is the only supported profile. P9.2 makes its aggregate code-fact baseline portable across workspace locations through a logical source identity. Broader language support, arbitrary-repository retrofit, installation, editor integration, and release are later work.

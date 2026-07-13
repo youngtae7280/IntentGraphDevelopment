@@ -336,7 +336,7 @@ def relation_facts(facts: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(relations, key=lambda item: item["id"])
 
 
-def extract(source_root: Path) -> dict[str, Any]:
+def extract(source_root: Path, source_root_id: str | None = None) -> dict[str, Any]:
     if not source_root.exists():
         raise ExtractError(f"source root does not exist: {source_root}")
     source_files = sorted(path for path in source_root.rglob("*") if path.suffix in ALLOWED_EXTENSIONS)
@@ -351,13 +351,22 @@ def extract(source_root: Path) -> dict[str, Any]:
         path.relative_to(source_root).as_posix(): sha256_bytes(path.read_bytes())
         for path in source_files
     }
+    source_root_metadata: dict[str, str] = {}
+    if source_root_id is not None:
+        if not source_root_id.startswith("intentgraph://") or ".." in source_root_id or "\\" in source_root_id:
+            raise ExtractError("source root id must be an intentgraph:// logical identifier")
+        reported_source_root = source_root_id
+        source_root_metadata = {"sourceRootKind": "logical-id"}
+    else:
+        reported_source_root = source_root.as_posix()
     return {
         "artifactRole": "intentgraph-code-facts",
         "status": "intentgraph-code-facts-extracted",
         "scope": "b1-typescript-rest-api-code-facts",
         "benchmarkId": BENCHMARK_ID,
         "codeFactsVersion": "0.1.0",
-        "sourceRoot": source_root.as_posix(),
+        "sourceRoot": reported_source_root,
+        **source_root_metadata,
         "extractor": {
             "id": EXTRACTOR_ID,
             "version": EXTRACTOR_VERSION,
@@ -379,10 +388,11 @@ def write_json(path: Path, data: dict[str, Any]) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Extract B1 fixture code facts.")
     parser.add_argument("--source-root", required=True, type=Path)
+    parser.add_argument("--source-root-id", type=str)
     parser.add_argument("--out", required=True, type=Path)
     args = parser.parse_args()
     try:
-        write_json(args.out, extract(args.source_root))
+        write_json(args.out, extract(args.source_root, args.source_root_id))
     except (OSError, ExtractError) as error:
         print(f"extract B1 code facts failed: {error}")
         return 1

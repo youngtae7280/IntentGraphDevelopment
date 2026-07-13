@@ -3901,7 +3901,7 @@ Decision:
 - `python tools/intentgraph.py` provides `init-sample`, `validate`, and `review` for a B1 local-review workspace.
 - a fresh workspace passes extraction, mapping, non-applied proposal, consistency, and workbench generation without target-repository mutation.
 - fourteen invalid workspace/proposal variants fail deterministically after a positive baseline review rerun.
-- the B1 aggregate code-facts baseline remains physical-path dependent; P9.1 materializes a workspace-local proposal baseline and P9.2 must correct the general identity model.
+- the B1 aggregate code-facts baseline was physical-path dependent; P9.2 later corrected the local-review profile with a logical source identity.
 - no package manifest, installer, signing, credential access, provider API call, release publishing, or productization claim was performed.
 
 Produced artifacts:
@@ -3916,6 +3916,33 @@ Produced artifacts:
 Next safe work:
 
 - continue to `P9.2 Logical Workspace Source Identity and Profile Contract`.
+
+## P9.2: Logical Workspace Source Identity and Profile Contract
+
+Goal: remove physical workspace-path coupling from the B1 local-review profile without changing historical direct B1 extraction.
+
+Status: completed on 2026-07-13. See [P9.2 Logical Workspace Source Identity and Profile Contract Review](../reviews/p9.2-logical-workspace-source-identity-profile-contract-review.md).
+
+Decision:
+
+- B1 local review uses `intentgraph://profiles/b1-typescript-rest-api-sample/source` as a validated logical source identity.
+- the workspace uses a static P9.2 profile proposal baseline instead of rewriting a proposal for each workspace path.
+- two fresh workspace paths produce byte-identical review artifacts.
+- historical direct B1 physical-path extraction and B1 negative harnesses still pass.
+- no target mutation, automatic code application, network, provider, credential, hook, release, or productization authority was added.
+
+Produced artifacts:
+
+- `docs/examples/b1-typescript-rest-api/proposals/p9.2-local-review-workspace.proposal.json`
+- `tools/run_b1_logical_source_identity_negative_probes.py`
+- `generated/roadmap/p9.2-logical-workspace-source-identity-profile-contract-report.json`
+- `generated/roadmap/p9.2-igd-logical-workspace-negative-probes-report.json`
+- `generated/roadmap/p9.2-b1-logical-source-identity-negative-probes-report.json`
+- [P9.2 Logical Workspace Source Identity and Profile Contract Review](../reviews/p9.2-logical-workspace-source-identity-profile-contract-review.md)
+
+Next safe work:
+
+- continue to `P9.3 External Project Profile Intake and Workspace Import Boundary Plan`.
 
 ## P8.112: Productization Execution Hold After Launch Request
 

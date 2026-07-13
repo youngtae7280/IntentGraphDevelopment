@@ -69,6 +69,21 @@ def validate(data: dict[str, Any], source_root: Path | None = None) -> dict[str,
     if data.get("benchmarkId") != BENCHMARK_ID:
         errors.append(f"wrong benchmarkId: {data.get('benchmarkId')}")
 
+    source_root_value = data.get("sourceRoot")
+    if not isinstance(source_root_value, str) or not source_root_value:
+        errors.append("sourceRoot must be a non-empty string")
+    source_root_kind = data.get("sourceRootKind")
+    if source_root_kind is not None:
+        if source_root_kind != "logical-id":
+            errors.append("sourceRootKind must be logical-id when declared")
+        if (
+            not isinstance(source_root_value, str)
+            or not source_root_value.startswith("intentgraph://")
+            or ".." in source_root_value
+            or "\\" in source_root_value
+        ):
+            errors.append("logical sourceRoot must be an intentgraph:// identifier without traversal")
+
     extractor = data.get("extractor")
     if not isinstance(extractor, dict):
         errors.append("missing extractor object")

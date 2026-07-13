@@ -3716,6 +3716,31 @@ Recommended next slice:
 P9.2 Logical Workspace Source Identity and Profile Contract
 ```
 
+## Completed Slice: P9.2 Logical Workspace Source Identity and Profile Contract
+
+Goal: make the bounded B1 workspace profile portable across physical workspace directories.
+
+Result:
+
+```text
+Decision: bind-the-b1-local-review-profile-to-a-logical-source-identity.
+```
+
+Produced artifacts:
+
+- `docs/examples/b1-typescript-rest-api/proposals/p9.2-local-review-workspace.proposal.json`
+- `tools/run_b1_logical_source_identity_negative_probes.py`
+- `generated/roadmap/p9.2-logical-workspace-source-identity-profile-contract-report.json`
+- `generated/roadmap/p9.2-igd-logical-workspace-negative-probes-report.json`
+- `generated/roadmap/p9.2-b1-logical-source-identity-negative-probes-report.json`
+- [P9.2 Logical Workspace Source Identity and Profile Contract Review](../reviews/p9.2-logical-workspace-source-identity-profile-contract-review.md)
+
+Recommended next slice:
+
+```text
+P9.3 External Project Profile Intake and Workspace Import Boundary Plan
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

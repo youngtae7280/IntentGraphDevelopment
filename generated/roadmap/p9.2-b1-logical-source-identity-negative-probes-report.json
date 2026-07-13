@@ -1,0 +1,63 @@
+{
+  "artifactRole": "intentgraph-b1-logical-source-identity-negative-probes-report",
+  "status": "intentgraph-b1-logical-source-identity-negative-probes-passed",
+  "result": "pass",
+  "logicalSourceRoot": "intentgraph://profiles/b1-typescript-rest-api-sample/source",
+  "positiveLogicalExtractionPassed": true,
+  "positiveLogicalValidationPassed": true,
+  "probeCount": 5,
+  "probes": [
+    {
+      "id": "physical-path-logical-id",
+      "kind": "extractor-input",
+      "logicalId": "C:\\outside",
+      "expectedError": "source root id must be an intentgraph:// logical identifier",
+      "exitCode": 1,
+      "stdout": "extract B1 code facts failed: source root id must be an intentgraph:// logical identifier",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "path-traversal-logical-id",
+      "kind": "extractor-input",
+      "logicalId": "intentgraph://profiles/../outside",
+      "expectedError": "source root id must be an intentgraph:// logical identifier",
+      "exitCode": 1,
+      "stdout": "extract B1 code facts failed: source root id must be an intentgraph:// logical identifier",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "backslash-logical-id",
+      "kind": "extractor-input",
+      "logicalId": "intentgraph://profiles\\b1",
+      "expectedError": "source root id must be an intentgraph:// logical identifier",
+      "exitCode": 1,
+      "stdout": "extract B1 code facts failed: source root id must be an intentgraph:// logical identifier",
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "wrong-logical-source-root-kind",
+      "kind": "validator-input",
+      "expectedError": "sourceRootKind must be logical-id when declared",
+      "exitCode": 1,
+      "errors": [
+        "sourceRootKind must be logical-id when declared"
+      ],
+      "expectedFailureObserved": true
+    },
+    {
+      "id": "traversal-logical-source-root",
+      "kind": "validator-input",
+      "expectedError": "logical sourceRoot must be an intentgraph:// identifier without traversal",
+      "exitCode": 1,
+      "errors": [
+        "logical sourceRoot must be an intentgraph:// identifier without traversal"
+      ],
+      "expectedFailureObserved": true
+    }
+  ],
+  "authority": {
+    "sourceMutation": false,
+    "networkRequired": false,
+    "automaticCodeApplication": false
+  }
+}

@@ -37,10 +37,17 @@ def run(workspace: Path, command: str = "validate") -> subprocess.CompletedProce
     )
 
 
-def stale_materialized_proposal_baseline(workspace: Path) -> None:
+def stale_profile_proposal_baseline(workspace: Path) -> None:
     path = workspace / "proposals" / "p4.0-complete-todo-route.proposal.json"
     proposal = json.loads(path.read_text(encoding="utf-8"))
     proposal["baseline"]["codeFactsDigest"] = "sha256:stale"
+    write_json(path, proposal)
+
+
+def wrong_profile_proposal(workspace: Path) -> None:
+    path = workspace / "proposals" / "p4.0-complete-todo-route.proposal.json"
+    proposal = json.loads(path.read_text(encoding="utf-8"))
+    proposal["workspaceProfile"]["logicalSourceRoot"] = "intentgraph://wrong/profile"
     write_json(path, proposal)
 
 
@@ -108,6 +115,21 @@ def main() -> int:
             "validate",
         ),
         (
+            "wrong-logical-source-root",
+            lambda workspace: mutate_manifest(
+                workspace,
+                lambda value: value["source"].__setitem__("logicalId", "intentgraph://wrong/profile"),
+            ),
+            "workspace source logicalId must equal intentgraph://profiles/b1-typescript-rest-api-sample/source",
+            "validate",
+        ),
+        (
+            "wrong-profile-proposal-logical-source-root",
+            wrong_profile_proposal,
+            "workspace proposal must declare the bounded logical source profile",
+            "validate",
+        ),
+        (
             "source-path-traversal",
             lambda workspace: mutate_manifest(
                 workspace,
@@ -141,8 +163,8 @@ def main() -> int:
             "validate",
         ),
         (
-            "stale-materialized-proposal-baseline",
-            stale_materialized_proposal_baseline,
+            "stale-profile-proposal-baseline",
+            stale_profile_proposal_baseline,
             "review step failed: validate-proposal",
             "review",
         ),

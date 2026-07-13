@@ -1,6 +1,6 @@
 # IntentGraphDevelopment Productization Entry Plan
 
-Status: P9.0 plan and P9.1 bounded implementation completed; P9.2 logical source identity planning is next.
+Status: P9.0 plan, P9.1 bounded implementation, and P9.2 logical source identity completed; P9.3 external profile planning is next.
 
 ## Purpose
 
@@ -100,4 +100,10 @@ Those criteria are met by this plan, the P9.0 review, and the P9.0 report.
 
 P9.1 created the first `intentgraph` local facade and a fail-closed B1 workspace contract. A fresh workspace produces code facts, mapping and proposal verification, consistency evidence, and a static review workbench without target-repository mutation. The candidate remains defined-but-not-built at a product level: P9.1 is neither an installable CLI nor arbitrary-repository support.
 
-P9.1 materializes a copied proposal baseline because the historical B1 aggregate code-facts digest includes a physical source-root value. The next slice is `P9.2 Logical Workspace Source Identity and Profile Contract`.
+P9.1 originally materialized a copied proposal baseline because the historical B1 aggregate code-facts digest included a physical source-root value.
+
+## P9.2 Result
+
+P9.2 replaces that path-specific materialization for the local-review profile. The B1 workspace now uses the logical identity `intentgraph://profiles/b1-typescript-rest-api-sample/source` and a static profile proposal baseline. Two fresh workspaces in different directories produce byte-identical review artifacts while historical B1 physical-path extraction stays byte-identical.
+
+The next slice is `P9.3 External Project Profile Intake and Workspace Import Boundary Plan`.
