@@ -3884,6 +3884,28 @@ Recommended next slice:
 P9.9 Experimental C# Local Workspace Integration Boundary Plan - Plan Only
 ```
 
+## Completed Slice: P9.9 Experimental C# Local Workspace Integration Boundary
+
+Goal: define safe source intake and workspace boundaries before experimental C# profile integration.
+
+Result:
+
+```text
+Decision: authorize-p9.10-fact-only-snapshot-workspace-probe.
+```
+
+Produced artifacts:
+
+- `docs/product/igd-experimental-csharp-workspace-p9.9.md`
+- `generated/roadmap/p9.9-experimental-csharp-workspace-integration-boundary-plan-report.json`
+- [P9.9 Experimental C# Local Workspace Integration Boundary Review](../reviews/p9.9-experimental-csharp-workspace-integration-boundary-review.md)
+
+Recommended next slice:
+
+```text
+P9.10 Experimental C# Snapshot Workspace and Fact Extraction Probe
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

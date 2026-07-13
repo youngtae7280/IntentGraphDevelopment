@@ -1005,6 +1005,14 @@ An experimental host-SDK preflight must validate the profile's exact experimenta
 
 For a stable local environment, repeated preflight reports must be byte-identical. The report must identify selected SDK version and required binary digests. Repeatable negative probes must cover unsafe profile claims, unsupported SDK selection, an actually missing host binary, and profile-output overwrite.
 
+### V429 - Experimental C# Workspace Is Snapshot-First and Fact-Only
+
+Severity: P0 in P9.9/P9.10
+
+An experimental C# workspace may open only after the declared host-SDK preflight passes. It must intake a non-symlink C# source subset into a new non-overlapping workspace, prove external source before/after equality, and persist only a logical source root plus path-free receipt/digest evidence. It must never extract from or write to the external source after intake.
+
+Facts must be generated solely from the workspace snapshot and preserve the P9.6 syntax-only boundary. The workspace must explicitly remain fact-only: no Intent Unit mapping, proposal, acceptance, source application, or product workbench claim may be created. Any profile/preflight mismatch, unsafe source root, source mutation, path leak, absolute path, source text, semantic-resolution claim, authority promotion, output collision, or workspace escape must fail closed.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

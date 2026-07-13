@@ -4099,6 +4099,30 @@ Next safe work:
 
 - continue to `P9.9 Experimental C# Local Workspace Integration Boundary Plan - Plan Only`.
 
+## P9.9: Experimental C# Local Workspace Integration Boundary
+
+Goal: define a snapshot-first, fact-only C# workspace route before implementing C# extraction in the local review kit.
+
+Status: completed on 2026-07-13. See [P9.9 Experimental C# Local Workspace Integration Boundary Review](../reviews/p9.9-experimental-csharp-workspace-integration-boundary-review.md).
+
+Decision:
+
+- authorize only a P9.10 experimental C# source snapshot workspace and fact extraction probe.
+- require a successful P9.8 local preflight before external source intake.
+- copy only non-symlink C# source outside `bin`/`obj` into a new workspace; retain path-free digest receipt evidence.
+- generate fact-only evidence from the workspace copy; do not create mappings, proposals, authority acceptance, or product workbench claims.
+- preserve false target mutation/build/restore/launch, package, network, provider, credential, code-application, release, and productization authority.
+
+Produced artifacts:
+
+- `docs/product/igd-experimental-csharp-workspace-p9.9.md`
+- `generated/roadmap/p9.9-experimental-csharp-workspace-integration-boundary-plan-report.json`
+- [P9.9 Experimental C# Local Workspace Integration Boundary Review](../reviews/p9.9-experimental-csharp-workspace-integration-boundary-review.md)
+
+Next safe work:
+
+- continue to `P9.10 Experimental C# Snapshot Workspace and Fact Extraction Probe`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

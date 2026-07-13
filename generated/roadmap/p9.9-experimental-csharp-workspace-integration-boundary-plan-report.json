@@ -1,0 +1,40 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-workspace-integration-boundary-plan-report",
+  "status": "intentgraph-experimental-csharp-workspace-integration-boundary-planned",
+  "scope": "p9.9-plan-only-experimental-csharp-fact-workspace",
+  "decision": "authorize-p9.10-fact-only-snapshot-workspace-probe",
+  "inputs": {
+    "p9_6SyntaxProbe": "passed-readonly-target-facts",
+    "p9_8HostSdkPreflight": "passed-experimental-local-availability",
+    "p9_4SnapshotPattern": "reuse-safety-mechanics-not-profile-support"
+  },
+  "p9_10": {
+    "command": "intentgraph init-experimental-csharp",
+    "externalSourceMutation": false,
+    "snapshotCopyRequired": true,
+    "sourceScope": {
+      "includeExtensions": [".cs"],
+      "excludeDirectories": ["bin", "obj"],
+      "symlinksAllowed": false
+    },
+    "logicalSourceRoot": "intentgraph://profiles/experimental-csharp-host-sdk-syntax-only/source",
+    "factOnly": true,
+    "intentMappingAllowed": false,
+    "changeProposalAllowed": false,
+    "workbenchProductClaimed": false
+  },
+  "authority": {
+    "externalSourceReadForSnapshot": true,
+    "targetRepositoryMutation": false,
+    "targetBuildExecuted": false,
+    "targetRestoreExecuted": false,
+    "targetLaunchExecuted": false,
+    "packageDependencyAdded": false,
+    "networkRequired": false,
+    "providerApiAllowed": false,
+    "credentialAccessAllowed": false,
+    "automaticCodeApplication": false,
+    "igdProductizationClaimed": false
+  },
+  "nextSlice": "P9.10 Experimental CSharp Snapshot Workspace and Fact Extraction Probe"
+}

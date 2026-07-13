@@ -22,6 +22,8 @@ IntentGraph is not ready for productization. The current evidence proves a seman
 
 > **P9.8 host-SDK preflight:** the local requirement is now explicit and fail-closed without target source access. It is still experimental and non-portable; workspace integration, reusable extraction, dependency packaging, semantic binding, and target mutation remain gated.
 
+> **P9.9 snapshot workspace plan:** P9.10 may copy a declared C# source subset into a new local workspace and extract fact-only evidence from that copy. It must not read/write source after intake, map intent, apply a proposal, or imply reusable profile/product support.
+
 ## Non-Negotiable Boundary
 
 Productization must remain blocked until real-project adoption evidence exists.
