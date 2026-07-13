@@ -23,6 +23,7 @@ from emit_experimental_csharp_fact_workbench import (
 )
 from experimental_csharp_project import (
     ProjectWorkspaceError,
+    add_change_proposal as add_experimental_csharp_change_proposal,
     add_mapping_candidate as add_experimental_csharp_mapping_candidate,
     add_work_request as add_experimental_csharp_work_request,
     emit_project_workbench as emit_experimental_csharp_project_workbench,
@@ -648,6 +649,12 @@ def parse_args() -> argparse.Namespace:
     csharp_project_mapping.add_argument("--work-id", required=True)
     csharp_project_mapping.add_argument("--code-fact", required=True, action="append")
     csharp_project_mapping.add_argument("--rationale", required=True)
+    csharp_project_proposal = subparsers.add_parser(
+        "add-experimental-csharp-change-proposal",
+        help="Record a non-applied C# change proposal with graph delta and code diff review data.",
+    )
+    csharp_project_proposal.add_argument("--workspace", required=True, type=Path)
+    csharp_project_proposal.add_argument("--proposal", required=True, type=Path)
     csharp_project_workbench = subparsers.add_parser(
         "emit-experimental-csharp-project-workbench",
         help="Emit a unified project workbench from a local C# semantic-overlay project workspace.",
@@ -694,6 +701,9 @@ def main() -> int:
             return 0
         if args.command == "add-experimental-csharp-mapping-candidate":
             emit_status(add_experimental_csharp_mapping_candidate(args.workspace, args.work_id, args.code_fact, args.rationale))
+            return 0
+        if args.command == "add-experimental-csharp-change-proposal":
+            emit_status(add_experimental_csharp_change_proposal(args.workspace, args.proposal))
             return 0
         if args.command == "emit-experimental-csharp-project-workbench":
             emit_status(emit_experimental_csharp_project_workbench(args.workspace, args.out))

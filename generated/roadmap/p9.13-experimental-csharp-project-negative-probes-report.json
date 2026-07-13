@@ -56,10 +56,10 @@
       "id": "automatic-code-application"
     },
     {
-      "actualError": "P9.13 project workspace must not contain change proposals yet",
-      "expectedError": "must not contain change proposals yet",
+      "actualError": "change proposal index record fields are invalid",
+      "expectedError": "change proposal index record fields are invalid",
       "expectedFailureObserved": true,
-      "id": "unsupported-proposal"
+      "id": "malformed-proposal-index"
     },
     {
       "actualError": "project workbench output directory must not exist",

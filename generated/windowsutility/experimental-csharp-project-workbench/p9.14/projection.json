@@ -17,22 +17,23 @@
     "targetRestoreExecuted": false
   },
   "changeReview": {
-    "codeDiffShown": false,
-    "graphDeltaShown": false,
-    "reason": "A work request may be mapped to code facts, but a separate deterministic proposal is required before changes or diffs exist.",
-    "status": "not-recorded",
-    "summary": "No change proposal, graph delta, or code diff has been recorded for this project workspace."
+    "codeDiffShown": true,
+    "graphDeltaShown": true,
+    "reason": "These are review artifacts only. No graph or source change has been applied.",
+    "status": "review-required",
+    "summary": "1 non-applied change proposal(s) record 7 graph delta step(s) and 3 code diff(s)."
   },
   "graph": {
     "categoryCounts": {
       "authority": 1,
       "code": 8137,
-      "evidence": 1,
-      "history": 3,
+      "evidence": 2,
+      "history": 4,
       "intent": 1,
       "mapping": 1,
       "project": 1,
-      "verification": 1,
+      "proposal": 1,
+      "verification": 3,
       "work": 1
     },
     "defaultView": {
@@ -59,10 +60,10 @@
           "confidence": "declared",
           "status": "candidate"
         },
-        "id": "edge.mapping.mapping.windowsutility-startup-inspection.candidate.for.intent.windowsutility-startup-inspection",
+        "id": "edge.mapping.mapping.simpleinfo-browse-folder-cancel.candidate.for.intent.simpleinfo-browse-folder-cancel",
         "kind": "maps",
-        "source": "mapping.mapping.windowsutility-startup-inspection.candidate",
-        "target": "intent.windowsutility-startup-inspection"
+        "source": "mapping.mapping.simpleinfo-browse-folder-cancel.candidate",
+        "target": "intent.simpleinfo-browse-folder-cancel"
       },
       {
         "category": "mapping-relation",
@@ -70,10 +71,42 @@
           "confidence": "declared",
           "status": "candidate"
         },
-        "id": "edge.mapping.mapping.windowsutility-startup-inspection.candidate.to.csharp.type.windowsutility_app_app_xaml_cs.1482.7403.app",
+        "id": "edge.mapping.mapping.simpleinfo-browse-folder-cancel.candidate.to.csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
         "kind": "maps-to",
-        "source": "mapping.mapping.windowsutility-startup-inspection.candidate",
-        "target": "csharp.type.windowsutility_app_app_xaml_cs.1482.7403.app"
+        "source": "mapping.mapping.simpleinfo-browse-folder-cancel.candidate",
+        "target": "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder"
+      },
+      {
+        "category": "mapping-relation",
+        "details": {
+          "confidence": "declared",
+          "status": "candidate"
+        },
+        "id": "edge.mapping.mapping.simpleinfo-browse-folder-cancel.candidate.to.csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+        "kind": "maps-to",
+        "source": "mapping.mapping.simpleinfo-browse-folder-cancel.candidate",
+        "target": "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder"
+      },
+      {
+        "category": "mapping-relation",
+        "details": {
+          "confidence": "declared",
+          "status": "candidate"
+        },
+        "id": "edge.mapping.mapping.simpleinfo-browse-folder-cancel.candidate.to.csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder",
+        "kind": "maps-to",
+        "source": "mapping.mapping.simpleinfo-browse-folder-cancel.candidate",
+        "target": "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder"
+      },
+      {
+        "category": "semantic-relation",
+        "details": {
+          "result": "required-not-collected"
+        },
+        "id": "edge.project.windowsutility.evidenced-by.evidence.requirements.simpleinfo-browse-folder-cancel",
+        "kind": "evidenced-by",
+        "source": "project.windowsutility",
+        "target": "evidence.evidence.requirements.simpleinfo-browse-folder-cancel"
       },
       {
         "category": "semantic-relation",
@@ -99,10 +132,10 @@
       {
         "category": "semantic-relation",
         "details": {},
-        "id": "edge.project.windowsutility.recorded-by.history.mapping.windowsutility-startup-inspection",
+        "id": "edge.project.windowsutility.recorded-by.history.mapping.simpleinfo-browse-folder-cancel",
         "kind": "recorded-by",
         "source": "project.windowsutility",
-        "target": "history.history.mapping.windowsutility-startup-inspection"
+        "target": "history.history.mapping.simpleinfo-browse-folder-cancel"
       },
       {
         "category": "semantic-relation",
@@ -115,20 +148,38 @@
       {
         "category": "semantic-relation",
         "details": {},
-        "id": "edge.project.windowsutility.recorded-by.history.request.windowsutility-startup-inspection",
+        "id": "edge.project.windowsutility.recorded-by.history.proposal.simpleinfo-browse-folder-cancel",
         "kind": "recorded-by",
         "source": "project.windowsutility",
-        "target": "history.history.request.windowsutility-startup-inspection"
+        "target": "history.history.proposal.simpleinfo-browse-folder-cancel"
+      },
+      {
+        "category": "semantic-relation",
+        "details": {},
+        "id": "edge.project.windowsutility.recorded-by.history.request.simpleinfo-browse-folder-cancel",
+        "kind": "recorded-by",
+        "source": "project.windowsutility",
+        "target": "history.history.request.simpleinfo-browse-folder-cancel"
       },
       {
         "category": "semantic-relation",
         "details": {
-          "state": "mapping-candidate"
+          "state": "proposal-ready"
         },
-        "id": "edge.project.windowsutility.tracks.windowsutility-startup-inspection",
+        "id": "edge.project.windowsutility.tracks.simpleinfo-browse-folder-cancel",
         "kind": "tracks",
         "source": "project.windowsutility",
-        "target": "work.windowsutility-startup-inspection"
+        "target": "work.simpleinfo-browse-folder-cancel"
+      },
+      {
+        "category": "semantic-relation",
+        "details": {
+          "result": "required-not-run"
+        },
+        "id": "edge.project.windowsutility.verified-by.verification.requirements.simpleinfo-browse-folder-cancel",
+        "kind": "verified-by",
+        "source": "project.windowsutility",
+        "target": "verification.verification.requirements.simpleinfo-browse-folder-cancel"
       },
       {
         "category": "semantic-relation",
@@ -141,14 +192,78 @@
         "target": "verification.verification.snapshot-integrity"
       },
       {
+        "category": "delta-relation",
+        "details": {
+          "deltaState": "proposed-addition",
+          "proposalId": "simpleinfo-browse-folder-cancel"
+        },
+        "id": "edge.proposal.simpleinfo-browse-folder-cancel.adds.verification.simpleinfo-browse-folder-cancel",
+        "kind": "adds",
+        "source": "proposal.simpleinfo-browse-folder-cancel",
+        "target": "verification.simpleinfo-browse-folder-cancel"
+      },
+      {
+        "category": "delta-relation",
+        "details": {
+          "deltaState": "proposed-change",
+          "proposalId": "simpleinfo-browse-folder-cancel"
+        },
+        "id": "edge.proposal.simpleinfo-browse-folder-cancel.changes.csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+        "kind": "changes",
+        "source": "proposal.simpleinfo-browse-folder-cancel",
+        "target": "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder"
+      },
+      {
+        "category": "delta-relation",
+        "details": {
+          "deltaState": "proposed-change",
+          "proposalId": "simpleinfo-browse-folder-cancel"
+        },
+        "id": "edge.proposal.simpleinfo-browse-folder-cancel.changes.csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+        "kind": "changes",
+        "source": "proposal.simpleinfo-browse-folder-cancel",
+        "target": "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder"
+      },
+      {
+        "category": "delta-relation",
+        "details": {
+          "deltaState": "proposed-change",
+          "proposalId": "simpleinfo-browse-folder-cancel"
+        },
+        "id": "edge.proposal.simpleinfo-browse-folder-cancel.changes.csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder",
+        "kind": "changes",
+        "source": "proposal.simpleinfo-browse-folder-cancel",
+        "target": "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder"
+      },
+      {
         "category": "semantic-relation",
         "details": {
           "state": "candidate"
         },
-        "id": "edge.windowsutility-startup-inspection.expresses.intent.windowsutility-startup-inspection",
+        "id": "edge.simpleinfo-browse-folder-cancel.expresses.intent.simpleinfo-browse-folder-cancel",
         "kind": "expresses",
-        "source": "work.windowsutility-startup-inspection",
-        "target": "intent.windowsutility-startup-inspection"
+        "source": "work.simpleinfo-browse-folder-cancel",
+        "target": "intent.simpleinfo-browse-folder-cancel"
+      },
+      {
+        "category": "delta-relation",
+        "details": {
+          "status": "required-not-run"
+        },
+        "id": "edge.simpleinfo-browse-folder-cancel.verifies",
+        "kind": "verifies",
+        "source": "intent.simpleinfo-browse-folder-cancel",
+        "target": "verification.simpleinfo-browse-folder-cancel"
+      },
+      {
+        "category": "semantic-relation",
+        "details": {
+          "status": "not-applied-review-required"
+        },
+        "id": "edge.work.simpleinfo-browse-folder-cancel.proposes.simpleinfo-browse-folder-cancel",
+        "kind": "proposes",
+        "source": "work.simpleinfo-browse-folder-cancel",
+        "target": "proposal.simpleinfo-browse-folder-cancel"
       },
       {
         "category": "code-relation",
@@ -273027,8 +273142,18 @@
       },
       {
         "category": "code",
-        "codeDiffs": [],
-        "deltaState": "unchanged",
+        "codeDiffs": [
+          {
+            "beforeSourceDigest": "sha256:37578a325ad950c386ae9636eb83757c21cc9727aa34637750e7ffa379d7bf25",
+            "codeFactId": "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+            "id": "diff.simpleinfo-browse-folder-cancel.service",
+            "proposalId": "simpleinfo-browse-folder-cancel",
+            "proposalTitle": "Preserve the CSD selection when folder browse is cancelled",
+            "sourceFile": "WindowsUtility.Modules.SimpleInfo/Services/CsdBrowseService.cs",
+            "unifiedDiff": "@@\n         if (dialog.ShowDialog() != WinForms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath))\n         {\n-            return [];\n+            return null;\n         }"
+          }
+        ],
+        "deltaState": "proposed-change",
         "details": {
           "declarationKind": "method",
           "interpretation": "Extracted syntax fact with source-range provenance.",
@@ -273111,8 +273236,18 @@
       },
       {
         "category": "code",
-        "codeDiffs": [],
-        "deltaState": "unchanged",
+        "codeDiffs": [
+          {
+            "beforeSourceDigest": "sha256:455ccde6d22e0f5658dabd0801f9bea00560fc8833d30026a7529a149a1fe1e3",
+            "codeFactId": "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+            "id": "diff.simpleinfo-browse-folder-cancel.interface",
+            "proposalId": "simpleinfo-browse-folder-cancel",
+            "proposalTitle": "Preserve the CSD selection when folder browse is cancelled",
+            "sourceFile": "WindowsUtility.Modules.SimpleInfo/Services/ICsdBrowseService.cs",
+            "unifiedDiff": "@@\n-    IReadOnlyList<SimpleInfoDocument> BrowseFolder();\n+    IReadOnlyList<SimpleInfoDocument>? BrowseFolder();"
+          }
+        ],
+        "deltaState": "proposed-change",
         "details": {
           "declarationKind": "method",
           "interpretation": "Extracted syntax fact with source-range provenance.",
@@ -273251,8 +273386,18 @@
       },
       {
         "category": "code",
-        "codeDiffs": [],
-        "deltaState": "unchanged",
+        "codeDiffs": [
+          {
+            "beforeSourceDigest": "sha256:60263a6cffff4375a9ea3555fef7e889389ebe7231acba334a72e5f7715dab0e",
+            "codeFactId": "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder",
+            "id": "diff.simpleinfo-browse-folder-cancel.viewmodel",
+            "proposalId": "simpleinfo-browse-folder-cancel",
+            "proposalTitle": "Preserve the CSD selection when folder browse is cancelled",
+            "sourceFile": "WindowsUtility.Modules.SimpleInfo/ViewModels/SimpleInfoViewModel.cs",
+            "unifiedDiff": "@@\n-            LoadDocuments(_csdBrowseService.BrowseFolder());\n+            var documents = _csdBrowseService.BrowseFolder();\n+            if (documents is not null)\n+            {\n+                LoadDocuments(documents);\n+            }"
+          }
+        ],
+        "deltaState": "proposed-change",
         "details": {
           "declarationKind": "method",
           "interpretation": "Extracted syntax fact with source-range provenance.",
@@ -314636,6 +314781,18 @@
       {
         "category": "evidence",
         "details": {
+          "id": "evidence.requirements.simpleinfo-browse-folder-cancel",
+          "kind": "proposal-evidence-requirements",
+          "result": "required-not-collected",
+          "summary": "Recorded 2 evidence requirements for non-applied proposal simpleinfo-browse-folder-cancel."
+        },
+        "id": "evidence.evidence.requirements.simpleinfo-browse-folder-cancel",
+        "kind": "evidence",
+        "label": "proposal-evidence-requirements"
+      },
+      {
+        "category": "evidence",
+        "details": {
           "id": "evidence.snapshot-intake",
           "kind": "source-snapshot-receipt",
           "result": "pass",
@@ -314648,11 +314805,11 @@
       {
         "category": "history",
         "details": {
-          "id": "history.mapping.windowsutility-startup-inspection",
+          "id": "history.mapping.simpleinfo-browse-folder-cancel",
           "kind": "mapping-candidate-recorded",
-          "summary": "Recorded declared mapping candidate mapping.windowsutility-startup-inspection.candidate; acceptance is not automatic."
+          "summary": "Recorded declared mapping candidate mapping.simpleinfo-browse-folder-cancel.candidate; acceptance is not automatic."
         },
-        "id": "history.history.mapping.windowsutility-startup-inspection",
+        "id": "history.history.mapping.simpleinfo-browse-folder-cancel",
         "kind": "history",
         "label": "mapping-candidate-recorded"
       },
@@ -314670,42 +314827,55 @@
       {
         "category": "history",
         "details": {
-          "id": "history.request.windowsutility-startup-inspection",
-          "kind": "work-request-recorded",
-          "summary": "Recorded work request windowsutility-startup-inspection without automatic mapping or source mutation."
+          "id": "history.proposal.simpleinfo-browse-folder-cancel",
+          "kind": "non-applied-change-proposal-recorded",
+          "summary": "Recorded non-applied proposal simpleinfo-browse-folder-cancel with graph delta and code diff evidence; no source change was applied."
         },
-        "id": "history.history.request.windowsutility-startup-inspection",
+        "id": "history.history.proposal.simpleinfo-browse-folder-cancel",
+        "kind": "history",
+        "label": "non-applied-change-proposal-recorded"
+      },
+      {
+        "category": "history",
+        "details": {
+          "id": "history.request.simpleinfo-browse-folder-cancel",
+          "kind": "work-request-recorded",
+          "summary": "Recorded work request simpleinfo-browse-folder-cancel without automatic mapping or source mutation."
+        },
+        "id": "history.history.request.simpleinfo-browse-folder-cancel",
         "kind": "history",
         "label": "work-request-recorded"
       },
       {
         "category": "intent",
         "details": {
-          "changeStatus": "not-proposed",
+          "changeStatus": "proposal-review-required",
           "mappingStatus": "candidate",
-          "request": "Inspect the C# application startup surface and record a reviewable IntentGraph mapping candidate before any change proposal.",
-          "verificationStatus": "snapshot-only"
+          "request": "When Browse Folder is cancelled in SimpleInfo, keep the currently loaded CSD documents and preview instead of clearing them; an explicitly selected empty folder must still show no files.",
+          "verificationStatus": "requirements-recorded"
         },
-        "id": "intent.windowsutility-startup-inspection",
+        "id": "intent.simpleinfo-browse-folder-cancel",
         "kind": "intent",
-        "label": "Inspect WindowsUtility startup structure"
+        "label": "Preserve CSD selection when folder browse is cancelled"
       },
       {
         "category": "mapping",
         "details": {
           "codeFactIds": [
-            "csharp.type.windowsutility_app_app_xaml_cs.1482.7403.app"
+            "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+            "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+            "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder"
           ],
           "confidence": "declared",
-          "id": "mapping.windowsutility-startup-inspection.candidate",
-          "intentUnitId": "intent.windowsutility-startup-inspection",
-          "rationale": "The App type is a declared entry-surface candidate for this startup-structure inspection; the mapping remains unaccepted.",
+          "id": "mapping.simpleinfo-browse-folder-cancel.candidate",
+          "intentUnitId": "intent.simpleinfo-browse-folder-cancel",
+          "rationale": "The service interface, implementation, and view-model consumer form the cancellation behavior chain; this declared mapping remains unaccepted.",
           "status": "candidate",
-          "workItemId": "windowsutility-startup-inspection"
+          "workItemId": "simpleinfo-browse-folder-cancel"
         },
-        "id": "mapping.mapping.windowsutility-startup-inspection.candidate",
+        "id": "mapping.mapping.simpleinfo-browse-folder-cancel.candidate",
         "kind": "mapping",
-        "label": "mapping.windowsutility-startup-inspection.candidate"
+        "label": "mapping.simpleinfo-browse-folder-cancel.candidate"
       },
       {
         "category": "project",
@@ -314717,6 +314887,45 @@
         "id": "project.windowsutility",
         "kind": "project",
         "label": "WindowsUtility"
+      },
+      {
+        "category": "proposal",
+        "details": {
+          "applicationStatus": "not-applied-review-required",
+          "evidenceRequirementCount": 2,
+          "mappingId": "mapping.simpleinfo-browse-folder-cancel.candidate",
+          "summary": "Represent cancellation separately from an explicitly selected empty folder so cancelling Browse Folder does not clear the current CSD document list.",
+          "verificationRequirementCount": 2,
+          "workItemId": "simpleinfo-browse-folder-cancel"
+        },
+        "id": "proposal.simpleinfo-browse-folder-cancel",
+        "kind": "proposal",
+        "label": "Preserve the CSD selection when folder browse is cancelled"
+      },
+      {
+        "category": "verification",
+        "details": {
+          "deltaState": "proposed-addition",
+          "kind": "manual-ui-regression-check",
+          "proposalId": "simpleinfo-browse-folder-cancel",
+          "result": "required-not-run",
+          "summary": "After loading CSD files, canceling Browse Folder must leave the document list and preview unchanged."
+        },
+        "id": "verification.simpleinfo-browse-folder-cancel",
+        "kind": "verification",
+        "label": "Cancel preserves loaded CSD documents"
+      },
+      {
+        "category": "verification",
+        "details": {
+          "id": "verification.requirements.simpleinfo-browse-folder-cancel",
+          "kind": "proposal-verification-requirements",
+          "result": "required-not-run",
+          "summary": "Recorded 2 verification requirements for non-applied proposal simpleinfo-browse-folder-cancel."
+        },
+        "id": "verification.verification.requirements.simpleinfo-browse-folder-cancel",
+        "kind": "verification",
+        "label": "proposal-verification-requirements"
       },
       {
         "category": "verification",
@@ -314735,32 +314944,36 @@
       {
         "category": "work",
         "details": {
-          "changeStatus": "not-proposed",
-          "id": "windowsutility-startup-inspection",
-          "intentUnitId": "intent.windowsutility-startup-inspection",
+          "changeStatus": "proposal-review-required",
+          "id": "simpleinfo-browse-folder-cancel",
+          "intentUnitId": "intent.simpleinfo-browse-folder-cancel",
           "mappingStatus": "candidate",
-          "request": "Inspect the C# application startup surface and record a reviewable IntentGraph mapping candidate before any change proposal.",
-          "status": "mapping-candidate",
-          "title": "Inspect WindowsUtility startup structure",
-          "verificationStatus": "snapshot-only"
+          "request": "When Browse Folder is cancelled in SimpleInfo, keep the currently loaded CSD documents and preview instead of clearing them; an explicitly selected empty folder must still show no files.",
+          "status": "proposal-ready",
+          "title": "Preserve CSD selection when folder browse is cancelled",
+          "verificationStatus": "requirements-recorded"
         },
-        "id": "work.windowsutility-startup-inspection",
+        "id": "work.simpleinfo-browse-folder-cancel",
         "kind": "work",
-        "label": "Inspect WindowsUtility startup structure"
+        "label": "Preserve CSD selection when folder browse is cancelled"
       }
     ],
     "relationCounts": {
+      "adds": 1,
+      "changes": 3,
       "contains": 2633,
-      "evidenced-by": 1,
+      "evidenced-by": 2,
       "expresses": 1,
       "governed-by": 1,
       "imports": 336,
       "invokes-syntax": 4962,
       "maps": 1,
-      "maps-to": 1,
-      "recorded-by": 3,
+      "maps-to": 3,
+      "proposes": 1,
+      "recorded-by": 4,
       "tracks": 1,
-      "verified-by": 1
+      "verified-by": 2,
+      "verifies": 1
     }
   },
   "mode": "experimental-csharp-semantic-overlay-project-workbench",
@@ -314778,7 +314991,7 @@
     "factCount": 8137,
     "logicalSourceRoot": "intentgraph://profiles/experimental-csharp-host-sdk-syntax-only/source",
     "profileId": "experimental-csharp-host-sdk-syntax-only",
-    "proposedCodeDiffFragmentsShown": false,
+    "proposedCodeDiffFragmentsShown": true,
     "relationCount": 7931,
     "semanticResolution": false,
     "sourceDigest": "sha256:5b1969fdb13bd9d2d02e9332295a1ea84357cd496b629b7b5882573a10e35194",
@@ -314796,13 +315009,117 @@
   },
   "version": "0.1.0",
   "workflow": {
-    "changeProposals": [],
+    "changeProposals": [
+      {
+        "applicationStatus": "not-applied-review-required",
+        "artifactRole": "intentgraph-experimental-csharp-change-proposal",
+        "authority": {
+          "approvalRecorded": false,
+          "automaticCodeApplication": false,
+          "credentialAccessAllowed": false,
+          "graphMutationApplied": false,
+          "networkRequired": false,
+          "selfAuthorized": false,
+          "targetRepositoryMutation": false
+        },
+        "codeDiffs": [
+          {
+            "beforeSourceDigest": "sha256:455ccde6d22e0f5658dabd0801f9bea00560fc8833d30026a7529a149a1fe1e3",
+            "codeFactId": "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+            "id": "diff.simpleinfo-browse-folder-cancel.interface",
+            "sourceFile": "WindowsUtility.Modules.SimpleInfo/Services/ICsdBrowseService.cs",
+            "unifiedDiff": "@@\n-    IReadOnlyList<SimpleInfoDocument> BrowseFolder();\n+    IReadOnlyList<SimpleInfoDocument>? BrowseFolder();"
+          },
+          {
+            "beforeSourceDigest": "sha256:37578a325ad950c386ae9636eb83757c21cc9727aa34637750e7ffa379d7bf25",
+            "codeFactId": "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+            "id": "diff.simpleinfo-browse-folder-cancel.service",
+            "sourceFile": "WindowsUtility.Modules.SimpleInfo/Services/CsdBrowseService.cs",
+            "unifiedDiff": "@@\n         if (dialog.ShowDialog() != WinForms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath))\n         {\n-            return [];\n+            return null;\n         }"
+          },
+          {
+            "beforeSourceDigest": "sha256:60263a6cffff4375a9ea3555fef7e889389ebe7231acba334a72e5f7715dab0e",
+            "codeFactId": "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder",
+            "id": "diff.simpleinfo-browse-folder-cancel.viewmodel",
+            "sourceFile": "WindowsUtility.Modules.SimpleInfo/ViewModels/SimpleInfoViewModel.cs",
+            "unifiedDiff": "@@\n-            LoadDocuments(_csdBrowseService.BrowseFolder());\n+            var documents = _csdBrowseService.BrowseFolder();\n+            if (documents is not null)\n+            {\n+                LoadDocuments(documents);\n+            }"
+          }
+        ],
+        "evidenceRequirements": [
+          {
+            "id": "evidence.requirement.simpleinfo-build",
+            "kind": "build-or-regression-smoke-log",
+            "summary": "Collect a safe build or SimpleInfo smoke result before any acceptance decision."
+          },
+          {
+            "id": "evidence.requirement.simpleinfo-cancel-observation",
+            "kind": "manual-ui-observation",
+            "summary": "Record the cancellation observation without printer or hardware action."
+          }
+        ],
+        "graphDelta": {
+          "addedEdges": [
+            {
+              "details": {
+                "status": "required-not-run"
+              },
+              "id": "edge.simpleinfo-browse-folder-cancel.verifies",
+              "kind": "verifies",
+              "source": "intent.simpleinfo-browse-folder-cancel",
+              "target": "verification.simpleinfo-browse-folder-cancel"
+            }
+          ],
+          "addedNodes": [
+            {
+              "category": "verification",
+              "details": {
+                "kind": "manual-ui-regression-check",
+                "result": "required-not-run",
+                "summary": "After loading CSD files, canceling Browse Folder must leave the document list and preview unchanged."
+              },
+              "id": "verification.simpleinfo-browse-folder-cancel",
+              "label": "Cancel preserves loaded CSD documents"
+            }
+          ],
+          "changedNodeIds": [
+            "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+            "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+            "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder"
+          ]
+        },
+        "id": "simpleinfo-browse-folder-cancel",
+        "mappingId": "mapping.simpleinfo-browse-folder-cancel.candidate",
+        "schemaVersion": "0.1.0",
+        "scope": "experimental-csharp-semantic-overlay-change-proposal",
+        "summary": "Represent cancellation separately from an explicitly selected empty folder so cancelling Browse Folder does not clear the current CSD document list.",
+        "title": "Preserve the CSD selection when folder browse is cancelled",
+        "verificationRequirements": [
+          {
+            "id": "verification.requirement.simpleinfo-regression-smoke",
+            "kind": "safe-simpleinfo-regression-smoke",
+            "summary": "Run the existing SimpleInfo regression smoke route without printer actions."
+          },
+          {
+            "id": "verification.requirement.simpleinfo-cancel-manual",
+            "kind": "manual-cancel-regression-check",
+            "summary": "Load CSD files, cancel Browse Folder, and confirm documents plus preview remain unchanged."
+          }
+        ],
+        "workItemId": "simpleinfo-browse-folder-cancel"
+      }
+    ],
     "evidence": [
       {
         "id": "evidence.snapshot-intake",
         "kind": "source-snapshot-receipt",
         "result": "pass",
         "summary": "Snapshot receipt, extraction report, and workspace validation are present."
+      },
+      {
+        "id": "evidence.requirements.simpleinfo-browse-folder-cancel",
+        "kind": "proposal-evidence-requirements",
+        "result": "required-not-collected",
+        "summary": "Recorded 2 evidence requirements for non-applied proposal simpleinfo-browse-folder-cancel."
       }
     ],
     "history": [
@@ -314812,30 +315129,111 @@
         "summary": "Initialized a local semantic-overlay workspace from a validated read-only C# fact snapshot."
       },
       {
-        "id": "history.request.windowsutility-startup-inspection",
+        "id": "history.request.simpleinfo-browse-folder-cancel",
         "kind": "work-request-recorded",
-        "summary": "Recorded work request windowsutility-startup-inspection without automatic mapping or source mutation."
+        "summary": "Recorded work request simpleinfo-browse-folder-cancel without automatic mapping or source mutation."
       },
       {
-        "id": "history.mapping.windowsutility-startup-inspection",
+        "id": "history.mapping.simpleinfo-browse-folder-cancel",
         "kind": "mapping-candidate-recorded",
-        "summary": "Recorded declared mapping candidate mapping.windowsutility-startup-inspection.candidate; acceptance is not automatic."
+        "summary": "Recorded declared mapping candidate mapping.simpleinfo-browse-folder-cancel.candidate; acceptance is not automatic."
+      },
+      {
+        "id": "history.proposal.simpleinfo-browse-folder-cancel",
+        "kind": "non-applied-change-proposal-recorded",
+        "summary": "Recorded non-applied proposal simpleinfo-browse-folder-cancel with graph delta and code diff evidence; no source change was applied."
       }
     ],
     "mappings": [
       {
         "codeFactIds": [
-          "csharp.type.windowsutility_app_app_xaml_cs.1482.7403.app"
+          "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+          "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+          "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder"
         ],
         "confidence": "declared",
-        "id": "mapping.windowsutility-startup-inspection.candidate",
-        "intentUnitId": "intent.windowsutility-startup-inspection",
-        "rationale": "The App type is a declared entry-surface candidate for this startup-structure inspection; the mapping remains unaccepted.",
+        "id": "mapping.simpleinfo-browse-folder-cancel.candidate",
+        "intentUnitId": "intent.simpleinfo-browse-folder-cancel",
+        "rationale": "The service interface, implementation, and view-model consumer form the cancellation behavior chain; this declared mapping remains unaccepted.",
         "status": "candidate",
-        "workItemId": "windowsutility-startup-inspection"
+        "workItemId": "simpleinfo-browse-folder-cancel"
       }
     ],
-    "proposalDeltas": [],
+    "proposalDeltas": [
+      {
+        "details": {
+          "deltaState": "proposed-addition"
+        },
+        "id": "delta.simpleinfo-browse-folder-cancel.add.verification.simpleinfo-browse-folder-cancel",
+        "kind": "add-node",
+        "label": "Add Cancel preserves loaded CSD documents",
+        "proposalId": "simpleinfo-browse-folder-cancel",
+        "targetNodeId": "verification.simpleinfo-browse-folder-cancel"
+      },
+      {
+        "details": {
+          "deltaState": "proposed-change"
+        },
+        "id": "delta.simpleinfo-browse-folder-cancel.change.csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+        "kind": "change-existing-node",
+        "label": "Change csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+        "proposalId": "simpleinfo-browse-folder-cancel",
+        "targetNodeId": "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder"
+      },
+      {
+        "details": {
+          "deltaState": "proposed-change"
+        },
+        "id": "delta.simpleinfo-browse-folder-cancel.change.csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+        "kind": "change-existing-node",
+        "label": "Change csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+        "proposalId": "simpleinfo-browse-folder-cancel",
+        "targetNodeId": "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder"
+      },
+      {
+        "details": {
+          "deltaState": "proposed-change"
+        },
+        "id": "delta.simpleinfo-browse-folder-cancel.change.csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder",
+        "kind": "change-existing-node",
+        "label": "Change csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder",
+        "proposalId": "simpleinfo-browse-folder-cancel",
+        "targetNodeId": "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder"
+      },
+      {
+        "details": {
+          "codeDiffId": "diff.simpleinfo-browse-folder-cancel.interface",
+          "sourceFile": "WindowsUtility.Modules.SimpleInfo/Services/ICsdBrowseService.cs"
+        },
+        "id": "delta.simpleinfo-browse-folder-cancel.diff.diff.simpleinfo-browse-folder-cancel.interface",
+        "kind": "code-diff",
+        "label": "Review code diff for WindowsUtility.Modules.SimpleInfo/Services/ICsdBrowseService.cs",
+        "proposalId": "simpleinfo-browse-folder-cancel",
+        "targetNodeId": "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder"
+      },
+      {
+        "details": {
+          "codeDiffId": "diff.simpleinfo-browse-folder-cancel.service",
+          "sourceFile": "WindowsUtility.Modules.SimpleInfo/Services/CsdBrowseService.cs"
+        },
+        "id": "delta.simpleinfo-browse-folder-cancel.diff.diff.simpleinfo-browse-folder-cancel.service",
+        "kind": "code-diff",
+        "label": "Review code diff for WindowsUtility.Modules.SimpleInfo/Services/CsdBrowseService.cs",
+        "proposalId": "simpleinfo-browse-folder-cancel",
+        "targetNodeId": "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder"
+      },
+      {
+        "details": {
+          "codeDiffId": "diff.simpleinfo-browse-folder-cancel.viewmodel",
+          "sourceFile": "WindowsUtility.Modules.SimpleInfo/ViewModels/SimpleInfoViewModel.cs"
+        },
+        "id": "delta.simpleinfo-browse-folder-cancel.diff.diff.simpleinfo-browse-folder-cancel.viewmodel",
+        "kind": "code-diff",
+        "label": "Review code diff for WindowsUtility.Modules.SimpleInfo/ViewModels/SimpleInfoViewModel.cs",
+        "proposalId": "simpleinfo-browse-folder-cancel",
+        "targetNodeId": "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder"
+      }
+    ],
     "verification": [
       {
         "factCount": 8137,
@@ -314844,18 +315242,24 @@
         "relationCount": 7931,
         "result": "pass",
         "summary": "The local C# source snapshot and syntax facts validated without modifying the source project."
+      },
+      {
+        "id": "verification.requirements.simpleinfo-browse-folder-cancel",
+        "kind": "proposal-verification-requirements",
+        "result": "required-not-run",
+        "summary": "Recorded 2 verification requirements for non-applied proposal simpleinfo-browse-folder-cancel."
       }
     ],
     "workItems": [
       {
-        "changeStatus": "not-proposed",
-        "id": "windowsutility-startup-inspection",
-        "intentUnitId": "intent.windowsutility-startup-inspection",
+        "changeStatus": "proposal-review-required",
+        "id": "simpleinfo-browse-folder-cancel",
+        "intentUnitId": "intent.simpleinfo-browse-folder-cancel",
         "mappingStatus": "candidate",
-        "request": "Inspect the C# application startup surface and record a reviewable IntentGraph mapping candidate before any change proposal.",
-        "status": "mapping-candidate",
-        "title": "Inspect WindowsUtility startup structure",
-        "verificationStatus": "snapshot-only"
+        "request": "When Browse Folder is cancelled in SimpleInfo, keep the currently loaded CSD documents and preview instead of clearing them; an explicitly selected empty folder must still show no files.",
+        "status": "proposal-ready",
+        "title": "Preserve CSD selection when folder browse is cancelled",
+        "verificationStatus": "requirements-recorded"
       }
     ]
   }

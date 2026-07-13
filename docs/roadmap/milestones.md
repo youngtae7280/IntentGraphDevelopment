@@ -4192,6 +4192,28 @@ Non-goals:
 
 - no accepted mapping, automated natural-language mapping, source application, graph edit from the UI, proposal approval, code diff, target build, network, or productization claim
 
+## P9.14: Experimental C# Change Proposal and Delta Review
+
+Goal: let a mapped C# work item carry a non-applied proposal with graph-delta, code-diff, verification, evidence, and authority records into the same project Workbench.
+
+Status: implementation and deterministic validation completed on 2026-07-13. See [P9.14 Experimental C# Change Proposal Review](../reviews/p9.14-experimental-csharp-change-proposal-review.md).
+
+Delivered boundary:
+
+- proposal input is copied into the local project workspace only after exact schema, source digest, changed-node, edge, requirement, and authority validation
+- selected changed code facts show their associated proposal diff in the Workbench inspector
+- graph delta steps focus and highlight changed or added graph records
+- proposal status remains `not-applied-review-required`; no UI or CLI command applies or approves it
+
+Verification:
+
+- repeatable negative probes cover malformed role/status, stale diff provenance, unknown facts, unsafe authority, invalid patch shape, invalid delta endpoints, and missing requirements
+- current WindowsUtility target remained read-only; pre-existing user changes were not touched
+
+Non-goals:
+
+- no automatic language interpretation, mapping acceptance, source application, build/evidence execution, hardware action, approval automation, release, or productization claim
+
 ## P9.11: Experimental C# Fact Workspace Scope Review
 
 Goal: determine whether a C# fact-only workspace can have a local HTML inspection surface without misrepresenting absent mappings, proposals, deltas, diffs, evidence, or authority.

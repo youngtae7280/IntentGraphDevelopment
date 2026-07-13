@@ -22,7 +22,7 @@
   "fullSourceContentPersisted": false,
   "networkRequired": false,
   "projectWorkspaceMutation": false,
-  "proposedCodeDiffFragmentsShown": false,
+  "proposedCodeDiffFragmentsShown": true,
   "result": "pass",
   "scope": "p9.13-experimental-csharp-project-overlay-workbench",
   "semanticOverlayVisible": true,

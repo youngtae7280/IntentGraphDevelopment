@@ -3981,6 +3981,10 @@ P9.12 local HTML visual and interaction review
 
 P9.13 adds the first project-state layer over the bounded C# snapshot: a separate local workspace records work requests, declared mapping candidates, verification, evidence, authority, and history, and emits a unified static project workbench. It keeps C# syntax facts as source pointers/facts and does not claim accepted mapping, automatic planning, source mutation, graph delta, or code diff before those records exist. See [P9.13 Experimental C# Project Workbench](../product/igd-experimental-csharp-project-workbench-p9.13.md) and [P9.13 Review](../reviews/p9.13-experimental-csharp-project-workbench-review.md).
 
+## Implemented Slice: P9.14 Experimental C# Change Proposal and Delta Review
+
+P9.14 accepts only exact non-applied proposal artifacts over a declared mapping candidate. The Workbench now shows proposal nodes, graph-delta steps, changed-code highlighting, and digest-backed code-diff fragments without applying source or recording approval. See [P9.14 Experimental C# Change Proposal](../product/igd-experimental-csharp-change-proposal-p9.14.md) and [P9.14 Review](../reviews/p9.14-experimental-csharp-change-proposal-review.md).
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

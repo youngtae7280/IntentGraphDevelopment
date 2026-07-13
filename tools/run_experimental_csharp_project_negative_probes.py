@@ -84,7 +84,7 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
         run_probe(snapshot, "mapping-status-mismatch", lambda state: state["workItems"][0].__setitem__("mappingStatus", "unmapped"), "mapping status must agree"),
         run_probe(snapshot, "target-write-authority", lambda state: state.__setitem__("authority", {**PROJECT_AUTHORITY, "targetRepositoryMutation": True}), "authority boundary is invalid"),
         run_probe(snapshot, "automatic-code-application", lambda state: state.__setitem__("authority", {**PROJECT_AUTHORITY, "automaticCodeApplication": True}), "authority boundary is invalid"),
-        run_probe(snapshot, "unsupported-proposal", lambda state: state["changeProposals"].append({"id": "proposal.unsafe"}), "must not contain change proposals yet"),
+        run_probe(snapshot, "malformed-proposal-index", lambda state: state["changeProposals"].append({"id": "proposal.unsafe"}), "change proposal index record fields are invalid"),
         output_collision_probe(snapshot),
     ]
     result = "pass" if all(item["expectedFailureObserved"] for item in probes) else "fail"

@@ -1,0 +1,97 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-change-proposal",
+  "schemaVersion": "0.1.0",
+  "scope": "experimental-csharp-semantic-overlay-change-proposal",
+  "id": "simpleinfo-browse-folder-cancel",
+  "workItemId": "simpleinfo-browse-folder-cancel",
+  "mappingId": "mapping.simpleinfo-browse-folder-cancel.candidate",
+  "title": "Preserve the CSD selection when folder browse is cancelled",
+  "summary": "Represent cancellation separately from an explicitly selected empty folder so cancelling Browse Folder does not clear the current CSD document list.",
+  "applicationStatus": "not-applied-review-required",
+  "graphDelta": {
+    "addedNodes": [
+      {
+        "id": "verification.simpleinfo-browse-folder-cancel",
+        "category": "verification",
+        "label": "Cancel preserves loaded CSD documents",
+        "details": {
+          "kind": "manual-ui-regression-check",
+          "result": "required-not-run",
+          "summary": "After loading CSD files, canceling Browse Folder must leave the document list and preview unchanged."
+        }
+      }
+    ],
+    "changedNodeIds": [
+      "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+      "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+      "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder"
+    ],
+    "addedEdges": [
+      {
+        "id": "edge.simpleinfo-browse-folder-cancel.verifies",
+        "kind": "verifies",
+        "source": "intent.simpleinfo-browse-folder-cancel",
+        "target": "verification.simpleinfo-browse-folder-cancel",
+        "details": {
+          "status": "required-not-run"
+        }
+      }
+    ]
+  },
+  "codeDiffs": [
+    {
+      "id": "diff.simpleinfo-browse-folder-cancel.interface",
+      "codeFactId": "csharp.method.windowsutility_modules_simpleinfo_services_icsdbrowseservice_cs.143.49.browsefolder",
+      "sourceFile": "WindowsUtility.Modules.SimpleInfo/Services/ICsdBrowseService.cs",
+      "beforeSourceDigest": "sha256:455ccde6d22e0f5658dabd0801f9bea00560fc8833d30026a7529a149a1fe1e3",
+      "unifiedDiff": "@@\n-    IReadOnlyList<SimpleInfoDocument> BrowseFolder();\n+    IReadOnlyList<SimpleInfoDocument>? BrowseFolder();"
+    },
+    {
+      "id": "diff.simpleinfo-browse-folder-cancel.service",
+      "codeFactId": "csharp.method.windowsutility_modules_simpleinfo_services_csdbrowseservice_cs.279.497.browsefolder",
+      "sourceFile": "WindowsUtility.Modules.SimpleInfo/Services/CsdBrowseService.cs",
+      "beforeSourceDigest": "sha256:37578a325ad950c386ae9636eb83757c21cc9727aa34637750e7ffa379d7bf25",
+      "unifiedDiff": "@@\n         if (dialog.ShowDialog() != WinForms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath))\n         {\n-            return [];\n+            return null;\n         }"
+    },
+    {
+      "id": "diff.simpleinfo-browse-folder-cancel.viewmodel",
+      "codeFactId": "csharp.method.windowsutility_modules_simpleinfo_viewmodels_simpleinfoviewmodel_cs.10290.245.browsefolder",
+      "sourceFile": "WindowsUtility.Modules.SimpleInfo/ViewModels/SimpleInfoViewModel.cs",
+      "beforeSourceDigest": "sha256:60263a6cffff4375a9ea3555fef7e889389ebe7231acba334a72e5f7715dab0e",
+      "unifiedDiff": "@@\n-            LoadDocuments(_csdBrowseService.BrowseFolder());\n+            var documents = _csdBrowseService.BrowseFolder();\n+            if (documents is not null)\n+            {\n+                LoadDocuments(documents);\n+            }"
+    }
+  ],
+  "verificationRequirements": [
+    {
+      "id": "verification.requirement.simpleinfo-regression-smoke",
+      "kind": "safe-simpleinfo-regression-smoke",
+      "summary": "Run the existing SimpleInfo regression smoke route without printer actions."
+    },
+    {
+      "id": "verification.requirement.simpleinfo-cancel-manual",
+      "kind": "manual-cancel-regression-check",
+      "summary": "Load CSD files, cancel Browse Folder, and confirm documents plus preview remain unchanged."
+    }
+  ],
+  "evidenceRequirements": [
+    {
+      "id": "evidence.requirement.simpleinfo-build",
+      "kind": "build-or-regression-smoke-log",
+      "summary": "Collect a safe build or SimpleInfo smoke result before any acceptance decision."
+    },
+    {
+      "id": "evidence.requirement.simpleinfo-cancel-observation",
+      "kind": "manual-ui-observation",
+      "summary": "Record the cancellation observation without printer or hardware action."
+    }
+  ],
+  "authority": {
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "selfAuthorized": false,
+    "networkRequired": false,
+    "credentialAccessAllowed": false,
+    "graphMutationApplied": false,
+    "approvalRecorded": false
+  }
+}
