@@ -3669,6 +3669,28 @@ Recommended next slice:
 P9.0 IntentGraphDevelopment Productization Entry Boundary Plan
 ```
 
+## Completed Slice: P9.0 IntentGraphDevelopment Productization Entry Boundary Plan
+
+Goal: define an IntentGraphDevelopment product build path that is independent from the WindowsUtility adoption target.
+
+Result:
+
+```text
+Decision: define-igd-local-review-kit-as-the-first-product-build-path.
+```
+
+Produced artifacts:
+
+- `docs/roadmap/igd-productization-entry-plan.md`
+- `generated/roadmap/p9.0-igd-productization-entry-boundary-plan-report.json`
+- [P9.0 IGD Productization Entry Boundary Plan Review](../reviews/p9.0-igd-productization-entry-boundary-plan-review.md)
+
+Recommended next slice:
+
+```text
+P9.1 IGD Local Command and Workspace Contract
+```
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

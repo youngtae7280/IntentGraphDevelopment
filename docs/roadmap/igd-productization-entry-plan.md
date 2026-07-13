@@ -1,6 +1,6 @@
 # IntentGraphDevelopment Productization Entry Plan
 
-Status: proposed by P8.124; not yet an implementation authorization.
+Status: P9.0 plan completed; P9.1 implementation boundary is not yet opened.
 
 ## Purpose
 
@@ -8,9 +8,32 @@ Define productization for IntentGraphDevelopment itself, after separating it fro
 
 IntentGraphDevelopment is a local-first semantic-overlay development system. Its future product surface must let a developer or team extract code facts, inspect intent/code mappings, review a graph delta with evidence and authority, and retain the resulting records. WindowsUtility remains a benchmark target that proves parts of that workflow; it is not the product to distribute from this repository.
 
+## P9.0 Candidate Decision
+
+P9.0 selects a build path, not a public release:
+
+```text
+candidateId: igd-local-review-kit
+candidateName: IntentGraph Local Review Kit
+candidateStage: defined-not-built
+```
+
+The candidate is a local-first developer tool composed of two coordinated surfaces:
+
+1. an `intentgraph` command surface that creates and validates a workspace of code facts, mappings, proposals, consistency results, and provenance
+2. an interactive local workbench that lets a reviewer inspect the graph, graph delta, code delta, evidence, authority, and history produced by that workspace
+
+The candidate is not WindowsUtility, a WindowsUtility static export, a universal graph-to-code compiler, a remote service, or an automatic code-application agent.
+
+## Current Capability Evidence
+
+The repository currently has 64 Python tool files, 63 separate `argparse` entry points, and 9 HTML-emitting tools. It has no Python packaging manifest, no cohesive public command, no install contract, and no supported-project configuration format. Existing B1 and WindowsUtility workbenches prove narrow workflow slices, but they are generated fixtures rather than a reusable product entry point.
+
+This evidence supports defining the candidate. It does not support an installation, release, compatibility, or public-product claim.
+
 ## P9.0 Boundary
 
-P9.0 is plan-only. It must identify one concrete IntentGraphDevelopment product candidate before creating installers, signing artifacts, accessing credentials, publishing a release, or claiming product readiness.
+P9.0 is plan-only. It identifies one concrete IntentGraphDevelopment product candidate before creating installers, signing artifacts, accessing credentials, publishing a release, or claiming product readiness.
 
 The candidate definition must state:
 
@@ -23,6 +46,21 @@ The candidate definition must state:
 - packaging, upgrade, rollback, and support expectations
 - the acceptance evidence required before an IGD product-candidate decision
 
+## Candidate Workflow Contract
+
+The first supported workflow is review-first and local-only:
+
+```text
+repository + declared project profile
+  -> deterministic code facts
+  -> declared Intent Unit overlay and mapping validation
+  -> non-applied change proposal and consistency verification
+  -> local review workbench
+  -> human decision recorded outside automatic code application
+```
+
+The product must preserve the distinction between a proposed delta and an applied code change. It may create local artifacts in a declared workspace, but it must not modify a target repository, invoke provider APIs, access credentials, install hooks, or self-authorize a change.
+
 ## Candidate Surface Principles
 
 The first product must be useful without depending on WindowsUtility-specific files or paths. A reasonable candidate can combine:
@@ -32,6 +70,8 @@ The first product must be useful without depending on WindowsUtility-specific fi
 3. a documented artifact contract that allows another project to reproduce the same review state
 
 P9.0 may compare this bundle with narrower alternatives, but it must not silently treat a generated static WindowsUtility HTML export as the product.
+
+P9.1 is limited to the first half of this candidate: a single local command facade and declared workspace contract. It must not promise language-general extraction, code application, editor integration, packaging, or release.
 
 ## Entry Evidence
 
@@ -50,6 +90,8 @@ P9.0 must consume, but not overclaim from:
 - no product-candidate acceptance request before the candidate is defined
 - no claim that WindowsUtility delivery evidence proves IntentGraphDevelopment product readiness
 
-## Exit Criteria
+## P9.0 Exit Criteria
 
 P9.0 passes only when it produces an inspectable product-candidate definition, an independent acceptance checklist, and a bounded next implementation slice. It must leave release and productization authority false.
+
+Those criteria are met by this plan, the P9.0 review, and the P9.0 report. The next slice is `P9.1 IGD Local Command and Workspace Contract`.

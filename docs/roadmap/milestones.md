@@ -3867,6 +3867,29 @@ Next safe work:
 
 - continue to `P9.0 IntentGraphDevelopment Productization Entry Boundary Plan`.
 
+## P9.0: IntentGraphDevelopment Productization Entry Boundary Plan
+
+Goal: define the first IntentGraphDevelopment product build path without treating WindowsUtility as the product.
+
+Status: completed on 2026-07-13. See [P9.0 IGD Productization Entry Boundary Plan Review](../reviews/p9.0-igd-productization-entry-boundary-plan-review.md).
+
+Decision:
+
+- `igd-local-review-kit` is the defined-but-not-built IntentGraphDevelopment product build path.
+- the candidate joins a future local command facade with an interactive local review workbench.
+- existing B1 and WindowsUtility artifacts are evidence inputs, not an installable product.
+- no installer creation, signing, credential access, provider API call, release publishing, candidate acceptance, or productization claim was performed.
+
+Produced artifacts:
+
+- `docs/roadmap/igd-productization-entry-plan.md`
+- `generated/roadmap/p9.0-igd-productization-entry-boundary-plan-report.json`
+- [P9.0 IGD Productization Entry Boundary Plan Review](../reviews/p9.0-igd-productization-entry-boundary-plan-review.md)
+
+Next safe work:
+
+- continue to `P9.1 IGD Local Command and Workspace Contract`.
+
 ## P8.112: Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

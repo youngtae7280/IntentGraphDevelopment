@@ -6,6 +6,8 @@ IntentGraph is not ready for productization. The current evidence proves a seman
 
 > **P8.124 scope correction:** this plan concerns productization of IntentGraphDevelopment itself. WindowsUtility is a real-project adoption target. Its package, launch, and screenshot evidence demonstrate a bounded target-delivery loop; they are neither an IntentGraphDevelopment package nor an IntentGraphDevelopment product-candidate approval.
 
+> **P9.0 candidate definition:** the first IGD product build path is `igd-local-review-kit`, a local command facade plus an interactive local review workbench. It is defined but not built, installed, released, or accepted.
+
 ## Non-Negotiable Boundary
 
 Productization must remain blocked until real-project adoption evidence exists.

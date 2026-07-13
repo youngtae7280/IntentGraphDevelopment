@@ -1,0 +1,75 @@
+{
+  "artifactRole": "intentgraph-productization-entry-boundary-plan-report",
+  "status": "intentgraph-productization-entry-boundary-planned",
+  "scope": "p9.0-igd-productization-entry-boundary-plan-only",
+  "decision": "define-igd-local-review-kit-as-the-first-product-build-path",
+  "candidate": {
+    "id": "igd-local-review-kit",
+    "name": "IntentGraph Local Review Kit",
+    "stage": "defined-not-built",
+    "surfaces": [
+      "intentgraph local command facade",
+      "interactive local review workbench"
+    ],
+    "workflow": "review-first-local-only",
+    "targetRepositoryMutation": false,
+    "automaticCodeApplication": false,
+    "networkRequired": false
+  },
+  "currentCapabilityInventory": {
+    "pythonToolFileCount": 64,
+    "argparseEntrypointCount": 63,
+    "htmlEmitterCount": 9,
+    "packagingManifestPresent": false,
+    "cohesivePublicCommandPresent": false,
+    "installContractPresent": false,
+    "supportedProjectConfigurationPresent": false
+  },
+  "evidence": [
+    {
+      "artifact": "docs/roadmap/product-capability-roadmap.md",
+      "role": "phase-h-contract"
+    },
+    {
+      "artifact": "tools/emit_b1_workbench_projection.py",
+      "role": "b1-workbench-emitter"
+    },
+    {
+      "artifact": "tools/emit_graph_delta_approval_workbench_static_html.py",
+      "role": "graph-delta-workbench-emitter"
+    },
+    {
+      "artifact": "generated/product-surfaces/graph-delta-approval-workbench/p8.60/index.html",
+      "role": "local-workbench-evidence"
+    },
+    {
+      "artifact": "generated/roadmap/p8.124-windowsutility-adoption-igd-productization-scope-correction-report.json",
+      "role": "scope-correction"
+    }
+  ],
+  "p9_1": {
+    "name": "IGD Local Command and Workspace Contract",
+    "allowed": [
+      "single local command facade design",
+      "declared artifact workspace contract",
+      "deterministic local validation",
+      "sample workflow documentation"
+    ],
+    "forbidden": [
+      "target repository mutation",
+      "automatic code application",
+      "credentials",
+      "provider API calls",
+      "installer creation",
+      "artifact signing",
+      "release publishing"
+    ]
+  },
+  "authority": {
+    "igdProductCandidateAccepted": false,
+    "igdProductizationClaimed": false,
+    "installerCreationAuthorized": false,
+    "artifactSigningAuthorized": false,
+    "releasePublishingAuthorized": false
+  }
+}
