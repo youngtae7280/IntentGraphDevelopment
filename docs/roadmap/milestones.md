@@ -4510,6 +4510,28 @@ Delivered boundary:
 - semantic and structural landmarks use one shared desaturated obsidian material
 - graph nodes, relations, source facts, workflow records, and authority remain unchanged
 
+## P9.28.R2: Effective Precision Zoom and Spectral Alloy
+
+Goal: make logical `100x` a real spatial inspection scale, reduce selected-edge
+emphasis at that scale, and replace the remaining flat node treatment without changing
+the unified graph.
+
+Status: implementation, static validation, loopback regression, and browser visual
+validation completed on 2026-07-13. See
+[P9.28.R2 Effective Precision Zoom and Spectral Alloy Review](../reviews/p9.28r2-effective-precision-zoom-spectral-alloy-review.md).
+
+Delivered boundary:
+
+- renderer-safe `24x` geometry expands by `4.1667` around the active anchor for an
+  effective `100x` inspection scale
+- selected relations taper to `0.10` rendered pixels and neighboring relations to
+  `0.055` rendered pixels at maximum zoom
+- nodes use cached, pointer-transparent, viewport-local spectral-alloy canvas sprites
+- repeated zoom-out restores base geometry synchronously and does not retain stale
+  virtual magnification
+- graph data, source state, history, graph delta, code diff, evidence, and authority
+  remain unchanged
+
 Verification:
 
 - static Workbench emission/validation and 21 loopback server probes pass

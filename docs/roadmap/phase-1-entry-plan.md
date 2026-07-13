@@ -4064,6 +4064,17 @@ code facts remain cheap to render. See
 [P9.28 Precision Deep Zoom and Graph Material](../product/igd-precision-deep-zoom-material-p9.28.md)
 and [P9.28 Review](../reviews/p9.28-precision-deep-zoom-material-review.md).
 
+## Implemented Slice: P9.28.R2 Effective Precision Zoom and Spectral Alloy
+
+P9.28.R2 keeps the unified graph unchanged and corrects its effective rendering scale.
+The stable internal `24x` renderer expands coordinates around the active selection by
+`4.1667` at logical `100x`, producing effective `100x` geometry while keeping selected
+relations at `0.10` rendered pixels. A cached pointer-transparent canvas paints only
+visible nodes with a dark mineral core, restrained spectral rim, metallic highlight,
+and state accents. See
+[P9.28.R2 Effective Precision Zoom and Spectral Alloy](../product/igd-effective-precision-zoom-spectral-alloy-p9.28r2.md)
+and [P9.28.R2 Review](../reviews/p9.28r2-effective-precision-zoom-spectral-alloy-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).

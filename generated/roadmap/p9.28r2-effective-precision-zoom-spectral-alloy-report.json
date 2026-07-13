@@ -1,0 +1,54 @@
+{
+  "artifactRole": "intentgraph-p9.28r2-effective-precision-zoom-spectral-alloy-report",
+  "status": "intentgraph-p9.28r2-effective-precision-zoom-spectral-alloy-pass",
+  "scope": "p9.28r2-workbench-rendering-only",
+  "result": "pass",
+  "renderingContract": {
+    "logicalMaximumZoom": 100,
+    "rendererMaximumZoom": 24,
+    "effectiveGeometryMaximumZoom": 100,
+    "virtualGeometryScaleAtMaximumZoom": 4.1667,
+    "selectedEdgeRenderedWidthPixelsAtMaximumZoom": 0.1,
+    "neighborEdgeRenderedWidthPixelsAtMaximumZoom": 0.055,
+    "cachedCanvasNodeMaterial": true,
+    "viewportLocalMaterialRendering": true,
+    "materialLayerPointerEvents": false,
+    "graphStructureChanged": false
+  },
+  "browserVerification": {
+    "logicalZoomReached": 100,
+    "rendererZoomReached": 24.0,
+    "virtualGeometryScaleReached": 4.1667,
+    "effectiveGeometryZoomReached": 100.0,
+    "selectedEdgeRenderedWidthPixels": 0.1,
+    "continuousZoomOutLogicalZoom": 5.3,
+    "continuousZoomOutEffectiveGeometryZoom": 5.292,
+    "continuousZoomOutVirtualGeometryScale": 1.0,
+    "materialLayerCount": 1,
+    "fullGraphVisibleMaterialNodeCount": 4681,
+    "maximumZoomVisibleMaterialNodeCount": 1,
+    "cachedMaterialSpriteCount": 31,
+    "browserWarningsOrErrors": 0,
+    "browserVisualInspection": "pass"
+  },
+  "verification": {
+    "staticWorkbenchEmission": "pass",
+    "staticWorkbenchValidation": "pass",
+    "staticInlineJavaScriptParse": "pass",
+    "liveInlineJavaScriptParse": "pass",
+    "loopbackServerProbeCount": 23,
+    "loopbackServerResult": "pass",
+    "relatedNegativeProbeCount": 46,
+    "relatedNegativeProbeResult": "pass"
+  },
+  "authority": {
+    "graphMutationApplied": false,
+    "sourceMutation": false,
+    "snapshotWorkspaceMutation": false,
+    "targetRepositoryMutation": false,
+    "verificationExecution": false,
+    "evidenceExecution": false,
+    "automaticCodeApplication": false,
+    "approvalAutomation": false
+  }
+}

@@ -22,6 +22,8 @@ P9.27 closes the JSON-only code-change gap in the normal Workbench path. A user 
 
 P9.28 hardens the same unified graph for visual inspection: a direct 100x precision lens keeps selected relations at 0.42 rendered pixels, bounds nodes and borders in screen space, refreshes only the nearby graph after pan, and replaces saturated plastic surfaces with a shared dark spectral-obsidian material. This is a rendering-only change; graph structure and source state are unchanged.
 
+P9.28.R2 makes that precision lens spatially effective rather than display-only: renderer-safe `24x` geometry expands around the active anchor to an effective `100x`, selected relations taper to `0.10px`, and cached viewport-local spectral-alloy sprites replace the remaining flat plastic node bodies. Graph structure, source state, workflow history, graph delta, and code diff remain unchanged.
+
 ## Working Definition
 
 IntentGraph is not just a code graph. It is an overlay graph over an existing codebase that can contain:
