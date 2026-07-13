@@ -4630,6 +4630,39 @@ Next product work:
 - return to the highest-value daily-use product bottleneck, especially cohesive local
   installation and launch, before another rendering-only refinement
 
+## P9.33: Actual 100x Astral Material Refinement
+
+Goal: address direct user review of insufficient maximum zoom, oversized selected-edge
+emphasis, and a plastic node appearance without changing the graph or project state.
+
+Status: completed on 2026-07-14. See
+[P9.33 Actual 100x Astral Material Review](../reviews/p9.33-actual-100x-astral-material-review.md).
+
+Delivered boundary:
+
+- actual Cytoscape camera, logical, and effective zoom reach `100x`
+- virtual coordinate expansion is disabled at maximum zoom and remains scale `1`
+- selected relations remain thin but visible at `0.55px` and `0.68` opacity at maximum zoom
+- unrelated semantic and stage-delta emphasis is suppressed during direct element selection
+- cached faceted `astral-forged-glass-v3` node sprites replace the earlier circular
+  spectral-titanium token treatment
+- viewport spatial candidates, a 96-entry cache cap, and node-centered optical-complexity
+  evidence bound and verify the material layer
+- real-browser, server, project guard, deterministic-emission, and invariant-domain
+  regressions pass
+
+Non-goals:
+
+- no graph, layout, source, snapshot, work-history, graph-delta, code-diff, evidence,
+  authority, or target-repository mutation
+- no animated material, per-node per-frame gradient work, WebGL migration, or physics
+  layout
+
+Next product work:
+
+- resume the highest-value daily-use product bottleneck after the user-requested
+  rendering correction
+
 ## P9.29: Typed External Verifier Result Intake
 
 Goal: let a normal Workbench user bind an externally produced result with declared

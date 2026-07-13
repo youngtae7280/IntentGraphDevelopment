@@ -59,6 +59,17 @@ wrong zoom/material, unapplied geometry, oversized selection emphasis, script er
 invalid screenshots, and input-output collisions are rejected. Input and browser
 binary digests bind the evidence. The probe does not change graph or source state.
 
+P9.33 corrects the remaining maximum-zoom and material defects reported through visual
+review. The Cytoscape camera now reaches an actual `100x` with virtual geometry held at
+`1`. Maximum-zoom relation selection stays thin but visible at `0.55px` and `0.68`
+opacity and suppresses unrelated semantic and stage-delta emphasis while selected.
+Cached `astral-forged-glass-v3` sprites use
+faceted silhouettes, a near-black forged core, restrained ion color, asymmetric
+specular detail, and thin dual rims instead of circular plastic tokens. Graph, workflow,
+snapshot, source, evidence, and authority state remain unchanged. Viewport spatial
+buckets avoid full-node scans during deep-zoom pan, the material cache is capped at 96
+entries, and node-centered optical-complexity evidence replaces a nonblank-only check.
+
 ## Working Definition
 
 IntentGraph is not just a code graph. It is an overlay graph over an existing codebase that can contain:

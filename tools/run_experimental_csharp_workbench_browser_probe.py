@@ -36,15 +36,17 @@ REQUIRED_RUNTIME_CHECK_IDS = (
     "single-graph-instance",
     "overview-canvas-nonblank",
     "overview-material-nonblank",
-    "spectral-titanium-material-active",
+    "astral-forged-glass-material-active",
     "material-sprite-cache-bounded",
+    "material-viewport-candidates-bounded",
+    "selected-endpoint-material-detailed",
     "logical-zoom-100",
-    "renderer-zoom-24",
+    "renderer-zoom-100",
     "effective-geometry-zoom-100",
-    "virtual-geometry-scale",
+    "virtual-geometry-scale-unity",
     "maximum-canvas-nonblank",
     "maximum-material-nonblank",
-    "actual-endpoint-geometry-scale",
+    "model-geometry-stable-at-actual-zoom",
     "selected-edge-screen-width",
     "selected-edge-opacity",
     "selection-inspector-populated",
@@ -372,7 +374,7 @@ def validate_runtime_observation(
     screenshot: dict[str, Any],
     expected_node_count: int,
     expected_edge_count: int,
-    expected_material: str = "cached-spectral-titanium-v2",
+    expected_material: str = "cached-astral-forged-glass-v3",
 ) -> list[str]:
     errors: list[str] = []
     if observation.get("result") != "pass":
@@ -420,15 +422,15 @@ def validate_runtime_observation(
     except (TypeError, ValueError):
         errors.append("browser runtime endpoint geometry scale is missing")
     else:
-        if abs(endpoint_geometry_scale - 4.1667) > 0.01:
+        if abs(endpoint_geometry_scale - 1.0) > 0.01:
             errors.append("browser runtime endpoint geometry scale mismatch")
     numeric_expectations = (
         ("logicalZoom", 100.0, 0.001),
-        ("rendererZoom", 24.0, 0.001),
+        ("rendererZoom", 100.0, 0.001),
         ("effectiveGeometryZoom", 100.0, 0.001),
-        ("virtualGeometryScale", 4.1667, 0.001),
-        ("selectedEdgeRenderedWidth", 0.065, 0.002),
-        ("selectedEdgeRenderedOpacity", 0.34, 0.002),
+        ("virtualGeometryScale", 1.0, 0.001),
+        ("selectedEdgeRenderedWidth", 0.55, 0.002),
+        ("selectedEdgeRenderedOpacity", 0.68, 0.002),
     )
     for key, expected, tolerance in numeric_expectations:
         try:
@@ -438,6 +440,28 @@ def validate_runtime_observation(
             continue
         if abs(actual - expected) > tolerance:
             errors.append(f"browser runtime {key} mismatch")
+    material_pixels = maximum.get("selectedEndpointMaterialPixels", {})
+    material_thresholds = (
+        ("opaqueSampleCount", 120),
+        ("chromaticSampleCount", 12),
+        ("uniqueColorBucketCount", 8),
+        ("luminanceRange", 35),
+    )
+    for key, minimum in material_thresholds:
+        try:
+            actual = int(material_pixels.get(key, 0))
+        except (TypeError, ValueError):
+            actual = 0
+        if actual < minimum:
+            errors.append(
+                f"browser runtime selected endpoint material {key} is below {minimum}"
+            )
+    try:
+        material_candidate_count = int(maximum_state.get("materialCandidateCount", 0))
+    except (TypeError, ValueError):
+        material_candidate_count = 0
+    if not 0 < material_candidate_count < expected_node_count:
+        errors.append("browser runtime material viewport candidate count is unbounded")
     if maximum_state.get("materialProfile") != expected_material:
         errors.append("browser runtime material profile mismatch")
     selection_text = maximum.get("selectionText")
@@ -465,7 +489,7 @@ def run_probe(
     output: Path,
     screenshot_output: Path,
     browser_path: Path | None = None,
-    expected_material: str = "cached-spectral-titanium-v2",
+    expected_material: str = "cached-astral-forged-glass-v3",
 ) -> dict[str, Any]:
     workbench = workbench.resolve(strict=True)
     output = output.resolve()
@@ -524,7 +548,7 @@ def run_probe(
             if result == "pass"
             else "intentgraph-workbench-headless-browser-regression-failed"
         ),
-        "scope": "p9.32-headless-browser-runtime-regression",
+        "scope": "p9.33-actual-100x-astral-material-regression",
         "result": result,
         "input": {
             "workbench": repo_path(workbench),
@@ -571,7 +595,7 @@ def main() -> int:
     parser.add_argument("--screenshot-out", required=True, type=Path)
     parser.add_argument("--browser", type=Path)
     parser.add_argument(
-        "--expected-material", default="cached-spectral-titanium-v2"
+        "--expected-material", default="cached-astral-forged-glass-v3"
     )
     args = parser.parse_args()
     try:

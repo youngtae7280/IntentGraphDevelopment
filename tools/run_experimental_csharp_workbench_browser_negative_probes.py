@@ -1,4 +1,4 @@
-"""Fail-closed probes for the P9.32 browser observation validator."""
+"""Fail-closed probes for the P9.33 browser observation validator."""
 
 from __future__ import annotations
 
@@ -36,15 +36,22 @@ def good_observation() -> dict[str, Any]:
                 "totalOpaqueSampleCount": 180,
                 "materialOpaqueSampleCount": 12,
             },
-            "endpointGeometryScale": 4.1667,
+            "endpointGeometryScale": 1.0,
             "state": {
                 "logicalZoom": 100,
-                "rendererZoom": 24,
+                "rendererZoom": 100,
                 "effectiveGeometryZoom": 100,
-                "virtualGeometryScale": 4.1667,
-                "selectedEdgeRenderedWidth": 0.065,
-                "selectedEdgeRenderedOpacity": 0.34,
-                "materialProfile": "cached-spectral-titanium-v2",
+                "virtualGeometryScale": 1.0,
+                "selectedEdgeRenderedWidth": 0.55,
+                "selectedEdgeRenderedOpacity": 0.68,
+                "materialProfile": "cached-astral-forged-glass-v3",
+                "materialCandidateCount": 2,
+            },
+            "selectedEndpointMaterialPixels": {
+                "opaqueSampleCount": 800,
+                "chromaticSampleCount": 120,
+                "uniqueColorBucketCount": 24,
+                "luminanceRange": 120,
             },
             "selectionText": "relation\nsource\nproject.project\ntarget\nwork.item",
         },
@@ -108,7 +115,24 @@ def mutate_blank_maximum_material(
 def mutate_geometry_scale(
     observation: dict[str, Any], _screenshot: dict[str, Any]
 ) -> None:
-    observation["maximum"]["endpointGeometryScale"] = 1
+    observation["maximum"]["endpointGeometryScale"] = 0.5
+
+
+def mutate_material_detail(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["selectedEndpointMaterialPixels"] = {
+        "opaqueSampleCount": 8,
+        "chromaticSampleCount": 0,
+        "uniqueColorBucketCount": 1,
+        "luminanceRange": 2,
+    }
+
+
+def mutate_material_candidates(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["state"]["materialCandidateCount"] = 8208
 
 
 def mutate_zoom(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
@@ -157,9 +181,19 @@ PROBES: tuple[tuple[str, Mutation, str], ...] = (
         "maximum-zoom material canvas was blank",
     ),
     (
-        "unapplied-endpoint-geometry-scale",
+        "mutated-model-geometry-at-actual-zoom",
         mutate_geometry_scale,
         "endpoint geometry scale mismatch",
+    ),
+    (
+        "flat-selected-endpoint-material",
+        mutate_material_detail,
+        "selected endpoint material opaqueSampleCount is below",
+    ),
+    (
+        "unbounded-material-viewport-candidates",
+        mutate_material_candidates,
+        "material viewport candidate count is unbounded",
     ),
     ("wrong-effective-zoom", mutate_zoom, "effectiveGeometryZoom mismatch"),
     ("oversized-selected-edge", mutate_edge_width, "selectedEdgeRenderedWidth mismatch"),
@@ -238,7 +272,7 @@ def main() -> int:
             if result == "pass"
             else "intentgraph-workbench-browser-runtime-negative-probes-failed"
         ),
-        "scope": "p9.32-browser-runtime-validation-negative-probes",
+        "scope": "p9.33-browser-runtime-validation-negative-probes",
         "result": result,
         "probeCount": len(probe_results),
         "probes": probe_results,

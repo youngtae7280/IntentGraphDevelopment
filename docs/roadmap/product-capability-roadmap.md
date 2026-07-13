@@ -7,7 +7,7 @@ This document defines the long-range capability roadmap for IntentGraph Developm
 The current authorized posture is:
 
 ```text
-P9.32 completed.
+P9.33 completed.
 Selected next benchmark: B1-typescript-rest-api.
 IntentGraphDevelopment has a defined-but-not-built product candidate: IntentGraph Local Review Kit.
 The experimental C# fact-only inspector is complete. P9.13 adds a separate local semantic-overlay project workspace and unified project workbench. P9.14 adds review-only change proposals with graph delta and code-diff fragments to that same C# project route. P9.15 corrects the raw-code-heavy default graph and adds a loopback-only interactive work-request intake surface. Visual interaction review remains a required user-facing quality gate.
@@ -59,6 +59,17 @@ validator and output guards fail closed. Graph, source, snapshot, target, layout
 workflow, evidence, and authority state remain unchanged. The next product priority
 returns to cohesive daily-use installation and launch rather than further renderer-only
 work.
+
+P9.33 records the user-requested rendering correction. The graph camera now reaches an
+actual `100x` instead of composing renderer `24x` with coordinate expansion. Maximum
+selection emphasis stays thin but visible at `0.55px` and `0.68` opacity, unrelated
+overview and stage-delta emphasis is suppressed during direct selection, and cached faceted
+`astral-forged-glass-v3` sprites replace the circular spectral-titanium token treatment.
+Viewport spatial candidates, a 96-entry cache cap, and node-centered optical-complexity
+evidence bound and verify the material layer.
+The graph, layout, source, workflow, evidence, authority, delta, and code-diff domains
+remain unchanged. After this bounded correction, cohesive daily-use installation and
+launch remain the next product bottleneck.
 ```
 
 > **Scope correction, P8.124:** the WindowsUtility package and its verification artifacts are Phase G adoption evidence. WindowsUtility is not an IntentGraphDevelopment product candidate, and the historical P8.121-P8.123 candidate-acceptance gate does not block this roadmap. IntentGraphDevelopment productization begins only after its own product surface and distribution boundary are defined. See [P8.124 WindowsUtility Adoption / IGD Productization Scope Correction](../reviews/p8.124-windowsutility-adoption-igd-productization-scope-correction.md).

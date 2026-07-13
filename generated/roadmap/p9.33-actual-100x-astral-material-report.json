@@ -1,0 +1,345 @@
+{
+  "artifactRole": "intentgraph-workbench-headless-browser-regression-report",
+  "boundary": {
+    "browserObservationIsSemanticAuthority": false,
+    "externalNetworkRequired": false,
+    "graphMutation": false,
+    "snapshotMutation": false,
+    "sourceMutation": false,
+    "targetRepositoryMutation": false
+  },
+  "browser": {
+    "capture": {
+      "runtimeQuery": "intentGraphRuntimeProbe=1",
+      "singleProcessDomAndScreenshot": true,
+      "viewport": {
+        "height": 1000,
+        "width": 1440
+      },
+      "virtualTimeBudgetMilliseconds": 12000
+    },
+    "executableName": "msedge.exe",
+    "executableSha256": "sha256:d17f5ab0779e0a763cd70752833793a9e7073fcbdd1fba2c0e6ad13fcd135d91",
+    "family": "edge",
+    "headless": true,
+    "loopbackOnly": true,
+    "thirdPartyAutomationDependency": false,
+    "version": "150.0.4078.65",
+    "versionSource": "windows-file-version-resource"
+  },
+  "errors": [],
+  "input": {
+    "artifacts": {
+      "index.html": {
+        "byteLength": 12026793,
+        "path": "generated/windowsutility/experimental-csharp-project-workbench/p9.33/index.html",
+        "sha256": "sha256:7f41cea4cf0e4f7d0642ea8ec2eed393f6b38f7bc9e4fb7770f3e76dddc3a7cd"
+      },
+      "manifest.json": {
+        "byteLength": 1793,
+        "path": "generated/windowsutility/experimental-csharp-project-workbench/p9.33/manifest.json",
+        "sha256": "sha256:14c1e13d55e6f351b37f89c9ca5eee6591825f615eacd3737af72ee63cbb042b"
+      },
+      "projection.json": {
+        "byteLength": 15398126,
+        "path": "generated/windowsutility/experimental-csharp-project-workbench/p9.33/projection.json",
+        "sha256": "sha256:8b11bf1a4b44a4049c26ae51d3d631301c94aee3b22ec780b10b83868c240904"
+      },
+      "validation-report.json": {
+        "byteLength": 1092,
+        "path": "generated/windowsutility/experimental-csharp-project-workbench/p9.33/validation-report.json",
+        "sha256": "sha256:3814c11cc5e2a0ae212320604a477d0d9e302213da1966ef3333f2890a6e485d"
+      }
+    },
+    "expectedEdgeCount": 8023,
+    "expectedMaterial": "cached-astral-forged-glass-v3",
+    "expectedNodeCount": 8208,
+    "workbench": "generated/windowsutility/experimental-csharp-project-workbench/p9.33"
+  },
+  "result": "pass",
+  "runtimeObservation": {
+    "artifactRole": "intentgraph-workbench-browser-runtime-observation",
+    "boundary": {
+      "graphMutation": false,
+      "networkRequired": false,
+      "queryActivated": true,
+      "sourceMutation": false
+    },
+    "checks": [
+      {
+        "actual": 8208,
+        "expected": 8208,
+        "id": "full-node-count-loaded",
+        "passed": true
+      },
+      {
+        "actual": 8023,
+        "expected": 8023,
+        "id": "full-edge-count-loaded",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "single-graph-instance",
+        "passed": true
+      },
+      {
+        "actual": 2677,
+        "expected": ">0",
+        "id": "overview-canvas-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 471,
+        "expected": ">0",
+        "id": "overview-material-nonblank",
+        "passed": true
+      },
+      {
+        "actual": "cached-astral-forged-glass-v3",
+        "expected": "cached-astral-forged-glass-v3",
+        "id": "astral-forged-glass-material-active",
+        "passed": true
+      },
+      {
+        "actual": 33,
+        "expected": "1..96",
+        "id": "material-sprite-cache-bounded",
+        "passed": true
+      },
+      {
+        "actual": 8,
+        "expected": "1..8207",
+        "id": "material-viewport-candidates-bounded",
+        "passed": true
+      },
+      {
+        "actual": {
+          "chromaticSampleCount": 162,
+          "luminanceRange": 217,
+          "opaqueSampleCount": 195,
+          "sampleCount": 3136,
+          "uniqueColorBucketCount": 89
+        },
+        "expected": "opaque>=120, chromatic>=12, color buckets>=8, luminance range>=35",
+        "id": "selected-endpoint-material-detailed",
+        "passed": true
+      },
+      {
+        "actual": 100,
+        "expected": 100,
+        "id": "logical-zoom-100",
+        "passed": true
+      },
+      {
+        "actual": 100,
+        "expected": 100,
+        "id": "renderer-zoom-100",
+        "passed": true
+      },
+      {
+        "actual": 100,
+        "expected": 100,
+        "id": "effective-geometry-zoom-100",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "virtual-geometry-scale-unity",
+        "passed": true
+      },
+      {
+        "actual": 220,
+        "expected": ">0",
+        "id": "maximum-canvas-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 10,
+        "expected": ">0",
+        "id": "maximum-material-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "model-geometry-stable-at-actual-zoom",
+        "passed": true
+      },
+      {
+        "actual": 0.55,
+        "expected": 0.55,
+        "id": "selected-edge-screen-width",
+        "passed": true
+      },
+      {
+        "actual": 0.68,
+        "expected": 0.68,
+        "id": "selected-edge-opacity",
+        "passed": true
+      },
+      {
+        "actual": "records-evidence\ncategory\nsemantic-relation\nsource\nevidence-decision.demo-evidence-decision\ntarget\nevidence.evidence.evidence-decision.demo-evidence-decision\nevidenceDigest\nsha256:0b250418cd1de7758e799c25756b6b2244c81cd09f66358568c26d433ee21086",
+        "expected": "source and target details",
+        "id": "selection-inspector-populated",
+        "passed": true
+      },
+      {
+        "actual": [],
+        "expected": [],
+        "id": "runtime-errors-empty",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "graph": {
+      "edgeCount": 8023,
+      "nodeCount": 8208
+    },
+    "maximum": {
+      "endpointGeometryScale": 1,
+      "pixels": {
+        "canvasCount": 4,
+        "layers": [
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 209,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 210,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 9,
+            "className": "node-material-layer",
+            "height": 612,
+            "opaqueSampleCount": 10,
+            "sampleCount": 18696,
+            "width": 760
+          }
+        ],
+        "materialOpaqueSampleCount": 10,
+        "totalChromaticSampleCount": 218,
+        "totalOpaqueSampleCount": 220
+      },
+      "selectedEdgeEndpointDistance": 51.74567757007236,
+      "selectedEdgeId": "edge.evidence-decision.demo-evidence-decision.records-evidence.demo-evidence-decision",
+      "selectedEndpointMaterialPixels": {
+        "chromaticSampleCount": 162,
+        "luminanceRange": 217,
+        "opaqueSampleCount": 195,
+        "sampleCount": 3136,
+        "uniqueColorBucketCount": 89
+      },
+      "selectionText": "records-evidence\ncategory\nsemantic-relation\nsource\nevidence-decision.demo-evidence-decision\ntarget\nevidence.evidence.evidence-decision.demo-evidence-decision\nevidenceDigest\nsha256:0b250418cd1de7758e799c25756b6b2244c81cd09f66358568c26d433ee21086",
+      "state": {
+        "effectiveGeometryZoom": 100,
+        "logicalZoom": 100,
+        "materialCandidateCount": 8,
+        "materialCulledOrdinaryCodeCount": 0,
+        "materialDrawCount": 1,
+        "materialOffscreenCulledCount": 8200,
+        "materialProfile": "cached-astral-forged-glass-v3",
+        "materialSpriteCount": 33,
+        "rendererZoom": 100,
+        "selectedEdgeRenderedOpacity": 0.68,
+        "selectedEdgeRenderedWidth": 0.55,
+        "virtualGeometryScale": 1
+      }
+    },
+    "overview": {
+      "pixels": {
+        "canvasCount": 4,
+        "layers": [
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 1243,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 2206,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 125,
+            "className": "node-material-layer",
+            "height": 612,
+            "opaqueSampleCount": 471,
+            "sampleCount": 18696,
+            "width": 760
+          }
+        ],
+        "materialOpaqueSampleCount": 471,
+        "totalChromaticSampleCount": 1368,
+        "totalOpaqueSampleCount": 2677
+      },
+      "selectedEdgeEndpointDistance": 51.74567757007236,
+      "state": {
+        "effectiveGeometryZoom": 0.333,
+        "logicalZoom": 0.33,
+        "materialCandidateCount": 8208,
+        "materialCulledOrdinaryCodeCount": 7477,
+        "materialDrawCount": 731,
+        "materialOffscreenCulledCount": 0,
+        "materialProfile": "cached-astral-forged-glass-v3",
+        "materialSpriteCount": 32,
+        "rendererZoom": 0.333,
+        "selectedEdgeRenderedOpacity": 0,
+        "selectedEdgeRenderedWidth": 0,
+        "virtualGeometryScale": 1
+      }
+    },
+    "result": "pass",
+    "scope": "browser-runtime-probe-read-only",
+    "status": "intentgraph-workbench-browser-runtime-pass"
+  },
+  "scope": "p9.33-actual-100x-astral-material-regression",
+  "screenshotEvidence": {
+    "byteLength": 276620,
+    "chromaticSampleCount": 879,
+    "decodeStatus": "pass",
+    "exists": true,
+    "height": 1000,
+    "luminanceRange": 238,
+    "path": "generated/roadmap/p9.33-actual-100x-astral-material-screenshot.png",
+    "sampleCount": 5220,
+    "sha256": "sha256:83521568caa66409df6b2711e2947c8be80ee10135eb1736f6f2b5eb0fcc26b2",
+    "uniqueColorBucketCount": 62,
+    "validPng": true,
+    "width": 1440
+  },
+  "status": "intentgraph-workbench-headless-browser-regression-passed"
+}

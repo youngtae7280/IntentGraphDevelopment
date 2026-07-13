@@ -1136,6 +1136,34 @@ duplicate checks fail closed rather than silently narrowing coverage.
 Report and screenshot outputs must be distinct and outside the input Workbench; an
 invalid output path must fail before deleting or writing any input artifact.
 
+### V436 - Maximum Zoom Must Be an Actual Camera Zoom
+
+Severity: P1 in P9.33
+
+The project Workbench camera, logical zoom, and effective geometry zoom must each reach
+`100`. Virtual geometry scale must remain `1` at maximum zoom. The renderer must not
+claim `100x` by stopping the camera at a lower ceiling and rewriting node coordinates.
+
+At maximum zoom, a selected relation must render at `0.55` screen pixels with `0.68`
+opacity. Unrelated semantic-overview and stage-delta emphasis must be removed while a
+node or relation is selected and restored when selection clears. The selection inspector must remain the
+authoritative detail surface even when screen-space line emphasis is deliberately quiet.
+
+The active cached material must be `cached-astral-forged-glass-v3`. Material sprites
+must use kind-aware faceted silhouettes, a dark core, bounded specular/facet detail,
+thin rims, and a bounded halo. Sprites must remain cached and viewport-local. Node
+material and relation width must remain screen-bounded rather than grow with camera
+zoom.
+
+The sprite cache must enforce a 96-entry cap and deep-zoom redraw must select candidates
+through a spatial viewport index rather than scan every graph node. A selected endpoint
+crop must meet opaque, chromatic, quantized color-bucket, and luminance-range thresholds.
+
+Static and real-browser verification must prove actual renderer zoom `100`, virtual
+scale `1`, selected relation width/opacity, node-centered material complexity, material identity,
+populated relation inspection, and zero runtime errors. Graph, layout, source, workflow,
+evidence, authority, delta, and code-diff domains must remain unchanged.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

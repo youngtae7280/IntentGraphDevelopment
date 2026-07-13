@@ -4139,6 +4139,25 @@ emphasis, empty inspector state, script errors, invalid screenshots, and output
 collisions. See
 [P9.32 Review](../reviews/p9.32-headless-browser-runtime-regression-review.md).
 
+## Implemented Slice: P9.33 Actual 100x Astral Material Refinement
+
+P9.33 responds to direct visual review without changing the unified graph. The
+Cytoscape camera itself now reaches `100x`; logical and effective zoom also read `100`,
+and virtual geometry remains scale `1`. A maximum-zoom selected relation stays thin but
+visible at `0.55px` and `0.68` opacity, and unrelated semantic and stage-delta emphasis
+is removed while an element is selected.
+
+The cached material is now `cached-astral-forged-glass-v3`: kind-aware faceted
+silhouettes, a forged near-black core, asymmetric clipped facets, thin dual rims, and
+restrained ion highlights replace the prior circular token treatment. A viewport spatial
+index, a 96-entry cache cap, and node-centered optical-complexity thresholds bound and
+verify the material layer. The headless
+browser observed all 8,208 nodes and 8,023 relations, nonblank graph/material pixels,
+actual renderer zoom `100`, a populated edge inspector, and zero runtime errors.
+Twenty browser/output negative probes, 30 server probes, eight workspace probes,
+byte-identical repeat emission, and unchanged semantic domains pass. See
+[P9.33 Review](../reviews/p9.33-actual-100x-astral-material-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).
