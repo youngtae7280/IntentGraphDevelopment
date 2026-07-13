@@ -1164,6 +1164,27 @@ scale `1`, selected relation width/opacity, node-centered material complexity, m
 populated relation inspection, and zero runtime errors. Graph, layout, source, workflow,
 evidence, authority, delta, and code-diff domains must remain unchanged.
 
+### V437 - Deep Zoom Must Stay Anchored And Screen-Bounded
+
+Severity: P1 in P9.34.R2
+
+The Workbench must expose actual camera zoom through at least `100x`; the current ceiling
+is `256x`. A direct deep-zoom action must center a selected graph element. With no
+selection, it must choose the visible node nearest the viewport center instead of
+magnifying an empty coordinate. If a selected node or relation becomes hidden by a
+lens or filter, it must fall back to a visible node instead of retaining the hidden
+coordinate as its anchor.
+
+At `256x`, a selected relation must render at `0.18` screen pixels and `0.34` opacity.
+The active cached node material must be `cached-stellar-vitreous-v5`, use kind-aware
+faceted silhouettes, and remain bounded to a 96-entry viewport-local sprite cache.
+Browser verification must prove nonblank graph/material pixels, detailed selected-node
+pixels, populated relation inspection, camera pan and zoom-out recovery, completed
+render frames, an externally bounded whole-capture wall clock, and no runtime errors.
+Virtual-time interaction diagnostics must be finite but must not be presented as
+individual wall-clock budgets. No graph, source, workflow, evidence, authority, history,
+delta, or code-diff mutation is permitted.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

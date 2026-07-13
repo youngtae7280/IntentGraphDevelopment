@@ -1,0 +1,58 @@
+{
+  "artifactRole": "intentgraph-windows-local-install-smoke-report",
+  "authority": {
+    "artifactSigned": false,
+    "downloadPerformed": false,
+    "networkRequired": false,
+    "pathUpdated": false,
+    "releasePublished": false,
+    "targetRepositoryMutation": false
+  },
+  "bundle": {
+    "archiveSha256": "sha256:6be4cd4eb018d931e8c7c73dd5d0073c6dca0b0308d8d0f36548cccdf25c00db",
+    "fileCount": 21,
+    "repeatArchiveByteIdentical": true
+  },
+  "checks": {
+    "automaticPortAssigned": true,
+    "browserSuppressed": true,
+    "defaultPathResolutionPassed": true,
+    "firstBundleBuilt": true,
+    "installReparsePointRejected": true,
+    "installedDoctorPassed": true,
+    "installedPortClosed": true,
+    "installedProcessCleanupVerified": true,
+    "installedProcessInventorySucceeded": true,
+    "installedProjectCreated": true,
+    "installedServerProcessObserved": true,
+    "installedSessionLockReleased": true,
+    "installedWorkbenchServed": true,
+    "pathShadowingRejected": true,
+    "processPathUnchanged": true,
+    "reparseTargetPreserved": true,
+    "repeatArchiveByteIdentical": true,
+    "runtimeBytecodeAbsent": true,
+    "runtimeRemoved": true,
+    "runtimeTreeImmutableDuringExecution": true,
+    "secondBundleBuilt": true,
+    "sourceTreeUnchanged": true,
+    "tamperedManifestFileRejected": true,
+    "unknownInstallDirectoryRejected": true,
+    "unknownInstallFileRejected": true,
+    "userDataPreserved": true
+  },
+  "launch": {
+    "cleanupVerified": true,
+    "graphEdgeCount": 11,
+    "graphNodeCount": 13,
+    "loopbackHost": "127.0.0.1",
+    "observedProcessCount": 3,
+    "portAssigned": true,
+    "productVersion": "0.1.0-preview",
+    "projectAction": "created",
+    "sourceFileCount": 1
+  },
+  "result": "pass",
+  "scope": "p9.34-windows-local-portable-distribution",
+  "status": "intentgraph-windows-local-install-smoke-passed"
+}

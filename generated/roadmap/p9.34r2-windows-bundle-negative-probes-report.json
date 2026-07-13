@@ -1,0 +1,126 @@
+{
+  "artifactRole": "intentgraph-windows-portable-bundle-negative-probes-report",
+  "boundary": {
+    "artifactSigned": false,
+    "downloadPerformed": false,
+    "networkAccessed": false,
+    "releasePublished": false,
+    "targetRepositoryMutated": false
+  },
+  "positiveBaseline": {
+    "archiveValidation": "pass",
+    "buildResult": "pass",
+    "directoryValidation": "pass",
+    "fileCount": 21
+  },
+  "probeCount": 13,
+  "probes": [
+    {
+      "actualErrors": [
+        "missing bundle file: tools/igd_daily.py"
+      ],
+      "expectedError": "missing bundle file: tools/igd_daily.py",
+      "expectedFailureObserved": true,
+      "id": "missing-runtime-file"
+    },
+    {
+      "actualErrors": [
+        "bundle contains extra files: tools/extra.py"
+      ],
+      "expectedError": "bundle contains extra files: tools/extra.py",
+      "expectedFailureObserved": true,
+      "id": "extra-unrecorded-file"
+    },
+    {
+      "actualErrors": [
+        "stale bundle digest: igd.cmd"
+      ],
+      "expectedError": "stale bundle digest: igd.cmd",
+      "expectedFailureObserved": true,
+      "id": "stale-launcher-digest"
+    },
+    {
+      "actualErrors": [
+        "stale bundle byte length: igd.cmd"
+      ],
+      "expectedError": "stale bundle byte length: igd.cmd",
+      "expectedFailureObserved": true,
+      "id": "stale-launcher-length"
+    },
+    {
+      "actualErrors": [
+        "unsafe or unsupported bundle payload path: tools/payload.exe"
+      ],
+      "expectedError": "unsafe or unsupported bundle payload path",
+      "expectedFailureObserved": true,
+      "id": "unsafe-executable-payload"
+    },
+    {
+      "actualErrors": [
+        "unsafe bundle path: '../escape.py'"
+      ],
+      "expectedError": "unsafe bundle path",
+      "expectedFailureObserved": true,
+      "id": "path-traversal-record"
+    },
+    {
+      "actualErrors": [
+        "unsafe bundle authority boundary"
+      ],
+      "expectedError": "unsafe bundle authority boundary",
+      "expectedFailureObserved": true,
+      "id": "promoted-network-authority"
+    },
+    {
+      "actualErrors": [
+        "bundle is missing required runtime files: tools/igd.py"
+      ],
+      "expectedError": "bundle is missing required runtime files: tools/igd.py",
+      "expectedFailureObserved": true,
+      "id": "removed-required-entrypoint"
+    },
+    {
+      "actualErrors": [
+        "duplicate bundle file record: README.txt"
+      ],
+      "expectedError": "duplicate bundle file record: README.txt",
+      "expectedFailureObserved": true,
+      "id": "duplicate-file-record"
+    },
+    {
+      "actualErrors": [
+        "unsafe installer instruction in install.ps1: invoke-webrequest"
+      ],
+      "expectedError": "unsafe installer instruction in install.ps1",
+      "expectedFailureObserved": true,
+      "id": "network-installer-instruction"
+    },
+    {
+      "actualErrors": [
+        "unexpected bundle entrypoints"
+      ],
+      "expectedError": "unexpected bundle entrypoints",
+      "expectedFailureObserved": true,
+      "id": "rewired-entrypoint"
+    },
+    {
+      "actualErrors": [
+        "bundle output already exists: <output>"
+      ],
+      "expectedError": "bundle output already exists",
+      "expectedFailureObserved": true,
+      "id": "existing-output-guard"
+    },
+    {
+      "actualErrors": [
+        "bundle output must not overwrite a protected repository path: <output>"
+      ],
+      "expectedError": "bundle output must not overwrite a protected repository path",
+      "expectedFailureObserved": true,
+      "id": "protected-output-guard"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.34-windows-local-portable-distribution-negative-probes",
+  "status": "intentgraph-windows-portable-bundle-negative-probes-passed"
+}

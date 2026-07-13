@@ -1,0 +1,498 @@
+{
+  "artifactRole": "intentgraph-workbench-headless-browser-regression-report",
+  "boundary": {
+    "browserObservationIsSemanticAuthority": false,
+    "externalNetworkRequired": false,
+    "graphMutation": false,
+    "snapshotMutation": false,
+    "sourceMutation": false,
+    "targetRepositoryMutation": false
+  },
+  "browser": {
+    "capture": {
+      "runtimeQuery": "intentGraphRuntimeProbe=1",
+      "singleProcessDomAndScreenshot": true,
+      "viewport": {
+        "height": 1000,
+        "width": 1440
+      },
+      "virtualTimeBudgetMilliseconds": 12000,
+      "wallClockBudgetMilliseconds": 45000,
+      "wallClockElapsedMilliseconds": 19429.067
+    },
+    "executableName": "msedge.exe",
+    "executableSha256": "sha256:d17f5ab0779e0a763cd70752833793a9e7073fcbdd1fba2c0e6ad13fcd135d91",
+    "family": "edge",
+    "headless": true,
+    "loopbackOnly": true,
+    "thirdPartyAutomationDependency": false,
+    "version": "150.0.4078.65",
+    "versionSource": "windows-file-version-resource"
+  },
+  "errors": [],
+  "input": {
+    "artifacts": {
+      "index.html": {
+        "byteLength": 12196273,
+        "path": ".tmp/p9.34r2-stellar-final-v6/index.html",
+        "sha256": "sha256:5c0446a948b35f9befe9af1df04e0343bc486f279de4ed44fa07a8405ccf3fda"
+      },
+      "manifest.json": {
+        "byteLength": 1807,
+        "path": ".tmp/p9.34r2-stellar-final-v6/manifest.json",
+        "sha256": "sha256:aef447ef6cf8aed4ba03f1ccf35b032f7a5ac5a6ab473f03039ed695f33408af"
+      },
+      "projection.json": {
+        "byteLength": 15537226,
+        "path": ".tmp/p9.34r2-stellar-final-v6/projection.json",
+        "sha256": "sha256:883de23b61e8589863a436f123afe18a383273c7c78c3b842d0894e2af5232c2"
+      },
+      "validation-report.json": {
+        "byteLength": 1092,
+        "path": ".tmp/p9.34r2-stellar-final-v6/validation-report.json",
+        "sha256": "sha256:3814c11cc5e2a0ae212320604a477d0d9e302213da1966ef3333f2890a6e485d"
+      }
+    },
+    "expectedEdgeCount": 7986,
+    "expectedMaterial": "cached-stellar-vitreous-v5",
+    "expectedNodeCount": 8194,
+    "workbench": ".tmp/p9.34r2-stellar-final-v6"
+  },
+  "result": "pass",
+  "runtimeObservation": {
+    "artifactRole": "intentgraph-workbench-browser-runtime-observation",
+    "boundary": {
+      "graphMutation": false,
+      "networkRequired": false,
+      "queryActivated": true,
+      "sourceMutation": false
+    },
+    "checks": [
+      {
+        "actual": 8194,
+        "expected": 8194,
+        "id": "full-node-count-loaded",
+        "passed": true
+      },
+      {
+        "actual": 7986,
+        "expected": 7986,
+        "id": "full-edge-count-loaded",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "single-graph-instance",
+        "passed": true
+      },
+      {
+        "actual": 2694,
+        "expected": ">0",
+        "id": "overview-canvas-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 349,
+        "expected": ">0",
+        "id": "overview-material-nonblank",
+        "passed": true
+      },
+      {
+        "actual": "cached-stellar-vitreous-v5",
+        "expected": "cached-stellar-vitreous-v5",
+        "id": "stellar-vitreous-material-active",
+        "passed": true
+      },
+      {
+        "actual": 11,
+        "expected": "1..96",
+        "id": "material-sprite-cache-bounded",
+        "passed": true
+      },
+      {
+        "actual": 173,
+        "expected": "1..820",
+        "id": "material-viewport-candidates-bounded",
+        "passed": true
+      },
+      {
+        "actual": {
+          "chromaticSampleCount": 337,
+          "luminanceRange": 242,
+          "opaqueSampleCount": 339,
+          "sampleCount": 3136,
+          "uniqueColorBucketCount": 66
+        },
+        "expected": "opaque>=120, chromatic>=12, color buckets>=8, luminance range>=35",
+        "id": "selected-endpoint-material-detailed",
+        "passed": true
+      },
+      {
+        "actual": {
+          "effectiveGeometryZoom": 100,
+          "logicalZoom": 100,
+          "materialCandidateCount": 173,
+          "materialCulledOrdinaryCodeCount": 140,
+          "materialDrawCount": 1,
+          "materialOffscreenCulledCount": 8021,
+          "materialProfile": "cached-stellar-vitreous-v5",
+          "materialSpriteCount": 11,
+          "rendererZoom": 100,
+          "selectedEdgeRenderedOpacity": 0.38,
+          "selectedEdgeRenderedWidth": 0.22,
+          "virtualGeometryScale": 1
+        },
+        "expected": "logical and renderer zoom 100",
+        "id": "zoom-100-control",
+        "passed": true
+      },
+      {
+        "actual": {
+          "effectiveGeometryZoom": 256,
+          "logicalZoom": 256,
+          "materialCandidateCount": 173,
+          "materialCulledOrdinaryCodeCount": 0,
+          "materialDrawCount": 1,
+          "materialOffscreenCulledCount": 8021,
+          "materialProfile": "cached-stellar-vitreous-v5",
+          "materialSpriteCount": 11,
+          "rendererZoom": 256,
+          "selectedEdgeRenderedOpacity": 0.34,
+          "selectedEdgeRenderedWidth": 0.18,
+          "virtualGeometryScale": 1
+        },
+        "expected": "logical and renderer zoom 256",
+        "id": "zoom-maximum-control",
+        "passed": true
+      },
+      {
+        "actual": 0,
+        "expected": "<=1.5 screen pixels",
+        "id": "unselected-deep-zoom-anchors-visible-node",
+        "passed": true
+      },
+      {
+        "actual": 0,
+        "expected": "<=1.5 screen pixels",
+        "id": "hidden-selection-deep-zoom-anchors-visible-node",
+        "passed": true
+      },
+      {
+        "actual": 142,
+        "expected": "between 100 and 256",
+        "id": "zoom-out-control",
+        "passed": true
+      },
+      {
+        "actual": {
+          "x": 18,
+          "y": -12
+        },
+        "expected": {
+          "x": 18,
+          "y": -12
+        },
+        "id": "maximum-pan-control",
+        "passed": true
+      },
+      {
+        "actual": {
+          "afterZoomOut": {
+            "effectiveGeometryZoom": 142.222,
+            "logicalZoom": 142,
+            "materialCandidateCount": 173,
+            "materialCulledOrdinaryCodeCount": 0,
+            "materialDrawCount": 1,
+            "materialOffscreenCulledCount": 8021,
+            "materialProfile": "cached-stellar-vitreous-v5",
+            "materialSpriteCount": 11,
+            "rendererZoom": 142.222,
+            "selectedEdgeRenderedOpacity": 0.38,
+            "selectedEdgeRenderedWidth": 0.22,
+            "virtualGeometryScale": 1
+          },
+          "hiddenSelectionMaximumAnchorDistance": 0,
+          "hundred": {
+            "effectiveGeometryZoom": 100,
+            "logicalZoom": 100,
+            "materialCandidateCount": 173,
+            "materialCulledOrdinaryCodeCount": 140,
+            "materialDrawCount": 1,
+            "materialOffscreenCulledCount": 8021,
+            "materialProfile": "cached-stellar-vitreous-v5",
+            "materialSpriteCount": 11,
+            "rendererZoom": 100,
+            "selectedEdgeRenderedOpacity": 0.38,
+            "selectedEdgeRenderedWidth": 0.22,
+            "virtualGeometryScale": 1
+          },
+          "hundredInteractionMilliseconds": 0,
+          "maximumInteractionMilliseconds": 0,
+          "panDelta": {
+            "x": 18,
+            "y": -12
+          },
+          "panInteractionMilliseconds": 180.10000002384186,
+          "unselectedMaximumAnchorDistance": 0
+        },
+        "expected": "settled frame and material observations are finite; whole-capture wall clock is externally bounded",
+        "id": "deep-navigation-render-settled",
+        "passed": true
+      },
+      {
+        "actual": 256,
+        "expected": 256,
+        "id": "logical-zoom-256",
+        "passed": true
+      },
+      {
+        "actual": 256,
+        "expected": 256,
+        "id": "renderer-zoom-256",
+        "passed": true
+      },
+      {
+        "actual": 256,
+        "expected": 256,
+        "id": "effective-geometry-zoom-256",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "virtual-geometry-scale-unity",
+        "passed": true
+      },
+      {
+        "actual": 157,
+        "expected": ">0",
+        "id": "maximum-canvas-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 17,
+        "expected": ">0",
+        "id": "maximum-material-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 0.9999999999999999,
+        "expected": 1,
+        "id": "model-geometry-stable-at-actual-zoom",
+        "passed": true
+      },
+      {
+        "actual": 0.18,
+        "expected": 0.18,
+        "id": "selected-edge-screen-width",
+        "passed": true
+      },
+      {
+        "actual": 0.34,
+        "expected": 0.34,
+        "id": "selected-edge-opacity",
+        "passed": true
+      },
+      {
+        "actual": "evidenced-by\ncategory\nsemantic-relation\nsource\nproject.project.windowsutility.808463a6aa38\ntarget\nevidence.evidence.snapshot-intake\nresult\npass",
+        "expected": "source and target details",
+        "id": "selection-inspector-populated",
+        "passed": true
+      },
+      {
+        "actual": [],
+        "expected": [],
+        "id": "runtime-errors-empty",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "graph": {
+      "edgeCount": 7986,
+      "nodeCount": 8194
+    },
+    "maximum": {
+      "endpointGeometryScale": 0.9999999999999999,
+      "navigation": {
+        "afterZoomOut": {
+          "effectiveGeometryZoom": 142.222,
+          "logicalZoom": 142,
+          "materialCandidateCount": 173,
+          "materialCulledOrdinaryCodeCount": 0,
+          "materialDrawCount": 1,
+          "materialOffscreenCulledCount": 8021,
+          "materialProfile": "cached-stellar-vitreous-v5",
+          "materialSpriteCount": 11,
+          "rendererZoom": 142.222,
+          "selectedEdgeRenderedOpacity": 0.38,
+          "selectedEdgeRenderedWidth": 0.22,
+          "virtualGeometryScale": 1
+        },
+        "hiddenSelectionMaximumAnchorDistance": 0,
+        "hundred": {
+          "effectiveGeometryZoom": 100,
+          "logicalZoom": 100,
+          "materialCandidateCount": 173,
+          "materialCulledOrdinaryCodeCount": 140,
+          "materialDrawCount": 1,
+          "materialOffscreenCulledCount": 8021,
+          "materialProfile": "cached-stellar-vitreous-v5",
+          "materialSpriteCount": 11,
+          "rendererZoom": 100,
+          "selectedEdgeRenderedOpacity": 0.38,
+          "selectedEdgeRenderedWidth": 0.22,
+          "virtualGeometryScale": 1
+        },
+        "hundredInteractionMilliseconds": 0,
+        "maximumInteractionMilliseconds": 0,
+        "panDelta": {
+          "x": 18,
+          "y": -12
+        },
+        "panInteractionMilliseconds": 180.10000002384186,
+        "unselectedMaximumAnchorDistance": 0
+      },
+      "pixels": {
+        "canvasCount": 4,
+        "layers": [
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 139,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 140,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 15,
+            "className": "node-material-layer",
+            "height": 612,
+            "opaqueSampleCount": 17,
+            "sampleCount": 18696,
+            "width": 760
+          }
+        ],
+        "materialOpaqueSampleCount": 17,
+        "totalChromaticSampleCount": 154,
+        "totalOpaqueSampleCount": 157
+      },
+      "selectedEdgeEndpointDistance": 121.07807420282228,
+      "selectedEdgeId": "edge.project.project.windowsutility.808463a6aa38.evidenced-by.evidence.snapshot-intake",
+      "selectedEndpointMaterialPixels": {
+        "chromaticSampleCount": 337,
+        "luminanceRange": 242,
+        "opaqueSampleCount": 339,
+        "sampleCount": 3136,
+        "uniqueColorBucketCount": 66
+      },
+      "selectionText": "evidenced-by\ncategory\nsemantic-relation\nsource\nproject.project.windowsutility.808463a6aa38\ntarget\nevidence.evidence.snapshot-intake\nresult\npass",
+      "state": {
+        "effectiveGeometryZoom": 256,
+        "logicalZoom": 256,
+        "materialCandidateCount": 173,
+        "materialCulledOrdinaryCodeCount": 0,
+        "materialDrawCount": 1,
+        "materialOffscreenCulledCount": 8021,
+        "materialProfile": "cached-stellar-vitreous-v5",
+        "materialSpriteCount": 11,
+        "rendererZoom": 256,
+        "selectedEdgeRenderedOpacity": 0.34,
+        "selectedEdgeRenderedWidth": 0.18,
+        "virtualGeometryScale": 1
+      }
+    },
+    "overview": {
+      "pixels": {
+        "canvasCount": 4,
+        "layers": [
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 1104,
+            "className": "",
+            "height": 612,
+            "opaqueSampleCount": 2345,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 196,
+            "className": "node-material-layer",
+            "height": 612,
+            "opaqueSampleCount": 349,
+            "sampleCount": 18696,
+            "width": 760
+          }
+        ],
+        "materialOpaqueSampleCount": 349,
+        "totalChromaticSampleCount": 1300,
+        "totalOpaqueSampleCount": 2694
+      },
+      "selectedEdgeEndpointDistance": 121.0780742028223,
+      "state": {
+        "effectiveGeometryZoom": 0.405,
+        "logicalZoom": 0.41,
+        "materialCandidateCount": 8194,
+        "materialCulledOrdinaryCodeCount": 7526,
+        "materialDrawCount": 668,
+        "materialOffscreenCulledCount": 0,
+        "materialProfile": "cached-stellar-vitreous-v5",
+        "materialSpriteCount": 10,
+        "rendererZoom": 0.405,
+        "selectedEdgeRenderedOpacity": 0,
+        "selectedEdgeRenderedWidth": 0,
+        "virtualGeometryScale": 1
+      }
+    },
+    "result": "pass",
+    "scope": "browser-runtime-probe-read-only",
+    "status": "intentgraph-workbench-browser-runtime-pass"
+  },
+  "scope": "p9.34r2-256x-stellar-vitreous-regression",
+  "screenshotEvidence": {
+    "byteLength": 263841,
+    "chromaticSampleCount": 871,
+    "decodeStatus": "pass",
+    "exists": true,
+    "height": 1000,
+    "luminanceRange": 238,
+    "path": "generated/roadmap/p9.34r2-stellar-vitreous-screenshot.png",
+    "sampleCount": 5220,
+    "sha256": "sha256:1bc6cd8d0b8725d22242afaca1c17b6b473c6149ba2d380abdc9a35c8fd8272a",
+    "uniqueColorBucketCount": 53,
+    "validPng": true,
+    "width": 1440
+  },
+  "status": "intentgraph-workbench-headless-browser-regression-passed"
+}

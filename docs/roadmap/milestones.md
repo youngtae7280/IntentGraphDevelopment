@@ -4865,3 +4865,28 @@ Verification:
 Next safe work:
 
 - continue product workflow work at P9.35; treat further material refinement as user-review-driven rendering work, not graph-model work.
+
+## P9.34.R2: Anchored 256x Inspection And Stellar Vitreous Material
+
+Goal: resolve the remaining empty-center deep zoom, oversized selected relation, and
+circular toy-like node finish without changing the unified graph.
+
+Status: completed on 2026-07-14. See [P9.34.R2 Stellar Vitreous Rendering Review](../reviews/p9.34r2-stellar-vitreous-rendering-review.md).
+
+Delivered boundary:
+
+- direct `100x`/`256x` zoom anchored to a selected element or nearest visible node
+- maximum selected relation taper of `0.18px` at `0.34` opacity
+- cached kind-aware `stellar-vitreous-v5` material with faceted prismatic rims
+- unchanged 96-entry cache and viewport-local material candidate bound
+- no graph, source, workflow, evidence, authority, history, delta, or code-diff change
+
+Verification:
+
+- 27 WindowsUtility browser runtime checks pass
+- 28 fail-closed browser observation mutations pass
+- 30 loopback server/projection checks pass
+
+Next safe work:
+
+- continue to the reviewed P9.35 source refresh boundary.

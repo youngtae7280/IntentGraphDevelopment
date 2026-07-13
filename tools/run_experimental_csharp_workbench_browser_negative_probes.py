@@ -42,10 +42,11 @@ def good_observation() -> dict[str, Any]:
                 "rendererZoom": 256,
                 "effectiveGeometryZoom": 256,
                 "virtualGeometryScale": 1.0,
-                "selectedEdgeRenderedWidth": 0.30,
-                "selectedEdgeRenderedOpacity": 0.42,
-                "materialProfile": "cached-celestial-ceramic-v4",
+                "selectedEdgeRenderedWidth": 0.18,
+                "selectedEdgeRenderedOpacity": 0.34,
+                "materialProfile": "cached-stellar-vitreous-v5",
                 "materialCandidateCount": 2,
+                "materialSpriteCount": 12,
             },
             "selectedEndpointMaterialPixels": {
                 "opaqueSampleCount": 800,
@@ -57,9 +58,11 @@ def good_observation() -> dict[str, Any]:
                 "hundred": {"logicalZoom": 100, "rendererZoom": 100},
                 "afterZoomOut": {"logicalZoom": 142.2, "rendererZoom": 142.2},
                 "panDelta": {"x": 18, "y": -12},
-                "hundredHandlerMilliseconds": 24,
-                "maximumHandlerMilliseconds": 31,
-                "panHandlerMilliseconds": 4,
+                "unselectedMaximumAnchorDistance": 0,
+                "hiddenSelectionMaximumAnchorDistance": 0,
+                "hundredInteractionMilliseconds": 24,
+                "maximumInteractionMilliseconds": 31,
+                "panInteractionMilliseconds": 4,
             },
             "selectionText": "relation\nsource\nproject.project\ntarget\nwork.item",
         },
@@ -143,6 +146,24 @@ def mutate_material_candidates(
     observation["maximum"]["state"]["materialCandidateCount"] = 8208
 
 
+def mutate_material_sprite_count(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["state"]["materialSpriteCount"] = 97
+
+
+def mutate_unselected_anchor(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["navigation"]["unselectedMaximumAnchorDistance"] = 48
+
+
+def mutate_hidden_selection_anchor(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["navigation"]["hiddenSelectionMaximumAnchorDistance"] = 48
+
+
 def mutate_zoom(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
     observation["maximum"]["state"]["effectiveGeometryZoom"] = 24
 
@@ -174,7 +195,7 @@ def mutate_pan_control(observation: dict[str, Any], _screenshot: dict[str, Any])
 def mutate_navigation_budget(
     observation: dict[str, Any], _screenshot: dict[str, Any]
 ) -> None:
-    observation["maximum"]["navigation"]["maximumHandlerMilliseconds"] = 1200
+    observation["maximum"]["navigation"]["maximumInteractionMilliseconds"] = "NaN"
 
 
 def mutate_selection(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
@@ -225,13 +246,32 @@ PROBES: tuple[tuple[str, Mutation, str], ...] = (
         mutate_material_candidates,
         "material viewport candidate count is unbounded",
     ),
+    (
+        "unbounded-material-sprite-cache",
+        mutate_material_sprite_count,
+        "material sprite cache count is unbounded",
+    ),
+    (
+        "off-center-unselected-maximum-zoom",
+        mutate_unselected_anchor,
+        "unselected maximum anchor is off center",
+    ),
+    (
+        "off-center-hidden-selection-maximum-zoom",
+        mutate_hidden_selection_anchor,
+        "hidden-selection maximum anchor is off center",
+    ),
     ("wrong-effective-zoom", mutate_zoom, "effectiveGeometryZoom mismatch"),
     ("oversized-selected-edge", mutate_edge_width, "selectedEdgeRenderedWidth mismatch"),
     ("wrong-material", mutate_material, "material profile mismatch"),
     ("broken-100x-control", mutate_hundred_control, "100x control mismatch"),
     ("broken-zoom-out-control", mutate_zoom_out_control, "zoom-out control mismatch"),
     ("broken-maximum-pan-control", mutate_pan_control, "maximum pan control mismatch"),
-    ("slow-maximum-zoom-handler", mutate_navigation_budget, "maximumHandlerMilliseconds exceeds budget"),
+    (
+        "non-finite-maximum-zoom-observation",
+        mutate_navigation_budget,
+        "maximumInteractionMilliseconds is not a finite settled observation",
+    ),
     ("empty-selection-inspector", mutate_selection, "selection inspector is incomplete"),
     ("runtime-script-error", mutate_runtime_error, "reported script errors"),
     ("invalid-screenshot", mutate_screenshot, "not a valid PNG"),
@@ -326,7 +366,7 @@ def main() -> int:
             if result == "pass"
             else "intentgraph-workbench-browser-runtime-negative-probes-failed"
         ),
-        "scope": "p9.33-browser-runtime-validation-negative-probes",
+        "scope": "p9.34r2-stellar-vitreous-browser-runtime-negative-probes",
         "result": result,
         "probeCount": len(probe_results),
         "probes": probe_results,

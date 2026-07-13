@@ -4190,6 +4190,17 @@ an externally measured 45-second whole-capture ceiling. See
 [P9.34.R Product Note](../product/igd-256x-celestial-ceramic-p9.34r.md) and
 [P9.34.R Review](../reviews/p9.34r-deep-inspection-rendering-review.md).
 
+## Implemented Correction: P9.34.R2 Anchored Stellar Vitreous Rendering
+
+P9.34.R2 keeps the actual `256x` camera but centers direct deep zoom on a real selected
+element, or on the visible node nearest the viewport center when no selection exists.
+Maximum selected relation emphasis is reduced to `0.18px` at `0.34` opacity. Cached
+`stellar-vitreous-v5` sprites use faceted prismatic rims instead of circular ceramic
+highlights while retaining bounded viewport-local rendering. Graph, source, workflow,
+evidence, authority, history, delta, and code-diff domains remain unchanged. See the
+[P9.34.R2 Product Note](../product/igd-stellar-vitreous-renderer-p9.34r2.md) and
+[P9.34.R2 Review](../reviews/p9.34r2-stellar-vitreous-rendering-review.md).
+
 ## Implemented Slice: P9.21 Guided Local Review Proposal Intake
 
 P9.21 turns the first proposal authoring path into a bounded local form: a user chooses an already mapped work item and supplies the review, verification, and evidence requirements. The server derives only existing local references and records a non-applied proposal with no code diff. It does not infer a change, generate a patch, apply a graph delta, or modify the target project. See [P9.21 Guided Review Proposals](../product/igd-guided-review-proposals-p9.21.md) and [P9.21 Review](../reviews/p9.21-guided-review-proposals-review.md).

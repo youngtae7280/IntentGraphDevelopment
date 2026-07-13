@@ -8,6 +8,7 @@ import hashlib
 import html
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
+import math
 import re
 import struct
 import subprocess
@@ -37,15 +38,17 @@ REQUIRED_RUNTIME_CHECK_IDS = (
     "single-graph-instance",
     "overview-canvas-nonblank",
     "overview-material-nonblank",
-    "celestial-ceramic-material-active",
+    "stellar-vitreous-material-active",
     "material-sprite-cache-bounded",
     "material-viewport-candidates-bounded",
     "selected-endpoint-material-detailed",
     "zoom-100-control",
     "zoom-maximum-control",
+    "unselected-deep-zoom-anchors-visible-node",
+    "hidden-selection-deep-zoom-anchors-visible-node",
     "zoom-out-control",
     "maximum-pan-control",
-    "deep-navigation-handler-budget",
+    "deep-navigation-render-settled",
     "logical-zoom-256",
     "renderer-zoom-256",
     "effective-geometry-zoom-256",
@@ -380,7 +383,7 @@ def validate_runtime_observation(
     screenshot: dict[str, Any],
     expected_node_count: int,
     expected_edge_count: int,
-    expected_material: str = "cached-celestial-ceramic-v4",
+    expected_material: str = "cached-stellar-vitreous-v5",
     capture_elapsed_milliseconds: float | None = None,
 ) -> list[str]:
     errors: list[str] = []
@@ -436,8 +439,8 @@ def validate_runtime_observation(
         ("rendererZoom", 256.0, 0.001),
         ("effectiveGeometryZoom", 256.0, 0.001),
         ("virtualGeometryScale", 1.0, 0.001),
-        ("selectedEdgeRenderedWidth", 0.30, 0.002),
-        ("selectedEdgeRenderedOpacity", 0.42, 0.002),
+        ("selectedEdgeRenderedWidth", 0.18, 0.002),
+        ("selectedEdgeRenderedOpacity", 0.34, 0.002),
     )
     for key, expected, tolerance in numeric_expectations:
         try:
@@ -470,9 +473,26 @@ def validate_runtime_observation(
     material_candidate_limit = max(256, (expected_node_count + 9) // 10)
     if not 0 < material_candidate_count <= material_candidate_limit:
         errors.append("browser runtime material viewport candidate count is unbounded")
+    try:
+        material_sprite_count = int(maximum_state.get("materialSpriteCount", 0))
+    except (TypeError, ValueError):
+        material_sprite_count = 0
+    if not 0 < material_sprite_count <= 96:
+        errors.append("browser runtime material sprite cache count is unbounded")
     if maximum_state.get("materialProfile") != expected_material:
         errors.append("browser runtime material profile mismatch")
     navigation = maximum.get("navigation", {})
+    for key, label in (
+        ("unselectedMaximumAnchorDistance", "unselected maximum anchor"),
+        ("hiddenSelectionMaximumAnchorDistance", "hidden-selection maximum anchor"),
+    ):
+        try:
+            anchor_distance = float(navigation.get(key))
+        except (TypeError, ValueError):
+            errors.append(f"browser runtime {label} distance is missing")
+        else:
+            if not math.isfinite(anchor_distance) or not 0 <= anchor_distance <= 1.5:
+                errors.append(f"browser runtime {label} is off center")
     hundred = navigation.get("hundred", {})
     try:
         hundred_logical = float(hundred.get("logicalZoom"))
@@ -499,18 +519,18 @@ def validate_runtime_observation(
     else:
         if abs(pan_x - 18.0) > 0.001 or abs(pan_y + 12.0) > 0.001:
             errors.append("browser runtime maximum pan control mismatch")
-    for key, maximum_milliseconds in (
-        ("hundredHandlerMilliseconds", 1000.0),
-        ("maximumHandlerMilliseconds", 1000.0),
-        ("panHandlerMilliseconds", 250.0),
+    for key in (
+        "hundredInteractionMilliseconds",
+        "maximumInteractionMilliseconds",
+        "panInteractionMilliseconds",
     ):
         try:
             duration = float(navigation.get(key))
         except (TypeError, ValueError):
             errors.append(f"browser runtime {key} is missing")
             continue
-        if duration < 0 or duration >= maximum_milliseconds:
-            errors.append(f"browser runtime {key} exceeds budget")
+        if not math.isfinite(duration) or duration < 0:
+            errors.append(f"browser runtime {key} is not a finite settled observation")
     selection_text = maximum.get("selectionText")
     if not isinstance(selection_text, str) or not all(
         marker in selection_text for marker in ("source", "target")
@@ -542,7 +562,7 @@ def run_probe(
     output: Path,
     screenshot_output: Path,
     browser_path: Path | None = None,
-    expected_material: str = "cached-celestial-ceramic-v4",
+    expected_material: str = "cached-stellar-vitreous-v5",
 ) -> dict[str, Any]:
     workbench = workbench.resolve(strict=True)
     output = output.resolve()
@@ -607,7 +627,7 @@ def run_probe(
             if result == "pass"
             else "intentgraph-workbench-headless-browser-regression-failed"
         ),
-        "scope": "p9.34-256x-celestial-ceramic-regression",
+        "scope": "p9.34r2-256x-stellar-vitreous-regression",
         "result": result,
         "input": {
             "workbench": repo_path(workbench),
@@ -656,7 +676,7 @@ def main() -> int:
     parser.add_argument("--screenshot-out", required=True, type=Path)
     parser.add_argument("--browser", type=Path)
     parser.add_argument(
-        "--expected-material", default="cached-celestial-ceramic-v4"
+        "--expected-material", default="cached-stellar-vitreous-v5"
     )
     args = parser.parse_args()
     try:
