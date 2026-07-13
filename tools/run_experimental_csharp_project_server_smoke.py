@@ -33,7 +33,12 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
         root = Path(temporary)
         workspace = root / "project"
         initialize_project(snapshot, workspace, "server-smoke-project", "Server smoke project")
-        before_state, before_manifest, _, _ = validate_project_workspace(workspace)
+        before_state, before_manifest, _, before_data = validate_project_workspace(workspace)
+        code_fact_id = next(
+            fact["id"]
+            for fact in before_data["facts"]["facts"]
+            if isinstance(fact, dict) and fact.get("kind") == "method"
+        )
         server = make_server(workspace, "127.0.0.1", 0)
         thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01}, daemon=True)
         thread.start()
@@ -42,16 +47,22 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
         probes: list[dict[str, Any]] = []
         try:
             status, html, headers = request(base_url + "/")
-            probes.append({"id": "serves-interactive-html", "passed": status == 200 and b"newWorkTrigger" in html and b"/api/work-requests" in html and headers.get("Content-Security-Policy") is not None})
+            probes.append({"id": "serves-deferred-interactive-html", "passed": status == 200 and len(html) < 100000 and b"newWorkTrigger" in html and b"mapCodeTrigger" in html and b"__intentGraphLoadProjection" in html and b"/api/work-requests" in html and b"/api/mapping-candidates" in html and headers.get("Content-Security-Policy") is not None})
             status, projection_bytes, _ = request(base_url + "/api/projection")
             initial_projection = json.loads(projection_bytes)
-            probes.append({"id": "serves-project-projection", "passed": status == 200 and initial_projection["workflow"]["workItems"] == []})
+            probes.append({"id": "serves-project-projection", "passed": status == 200 and initial_projection["workflow"]["workItems"] == [] and initial_projection["graph"]["defaultView"]["id"] == "all" and set(initial_projection["graph"]["views"]["all"]["nodeIds"]) == {node["id"] for node in initial_projection["graph"]["nodes"]}})
             status, created_bytes, _ = request(base_url + "/api/work-requests", method="POST", body={"workId": "server-request", "title": "Server-recorded request", "request": "Record a local work request without editing the source project."})
             created = json.loads(created_bytes)
             probes.append({"id": "records-work-request-only-in-project-workspace", "passed": status == 201 and created["result"] == "pass" and created["workItemId"] == "server-request"})
             status, updated_bytes, _ = request(base_url + "/api/projection")
             updated = json.loads(updated_bytes)
             probes.append({"id": "reloads-updated-projection", "passed": status == 200 and len(updated["workflow"]["workItems"]) == 1 and updated["workflow"]["workItems"][0]["id"] == "server-request"})
+            status, mapped_bytes, _ = request(base_url + "/api/mapping-candidates", method="POST", body={"workId": "server-request", "codeFactId": code_fact_id, "rationale": "Selected from the local code graph for smoke coverage."})
+            mapped = json.loads(mapped_bytes)
+            probes.append({"id": "records-code-mapping-only-in-project-workspace", "passed": status == 201 and mapped["result"] == "pass" and mapped["codeFactCount"] == 1})
+            status, mapped_projection_bytes, _ = request(base_url + "/api/projection")
+            mapped_projection = json.loads(mapped_projection_bytes)
+            probes.append({"id": "reloads-mapped-projection", "passed": status == 200 and len(mapped_projection["workflow"]["mappings"]) == 1 and mapped_projection["workflow"]["mappings"][0]["codeFactIds"] == [code_fact_id]})
             try:
                 request(base_url + "/api/work-requests", method="POST", body={"workId": "server-request", "title": "Duplicate", "request": "Duplicate identifier."})
             except HTTPError as error:
@@ -59,6 +70,13 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
                 probes.append({"id": "rejects-duplicate-work-id", "passed": error.code == 400 and "already exists" in duplicate.get("error", "")})
             else:
                 probes.append({"id": "rejects-duplicate-work-id", "passed": False})
+            try:
+                request(base_url + "/api/mapping-candidates", method="POST", body={"workId": "server-request", "codeFactId": code_fact_id, "rationale": "Duplicate fact."})
+            except HTTPError as error:
+                duplicate_mapping = json.loads(error.read())
+                probes.append({"id": "rejects-duplicate-code-mapping", "passed": error.code == 400 and "already contains" in duplicate_mapping.get("error", "")})
+            else:
+                probes.append({"id": "rejects-duplicate-code-mapping", "passed": False})
             status, asset, _ = request(base_url + "/assets/cytoscape.min.js")
             probes.append({"id": "serves-local-graph-asset", "passed": status == 200 and len(asset) > 100000})
         finally:
@@ -66,7 +84,7 @@ def run(snapshot: Path, output: Path) -> dict[str, Any]:
             thread.join(timeout=10)
             server.server_close()
         after_state, after_manifest, _, _ = validate_project_workspace(workspace)
-        probes.append({"id": "snapshot-provenance-unchanged", "passed": before_manifest["source"] == after_manifest["source"] and before_state["project"] == after_state["project"] and len(after_state["workItems"]) == 1})
+        probes.append({"id": "snapshot-provenance-unchanged", "passed": before_manifest["source"] == after_manifest["source"] and before_state["project"] == after_state["project"] and len(after_state["workItems"]) == 1 and len(after_state["mappings"]) == 1})
         try:
             make_server(workspace, "0.0.0.0", 0)
         except LocalWorkbenchServerError as error:

@@ -4236,6 +4236,34 @@ Non-goals:
 
 - no remote service, multi-user sync, source modification, automatic mapping, proposal authoring, decision recording, evidence execution, editor integration, or packaged desktop release
 
+## P9.17: Full-Graph Semantic Foundation Workbench
+
+Goal: show the complete project graph without hiding code topology, while adding only declared project semantics and preserving no-source-mutation boundaries.
+
+Status: implementation and local interactive validation completed on 2026-07-13. See [P9.17 Full-Graph Semantic Foundation Workbench Review](../reviews/p9.17-full-graph-semantic-foundation-workbench-review.md).
+
+Delivered boundary:
+
+- full graph is the default lens; all projected nodes and edges remain loaded
+- deterministic radial source communities replace browser physics layout and rectangular grid placement
+- progressive labels and syntax relation detail keep large graphs navigable
+- lens and filter changes update visibility on one graph instance
+- a declared semantic foundation links source documents, goals, capabilities, constraints, and verification requirements to code capsules
+- Intent Units still arise only from explicit work requests
+
+Verification:
+
+- WindowsUtility projection contains all 8,188 projected nodes and 8,040 relations in the full lens
+- browser check confirms the local shell, full graph, semantic filter, and graph-lens return path
+- negative probes reject unsafe or malformed semantic foundations without changing project state
+- no WindowsUtility source file is changed
+
+Non-goals:
+
+- no automatic requirement or Intent inference
+- no semantic-foundation replacement without a future reviewed boundary
+- no source modification, approval, evidence execution, remote service, or packaged desktop release
+
 ## P9.11: Experimental C# Fact Workspace Scope Review
 
 Goal: determine whether a C# fact-only workspace can have a local HTML inspection surface without misrepresenting absent mappings, proposals, deltas, diffs, evidence, or authority.

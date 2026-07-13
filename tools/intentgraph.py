@@ -28,6 +28,7 @@ from experimental_csharp_project import (
     add_work_request as add_experimental_csharp_work_request,
     emit_project_workbench as emit_experimental_csharp_project_workbench,
     initialize_project as initialize_experimental_csharp_project,
+    record_semantic_foundation as record_experimental_csharp_semantic_foundation,
     validate_emitted_project_workbench as validate_experimental_csharp_project_workbench,
 )
 from serve_experimental_csharp_project_workbench import LocalWorkbenchServerError, serve as serve_experimental_csharp_project_workbench
@@ -650,6 +651,12 @@ def parse_args() -> argparse.Namespace:
     csharp_project_mapping.add_argument("--work-id", required=True)
     csharp_project_mapping.add_argument("--code-fact", required=True, action="append")
     csharp_project_mapping.add_argument("--rationale", required=True)
+    csharp_project_foundation = subparsers.add_parser(
+        "record-experimental-csharp-semantic-foundation",
+        help="Record a declared project semantic foundation without creating Intent Units or changing source code.",
+    )
+    csharp_project_foundation.add_argument("--workspace", required=True, type=Path)
+    csharp_project_foundation.add_argument("--foundation", required=True, type=Path)
     csharp_project_proposal = subparsers.add_parser(
         "add-experimental-csharp-change-proposal",
         help="Record a non-applied C# change proposal with graph delta and code diff review data.",
@@ -709,6 +716,9 @@ def main() -> int:
             return 0
         if args.command == "add-experimental-csharp-mapping-candidate":
             emit_status(add_experimental_csharp_mapping_candidate(args.workspace, args.work_id, args.code_fact, args.rationale))
+            return 0
+        if args.command == "record-experimental-csharp-semantic-foundation":
+            emit_status(record_experimental_csharp_semantic_foundation(args.workspace, args.foundation))
             return 0
         if args.command == "add-experimental-csharp-change-proposal":
             emit_status(add_experimental_csharp_change_proposal(args.workspace, args.proposal))

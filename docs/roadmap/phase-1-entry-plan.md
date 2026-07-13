@@ -3989,6 +3989,10 @@ P9.14 accepts only exact non-applied proposal artifacts over a declared mapping 
 
 P9.15 keeps the same graph but changes its default projection to semantic overview and active-work impact rather than raw code facts. Its loopback-only server lets a user record a work request from the Workbench without source mutation. See [P9.15 Interactive Local Project Workbench](../product/igd-interactive-local-project-workbench-p9.15.md) and [P9.15 Review](../reviews/p9.15-interactive-local-project-workbench-review.md).
 
+## Implemented Slice: P9.17 Full-Graph Semantic Foundation Workbench
+
+P9.17 corrects the P9.15 overcorrection. The default local Workbench loads every projected node and edge, positions source communities radially without a browser physics layout, and changes lenses through visibility updates rather than graph reconstruction. It also records declared goals, capabilities, constraints, verification requirements, and document references as a semantic foundation without silently creating Intent Units. See [P9.17 Full-Graph Semantic Foundation Workbench](../product/igd-full-graph-semantic-foundation-workbench-p9.17.md) and [P9.17 Review](../reviews/p9.17-full-graph-semantic-foundation-workbench-review.md).
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

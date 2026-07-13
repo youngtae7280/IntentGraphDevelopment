@@ -45,6 +45,19 @@ WORKBENCH_VERSION = "0.1.0"
 PROPOSAL_ROLE = "intentgraph-experimental-csharp-change-proposal"
 PROPOSAL_SCOPE = "experimental-csharp-semantic-overlay-change-proposal"
 PROPOSAL_STATUS = "not-applied-review-required"
+FOUNDATION_ROLE = "intentgraph-semantic-foundation"
+FOUNDATION_STATUS = "intentgraph-semantic-foundation-declared"
+FOUNDATION_SCOPE = "experimental-csharp-semantic-foundation-declared-only"
+FOUNDATION_RECORD_ROLE = "intentgraph-semantic-foundation-record"
+FOUNDATION_RECORD_SCOPE = "experimental-csharp-semantic-foundation-project-state"
+FOUNDATION_AUTHORITY = {
+    "targetRepositoryMutation": False,
+    "automaticIntentCreation": False,
+    "automaticMapping": False,
+    "automaticCodeApplication": False,
+    "networkRequired": False,
+    "credentialAccessAllowed": False,
+}
 PROPOSAL_AUTHORITY = {
     "targetRepositoryMutation": False,
     "automaticCodeApplication": False,
@@ -168,6 +181,164 @@ def snapshot_summary(snapshot: Path) -> tuple[dict[str, Any], dict[str, Path], d
     return manifest, paths, summary, facts
 
 
+def empty_semantic_foundation() -> dict[str, Any]:
+    return {
+        "artifactRole": FOUNDATION_RECORD_ROLE,
+        "status": "not-recorded",
+        "scope": FOUNDATION_RECORD_SCOPE,
+        "sourceArtifactDigest": None,
+        "sourceDocuments": [],
+        "goals": [],
+        "capabilities": [],
+        "constraints": [],
+        "verificationRequirements": [],
+    }
+
+
+def safe_logical_document_path(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and bool(value)
+        and not value.startswith("/")
+        and "\\" not in value
+        and ".." not in value.split("/")
+        and all(part not in {"", "."} for part in value.split("/"))
+    )
+
+
+def sha256_value(value: Any) -> bool:
+    return isinstance(value, str) and re.fullmatch(r"sha256:[0-9a-f]{64}", value) is not None
+
+
+def validate_semantic_foundation(
+    foundation: dict[str, Any],
+    *,
+    module_labels: set[str],
+    source_artifact: bool,
+) -> dict[str, Any]:
+    assert_no_unsafe_state(foundation)
+    if source_artifact:
+        expected = {
+            "artifactRole",
+            "status",
+            "scope",
+            "sourceDocuments",
+            "goals",
+            "capabilities",
+            "constraints",
+            "verificationRequirements",
+            "authority",
+        }
+        if set(foundation) != expected:
+            raise ProjectWorkspaceError("semantic foundation artifact fields are invalid")
+        if foundation["artifactRole"] != FOUNDATION_ROLE or foundation["status"] != FOUNDATION_STATUS or foundation["scope"] != FOUNDATION_SCOPE:
+            raise ProjectWorkspaceError("semantic foundation artifact role, status, or scope is invalid")
+        if foundation["authority"] != FOUNDATION_AUTHORITY:
+            raise ProjectWorkspaceError("semantic foundation authority must remain declarative and non-applying")
+        record = {
+            "artifactRole": FOUNDATION_RECORD_ROLE,
+            "status": "recorded",
+            "scope": FOUNDATION_RECORD_SCOPE,
+            "sourceArtifactDigest": None,
+            **{key: foundation[key] for key in ("sourceDocuments", "goals", "capabilities", "constraints", "verificationRequirements")},
+        }
+    else:
+        expected = {
+            "artifactRole",
+            "status",
+            "scope",
+            "sourceArtifactDigest",
+            "sourceDocuments",
+            "goals",
+            "capabilities",
+            "constraints",
+            "verificationRequirements",
+        }
+        if set(foundation) != expected or foundation["artifactRole"] != FOUNDATION_RECORD_ROLE or foundation["scope"] != FOUNDATION_RECORD_SCOPE:
+            raise ProjectWorkspaceError("semantic foundation project state is invalid")
+        if foundation["status"] == "not-recorded":
+            if foundation["sourceArtifactDigest"] is not None or any(foundation[key] for key in ("sourceDocuments", "goals", "capabilities", "constraints", "verificationRequirements")):
+                raise ProjectWorkspaceError("empty semantic foundation must not contain declared records")
+            return foundation
+        if foundation["status"] != "recorded" or not sha256_value(foundation["sourceArtifactDigest"]):
+            raise ProjectWorkspaceError("recorded semantic foundation provenance is invalid")
+        record = foundation
+
+    documents = record["sourceDocuments"]
+    if not isinstance(documents, list) or not documents:
+        raise ProjectWorkspaceError("semantic foundation must declare source documents")
+    document_ids: set[str] = set()
+    for document in documents:
+        if not isinstance(document, dict) or set(document) != {"id", "title", "logicalPath", "contentDigest", "role"}:
+            raise ProjectWorkspaceError("semantic foundation source document fields are invalid")
+        safe_id(str(document.get("id", "")), "semantic foundation source document id")
+        if document["id"] in document_ids or not isinstance(document["title"], str) or not document["title"].strip() or not safe_logical_document_path(document["logicalPath"]) or not sha256_value(document["contentDigest"]) or not isinstance(document["role"], str) or not document["role"].strip():
+            raise ProjectWorkspaceError("semantic foundation source document is invalid")
+        document_ids.add(document["id"])
+    if [document["id"] for document in documents] != sorted(document_ids):
+        raise ProjectWorkspaceError("semantic foundation source documents must be sorted by id")
+
+    def validate_records(
+        key: str,
+        required_fields: set[str],
+        *,
+        capability_refs: bool = False,
+        module_refs: bool = False,
+    ) -> set[str]:
+        records = record[key]
+        if not isinstance(records, list) or not records:
+            raise ProjectWorkspaceError(f"semantic foundation {key} must be non-empty")
+        ids: set[str] = set()
+        for item in records:
+            if not isinstance(item, dict) or set(item) != required_fields:
+                raise ProjectWorkspaceError(f"semantic foundation {key} fields are invalid")
+            safe_id(str(item.get("id", "")), f"semantic foundation {key} id")
+            if item["id"] in ids or not isinstance(item["title"], str) or not item["title"].strip() or not isinstance(item["summary"], str) or not item["summary"].strip():
+                raise ProjectWorkspaceError(f"semantic foundation {key} record is invalid")
+            source_ids = item.get("sourceDocumentIds")
+            if not isinstance(source_ids, list) or not source_ids or source_ids != sorted(set(source_ids)) or any(identifier not in document_ids for identifier in source_ids):
+                raise ProjectWorkspaceError(f"semantic foundation {key} source document references are invalid")
+            if capability_refs:
+                refs = item.get("capabilityIds")
+                if not isinstance(refs, list) or not refs or refs != sorted(set(refs)):
+                    raise ProjectWorkspaceError("semantic foundation goal capability references are invalid")
+            if module_refs:
+                labels = item.get("codeCapsuleLabels")
+                if not isinstance(labels, list) or not labels or labels != sorted(set(labels)) or any(label not in module_labels for label in labels):
+                    raise ProjectWorkspaceError(f"semantic foundation {key} code capsule references are invalid")
+            ids.add(item["id"])
+        return ids
+
+    capability_ids = validate_records(
+        "capabilities",
+        {"id", "title", "summary", "sourceDocumentIds", "codeCapsuleLabels"},
+        module_refs=True,
+    )
+    goal_ids = validate_records(
+        "goals",
+        {"id", "title", "summary", "sourceDocumentIds", "capabilityIds"},
+        capability_refs=True,
+    )
+    if any(
+        identifier not in capability_ids
+        for goal in record["goals"]
+        for identifier in goal["capabilityIds"]
+    ):
+        raise ProjectWorkspaceError("semantic foundation goal references an unknown capability")
+    validate_records(
+        "constraints",
+        {"id", "title", "summary", "sourceDocumentIds"},
+    )
+    validate_records(
+        "verificationRequirements",
+        {"id", "title", "summary", "sourceDocumentIds", "codeCapsuleLabels"},
+        module_refs=True,
+    )
+    if not goal_ids:
+        raise ProjectWorkspaceError("semantic foundation must declare goals")
+    return record
+
+
 def state_for(project_id: str, title: str, snapshot_manifest: dict[str, Any], summary: dict[str, Any]) -> dict[str, Any]:
     safe_id(project_id, "project id")
     if not title.strip():
@@ -184,6 +355,7 @@ def state_for(project_id: str, title: str, snapshot_manifest: dict[str, Any], su
             "sourceDigest": source["digest"],
             "sourceRole": source["sourceRole"],
         },
+        "semanticFoundation": empty_semantic_foundation(),
         "workItems": [],
         "mappings": [],
         "changeProposals": [],
@@ -430,6 +602,16 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
             raise ProjectWorkspaceError(f"work item {item['id']} claims an unsupported change or verification state")
     fact_by_id = {fact.get("id"): fact for fact in facts.get("facts", []) if isinstance(fact, dict) and isinstance(fact.get("id"), str)}
     fact_ids = set(fact_by_id)
+    module_labels = {
+        str(fact["sourceFile"]).split("/", 1)[0]
+        for fact in fact_by_id.values()
+        if isinstance(fact.get("sourceFile"), str) and safe_relative_source(fact["sourceFile"])
+    }
+    foundation = validate_semantic_foundation(
+        state.get("semanticFoundation", empty_semantic_foundation()),
+        module_labels=module_labels,
+        source_artifact=False,
+    )
     mapping_ids = validate_record_ids(state["mappings"], "mapping")
     linked_work_ids: set[str] = set()
     for mapping in state["mappings"]:
@@ -476,7 +658,13 @@ def validate_project_workspace(project_workspace: Path) -> tuple[dict[str, Any],
         validate_record_ids(state[key], key)
     if not state["verification"] or not state["evidence"] or not state["history"]:
         raise ProjectWorkspaceError("project state must retain snapshot verification, evidence, and history")
-    return state, snapshot_manifest, snapshot_artifacts, {"summary": summary, "facts": facts, "mappingIds": mapping_ids, "proposals": proposals}
+    return state, snapshot_manifest, snapshot_artifacts, {
+        "summary": summary,
+        "facts": facts,
+        "mappingIds": mapping_ids,
+        "proposals": proposals,
+        "semanticFoundation": foundation,
+    }
 
 
 def add_work_request(project_workspace: Path, work_id: str, title: str, request: str) -> dict[str, Any]:
@@ -519,8 +707,6 @@ def add_mapping_candidate(project_workspace: Path, work_id: str, fact_ids: list[
     work = next((item for item in state["workItems"] if item["id"] == work_id), None)
     if work is None:
         raise ProjectWorkspaceError("mapping candidate work item does not exist")
-    if any(item["workItemId"] == work_id for item in state["mappings"]):
-        raise ProjectWorkspaceError("work item already has a mapping candidate")
     if not fact_ids or len(set(fact_ids)) != len(fact_ids):
         raise ProjectWorkspaceError("mapping candidate must reference one or more unique fact identifiers")
     known_facts = {fact.get("id") for fact in data["facts"].get("facts", []) if isinstance(fact, dict)}
@@ -529,29 +715,88 @@ def add_mapping_candidate(project_workspace: Path, work_id: str, fact_ids: list[
     if not rationale.strip():
         raise ProjectWorkspaceError("mapping candidate rationale must not be blank")
     mapping_id = f"mapping.{work_id}.candidate"
-    state["mappings"].append(
-        {
-            "id": mapping_id,
-            "workItemId": work_id,
-            "intentUnitId": work["intentUnitId"],
-            "codeFactIds": sorted(fact_ids),
-            "rationale": rationale.strip(),
-            "status": "candidate",
-            "confidence": "declared",
-        }
-    )
+    existing = next((item for item in state["mappings"] if item["workItemId"] == work_id), None)
+    if existing is None:
+        state["mappings"].append(
+            {
+                "id": mapping_id,
+                "workItemId": work_id,
+                "intentUnitId": work["intentUnitId"],
+                "codeFactIds": sorted(fact_ids),
+                "rationale": rationale.strip(),
+                "status": "candidate",
+                "confidence": "declared",
+            }
+        )
+        history_kind = "mapping-candidate-recorded"
+        history_summary = f"Recorded declared mapping candidate {mapping_id}; acceptance is not automatic."
+    else:
+        added = sorted(set(fact_ids) - set(existing["codeFactIds"]))
+        if not added:
+            raise ProjectWorkspaceError("mapping candidate already contains the selected code fact")
+        existing["codeFactIds"] = sorted(set(existing["codeFactIds"]) | set(fact_ids))
+        existing["rationale"] = existing["rationale"] + "\n" + rationale.strip()
+        history_kind = "mapping-candidate-expanded"
+        history_summary = f"Expanded declared mapping candidate {mapping_id} by {len(added)} code fact(s); acceptance is not automatic."
     work["mappingStatus"] = "candidate"
     work["status"] = "mapping-candidate"
     state["history"].append(
         {
-            "id": f"history.mapping.{work_id}",
-            "kind": "mapping-candidate-recorded",
-            "summary": f"Recorded declared mapping candidate {mapping_id}; acceptance is not automatic.",
+            "id": f"history.mapping.{work_id}.{len(state['history'])}",
+            "kind": history_kind,
+            "summary": history_summary,
         }
     )
     write_json(project_workspace / PROJECT_FILE, state)
     validate_project_workspace(project_workspace)
-    return {"result": "pass", "command": "add-experimental-csharp-mapping-candidate", "mappingId": mapping_id, "authority": PROJECT_AUTHORITY}
+    active_mapping = next(item for item in state["mappings"] if item["id"] == mapping_id)
+    return {"result": "pass", "command": "add-experimental-csharp-mapping-candidate", "mappingId": mapping_id, "codeFactCount": len(active_mapping["codeFactIds"]), "authority": PROJECT_AUTHORITY}
+
+
+def record_semantic_foundation(project_workspace: Path, foundation_path: Path) -> dict[str, Any]:
+    project_workspace = project_workspace.resolve()
+    foundation_path = foundation_path.resolve()
+    if not foundation_path.is_file() or foundation_path.is_symlink():
+        raise ProjectWorkspaceError("semantic foundation artifact must be a regular JSON file")
+    state, _, _, data = validate_project_workspace(project_workspace)
+    if data["semanticFoundation"]["status"] != "not-recorded":
+        raise ProjectWorkspaceError("semantic foundation is already recorded; a future reviewed replacement boundary is required")
+    module_labels = {
+        str(fact["sourceFile"]).split("/", 1)[0]
+        for fact in data["facts"].get("facts", [])
+        if isinstance(fact, dict) and isinstance(fact.get("sourceFile"), str) and safe_relative_source(fact["sourceFile"])
+    }
+    foundation = validate_semantic_foundation(
+        read_json(foundation_path),
+        module_labels=module_labels,
+        source_artifact=True,
+    )
+    state["semanticFoundation"] = {
+        "artifactRole": FOUNDATION_RECORD_ROLE,
+        "status": "recorded",
+        "scope": FOUNDATION_RECORD_SCOPE,
+        "sourceArtifactDigest": file_digest(foundation_path),
+        **{key: foundation[key] for key in ("sourceDocuments", "goals", "capabilities", "constraints", "verificationRequirements")},
+    }
+    state["history"].append(
+        {
+            "id": f"history.semantic-foundation.{len(state['history'])}",
+            "kind": "semantic-foundation-recorded",
+            "summary": "Recorded declared project goals, capabilities, constraints, and verification requirements without creating automatic Intent Units or changing source code.",
+        }
+    )
+    write_json(project_workspace / PROJECT_FILE, state)
+    validate_project_workspace(project_workspace)
+    return {
+        "result": "pass",
+        "command": "record-experimental-csharp-semantic-foundation",
+        "sourceArtifactDigest": state["semanticFoundation"]["sourceArtifactDigest"],
+        "goalCount": len(state["semanticFoundation"]["goals"]),
+        "capabilityCount": len(state["semanticFoundation"]["capabilities"]),
+        "constraintCount": len(state["semanticFoundation"]["constraints"]),
+        "verificationRequirementCount": len(state["semanticFoundation"]["verificationRequirements"]),
+        "authority": PROJECT_AUTHORITY,
+    }
 
 
 def add_change_proposal(project_workspace: Path, proposal_path: Path) -> dict[str, Any]:
@@ -698,6 +943,39 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
     project = state["project"]
     project_node = f"project.{project['id']}"
     nodes.append(semantic_node(project_node, "project", project["title"], {"logicalSourceRoot": project["logicalSourceRoot"], "sourceDigest": project["sourceDigest"], "sourceRole": project["sourceRole"]}))
+    semantic_foundation = data["semanticFoundation"]
+    if semantic_foundation["status"] == "recorded":
+        document_nodes: dict[str, str] = {}
+        for document in semantic_foundation["sourceDocuments"]:
+            node_id = f"source-document.{document['id']}"
+            document_nodes[document["id"]] = node_id
+            nodes.append(semantic_node(node_id, "source-document", document["title"], {**document, "declarationStatus": "declared"}))
+            edges.append({"id": f"edge.{project_node}.documents.{document['id']}", "category": "semantic-relation", "kind": "documents", "source": project_node, "target": node_id, "details": {"role": document["role"], "declarationStatus": "declared"}})
+        for goal in semantic_foundation["goals"]:
+            node_id = f"goal.{goal['id']}"
+            nodes.append(semantic_node(node_id, "goal", goal["title"], {**goal, "declarationStatus": "declared"}))
+            edges.append({"id": f"edge.{project_node}.pursues.{goal['id']}", "category": "semantic-relation", "kind": "pursues", "source": project_node, "target": node_id, "details": {"declarationStatus": "declared"}})
+            for source_id in goal["sourceDocumentIds"]:
+                edges.append({"id": f"edge.{document_nodes[source_id]}.declares.{goal['id']}", "category": "semantic-relation", "kind": "declares", "source": document_nodes[source_id], "target": node_id, "details": {"declarationStatus": "declared"}})
+            for capability_id in goal["capabilityIds"]:
+                edges.append({"id": f"edge.{node_id}.includes.{capability_id}", "category": "semantic-relation", "kind": "includes", "source": node_id, "target": f"capability.{capability_id}", "details": {"declarationStatus": "declared"}})
+        for capability in semantic_foundation["capabilities"]:
+            node_id = f"capability.{capability['id']}"
+            nodes.append(semantic_node(node_id, "capability", capability["title"], {**capability, "declarationStatus": "declared"}))
+            for source_id in capability["sourceDocumentIds"]:
+                edges.append({"id": f"edge.{document_nodes[source_id]}.declares.{capability['id']}", "category": "semantic-relation", "kind": "declares", "source": document_nodes[source_id], "target": node_id, "details": {"declarationStatus": "declared"}})
+        for constraint in semantic_foundation["constraints"]:
+            node_id = f"constraint.{constraint['id']}"
+            nodes.append(semantic_node(node_id, "constraint", constraint["title"], {**constraint, "declarationStatus": "declared"}))
+            edges.append({"id": f"edge.{project_node}.constrained-by.{constraint['id']}", "category": "semantic-relation", "kind": "constrained-by", "source": project_node, "target": node_id, "details": {"declarationStatus": "declared"}})
+            for source_id in constraint["sourceDocumentIds"]:
+                edges.append({"id": f"edge.{document_nodes[source_id]}.declares.{constraint['id']}", "category": "semantic-relation", "kind": "declares", "source": document_nodes[source_id], "target": node_id, "details": {"declarationStatus": "declared"}})
+        for requirement in semantic_foundation["verificationRequirements"]:
+            node_id = f"verification-requirement.{requirement['id']}"
+            nodes.append(semantic_node(node_id, "verification-requirement", requirement["title"], {**requirement, "declarationStatus": "declared"}))
+            edges.append({"id": f"edge.{project_node}.requires.{requirement['id']}", "category": "semantic-relation", "kind": "requires", "source": project_node, "target": node_id, "details": {"declarationStatus": "declared"}})
+            for source_id in requirement["sourceDocumentIds"]:
+                edges.append({"id": f"edge.{document_nodes[source_id]}.declares.{requirement['id']}", "category": "semantic-relation", "kind": "declares", "source": document_nodes[source_id], "target": node_id, "details": {"declarationStatus": "declared"}})
     for item in state["workItems"]:
         work_node = f"work.{item['id']}"
         nodes.append(semantic_node(work_node, "work", item["title"], item))
@@ -788,6 +1066,15 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
         }
         for capsule_id in sorted(mapped_capsules):
             edges.append({"id": f"edge.{mapping_node}.to-capsule.{capsule_id}", "category": "mapping-relation", "kind": "maps-to-capsule", "source": mapping_node, "target": capsule_id, "details": {"status": "candidate", "representation": "aggregated-code-scope"}})
+    if semantic_foundation["status"] == "recorded":
+        for capability in semantic_foundation["capabilities"]:
+            source = f"capability.{capability['id']}"
+            for label in capability["codeCapsuleLabels"]:
+                edges.append({"id": f"edge.{source}.scopes.{label}", "category": "semantic-relation", "kind": "scopes", "source": source, "target": capsule_ids[label], "details": {"declarationStatus": "declared"}})
+        for requirement in semantic_foundation["verificationRequirements"]:
+            source = f"verification-requirement.{requirement['id']}"
+            for label in requirement["codeCapsuleLabels"]:
+                edges.append({"id": f"edge.{source}.covers.{label}", "category": "semantic-relation", "kind": "covers", "source": source, "target": capsule_ids[label], "details": {"declarationStatus": "declared"}})
     all_ids = {node["id"] for node in nodes}
     if len(all_ids) != len(nodes) or len({edge["id"] for edge in edges}) != len(edges) or any(edge["source"] not in all_ids or edge["target"] not in all_ids for edge in edges):
         raise ProjectWorkspaceError("project projection graph integrity is invalid")
@@ -833,19 +1120,31 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
             "codeContentShown": False,
             "proposedCodeDiffFragmentsShown": any(proposal["codeDiffs"] for proposal in proposals),
         },
-        "workflow": {**{key: state[key] for key in ("workItems", "mappings", "verification", "evidence", "history")}, "changeProposals": proposals, "proposalDeltas": sorted(proposal_deltas, key=lambda item: item["id"])},
+        "workflow": {
+            **{key: state[key] for key in ("workItems", "mappings", "verification", "evidence", "history")},
+            "semanticFoundation": semantic_foundation,
+            "changeProposals": proposals,
+            "proposalDeltas": sorted(proposal_deltas, key=lambda item: item["id"]),
+        },
         "authority": state["authority"],
         "graph": {
             "nodes": sorted(nodes, key=lambda item: item["id"]),
             "edges": sorted(edges, key=lambda item: item["id"]),
             "categoryCounts": counts(nodes, "category"),
             "relationCounts": counts(edges, "kind"),
-            "defaultView": {"codeKinds": ["file", "namespace", "type"], "semanticCategories": ["project", "work", "intent", "mapping", "proposal", "verification", "evidence", "authority", "history", "code-capsule"]},
+            "defaultView": {
+                "id": "all",
+                "codeKinds": ["file", "namespace", "type"],
+                "semanticCategories": ["project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "authority", "history", "code-capsule"],
+                "rendering": "full-graph-progressive-detail",
+                "layout": "deterministic-source-grouped-preset",
+                "physicsLayoutOnLoad": False,
+            },
             "views": {
-                "overview": {"title": "Project overview", "nodeIds": sorted(base_semantic_node_ids | set(capsule_ids.values())), "summary": "Intent, work, proposal, evidence, authority, history, and aggregated code capsules."},
+                "overview": {"title": "Project overview", "nodeIds": sorted(base_semantic_node_ids | set(capsule_ids.values())), "summary": "Declared project goals, capabilities, constraints, verification requirements, work, Intent, evidence, authority, history, and aggregated code capsules."},
                 "impact": {"title": "Active work impact", "nodeIds": sorted(base_semantic_node_ids | impacted_code_ids | impacted_capsule_ids), "summary": "Active semantic work records plus mapped and proposed code facts with direct syntax neighbors."},
                 "code": {"title": "Code topology", "nodeIds": sorted(structural_code_ids | set(capsule_ids.values()) | {project_node}), "summary": "Aggregated code capsules and structural file, namespace, and type facts."},
-                "all": {"title": "All matching records", "nodeIds": sorted(all_ids), "summary": "Every projected semantic and code fact record."},
+                "all": {"title": "Full project graph", "nodeIds": sorted(all_ids), "summary": "Every projected semantic and code fact is loaded. Labels and raw syntax relations reveal progressively as you zoom."},
             },
         },
         "changeReview": (
@@ -865,7 +1164,21 @@ def build_projection(project_workspace: Path) -> tuple[dict[str, Any], list[dict
                 "reason": "A work request may be mapped to code facts, but a separate deterministic proposal is required before changes or diffs exist.",
             }
         ),
-        "uiContract": {"staticLocalHtml": True, "graphLibrary": "cytoscape", "networkRequired": False, "externalRuntimeUrlsAllowed": False, "graphMutationFromUi": False, "approvalControlsPresent": False},
+        "uiContract": {
+            "staticLocalHtml": True,
+            "graphLibrary": "cytoscape",
+            "networkRequired": False,
+            "externalRuntimeUrlsAllowed": False,
+            "staticGraphMutationFromUi": False,
+            "loopbackProjectStateMutationFromUi": True,
+            "targetRepositoryMutationFromUi": False,
+            "approvalControlsPresent": False,
+            "fullGraphDefault": True,
+            "allNodesLoaded": True,
+            "allEdgesLoaded": True,
+            "progressiveDetail": True,
+            "physicsLayoutOnLoad": False,
+        },
     }
     snapshot_records = [{"path": path.relative_to(project_workspace).as_posix(), "sha256": file_digest(path)} for path in sorted(project_workspace.rglob("*")) if path.is_file() and not path.is_symlink()]
     return projection, snapshot_records
@@ -909,15 +1222,15 @@ HTML_TEMPLATE = r'''<!doctype html>
     <header class="topbar"><div class="brand"><strong>IntentGraph</strong><span>Project workbench</span></div><div class="badges"><span class="badge accent">local semantic overlay</span><span class="badge" id="projectBadge"></span><span class="badge" id="snapshotBadge"></span></div></header>
     <div class="workspace">
       <aside class="rail">
-        <section class="section"><h2>Graph lens</h2><div class="modes"><button class="mode active" data-mode="overview">Project</button><button class="mode" data-mode="impact">Active work</button><button class="mode" data-mode="code">Code topology</button><button class="mode" data-mode="all">All matching</button><button class="mode" data-mode="focus">Focus selection</button><button id="clearSelection">Clear focus</button></div></section>
+        <section class="section"><h2>Graph lens</h2><div class="modes"><button class="mode active" data-mode="all">Full graph</button><button class="mode" data-mode="overview">Semantic overview</button><button class="mode" data-mode="impact">Active work</button><button class="mode" data-mode="code">Code topology</button><button class="mode" data-mode="focus">Focus selection</button><button id="clearSelection">Clear focus</button></div></section>
         <section class="section"><h2>Find</h2><label for="search">Node, relation, or source file</label><input id="search" type="search" placeholder="Find project or code fact"><label for="categoryFilter">Node category</label><select id="categoryFilter"></select><label for="relationFilter">Relation kind</label><select id="relationFilter"></select></section>
         <section class="section"><h2>Active work</h2><div id="workList" class="work-list"></div></section>
         <section class="section"><h2>Project snapshot</h2><div id="metrics" class="metrics"></div></section>
-        <section class="section"><h2>Legend</h2><div class="legend"><div><i style="background:var(--code)"></i>Code fact</div><div><i style="background:var(--intent)"></i>Intent</div><div><i style="background:var(--work)"></i>Work item</div><div><i style="background:var(--evidence)"></i>Evidence / verify</div><div><i style="background:var(--history)"></i>History / authority</div></div></section>
+        <section class="section"><h2>Legend</h2><div class="legend"><div><i style="background:var(--code)"></i>Code fact</div><div><i style="background:#d6a762"></i>Goal / Intent</div><div><i style="background:#5fb8a5"></i>Capability / work</div><div><i style="background:#7993a8"></i>Source document</div><div><i style="background:var(--evidence)"></i>Evidence / verify</div><div><i style="background:var(--history)"></i>History / authority</div></div></section>
       </aside>
       <div class="resizer" data-side="left" role="separator" aria-label="Resize navigation"></div>
       <main class="canvas">
-        <div class="canvasbar"><div><h1 id="graphTitle">Project overview</h1><p id="graphSummary"></p></div><div class="tools"><button class="icon" id="zoomOut" title="Zoom out">-</button><button class="icon" id="zoomIn" title="Zoom in">+</button><button class="icon" id="fitGraph" title="Fit graph">Fit</button></div></div>
+        <div class="canvasbar"><div><h1 id="graphTitle">Full project graph</h1><p id="graphSummary"></p></div><div class="tools"><button class="icon" id="zoomOut" title="Zoom out">-</button><button class="icon" id="zoomIn" title="Zoom in">+</button><button class="icon" id="fitGraph" title="Fit graph">Fit</button></div></div>
         <div id="projectGraph" aria-label="IntentGraph project graph"></div>
         <section class="review-tray"><div class="tray-section"><div class="tray-title">Change review</div><div id="changePanel"></div><div id="deltaList" class="delta-list"></div></div><div class="tray-section"><div class="tray-title">Verification and evidence</div><div id="evidencePanel"></div></div><div class="tray-section"><div class="tray-title">Authority and history</div><div id="authorityPanel"></div></div></section>
       </main>
@@ -927,11 +1240,11 @@ HTML_TEMPLATE = r'''<!doctype html>
   </div>
   <script id="workbench-data" type="application/json">__WORKBENCH_DATA__</script>
   <script>
-    const model = JSON.parse(document.getElementById('workbench-data').textContent);
+    function boot(model) {
     const allNodes = model.graph.nodes, allEdges = model.graph.edges;
     const nodeById = new Map(allNodes.map(node => [node.id,node]));
-    const state = { mode:'overview', selected:null, cy:null };
-    const colors = { code:'#8fa9c3', project:'#4ec6ba', work:'#72b790', intent:'#da9f66', mapping:'#efc66d', proposal:'#e47f76', verification:'#b68ee0', evidence:'#b68ee0', authority:'#8f9bb2', history:'#8f9bb2' };
+    const state = { mode:model.graph.defaultView?.id || 'all', selected:null, cy:null, renderTimer:null, detailLevel:null, positions:null };
+    const colors = { code:'#8fa9c3', project:'#4ec6ba', 'source-document':'#7993a8', goal:'#d6a762', capability:'#5fb8a5', constraint:'#dfaa69', 'verification-requirement':'#b68ee0', work:'#72b790', intent:'#da9f66', mapping:'#efc66d', proposal:'#e47f76', verification:'#b68ee0', evidence:'#b68ee0', authority:'#8f9bb2', history:'#8f9bb2' };
     const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     const short = value => String(value || '').replace('sha256:','').slice(0,12);
     const rows = entries => `<dl class="kv">${entries.map(([key,value])=>`<dt>${safe(key)}</dt><dd>${safe(value)}</dd>`).join('')}</dl>`;
@@ -942,13 +1255,210 @@ HTML_TEMPLATE = r'''<!doctype html>
     function graphData() { const nodes=selectedNodes(), ids=new Set(nodes.map(node=>node.id)), f=filters(); const edges=allEdges.filter(edge=>ids.has(edge.source)&&ids.has(edge.target)&&(!f.relation||edge.kind===f.relation)); return {nodes,edges,elements:[...nodes.map(node=>({data:{id:node.id,label:node.label,category:node.category,kind:node.kind,deltaState:node.deltaState||'unchanged'}})),...edges.map(edge=>({data:{id:edge.id,source:edge.source,target:edge.target,kind:edge.kind,category:edge.category}}))]}; }
     function renderGraph() { const graph=graphData(); const view=model.graph.views[state.mode]||model.graph.views.overview; document.getElementById('graphTitle').textContent=view.title;document.getElementById('graphSummary').textContent=`${view.summary} ${graph.nodes.length.toLocaleString()} nodes / ${graph.edges.length.toLocaleString()} relations visible`; if(state.cy)state.cy.destroy(); state.cy=cytoscape({container:document.getElementById('projectGraph'),elements:graph.elements,style:[{selector:'node',style:{'background-color':el=>colors[el.data('category')]||'#8fa9c3','label':el=>el.data('label'),'color':'#d8e2eb','font-size':10,'text-wrap':'ellipsis','text-max-width':118,'text-valign':'bottom','text-margin-y':6,'width':el=>el.data('category')==='project'?25:el.data('category')==='code'?(el.data('kind')==='file'?20:el.data('kind')==='type'?16:14):el.data('category')==='code-capsule'?44:19,'height':el=>el.data('category')==='project'?25:el.data('category')==='code'?(el.data('kind')==='file'?20:el.data('kind')==='type'?16:14):el.data('category')==='code-capsule'?28:19,'border-width':1,'border-color':'#172531'}},{selector:'node[category = "code-capsule"]',style:{'background-color':'#31566e','shape':'round-rectangle','border-width':2,'border-color':'#6f9ab5','font-size':11,'text-max-width':145}},{selector:'node[deltaState = "proposed-change"]',style:{'border-width':3,'border-color':'#e47f76'}},{selector:'edge',style:{'width':1,'line-color':'#405262','target-arrow-color':'#405262','target-arrow-shape':'triangle','curve-style':'bezier','opacity':.68}},{selector:'edge[category = "capsule-relation"]',style:{'line-color':'#54788f','target-arrow-color':'#54788f','width':2}},{selector:'edge[category = "mapping-relation"]',style:{'line-color':'#efc66d','target-arrow-color':'#efc66d','line-style':'dashed','width':2}},{selector:'edge[category = "delta-relation"]',style:{'line-color':'#e47f76','target-arrow-color':'#e47f76','line-style':'dashed','width':2}},{selector:'edge[kind = "invokes-syntax"]',style:{'line-color':'#8573a3','target-arrow-color':'#8573a3','line-style':'dashed'}},{selector:':selected',style:{'border-width':3,'border-color':'#4ec6ba','line-color':'#4ec6ba','target-arrow-color':'#4ec6ba','z-index':99}},{selector:'.dim',style:{'opacity':.15}}],layout:{name:'cose',animate:false,randomize:false,fit:true,padding:44,nodeRepulsion:9300,idealEdgeLength:75,gravity:.6},minZoom:.22,maxZoom:2.6,wheelSensitivity:.16}); state.cy.on('tap','node',event=>{state.selected={type:'node',id:event.target.id()};renderSelection();highlight();}); state.cy.on('tap','edge',event=>{state.selected={type:'edge',id:event.target.id()};renderSelection();highlight();});state.cy.on('tap',event=>{if(event.target===state.cy){state.selected=null;renderSelection();}}); state.cy.on('zoom',semanticZoom);semanticZoom();highlight(); }
     function semanticZoom(){const visible=state.cy.zoom()>.62;state.cy.style().selector('node').style('font-size',visible?10:0).update();}
-    function highlight(){if(!state.cy||!state.selected)return;const item=state.cy.$id(state.selected.id);if(!item.length)return;state.cy.elements().addClass('dim');item.removeClass('dim').select();if(state.selected.type==='node')item.connectedEdges().removeClass('dim');if(state.selected.type==='edge')item.connectedNodes().removeClass('dim');}
+    function sourceModule(node) { return node.category==='code-capsule' ? node.label : String(node.source?.file||'Unmapped').split('/')[0]; }
+    function buildPresetPositions() {
+      const golden=Math.PI*(3-Math.sqrt(5)),positions=new Map(),groups=new Map();
+      allNodes.filter(node=>node.category==='code').forEach(node=>{const key=sourceModule(node);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(node);});
+      [...groups.entries()].sort((left,right)=>left[0].localeCompare(right[0])).forEach(([group,nodes],groupIndex)=>{
+        const ring=Math.floor(groupIndex/8),angle=groupIndex*golden,radius=2800+ring*2300,center={x:Math.cos(angle)*radius,y:Math.sin(angle)*radius};
+        const files=new Map();
+        nodes.forEach(node=>{const key=String(node.source?.file||'Unmapped');if(!files.has(key))files.set(key,[]);files.get(key).push(node);});
+        [...files.entries()].sort((left,right)=>left[0].localeCompare(right[0])).forEach(([file,fileNodes],fileIndex)=>{
+          const fileAngle=fileIndex*golden,fileRadius=150*Math.sqrt(fileIndex),fileCenter={x:center.x+Math.cos(fileAngle)*fileRadius,y:center.y+Math.sin(fileAngle)*fileRadius};
+          fileNodes.sort((left,right)=>(left.kind+'|'+left.id).localeCompare(right.kind+'|'+right.id)).forEach((node,nodeIndex)=>{
+            if(node.kind==='file'){positions.set(node.id,fileCenter);return;}
+            const nodeAngle=nodeIndex*golden,fileNodeRadius=10+10*Math.sqrt(nodeIndex);
+            positions.set(node.id,{x:fileCenter.x+Math.cos(nodeAngle)*fileNodeRadius,y:fileCenter.y+Math.sin(nodeAngle)*fileNodeRadius});
+          });
+        });
+        const capsule=allNodes.find(node=>node.category==='code-capsule'&&node.label===group);
+        if(capsule)positions.set(capsule.id,center);
+      });
+      allNodes.filter(node=>node.category!=='code'&&node.category!=='code-capsule').sort((left,right)=>left.id.localeCompare(right.id)).forEach((node,index)=>{
+        if(node.category==='project'){positions.set(node.id,{x:0,y:0});return;}
+        const angle=index*golden,radius=340+80*Math.sqrt(index);
+        positions.set(node.id,{x:Math.cos(angle)*radius,y:Math.sin(angle)*radius});
+      });
+      return positions;
+    }
+    function scheduleRender(){window.clearTimeout(state.renderTimer);state.renderTimer=window.setTimeout(renderGraph,130);}
+    function init() {
+      populate('categoryFilter',Object.keys(model.graph.categoryCounts),'categories');
+      populate('relationFilter',Object.keys(model.graph.relationCounts),'relations');
+      document.getElementById('search').addEventListener('input',scheduleRender);
+      ['categoryFilter','relationFilter'].forEach(id=>document.getElementById(id).addEventListener('change',renderGraph));
+      document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{
+        state.mode=button.dataset.mode;
+        document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item===button));
+        renderGraph();
+      }));
+      document.getElementById('clearSelection').addEventListener('click',()=>{state.selected=null;renderGraph();renderSelection();});
+    }
+    function selectedNodes() {
+      const f=filters(),detailRequested=Boolean(f.search||f.category||f.relation);
+      const view=model.graph.views[state.mode]||model.graph.views[model.graph.defaultView.id];
+      let allowed=new Set(view.nodeIds);
+      if(state.mode==='overview'&&detailRequested)allowed=new Set(model.graph.views.all.nodeIds);
+      let nodes=allNodes.filter(node=>allowed.has(node.id)&&(!f.category||node.category===f.category)&&(!f.search||String(node.label+' '+node.id+' '+node.kind+' '+(node.source?.file||'')).toLowerCase().includes(f.search)));
+      if(state.mode==='focus'&&state.selected) {
+        const near=new Set([state.selected.id]);
+        allEdges.forEach(edge=>{if(edge.id===state.selected.id||edge.source===state.selected.id||edge.target===state.selected.id){near.add(edge.source);near.add(edge.target);}});
+        nodes=nodes.filter(node=>near.has(node.id));
+      }
+      return nodes;
+    }
+    function graphData() {
+      const nodes=selectedNodes(),ids=new Set(nodes.map(node=>node.id)),f=filters();
+      const edges=allEdges.filter(edge=>ids.has(edge.source)&&ids.has(edge.target)&&(!f.relation||edge.kind===f.relation));
+      const positions=state.positions||(state.positions=buildPresetPositions());
+      return {nodes,edges,elements:[
+        ...nodes.map(node=>({data:{id:node.id,label:node.label,category:node.category,kind:node.kind,deltaState:node.deltaState||'unchanged',color:colors[node.category]||'#8fa9c3'},position:positions.get(node.id)||{x:0,y:0}})),
+        ...edges.map(edge=>({data:{id:edge.id,source:edge.source,target:edge.target,kind:edge.kind,category:edge.category}}))
+      ]};
+    }
+    function renderGraph() {
+      const graph=graphData(),view=model.graph.views[state.mode]||model.graph.views[model.graph.defaultView.id];
+      document.getElementById('graphTitle').textContent=view.title;
+      document.getElementById('graphSummary').textContent=view.summary+' '+graph.nodes.length.toLocaleString()+' nodes / '+graph.edges.length.toLocaleString()+' relations loaded';
+      if(state.cy)state.cy.destroy();
+      state.detailLevel=null;
+      state.cy=cytoscape({
+        container:document.getElementById('projectGraph'),
+        elements:graph.elements,
+        style:[
+          {selector:'node',style:{'background-color':'data(color)','label':'data(label)','color':'#d8e2eb','font-size':10,'text-wrap':'ellipsis','text-max-width':126,'text-valign':'bottom','text-margin-y':6,'width':19,'height':19,'border-width':1,'border-color':'#172531'}},
+          {selector:'node[category = "code"]',style:{'label':'','background-color':'#6e8498','width':5,'height':5,'opacity':.78,'border-width':0}},
+          {selector:'node[category = "code"][kind = "file"]',style:{'background-color':'#9bb5c8','width':12,'height':9,'shape':'round-rectangle'}},
+          {selector:'node[category = "code"][kind = "namespace"]',style:{'background-color':'#839bb0','width':9,'height':9,'shape':'diamond'}},
+          {selector:'node[category = "code"][kind = "type"]',style:{'background-color':'#b1c6d5','width':10,'height':10}},
+          {selector:'node[category = "code-capsule"]',style:{'background-color':'#31566e','shape':'round-rectangle','border-width':2,'border-color':'#6f9ab5','font-size':11,'text-max-width':155,'width':46,'height':28}},
+          {selector:'node.show-code-label',style:{'label':'data(label)','font-size':9,'text-max-width':120,'text-outline-color':'#0b1219','text-outline-width':2}},
+          {selector:'node.low-detail',style:{'opacity':.62}},
+          {selector:'node[deltaState = "proposed-change"]',style:{'border-width':3,'border-color':'#e47f76'}},
+          {selector:'edge',style:{'width':.7,'line-color':'#405262','curve-style':'bezier','opacity':.34}},
+          {selector:'edge[category = "code-relation"]',style:{'width':.45,'line-color':'#486172','opacity':.11}},
+          {selector:'edge.low-detail',style:{'opacity':.035}},
+          {selector:'edge.detail-edge',style:{'width':.85,'opacity':.36}},
+          {selector:'edge[category = "capsule-relation"]',style:{'line-color':'#54788f','width':2,'opacity':.8}},
+          {selector:'edge[category = "mapping-relation"]',style:{'line-color':'#efc66d','line-style':'dashed','width':2,'opacity':.9}},
+          {selector:'edge[category = "delta-relation"]',style:{'line-color':'#e47f76','line-style':'dashed','width':2,'opacity':.9}},
+          {selector:'edge[kind = "invokes-syntax"]',style:{'line-color':'#8573a3','line-style':'dashed'}},
+          {selector:':selected',style:{'border-width':3,'border-color':'#4ec6ba','line-color':'#4ec6ba','z-index':99}},
+          {selector:'.dim',style:{'opacity':.15}}
+        ],
+        layout:{name:'preset',fit:true,padding:52},
+        minZoom:.10,maxZoom:3.2,wheelSensitivity:.13,pixelRatio:1,textureOnViewport:true,motionBlur:true,hideEdgesOnViewport:true,boxSelectionEnabled:false,autoungrabify:true
+      });
+      state.cy.on('tap','node',event=>{state.selected={type:'node',id:event.target.id()};renderSelection();highlight();});
+      state.cy.on('tap','edge',event=>{state.selected={type:'edge',id:event.target.id()};renderSelection();highlight();});
+      state.cy.on('tap',event=>{if(event.target===state.cy){state.selected=null;renderSelection();}});
+      state.cy.on('zoom',()=>{if(state.zoomQueued)return;state.zoomQueued=true;window.requestAnimationFrame(()=>{state.zoomQueued=false;semanticZoom();});});
+      semanticZoom();highlight();
+    }
+    function semanticZoom() {
+      if(!state.cy)return;
+      const zoom=state.cy.zoom(),level=zoom>=1.05?'detail':zoom>=.43?'structure':'overview';
+      if(state.detailLevel===level)return;
+      state.detailLevel=level;
+      const codeNodes=state.cy.nodes('[category = "code"]'),codeEdges=state.cy.edges('[category = "code-relation"]');
+      state.cy.batch(()=>{
+        codeNodes.removeClass('show-code-label low-detail');
+        codeEdges.removeClass('low-detail detail-edge');
+        if(level==='overview'){codeNodes.addClass('low-detail');codeEdges.addClass('low-detail');}
+        if(level==='detail'){codeNodes.addClass('show-code-label');codeEdges.addClass('detail-edge');}
+      });
+    }
+    function graphElements(nodes,edges) {
+      const positions=state.positions||(state.positions=buildPresetPositions());
+      return [
+        ...nodes.map(node=>({data:{id:node.id,label:node.label,category:node.category,kind:node.kind,deltaState:node.deltaState||'unchanged',color:colors[node.category]||'#8fa9c3'},position:positions.get(node.id)||{x:0,y:0}})),
+        ...edges.map(edge=>({data:{id:edge.id,source:edge.source,target:edge.target,kind:edge.kind,category:edge.category}}))
+      ];
+    }
+    function allGraphData(){return {nodes:allNodes,edges:allEdges,elements:graphElements(allNodes,allEdges)};}
+    function visibleGraphData() {
+      const nodes=selectedNodes(),ids=new Set(nodes.map(node=>node.id)),f=filters();
+      return {nodes,edges:allEdges.filter(edge=>ids.has(edge.source)&&ids.has(edge.target)&&(!f.relation||edge.kind===f.relation))};
+    }
+    function graphStyle(){return [
+      {selector:'node',style:{'background-color':'data(color)','label':'data(label)','color':'#d8e2eb','font-size':10,'text-wrap':'ellipsis','text-max-width':126,'text-valign':'bottom','text-margin-y':6,'width':19,'height':19,'border-width':1,'border-color':'#172531'}},
+      {selector:'node[category = "code"]',style:{'label':'','background-color':'#6e8498','width':5,'height':5,'opacity':.78,'border-width':0}},
+      {selector:'node[category = "code"][kind = "file"]',style:{'background-color':'#9bb5c8','width':12,'height':9,'shape':'round-rectangle'}},
+      {selector:'node[category = "code"][kind = "namespace"]',style:{'background-color':'#839bb0','width':9,'height':9,'shape':'diamond'}},
+      {selector:'node[category = "code"][kind = "type"]',style:{'background-color':'#b1c6d5','width':10,'height':10}},
+      {selector:'node[category = "code-capsule"]',style:{'background-color':'#31566e','shape':'round-rectangle','border-width':2,'border-color':'#6f9ab5','font-size':11,'text-max-width':155,'width':46,'height':28}},
+      {selector:'node.show-code-label',style:{'label':'data(label)','font-size':9,'text-max-width':120,'text-outline-color':'#0b1219','text-outline-width':2}},
+      {selector:'node.low-detail',style:{'opacity':.62}},
+      {selector:'node[deltaState = "proposed-change"]',style:{'border-width':3,'border-color':'#e47f76'}},
+      {selector:'edge',style:{'width':.7,'line-color':'#405262','curve-style':'bezier','opacity':.34}},
+      {selector:'edge[category = "code-relation"]',style:{'width':.45,'line-color':'#486172','opacity':.11}},
+      {selector:'edge.low-detail',style:{'opacity':.035}},
+      {selector:'edge.detail-edge',style:{'width':.85,'opacity':.36}},
+      {selector:'edge[category = "capsule-relation"]',style:{'line-color':'#54788f','width':2,'opacity':.8}},
+      {selector:'edge[category = "mapping-relation"]',style:{'line-color':'#efc66d','line-style':'dashed','width':2,'opacity':.9}},
+      {selector:'edge[category = "delta-relation"]',style:{'line-color':'#e47f76','line-style':'dashed','width':2,'opacity':.9}},
+      {selector:'edge[kind = "invokes-syntax"]',style:{'line-color':'#8573a3','line-style':'dashed'}},
+      {selector:'.filtered-out',style:{'display':'none'}},
+      {selector:':selected',style:{'border-width':3,'border-color':'#4ec6ba','line-color':'#4ec6ba','z-index':99}},
+      {selector:'.dim',style:{'opacity':.15}}
+    ];}
+    function applyGraphVisibility(graph) {
+      const nodeIds=new Set(graph.nodes.map(node=>node.id)),edgeIds=new Set(graph.edges.map(edge=>edge.id));
+      const signature=state.mode+'|'+filters().search+'|'+filters().category+'|'+filters().relation+'|'+(state.selected?.id||'');
+      const needsFit=state.visibleSignature!==signature;
+      state.visibleSignature=signature;
+      state.cy.batch(()=>{
+        state.cy.nodes().forEach(node=>node.toggleClass('filtered-out',!nodeIds.has(node.id())));
+        state.cy.edges().forEach(edge=>edge.toggleClass('filtered-out',!edgeIds.has(edge.id())));
+      });
+      if(needsFit){state.cy.fit(state.cy.elements().filter(element=>!element.hasClass('filtered-out')),52);}
+      semanticZoom();highlight();
+    }
+    function renderGraph() {
+      const graph=visibleGraphData(),view=model.graph.views[state.mode]||model.graph.views[model.graph.defaultView.id];
+      document.getElementById('graphTitle').textContent=view.title;
+      document.getElementById('graphSummary').textContent=view.summary+' '+graph.nodes.length.toLocaleString()+' nodes / '+graph.edges.length.toLocaleString()+' relations loaded';
+      if(!state.cy){
+        state.detailLevel=null;
+        state.cy=cytoscape({
+          container:document.getElementById('projectGraph'),elements:allGraphData().elements,style:graphStyle(),
+          layout:{name:'preset',fit:true,padding:52},
+          minZoom:.10,maxZoom:3.2,wheelSensitivity:.13,pixelRatio:1,textureOnViewport:true,motionBlur:true,hideEdgesOnViewport:true,boxSelectionEnabled:false,autoungrabify:true
+        });
+        state.cy.on('tap','node',event=>{state.selected={type:'node',id:event.target.id()};renderSelection();highlight();});
+        state.cy.on('tap','edge',event=>{state.selected={type:'edge',id:event.target.id()};renderSelection();highlight();});
+        state.cy.on('tap',event=>{if(event.target===state.cy){state.selected=null;renderSelection();highlight();}});
+        state.cy.on('zoom',()=>{if(state.zoomQueued)return;state.zoomQueued=true;window.requestAnimationFrame(()=>{state.zoomQueued=false;semanticZoom();});});
+      }
+      applyGraphVisibility(graph);
+    }
+    function semanticZoom() {
+      if(!state.cy)return;
+      const zoom=state.cy.zoom(),level=zoom>=1.05?'detail':zoom>=.43?'structure':'overview';
+      if(state.detailLevel===level)return;
+      state.detailLevel=level;
+      const codeNodes=state.cy.nodes('[category = "code"]'),codeEdges=state.cy.edges('[category = "code-relation"]');
+      state.cy.batch(()=>{
+        codeNodes.removeClass('show-code-label low-detail');
+        codeEdges.removeClass('low-detail detail-edge');
+        if(level==='overview'){codeNodes.addClass('low-detail');codeEdges.addClass('low-detail');}
+        if(level==='detail'){codeNodes.addClass('show-code-label');codeEdges.addClass('detail-edge');}
+      });
+    }
+    function highlight(){if(!state.cy)return;state.cy.elements().removeClass('dim');if(!state.selected)return;const item=state.cy.$id(state.selected.id);if(!item.length)return;state.cy.elements().addClass('dim');item.removeClass('dim').select();if(state.selected.type==='node')item.connectedEdges().removeClass('dim');if(state.selected.type==='edge')item.connectedNodes().removeClass('dim');}
     function renderSelection(){const panel=document.getElementById('selectionInspector');if(!state.selected){panel.className='empty';panel.textContent='Select a graph node or relation to inspect its semantic and source provenance.';return;}if(state.selected.type==='node'){const node=nodeById.get(state.selected.id);if(!node)return;const base=[['category',node.category],['kind',node.kind],['identifier',node.id]];let diffHtml='';if(node.category==='code'){const diffs=node.codeDiffs||[];base.push(['source file',node.source.file],['range',`${node.source.location?.lineStart||'file'}:${node.source.location?.columnStart||''} - ${node.source.location?.lineEnd||''}:${node.source.location?.columnEnd||''}`],['source digest',short(node.source.digest)],['confidence',node.provenance.confidence],['delta state',node.deltaState||'unchanged'],['interpretation',node.details.interpretation],['code diff',diffs.length?`${diffs.length} proposed diff(s) below`:'No change proposal recorded']);diffHtml=diffs.map(diff=>`<h3 style="margin-top:12px">${safe(diff.proposalTitle)}</h3><p>${safe(diff.sourceFile)}</p><pre class="diff">${safe(diff.unifiedDiff)}</pre>`).join('');}else base.push(...Object.entries(node.details).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value]));panel.className='detail';panel.innerHTML=`<h3>${safe(node.label)}</h3>${rows(base)}${diffHtml}`; }else{const edge=allEdges.find(item=>item.id===state.selected.id);if(!edge)return;panel.className='detail';panel.innerHTML=`<h3>${safe(edge.kind)}</h3>${rows([['category',edge.category],['source',edge.source],['target',edge.target],...Object.entries(edge.details||{}).map(([key,value])=>[key,typeof value==='object'?JSON.stringify(value):value])])}`;}}
     function focusWork(workId){state.selected={type:'node',id:`work.${workId}`};state.mode='impact';document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item.dataset.mode==='impact'));renderGraph();renderSelection();}
     function focusDelta(nodeId){state.selected={type:'node',id:nodeId};state.mode='impact';document.querySelectorAll('[data-mode]').forEach(item=>item.classList.toggle('active',item.dataset.mode==='impact'));renderGraph();renderSelection();}
     function staticPanels(){document.getElementById('projectBadge').textContent=model.project.id;document.getElementById('snapshotBadge').textContent=`snapshot ${short(model.snapshot.sourceDigest)}`;const metrics=[['files',model.snapshot.sourceFileCount],['facts',model.snapshot.factCount],['relations',model.snapshot.relationCount],['work items',model.workflow.workItems.length]];document.getElementById('metrics').innerHTML=metrics.map(([label,value])=>`<div class="metric"><strong>${Number(value).toLocaleString()}</strong><span>${safe(label)}</span></div>`).join('');const works=model.workflow.workItems;document.getElementById('workList').innerHTML=works.length?works.map(work=>`<button class="work-card ${work.mappingStatus==='unmapped'?'unmapped':''}" data-work="${safe(work.id)}"><span class="state">${safe(work.status)} / ${safe(work.mappingStatus)}</span><strong>${safe(work.title)}</strong><small>${safe(work.request)}</small></button>`).join(''):'<div class="empty">No work request has been recorded. Use the project workspace command to add one.</div>';document.querySelectorAll('[data-work]').forEach(button=>button.addEventListener('click',()=>focusWork(button.dataset.work)));const c=model.changeReview;document.getElementById('changePanel').innerHTML=`<div class="state-line"><strong>${safe(c.status)}</strong><br>${safe(c.summary)}<br><small>${safe(c.reason)}</small></div>`;const deltas=model.workflow.proposalDeltas||[];document.getElementById('deltaList').innerHTML=deltas.length?deltas.map(delta=>`<button class="delta-step" data-delta="${safe(delta.targetNodeId)}">${safe(delta.kind)}: ${safe(delta.label)}</button>`).join(''):'<div class="empty">No graph delta is recorded.</div>';document.querySelectorAll('[data-delta]').forEach(button=>button.addEventListener('click',()=>focusDelta(button.dataset.delta)));document.getElementById('evidencePanel').innerHTML=`<div class="state-line">${model.workflow.verification.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}<br>${model.workflow.evidence.map(item=>`<strong>${safe(item.result)}</strong> ${safe(item.kind)}`).join('<br>')}</div>`;document.getElementById('authorityPanel').innerHTML=`<div class="state-line"><strong>read-only boundary</strong><br>Target edits: ${safe(model.authority.targetRepositoryMutation)}<br>Automatic application: ${safe(model.authority.automaticCodeApplication)}<br>History records: ${model.workflow.history.length}</div>`;document.getElementById('boundaryPanel').innerHTML='<strong>This page is a project-state projection.</strong><br>It can show recorded requests, candidate mappings, review-required proposals, graph delta, code diff, verification, evidence, authority, and history alongside C# syntax facts. It does not resolve calls, apply changes, or approve work.';}
     function resize(){document.querySelectorAll('.resizer').forEach(handle=>handle.addEventListener('pointerdown',event=>{event.preventDefault();handle.classList.add('active');const side=handle.dataset.side,start=event.clientX,variable=side==='left'?'--left':'--right',initial=parseInt(getComputedStyle(document.documentElement).getPropertyValue(variable));const move=e=>{const delta=e.clientX-start;const next=side==='left'?initial+delta:initial-delta;document.documentElement.style.setProperty(variable,`${Math.max(230,Math.min(560,next))}px`);state.cy?.resize();};const up=()=>{handle.classList.remove('active');window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);state.cy?.fit(undefined,44);};window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);}));}
-    document.getElementById('zoomIn').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()*1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('zoomOut').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()/1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('fitGraph').addEventListener('click',()=>state.cy.fit(undefined,44));init();staticPanels();renderGraph();renderSelection();resize();
+    window.intentGraphWorkbench={selectedCodeNode:()=>{if(!state.selected||state.selected.type!=='node')return null;const node=nodeById.get(state.selected.id);return node&&node.category==='code'?node:null;},workItems:()=>model.workflow.workItems.slice()};
+    document.getElementById('zoomIn').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()*1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('zoomOut').addEventListener('click',()=>state.cy.zoom({level:state.cy.zoom()/1.18,renderedPosition:{x:state.cy.width()/2,y:state.cy.height()/2}}));document.getElementById('fitGraph').addEventListener('click',()=>state.cy.fit(undefined,44));init();staticPanels();renderGraph();renderSelection();resize();window.dispatchEvent(new Event('intentgraph-ready'));
+    }
+    const embeddedProjection=JSON.parse(document.getElementById('workbench-data').textContent);
+    if(embeddedProjection&&embeddedProjection.deferred===true&&typeof window.__intentGraphLoadProjection==='function'){
+      document.getElementById('graphSummary').textContent='Loading the full local project graph...';
+      window.__intentGraphLoadProjection().then(boot).catch(error=>{document.getElementById('graphSummary').textContent='The local project graph could not be loaded: '+(error.message||'unknown error');});
+    }else{boot(embeddedProjection);}
   </script>
 </body>
 </html>'''
@@ -961,18 +1471,59 @@ def render_html(projection: dict[str, Any]) -> str:
 SERVER_UI_EXTENSION = r'''<style>
   .new-work-trigger { position:fixed; right:18px; bottom:18px; z-index:30; background:#16413f; border-color:#3b9c94; color:#d9fffa; box-shadow:0 10px 30px rgba(0,0,0,.35); }
   .new-work-dialog { width:min(520px,calc(100vw - 32px)); color:#e1e9f1; background:#111923; border:1px solid #355061; border-radius:6px; padding:0; box-shadow:0 20px 60px rgba(0,0,0,.55); }
-  .new-work-dialog::backdrop { background:rgba(0,0,0,.66); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#c8d7e5; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form textarea { min-height:110px; resize:vertical; color:#e1e9f1; background:#0b1219; border:1px solid #314556; border-radius:4px; padding:8px; font:inherit; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#deb96f; font-size:12px; }
+  .new-work-dialog::backdrop { background:rgba(0,0,0,.66); } .new-work-form { padding:18px; display:grid; gap:10px; } .new-work-form h2 { margin:0; color:#c8d7e5; font-size:15px; letter-spacing:0; text-transform:none; } .new-work-form label { margin:0; font-size:12px; } .new-work-form textarea { min-height:110px; resize:vertical; color:#e1e9f1; background:#0b1219; border:1px solid #314556; border-radius:4px; padding:8px; font:inherit; } .new-work-actions { display:flex; justify-content:flex-end; gap:7px; } .new-work-message { min-height:18px; color:#deb96f; font-size:12px; } .map-code-trigger { position:fixed; right:18px; bottom:62px; z-index:30; background:#293550; border-color:#536d9a; color:#e0e9ff; box-shadow:0 10px 30px rgba(0,0,0,.35); } .selected-code-fact { padding:8px; overflow-wrap:anywhere; color:#b8cce4; background:#0b1219; border:1px solid #314556; border-radius:4px; font:11px/1.4 Consolas,monospace; }
 </style>
 <button id="newWorkTrigger" class="new-work-trigger" type="button">New work request</button>
+<button id="mapCodeTrigger" class="map-code-trigger" type="button">Map selected code</button>
 <dialog id="newWorkDialog" class="new-work-dialog"><form id="newWorkForm" class="new-work-form" method="dialog"><h2>Record a work request</h2><p>This records a request in the local IntentGraph project workspace. It does not edit the source project.</p><label for="newWorkId">Stable work id</label><input id="newWorkId" name="workId" required pattern="[a-z][a-z0-9.-]{2,100}" placeholder="example-work-item"><label for="newWorkTitle">Title</label><input id="newWorkTitle" name="title" required maxlength="180" placeholder="Short work title"><label for="newWorkRequest">Request</label><textarea id="newWorkRequest" name="request" required maxlength="12000" placeholder="Describe the desired behavior or change."></textarea><div id="newWorkMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelNewWork" type="button">Cancel</button><button type="submit">Record request</button></div></form></dialog>
+<dialog id="mapCodeDialog" class="new-work-dialog"><form id="mapCodeForm" class="new-work-form" method="dialog"><h2>Record a code mapping candidate</h2><p>This connects the selected code fact to a local work request as a declared candidate. It does not approve the mapping or edit the source project.</p><label>Selected code fact</label><div id="selectedCodeFact" class="selected-code-fact"></div><label for="mapWorkId">Work request</label><select id="mapWorkId" name="workId" required></select><label for="mapRationale">Why this code is relevant</label><textarea id="mapRationale" name="rationale" required maxlength="12000" placeholder="Describe the relationship between this request and the selected code."></textarea><div id="mapCodeMessage" class="new-work-message"></div><div class="new-work-actions"><button id="cancelMapCode" type="button">Cancel</button><button id="submitMapCode" type="submit">Record mapping candidate</button></div></form></dialog>
 <script>
   (() => { const dialog=document.getElementById('newWorkDialog'), trigger=document.getElementById('newWorkTrigger'), form=document.getElementById('newWorkForm'), message=document.getElementById('newWorkMessage'); trigger.addEventListener('click',()=>dialog.showModal()); document.getElementById('cancelNewWork').addEventListener('click',()=>dialog.close()); form.addEventListener('submit',async event=>{event.preventDefault();message.textContent='Recording request...';const body={workId:form.workId.value.trim(),title:form.title.value.trim(),request:form.request.value.trim()};try{const response=await fetch('/api/work-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const result=await response.json();if(!response.ok){throw new Error(result.error||'Request could not be recorded.');}message.textContent='Recorded. Reloading workbench...';window.setTimeout(()=>window.location.reload(),250);}catch(error){message.textContent=error.message||'Request could not be recorded.';}}); })();
+</script>
+<script>
+  (() => {
+    const dialog=document.getElementById('mapCodeDialog'),trigger=document.getElementById('mapCodeTrigger'),form=document.getElementById('mapCodeForm'),selected=document.getElementById('selectedCodeFact'),workSelect=document.getElementById('mapWorkId'),rationale=document.getElementById('mapRationale'),message=document.getElementById('mapCodeMessage'),submit=document.getElementById('submitMapCode');
+    let selectedFactId='';
+    function openMappingDialog(){
+      const workbench=window.intentGraphWorkbench;
+      const node=workbench&&workbench.selectedCodeNode?workbench.selectedCodeNode():null;
+      const works=workbench&&workbench.workItems?workbench.workItems():[];
+      workSelect.replaceChildren();
+      works.forEach(work=>workSelect.add(new Option(work.title+' ('+work.id+')',work.id)));
+      selectedFactId=node?node.id:'';
+      selected.textContent=node?node.id+'\n'+node.source.file:'Select a code node in the graph before recording a mapping candidate.';
+      message.textContent=node&&works.length?'':'A code selection and at least one recorded work request are required.';
+      submit.disabled=!node||!works.length;
+      dialog.showModal();
+    }
+    trigger.disabled=true;
+    window.addEventListener('intentgraph-ready',()=>{trigger.disabled=false;});
+    trigger.addEventListener('click',openMappingDialog);
+    document.getElementById('cancelMapCode').addEventListener('click',()=>dialog.close());
+    form.addEventListener('submit',async event=>{
+      event.preventDefault();
+      if(!selectedFactId)return;
+      message.textContent='Recording mapping candidate...';
+      const body={workId:workSelect.value,codeFactId:selectedFactId,rationale:rationale.value.trim()};
+      try{
+        const response=await fetch('/api/mapping-candidates',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+        const result=await response.json();
+        if(!response.ok)throw new Error(result.error||'Mapping candidate could not be recorded.');
+        message.textContent='Recorded. Reloading workbench...';
+        window.setTimeout(()=>window.location.reload(),250);
+      }catch(error){message.textContent=error.message||'Mapping candidate could not be recorded.';}
+    });
+  })();
 </script>'''
 
 
 def render_server_html(projection: dict[str, Any]) -> str:
     """Render the local-server variant. The static export intentionally does not include its API client."""
-    return render_html(projection).replace("</body>", SERVER_UI_EXTENSION + "\n</body>")
+    del projection
+    loader = "<script>window.__intentGraphLoadProjection=()=>fetch('/api/projection').then(response=>{if(!response.ok)throw new Error('projection request failed');return response.json();});</script>\n"
+    html = render_html({"deferred": True})
+    html = html.replace('<script id="workbench-data"', loader + '<script id="workbench-data"', 1)
+    return html.replace("</body>", SERVER_UI_EXTENSION + "\n</body>")
 
 
 def validate_projection(projection: dict[str, Any]) -> list[str]:
@@ -999,7 +1550,7 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
     if not any(node.get("category") == "project" for node in nodes if isinstance(node, dict)):
         errors.append("project workbench graph needs a project node")
     for node in nodes:
-        if not isinstance(node, dict) or node.get("category") not in {"code", "code-capsule", "project", "work", "intent", "mapping", "proposal", "verification", "evidence", "authority", "history"}:
+        if not isinstance(node, dict) or node.get("category") not in {"code", "code-capsule", "project", "source-document", "goal", "capability", "constraint", "verification-requirement", "work", "intent", "mapping", "proposal", "verification", "evidence", "authority", "history"}:
             errors.append("project workbench graph contains an unknown node category")
             continue
         if node["category"] == "code":
@@ -1014,6 +1565,14 @@ def validate_projection(projection: dict[str, Any]) -> list[str]:
         errors.append("project workbench graph views are invalid")
     elif any(not isinstance(view, dict) or not isinstance(view.get("nodeIds"), list) or any(identifier not in node_ids for identifier in view["nodeIds"]) for view in views.values()):
         errors.append("project workbench graph view nodes do not resolve")
+    elif set(views["all"]["nodeIds"]) != node_ids:
+        errors.append("project workbench full graph view must include every node")
+    default_view = graph.get("defaultView")
+    if not isinstance(default_view, dict) or default_view.get("id") != "all" or default_view.get("rendering") != "full-graph-progressive-detail" or default_view.get("layout") != "deterministic-source-grouped-preset" or default_view.get("physicsLayoutOnLoad") is not False:
+        errors.append("project workbench full graph rendering contract is invalid")
+    ui_contract = projection.get("uiContract")
+    if not isinstance(ui_contract, dict) or any(ui_contract.get(key) is not True for key in ("fullGraphDefault", "allNodesLoaded", "allEdgesLoaded", "progressiveDetail", "loopbackProjectStateMutationFromUi")) or any(ui_contract.get(key) is not False for key in ("staticGraphMutationFromUi", "targetRepositoryMutationFromUi", "physicsLayoutOnLoad")):
+        errors.append("project workbench progressive full graph UI contract is invalid")
     try:
         assert_no_unsafe_state(projection)
     except ProjectWorkspaceError as error:
@@ -1154,6 +1713,9 @@ def parse_args() -> argparse.Namespace:
     mapping.add_argument("--work-id", required=True)
     mapping.add_argument("--code-fact", required=True, action="append")
     mapping.add_argument("--rationale", required=True)
+    foundation = sub.add_parser("record-semantic-foundation")
+    foundation.add_argument("--workspace", required=True, type=Path)
+    foundation.add_argument("--foundation", required=True, type=Path)
     proposal = sub.add_parser("add-change-proposal")
     proposal.add_argument("--workspace", required=True, type=Path)
     proposal.add_argument("--proposal", required=True, type=Path)
@@ -1175,6 +1737,8 @@ def main() -> int:
             result = add_work_request(args.workspace, args.work_id, args.title, args.request)
         elif args.command == "add-mapping-candidate":
             result = add_mapping_candidate(args.workspace, args.work_id, args.code_fact, args.rationale)
+        elif args.command == "record-semantic-foundation":
+            result = record_semantic_foundation(args.workspace, args.foundation)
         elif args.command == "add-change-proposal":
             result = add_change_proposal(args.workspace, args.proposal)
         elif args.command == "emit-workbench":

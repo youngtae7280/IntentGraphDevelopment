@@ -1,0 +1,232 @@
+{
+  "artifactRole": "intentgraph-semantic-foundation",
+  "authority": {
+    "automaticCodeApplication": false,
+    "automaticIntentCreation": false,
+    "automaticMapping": false,
+    "credentialAccessAllowed": false,
+    "networkRequired": false,
+    "targetRepositoryMutation": false
+  },
+  "capabilities": [
+    {
+      "codeCapsuleLabels": [
+        "WindowsUtility.App",
+        "WindowsUtility.Shell"
+      ],
+      "id": "capability.app-shell",
+      "sourceDocumentIds": [
+        "document.project-roadmap",
+        "document.ui-theme"
+      ],
+      "summary": "Provide the integrated application shell and its reusable workspace presentation.",
+      "title": "Integrated application shell"
+    },
+    {
+      "codeCapsuleLabels": [
+        "WindowsUtility.Modules.PrinterInfo",
+        "WindowsUtility.Modules.SimpleInfo"
+      ],
+      "id": "capability.device-information",
+      "sourceDocumentIds": [
+        "document.project-roadmap",
+        "document.ui-theme"
+      ],
+      "summary": "Provide printer and simple-information utility surfaces through the integrated application.",
+      "title": "Device information utilities"
+    },
+    {
+      "codeCapsuleLabels": [
+        "WindowsUtility.Modules.Firmware",
+        "WindowsUtility.Modules.Model"
+      ],
+      "id": "capability.firmware-model",
+      "sourceDocumentIds": [
+        "document.project-roadmap"
+      ],
+      "summary": "Provide firmware and printer-model utility workflows.",
+      "title": "Firmware and model utilities"
+    },
+    {
+      "codeCapsuleLabels": [
+        "WindowsUtility.Modules.NetAdmin",
+        "WindowsUtility.Modules.Serial"
+      ],
+      "id": "capability.network-serial",
+      "sourceDocumentIds": [
+        "document.project-roadmap"
+      ],
+      "summary": "Provide network administration and serial utility workflows.",
+      "title": "Network and serial utilities"
+    },
+    {
+      "codeCapsuleLabels": [
+        "WindowsUtility.Diagnostics",
+        "WindowsUtility.Modules.Diagnostics",
+        "WindowsUtility.Modules.Dump",
+        "WindowsUtility.Modules.DumpView"
+      ],
+      "id": "capability.output-diagnostics",
+      "sourceDocumentIds": [
+        "document.project-roadmap"
+      ],
+      "summary": "Provide diagnostics, dump, and dump-view utility workflows.",
+      "title": "Diagnostics and dump utilities"
+    },
+    {
+      "codeCapsuleLabels": [
+        "WindowsUtility.Modules.Config"
+      ],
+      "id": "capability.printer-configuration",
+      "sourceDocumentIds": [
+        "document.legacy-parity",
+        "document.project-roadmap",
+        "document.ui-theme"
+      ],
+      "summary": "Provide printer configuration while retaining the established legacy workflow and controls.",
+      "title": "Printer configuration"
+    },
+    {
+      "codeCapsuleLabels": [
+        "WindowsUtility.Modules.Test"
+      ],
+      "id": "capability.test-workspace",
+      "sourceDocumentIds": [
+        "document.project-roadmap",
+        "document.regression-smoke"
+      ],
+      "summary": "Provide the integrated printer test utility and its smoke-test coverage surface.",
+      "title": "Test utility workspace"
+    },
+    {
+      "codeCapsuleLabels": [
+        "WindowsUtility.Core.Abstractions",
+        "WindowsUtility.Core.Native",
+        "WindowsUtility.Core.Services"
+      ],
+      "id": "capability.utility-core",
+      "sourceDocumentIds": [
+        "document.project-roadmap"
+      ],
+      "summary": "Provide shared abstractions, native integration boundaries, and core utility services.",
+      "title": "Shared utility core"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "constraint.legacy-parity",
+      "sourceDocumentIds": [
+        "document.legacy-parity"
+      ],
+      "summary": "Preserve established utility workflow, controls, and user-facing parity unless a difference is explicitly reviewed.",
+      "title": "Legacy parity constraint"
+    },
+    {
+      "id": "constraint.ui-component-contract",
+      "sourceDocumentIds": [
+        "document.ui-theme"
+      ],
+      "summary": "Keep shared UI components reusable while preserving predictable shell and utility states.",
+      "title": "Reusable UI component contract"
+    }
+  ],
+  "goals": [
+    {
+      "capabilityIds": [
+        "capability.app-shell",
+        "capability.device-information",
+        "capability.firmware-model",
+        "capability.network-serial",
+        "capability.output-diagnostics",
+        "capability.printer-configuration",
+        "capability.test-workspace",
+        "capability.utility-core"
+      ],
+      "id": "goal.legacy-parity",
+      "sourceDocumentIds": [
+        "document.legacy-parity"
+      ],
+      "summary": "Retain the legacy utility mental model while integrating those utilities into a coherent application.",
+      "title": "Preserve legacy utility parity"
+    },
+    {
+      "capabilityIds": [
+        "capability.app-shell",
+        "capability.device-information",
+        "capability.firmware-model",
+        "capability.network-serial",
+        "capability.output-diagnostics",
+        "capability.printer-configuration",
+        "capability.test-workspace",
+        "capability.utility-core"
+      ],
+      "id": "goal.unified-utility",
+      "sourceDocumentIds": [
+        "document.project-roadmap"
+      ],
+      "summary": "Integrate the documented Windows utility workflows into one maintainable application.",
+      "title": "Unified Windows utility"
+    },
+    {
+      "capabilityIds": [
+        "capability.app-shell",
+        "capability.device-information",
+        "capability.printer-configuration"
+      ],
+      "id": "goal.ui-consistency",
+      "sourceDocumentIds": [
+        "document.ui-theme"
+      ],
+      "summary": "Keep shared utility UI behavior coherent, reusable, and familiar to existing users.",
+      "title": "Consistent utility user interface"
+    }
+  ],
+  "scope": "experimental-csharp-semantic-foundation-declared-only",
+  "sourceDocuments": [
+    {
+      "contentDigest": "sha256:475c6cdf2c23d6debad8fe8562c6b5cd326ae537252d6a9f4058ca18f0a292d2",
+      "id": "document.legacy-parity",
+      "logicalPath": "docs/LegacyParityCompletionCriteria.md",
+      "role": "declared-constraint-source",
+      "title": "Legacy parity completion criteria"
+    },
+    {
+      "contentDigest": "sha256:81ad8f0e7c8f2ec12f33c7d588aa151d532b35e1ff91f2fcd9f9c795366abff7",
+      "id": "document.project-roadmap",
+      "logicalPath": "docs/ProjectRoadmap.md",
+      "role": "declared-project-goal-source",
+      "title": "WindowsUtility project roadmap"
+    },
+    {
+      "contentDigest": "sha256:f151d9a0faa65c784010bf4e5fff70ebb5e31b8b2c9d87cc43564ff90d042196",
+      "id": "document.regression-smoke",
+      "logicalPath": "docs/RegressionSmokeTests.md",
+      "role": "declared-verification-source",
+      "title": "Regression smoke test plan"
+    },
+    {
+      "contentDigest": "sha256:8d54f5dc265fa3900811a70236bbfc091cf18c12712b9a544b4219d7deb1fcea",
+      "id": "document.ui-theme",
+      "logicalPath": "docs/UiThemeAndComponentStandards.md",
+      "role": "declared-ui-constraint-source",
+      "title": "UI theme and component standards"
+    }
+  ],
+  "status": "intentgraph-semantic-foundation-declared",
+  "verificationRequirements": [
+    {
+      "codeCapsuleLabels": [
+        "WindowsUtility.App",
+        "WindowsUtility.Modules.Config",
+        "WindowsUtility.Modules.Test",
+        "WindowsUtility.Shell"
+      ],
+      "id": "verification.regression-smoke",
+      "sourceDocumentIds": [
+        "document.regression-smoke"
+      ],
+      "summary": "Build, launch, shell discovery, utility opening, and smoke-log requirements remain visible before a behavior-changing proposal can be accepted.",
+      "title": "Regression smoke verification"
+    }
+  ]
+}

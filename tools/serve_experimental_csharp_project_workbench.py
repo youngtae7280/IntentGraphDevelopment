@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 from emit_experimental_csharp_fact_workbench import CYTOSCAPE_LICENSE_SOURCE, CYTOSCAPE_SOURCE
 from experimental_csharp_project import (
     ProjectWorkspaceError,
+    add_mapping_candidate,
     add_work_request,
     build_projection,
     canonical_json,
@@ -89,7 +90,7 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
 
         def do_POST(self) -> None:  # noqa: N802 - HTTP handler contract
             path = urlparse(self.path).path
-            if path != "/api/work-requests":
+            if path not in {"/api/work-requests", "/api/mapping-candidates"}:
                 self.error_json(HTTPStatus.NOT_FOUND, "local workbench route does not exist")
                 return
             content_length = self.headers.get("Content-Length")
@@ -112,12 +113,24 @@ def make_server(workspace: Path, host: str, port: int) -> ThreadingHTTPServer:
             except (UnicodeDecodeError, json.JSONDecodeError):
                 self.error_json(HTTPStatus.BAD_REQUEST, "request body must be a UTF-8 JSON object")
                 return
-            if not isinstance(payload, dict) or set(payload) != {"workId", "title", "request"} or any(not isinstance(payload.get(key), str) for key in payload):
-                self.error_json(HTTPStatus.BAD_REQUEST, "work request must contain only workId, title, and request strings")
+            if not isinstance(payload, dict):
+                self.error_json(HTTPStatus.BAD_REQUEST, "request body must be a JSON object")
+                return
+            if path == "/api/work-requests":
+                required_fields = {"workId", "title", "request"}
+                error_message = "work request must contain only workId, title, and request strings"
+            else:
+                required_fields = {"workId", "codeFactId", "rationale"}
+                error_message = "mapping candidate must contain only workId, codeFactId, and rationale strings"
+            if set(payload) != required_fields or any(not isinstance(payload.get(key), str) for key in required_fields):
+                self.error_json(HTTPStatus.BAD_REQUEST, error_message)
                 return
             try:
                 with lock:
-                    result = add_work_request(workspace, payload["workId"], payload["title"], payload["request"])
+                    if path == "/api/work-requests":
+                        result = add_work_request(workspace, payload["workId"], payload["title"], payload["request"])
+                    else:
+                        result = add_mapping_candidate(workspace, payload["workId"], [payload["codeFactId"]], payload["rationale"])
                     self.respond(HTTPStatus.CREATED, json_bytes(result), "application/json; charset=utf-8")
             except ProjectWorkspaceError as error:
                 self.error_json(HTTPStatus.BAD_REQUEST, str(error))
