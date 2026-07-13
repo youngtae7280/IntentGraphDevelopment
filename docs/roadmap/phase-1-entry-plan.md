@@ -3985,6 +3985,10 @@ P9.13 adds the first project-state layer over the bounded C# snapshot: a separat
 
 P9.14 accepts only exact non-applied proposal artifacts over a declared mapping candidate. The Workbench now shows proposal nodes, graph-delta steps, changed-code highlighting, and digest-backed code-diff fragments without applying source or recording approval. See [P9.14 Experimental C# Change Proposal](../product/igd-experimental-csharp-change-proposal-p9.14.md) and [P9.14 Review](../reviews/p9.14-experimental-csharp-change-proposal-review.md).
 
+## Implemented Slice: P9.15 Interactive Local C# Project Workbench
+
+P9.15 keeps the same graph but changes its default projection to semantic overview and active-work impact rather than raw code facts. Its loopback-only server lets a user record a work request from the Workbench without source mutation. See [P9.15 Interactive Local Project Workbench](../product/igd-interactive-local-project-workbench-p9.15.md) and [P9.15 Review](../reviews/p9.15-interactive-local-project-workbench-review.md).
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

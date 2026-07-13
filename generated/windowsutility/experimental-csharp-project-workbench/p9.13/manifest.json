@@ -30,11 +30,11 @@
   "outputs": {
     "html": {
       "path": "index.html",
-      "sha256": "sha256:7a04b4163979aabb5b3371cd6603c96c486d2ca903512ad678ddccab6472f77f"
+      "sha256": "sha256:f13a9d957598dafbde3e08f1128001465e63c0a63a3d68a20af1da82ae074e1b"
     },
     "projection": {
       "path": "projection.json",
-      "sha256": "sha256:89088b0fad4cc02558d0a47f8a2370b009657b6e551f63836fa44aaf0e9f7379"
+      "sha256": "sha256:07d6b4889b968045c501f7912813eb4d92f85df275b13ac456019c405370fb02"
     }
   },
   "project": {

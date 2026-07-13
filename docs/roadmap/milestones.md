@@ -4214,6 +4214,28 @@ Non-goals:
 
 - no automatic language interpretation, mapping acceptance, source application, build/evidence execution, hardware action, approval automation, release, or productization claim
 
+## P9.15: Interactive Local C# Project Workbench
+
+Goal: make the unified local C# Workbench usable for regular work intake while keeping project-state writes distinct from source-project writes.
+
+Status: implementation and loopback smoke validation completed on 2026-07-13. See [P9.15 Interactive Local Project Workbench Review](../reviews/p9.15-interactive-local-project-workbench-review.md).
+
+Delivered boundary:
+
+- default graph is semantic-first and capsule-based rather than a raw-code hairball
+- active-work impact and code-topology lenses expose detail on demand
+- a loopback-only server provides local Workbench interaction and a `New work request` form
+- the form writes only local project-state records and reloads the current projection
+
+Verification:
+
+- server smoke covers loopback-only binding, HTML/API serving, request recording, duplicate rejection, local graph asset delivery, and snapshot-provenance preservation
+- projection checks prove overview and active-impact views remain bounded while all-record inspection remains explicit
+
+Non-goals:
+
+- no remote service, multi-user sync, source modification, automatic mapping, proposal authoring, decision recording, evidence execution, editor integration, or packaged desktop release
+
 ## P9.11: Experimental C# Fact Workspace Scope Review
 
 Goal: determine whether a C# fact-only workspace can have a local HTML inspection surface without misrepresenting absent mappings, proposals, deltas, diffs, evidence, or authority.

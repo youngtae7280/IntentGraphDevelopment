@@ -30,6 +30,7 @@ from experimental_csharp_project import (
     initialize_project as initialize_experimental_csharp_project,
     validate_emitted_project_workbench as validate_experimental_csharp_project_workbench,
 )
+from serve_experimental_csharp_project_workbench import LocalWorkbenchServerError, serve as serve_experimental_csharp_project_workbench
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE_FILE = "intentgraph.workspace.json"
@@ -667,6 +668,13 @@ def parse_args() -> argparse.Namespace:
     )
     csharp_project_workbench_validate.add_argument("--workspace", required=True, type=Path)
     csharp_project_workbench_validate.add_argument("--out", required=True, type=Path)
+    csharp_project_serve = subparsers.add_parser(
+        "serve-experimental-csharp-project-workbench",
+        help="Serve an interactive local C# project workbench on loopback only.",
+    )
+    csharp_project_serve.add_argument("--workspace", required=True, type=Path)
+    csharp_project_serve.add_argument("--host", default="127.0.0.1")
+    csharp_project_serve.add_argument("--port", default=8765, type=int)
     return parser.parse_args()
 
 
@@ -711,8 +719,10 @@ def main() -> int:
         if args.command == "validate-experimental-csharp-project-workbench":
             emit_status(validate_experimental_csharp_project_workbench(args.workspace, args.out))
             return 0
+        if args.command == "serve-experimental-csharp-project-workbench":
+            return serve_experimental_csharp_project_workbench(args.workspace, args.host, args.port)
         raise WorkspaceError(f"unsupported command: {args.command}")
-    except (WorkspaceError, ExperimentalWorkspaceError, FactWorkbenchError, ProjectWorkspaceError) as exc:
+    except (WorkspaceError, ExperimentalWorkspaceError, FactWorkbenchError, ProjectWorkspaceError, LocalWorkbenchServerError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
