@@ -3977,6 +3977,10 @@ Next gate:
 P9.12 local HTML visual and interaction review
 ```
 
+## Implemented Slice: P9.13 Experimental C# Semantic-Overlay Project Workbench
+
+P9.13 adds the first project-state layer over the bounded C# snapshot: a separate local workspace records work requests, declared mapping candidates, verification, evidence, authority, and history, and emits a unified static project workbench. It keeps C# syntax facts as source pointers/facts and does not claim accepted mapping, automatic planning, source mutation, graph delta, or code diff before those records exist. See [P9.13 Experimental C# Project Workbench](../product/igd-experimental-csharp-project-workbench-p9.13.md) and [P9.13 Review](../reviews/p9.13-experimental-csharp-project-workbench-review.md).
+
 ## Completed Slice: P8.112 Productization Execution Hold After Launch Request
 
 Goal: summarize the productization execution hold after launch smoke authorization was requested and held.

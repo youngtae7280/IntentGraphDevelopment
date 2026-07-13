@@ -21,6 +21,14 @@ from emit_experimental_csharp_fact_workbench import (
     emit_workbench as emit_experimental_csharp_fact_workbench,
     validate_emitted_workbench as validate_experimental_csharp_fact_workbench,
 )
+from experimental_csharp_project import (
+    ProjectWorkspaceError,
+    add_mapping_candidate as add_experimental_csharp_mapping_candidate,
+    add_work_request as add_experimental_csharp_work_request,
+    emit_project_workbench as emit_experimental_csharp_project_workbench,
+    initialize_project as initialize_experimental_csharp_project,
+    validate_emitted_project_workbench as validate_experimental_csharp_project_workbench,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE_FILE = "intentgraph.workspace.json"
@@ -616,6 +624,42 @@ def parse_args() -> argparse.Namespace:
     )
     csharp_workbench_validate.add_argument("--workspace", required=True, type=Path)
     csharp_workbench_validate.add_argument("--out", required=True, type=Path)
+    csharp_project_init = subparsers.add_parser(
+        "init-experimental-csharp-project",
+        help="Create a separate semantic-overlay project workspace from a validated C# fact snapshot.",
+    )
+    csharp_project_init.add_argument("--snapshot-workspace", required=True, type=Path)
+    csharp_project_init.add_argument("--workspace", required=True, type=Path)
+    csharp_project_init.add_argument("--project-id", required=True)
+    csharp_project_init.add_argument("--title", required=True)
+    csharp_project_request = subparsers.add_parser(
+        "add-experimental-csharp-work-request",
+        help="Record a user work request in a local C# semantic-overlay project workspace.",
+    )
+    csharp_project_request.add_argument("--workspace", required=True, type=Path)
+    csharp_project_request.add_argument("--work-id", required=True)
+    csharp_project_request.add_argument("--title", required=True)
+    csharp_project_request.add_argument("--request", required=True)
+    csharp_project_mapping = subparsers.add_parser(
+        "add-experimental-csharp-mapping-candidate",
+        help="Record a declared, unaccepted work-to-code-fact mapping candidate.",
+    )
+    csharp_project_mapping.add_argument("--workspace", required=True, type=Path)
+    csharp_project_mapping.add_argument("--work-id", required=True)
+    csharp_project_mapping.add_argument("--code-fact", required=True, action="append")
+    csharp_project_mapping.add_argument("--rationale", required=True)
+    csharp_project_workbench = subparsers.add_parser(
+        "emit-experimental-csharp-project-workbench",
+        help="Emit a unified project workbench from a local C# semantic-overlay project workspace.",
+    )
+    csharp_project_workbench.add_argument("--workspace", required=True, type=Path)
+    csharp_project_workbench.add_argument("--out", required=True, type=Path)
+    csharp_project_workbench_validate = subparsers.add_parser(
+        "validate-experimental-csharp-project-workbench",
+        help="Validate a unified project workbench emitted from a local C# semantic-overlay project workspace.",
+    )
+    csharp_project_workbench_validate.add_argument("--workspace", required=True, type=Path)
+    csharp_project_workbench_validate.add_argument("--out", required=True, type=Path)
     return parser.parse_args()
 
 
@@ -642,8 +686,23 @@ def main() -> int:
         if args.command == "validate-experimental-csharp-fact-workbench":
             emit_status(validate_experimental_csharp_fact_workbench(args.workspace, args.out))
             return 0
+        if args.command == "init-experimental-csharp-project":
+            emit_status(initialize_experimental_csharp_project(args.snapshot_workspace, args.workspace, args.project_id, args.title))
+            return 0
+        if args.command == "add-experimental-csharp-work-request":
+            emit_status(add_experimental_csharp_work_request(args.workspace, args.work_id, args.title, args.request))
+            return 0
+        if args.command == "add-experimental-csharp-mapping-candidate":
+            emit_status(add_experimental_csharp_mapping_candidate(args.workspace, args.work_id, args.code_fact, args.rationale))
+            return 0
+        if args.command == "emit-experimental-csharp-project-workbench":
+            emit_status(emit_experimental_csharp_project_workbench(args.workspace, args.out))
+            return 0
+        if args.command == "validate-experimental-csharp-project-workbench":
+            emit_status(validate_experimental_csharp_project_workbench(args.workspace, args.out))
+            return 0
         raise WorkspaceError(f"unsupported command: {args.command}")
-    except (WorkspaceError, ExperimentalWorkspaceError, FactWorkbenchError) as exc:
+    except (WorkspaceError, ExperimentalWorkspaceError, FactWorkbenchError, ProjectWorkspaceError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 

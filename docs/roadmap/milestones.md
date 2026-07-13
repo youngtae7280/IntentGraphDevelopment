@@ -4168,6 +4168,30 @@ Next gate:
 
 - inspect the local P9.12 HTML output and record graph visibility, pan/zoom, node selection, edge selection, and unavailable code-diff feedback.
 
+## P9.13: Experimental C# Semantic-Overlay Project Workbench
+
+Goal: add the project-work records that P9.12 correctly did not invent, while retaining the C# code fact graph as one part of a single local IntentGraph workbench.
+
+Status: implementation and deterministic validation completed on 2026-07-13. See [P9.13 Experimental C# Project Workbench Review](../reviews/p9.13-experimental-csharp-project-workbench-review.md).
+
+Delivered boundary:
+
+- a separate local project workspace nests a validated C# snapshot and owns only IntentGraph semantic-overlay state
+- explicit work requests may be recorded without automatic interpretation or source mutation
+- declared mapping candidates may reference validated code facts, but remain unaccepted
+- the project workbench renders code, intent, work, mapping, verification, evidence, authority, and history together
+- graph delta and code-diff views visibly state `not-recorded` until a future deterministic proposal provides them
+
+Verification:
+
+- project workspaces validate nested snapshot provenance, work/mapping references, false target authority, and no physical-source-path leakage
+- repeated project-workbench exports from identical inputs are byte-identical
+- repeatable negative probes reject bad state roles, unknown code facts, mapping-state mismatch, authority promotion, premature proposals, physical paths, and output collision
+
+Non-goals:
+
+- no accepted mapping, automated natural-language mapping, source application, graph edit from the UI, proposal approval, code diff, target build, network, or productization claim
+
 ## P9.11: Experimental C# Fact Workspace Scope Review
 
 Goal: determine whether a C# fact-only workspace can have a local HTML inspection surface without misrepresenting absent mappings, proposals, deltas, diffs, evidence, or authority.

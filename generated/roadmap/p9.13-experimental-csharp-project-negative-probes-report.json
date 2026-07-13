@@ -1,0 +1,76 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-project-negative-probes-report",
+  "authority": {
+    "approvalAutomation": false,
+    "automaticCodeApplication": false,
+    "automaticIntentMapping": false,
+    "credentialAccessAllowed": false,
+    "graphMutationFromUi": false,
+    "igdProductizationClaimed": false,
+    "networkRequired": false,
+    "projectWorkspaceMutation": true,
+    "providerApiAllowed": false,
+    "snapshotWorkspaceMutation": false,
+    "targetBuildExecuted": false,
+    "targetLaunchExecuted": false,
+    "targetRepositoryMutation": false,
+    "targetRestoreExecuted": false
+  },
+  "networkRequired": false,
+  "probeCount": 8,
+  "probes": [
+    {
+      "actualError": "project state role, schema version, or scope is invalid",
+      "expectedError": "role, schema version, or scope is invalid",
+      "expectedFailureObserved": true,
+      "id": "wrong-project-state-role"
+    },
+    {
+      "actualError": "project.title must not persist a physical path",
+      "expectedError": "must not persist a physical path",
+      "expectedFailureObserved": true,
+      "id": "physical-path-leak"
+    },
+    {
+      "actualError": "mapping code fact references must resolve in the nested snapshot",
+      "expectedError": "code fact references must resolve",
+      "expectedFailureObserved": true,
+      "id": "unknown-code-fact"
+    },
+    {
+      "actualError": "work item mapping status must agree with mapping records",
+      "expectedError": "mapping status must agree",
+      "expectedFailureObserved": true,
+      "id": "mapping-status-mismatch"
+    },
+    {
+      "actualError": "project authority boundary is invalid",
+      "expectedError": "authority boundary is invalid",
+      "expectedFailureObserved": true,
+      "id": "target-write-authority"
+    },
+    {
+      "actualError": "project authority boundary is invalid",
+      "expectedError": "authority boundary is invalid",
+      "expectedFailureObserved": true,
+      "id": "automatic-code-application"
+    },
+    {
+      "actualError": "P9.13 project workspace must not contain change proposals yet",
+      "expectedError": "must not contain change proposals yet",
+      "expectedFailureObserved": true,
+      "id": "unsupported-proposal"
+    },
+    {
+      "actualError": "project workbench output directory must not exist",
+      "expectedError": "output directory must not exist",
+      "expectedFailureObserved": true,
+      "id": "existing-output-collision"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.13-experimental-csharp-project-overlay-workbench",
+  "snapshotWorkspaceMutation": false,
+  "status": "intentgraph-experimental-csharp-project-negative-probes-pass",
+  "targetRepositoryMutation": false
+}
