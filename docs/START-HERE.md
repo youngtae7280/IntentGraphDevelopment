@@ -1,8 +1,20 @@
 # Start Here
 
-This repository must not begin with implementation.
+This repository began with a thesis and prior-art gate before broad implementation.
 
 IntentGraph Development is a proposed software development method, semantic overlay graph, mapping boundary, consistency engine, and verification discipline over existing source code. Before broad implementation exists, the project needs a stable thesis, prior-art review, benchmark criteria, and milestone gates.
+
+## Current Delivery Focus
+
+The current product plan is [IGD Product Goal And Delivery Gates](roadmap/igd-product-delivery-gates.md).
+P9.35 completed reviewed source refresh and revision preservation for the installable
+local preview. The next implementation prerequisite is G1/P9.36, a plan-only source
+application gate. Do not treat prior non-applied proposal, renderer, or target-adoption
+evidence as proof that the daily proposal-application loop is complete.
+
+Use the accompanying [test and verification plan](testing/igd-product-delivery-gates-test-plan.md)
+for gate-specific evidence requirements. Workbench visual acceptance is deferred until
+direct user review, even when renderer or screenshot checks pass.
 
 ## Work Order
 
@@ -10,7 +22,7 @@ Follow this order:
 
 1. Read the core thesis.
 2. Read the [IntentGraph Formal Blueprint](design/intentgraph-formal-blueprint.md) for the current formal center of gravity.
-3. Read the [Product Capability Roadmap](roadmap/product-capability-roadmap.md) for the long-range phase gates.
+3. Read the [IGD Product Goal And Delivery Gates](roadmap/igd-product-delivery-gates.md), then the [Product Capability Roadmap](roadmap/product-capability-roadmap.md) for historical phase gates.
 4. Read the current milestone in [Milestones](roadmap/milestones.md).
 5. Run the prior-art gate for the capability being considered.
 6. Update the capability matrix.

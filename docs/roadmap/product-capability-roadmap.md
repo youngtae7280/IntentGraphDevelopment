@@ -4,10 +4,24 @@ Status: controlling roadmap for post-P1.18 planning.
 
 This document defines the long-range capability roadmap for IntentGraph Development. It does not authorize all phases at once. Each phase must be opened by the Coordinator, executed in bounded slices, reviewed, and either improved or closed before the next phase begins.
 
-The current authorized posture is:
+## Current Delivery Status (2026-07-14)
+
+The current product objective and gate order are maintained in
+[IGD Product Goal And Delivery Gates](igd-product-delivery-gates.md), with the
+corresponding [test and verification plan](../testing/igd-product-delivery-gates-test-plan.md).
+
+P9.35 is complete at Level 4: the installable local preview can review and activate a
+new immutable source snapshot while preserving stale-record truth and revision history.
+It cannot yet apply an accepted proposal to target source. The current implementation
+prerequisite is therefore **G1 / P9.36 Reviewed Proposal Application Product Gate -
+Plan Only**. Renderer and visual-workbench acceptance are deferred until direct user
+review; prior automated visual checks do not close that product criterion.
+
+## Historical Posture Before G0 (Superseded; Retained For Traceability)
 
 ```text
-P9.34.R3 completed.
+Snapshot at P9.34.R3. This historical summary is superseded by the current delivery
+status above and does not describe the current implementation gate.
 Selected next benchmark: B1-typescript-rest-api.
 IntentGraphDevelopment has a first installable Windows-local preview: IntentGraph Local Review Kit.
 The experimental C# fact-only inspector is complete. P9.13 adds a separate local semantic-overlay project workspace and unified project workbench. P9.14 adds review-only change proposals with graph delta and code-diff fragments to that same C# project route. P9.15 corrects the raw-code-heavy default graph and adds a loopback-only interactive work-request intake surface. Visual interaction review remains a required user-facing quality gate.
@@ -278,14 +292,14 @@ P8.124 superseded the P8.121-P8.123 interpretation that WindowsUtility package e
 
 | Phase | Name | Purpose | Current state |
 |---|---|---|---|
-| A | Model Correction | Define IntentGraph as semantic overlay and correct the state model. | Mostly complete through P1.18. |
-| B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | P2.0 static facts, P2.1 incremental facts, and P2.2 boundary review completed for B1. |
-| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | P3.0 static mapping, P3.1 stale failure, P3.2 ambiguity candidate, and P3.3 boundary review completed. |
-| D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | P4.0 proposal validation and P4.1 boundary review completed for B1. |
-| E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | P5.0 verifier and P5.1 boundary review completed for B1. |
-| F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | P6.0 preview and P6.1 boundary review completed for B1. |
-| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Bounded WindowsUtility mapping, source-change, package, launch, and UI evidence exists. It is adoption evidence, not an IGD product release. |
-| H | Productization | Package IntentGraphDevelopment CLI/local app/editor/GitHub/team workflow surfaces. | P9.0-P9.33 established the local workflow and browser-verified unified graph. P9.34 adds a deterministic installable Windows-local preview and one-command launch. Source refresh, upgrade, self-contained runtime, editor/team integration, signing, and release remain open. |
+| A | Model Correction | Define IntentGraph as semantic overlay and correct the state model. | Completed as a bounded architecture correction. It is not a universal graph-to-code compiler claim. |
+| B | Fast Retrofit and Code Facts | Convert existing codebases into deterministic code facts quickly. | B1 and a bounded C# route prove selected facts. Broader adapter coverage and Graphify-quality comparison remain G4. |
+| C | Intent Mapping | Map natural-language or declared intent to code facts, refs, ambiguity, and obligations. | Static/declarative mapping and ambiguity proofs exist. Product AI-assisted intent candidates remain G5. |
+| D | Native / Change Planning | Produce bounded code, mapping, test, evidence, and authority proposals from intent deltas. | Non-applied proposal proof exists. Safe proposal application is G1/G2. |
+| E | Consistency Verifier | Generalize deterministic verification across intent, code facts, mappings, tests, evidence, authority, and history. | Bounded verifier evidence exists. Applied-change and multi-scenario proof remain G2/G3. |
+| F | Workbench | Visualize graph, code facts, deltas, evidence, authority, and history as an inspectable workflow. | Functional surfaces exist, but user visual/usability acceptance remains open in G6. |
+| G | Real Project Adoption | Apply the loop to realistic repositories such as WindowsUtility and compare quality. | Adoption experiments exist, including one bounded source edit. A representative daily-loop comparison remains G3. |
+| H | Productization | Package IntentGraphDevelopment CLI/local app/editor/GitHub/team workflow surfaces. | P9.34/P9.35 provide an installable local preview and reviewed refresh. Apply, self-contained runtime, integrations, and release remain open. |
 
 ## Phase A: Model Correction
 

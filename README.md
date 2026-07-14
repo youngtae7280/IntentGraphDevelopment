@@ -10,6 +10,16 @@ IntentGraph is a development-semantic overlay graph linked to source code artifa
 
 ## Current Status
 
+**Current delivery plan:** [IGD Product Goal And Delivery Gates](docs/roadmap/igd-product-delivery-gates.md).
+
+IGD is an installable local preview, not yet a daily-use completed product. P9.35
+completed reviewed source refresh and immutable local revision preservation. The next
+implementation prerequisite is G1/P9.36: define the authority, preimage, atomic
+application, verification, and rollback contract for applying one reviewed proposal.
+Workbench visual acceptance remains deferred and unresolved; renderer telemetry is not
+a substitute for user approval. See the accompanying
+[test and verification plan](docs/testing/igd-product-delivery-gates-test-plan.md).
+
 Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](docs/reviews/phase-0-final-review.md).
 
 No `M8` was opened automatically. P1.R through P1.18 reframed IntentGraph as a semantic overlay and proved the corrected model on a tiny CF0 code-first fixture. CF0 is now treated as saturated proof evidence, not proof of general scalability.
