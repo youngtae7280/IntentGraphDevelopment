@@ -28,7 +28,15 @@ def good_observation() -> dict[str, Any]:
             "pixels": {
                 "canvasCount": 4,
                 "totalOpaqueSampleCount": 1200,
-                "materialOpaqueSampleCount": 300,
+                "materialOpaqueSampleCount": 650,
+                "materialChromaticSampleCount": 520,
+                "materialMeanOpaqueLuminance": 58,
+                "ordinaryCodeVisibility": {
+                    "nodeId": "code.method.example",
+                    "opacity": 0.82,
+                    "backgroundOpacity": 0.30,
+                    "renderedWidth": 2.4,
+                },
             }
         },
         "maximum": {
@@ -42,9 +50,17 @@ def good_observation() -> dict[str, Any]:
                 "rendererZoom": 512,
                 "effectiveGeometryZoom": 512,
                 "virtualGeometryScale": 1.0,
-                "selectedEdgeRenderedWidth": 0.08,
-                "selectedEdgeRenderedOpacity": 0.12,
-                "materialProfile": "cached-nebula-black-metal-v7",
+                "selectedEdgeRenderedWidth": 0.65,
+                "selectedEdgeRenderedOpacity": 0.30,
+                "selectedEdgeLineStyle": "solid",
+                "selectedSourceRenderedWidth": 15,
+                "selectedTargetRenderedWidth": 15,
+                "selectedEdgeLinePixels": {
+                    "sampleCount": 13,
+                    "observedSampleCount": 13,
+                    "longestMissingRun": 0,
+                },
+                "materialProfile": "cached-luminous-nebula-alloy-v9",
                 "materialCandidateCount": 2,
                 "materialSpriteCount": 12,
             },
@@ -56,6 +72,24 @@ def good_observation() -> dict[str, Any]:
                 "opaqueBoundsWidth": 18,
                 "opaqueBoundsHeight": 18,
             },
+            "selectedSourceEndpointMaterialPixels": {
+                "opaqueSampleCount": 135,
+                "chromaticSampleCount": 133,
+                "uniqueColorBucketCount": 31,
+                "luminanceRange": 200,
+                "opaqueBoundsWidth": 15,
+                "opaqueBoundsHeight": 18,
+            },
+            "selectedTargetEndpointMaterialPixels": {
+                "opaqueSampleCount": 135,
+                "chromaticSampleCount": 133,
+                "uniqueColorBucketCount": 31,
+                "luminanceRange": 200,
+                "opaqueBoundsWidth": 15,
+                "opaqueBoundsHeight": 18,
+            },
+            "edgeNodeAttachmentGap": 0,
+            "selectedEdgeKind": "invokes-syntax",
             "navigation": {
                 "hundred": {"logicalZoom": 100, "rendererZoom": 100},
                 "afterZoomOut": {"logicalZoom": 142.2, "rendererZoom": 142.2},
@@ -113,6 +147,27 @@ def mutate_blank_material(observation: dict[str, Any], _screenshot: dict[str, An
     observation["overview"]["pixels"]["materialOpaqueSampleCount"] = 0
 
 
+def mutate_dark_material(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
+    pixels = observation["overview"]["pixels"]
+    pixels["materialOpaqueSampleCount"] = 120
+    pixels["materialChromaticSampleCount"] = 40
+    pixels["materialMeanOpaqueLuminance"] = 8
+
+
+def mutate_non_finite_material_count(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["overview"]["pixels"]["materialOpaqueSampleCount"] = "NaN"
+
+
+def mutate_ordinary_code_visibility(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    visibility = observation["overview"]["pixels"]["ordinaryCodeVisibility"]
+    visibility["opacity"] = 0.20
+    visibility["backgroundOpacity"] = 0.04
+
+
 def mutate_blank_maximum_graph(
     observation: dict[str, Any], _screenshot: dict[str, Any]
 ) -> None:
@@ -147,7 +202,39 @@ def mutate_material_detail(
 def mutate_material_bounds(
     observation: dict[str, Any], _screenshot: dict[str, Any]
 ) -> None:
-    observation["maximum"]["selectedEndpointMaterialPixels"]["opaqueBoundsWidth"] = 30
+    observation["maximum"]["selectedSourceEndpointMaterialPixels"]["opaqueBoundsWidth"] = 30
+
+
+def mutate_edge_node_attachment(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["edgeNodeAttachmentGap"] = 20
+
+
+def mutate_edge_line_pixels(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["state"]["selectedEdgeLinePixels"] = {
+        "sampleCount": 13,
+        "observedSampleCount": 4,
+        "longestMissingRun": 6,
+    }
+
+
+def mutate_impossible_edge_line_pixels(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["state"]["selectedEdgeLinePixels"] = {
+        "sampleCount": 13,
+        "observedSampleCount": 14,
+        "longestMissingRun": 0,
+    }
+
+
+def mutate_selected_dashed_edge(
+    observation: dict[str, Any], _screenshot: dict[str, Any]
+) -> None:
+    observation["maximum"]["state"]["selectedEdgeLineStyle"] = "dashed"
 
 
 def mutate_non_finite_zoom(
@@ -238,6 +325,21 @@ PROBES: tuple[tuple[str, Mutation, str], ...] = (
     ("blank-graph-canvas", mutate_blank_graph, "graph canvas was blank"),
     ("blank-material-canvas", mutate_blank_material, "material canvas was blank"),
     (
+        "dark-low-contrast-material",
+        mutate_dark_material,
+        "overview material contrast",
+    ),
+    (
+        "non-finite-material-sample-count",
+        mutate_non_finite_material_count,
+        "material canvas was blank",
+    ),
+    (
+        "dim-ordinary-code-node",
+        mutate_ordinary_code_visibility,
+        "ordinary code visibility",
+    ),
+    (
         "blank-maximum-zoom-graph-canvas",
         mutate_blank_maximum_graph,
         "maximum-zoom graph canvas was blank",
@@ -260,7 +362,27 @@ PROBES: tuple[tuple[str, Mutation, str], ...] = (
     (
         "oversized-selected-endpoint-material",
         mutate_material_bounds,
-        "selected endpoint material opaqueBoundsWidth exceeds compact bounds",
+        "selected source endpoint material opaqueBoundsWidth exceeds compact bounds",
+    ),
+    (
+        "disconnected-selected-edge-node-attachment",
+        mutate_edge_node_attachment,
+        "selected edge node attachment is discontinuous",
+    ),
+    (
+        "fragmented-selected-edge-pixels",
+        mutate_edge_line_pixels,
+        "selected edge line pixels are discontinuous",
+    ),
+    (
+        "impossible-selected-edge-pixel-count",
+        mutate_impossible_edge_line_pixels,
+        "selected edge line pixels are discontinuous",
+    ),
+    (
+        "selected-invokes-syntax-remains-dashed",
+        mutate_selected_dashed_edge,
+        "selected invokes-syntax edge is not solid",
     ),
     (
         "unbounded-material-viewport-candidates",
@@ -388,7 +510,7 @@ def main() -> int:
             if result == "pass"
             else "intentgraph-workbench-browser-runtime-negative-probes-failed"
         ),
-        "scope": "p9.34r3-nebula-black-metal-browser-runtime-negative-probes",
+        "scope": "p9.34r4-luminous-alloy-edge-continuity-negative-probes",
         "result": result,
         "probeCount": len(probe_results),
         "probes": probe_results,

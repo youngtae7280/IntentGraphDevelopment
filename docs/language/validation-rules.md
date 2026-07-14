@@ -1189,6 +1189,9 @@ delta, or code-diff mutation is permitted.
 
 Severity: P1 in P9.34.R3
 
+This is the historical R3 evidence boundary and is superseded for the current
+Workbench by V439.
+
 The Workbench camera, logical zoom, and effective geometry zoom must reach `512` while
 preserving direct `100x` and `256x` controls. At maximum zoom, a selected relation must
 render at `0.08` screen pixels with `0.12` opacity. Its endpoints must use a compact
@@ -1209,6 +1212,37 @@ and material canvases, endpoint opaque bounds no larger than `22x22` screen pixe
 finite zoom/navigation observations, pan and zoom-out recovery, populated relation
 inspection, and zero runtime errors. The graph, layout, source, workflow, evidence,
 authority, history, delta, and code-diff domains must remain unchanged.
+
+### V439 - Overview Visibility and Deep-Zoom Edge Continuity Must Fail Closed
+
+Severity: P1 in P9.34.R4
+
+The full graph must preserve a readable color and luminance signal for ordinary code
+facts without changing graph topology or loading fewer facts. The active
+`cached-luminous-nebula-alloy-v9` material must retain dark faceted construction while
+exposing brighter hierarchy planes and a narrow spectral signal. Overview code
+material must use at least `3.8px` and `0.96` opacity, while the renderer body and code
+relations retain `0.30` opacity contracts. Ordinary low-detail code facts must retain
+at least `0.82` element opacity and be sampled independently of landmark material.
+
+At maximum zoom a selected relation must render as a continuous `0.65px` screen-space
+line at `0.30` opacity. Selection must override ordinary dashed relation styling with
+a solid inspection line, and the browser gate must exercise an `invokes-syntax`
+relation. Precision attachment geometry must use the `0.46` body scale.
+At least one on-screen relation endpoint must be sampled, every sampled endpoint must
+remain within `22x22px`, and the rendered geometry-to-visible-body difference must not
+exceed `1.5px` under renderer pixel quantization. A canvas-pixel corridor extending from the sampled endpoint along the
+selected relation must contain exactly 13 samples, 12 or 13 observed samples, and no
+missing run longer than one sample. Observed samples must never exceed total samples.
+Overview material evidence must include at least 400 opaque samples, 280 chromatic
+samples, and mean opaque luminance of at least 34.
+
+Browser and negative-probe verification must reject low-contrast overview material,
+dim ordinary code facts, fragmented relation pixels,
+disconnected selected relations, oversized endpoint material, wrong material
+identity, non-finite zoom observations, unbounded material work, and runtime errors.
+No graph, source, workflow, evidence, authority, history, delta, or code-diff mutation
+is permitted.
 
 ## M1 Fixture Review Checklist
 

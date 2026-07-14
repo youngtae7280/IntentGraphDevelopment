@@ -1,0 +1,733 @@
+{
+  "artifactRole": "intentgraph-workbench-headless-browser-regression-report",
+  "boundary": {
+    "browserObservationIsSemanticAuthority": false,
+    "externalNetworkRequired": false,
+    "graphMutation": false,
+    "snapshotMutation": false,
+    "sourceMutation": false,
+    "targetRepositoryMutation": false
+  },
+  "browser": {
+    "capture": {
+      "runtimeQuery": "intentGraphRuntimeProbe=1",
+      "singleProcessDomAndScreenshot": true,
+      "viewport": {
+        "height": 1000,
+        "width": 1440
+      },
+      "virtualTimeBudgetMilliseconds": 12000,
+      "wallClockBudgetMilliseconds": 45000,
+      "wallClockElapsedMilliseconds": 16747.516
+    },
+    "executableName": "msedge.exe",
+    "executableSha256": "sha256:d17f5ab0779e0a763cd70752833793a9e7073fcbdd1fba2c0e6ad13fcd135d91",
+    "family": "edge",
+    "headless": true,
+    "loopbackOnly": true,
+    "thirdPartyAutomationDependency": false,
+    "version": "150.0.4078.65",
+    "versionSource": "windows-file-version-resource"
+  },
+  "errors": [],
+  "input": {
+    "artifacts": {
+      "index.html": {
+        "byteLength": 12205635,
+        "path": ".tmp/p9.34r4-workbench-dashed/index.html",
+        "sha256": "sha256:e662b11aa8df3cab5d9f375b4423059a0a3d667fc29942e6e1d73bd0617734eb"
+      },
+      "manifest.json": {
+        "byteLength": 1807,
+        "path": ".tmp/p9.34r4-workbench-dashed/manifest.json",
+        "sha256": "sha256:c77a7c723dce2aab9c143949d33e2cbe72fefaa7a8b519111e62bf0c10a8f7ad"
+      },
+      "projection.json": {
+        "byteLength": 15537683,
+        "path": ".tmp/p9.34r4-workbench-dashed/projection.json",
+        "sha256": "sha256:c2741e3ede827236f18019e132e04e5da3e4710c700b24ffd101019d29d6cf27"
+      },
+      "validation-report.json": {
+        "byteLength": 1092,
+        "path": ".tmp/p9.34r4-workbench-dashed/validation-report.json",
+        "sha256": "sha256:3814c11cc5e2a0ae212320604a477d0d9e302213da1966ef3333f2890a6e485d"
+      }
+    },
+    "expectedEdgeCount": 7986,
+    "expectedMaterial": "cached-luminous-nebula-alloy-v9",
+    "expectedNodeCount": 8194,
+    "workbench": ".tmp/p9.34r4-workbench-dashed"
+  },
+  "result": "pass",
+  "runtimeObservation": {
+    "artifactRole": "intentgraph-workbench-browser-runtime-observation",
+    "boundary": {
+      "graphMutation": false,
+      "networkRequired": false,
+      "queryActivated": true,
+      "sourceMutation": false
+    },
+    "checks": [
+      {
+        "actual": 8194,
+        "expected": 8194,
+        "id": "full-node-count-loaded",
+        "passed": true
+      },
+      {
+        "actual": 7986,
+        "expected": 7986,
+        "id": "full-edge-count-loaded",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "single-graph-instance",
+        "passed": true
+      },
+      {
+        "actual": 2870,
+        "expected": ">0",
+        "id": "overview-canvas-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 453,
+        "expected": ">0",
+        "id": "overview-material-nonblank",
+        "passed": true
+      },
+      {
+        "actual": {
+          "canvasCount": 4,
+          "layers": [
+            {
+              "chromaticSampleCount": 0,
+              "className": "",
+              "height": 612,
+              "meanOpaqueLuminance": 0,
+              "opaqueSampleCount": 0,
+              "sampleCount": 18696,
+              "width": 760
+            },
+            {
+              "chromaticSampleCount": 0,
+              "className": "",
+              "height": 612,
+              "meanOpaqueLuminance": 0,
+              "opaqueSampleCount": 0,
+              "sampleCount": 18696,
+              "width": 760
+            },
+            {
+              "chromaticSampleCount": 2367,
+              "className": "",
+              "height": 612,
+              "meanOpaqueLuminance": 111.0027508481587,
+              "opaqueSampleCount": 2417,
+              "sampleCount": 18696,
+              "width": 760
+            },
+            {
+              "chromaticSampleCount": 379,
+              "className": "node-material-layer",
+              "height": 612,
+              "meanOpaqueLuminance": 56.70634922737312,
+              "opaqueSampleCount": 453,
+              "sampleCount": 18696,
+              "width": 760
+            }
+          ],
+          "materialChromaticSampleCount": 379,
+          "materialMeanOpaqueLuminance": 56.70634922737312,
+          "materialOpaqueSampleCount": 453,
+          "ordinaryCodeVisibility": {
+            "backgroundOpacity": 0.3,
+            "nodeId": "csharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow",
+            "opacity": 0.82,
+            "renderedWidth": 2.4317140842333957
+          },
+          "totalChromaticSampleCount": 2746,
+          "totalOpaqueSampleCount": 2870
+        },
+        "expected": "material opaque>=400, chromatic>=280, mean luminance>=34",
+        "id": "overview-material-visible-contrast",
+        "passed": true
+      },
+      {
+        "actual": {
+          "backgroundOpacity": 0.3,
+          "nodeId": "csharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow",
+          "opacity": 0.82,
+          "renderedWidth": 2.4317140842333957
+        },
+        "expected": "ordinary code opacity>=.82, background opacity>=.30, rendered width>=1.5px",
+        "id": "overview-ordinary-code-visible",
+        "passed": true
+      },
+      {
+        "actual": "cached-luminous-nebula-alloy-v9",
+        "expected": "cached-luminous-nebula-alloy-v9",
+        "id": "luminous-alloy-material-active",
+        "passed": true
+      },
+      {
+        "actual": 11,
+        "expected": "1..96",
+        "id": "material-sprite-cache-bounded",
+        "passed": true
+      },
+      {
+        "actual": 228,
+        "expected": "1..820",
+        "id": "material-viewport-candidates-bounded",
+        "passed": true
+      },
+      {
+        "actual": {
+          "chromaticSampleCount": 71,
+          "luminanceRange": 195,
+          "opaqueBoundsHeight": 9,
+          "opaqueBoundsWidth": 10,
+          "opaqueSampleCount": 74,
+          "sampleCount": 3136,
+          "uniqueColorBucketCount": 40
+        },
+        "expected": "opaque>=60, chromatic>=12, color buckets>=8, luminance range>=35",
+        "id": "selected-endpoint-material-detailed",
+        "passed": true
+      },
+      {
+        "actual": {
+          "sampledEndpointCount": 1,
+          "source": {
+            "chromaticSampleCount": 71,
+            "luminanceRange": 195,
+            "opaqueBoundsHeight": 9,
+            "opaqueBoundsWidth": 10,
+            "opaqueSampleCount": 74,
+            "sampleCount": 3136,
+            "uniqueColorBucketCount": 40
+          },
+          "target": {
+            "chromaticSampleCount": 0,
+            "luminanceRange": 0,
+            "opaqueBoundsHeight": 0,
+            "opaqueBoundsWidth": 0,
+            "opaqueSampleCount": 0,
+            "sampleCount": 0,
+            "uniqueColorBucketCount": 0
+          }
+        },
+        "expected": "at least one on-screen endpoint sampled; every sampled opaque bound >0 and <=22x22 screen pixels",
+        "id": "selected-endpoint-material-compact",
+        "passed": true
+      },
+      {
+        "actual": {
+          "diameterDifference": 1.2959999999999994,
+          "sampledEndpointCount": 1
+        },
+        "expected": "at least one on-screen endpoint sampled; rendered/body diameter difference<=1.5 screen pixels",
+        "id": "selected-edge-node-attachment-continuous",
+        "passed": true
+      },
+      {
+        "actual": {
+          "kind": "invokes-syntax",
+          "lineStyle": "solid"
+        },
+        "expected": "selected invokes-syntax relation rendered as solid",
+        "id": "selected-invokes-syntax-edge-solid",
+        "passed": true
+      },
+      {
+        "actual": {
+          "longestMissingRun": 0,
+          "observedSampleCount": 13,
+          "sampleCount": 13
+        },
+        "expected": "sample count=13, 12..13 observed samples, longest missing run<=1",
+        "id": "selected-edge-line-pixel-continuous",
+        "passed": true
+      },
+      {
+        "actual": {
+          "effectiveGeometryZoom": 100,
+          "logicalZoom": 100,
+          "materialCandidateCount": 228,
+          "materialCulledOrdinaryCodeCount": 202,
+          "materialDrawCount": 2,
+          "materialOffscreenCulledCount": 7966,
+          "materialProfile": "cached-luminous-nebula-alloy-v9",
+          "materialSpriteCount": 11,
+          "rendererZoom": 100,
+          "selectedEdgeLinePixels": {
+            "longestMissingRun": 0,
+            "observedSampleCount": 13,
+            "sampleCount": 13
+          },
+          "selectedEdgeLineStyle": "solid",
+          "selectedEdgeRenderedOpacity": 0.36,
+          "selectedEdgeRenderedWidth": 0.78,
+          "selectedSourceRenderedWidth": 8.9,
+          "selectedTargetRenderedWidth": 8.9,
+          "virtualGeometryScale": 1
+        },
+        "expected": "logical and renderer zoom 100",
+        "id": "zoom-100-control",
+        "passed": true
+      },
+      {
+        "actual": {
+          "effectiveGeometryZoom": 512,
+          "logicalZoom": 512,
+          "materialCandidateCount": 228,
+          "materialCulledOrdinaryCodeCount": 0,
+          "materialDrawCount": 1,
+          "materialOffscreenCulledCount": 7966,
+          "materialProfile": "cached-luminous-nebula-alloy-v9",
+          "materialSpriteCount": 11,
+          "rendererZoom": 512,
+          "selectedEdgeLinePixels": {
+            "longestMissingRun": 0,
+            "observedSampleCount": 13,
+            "sampleCount": 13
+          },
+          "selectedEdgeLineStyle": "solid",
+          "selectedEdgeRenderedOpacity": 0.3,
+          "selectedEdgeRenderedWidth": 0.65,
+          "selectedSourceRenderedWidth": 8.704,
+          "selectedTargetRenderedWidth": 8.704,
+          "virtualGeometryScale": 1
+        },
+        "expected": "logical and renderer zoom 512",
+        "id": "zoom-maximum-control",
+        "passed": true
+      },
+      {
+        "actual": 0,
+        "expected": "<=1.5 screen pixels",
+        "id": "unselected-deep-zoom-anchors-visible-node",
+        "passed": true
+      },
+      {
+        "actual": 0,
+        "expected": "<=1.5 screen pixels",
+        "id": "hidden-selection-deep-zoom-anchors-visible-node",
+        "passed": true
+      },
+      {
+        "actual": 284,
+        "expected": "between 100 and 512",
+        "id": "zoom-out-control",
+        "passed": true
+      },
+      {
+        "actual": {
+          "x": 18,
+          "y": -12
+        },
+        "expected": {
+          "x": 18,
+          "y": -12
+        },
+        "id": "maximum-pan-control",
+        "passed": true
+      },
+      {
+        "actual": {
+          "afterZoomOut": {
+            "effectiveGeometryZoom": 284.444,
+            "logicalZoom": 284,
+            "materialCandidateCount": 228,
+            "materialCulledOrdinaryCodeCount": 0,
+            "materialDrawCount": 1,
+            "materialOffscreenCulledCount": 7966,
+            "materialProfile": "cached-luminous-nebula-alloy-v9",
+            "materialSpriteCount": 11,
+            "rendererZoom": 284.444,
+            "selectedEdgeLinePixels": {
+              "longestMissingRun": 0,
+              "observedSampleCount": 13,
+              "sampleCount": 13
+            },
+            "selectedEdgeLineStyle": "solid",
+            "selectedEdgeRenderedOpacity": 0.32,
+            "selectedEdgeRenderedWidth": 0.68,
+            "selectedSourceRenderedWidth": 8.818,
+            "selectedTargetRenderedWidth": 8.818,
+            "virtualGeometryScale": 1
+          },
+          "hiddenSelectionMaximumAnchorDistance": 0,
+          "hundred": {
+            "effectiveGeometryZoom": 100,
+            "logicalZoom": 100,
+            "materialCandidateCount": 228,
+            "materialCulledOrdinaryCodeCount": 202,
+            "materialDrawCount": 2,
+            "materialOffscreenCulledCount": 7966,
+            "materialProfile": "cached-luminous-nebula-alloy-v9",
+            "materialSpriteCount": 11,
+            "rendererZoom": 100,
+            "selectedEdgeLinePixels": {
+              "longestMissingRun": 0,
+              "observedSampleCount": 13,
+              "sampleCount": 13
+            },
+            "selectedEdgeLineStyle": "solid",
+            "selectedEdgeRenderedOpacity": 0.36,
+            "selectedEdgeRenderedWidth": 0.78,
+            "selectedSourceRenderedWidth": 8.9,
+            "selectedTargetRenderedWidth": 8.9,
+            "virtualGeometryScale": 1
+          },
+          "hundredInteractionMilliseconds": 0,
+          "maximumInteractionMilliseconds": 0,
+          "panDelta": {
+            "x": 18,
+            "y": -12
+          },
+          "panInteractionMilliseconds": 180,
+          "unselectedMaximumAnchorDistance": 0
+        },
+        "expected": "settled frame and material observations are finite; whole-capture wall clock is externally bounded",
+        "id": "deep-navigation-render-settled",
+        "passed": true
+      },
+      {
+        "actual": 512,
+        "expected": 512,
+        "id": "logical-zoom-512",
+        "passed": true
+      },
+      {
+        "actual": 512,
+        "expected": 512,
+        "id": "renderer-zoom-512",
+        "passed": true
+      },
+      {
+        "actual": 512,
+        "expected": 512,
+        "id": "effective-geometry-zoom-512",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "virtual-geometry-scale-unity",
+        "passed": true
+      },
+      {
+        "actual": 331,
+        "expected": ">0",
+        "id": "maximum-canvas-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 3,
+        "expected": ">0",
+        "id": "maximum-material-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 1.0000000000000004,
+        "expected": 1,
+        "id": "model-geometry-stable-at-actual-zoom",
+        "passed": true
+      },
+      {
+        "actual": 0.65,
+        "expected": 0.65,
+        "id": "selected-edge-screen-width",
+        "passed": true
+      },
+      {
+        "actual": 0.3,
+        "expected": 0.3,
+        "id": "selected-edge-opacity",
+        "passed": true
+      },
+      {
+        "actual": "invokes-syntax\ncategory\ncode-relation\nsource\ncsharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow\ntarget\ncsharp.invocation.src_windowsutility_app_floatingdockpreviewwindow_cs.1094.14.invocation\nconfidence\nambiguous\ninterpretation\nAmbiguous syntax relation. It does not prove a resolved runtime or semantic call.",
+        "expected": "source and target details",
+        "id": "selection-inspector-populated",
+        "passed": true
+      },
+      {
+        "actual": [],
+        "expected": [],
+        "id": "runtime-errors-empty",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "graph": {
+      "edgeCount": 7986,
+      "nodeCount": 8194
+    },
+    "maximum": {
+      "edgeNodeAttachmentGap": 1.2959999999999994,
+      "endpointGeometryScale": 1.0000000000000004,
+      "navigation": {
+        "afterZoomOut": {
+          "effectiveGeometryZoom": 284.444,
+          "logicalZoom": 284,
+          "materialCandidateCount": 228,
+          "materialCulledOrdinaryCodeCount": 0,
+          "materialDrawCount": 1,
+          "materialOffscreenCulledCount": 7966,
+          "materialProfile": "cached-luminous-nebula-alloy-v9",
+          "materialSpriteCount": 11,
+          "rendererZoom": 284.444,
+          "selectedEdgeLinePixels": {
+            "longestMissingRun": 0,
+            "observedSampleCount": 13,
+            "sampleCount": 13
+          },
+          "selectedEdgeLineStyle": "solid",
+          "selectedEdgeRenderedOpacity": 0.32,
+          "selectedEdgeRenderedWidth": 0.68,
+          "selectedSourceRenderedWidth": 8.818,
+          "selectedTargetRenderedWidth": 8.818,
+          "virtualGeometryScale": 1
+        },
+        "hiddenSelectionMaximumAnchorDistance": 0,
+        "hundred": {
+          "effectiveGeometryZoom": 100,
+          "logicalZoom": 100,
+          "materialCandidateCount": 228,
+          "materialCulledOrdinaryCodeCount": 202,
+          "materialDrawCount": 2,
+          "materialOffscreenCulledCount": 7966,
+          "materialProfile": "cached-luminous-nebula-alloy-v9",
+          "materialSpriteCount": 11,
+          "rendererZoom": 100,
+          "selectedEdgeLinePixels": {
+            "longestMissingRun": 0,
+            "observedSampleCount": 13,
+            "sampleCount": 13
+          },
+          "selectedEdgeLineStyle": "solid",
+          "selectedEdgeRenderedOpacity": 0.36,
+          "selectedEdgeRenderedWidth": 0.78,
+          "selectedSourceRenderedWidth": 8.9,
+          "selectedTargetRenderedWidth": 8.9,
+          "virtualGeometryScale": 1
+        },
+        "hundredInteractionMilliseconds": 0,
+        "maximumInteractionMilliseconds": 0,
+        "panDelta": {
+          "x": 18,
+          "y": -12
+        },
+        "panInteractionMilliseconds": 180,
+        "unselectedMaximumAnchorDistance": 0
+      },
+      "pixels": {
+        "canvasCount": 4,
+        "layers": [
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 0,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 0,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 326,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 140.229406707317,
+            "opaqueSampleCount": 328,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 2,
+            "className": "node-material-layer",
+            "height": 612,
+            "meanOpaqueLuminance": 69.55986666666665,
+            "opaqueSampleCount": 3,
+            "sampleCount": 18696,
+            "width": 760
+          }
+        ],
+        "materialChromaticSampleCount": 2,
+        "materialMeanOpaqueLuminance": 69.55986666666665,
+        "materialOpaqueSampleCount": 3,
+        "ordinaryCodeVisibility": {
+          "backgroundOpacity": 0.04,
+          "nodeId": "csharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow",
+          "opacity": 1,
+          "renderedWidth": 8.704
+        },
+        "totalChromaticSampleCount": 328,
+        "totalOpaqueSampleCount": 331
+      },
+      "sampledSelectedEndpointCount": 1,
+      "selectedEdgeEndpointDistance": 9.232625546071043,
+      "selectedEdgeId": "rel.invokes-syntax.csharp_constructor_src_windowsutility_app_floatingdockpreviewwindow_cs_485_680_floatingdockpreviewwindow.csharp_invocation_src_windowsutility_app_floatingdockpreviewwindow_cs_1094_14_invocation",
+      "selectedEdgeKind": "invokes-syntax",
+      "selectedEndpointMaterialPixels": {
+        "chromaticSampleCount": 71,
+        "luminanceRange": 195,
+        "opaqueBoundsHeight": 9,
+        "opaqueBoundsWidth": 10,
+        "opaqueSampleCount": 74,
+        "sampleCount": 3136,
+        "uniqueColorBucketCount": 40
+      },
+      "selectedSourceEndpointMaterialPixels": {
+        "chromaticSampleCount": 71,
+        "luminanceRange": 195,
+        "opaqueBoundsHeight": 9,
+        "opaqueBoundsWidth": 10,
+        "opaqueSampleCount": 74,
+        "sampleCount": 3136,
+        "uniqueColorBucketCount": 40
+      },
+      "selectedTargetEndpointMaterialPixels": {
+        "chromaticSampleCount": 0,
+        "luminanceRange": 0,
+        "opaqueBoundsHeight": 0,
+        "opaqueBoundsWidth": 0,
+        "opaqueSampleCount": 0,
+        "sampleCount": 0,
+        "uniqueColorBucketCount": 0
+      },
+      "selectionText": "invokes-syntax\ncategory\ncode-relation\nsource\ncsharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow\ntarget\ncsharp.invocation.src_windowsutility_app_floatingdockpreviewwindow_cs.1094.14.invocation\nconfidence\nambiguous\ninterpretation\nAmbiguous syntax relation. It does not prove a resolved runtime or semantic call.",
+      "state": {
+        "effectiveGeometryZoom": 512,
+        "logicalZoom": 512,
+        "materialCandidateCount": 228,
+        "materialCulledOrdinaryCodeCount": 0,
+        "materialDrawCount": 1,
+        "materialOffscreenCulledCount": 7966,
+        "materialProfile": "cached-luminous-nebula-alloy-v9",
+        "materialSpriteCount": 11,
+        "rendererZoom": 512,
+        "selectedEdgeLinePixels": {
+          "longestMissingRun": 0,
+          "observedSampleCount": 13,
+          "sampleCount": 13
+        },
+        "selectedEdgeLineStyle": "solid",
+        "selectedEdgeRenderedOpacity": 0.3,
+        "selectedEdgeRenderedWidth": 0.65,
+        "selectedSourceRenderedWidth": 8.704,
+        "selectedTargetRenderedWidth": 8.704,
+        "virtualGeometryScale": 1
+      }
+    },
+    "overview": {
+      "pixels": {
+        "canvasCount": 4,
+        "layers": [
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 0,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 0,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 2367,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 111.0027508481587,
+            "opaqueSampleCount": 2417,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 379,
+            "className": "node-material-layer",
+            "height": 612,
+            "meanOpaqueLuminance": 56.70634922737312,
+            "opaqueSampleCount": 453,
+            "sampleCount": 18696,
+            "width": 760
+          }
+        ],
+        "materialChromaticSampleCount": 379,
+        "materialMeanOpaqueLuminance": 56.70634922737312,
+        "materialOpaqueSampleCount": 453,
+        "ordinaryCodeVisibility": {
+          "backgroundOpacity": 0.3,
+          "nodeId": "csharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow",
+          "opacity": 0.82,
+          "renderedWidth": 2.4317140842333957
+        },
+        "totalChromaticSampleCount": 2746,
+        "totalOpaqueSampleCount": 2870
+      },
+      "selectedEdgeEndpointDistance": 9.23262554607104,
+      "state": {
+        "effectiveGeometryZoom": 0.405,
+        "logicalZoom": 0.41,
+        "materialCandidateCount": 8194,
+        "materialCulledOrdinaryCodeCount": 7526,
+        "materialDrawCount": 668,
+        "materialOffscreenCulledCount": 0,
+        "materialProfile": "cached-luminous-nebula-alloy-v9",
+        "materialSpriteCount": 10,
+        "rendererZoom": 0.405,
+        "selectedEdgeLinePixels": {
+          "longestMissingRun": 0,
+          "observedSampleCount": 0,
+          "sampleCount": 0
+        },
+        "selectedEdgeLineStyle": "",
+        "selectedEdgeRenderedOpacity": 0,
+        "selectedEdgeRenderedWidth": 0,
+        "selectedSourceRenderedWidth": 0,
+        "selectedTargetRenderedWidth": 0,
+        "virtualGeometryScale": 1
+      }
+    },
+    "result": "pass",
+    "scope": "browser-runtime-probe-read-only",
+    "status": "intentgraph-workbench-browser-runtime-pass"
+  },
+  "scope": "p9.34r4-luminous-alloy-edge-continuity-regression",
+  "screenshotEvidence": {
+    "byteLength": 413701,
+    "chromaticSampleCount": 1252,
+    "decodeStatus": "pass",
+    "exists": true,
+    "height": 1000,
+    "luminanceRange": 238,
+    "path": "generated/roadmap/p9.34r4-luminous-alloy-browser-screenshot.png",
+    "sampleCount": 5220,
+    "sha256": "sha256:f8eb2e2f2fbd45b4deabee93425f33ea82617a5044cf13c409fc32996fb043c9",
+    "uniqueColorBucketCount": 100,
+    "validPng": true,
+    "width": 1440
+  },
+  "status": "intentgraph-workbench-headless-browser-regression-passed"
+}

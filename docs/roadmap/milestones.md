@@ -4919,3 +4919,32 @@ Verification:
 Next safe work:
 
 - resume the reviewed P9.35 source refresh boundary after user visual review.
+
+## P9.34.R4: Luminous Alloy Visibility And Edge Continuity
+
+Goal: make the complete WindowsUtility graph readable against the dark canvas and
+remove deep-zoom relation fragmentation without changing the unified graph.
+
+Status: completed on 2026-07-14. See
+[P9.34.R4 Luminous Alloy and Edge Continuity Review](../reviews/p9.34r4-luminous-alloy-edge-continuity-review.md).
+
+Delivered boundary:
+
+- brighter community-colored code facts and hierarchy-aware semantic material
+- cached `luminous-nebula-alloy-v9` faceted material
+- actual `512x` camera with a continuous `0.65px` selected relation at `0.30` opacity
+- `0.46` precision attachment geometry aligned to the visible material body
+- independently sampled ordinary code visibility and selected-edge canvas continuity
+- unchanged graph, source, workflow, evidence, authority, history, delta, and code diff
+
+Verification:
+
+- 32 WindowsUtility browser runtime checks pass
+- 37 fail-closed browser/output mutations pass
+- 30 loopback server/projection checks pass
+- final overview screenshot was visually inspected after rejecting the first darker pass
+
+Next safe work:
+
+- refresh the live WindowsUtility Workbench and continue the reviewed P9.35 source
+  refresh boundary after user review.

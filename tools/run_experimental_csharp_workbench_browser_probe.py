@@ -38,11 +38,16 @@ REQUIRED_RUNTIME_CHECK_IDS = (
     "single-graph-instance",
     "overview-canvas-nonblank",
     "overview-material-nonblank",
-    "nebula-black-metal-material-active",
+    "overview-material-visible-contrast",
+    "overview-ordinary-code-visible",
+    "luminous-alloy-material-active",
     "material-sprite-cache-bounded",
     "material-viewport-candidates-bounded",
     "selected-endpoint-material-detailed",
     "selected-endpoint-material-compact",
+    "selected-edge-node-attachment-continuous",
+    "selected-invokes-syntax-edge-solid",
+    "selected-edge-line-pixel-continuous",
     "zoom-100-control",
     "zoom-maximum-control",
     "unselected-deep-zoom-anchors-visible-node",
@@ -66,6 +71,16 @@ REQUIRED_RUNTIME_CHECK_IDS = (
 
 def canonical_pretty(data: Any) -> str:
     return json.dumps(data, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
+
+
+def finite_int(value: Any, default: int = 0) -> int:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return default
+    if not math.isfinite(number):
+        return default
+    return int(number)
 
 
 def write_json(path: Path, data: dict[str, Any]) -> None:
@@ -384,7 +399,7 @@ def validate_runtime_observation(
     screenshot: dict[str, Any],
     expected_node_count: int,
     expected_edge_count: int,
-    expected_material: str = "cached-nebula-black-metal-v7",
+    expected_material: str = "cached-luminous-nebula-alloy-v9",
     capture_elapsed_milliseconds: float | None = None,
 ) -> list[str]:
     errors: list[str] = []
@@ -415,18 +430,45 @@ def validate_runtime_observation(
         errors.append("browser runtime checks failed: " + ", ".join(failed_checks))
     overview = observation.get("overview", {})
     overview_pixels = overview.get("pixels", {})
-    if int(overview_pixels.get("canvasCount") or 0) < 1:
+    if finite_int(overview_pixels.get("canvasCount")) < 1:
         errors.append("browser runtime graph canvas was not observed")
-    if int(overview_pixels.get("totalOpaqueSampleCount") or 0) < 1:
+    if finite_int(overview_pixels.get("totalOpaqueSampleCount")) < 1:
         errors.append("browser runtime graph canvas was blank")
-    if int(overview_pixels.get("materialOpaqueSampleCount") or 0) < 1:
+    if finite_int(overview_pixels.get("materialOpaqueSampleCount")) < 1:
         errors.append("browser runtime material canvas was blank")
+    if finite_int(overview_pixels.get("materialOpaqueSampleCount")) < 400:
+        errors.append("browser runtime overview material contrast has too few opaque samples")
+    if finite_int(overview_pixels.get("materialChromaticSampleCount")) < 280:
+        errors.append("browser runtime overview material contrast has too few chromatic samples")
+    try:
+        material_mean_luminance = float(
+            overview_pixels.get("materialMeanOpaqueLuminance")
+        )
+    except (TypeError, ValueError):
+        material_mean_luminance = 0.0
+    if not math.isfinite(material_mean_luminance) or material_mean_luminance < 34:
+        errors.append("browser runtime overview material contrast is too dark")
+    ordinary_code_visibility = overview_pixels.get("ordinaryCodeVisibility", {})
+    ordinary_code_expectations = (
+        ("opacity", 0.82),
+        ("backgroundOpacity", 0.30),
+        ("renderedWidth", 1.5),
+    )
+    if not ordinary_code_visibility.get("nodeId"):
+        errors.append("browser runtime ordinary code visibility sample is missing")
+    for key, minimum in ordinary_code_expectations:
+        try:
+            actual = float(ordinary_code_visibility.get(key))
+        except (TypeError, ValueError):
+            actual = 0.0
+        if not math.isfinite(actual) or actual < minimum:
+            errors.append(f"browser runtime ordinary code visibility {key} is below {minimum}")
     maximum = observation.get("maximum", {})
     maximum_state = maximum.get("state", {})
     maximum_pixels = maximum.get("pixels", {})
-    if int(maximum_pixels.get("totalOpaqueSampleCount") or 0) < 1:
+    if finite_int(maximum_pixels.get("totalOpaqueSampleCount")) < 1:
         errors.append("browser runtime maximum-zoom graph canvas was blank")
-    if int(maximum_pixels.get("materialOpaqueSampleCount") or 0) < 1:
+    if finite_int(maximum_pixels.get("materialOpaqueSampleCount")) < 1:
         errors.append("browser runtime maximum-zoom material canvas was blank")
     try:
         endpoint_geometry_scale = float(maximum.get("endpointGeometryScale"))
@@ -440,8 +482,8 @@ def validate_runtime_observation(
         ("rendererZoom", 512.0, 0.001),
         ("effectiveGeometryZoom", 512.0, 0.001),
         ("virtualGeometryScale", 1.0, 0.001),
-        ("selectedEdgeRenderedWidth", 0.08, 0.002),
-        ("selectedEdgeRenderedOpacity", 0.12, 0.002),
+        ("selectedEdgeRenderedWidth", 0.65, 0.02),
+        ("selectedEdgeRenderedOpacity", 0.30, 0.01),
     )
     for key, expected, tolerance in numeric_expectations:
         try:
@@ -467,16 +509,57 @@ def validate_runtime_observation(
             errors.append(
                 f"browser runtime selected endpoint material {key} is below {minimum}"
             )
-    for key in ("opaqueBoundsWidth", "opaqueBoundsHeight"):
-        try:
-            actual = float(material_pixels.get(key))
-        except (TypeError, ValueError):
-            errors.append(f"browser runtime selected endpoint material {key} is missing")
-            continue
-        if not math.isfinite(actual) or not 0 < actual <= 22:
-            errors.append(
-                f"browser runtime selected endpoint material {key} exceeds compact bounds"
-            )
+    endpoint_pixel_sets = (
+        ("source", maximum.get("selectedSourceEndpointMaterialPixels", {})),
+        ("target", maximum.get("selectedTargetEndpointMaterialPixels", {})),
+    )
+    sampled_endpoint_pixel_sets = [
+        (endpoint_name, endpoint_pixels)
+        for endpoint_name, endpoint_pixels in endpoint_pixel_sets
+        if finite_int(endpoint_pixels.get("opaqueSampleCount")) > 0
+    ]
+    if not sampled_endpoint_pixel_sets:
+        errors.append("browser runtime did not sample an on-screen selected endpoint")
+    for endpoint_name, endpoint_pixels in sampled_endpoint_pixel_sets:
+        for key in ("opaqueBoundsWidth", "opaqueBoundsHeight"):
+            try:
+                actual = float(endpoint_pixels.get(key))
+            except (TypeError, ValueError):
+                errors.append(
+                    f"browser runtime selected {endpoint_name} endpoint material {key} is missing"
+                )
+                continue
+            if not math.isfinite(actual) or not 0 < actual <= 22:
+                errors.append(
+                    f"browser runtime selected {endpoint_name} endpoint material {key} exceeds compact bounds"
+                )
+    try:
+        edge_node_attachment_gap = float(maximum.get("edgeNodeAttachmentGap"))
+    except (TypeError, ValueError):
+        errors.append("browser runtime selected edge node attachment gap is missing")
+    else:
+        if not math.isfinite(edge_node_attachment_gap) or not 0 <= edge_node_attachment_gap <= 1.5:
+            errors.append("browser runtime selected edge node attachment is discontinuous")
+    selected_edge_line_pixels = maximum_state.get("selectedEdgeLinePixels", {})
+    try:
+        line_sample_count = int(selected_edge_line_pixels.get("sampleCount", 0))
+        line_observed_count = int(selected_edge_line_pixels.get("observedSampleCount", 0))
+        line_longest_missing_run = int(selected_edge_line_pixels.get("longestMissingRun", 0))
+    except (TypeError, ValueError):
+        line_sample_count = line_observed_count = 0
+        line_longest_missing_run = 99
+    if (
+        line_sample_count != 13
+        or line_observed_count < 12
+        or line_observed_count > line_sample_count
+        or line_longest_missing_run > 1
+    ):
+        errors.append("browser runtime selected edge line pixels are discontinuous")
+    if (
+        maximum.get("selectedEdgeKind") != "invokes-syntax"
+        or maximum_state.get("selectedEdgeLineStyle") != "solid"
+    ):
+        errors.append("browser runtime selected invokes-syntax edge is not solid")
     try:
         material_candidate_count = int(maximum_state.get("materialCandidateCount", 0))
     except (TypeError, ValueError):
@@ -551,13 +634,13 @@ def validate_runtime_observation(
         errors.append("browser runtime reported script errors")
     if screenshot.get("validPng") is not True:
         errors.append("browser screenshot is not a valid PNG")
-    if int(screenshot.get("width") or 0) != 1440 or int(screenshot.get("height") or 0) != 1000:
+    if finite_int(screenshot.get("width")) != 1440 or finite_int(screenshot.get("height")) != 1000:
         errors.append("browser screenshot dimensions mismatch")
-    if int(screenshot.get("byteLength") or 0) < 10000:
+    if finite_int(screenshot.get("byteLength")) < 10000:
         errors.append("browser screenshot is unexpectedly small")
-    if int(screenshot.get("uniqueColorBucketCount") or 0) < 16:
+    if finite_int(screenshot.get("uniqueColorBucketCount")) < 16:
         errors.append("browser screenshot lacks visual variation")
-    if int(screenshot.get("luminanceRange") or 0) < 24:
+    if finite_int(screenshot.get("luminanceRange")) < 24:
         errors.append("browser screenshot luminance range is too narrow")
     if (
         capture_elapsed_milliseconds is None
@@ -574,7 +657,7 @@ def run_probe(
     output: Path,
     screenshot_output: Path,
     browser_path: Path | None = None,
-    expected_material: str = "cached-nebula-black-metal-v7",
+    expected_material: str = "cached-luminous-nebula-alloy-v9",
 ) -> dict[str, Any]:
     workbench = workbench.resolve(strict=True)
     output = output.resolve()
@@ -639,7 +722,7 @@ def run_probe(
             if result == "pass"
             else "intentgraph-workbench-headless-browser-regression-failed"
         ),
-        "scope": "p9.34r3-512x-nebula-black-metal-regression",
+        "scope": "p9.34r4-luminous-alloy-edge-continuity-regression",
         "result": result,
         "input": {
             "workbench": repo_path(workbench),
@@ -688,7 +771,7 @@ def main() -> int:
     parser.add_argument("--screenshot-out", required=True, type=Path)
     parser.add_argument("--browser", type=Path)
     parser.add_argument(
-        "--expected-material", default="cached-nebula-black-metal-v7"
+        "--expected-material", default="cached-luminous-nebula-alloy-v9"
     )
     args = parser.parse_args()
     try:

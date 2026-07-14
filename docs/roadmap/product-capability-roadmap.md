@@ -2105,3 +2105,29 @@ Next safe work:
 ```text
 Wait for coordinator review response.
 ```
+
+## P9.34.R4 Luminous Alloy Visibility And Edge Continuity
+
+Decision:
+
+```text
+completed-renderer-only-visibility-and-edge-continuity-correction
+```
+
+The WindowsUtility project Workbench now keeps ordinary code facts visible in the
+full graph and aligns deep-zoom relation endpoints with the visible node body. The
+active material is `cached-luminous-nebula-alloy-v9`; selected relations use a
+continuous `0.65px` screen-space line at `0.30` opacity at `512x`.
+
+Evidence:
+
+- `generated/roadmap/p9.34r4-luminous-alloy-browser-report.json`
+- `generated/roadmap/p9.34r4-luminous-alloy-browser-screenshot.png`
+- `generated/roadmap/p9.34r4-luminous-alloy-browser-negative-probes-report.json`
+- `generated/roadmap/p9.34r4-luminous-alloy-server-smoke-report.json`
+
+Next safe work:
+
+```text
+Refresh the live WindowsUtility Workbench, obtain user visual review, then resume P9.35.
+```
