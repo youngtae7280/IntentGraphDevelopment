@@ -1,4 +1,4 @@
-"""Fail-closed probes for the deep-inspection browser observation validator."""
+"""Fail-closed probes for the Graphify-style browser observation validator."""
 
 from __future__ import annotations
 
@@ -11,9 +11,13 @@ from typing import Any, Callable
 from run_experimental_csharp_workbench_browser_probe import (
     REQUIRED_RUNTIME_CHECK_IDS,
     canonical_pretty,
-    validate_runtime_observation,
     validate_output_paths,
+    validate_runtime_observation,
 )
+
+
+WINDOWSUTILITY_NODE_COUNT = 8194
+WINDOWSUTILITY_EDGE_COUNT = 7986
 
 
 def good_observation() -> dict[str, Any]:
@@ -23,82 +27,76 @@ def good_observation() -> dict[str, Any]:
     ]
     return {
         "result": "pass",
-        "graph": {"nodeCount": 8208, "edgeCount": 8023},
+        "graph": {
+            "nodeCount": WINDOWSUTILITY_NODE_COUNT,
+            "edgeCount": WINDOWSUTILITY_EDGE_COUNT,
+        },
         "overview": {
             "pixels": {
-                "canvasCount": 4,
-                "totalOpaqueSampleCount": 1200,
-                "materialOpaqueSampleCount": 650,
-                "materialChromaticSampleCount": 520,
-                "materialMeanOpaqueLuminance": 58,
+                "canvasCount": 3,
+                "totalOpaqueSampleCount": 2200,
+                "totalChromaticSampleCount": 1800,
+                "communityColorCount": 9,
+                "defaultLabelCount": 24,
                 "ordinaryCodeVisibility": {
                     "nodeId": "code.method.example",
-                    "opacity": 0.82,
-                    "backgroundOpacity": 0.30,
-                    "renderedWidth": 2.4,
+                    "opacity": 1.0,
+                    "backgroundOpacity": 1.0,
+                    "renderedWidth": 3.5,
                 },
-            }
+            },
+            "selectedEdgeEndpointDistance": 42,
         },
         "maximum": {
-            "pixels": {
-                "totalOpaqueSampleCount": 180,
-                "materialOpaqueSampleCount": 12,
-            },
+            "pixels": {"totalOpaqueSampleCount": 180},
             "endpointGeometryScale": 1.0,
             "state": {
                 "logicalZoom": 512,
                 "rendererZoom": 512,
                 "effectiveGeometryZoom": 512,
                 "virtualGeometryScale": 1.0,
-                "selectedEdgeRenderedWidth": 0.65,
-                "selectedEdgeRenderedOpacity": 0.30,
+                "selectedEdgeRenderedWidth": 2.0,
+                "selectedEdgeRenderedOpacity": 0.90,
                 "selectedEdgeLineStyle": "solid",
-                "selectedSourceRenderedWidth": 15,
-                "selectedTargetRenderedWidth": 15,
+                "selectedEdgeArrowShape": "none",
+                "selectedSourceRenderedWidth": 12,
+                "selectedTargetRenderedWidth": 12,
                 "selectedEdgeLinePixels": {
-                    "sampleCount": 13,
-                    "observedSampleCount": 13,
+                    "sampleCount": 621,
+                    "observedSampleCount": 621,
                     "longestMissingRun": 0,
+                    "coverage": 1.0,
+                    "visibleSegmentLength": 620,
                 },
-                "materialProfile": "cached-luminous-nebula-alloy-v9",
-                "materialCandidateCount": 2,
-                "materialSpriteCount": 12,
             },
-            "selectedEndpointMaterialPixels": {
-                "opaqueSampleCount": 135,
-                "chromaticSampleCount": 133,
-                "uniqueColorBucketCount": 31,
-                "luminanceRange": 200,
-                "opaqueBoundsWidth": 18,
-                "opaqueBoundsHeight": 18,
+            "graphifyPaletteApplied": True,
+            "allVisibleNodeShapesDot": True,
+            "materialOverlayPresent": False,
+            "unsupportedConfidenceFallsBackToUnknown": True,
+            "pixelDetectorHiddenLineControl": {
+                "sampleCount": 621,
+                "observedSampleCount": 0,
+                "longestMissingRun": 621,
+                "coverage": 0.0,
+                "visibleSegmentLength": 620,
             },
-            "selectedSourceEndpointMaterialPixels": {
-                "opaqueSampleCount": 135,
-                "chromaticSampleCount": 133,
-                "uniqueColorBucketCount": 31,
-                "luminanceRange": 200,
-                "opaqueBoundsWidth": 15,
-                "opaqueBoundsHeight": 18,
-            },
-            "selectedTargetEndpointMaterialPixels": {
-                "opaqueSampleCount": 135,
-                "chromaticSampleCount": 133,
-                "uniqueColorBucketCount": 31,
-                "luminanceRange": 200,
-                "opaqueBoundsWidth": 15,
-                "opaqueBoundsHeight": 18,
-            },
-            "edgeNodeAttachmentGap": 0,
             "selectedEdgeKind": "invokes-syntax",
             "navigation": {
                 "hundred": {"logicalZoom": 100, "rendererZoom": 100},
-                "afterZoomOut": {"logicalZoom": 142.2, "rendererZoom": 142.2},
+                "nearMaximum": {
+                    "logicalZoom": 511,
+                    "rendererZoom": 511,
+                    "selectedSourceRenderedWidth": 12,
+                    "selectedTargetRenderedWidth": 12,
+                },
+                "afterZoomOut": {"logicalZoom": 284.4, "rendererZoom": 284.4},
                 "panDelta": {"x": 18, "y": -12},
                 "unselectedMaximumAnchorDistance": 0,
                 "hiddenSelectionMaximumAnchorDistance": 0,
-                "hundredInteractionMilliseconds": 24,
-                "maximumInteractionMilliseconds": 31,
-                "panInteractionMilliseconds": 4,
+                "hundredInteractionMilliseconds": 180,
+                "nearMaximumInteractionMilliseconds": 200,
+                "maximumInteractionMilliseconds": 220,
+                "panInteractionMilliseconds": 18,
             },
             "selectionText": "relation\nsource\nproject.project\ntarget\nwork.item",
         },
@@ -121,192 +119,46 @@ def good_screenshot() -> dict[str, Any]:
 Mutation = Callable[[dict[str, Any], dict[str, Any]], None]
 
 
-def mutate_node_count(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    observation["graph"]["nodeCount"] = 1
+def set_path(*path: str, value: Any) -> Mutation:
+    def mutate(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
+        target: dict[str, Any] = observation
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
 
-
-def mutate_edge_count(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    observation["graph"]["edgeCount"] = 1
+    return mutate
 
 
 def mutate_failed_check(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
     observation["checks"][0]["passed"] = False
 
 
-def mutate_missing_required_check(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
+def mutate_missing_check(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
     observation["checks"] = observation["checks"][1:]
 
 
-def mutate_blank_graph(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    observation["overview"]["pixels"]["totalOpaqueSampleCount"] = 0
-
-
-def mutate_blank_material(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    observation["overview"]["pixels"]["materialOpaqueSampleCount"] = 0
-
-
-def mutate_dark_material(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    pixels = observation["overview"]["pixels"]
-    pixels["materialOpaqueSampleCount"] = 120
-    pixels["materialChromaticSampleCount"] = 40
-    pixels["materialMeanOpaqueLuminance"] = 8
-
-
-def mutate_non_finite_material_count(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["overview"]["pixels"]["materialOpaqueSampleCount"] = "NaN"
-
-
-def mutate_ordinary_code_visibility(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    visibility = observation["overview"]["pixels"]["ordinaryCodeVisibility"]
-    visibility["opacity"] = 0.20
-    visibility["backgroundOpacity"] = 0.04
-
-
-def mutate_blank_maximum_graph(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["pixels"]["totalOpaqueSampleCount"] = 0
-
-
-def mutate_blank_maximum_material(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["pixels"]["materialOpaqueSampleCount"] = 0
-
-
-def mutate_geometry_scale(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["endpointGeometryScale"] = 0.5
-
-
-def mutate_material_detail(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["selectedEndpointMaterialPixels"] = {
-        "opaqueSampleCount": 8,
-        "chromaticSampleCount": 0,
-        "uniqueColorBucketCount": 1,
-        "luminanceRange": 2,
-        "opaqueBoundsWidth": 4,
-        "opaqueBoundsHeight": 4,
+def mutate_line_pixels(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
+    observation["maximum"]["state"]["selectedEdgeLinePixels"] = {
+        "sampleCount": 621,
+        "observedSampleCount": 410,
+        "longestMissingRun": 8,
+        "coverage": 410 / 621,
+        "visibleSegmentLength": 620,
     }
 
 
-def mutate_material_bounds(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["selectedSourceEndpointMaterialPixels"]["opaqueBoundsWidth"] = 30
-
-
-def mutate_edge_node_attachment(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["edgeNodeAttachmentGap"] = 20
-
-
-def mutate_edge_line_pixels(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
+def mutate_impossible_line_pixels(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
     observation["maximum"]["state"]["selectedEdgeLinePixels"] = {
-        "sampleCount": 13,
-        "observedSampleCount": 4,
-        "longestMissingRun": 6,
-    }
-
-
-def mutate_impossible_edge_line_pixels(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["state"]["selectedEdgeLinePixels"] = {
-        "sampleCount": 13,
-        "observedSampleCount": 14,
+        "sampleCount": 621,
+        "observedSampleCount": 622,
         "longestMissingRun": 0,
+        "coverage": 622 / 621,
+        "visibleSegmentLength": 620,
     }
 
 
-def mutate_selected_dashed_edge(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["state"]["selectedEdgeLineStyle"] = "dashed"
-
-
-def mutate_non_finite_zoom(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["state"]["logicalZoom"] = "NaN"
-
-
-def mutate_material_candidates(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["state"]["materialCandidateCount"] = 8208
-
-
-def mutate_material_sprite_count(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["state"]["materialSpriteCount"] = 97
-
-
-def mutate_unselected_anchor(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["navigation"]["unselectedMaximumAnchorDistance"] = 48
-
-
-def mutate_hidden_selection_anchor(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["navigation"]["hiddenSelectionMaximumAnchorDistance"] = 48
-
-
-def mutate_zoom(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    observation["maximum"]["state"]["effectiveGeometryZoom"] = 24
-
-
-def mutate_edge_width(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    observation["maximum"]["state"]["selectedEdgeRenderedWidth"] = 2.5
-
-
-def mutate_material(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    observation["maximum"]["state"]["materialProfile"] = "plastic-orb"
-
-
-def mutate_hundred_control(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["navigation"]["hundred"]["logicalZoom"] = 24
-
-
-def mutate_zoom_out_control(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["navigation"]["afterZoomOut"]["logicalZoom"] = 512
-
-
-def mutate_pan_control(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
+def mutate_pan(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
     observation["maximum"]["navigation"]["panDelta"] = {"x": 0, "y": 0}
-
-
-def mutate_navigation_budget(
-    observation: dict[str, Any], _screenshot: dict[str, Any]
-) -> None:
-    observation["maximum"]["navigation"]["maximumInteractionMilliseconds"] = "NaN"
-
-
-def mutate_selection(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    observation["maximum"]["selectionText"] = ""
-
-
-def mutate_runtime_error(observation: dict[str, Any], _screenshot: dict[str, Any]) -> None:
-    observation["errors"] = ["synthetic browser error"]
 
 
 def mutate_screenshot(_observation: dict[str, Any], screenshot: dict[str, Any]) -> None:
@@ -314,118 +166,47 @@ def mutate_screenshot(_observation: dict[str, Any], screenshot: dict[str, Any]) 
 
 
 PROBES: tuple[tuple[str, Mutation, str], ...] = (
-    ("wrong-node-count", mutate_node_count, "node count mismatch"),
-    ("wrong-edge-count", mutate_edge_count, "edge count mismatch"),
+    ("wrong-node-count", set_path("graph", "nodeCount", value=1), "node count mismatch"),
+    ("wrong-edge-count", set_path("graph", "edgeCount", value=1), "edge count mismatch"),
     ("failed-page-check", mutate_failed_check, "runtime checks failed"),
-    (
-        "missing-required-page-check",
-        mutate_missing_required_check,
-        "required checks missing",
-    ),
-    ("blank-graph-canvas", mutate_blank_graph, "graph canvas was blank"),
-    ("blank-material-canvas", mutate_blank_material, "material canvas was blank"),
-    (
-        "dark-low-contrast-material",
-        mutate_dark_material,
-        "overview material contrast",
-    ),
-    (
-        "non-finite-material-sample-count",
-        mutate_non_finite_material_count,
-        "material canvas was blank",
-    ),
-    (
-        "dim-ordinary-code-node",
-        mutate_ordinary_code_visibility,
-        "ordinary code visibility",
-    ),
-    (
-        "blank-maximum-zoom-graph-canvas",
-        mutate_blank_maximum_graph,
-        "maximum-zoom graph canvas was blank",
-    ),
-    (
-        "blank-maximum-zoom-material-canvas",
-        mutate_blank_maximum_material,
-        "maximum-zoom material canvas was blank",
-    ),
-    (
-        "mutated-model-geometry-at-actual-zoom",
-        mutate_geometry_scale,
-        "endpoint geometry scale mismatch",
-    ),
-    (
-        "flat-selected-endpoint-material",
-        mutate_material_detail,
-        "selected endpoint material opaqueSampleCount is below",
-    ),
-    (
-        "oversized-selected-endpoint-material",
-        mutate_material_bounds,
-        "selected source endpoint material opaqueBoundsWidth exceeds compact bounds",
-    ),
-    (
-        "disconnected-selected-edge-node-attachment",
-        mutate_edge_node_attachment,
-        "selected edge node attachment is discontinuous",
-    ),
-    (
-        "fragmented-selected-edge-pixels",
-        mutate_edge_line_pixels,
-        "selected edge line pixels are discontinuous",
-    ),
-    (
-        "impossible-selected-edge-pixel-count",
-        mutate_impossible_edge_line_pixels,
-        "selected edge line pixels are discontinuous",
-    ),
-    (
-        "selected-invokes-syntax-remains-dashed",
-        mutate_selected_dashed_edge,
-        "selected invokes-syntax edge is not solid",
-    ),
-    (
-        "unbounded-material-viewport-candidates",
-        mutate_material_candidates,
-        "material viewport candidate count is unbounded",
-    ),
-    (
-        "unbounded-material-sprite-cache",
-        mutate_material_sprite_count,
-        "material sprite cache count is unbounded",
-    ),
-    (
-        "off-center-unselected-maximum-zoom",
-        mutate_unselected_anchor,
-        "unselected maximum anchor is off center",
-    ),
-    (
-        "off-center-hidden-selection-maximum-zoom",
-        mutate_hidden_selection_anchor,
-        "hidden-selection maximum anchor is off center",
-    ),
-    ("wrong-effective-zoom", mutate_zoom, "effectiveGeometryZoom mismatch"),
-    ("non-finite-logical-zoom", mutate_non_finite_zoom, "logicalZoom mismatch"),
-    ("oversized-selected-edge", mutate_edge_width, "selectedEdgeRenderedWidth mismatch"),
-    ("wrong-material", mutate_material, "material profile mismatch"),
-    ("broken-100x-control", mutate_hundred_control, "100x control mismatch"),
-    ("broken-zoom-out-control", mutate_zoom_out_control, "zoom-out control mismatch"),
-    ("broken-maximum-pan-control", mutate_pan_control, "maximum pan control mismatch"),
-    (
-        "non-finite-maximum-zoom-observation",
-        mutate_navigation_budget,
-        "maximumInteractionMilliseconds is not a finite settled observation",
-    ),
-    ("empty-selection-inspector", mutate_selection, "selection inspector is incomplete"),
-    ("runtime-script-error", mutate_runtime_error, "reported script errors"),
+    ("missing-required-page-check", mutate_missing_check, "required checks missing"),
+    ("blank-overview", set_path("overview", "pixels", "totalOpaqueSampleCount", value=0), "graph canvas was blank"),
+    ("achromatic-overview", set_path("overview", "pixels", "totalChromaticSampleCount", value=0), "lacks chromatic community contrast"),
+    ("single-community-color", set_path("overview", "pixels", "communityColorCount", value=1), "too few community colors"),
+    ("labels-not-sparse", set_path("overview", "pixels", "defaultLabelCount", value=WINDOWSUTILITY_NODE_COUNT), "labels are not hub-sparse"),
+    ("dim-code-node", set_path("overview", "pixels", "ordinaryCodeVisibility", "opacity", value=0.2), "ordinary code visibility opacity"),
+    ("blank-maximum", set_path("maximum", "pixels", "totalOpaqueSampleCount", value=0), "maximum-zoom graph canvas was blank"),
+    ("mutated-model-geometry", set_path("maximum", "endpointGeometryScale", value=0.5), "endpoint geometry scale mismatch"),
+    ("fragmented-edge", mutate_line_pixels, "edge line pixels are discontinuous"),
+    ("impossible-edge-samples", mutate_impossible_line_pixels, "edge line pixels are discontinuous"),
+    ("inconsistent-visible-edge-summary", set_path("maximum", "state", "selectedEdgeLinePixels", "coverage", value=0.99), "selected edge line pixel summary is inconsistent"),
+    ("inconsistent-hidden-edge-summary", set_path("maximum", "pixelDetectorHiddenLineControl", "longestMissingRun", value=0), "hidden-line pixel summary is inconsistent"),
+    ("blind-hidden-line-control", set_path("maximum", "pixelDetectorHiddenLineControl", "coverage", value=1.0), "edge pixel detector did not reject a hidden line"),
+    ("selected-edge-dashed", set_path("maximum", "state", "selectedEdgeLineStyle", value="dashed"), "edge is not solid"),
+    ("selected-edge-arrow", set_path("maximum", "state", "selectedEdgeArrowShape", value="triangle"), "edge arrow is not disabled"),
+    ("wrong-palette", set_path("maximum", "graphifyPaletteApplied", value=False), "categorical palette is not applied"),
+    ("wrong-node-shape", set_path("maximum", "allVisibleNodeShapesDot", value=False), "dot node shapes are not applied"),
+    ("second-renderer", set_path("maximum", "materialOverlayPresent", value=True), "still has a second material renderer"),
+    ("unsupported-confidence-not-closed", set_path("maximum", "unsupportedConfidenceFallsBackToUnknown", value=False), "unsupported confidence did not fail closed"),
+    ("off-center-unselected", set_path("maximum", "navigation", "unselectedMaximumAnchorDistance", value=48), "unselected maximum anchor is off center"),
+    ("off-center-hidden", set_path("maximum", "navigation", "hiddenSelectionMaximumAnchorDistance", value=48), "hidden-selection maximum anchor is off center"),
+    ("wrong-effective-zoom", set_path("maximum", "state", "effectiveGeometryZoom", value=24), "effectiveGeometryZoom mismatch"),
+    ("oversized-selected-edge", set_path("maximum", "state", "selectedEdgeRenderedWidth", value=4), "selectedEdgeRenderedWidth mismatch"),
+    ("wrong-selected-opacity", set_path("maximum", "state", "selectedEdgeRenderedOpacity", value=0.3), "selectedEdgeRenderedOpacity mismatch"),
+    ("oversized-node", set_path("maximum", "state", "selectedSourceRenderedWidth", value=60), "source endpoint size is unbounded"),
+    ("broken-100x", set_path("maximum", "navigation", "hundred", "logicalZoom", value=24), "100x control mismatch"),
+    ("unstable-511x-node-size", set_path("maximum", "navigation", "nearMaximum", "selectedSourceRenderedWidth", value=32), "near-maximum node sizes are unstable"),
+    ("broken-zoom-out", set_path("maximum", "navigation", "afterZoomOut", "logicalZoom", value=512), "zoom-out control mismatch"),
+    ("broken-pan", mutate_pan, "maximum pan control mismatch"),
+    ("invalid-interaction-diagnostic", set_path("maximum", "navigation", "maximumInteractionMilliseconds", value=-1), "virtual-time diagnostic is invalid"),
+    ("empty-selection", set_path("maximum", "selectionText", value=""), "selection inspector is incomplete"),
+    ("runtime-error", set_path("errors", value=["synthetic error"]), "reported script errors"),
     ("invalid-screenshot", mutate_screenshot, "not a valid PNG"),
 )
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Run repeatable negative probes for browser runtime observations."
-    )
+    parser = argparse.ArgumentParser(description="Run Graphify-style workbench negative probes.")
     parser.add_argument("--out", required=True, type=Path)
     args = parser.parse_args()
     probe_results: list[dict[str, Any]] = []
@@ -434,22 +215,23 @@ def main() -> int:
         screenshot = deepcopy(good_screenshot())
         mutate(observation, screenshot)
         errors = validate_runtime_observation(
-            observation, screenshot, 8208, 8023, capture_elapsed_milliseconds=16000
+            observation,
+            screenshot,
+            WINDOWSUTILITY_NODE_COUNT,
+            WINDOWSUTILITY_EDGE_COUNT,
+            capture_elapsed_milliseconds=16000,
         )
-        observed = any(expected_error in error for error in errors)
         probe_results.append(
             {
                 "id": identifier,
                 "expectedError": expected_error,
-                "expectedFailureObserved": observed,
+                "expectedFailureObserved": any(expected_error in error for error in errors),
                 "errors": errors,
             }
         )
+
     wall_clock_errors = validate_runtime_observation(
-        good_observation(),
-        good_screenshot(),
-        8208,
-        8023,
+        good_observation(), good_screenshot(), WINDOWSUTILITY_NODE_COUNT, WINDOWSUTILITY_EDGE_COUNT,
         capture_elapsed_milliseconds=45000,
     )
     probe_results.append(
@@ -463,54 +245,32 @@ def main() -> int:
             "errors": wall_clock_errors,
         }
     )
-    output_guards = (
-        (
-            "report-overwrites-workbench-input",
-            Path("workbench/report.json"),
-            Path("evidence/screenshot.png"),
-            "outside the input workbench",
-        ),
-        (
-            "screenshot-overwrites-workbench-input",
-            Path("evidence/report.json"),
-            Path("workbench/index.html"),
-            "outside the input workbench",
-        ),
-        (
-            "report-screenshot-output-collision",
-            Path("evidence/output.bin"),
-            Path("evidence/output.bin"),
-            "must be different",
-        ),
-    )
+
     workbench = Path("workbench").resolve()
-    for identifier, report_path, screenshot_path, expected_error in output_guards:
+    for identifier, report_path, screenshot_path, expected_error in (
+        ("report-overwrites-workbench-input", Path("workbench/report.json"), Path("evidence/screenshot.png"), "outside the input workbench"),
+        ("screenshot-overwrites-workbench-input", Path("evidence/report.json"), Path("workbench/index.html"), "outside the input workbench"),
+        ("report-screenshot-output-collision", Path("evidence/output.bin"), Path("evidence/output.bin"), "must be different"),
+    ):
         errors: list[str] = []
         try:
-            validate_output_paths(
-                workbench, report_path.resolve(), screenshot_path.resolve()
-            )
+            validate_output_paths(workbench, report_path.resolve(), screenshot_path.resolve())
         except ValueError as error:
             errors.append(str(error))
         probe_results.append(
             {
                 "id": identifier,
                 "expectedError": expected_error,
-                "expectedFailureObserved": any(
-                    expected_error in error for error in errors
-                ),
+                "expectedFailureObserved": any(expected_error in error for error in errors),
                 "errors": errors,
             }
         )
+
     result = "pass" if all(item["expectedFailureObserved"] for item in probe_results) else "fail"
     report = {
         "artifactRole": "intentgraph-workbench-browser-runtime-negative-probes-report",
-        "status": (
-            "intentgraph-workbench-browser-runtime-negative-probes-passed"
-            if result == "pass"
-            else "intentgraph-workbench-browser-runtime-negative-probes-failed"
-        ),
-        "scope": "p9.34r4-luminous-alloy-edge-continuity-negative-probes",
+        "status": "intentgraph-workbench-browser-runtime-negative-probes-passed" if result == "pass" else "intentgraph-workbench-browser-runtime-negative-probes-failed",
+        "scope": "p9.34r5-graphify-visual-parity-edge-continuity-negative-probes",
         "result": result,
         "probeCount": len(probe_results),
         "probes": probe_results,

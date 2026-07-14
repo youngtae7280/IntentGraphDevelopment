@@ -2131,3 +2131,30 @@ Next safe work:
 ```text
 Refresh the live WindowsUtility Workbench, obtain user visual review, then resume P9.35.
 ```
+
+## P9.34.R5 Graphify Visual Parity And Deep-Zoom Continuity
+
+Decision:
+
+```text
+completed-graphify-style-single-renderer-visual-correction
+```
+
+P9.34.R5 supersedes the rejected R4 presentation. The complete WindowsUtility graph
+now uses Graphify-style circular nodes, categorical community colors,
+degree-weighted size, hub-only default labels, and confidence-aware relations. The
+custom material canvas is absent, and selected relations remain continuous at
+`512x` in the same Cytoscape coordinate space.
+
+Evidence:
+
+- `generated/roadmap/p9.34r5-graphify-visual-parity-browser-report.json`
+- `generated/roadmap/p9.34r5-graphify-visual-parity-browser-screenshot.png`
+- `generated/roadmap/p9.34r5-graphify-visual-parity-browser-negative-probes-report.json`
+- `generated/roadmap/p9.34r5-graphify-visual-parity-server-smoke-report.json`
+
+Next safe work:
+
+```text
+Refresh the live WindowsUtility Workbench, obtain user visual review, then resume P9.35.
+```

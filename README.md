@@ -84,6 +84,13 @@ taper to `0.30px`/`0.42` opacity at maximum zoom, and cached celestial-ceramic s
 replace the previous glass finish. The graph, source snapshot, workflow, evidence,
 authority, and history domains are unchanged.
 
+P9.34.R5 supersedes the R through R4 visual-material experiments. The current
+Workbench follows the inspected Graphify presentation mechanics: circular nodes,
+categorical code-community colors, degree-weighted size, hub-only default labels, and
+confidence-aware relations. The second material canvas is gone, selected relations
+remain continuous at `512x`, and the unified IntentGraph graph plus its work, delta,
+code-diff, evidence, and authority surfaces are unchanged.
+
 ## Working Definition
 
 IntentGraph is not just a code graph. It is an overlay graph over an existing codebase that can contain:

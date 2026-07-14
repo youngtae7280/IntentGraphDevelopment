@@ -1,0 +1,688 @@
+{
+  "artifactRole": "intentgraph-workbench-headless-browser-regression-report",
+  "boundary": {
+    "browserObservationIsSemanticAuthority": false,
+    "externalNetworkRequired": false,
+    "graphMutation": false,
+    "snapshotMutation": false,
+    "sourceMutation": false,
+    "targetRepositoryMutation": false
+  },
+  "browser": {
+    "capture": {
+      "runtimeQuery": "intentGraphRuntimeProbe=1",
+      "singleProcessDomAndScreenshot": true,
+      "viewport": {
+        "height": 1000,
+        "width": 1440
+      },
+      "virtualTimeBudgetMilliseconds": 12000,
+      "wallClockBudgetMilliseconds": 45000,
+      "wallClockElapsedMilliseconds": 17786.323
+    },
+    "executableName": "msedge.exe",
+    "executableSha256": "sha256:d17f5ab0779e0a763cd70752833793a9e7073fcbdd1fba2c0e6ad13fcd135d91",
+    "family": "edge",
+    "headless": true,
+    "loopbackOnly": true,
+    "thirdPartyAutomationDependency": false,
+    "version": "150.0.4078.65",
+    "versionSource": "windows-file-version-resource"
+  },
+  "errors": [],
+  "input": {
+    "artifacts": {
+      "index.html": {
+        "byteLength": 12205329,
+        "path": "C:/Users/ytkim/AppData/Local/Temp/igd-graphify-parity-probe/index.html",
+        "sha256": "sha256:a667387f585e1179e435cf830e773bece076683139bfab496f3effa8635d8034"
+      },
+      "manifest.json": {
+        "byteLength": 1807,
+        "path": "C:/Users/ytkim/AppData/Local/Temp/igd-graphify-parity-probe/manifest.json",
+        "sha256": "sha256:a23aa95252366cf85f428cd62b3f0524d349b4493ae0e768f0e7b23d669555fa"
+      },
+      "projection.json": {
+        "byteLength": 15537694,
+        "path": "C:/Users/ytkim/AppData/Local/Temp/igd-graphify-parity-probe/projection.json",
+        "sha256": "sha256:c1bc7b1fd9a18305c3684a3b0405befc62383ce5a80e93a9999d203138fb8d7b"
+      },
+      "validation-report.json": {
+        "byteLength": 1092,
+        "path": "C:/Users/ytkim/AppData/Local/Temp/igd-graphify-parity-probe/validation-report.json",
+        "sha256": "sha256:3814c11cc5e2a0ae212320604a477d0d9e302213da1966ef3333f2890a6e485d"
+      }
+    },
+    "expectedEdgeCount": 7986,
+    "expectedNodeCount": 8194,
+    "expectedRenderingProfile": "graphify-community-dot-v1",
+    "workbench": "C:/Users/ytkim/AppData/Local/Temp/igd-graphify-parity-probe"
+  },
+  "result": "pass",
+  "runtimeObservation": {
+    "artifactRole": "intentgraph-workbench-browser-runtime-observation",
+    "boundary": {
+      "graphMutation": false,
+      "networkRequired": false,
+      "queryActivated": true,
+      "sourceMutation": false
+    },
+    "checks": [
+      {
+        "actual": 8194,
+        "expected": 8194,
+        "id": "full-node-count-loaded",
+        "passed": true
+      },
+      {
+        "actual": 7986,
+        "expected": 7986,
+        "id": "full-edge-count-loaded",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "single-graph-instance",
+        "passed": true
+      },
+      {
+        "actual": 2723,
+        "expected": ">0",
+        "id": "overview-canvas-nonblank",
+        "passed": true
+      },
+      {
+        "actual": {
+          "chromaticSamples": 2656,
+          "communityColors": 7
+        },
+        "expected": "chromatic samples>=100 and community colors>=4",
+        "id": "overview-chromatic-communities-visible",
+        "passed": true
+      },
+      {
+        "actual": {
+          "backgroundOpacity": 1,
+          "nodeId": "csharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow",
+          "opacity": 1,
+          "renderedWidth": 3.5992061012731
+        },
+        "expected": "ordinary code opacity/background>=.99 and rendered width>=2px",
+        "id": "overview-ordinary-code-visible",
+        "passed": true
+      },
+      {
+        "actual": true,
+        "expected": true,
+        "id": "graphify-categorical-palette-applied",
+        "passed": true
+      },
+      {
+        "actual": true,
+        "expected": true,
+        "id": "graphify-dot-node-shapes-applied",
+        "passed": true
+      },
+      {
+        "actual": 12,
+        "expected": "1..409",
+        "id": "hub-labels-sparse-by-default",
+        "passed": true
+      },
+      {
+        "actual": false,
+        "expected": false,
+        "id": "single-renderer-coordinate-space",
+        "passed": true
+      },
+      {
+        "actual": true,
+        "expected": true,
+        "id": "unsupported-confidence-fails-closed",
+        "passed": true
+      },
+      {
+        "actual": {
+          "kind": "invokes-syntax",
+          "lineStyle": "solid"
+        },
+        "expected": "selected invokes-syntax relation rendered as solid",
+        "id": "selected-invokes-syntax-edge-solid",
+        "passed": true
+      },
+      {
+        "actual": "none",
+        "expected": "none",
+        "id": "selected-edge-arrow-disabled",
+        "passed": true
+      },
+      {
+        "actual": {
+          "coverage": 1,
+          "longestMissingRun": 0,
+          "observedSampleCount": 298,
+          "sampleCount": 298,
+          "visibleSegmentLength": 296.7925182947876
+        },
+        "expected": "whole visible relation sampled at <=1px intervals, coverage>=.99, longest missing run<=1",
+        "id": "selected-edge-line-pixel-continuous",
+        "passed": true
+      },
+      {
+        "actual": {
+          "coverage": 0,
+          "longestMissingRun": 298,
+          "observedSampleCount": 0,
+          "sampleCount": 298,
+          "visibleSegmentLength": 296.7925182947876
+        },
+        "expected": "temporarily hidden selected line produces <=.10 coverage before style restoration",
+        "id": "edge-pixel-probe-detects-hidden-line",
+        "passed": true
+      },
+      {
+        "actual": {
+          "effectiveGeometryZoom": 100,
+          "logicalZoom": 100,
+          "rendererZoom": 100,
+          "selectedEdgeArrowShape": "none",
+          "selectedEdgeLinePixels": {
+            "coverage": 1,
+            "longestMissingRun": 0,
+            "observedSampleCount": 298,
+            "sampleCount": 298,
+            "visibleSegmentLength": 296.79236210431145
+          },
+          "selectedEdgeLineStyle": "solid",
+          "selectedEdgeRenderedOpacity": 0.9,
+          "selectedEdgeRenderedWidth": 2,
+          "selectedSourceRenderedWidth": 6.722,
+          "selectedTargetRenderedWidth": 6.641,
+          "virtualGeometryScale": 1
+        },
+        "expected": "logical and renderer zoom 100",
+        "id": "zoom-100-control",
+        "passed": true
+      },
+      {
+        "actual": {
+          "effectiveGeometryZoom": 512,
+          "logicalZoom": 512,
+          "rendererZoom": 512,
+          "selectedEdgeArrowShape": "none",
+          "selectedEdgeLinePixels": {
+            "coverage": 1,
+            "longestMissingRun": 0,
+            "observedSampleCount": 298,
+            "sampleCount": 298,
+            "visibleSegmentLength": 296.7925182947876
+          },
+          "selectedEdgeLineStyle": "solid",
+          "selectedEdgeRenderedOpacity": 0.9,
+          "selectedEdgeRenderedWidth": 2,
+          "selectedSourceRenderedWidth": 6.722,
+          "selectedTargetRenderedWidth": 6.64,
+          "virtualGeometryScale": 1
+        },
+        "expected": "logical and renderer zoom 512",
+        "id": "zoom-maximum-control",
+        "passed": true
+      },
+      {
+        "actual": 0,
+        "expected": "<=1.5 screen pixels",
+        "id": "unselected-deep-zoom-anchors-visible-node",
+        "passed": true
+      },
+      {
+        "actual": 0,
+        "expected": "<=1.5 screen pixels",
+        "id": "hidden-selection-deep-zoom-anchors-visible-node",
+        "passed": true
+      },
+      {
+        "actual": 284,
+        "expected": "between 100 and 512",
+        "id": "zoom-out-control",
+        "passed": true
+      },
+      {
+        "actual": {
+          "x": 18,
+          "y": -12
+        },
+        "expected": {
+          "x": 18,
+          "y": -12
+        },
+        "id": "maximum-pan-control",
+        "passed": true
+      },
+      {
+        "actual": {
+          "maximum": {
+            "effectiveGeometryZoom": 512,
+            "logicalZoom": 512,
+            "rendererZoom": 512,
+            "selectedEdgeArrowShape": "none",
+            "selectedEdgeLinePixels": {
+              "coverage": 1,
+              "longestMissingRun": 0,
+              "observedSampleCount": 298,
+              "sampleCount": 298,
+              "visibleSegmentLength": 296.7925182947876
+            },
+            "selectedEdgeLineStyle": "solid",
+            "selectedEdgeRenderedOpacity": 0.9,
+            "selectedEdgeRenderedWidth": 2,
+            "selectedSourceRenderedWidth": 6.722,
+            "selectedTargetRenderedWidth": 6.64,
+            "virtualGeometryScale": 1
+          },
+          "nearMaximum": {
+            "effectiveGeometryZoom": 511,
+            "logicalZoom": 511,
+            "rendererZoom": 511,
+            "selectedEdgeArrowShape": "none",
+            "selectedEdgeLinePixels": {
+              "coverage": 1,
+              "longestMissingRun": 0,
+              "observedSampleCount": 298,
+              "sampleCount": 298,
+              "visibleSegmentLength": 296.7913162709782
+            },
+            "selectedEdgeLineStyle": "solid",
+            "selectedEdgeRenderedOpacity": 0.9,
+            "selectedEdgeRenderedWidth": 2,
+            "selectedSourceRenderedWidth": 6.724,
+            "selectedTargetRenderedWidth": 6.643,
+            "virtualGeometryScale": 1
+          }
+        },
+        "expected": "511x and 512x endpoint widths remain bounded and differ by <=1px",
+        "id": "near-maximum-node-size-stable",
+        "passed": true
+      },
+      {
+        "actual": {
+          "afterZoomOut": {
+            "effectiveGeometryZoom": 284.444,
+            "logicalZoom": 284,
+            "rendererZoom": 284.444,
+            "selectedEdgeArrowShape": "none",
+            "selectedEdgeLinePixels": {
+              "coverage": 1,
+              "longestMissingRun": 0,
+              "observedSampleCount": 298,
+              "sampleCount": 298,
+              "visibleSegmentLength": 296.7928072542233
+            },
+            "selectedEdgeLineStyle": "solid",
+            "selectedEdgeRenderedOpacity": 0.9,
+            "selectedEdgeRenderedWidth": 2,
+            "selectedSourceRenderedWidth": 6.721,
+            "selectedTargetRenderedWidth": 6.64,
+            "virtualGeometryScale": 1
+          },
+          "hiddenSelectionMaximumAnchorDistance": 0,
+          "hundred": {
+            "effectiveGeometryZoom": 100,
+            "logicalZoom": 100,
+            "rendererZoom": 100,
+            "selectedEdgeArrowShape": "none",
+            "selectedEdgeLinePixels": {
+              "coverage": 1,
+              "longestMissingRun": 0,
+              "observedSampleCount": 298,
+              "sampleCount": 298,
+              "visibleSegmentLength": 296.79236210431145
+            },
+            "selectedEdgeLineStyle": "solid",
+            "selectedEdgeRenderedOpacity": 0.9,
+            "selectedEdgeRenderedWidth": 2,
+            "selectedSourceRenderedWidth": 6.722,
+            "selectedTargetRenderedWidth": 6.641,
+            "virtualGeometryScale": 1
+          },
+          "hundredInteractionMilliseconds": 0,
+          "maximumInteractionMilliseconds": 0,
+          "nearMaximum": {
+            "effectiveGeometryZoom": 511,
+            "logicalZoom": 511,
+            "rendererZoom": 511,
+            "selectedEdgeArrowShape": "none",
+            "selectedEdgeLinePixels": {
+              "coverage": 1,
+              "longestMissingRun": 0,
+              "observedSampleCount": 298,
+              "sampleCount": 298,
+              "visibleSegmentLength": 296.7913162709782
+            },
+            "selectedEdgeLineStyle": "solid",
+            "selectedEdgeRenderedOpacity": 0.9,
+            "selectedEdgeRenderedWidth": 2,
+            "selectedSourceRenderedWidth": 6.724,
+            "selectedTargetRenderedWidth": 6.643,
+            "virtualGeometryScale": 1
+          },
+          "nearMaximumInteractionMilliseconds": 0,
+          "panDelta": {
+            "x": 18,
+            "y": -12
+          },
+          "panInteractionMilliseconds": 180,
+          "unselectedMaximumAnchorDistance": 0
+        },
+        "expected": "finite non-negative virtual-time diagnostics; wall-clock capture is bounded externally",
+        "id": "deep-navigation-render-settled",
+        "passed": true
+      },
+      {
+        "actual": 512,
+        "expected": 512,
+        "id": "logical-zoom-512",
+        "passed": true
+      },
+      {
+        "actual": 512,
+        "expected": 512,
+        "id": "renderer-zoom-512",
+        "passed": true
+      },
+      {
+        "actual": 512,
+        "expected": 512,
+        "id": "effective-geometry-zoom-512",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "virtual-geometry-scale-unity",
+        "passed": true
+      },
+      {
+        "actual": 293,
+        "expected": ">0",
+        "id": "maximum-canvas-nonblank",
+        "passed": true
+      },
+      {
+        "actual": 1,
+        "expected": 1,
+        "id": "model-geometry-stable-at-actual-zoom",
+        "passed": true
+      },
+      {
+        "actual": 2,
+        "expected": 2,
+        "id": "selected-edge-screen-width",
+        "passed": true
+      },
+      {
+        "actual": 0.9,
+        "expected": 0.9,
+        "id": "selected-edge-opacity",
+        "passed": true
+      },
+      {
+        "actual": {
+          "source": 6.722,
+          "target": 6.64
+        },
+        "expected": "6..24.1 screen pixels",
+        "id": "selected-endpoint-node-size-bounded",
+        "passed": true
+      },
+      {
+        "actual": "invokes-syntax\ncategory\ncode-relation\nsource\ncsharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow\ntarget\ncsharp.invocation.src_windowsutility_app_floatingdockpreviewwindow_cs.1094.14.invocation\nconfidence\nambiguous\ninterpretation\nAmbiguous syntax relation. It does not prove a resolved runtime or semantic call.",
+        "expected": "source and target details",
+        "id": "selection-inspector-populated",
+        "passed": true
+      },
+      {
+        "actual": [],
+        "expected": [],
+        "id": "runtime-errors-empty",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "graph": {
+      "edgeCount": 7986,
+      "nodeCount": 8194
+    },
+    "maximum": {
+      "allVisibleNodeShapesDot": true,
+      "endpointGeometryScale": 1,
+      "graphifyPaletteApplied": true,
+      "materialOverlayPresent": false,
+      "navigation": {
+        "afterZoomOut": {
+          "effectiveGeometryZoom": 284.444,
+          "logicalZoom": 284,
+          "rendererZoom": 284.444,
+          "selectedEdgeArrowShape": "none",
+          "selectedEdgeLinePixels": {
+            "coverage": 1,
+            "longestMissingRun": 0,
+            "observedSampleCount": 298,
+            "sampleCount": 298,
+            "visibleSegmentLength": 296.7928072542233
+          },
+          "selectedEdgeLineStyle": "solid",
+          "selectedEdgeRenderedOpacity": 0.9,
+          "selectedEdgeRenderedWidth": 2,
+          "selectedSourceRenderedWidth": 6.721,
+          "selectedTargetRenderedWidth": 6.64,
+          "virtualGeometryScale": 1
+        },
+        "hiddenSelectionMaximumAnchorDistance": 0,
+        "hundred": {
+          "effectiveGeometryZoom": 100,
+          "logicalZoom": 100,
+          "rendererZoom": 100,
+          "selectedEdgeArrowShape": "none",
+          "selectedEdgeLinePixels": {
+            "coverage": 1,
+            "longestMissingRun": 0,
+            "observedSampleCount": 298,
+            "sampleCount": 298,
+            "visibleSegmentLength": 296.79236210431145
+          },
+          "selectedEdgeLineStyle": "solid",
+          "selectedEdgeRenderedOpacity": 0.9,
+          "selectedEdgeRenderedWidth": 2,
+          "selectedSourceRenderedWidth": 6.722,
+          "selectedTargetRenderedWidth": 6.641,
+          "virtualGeometryScale": 1
+        },
+        "hundredInteractionMilliseconds": 0,
+        "maximumInteractionMilliseconds": 0,
+        "nearMaximum": {
+          "effectiveGeometryZoom": 511,
+          "logicalZoom": 511,
+          "rendererZoom": 511,
+          "selectedEdgeArrowShape": "none",
+          "selectedEdgeLinePixels": {
+            "coverage": 1,
+            "longestMissingRun": 0,
+            "observedSampleCount": 298,
+            "sampleCount": 298,
+            "visibleSegmentLength": 296.7913162709782
+          },
+          "selectedEdgeLineStyle": "solid",
+          "selectedEdgeRenderedOpacity": 0.9,
+          "selectedEdgeRenderedWidth": 2,
+          "selectedSourceRenderedWidth": 6.724,
+          "selectedTargetRenderedWidth": 6.643,
+          "virtualGeometryScale": 1
+        },
+        "nearMaximumInteractionMilliseconds": 0,
+        "panDelta": {
+          "x": 18,
+          "y": -12
+        },
+        "panInteractionMilliseconds": 180,
+        "unselectedMaximumAnchorDistance": 0
+      },
+      "pixelDetectorHiddenLineControl": {
+        "coverage": 0,
+        "longestMissingRun": 298,
+        "observedSampleCount": 0,
+        "sampleCount": 298,
+        "visibleSegmentLength": 296.7925182947876
+      },
+      "pixels": {
+        "canvasCount": 3,
+        "communityColorCount": 7,
+        "defaultLabelCount": 12,
+        "layers": [
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 0,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 0,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 293,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 184.20830375426607,
+            "opaqueSampleCount": 293,
+            "sampleCount": 18696,
+            "width": 760
+          }
+        ],
+        "ordinaryCodeVisibility": {
+          "backgroundOpacity": 1,
+          "nodeId": "csharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow",
+          "opacity": 1,
+          "renderedWidth": 6.7219098412698415
+        },
+        "totalChromaticSampleCount": 293,
+        "totalOpaqueSampleCount": 293
+      },
+      "selectedEdgeEndpointDistance": 15.470886050173057,
+      "selectedEdgeId": "rel.invokes-syntax.csharp_constructor_src_windowsutility_app_floatingdockpreviewwindow_cs_485_680_floatingdockpreviewwindow.csharp_invocation_src_windowsutility_app_floatingdockpreviewwindow_cs_1094_14_invocation",
+      "selectedEdgeKind": "invokes-syntax",
+      "selectionText": "invokes-syntax\ncategory\ncode-relation\nsource\ncsharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow\ntarget\ncsharp.invocation.src_windowsutility_app_floatingdockpreviewwindow_cs.1094.14.invocation\nconfidence\nambiguous\ninterpretation\nAmbiguous syntax relation. It does not prove a resolved runtime or semantic call.",
+      "state": {
+        "effectiveGeometryZoom": 512,
+        "logicalZoom": 512,
+        "rendererZoom": 512,
+        "selectedEdgeArrowShape": "none",
+        "selectedEdgeLinePixels": {
+          "coverage": 1,
+          "longestMissingRun": 0,
+          "observedSampleCount": 298,
+          "sampleCount": 298,
+          "visibleSegmentLength": 296.7925182947876
+        },
+        "selectedEdgeLineStyle": "solid",
+        "selectedEdgeRenderedOpacity": 0.9,
+        "selectedEdgeRenderedWidth": 2,
+        "selectedSourceRenderedWidth": 6.722,
+        "selectedTargetRenderedWidth": 6.64,
+        "virtualGeometryScale": 1
+      },
+      "unsupportedConfidenceFallsBackToUnknown": true
+    },
+    "overview": {
+      "pixels": {
+        "canvasCount": 3,
+        "communityColorCount": 7,
+        "defaultLabelCount": 12,
+        "layers": [
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 0,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 0,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 0,
+            "opaqueSampleCount": 0,
+            "sampleCount": 18696,
+            "width": 760
+          },
+          {
+            "chromaticSampleCount": 2656,
+            "className": "",
+            "height": 612,
+            "meanOpaqueLuminance": 160.79721623210034,
+            "opaqueSampleCount": 2723,
+            "sampleCount": 18696,
+            "width": 760
+          }
+        ],
+        "ordinaryCodeVisibility": {
+          "backgroundOpacity": 1,
+          "nodeId": "csharp.constructor.src_windowsutility_app_floatingdockpreviewwindow_cs.485.680.floatingdockpreviewwindow",
+          "opacity": 1,
+          "renderedWidth": 3.5992061012731
+        },
+        "totalChromaticSampleCount": 2656,
+        "totalOpaqueSampleCount": 2723
+      },
+      "selectedEdgeEndpointDistance": 15.470886050173057,
+      "state": {
+        "effectiveGeometryZoom": 0.307,
+        "logicalZoom": 0.31,
+        "rendererZoom": 0.307,
+        "selectedEdgeArrowShape": "",
+        "selectedEdgeLinePixels": {
+          "coverage": 0,
+          "longestMissingRun": 0,
+          "observedSampleCount": 0,
+          "sampleCount": 0,
+          "visibleSegmentLength": 0
+        },
+        "selectedEdgeLineStyle": "",
+        "selectedEdgeRenderedOpacity": 0,
+        "selectedEdgeRenderedWidth": 0,
+        "selectedSourceRenderedWidth": 0,
+        "selectedTargetRenderedWidth": 0,
+        "virtualGeometryScale": 1
+      }
+    },
+    "result": "pass",
+    "scope": "browser-runtime-probe-read-only",
+    "status": "intentgraph-workbench-browser-runtime-pass"
+  },
+  "scope": "p9.34r5-graphify-visual-parity-edge-continuity-regression",
+  "screenshotEvidence": {
+    "byteLength": 158261,
+    "chromaticSampleCount": 840,
+    "decodeStatus": "pass",
+    "exists": true,
+    "height": 1000,
+    "luminanceRange": 227,
+    "path": "generated/roadmap/p9.34r5-graphify-visual-parity-browser-screenshot.png",
+    "sampleCount": 5220,
+    "sha256": "sha256:b4d04e4b55fe304dd1241dcfd0b1c301cda3a22194ffd04241a4699624397ada",
+    "uniqueColorBucketCount": 69,
+    "validPng": true,
+    "width": 1440
+  },
+  "status": "intentgraph-workbench-headless-browser-regression-passed"
+}

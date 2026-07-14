@@ -37,33 +37,34 @@ REQUIRED_RUNTIME_CHECK_IDS = (
     "full-edge-count-loaded",
     "single-graph-instance",
     "overview-canvas-nonblank",
-    "overview-material-nonblank",
-    "overview-material-visible-contrast",
+    "overview-chromatic-communities-visible",
     "overview-ordinary-code-visible",
-    "luminous-alloy-material-active",
-    "material-sprite-cache-bounded",
-    "material-viewport-candidates-bounded",
-    "selected-endpoint-material-detailed",
-    "selected-endpoint-material-compact",
-    "selected-edge-node-attachment-continuous",
+    "graphify-categorical-palette-applied",
+    "graphify-dot-node-shapes-applied",
+    "hub-labels-sparse-by-default",
+    "single-renderer-coordinate-space",
+    "unsupported-confidence-fails-closed",
     "selected-invokes-syntax-edge-solid",
+    "selected-edge-arrow-disabled",
     "selected-edge-line-pixel-continuous",
+    "edge-pixel-probe-detects-hidden-line",
     "zoom-100-control",
     "zoom-maximum-control",
     "unselected-deep-zoom-anchors-visible-node",
     "hidden-selection-deep-zoom-anchors-visible-node",
     "zoom-out-control",
     "maximum-pan-control",
+    "near-maximum-node-size-stable",
     "deep-navigation-render-settled",
     "logical-zoom-512",
     "renderer-zoom-512",
     "effective-geometry-zoom-512",
     "virtual-geometry-scale-unity",
     "maximum-canvas-nonblank",
-    "maximum-material-nonblank",
     "model-geometry-stable-at-actual-zoom",
     "selected-edge-screen-width",
     "selected-edge-opacity",
+    "selected-endpoint-node-size-bounded",
     "selection-inspector-populated",
     "runtime-errors-empty",
 )
@@ -399,7 +400,6 @@ def validate_runtime_observation(
     screenshot: dict[str, Any],
     expected_node_count: int,
     expected_edge_count: int,
-    expected_material: str = "cached-luminous-nebula-alloy-v9",
     capture_elapsed_milliseconds: float | None = None,
 ) -> list[str]:
     errors: list[str] = []
@@ -434,25 +434,18 @@ def validate_runtime_observation(
         errors.append("browser runtime graph canvas was not observed")
     if finite_int(overview_pixels.get("totalOpaqueSampleCount")) < 1:
         errors.append("browser runtime graph canvas was blank")
-    if finite_int(overview_pixels.get("materialOpaqueSampleCount")) < 1:
-        errors.append("browser runtime material canvas was blank")
-    if finite_int(overview_pixels.get("materialOpaqueSampleCount")) < 400:
-        errors.append("browser runtime overview material contrast has too few opaque samples")
-    if finite_int(overview_pixels.get("materialChromaticSampleCount")) < 280:
-        errors.append("browser runtime overview material contrast has too few chromatic samples")
-    try:
-        material_mean_luminance = float(
-            overview_pixels.get("materialMeanOpaqueLuminance")
-        )
-    except (TypeError, ValueError):
-        material_mean_luminance = 0.0
-    if not math.isfinite(material_mean_luminance) or material_mean_luminance < 34:
-        errors.append("browser runtime overview material contrast is too dark")
+    if finite_int(overview_pixels.get("totalChromaticSampleCount")) < 100:
+        errors.append("browser runtime overview lacks chromatic community contrast")
+    if finite_int(overview_pixels.get("communityColorCount")) < 4:
+        errors.append("browser runtime overview has too few community colors")
+    default_label_count = finite_int(overview_pixels.get("defaultLabelCount"))
+    if not 0 < default_label_count < max(100, math.ceil(expected_node_count * 0.05)):
+        errors.append("browser runtime default labels are not hub-sparse")
     ordinary_code_visibility = overview_pixels.get("ordinaryCodeVisibility", {})
     ordinary_code_expectations = (
-        ("opacity", 0.82),
-        ("backgroundOpacity", 0.30),
-        ("renderedWidth", 1.5),
+        ("opacity", 0.99),
+        ("backgroundOpacity", 0.99),
+        ("renderedWidth", 2.0),
     )
     if not ordinary_code_visibility.get("nodeId"):
         errors.append("browser runtime ordinary code visibility sample is missing")
@@ -468,8 +461,6 @@ def validate_runtime_observation(
     maximum_pixels = maximum.get("pixels", {})
     if finite_int(maximum_pixels.get("totalOpaqueSampleCount")) < 1:
         errors.append("browser runtime maximum-zoom graph canvas was blank")
-    if finite_int(maximum_pixels.get("materialOpaqueSampleCount")) < 1:
-        errors.append("browser runtime maximum-zoom material canvas was blank")
     try:
         endpoint_geometry_scale = float(maximum.get("endpointGeometryScale"))
     except (TypeError, ValueError):
@@ -482,8 +473,8 @@ def validate_runtime_observation(
         ("rendererZoom", 512.0, 0.001),
         ("effectiveGeometryZoom", 512.0, 0.001),
         ("virtualGeometryScale", 1.0, 0.001),
-        ("selectedEdgeRenderedWidth", 0.65, 0.02),
-        ("selectedEdgeRenderedOpacity", 0.30, 0.01),
+        ("selectedEdgeRenderedWidth", 2.0, 0.05),
+        ("selectedEdgeRenderedOpacity", 0.90, 0.01),
     )
     for key, expected, tolerance in numeric_expectations:
         try:
@@ -493,88 +484,97 @@ def validate_runtime_observation(
             continue
         if not math.isfinite(actual) or abs(actual - expected) > tolerance:
             errors.append(f"browser runtime {key} mismatch")
-    material_pixels = maximum.get("selectedEndpointMaterialPixels", {})
-    material_thresholds = (
-        ("opaqueSampleCount", 60),
-        ("chromaticSampleCount", 12),
-        ("uniqueColorBucketCount", 8),
-        ("luminanceRange", 35),
-    )
-    for key, minimum in material_thresholds:
+    for endpoint_name, key in (
+        ("source", "selectedSourceRenderedWidth"),
+        ("target", "selectedTargetRenderedWidth"),
+    ):
         try:
-            actual = int(material_pixels.get(key, 0))
+            actual = float(maximum_state.get(key))
         except (TypeError, ValueError):
-            actual = 0
-        if actual < minimum:
-            errors.append(
-                f"browser runtime selected endpoint material {key} is below {minimum}"
-            )
-    endpoint_pixel_sets = (
-        ("source", maximum.get("selectedSourceEndpointMaterialPixels", {})),
-        ("target", maximum.get("selectedTargetEndpointMaterialPixels", {})),
-    )
-    sampled_endpoint_pixel_sets = [
-        (endpoint_name, endpoint_pixels)
-        for endpoint_name, endpoint_pixels in endpoint_pixel_sets
-        if finite_int(endpoint_pixels.get("opaqueSampleCount")) > 0
-    ]
-    if not sampled_endpoint_pixel_sets:
-        errors.append("browser runtime did not sample an on-screen selected endpoint")
-    for endpoint_name, endpoint_pixels in sampled_endpoint_pixel_sets:
-        for key in ("opaqueBoundsWidth", "opaqueBoundsHeight"):
-            try:
-                actual = float(endpoint_pixels.get(key))
-            except (TypeError, ValueError):
-                errors.append(
-                    f"browser runtime selected {endpoint_name} endpoint material {key} is missing"
-                )
-                continue
-            if not math.isfinite(actual) or not 0 < actual <= 22:
-                errors.append(
-                    f"browser runtime selected {endpoint_name} endpoint material {key} exceeds compact bounds"
-                )
-    try:
-        edge_node_attachment_gap = float(maximum.get("edgeNodeAttachmentGap"))
-    except (TypeError, ValueError):
-        errors.append("browser runtime selected edge node attachment gap is missing")
-    else:
-        if not math.isfinite(edge_node_attachment_gap) or not 0 <= edge_node_attachment_gap <= 1.5:
-            errors.append("browser runtime selected edge node attachment is discontinuous")
+            errors.append(f"browser runtime selected {endpoint_name} endpoint width is missing")
+            continue
+        if not math.isfinite(actual) or not 6.0 <= actual <= 24.1:
+            errors.append(f"browser runtime selected {endpoint_name} endpoint size is unbounded")
     selected_edge_line_pixels = maximum_state.get("selectedEdgeLinePixels", {})
     try:
         line_sample_count = int(selected_edge_line_pixels.get("sampleCount", 0))
         line_observed_count = int(selected_edge_line_pixels.get("observedSampleCount", 0))
         line_longest_missing_run = int(selected_edge_line_pixels.get("longestMissingRun", 0))
+        line_coverage = float(selected_edge_line_pixels.get("coverage", 0))
+        line_visible_length = float(selected_edge_line_pixels.get("visibleSegmentLength", 0))
     except (TypeError, ValueError):
         line_sample_count = line_observed_count = 0
         line_longest_missing_run = 99
+        line_coverage = 0.0
+        line_visible_length = 0.0
+    line_missing_count = line_sample_count - line_observed_count
+    line_summary_consistent = (
+        line_sample_count > 0
+        and 0 <= line_observed_count <= line_sample_count
+        and math.isfinite(line_coverage)
+        and abs(line_coverage - (line_observed_count / line_sample_count)) <= 1e-9
+        and (
+            (line_missing_count == 0 and line_longest_missing_run == 0)
+            or (line_missing_count > 0 and 1 <= line_longest_missing_run <= line_missing_count)
+        )
+    )
+    if not line_summary_consistent:
+        errors.append("browser runtime selected edge line pixel summary is inconsistent")
     if (
-        line_sample_count != 13
-        or line_observed_count < 12
+        line_sample_count < min(2049, math.ceil(line_visible_length) + 1)
         or line_observed_count > line_sample_count
         or line_longest_missing_run > 1
+        or not math.isfinite(line_coverage)
+        or line_coverage < 0.99
     ):
         errors.append("browser runtime selected edge line pixels are discontinuous")
+    hidden_line_control = maximum.get("pixelDetectorHiddenLineControl", {})
+    try:
+        hidden_line_samples = int(hidden_line_control.get("sampleCount", 0))
+        hidden_line_observed = int(hidden_line_control.get("observedSampleCount", 0))
+        hidden_line_longest_missing_run = int(hidden_line_control.get("longestMissingRun", 0))
+        hidden_line_coverage = float(hidden_line_control.get("coverage", 1))
+    except (TypeError, ValueError):
+        hidden_line_samples = hidden_line_observed = 0
+        hidden_line_longest_missing_run = 99
+        hidden_line_coverage = 1.0
+    hidden_line_missing_count = hidden_line_samples - hidden_line_observed
+    hidden_line_summary_consistent = (
+        hidden_line_samples > 0
+        and 0 <= hidden_line_observed <= hidden_line_samples
+        and math.isfinite(hidden_line_coverage)
+        and abs(hidden_line_coverage - (hidden_line_observed / hidden_line_samples)) <= 1e-9
+        and (
+            (hidden_line_missing_count == 0 and hidden_line_longest_missing_run == 0)
+            or (
+                hidden_line_missing_count > 0
+                and 1 <= hidden_line_longest_missing_run <= hidden_line_missing_count
+            )
+        )
+    )
+    if not hidden_line_summary_consistent:
+        errors.append("browser runtime hidden-line pixel summary is inconsistent")
+    if (
+        hidden_line_samples < 25
+        or not math.isfinite(hidden_line_coverage)
+        or hidden_line_coverage > 0.10
+    ):
+        errors.append("browser runtime edge pixel detector did not reject a hidden line")
     if (
         maximum.get("selectedEdgeKind") != "invokes-syntax"
         or maximum_state.get("selectedEdgeLineStyle") != "solid"
     ):
         errors.append("browser runtime selected invokes-syntax edge is not solid")
-    try:
-        material_candidate_count = int(maximum_state.get("materialCandidateCount", 0))
-    except (TypeError, ValueError):
-        material_candidate_count = 0
-    material_candidate_limit = max(256, (expected_node_count + 9) // 10)
-    if not 0 < material_candidate_count <= material_candidate_limit:
-        errors.append("browser runtime material viewport candidate count is unbounded")
-    try:
-        material_sprite_count = int(maximum_state.get("materialSpriteCount", 0))
-    except (TypeError, ValueError):
-        material_sprite_count = 0
-    if not 0 < material_sprite_count <= 96:
-        errors.append("browser runtime material sprite cache count is unbounded")
-    if maximum_state.get("materialProfile") != expected_material:
-        errors.append("browser runtime material profile mismatch")
+    if maximum_state.get("selectedEdgeArrowShape") != "none":
+        errors.append("browser runtime selected edge arrow is not disabled")
+    if maximum.get("graphifyPaletteApplied") is not True:
+        errors.append("browser runtime graphify categorical palette is not applied")
+    if maximum.get("allVisibleNodeShapesDot") is not True:
+        errors.append("browser runtime graphify dot node shapes are not applied")
+    if maximum.get("materialOverlayPresent") is not False:
+        errors.append("browser runtime still has a second material renderer")
+    if maximum.get("unsupportedConfidenceFallsBackToUnknown") is not True:
+        errors.append("browser runtime unsupported confidence did not fail closed")
     navigation = maximum.get("navigation", {})
     for key, label in (
         ("unselectedMaximumAnchorDistance", "unselected maximum anchor"),
@@ -596,6 +596,33 @@ def validate_runtime_observation(
     else:
         if not all(math.isfinite(value) for value in (hundred_logical, hundred_renderer)) or abs(hundred_logical - 100.0) > 0.001 or abs(hundred_renderer - 100.0) > 0.001:
             errors.append("browser runtime 100x control mismatch")
+    near_maximum = navigation.get("nearMaximum", {})
+    try:
+        near_maximum_logical = float(near_maximum.get("logicalZoom"))
+        near_source_width = float(near_maximum.get("selectedSourceRenderedWidth"))
+        near_target_width = float(near_maximum.get("selectedTargetRenderedWidth"))
+        maximum_source_width = float(maximum_state.get("selectedSourceRenderedWidth"))
+        maximum_target_width = float(maximum_state.get("selectedTargetRenderedWidth"))
+    except (TypeError, ValueError):
+        errors.append("browser runtime near-maximum node-size observation is missing")
+    else:
+        if (
+            not all(
+                math.isfinite(value)
+                for value in (
+                    near_maximum_logical,
+                    near_source_width,
+                    near_target_width,
+                    maximum_source_width,
+                    maximum_target_width,
+                )
+            )
+            or abs(near_maximum_logical - 511.0) > 0.001
+            or not all(6.0 <= value <= 24.1 for value in (near_source_width, near_target_width))
+            or abs(near_source_width - maximum_source_width) > 1.0
+            or abs(near_target_width - maximum_target_width) > 1.0
+        ):
+            errors.append("browser runtime near-maximum node sizes are unstable")
     after_zoom_out = navigation.get("afterZoomOut", {})
     try:
         zoomed_out = float(after_zoom_out.get("logicalZoom"))
@@ -615,6 +642,7 @@ def validate_runtime_observation(
             errors.append("browser runtime maximum pan control mismatch")
     for key in (
         "hundredInteractionMilliseconds",
+        "nearMaximumInteractionMilliseconds",
         "maximumInteractionMilliseconds",
         "panInteractionMilliseconds",
     ):
@@ -624,7 +652,7 @@ def validate_runtime_observation(
             errors.append(f"browser runtime {key} is missing")
             continue
         if not math.isfinite(duration) or duration < 0:
-            errors.append(f"browser runtime {key} is not a finite settled observation")
+            errors.append(f"browser runtime {key} virtual-time diagnostic is invalid")
     selection_text = maximum.get("selectionText")
     if not isinstance(selection_text, str) or not all(
         marker in selection_text for marker in ("source", "target")
@@ -657,7 +685,6 @@ def run_probe(
     output: Path,
     screenshot_output: Path,
     browser_path: Path | None = None,
-    expected_material: str = "cached-luminous-nebula-alloy-v9",
 ) -> dict[str, Any]:
     workbench = workbench.resolve(strict=True)
     output = output.resolve()
@@ -708,7 +735,6 @@ def run_probe(
                 screenshot,
                 expected_node_count,
                 expected_edge_count,
-                expected_material,
                 capture_elapsed_milliseconds,
             )
         )
@@ -722,13 +748,13 @@ def run_probe(
             if result == "pass"
             else "intentgraph-workbench-headless-browser-regression-failed"
         ),
-        "scope": "p9.34r4-luminous-alloy-edge-continuity-regression",
+        "scope": "p9.34r5-graphify-visual-parity-edge-continuity-regression",
         "result": result,
         "input": {
             "workbench": repo_path(workbench),
             "expectedNodeCount": expected_node_count,
             "expectedEdgeCount": expected_edge_count,
-            "expectedMaterial": expected_material,
+            "expectedRenderingProfile": "graphify-community-dot-v1",
             "artifacts": input_artifacts,
         },
         "browser": {
@@ -770,9 +796,6 @@ def main() -> int:
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--screenshot-out", required=True, type=Path)
     parser.add_argument("--browser", type=Path)
-    parser.add_argument(
-        "--expected-material", default="cached-luminous-nebula-alloy-v9"
-    )
     args = parser.parse_args()
     try:
         report = run_probe(
@@ -780,7 +803,6 @@ def main() -> int:
             args.out,
             args.screenshot_out,
             args.browser,
-            args.expected_material,
         )
     except (FileNotFoundError, ValueError) as error:
         print(f"error: {error}", file=sys.stderr)

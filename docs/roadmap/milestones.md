@@ -4948,3 +4948,36 @@ Next safe work:
 
 - refresh the live WindowsUtility Workbench and continue the reviewed P9.35 source
   refresh boundary after user review.
+
+## P9.34.R5: Graphify Visual Parity And Deep-Zoom Continuity
+
+Goal: replace the rejected custom material treatment with the concrete presentation
+mechanics of the inspected Graphify reference while preserving the unified
+IntentGraph graph and all review panels.
+
+Status: completed on 2026-07-14. See
+[P9.34.R5 Graphify Visual Parity Review](../reviews/p9.34r5-graphify-visual-parity-review.md).
+
+Delivered boundary:
+
+- Graphify categorical community palette and circular dot nodes
+- degree-weighted node sizing and hub-only default labels
+- confidence-aware relation styling with no deep-zoom arrow expansion
+- unsupported confidence values fail closed to the conservative unknown style
+- a single Cytoscape coordinate space with no custom material canvas
+- actual `512x` zoom with `6..24px` precision nodes
+- continuous selected relations at `2px` and `0.90` opacity across the visible segment
+- stable `511x` to `512x` node sizing and deterministic presentation respacing
+- unchanged graph semantics, source, workflow, evidence, authority, history, delta, and code diff
+
+Verification:
+
+- complete WindowsUtility browser runtime observation passes
+- 34 browser runtime checks pass
+- 40 fail-closed browser/output mutations pass
+- 30 loopback server/projection checks pass
+- deep-zoom screenshot confirms the actual selected-relation inspection state
+
+Next safe work:
+
+- continue the reviewed P9.35 source refresh boundary after live user review.

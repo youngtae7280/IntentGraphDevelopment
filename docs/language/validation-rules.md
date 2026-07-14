@@ -1244,6 +1244,36 @@ identity, non-finite zoom observations, unbounded material work, and runtime err
 No graph, source, workflow, evidence, authority, history, delta, or code-diff mutation
 is permitted.
 
+### V440 - Graphify-Style Single-Renderer Graph Must Fail Closed
+
+Severity: P1 in P9.34.R5
+
+V440 supersedes V439 for the current Workbench renderer. The runtime must use circular
+nodes, the ten-color Graphify categorical palette for code communities,
+degree-weighted node size, hub-only default labels, and confidence-aware relation
+styles. The former material canvas must not exist in the runtime DOM. Graph rendering
+must remain in one Cytoscape coordinate system. Unsupported or missing relation
+confidence values must fail closed to the conservative `unknown` style.
+
+At `512x`, selected relations must render as solid `2px` lines at `0.90` opacity with
+no target arrow. Precision node diameter must remain between `6px` and `24.1px`, and
+the settled precision size target must reserve enough margin that the bounded viewport
+style-refresh tolerance cannot escape that range. The `511x` to `512x` endpoint-size
+transition must remain within one screen pixel. The whole visible relation segment must
+be sampled at intervals no larger than one pixel with at least `0.99` coverage and no
+missing run longer than one sample. A browser-side hidden-line control must produce no
+more than `0.10` coverage before presentation style restoration. Reported sample counts,
+observed counts, coverage, and longest-missing-run summaries must agree arithmetically.
+Browser checks must reject
+insufficient community colors, excessive default labels, dim code nodes, non-dot
+shapes, a second renderer, relation arrows, fragmented relation pixels, unbounded
+endpoint nodes, invalid virtual-time diagnostics, and runtime errors. In-page virtual
+time is not a latency claim; the full capture has a `45s` wall-clock gate.
+
+No graph semantic, source, workflow, evidence, authority, history, delta, or code-diff
+mutation is permitted. Presentation coordinates may change only deterministically and
+must be documented as presentation spacing.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:

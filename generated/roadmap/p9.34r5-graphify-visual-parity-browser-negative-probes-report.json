@@ -1,0 +1,332 @@
+{
+  "artifactRole": "intentgraph-workbench-browser-runtime-negative-probes-report",
+  "probeCount": 40,
+  "probes": [
+    {
+      "errors": [
+        "browser runtime node count mismatch"
+      ],
+      "expectedError": "node count mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-node-count"
+    },
+    {
+      "errors": [
+        "browser runtime edge count mismatch"
+      ],
+      "expectedError": "edge count mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-edge-count"
+    },
+    {
+      "errors": [
+        "browser runtime checks failed: full-node-count-loaded"
+      ],
+      "expectedError": "runtime checks failed",
+      "expectedFailureObserved": true,
+      "id": "failed-page-check"
+    },
+    {
+      "errors": [
+        "browser runtime required checks missing: full-node-count-loaded"
+      ],
+      "expectedError": "required checks missing",
+      "expectedFailureObserved": true,
+      "id": "missing-required-page-check"
+    },
+    {
+      "errors": [
+        "browser runtime graph canvas was blank"
+      ],
+      "expectedError": "graph canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-overview"
+    },
+    {
+      "errors": [
+        "browser runtime overview lacks chromatic community contrast"
+      ],
+      "expectedError": "lacks chromatic community contrast",
+      "expectedFailureObserved": true,
+      "id": "achromatic-overview"
+    },
+    {
+      "errors": [
+        "browser runtime overview has too few community colors"
+      ],
+      "expectedError": "too few community colors",
+      "expectedFailureObserved": true,
+      "id": "single-community-color"
+    },
+    {
+      "errors": [
+        "browser runtime default labels are not hub-sparse"
+      ],
+      "expectedError": "labels are not hub-sparse",
+      "expectedFailureObserved": true,
+      "id": "labels-not-sparse"
+    },
+    {
+      "errors": [
+        "browser runtime ordinary code visibility opacity is below 0.99"
+      ],
+      "expectedError": "ordinary code visibility opacity",
+      "expectedFailureObserved": true,
+      "id": "dim-code-node"
+    },
+    {
+      "errors": [
+        "browser runtime maximum-zoom graph canvas was blank"
+      ],
+      "expectedError": "maximum-zoom graph canvas was blank",
+      "expectedFailureObserved": true,
+      "id": "blank-maximum"
+    },
+    {
+      "errors": [
+        "browser runtime endpoint geometry scale mismatch"
+      ],
+      "expectedError": "endpoint geometry scale mismatch",
+      "expectedFailureObserved": true,
+      "id": "mutated-model-geometry"
+    },
+    {
+      "errors": [
+        "browser runtime selected edge line pixels are discontinuous"
+      ],
+      "expectedError": "edge line pixels are discontinuous",
+      "expectedFailureObserved": true,
+      "id": "fragmented-edge"
+    },
+    {
+      "errors": [
+        "browser runtime selected edge line pixel summary is inconsistent",
+        "browser runtime selected edge line pixels are discontinuous"
+      ],
+      "expectedError": "edge line pixels are discontinuous",
+      "expectedFailureObserved": true,
+      "id": "impossible-edge-samples"
+    },
+    {
+      "errors": [
+        "browser runtime selected edge line pixel summary is inconsistent"
+      ],
+      "expectedError": "selected edge line pixel summary is inconsistent",
+      "expectedFailureObserved": true,
+      "id": "inconsistent-visible-edge-summary"
+    },
+    {
+      "errors": [
+        "browser runtime hidden-line pixel summary is inconsistent"
+      ],
+      "expectedError": "hidden-line pixel summary is inconsistent",
+      "expectedFailureObserved": true,
+      "id": "inconsistent-hidden-edge-summary"
+    },
+    {
+      "errors": [
+        "browser runtime hidden-line pixel summary is inconsistent",
+        "browser runtime edge pixel detector did not reject a hidden line"
+      ],
+      "expectedError": "edge pixel detector did not reject a hidden line",
+      "expectedFailureObserved": true,
+      "id": "blind-hidden-line-control"
+    },
+    {
+      "errors": [
+        "browser runtime selected invokes-syntax edge is not solid"
+      ],
+      "expectedError": "edge is not solid",
+      "expectedFailureObserved": true,
+      "id": "selected-edge-dashed"
+    },
+    {
+      "errors": [
+        "browser runtime selected edge arrow is not disabled"
+      ],
+      "expectedError": "edge arrow is not disabled",
+      "expectedFailureObserved": true,
+      "id": "selected-edge-arrow"
+    },
+    {
+      "errors": [
+        "browser runtime graphify categorical palette is not applied"
+      ],
+      "expectedError": "categorical palette is not applied",
+      "expectedFailureObserved": true,
+      "id": "wrong-palette"
+    },
+    {
+      "errors": [
+        "browser runtime graphify dot node shapes are not applied"
+      ],
+      "expectedError": "dot node shapes are not applied",
+      "expectedFailureObserved": true,
+      "id": "wrong-node-shape"
+    },
+    {
+      "errors": [
+        "browser runtime still has a second material renderer"
+      ],
+      "expectedError": "still has a second material renderer",
+      "expectedFailureObserved": true,
+      "id": "second-renderer"
+    },
+    {
+      "errors": [
+        "browser runtime unsupported confidence did not fail closed"
+      ],
+      "expectedError": "unsupported confidence did not fail closed",
+      "expectedFailureObserved": true,
+      "id": "unsupported-confidence-not-closed"
+    },
+    {
+      "errors": [
+        "browser runtime unselected maximum anchor is off center"
+      ],
+      "expectedError": "unselected maximum anchor is off center",
+      "expectedFailureObserved": true,
+      "id": "off-center-unselected"
+    },
+    {
+      "errors": [
+        "browser runtime hidden-selection maximum anchor is off center"
+      ],
+      "expectedError": "hidden-selection maximum anchor is off center",
+      "expectedFailureObserved": true,
+      "id": "off-center-hidden"
+    },
+    {
+      "errors": [
+        "browser runtime effectiveGeometryZoom mismatch"
+      ],
+      "expectedError": "effectiveGeometryZoom mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-effective-zoom"
+    },
+    {
+      "errors": [
+        "browser runtime selectedEdgeRenderedWidth mismatch"
+      ],
+      "expectedError": "selectedEdgeRenderedWidth mismatch",
+      "expectedFailureObserved": true,
+      "id": "oversized-selected-edge"
+    },
+    {
+      "errors": [
+        "browser runtime selectedEdgeRenderedOpacity mismatch"
+      ],
+      "expectedError": "selectedEdgeRenderedOpacity mismatch",
+      "expectedFailureObserved": true,
+      "id": "wrong-selected-opacity"
+    },
+    {
+      "errors": [
+        "browser runtime selected source endpoint size is unbounded",
+        "browser runtime near-maximum node sizes are unstable"
+      ],
+      "expectedError": "source endpoint size is unbounded",
+      "expectedFailureObserved": true,
+      "id": "oversized-node"
+    },
+    {
+      "errors": [
+        "browser runtime 100x control mismatch"
+      ],
+      "expectedError": "100x control mismatch",
+      "expectedFailureObserved": true,
+      "id": "broken-100x"
+    },
+    {
+      "errors": [
+        "browser runtime near-maximum node sizes are unstable"
+      ],
+      "expectedError": "near-maximum node sizes are unstable",
+      "expectedFailureObserved": true,
+      "id": "unstable-511x-node-size"
+    },
+    {
+      "errors": [
+        "browser runtime zoom-out control mismatch"
+      ],
+      "expectedError": "zoom-out control mismatch",
+      "expectedFailureObserved": true,
+      "id": "broken-zoom-out"
+    },
+    {
+      "errors": [
+        "browser runtime maximum pan control mismatch"
+      ],
+      "expectedError": "maximum pan control mismatch",
+      "expectedFailureObserved": true,
+      "id": "broken-pan"
+    },
+    {
+      "errors": [
+        "browser runtime maximumInteractionMilliseconds virtual-time diagnostic is invalid"
+      ],
+      "expectedError": "virtual-time diagnostic is invalid",
+      "expectedFailureObserved": true,
+      "id": "invalid-interaction-diagnostic"
+    },
+    {
+      "errors": [
+        "browser runtime selection inspector is incomplete"
+      ],
+      "expectedError": "selection inspector is incomplete",
+      "expectedFailureObserved": true,
+      "id": "empty-selection"
+    },
+    {
+      "errors": [
+        "browser runtime reported script errors"
+      ],
+      "expectedError": "reported script errors",
+      "expectedFailureObserved": true,
+      "id": "runtime-error"
+    },
+    {
+      "errors": [
+        "browser screenshot is not a valid PNG"
+      ],
+      "expectedError": "not a valid PNG",
+      "expectedFailureObserved": true,
+      "id": "invalid-screenshot"
+    },
+    {
+      "errors": [
+        "headless browser capture exceeds the wall-clock budget"
+      ],
+      "expectedError": "headless browser capture exceeds the wall-clock budget",
+      "expectedFailureObserved": true,
+      "id": "slow-headless-browser-capture"
+    },
+    {
+      "errors": [
+        "report and screenshot outputs must be outside the input workbench"
+      ],
+      "expectedError": "outside the input workbench",
+      "expectedFailureObserved": true,
+      "id": "report-overwrites-workbench-input"
+    },
+    {
+      "errors": [
+        "report and screenshot outputs must be outside the input workbench"
+      ],
+      "expectedError": "outside the input workbench",
+      "expectedFailureObserved": true,
+      "id": "screenshot-overwrites-workbench-input"
+    },
+    {
+      "errors": [
+        "report and screenshot output paths must be different"
+      ],
+      "expectedError": "must be different",
+      "expectedFailureObserved": true,
+      "id": "report-screenshot-output-collision"
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.34r5-graphify-visual-parity-edge-continuity-negative-probes",
+  "status": "intentgraph-workbench-browser-runtime-negative-probes-passed"
+}

@@ -1,0 +1,133 @@
+{
+  "artifactRole": "intentgraph-experimental-csharp-project-server-smoke-report",
+  "automaticCodeApplication": false,
+  "loopbackOnly": true,
+  "networkRequired": false,
+  "probeCount": 30,
+  "probes": [
+    {
+      "id": "serves-deferred-interactive-html",
+      "passed": true
+    },
+    {
+      "id": "serves-512x-graphify-style-continuous-edges",
+      "passed": true
+    },
+    {
+      "id": "projects-512x-rendering-contract",
+      "passed": true
+    },
+    {
+      "id": "serves-project-projection",
+      "passed": true
+    },
+    {
+      "id": "records-work-request-only-in-project-workspace",
+      "passed": true
+    },
+    {
+      "id": "reloads-updated-projection",
+      "passed": true
+    },
+    {
+      "id": "retains-multiple-independent-work-histories",
+      "passed": true
+    },
+    {
+      "id": "records-code-mapping-only-in-project-workspace",
+      "passed": true
+    },
+    {
+      "id": "reloads-mapped-projection",
+      "passed": true
+    },
+    {
+      "id": "records-diff-backed-guided-proposal-in-project-workspace",
+      "passed": true
+    },
+    {
+      "id": "reloads-diff-backed-proposal-delta",
+      "passed": true
+    },
+    {
+      "id": "records-guided-non-executing-review-receipt",
+      "passed": true
+    },
+    {
+      "id": "reloads-review-receipt-state",
+      "passed": true
+    },
+    {
+      "id": "projects-pair-scoped-default-verifier-result-id",
+      "passed": true
+    },
+    {
+      "id": "rejects-authority-promoted-verifier-result-zero-write",
+      "passed": true
+    },
+    {
+      "id": "imports-observed-verifier-result-without-acceptance",
+      "passed": true
+    },
+    {
+      "id": "projects-current-observed-result-evidence-and-pending-authority",
+      "passed": true
+    },
+    {
+      "id": "rejects-nested-array-evidence-decision-as-json-400-zero-write",
+      "passed": true
+    },
+    {
+      "id": "records-human-evidence-acceptance-without-proposal-approval",
+      "passed": true
+    },
+    {
+      "id": "projects-accepted-evidence-decision-authority-and-verified-work",
+      "passed": true
+    },
+    {
+      "id": "rejects-duplicate-work-id",
+      "passed": true
+    },
+    {
+      "id": "rejects-duplicate-code-mapping",
+      "passed": true
+    },
+    {
+      "id": "rejects-applied-proposal-claim",
+      "passed": true
+    },
+    {
+      "id": "rejects-non-object-proposal-payload",
+      "passed": true
+    },
+    {
+      "id": "rejects-guided-proposal-with-unknown-work",
+      "passed": true
+    },
+    {
+      "id": "rejects-guided-receipt-with-unknown-proposal",
+      "passed": true
+    },
+    {
+      "id": "rejects-executing-review-receipt-claim",
+      "passed": true
+    },
+    {
+      "id": "serves-local-graph-asset",
+      "passed": true
+    },
+    {
+      "id": "snapshot-provenance-unchanged",
+      "passed": true
+    },
+    {
+      "id": "rejects-non-loopback-host",
+      "passed": true
+    }
+  ],
+  "result": "pass",
+  "scope": "p9.30-local-evidence-decision-authority",
+  "status": "intentgraph-experimental-csharp-project-server-smoke-pass",
+  "targetRepositoryMutation": false
+}
