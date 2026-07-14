@@ -2158,3 +2158,57 @@ Next safe work:
 ```text
 Refresh the live WindowsUtility Workbench, obtain user visual review, then resume P9.35.
 ```
+
+## P9.35 Reviewed Source Refresh And Revision Preservation
+
+Current product bottleneck:
+
+```text
+P9.34 can reopen only an unchanged source snapshot. A normal source edit currently
+blocks daily use because IGD cannot yet review and activate a new local revision.
+```
+
+P9.35 is divided by authority boundary, not by file or implementation size:
+
+1. observation: compute a deterministic source/fact/relation delta and candidate;
+2. review: expose stale mappings/proposals and preserved records without active writes;
+3. authority: accept or discard one exact plan;
+4. preservation: seal immutable revision workspaces and atomically point the launch
+   record at one validated revision;
+5. evidence: prove determinism, rollback, regressions, and real-project performance.
+
+The authoritative contract and pass/fail thresholds are:
+
+- [P9.35 Product Contract](../product/igd-reviewed-source-refresh-p9.35.md)
+- [P9.35 Test And Validation Plan](../testing/p9.35-reviewed-source-refresh-test-plan.md)
+- build/borrow/integrate decision 014
+
+P9.35 may advance only in the order `A -> B -> C`. A failed gate is repaired and
+rerun; it is not converted into a known gap while implementation continues.
+
+Still excluded:
+
+- target source application;
+- automatic mapping, proposal migration, or approval;
+- build/restore/test/launch of the target;
+- visual refinement;
+- network/provider/team/editor/release integration.
+
+P9.35 result:
+
+```text
+Decision: reviewed-source-refresh-evidence-bearing-slice-passed.
+Quality: Level 4.
+```
+
+The daily product now supports explicit reviewed source revision transitions. The
+largest remaining non-visual daily-use gap is applying an accepted proposal to source.
+The next slice is therefore plan-only:
+
+```text
+P9.36 Reviewed Proposal Application Product Gate - Plan Only
+```
+
+P9.36 must compare the P8.41-P8.46 experimental source-application chain, freeze a
+new product/test/validation contract, and define authority and rollback before any
+implementation or target write begins.

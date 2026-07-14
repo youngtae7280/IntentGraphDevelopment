@@ -10,6 +10,7 @@ from pathlib import Path
 from experimental_csharp_project import ProjectWorkspaceError
 from experimental_csharp_workspace import ExperimentalWorkspaceError
 from igd_daily import DailyLaunchError, PRODUCT_VERSION, default_home, doctor, open_project, prepare_project, project_status
+from igd_refresh import accept_refresh, discard_refresh, plan_refresh
 from preflight_csharp_host_sdk_profile import PreflightError
 from run_windowsutility_csharp_syntax_probe import ProbeError
 from serve_experimental_csharp_project_workbench import LocalWorkbenchServerError
@@ -37,6 +38,11 @@ def parse_args() -> argparse.Namespace:
     prepare.add_argument("--title", default=None, help="Project title used only on first creation.")
     status = commands.add_parser("status", help="Validate and summarize an existing local review workspace.")
     add_project_arguments(status)
+    refresh = commands.add_parser("refresh", help="Plan or explicitly accept a reviewed source snapshot refresh.")
+    add_project_arguments(refresh)
+    refresh_action = refresh.add_mutually_exclusive_group()
+    refresh_action.add_argument("--accept-plan", metavar="PLAN_ID", help="Accept the exact pending refresh plan and activate its candidate revision.")
+    refresh_action.add_argument("--discard-plan", metavar="PLAN_ID", help="Discard the exact pending refresh plan without changing the active revision.")
     open_command = commands.add_parser("open", help="Create or resume the workspace, serve it locally, and open the browser.")
     add_project_arguments(open_command)
     open_command.add_argument("--title", default=None, help="Project title used only on first creation.")
@@ -59,6 +65,14 @@ def main() -> int:
             result = project_status(args.source_root, home)
             emit(result)
             return 0 if result["result"] == "pass" else 1
+        if args.command == "refresh":
+            if args.accept_plan:
+                emit(accept_refresh(args.source_root, args.accept_plan, home))
+            elif args.discard_plan:
+                emit(discard_refresh(args.source_root, args.discard_plan, home))
+            else:
+                emit(plan_refresh(args.source_root, home))
+            return 0
         if args.command == "open":
             return open_project(args.source_root, home, args.title, port=args.port, open_browser=not args.no_browser)
         raise DailyLaunchError(f"unsupported command: {args.command}")

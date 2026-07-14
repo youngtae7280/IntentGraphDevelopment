@@ -4981,3 +4981,54 @@ Verification:
 Next safe work:
 
 - continue the reviewed P9.35 source refresh boundary after live user review.
+
+## P9.35: Reviewed Source Refresh And Revision Preservation
+
+Goal: make externally changed C# source resumable without silently carrying stale
+IntentGraph mappings, proposals, evidence decisions, or authority into the new source
+snapshot.
+
+Status: completed on 2026-07-14 at Level 4. See
+[P9.35 Reviewed Source Refresh Review](../reviews/p9.35-reviewed-source-refresh-review.md).
+
+Entry evidence:
+
+- P9.34 daily launch passes and fails closed on changed source.
+- P9.34 identifies reviewed refresh as the largest remaining daily-use blocker.
+- [P9.35 Product Contract](../product/igd-reviewed-source-refresh-p9.35.md)
+- [P9.35 Test And Validation Plan](../testing/p9.35-reviewed-source-refresh-test-plan.md)
+- build/borrow/integrate decision 014
+
+Required slices:
+
+1. `P9.35A` non-applied deterministic refresh plan and candidate;
+2. `P9.35B` exact-plan acceptance/discard, archive, revision index, and rollback;
+3. `P9.35C` repeatable negative probes, P9.34 regressions, bundle/install smoke,
+   sequential refresh, and WindowsUtility benchmark.
+
+Exit gate:
+
+- milestone quality reaches Level 4;
+- all P1/P2 defects from the test plan are resolved;
+- active and archived workspaces validate independently;
+- target source remains unchanged by IGD;
+- deterministic evidence and milestone review are committed;
+- `HEAD == origin/main` and the worktree is clean.
+
+No next milestone is authorized until this exit gate passes. The next slice must be
+selected from the measured remaining product bottleneck in the P9.35 review.
+
+Result:
+
+- 31/31 refresh probes and 51/51 source immutability observations pass;
+- `r0001 -> r0002 -> r0003` validates with stale lifecycle records historical-only;
+- P9.34 daily/server/bundle/installed-runtime regressions pass;
+- immutable WindowsUtility `HEAD` export plan is 9.860 seconds and accept is 6.609 seconds;
+- original WindowsUtility source remains unchanged;
+- [P9.35 Review Report](../../generated/roadmap/p9.35-reviewed-source-refresh-review-report.json)
+
+Next safe work:
+
+```text
+P9.36 Reviewed Proposal Application Product Gate - Plan Only
+```

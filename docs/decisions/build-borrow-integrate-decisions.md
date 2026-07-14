@@ -404,3 +404,40 @@ P9.8 may implement a host-SDK availability preflight. P9.9 or later must not exe
 
 Review trigger:
 Before adding a package reference, installer, lockfile, bundled binary, alternate parser, semantic binding, or broad C# profile, rerun prior-art and make a dependency/security/release decision.
+
+### 014 - Reviewed Local Source Refresh And Revision History
+
+Capability: refreshing a local semantic-overlay workspace after external source changes
+Date: 2026-07-14
+Status: accepted for P9.35 implementation
+
+Problem:
+P9.34 resumes only unchanged source. Silently overwriting its immutable snapshot would make existing mappings, proposals, evidence decisions, and history appear current against code they did not review.
+
+Strongest applicable existing patterns:
+Git immutable commit history and exact object identity; database staging and atomic activation; build-system content digests and invalidation; code-intelligence index refreshes.
+
+Comparison:
+Git is the stronger source history substrate and must remain the owner of source revisions. Database staging and atomic rename patterns are stronger for safe local activation. Existing code indexers are stronger at incremental indexing, but they do not preserve IntentGraph work items, mapping obligations, proposal authority, evidence decisions, and semantic history as one reviewed local transition.
+
+Decision: borrow immutable revision, digest, staging, and atomic activation patterns; build the bounded IntentGraph stale-record and preservation contract; do not add a new dependency.
+
+Reason:
+The unique capability is the semantic classification around a source change, not source version control or a new indexer. P9.35 therefore reuses the existing C# snapshot/project validators, keeps every revision workspace immutable, creates a non-applied candidate, and requires acceptance of one exact plan. Activation is one atomic launch-record pointer replacement rather than a directory swap plus a separately written index.
+
+Rejected alternatives:
+
+- silent in-place snapshot overwrite: rejects review and makes stale authority look current;
+- automatic refresh on `open`: combines observation and authority in one command;
+- Git checkout/commit orchestration: duplicates or mutates the source-control workflow;
+- proposal migration by heuristic or AI: creates unreviewed semantic authority;
+- new database or index dependency: unnecessary for the first local deterministic boundary.
+
+Benchmark required:
+Repeatable small-project lifecycle probes, complete P9.34 regressions, deterministic bundle/install smoke, two sequential revision transitions, and a temporary WindowsUtility-scale copy with plan under 60 seconds and accept under 10 seconds. If the live target is concurrently dirty, use a local immutable Git commit export and record the exact commit instead of touching or misattributing working-tree changes.
+
+Impact on roadmap:
+P9.35 must complete planning, explicit acceptance/archive, hardening, regression, and benchmark gates before the next daily-use capability is selected.
+
+Review trigger:
+Rerun this decision before incremental parser/index updates, automatic proposal revalidation, remote/team revision synchronization, cryptographic revision authority, source application, or replacing filesystem revision archives with a database.

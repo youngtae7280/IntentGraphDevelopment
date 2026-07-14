@@ -9,8 +9,8 @@
     "targetRepositoryMutation": false
   },
   "bundle": {
-    "archiveSha256": "sha256:844069c46a592a1e36769067aa6296b036758e405a1dbb2611c30648df7c69c7",
-    "fileCount": 21,
+    "archiveSha256": "sha256:c1bd9dc182f54ccd32c3587a2176dcad7ad635e5bbe1c6b8b531e5ead7e34a3c",
+    "fileCount": 23,
     "repeatArchiveByteIdentical": true
   },
   "checks": {
@@ -24,6 +24,13 @@
     "installedProcessCleanupVerified": true,
     "installedProcessInventorySucceeded": true,
     "installedProjectCreated": true,
+    "installedRefreshAccepted": true,
+    "installedRefreshDiscarded": true,
+    "installedRefreshPlanned": true,
+    "installedRefreshReplannedDeterministically": true,
+    "installedRefreshRequiredObserved": true,
+    "installedRefreshSourceUnchanged": true,
+    "installedRefreshStatusResumed": true,
     "installedServerProcessObserved": true,
     "installedSessionLockReleased": true,
     "installedWorkbenchServed": true,

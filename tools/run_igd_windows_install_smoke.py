@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import queue
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -37,6 +38,7 @@ def run(
         text=True,
         capture_output=True,
         encoding="utf-8",
+        errors="replace",
         timeout=timeout,
         check=False,
     )
@@ -230,6 +232,8 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory(prefix="igd-windows-install-smoke-") as temporary:
         temp = Path(temporary)
+        source = temp / "source"
+        shutil.copytree(FIXTURE, source)
         bundle_a = temp / "bundle-a"
         archive_a = temp / "bundle-a.zip"
         bundle_b = temp / "bundle-b"
@@ -279,18 +283,19 @@ def main() -> int:
             "PATH-resolved installed doctor",
         )
         prepared = parsed_json(
-            run([str(launcher), "prepare", str(FIXTURE), "--home", str(user_data), "--title", "Installed smoke"]),
+            run([str(launcher), "prepare", str(source), "--home", str(user_data), "--title", "Installed smoke"]),
             "installed prepare",
         )
 
         process = subprocess.Popen(
-            [str(launcher), "open", str(FIXTURE), "--home", str(user_data), "--port", "0", "--no-browser"],
+            [str(launcher), "open", str(source), "--home", str(user_data), "--port", "0", "--no-browser"],
             cwd=ROOT,
             env=launch_env,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
             encoding="utf-8",
+            errors="replace",
         )
         observed_launch_processes: list[dict[str, Any]] = []
         remaining_launch_processes: list[dict[str, Any]] = []
@@ -348,9 +353,39 @@ def main() -> int:
         installed_process_inventory_succeeded = cleanup_inventory_error is None
         installed_port_closed = wait_for_port_close(launch["url"] + "api/projection")
         resumed = parsed_json(
-            run([str(launcher), "prepare", str(FIXTURE), "--home", str(user_data)]),
+            run([str(launcher), "prepare", str(source), "--home", str(user_data)]),
             "installed prepare after server cleanup",
         )
+        program = source / "Program.cs"
+        program.write_text(program.read_text(encoding="utf-8") + "\n// installed refresh smoke\n", encoding="utf-8", newline="\n")
+        source_after_external_change = tree_digest(source)
+        stale_result = run([str(launcher), "status", str(source), "--home", str(user_data)])
+        stale_status = json.loads(stale_result.stdout.strip().splitlines()[-1]) if stale_result.stdout.strip() else {}
+        planned = parsed_json(
+            run([str(launcher), "refresh", str(source), "--home", str(user_data)]),
+            "installed refresh plan",
+        )
+        discarded = parsed_json(
+            run(
+                [str(launcher), "refresh", str(source), "--home", str(user_data), "--discard-plan", planned["planId"]]
+            ),
+            "installed refresh discard",
+        )
+        replanned = parsed_json(
+            run([str(launcher), "refresh", str(source), "--home", str(user_data)]),
+            "installed refresh replan",
+        )
+        accepted = parsed_json(
+            run(
+                [str(launcher), "refresh", str(source), "--home", str(user_data), "--accept-plan", replanned["planId"]]
+            ),
+            "installed refresh accept",
+        )
+        refreshed_status = parsed_json(
+            run([str(launcher), "status", str(source), "--home", str(user_data)]),
+            "installed status after refresh",
+        )
+        refresh_source_unchanged = tree_digest(source) == source_after_external_change
         session_lock_released = resumed.get("result") == "pass" and resumed.get("action") == "resumed"
 
         unknown_file = install_root / "unrecorded.txt"
@@ -415,6 +450,13 @@ def main() -> int:
             "defaultPathResolutionPassed": default_path_resolution,
             "installedDoctorPassed": doctor.get("result") == "pass",
             "installedProjectCreated": prepared.get("action") == "created",
+            "installedRefreshRequiredObserved": stale_result.returncode == 1 and stale_status.get("result") == "refresh-required",
+            "installedRefreshPlanned": planned.get("result") == "review-required" and planned.get("activeRevisionChanged") is False,
+            "installedRefreshDiscarded": discarded.get("action") == "discarded",
+            "installedRefreshReplannedDeterministically": replanned.get("planId") == planned.get("planId"),
+            "installedRefreshAccepted": accepted.get("action") == "accepted" and accepted.get("toRevision", {}).get("id") == "revision.r0002",
+            "installedRefreshStatusResumed": refreshed_status.get("result") == "pass",
+            "installedRefreshSourceUnchanged": refresh_source_unchanged,
             "installedWorkbenchServed": launch.get("result") == "serving" and bool(projection["graph"]["nodes"]),
             "automaticPortAssigned": isinstance(launch.get("port"), int) and launch["port"] > 0,
             "browserSuppressed": launch.get("browserRequested") is False,

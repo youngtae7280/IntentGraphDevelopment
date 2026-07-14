@@ -1274,6 +1274,41 @@ No graph semantic, source, workflow, evidence, authority, history, delta, or cod
 mutation is permitted. Presentation coordinates may change only deterministically and
 must be documented as presentation spacing.
 
+### V441 - Reviewed Source Refresh Must Preserve Revision Authority
+
+Severity: P1 in P9.35
+
+When an external C# source digest differs from the active local snapshot, `prepare`
+and `open` must fail closed. `refresh` may create only a deterministic, non-applied
+candidate and review plan. Planning must leave the target source, active workspace,
+launch record, and active revision pointer byte-stable.
+
+Mappings may remain current only when all referenced code facts still exist and their
+canonical fact records are unchanged. Every other mapping is stale. Proposals, review
+receipts, verifier results, and evidence decisions from the prior snapshot are always
+historical after refresh and must not remain active. Prior evidence, authority, and
+history must remain available in the immutable predecessor workspace.
+
+Activation requires the exact pending plan id plus unchanged source, active workspace,
+candidate workspace, launch record, and revision chain. Revision workspaces must not
+be swapped or rewritten during activation. The sole authority commit is one atomic
+replacement of the launch record's active revision pointer. A failure before that
+commit leaves the predecessor active; completion of that commit makes the candidate
+active. Revision ids must be contiguous, and active and historical workspaces must
+validate independently.
+
+Each accepted revision must retain the exact canonical plan. Ordinary launch/status
+validation must recompute candidate state, source/fact/relation deltas, invalidation,
+and preservation from the predecessor and accepted workspaces, then require the plan,
+receipt, launch provenance, and recomputed semantics to agree. Joint mutation of
+digest-bearing metadata is not sufficient evidence.
+
+Source mutation, automatic mapping, proposal migration, approval automation, target
+build/restore/launch, provider/network access, credentials, and AI authority are
+forbidden. Any silent stale-record carryover, non-atomic multi-file authority commit,
+source mutation, drift acceptance, invalid historical revision, or nondeterministic
+plan is a P1 failure.
+
 ## M1 Fixture Review Checklist
 
 For `docs/examples/b0-python-cli-calculator.graph.json`, a reviewer should check:
