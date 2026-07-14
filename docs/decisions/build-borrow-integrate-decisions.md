@@ -441,3 +441,66 @@ P9.35 must complete planning, explicit acceptance/archive, hardening, regression
 
 Review trigger:
 Rerun this decision before incremental parser/index updates, automatic proposal revalidation, remote/team revision synchronization, cryptographic revision authority, source application, or replacing filesystem revision archives with a database.
+
+### 015 - Reviewed Proposal Application And Single-File Recovery
+
+Capability: applying one approved, snapshot-bound proposal to a local C# source file
+and activating the matching semantic-overlay revision.
+Date: 2026-07-14
+Status: accepted for P9.36 plan-only work
+
+Problem:
+P9.27 can record a validated diff-backed proposal, P9.30 can record human evidence
+decisions, and P9.35 can refresh after an external source change. None provides a
+truthful product transaction from an approved proposal to changed source, verification,
+refresh, recovery, and history.
+
+Strongest applicable existing systems:
+Git patch application and blob identity, transactional write-ahead logging and atomic
+file replacement, and existing IDE refactoring/apply workflows.
+
+Comparison:
+Git `apply --check` provides useful patch-applicability semantics. `git apply --index`
+and `--3way` can modify the index or create conflict states, while `git worktree`
+changes repository administrative metadata. These operations do not fit IGD's first
+no-Git-metadata-mutation product boundary. Existing IDE refactoring engines are
+stronger for language-aware edits but do not bind intent mappings, evidence decisions,
+authority, refresh provenance, and semantic history as one local transaction.
+
+Decision: borrow immutable preimage, patch applicability, staging, and recovery
+patterns; build a narrow one-file transaction and semantic-overlay binding; do not add
+a Git write, source-control dependency, or generic multi-file patch engine.
+
+Reason:
+The unique IGD capability is not applying arbitrary diffs. It is making one exact
+human-approved proposal, its source after-state, its accepted verification evidence,
+and its refreshed semantic revision agree. One existing mapped `.cs` file permits a
+truthful atomic replacement and recovery design before multi-file semantics are
+considered.
+
+Rejected alternatives:
+
+- direct reuse of the P8.44 manual target edit: target-specific and not product-safe;
+- treating evidence acceptance as proposal application approval: conflates authority;
+- `git apply --index` or `--3way`: mutates target Git state or can leave conflicts;
+- `git worktree` staging: mutates target repository metadata;
+- direct multi-file replacement: cannot claim all-or-nothing filesystem behavior;
+- automatic test command execution: expands authority before the apply boundary is
+  proven;
+- AI automatic approval or application: violates the semantic-overlay authority
+  model.
+
+Benchmark required:
+Disposable C# source copy positive/negative transaction matrix, P9.34/P9.35
+regressions, source and `.git` byte observations, crash-injection recovery, and a
+WindowsUtility-scale after-candidate timing benchmark. A real target write needs a
+separate explicit authorization after isolated proof.
+
+Impact on roadmap:
+P9.36 is plan-only. G2 may implement only the one-file transaction once the product
+contract, test plan, review, and implementation authorization exist.
+
+Review trigger:
+Rerun this decision before multi-file application, rename/delete/binary/project-file
+support, Git index/ref operations, target command execution, cryptographic approval,
+editor integration, or team/remote apply workflows.

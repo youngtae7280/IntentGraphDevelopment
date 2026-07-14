@@ -8,8 +8,9 @@ IntentGraph Development is a proposed software development method, semantic over
 
 The current product plan is [IGD Product Goal And Delivery Gates](roadmap/igd-product-delivery-gates.md).
 P9.35 completed reviewed source refresh and revision preservation for the installable
-local preview. The next implementation prerequisite is G1/P9.36, a plan-only source
-application gate. Do not treat prior non-applied proposal, renderer, or target-adoption
+local preview. G1/P9.36 completed the plan-only source-application contract. The next
+gate is an isolated G2 single-file application proof; it does not authorize a real
+target write. Do not treat prior non-applied proposal, renderer, or target-adoption
 evidence as proof that the daily proposal-application loop is complete.
 
 Use the accompanying [test and verification plan](testing/igd-product-delivery-gates-test-plan.md)

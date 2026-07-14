@@ -14,10 +14,11 @@ IntentGraph is a development-semantic overlay graph linked to source code artifa
 
 IGD is an installable local preview, not yet a daily-use completed product. P9.35
 completed reviewed source refresh and immutable local revision preservation. The next
-implementation prerequisite is G1/P9.36: define the authority, preimage, atomic
-application, verification, and rollback contract for applying one reviewed proposal.
-Workbench visual acceptance remains deferred and unresolved; renderer telemetry is not
-a substitute for user approval. See the accompanying
+implementation prerequisite was completed as G1/P9.36: the authority, preimage,
+single-file application, verification, and rollback contract is now explicit. The
+next gate is an isolated G2 application proof; no real target source write is yet
+authorized. Workbench visual acceptance remains deferred and unresolved; renderer
+telemetry is not a substitute for user approval. See the accompanying
 [test and verification plan](docs/testing/igd-product-delivery-gates-test-plan.md).
 
 Phase 0 is complete as of 2026-07-09. See the [Phase 0 Final Review](docs/reviews/phase-0-final-review.md).

@@ -12,10 +12,11 @@ corresponding [test and verification plan](../testing/igd-product-delivery-gates
 
 P9.35 is complete at Level 4: the installable local preview can review and activate a
 new immutable source snapshot while preserving stale-record truth and revision history.
-It cannot yet apply an accepted proposal to target source. The current implementation
-prerequisite is therefore **G1 / P9.36 Reviewed Proposal Application Product Gate -
-Plan Only**. Renderer and visual-workbench acceptance are deferred until direct user
-review; prior automated visual checks do not close that product criterion.
+It cannot yet apply an accepted proposal to target source. G1 / P9.36 has completed
+the plan-only application contract. The current implementation gate is **G2: isolated
+reviewed single-file C# application proof**; no real target write is authorized.
+Renderer and visual-workbench acceptance are deferred until direct user review; prior
+automated visual checks do not close that product criterion.
 
 ## Historical Posture Before G0 (Superseded; Retained For Traceability)
 
@@ -2226,3 +2227,21 @@ P9.36 Reviewed Proposal Application Product Gate - Plan Only
 P9.36 must compare the P8.41-P8.46 experimental source-application chain, freeze a
 new product/test/validation contract, and define authority and rollback before any
 implementation or target write begins.
+
+P9.36 result:
+
+```text
+Decision: G1 plan-only gate passed.
+Next gate: G2 isolated reviewed single-file C# application proof.
+```
+
+The authoritative P9.36 artifacts are:
+
+- [Reviewed Proposal Application Product Contract](../product/igd-reviewed-proposal-application-p9.36.md)
+- [P9.36 Test And Validation Plan](../testing/p9.36-reviewed-proposal-application-test-plan.md)
+- [P9.36 Plan Review](../reviews/p9.36-reviewed-proposal-application-plan-review.md)
+- build/borrow/integrate decision 015
+
+P9.36 does not authorize target source writes. G2 must first prove the exact
+single-file transaction and recovery matrix in a disposable source copy. A separate
+explicit authorization is required before any WindowsUtility source application.

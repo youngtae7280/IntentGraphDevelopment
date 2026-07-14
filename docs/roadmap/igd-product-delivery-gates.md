@@ -1,8 +1,9 @@
 # IGD Product Goal And Delivery Gates
 
-Status: controlling delivery plan; G0 completed.
-Current execution gate: **G1 - reviewed proposal application plan only**.
-Current implementation boundary: no source application is authorized until G1 exits.
+Status: controlling delivery plan; G0 and G1 completed.
+Current execution gate: **G2 - isolated reviewed single-file application proof**.
+Current implementation boundary: no real target source application is authorized until
+the isolated G2 proof and a separate target authorization both pass.
 
 ## Product Goal
 
